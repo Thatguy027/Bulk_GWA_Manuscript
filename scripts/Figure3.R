@@ -1,14 +1,11 @@
 library(tidyverse)
-setwd(glue::glue("{dirname(rstudioapi::getActiveDocumentContext()$path)}/"))
-
-
-# # Bottom panel
 library(ggplot2)
 library(patchwork)
+
 setwd(glue::glue("{dirname(rstudioapi::getActiveDocumentContext()$path)}/"))
 
 # Read BED file
-bed <- read.table("../relevantNILs/nil_ranges.bed", header = FALSE,
+bed <- read.table("../data/nil_ranges.bed", header = FALSE,
                   col.names = c("chr", "start", "end", "szname", "geno")) %>%
   dplyr::mutate(background_start = 1,
                 background_end = start,
@@ -16,7 +13,7 @@ bed <- read.table("../relevantNILs/nil_ranges.bed", header = FALSE,
                                          ifelse(geno == "JU2466", "JU1793", NA)))
 
 # nil phenotypes
-nil_p <- data.table::fread("../relevantNILs/RNAi Sensitivity - JU1793 - November2025 gSZ177 - gSZ179 NILs.tsv") %>%
+nil_p <- data.table::fread("../data/plate_rnai_phenotyping/RNAi Sensitivity - JU1793 - November2025 gSZ177 - gSZ179 NILs.tsv") %>%
   dplyr::filter(Strain %in% c("JU2466","JU1793","","wSZ153","wSZ176","wSZ191","wSZ196")) %>%
   dplyr::mutate(condition = ifelse(condition == "ht115","HT115", "pos-1"))
 
@@ -44,20 +41,6 @@ strain_levels_rev2 <- rev(strain_levels2)
 cutoff  <- 13.6e6
 chr_end <- 13783801
 base_size <- 18
-
-# ---- 1) strain set + order from the RNAi plot ----
-strain_levels <- nil_p %>%
-  dplyr::filter(Strain %in% c("JU2466","JU1793","wSZ153","wSZ176","wSZ191","wSZ196")) %>%  # (dropped "" — add back if you truly have it)
-  dplyr::distinct(Strain) %>%
-  dplyr::pull(Strain)
-
-# if you want the same visual "top-to-bottom" order as your barplot (rev),
-# we’ll use this reversed order for BOTH plots:
-strain_levels_rev <- rev(strain_levels)
-
-# drop wSZ153 from the ordering + both datasets
-strain_levels2     <- setdiff(strain_levels, "wSZ153")
-strain_levels_rev2 <- rev(strain_levels2)
 
 # --- BED plot (left) ---
 bed_filt <- bed %>%
@@ -128,7 +111,7 @@ p_hatch <- nil_p2 %>%
   ) +
   xlab("Fraction hatched")
 
-result_file <- "../cross_experiments/Nov2024_JU_cross_pos_mig/plots/JU1793_JU2466_F2-2_contrast_HT115g-POS1g_10000_plot_DF.tsv"
+result_file <- "../data/cross_experiments/Nov2024_JU_cross_pos_mig/plots/JU1793_JU2466_F2-2_contrast_HT115g-POS1g_10000_plot_DF.tsv"
 
 result_df <- data.table::fread(result_file) %>%
   dplyr::select(chrom, physical.position, p)
