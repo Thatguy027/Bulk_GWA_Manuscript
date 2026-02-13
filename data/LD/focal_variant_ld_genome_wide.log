@@ -1,0 +1,27 @@
+PLINK v1.90b6.21 64-bit (19 Oct 2020)
+Options in effect:
+  --allow-extra-chr
+  --bfile filtered_geno10
+  --ld-snp III:13680248
+  --ld-window-r2 0
+  --out focal_variant_ld_genome_wide
+  --r2 inter-chr
+
+Hostname: stefans-imac.ad.medctr.ucla.edu
+Working directory: /Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213
+Start time: Thu Feb  5 11:10:49 2026
+
+Random number seed: 1770318649
+32768 MB RAM detected; reserving 16384 MB for main workspace.
+3083438 variants loaded from .bim file.
+611 people (0 males, 0 females, 611 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to focal_variant_ld_genome_wide.nosex .
+Using up to 6 threads (change this with --threads).
+Before main variant filters, 611 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.988395.
+3083438 variants and 611 people pass filters and QC.
+Note: No phenotypes present.
+--r2 inter-chr to focal_variant_ld_genome_wide.ld ... done.
+
+End time: Thu Feb  5 11:10:51 2026

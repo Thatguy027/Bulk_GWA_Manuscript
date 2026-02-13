@@ -1,0 +1,39 @@
+PLINK v1.90b6.21 64-bit (19 Oct 2020)
+Options in effect:
+  --allow-extra-chr
+  --chr III
+  --double-id
+  --geno 0.1
+  --ld-snp III:13680248
+  --ld-window 9999999
+  --ld-window-kb 9999999
+  --ld-window-r2 0
+  --out focal_variant_ld_chrIII_filtered
+  --r2
+  --set-missing-var-ids @:#
+  --vcf bcsq.vcf.gz
+
+Hostname: stefans-imac.ad.medctr.ucla.edu
+Working directory: /Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213
+Start time: Thu Feb  5 10:58:13 2026
+
+Random number seed: 1770317893
+32768 MB RAM detected; reserving 16384 MB for main workspace.
+--vcf: focal_variant_ld_chrIII_filtered-temporary.bed +
+focal_variant_ld_chrIII_filtered-temporary.bim +
+focal_variant_ld_chrIII_filtered-temporary.fam written.
+(3119013 variants skipped.)
+417217 variants loaded from .bim file.
+417217 missing IDs set.
+611 people (0 males, 0 females, 611 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to focal_variant_ld_chrIII_filtered.nosex .
+Using up to 6 threads (change this with --threads).
+Before main variant filters, 611 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.952708.
+57317 variants removed due to missing genotype data (--geno).
+359900 variants and 611 people pass filters and QC.
+Note: No phenotypes present.
+--r2 to focal_variant_ld_chrIII_filtered.ld ... done.
+
+End time: Thu Feb  5 11:00:48 2026
