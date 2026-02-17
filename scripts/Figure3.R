@@ -40,7 +40,7 @@ strain_levels_rev2 <- rev(strain_levels2)
 
 cutoff  <- 13.6e6
 chr_end <- 13783801
-base_size <- 18
+base_size <- 26
 
 # --- BED plot (left) ---
 bed_filt <- bed %>%
@@ -64,8 +64,8 @@ p_geno <- ggplot(bed_filt) +
         ymin = y - 0.4, ymax = y + 0.4, fill = geno),
     color = "black", alpha = 1
   ) +
-  geom_vline(xintercept = c(13.657700, 13.695), linewidth = 0.7) +
-  scale_fill_manual(values = c(JU1793 = "red", JU2466 = "blue")) +
+  geom_vline(xintercept = c(13.657700, 13.695), linewidth = 0.7, color = "gray90", linetype="dashed") +
+  scale_fill_manual(values = c(JU1793 = "#F34C00", JU2466 = "#40B4AB")) +
   coord_cartesian(xlim = c(cutoff/1e6, chr_end/1e6)) +
   theme_bw(base_size = base_size) +
   theme(
@@ -121,7 +121,7 @@ sig_line <- -log10(0.05 / effective.n.tests)
 
 p_manhattan <- ggplot(result_df, aes(x = physical.position/1e6, y = -log10(p))) +
   geom_point(size = 0.8, alpha = 0.7) +
-  geom_hline(yintercept = sig_line, linewidth = 0.6, linetype = "dashed") +
+  geom_hline(yintercept = sig_line, linewidth = 0.6, linetype = "dashed", color = "firebrick3") +
   facet_grid(. ~ chrom, scales = "free_x", space = "free_x") +
   labs(x = "Genomic Position (Mb)", y = expression(-log[10](p))) +
   theme_bw(base_size = base_size) +
@@ -135,5 +135,7 @@ p_manhattan <- p_manhattan + theme(legend.position = "none")
 # Add panel tags: A for top row, B for bottom row (upper-left of each row)
 (p_manhattan / (p_geno | p_hatch)) +
   plot_layout(heights = c(1, 1), widths = c(1, 2)) +
-  plot_annotation(tag_levels = list(c("A", "B"))) &
-  theme(plot.tag.position = c(0, 1), plot.tag = element_text(face = "bold"))
+  plot_annotation(tag_levels = list(c("A", "B")))
+
+ggsave(filename = "../plots/figure3.pdf", height = 10, width = 12)  
+ggsave(filename = "../plots/figure3.png", height = 10, width = 12)
