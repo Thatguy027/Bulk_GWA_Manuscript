@@ -125,11 +125,14 @@ facet_s <- loco_res %>%
 
 loco_res %>%
   # dplyr::filter(trait == mkpl) %>%
+  dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6"))) %>%
   ggplot()+
   aes(x = ps/1e6, y = -log10(p_wald))+
   geom_point(size = 0.5, alpha = 0.5)+
-  # geom_point(size = 2, color = "red", data = top_chr_hits)+
-  facet_grid(trait~chr, scales = "free", space = "free") +
-  scale_y_continuous(expand = c(0.01, 0.01))+
+  facet_grid(factrait~chr, scales = "free", space = "free") +
+  scale_y_continuous(limits = c(0, 10), expand = c(0.01, 0.01))+
   theme_bw(18)+
-  labs(x = "Genomic Position (Mb)")
+  labs(x = "Genomic Position (Mb)",y = expression(-log[10](italic(p))))
+
+ggsave(filename = "../plots/Figure2.png", height = 8, width = 12)
+ggsave(filename = "../plots/Figure2.pdf", height = 8, width = 12)
