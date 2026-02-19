@@ -1,0 +1,37 @@
+##
+## GEMMA Version    = 0.98.5 (2021-08-25)
+## Build profile    = /gnu/store/8rvid272yb53bgascf5c468z0jhsyflj-profile
+## GCC version      = 7.5.0
+## GSL Version      = 2.6
+## OpenBlas         = OpenBLAS 0.3.9  - OpenBLAS 0.3.9 DYNAMIC_ARCH NO_AFFINITY SkylakeX MAX_THREADS=128
+##   arch           = SkylakeX
+##   threads        = 1
+##   parallel type  = threaded
+##
+## Command Line Input = gemma -g traits.csv -p 2026_delta_t2_traits.bimbam_pheno.txt -n 9 -lmm 1 -k gemma/grm/gemmeGRM.IV.sXX.txt -loco IV -a traits_gemmaAnnotation.tsv -outdir gemma/loco -snps traits_gemmaSnps.tsv -o gemma_LOCOmapping.9.IV 
+##
+## Date = Wed Feb 18 14:59:08 2026
+##
+## Summary Statistics:
+## number of total individuals = 87
+## number of analyzed individuals = 87
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var = 318240
+## number of analyzed SNPs/var = 318239
+## REMLE log-likelihood in the null model = 197.056
+## MLE log-likelihood in the null model = 205.283
+## pve estimate in the null model = 0.99999
+## se(pve) in the null model = 0.00167362
+## vg estimate in the null model = 0.00114408
+## ve estimate in the null model = 1.14408e-08
+## beta estimate in the null model =   -1.28575e-06
+## se(beta) =   1.14675e-05
+##
+## Computation Time:
+## total computation time = 0.11608 min 
+## computation time break down: 
+##      time on eigen-decomposition = 1.76333e-05 min 
+##      time on calculating UtX = 0.000438383 min 
+##      time on optimization = 0.0345939 min 
+##
