@@ -3,7 +3,7 @@ library(smplot2)
 
 setwd(glue::glue("{dirname(rstudioapi::getActiveDocumentContext()$path)}/.."))
 
-load("../data/pos1_rnai_sensitive/processed_strain_fq.rda")
+load("data/pos1_rnai_sensitive/processed_strain_fq.rda")
 
 # get delta traits 
 timepoint = 2
@@ -77,13 +77,15 @@ delta_t2_traits_addmeans <- delta_t2_traits %>%
 write.table(delta_t2_traits_addmeans, file = "../data/pos1_rnai_sensitive/2026_delta_t2_traits.tsv", quote = F, col.names = T, row.names = F, sep = "\t")
 
 # run gemma 
-base_dir <- "../data/pos1_rnai_sensitive/"
+base_dir <- "data/pos1_rnai_sensitive/"
 trait_file <- "2026_delta_t2_traits.tsv"
 
 trait_values <- data.table::fread(glue::glue("{base_dir}{trait_file}")) %>%
   tidyr::gather(trait, value, -strain)
 
-loco_files <- grep("I\\.assoc|II\\.assoc|III\\.assoc|IV\\.assoc|V\\.assoc|X\\.assoc",list.files(glue::glue("{base_dir}/gemma/")), value=T)
+# the chrx output uses all snps for K
+# loco_files <- grep("I\\.assoc|II\\.assoc|III\\.assoc|IV\\.assoc|V\\.assoc|X\\.assoc",list.files(glue::glue("{base_dir}/gemma/")), value=T)
+loco_files <- grep("X\\.assoc",list.files(glue::glue("{base_dir}/gemma/")), value=T)
 
 trait_id <- colnames(data.table::fread(glue::glue("{base_dir}{trait_file}")))
 trait_id  <- data.frame(trait = trait_id[2:length(trait_id)], id = 1:(length(trait_id)-1))
@@ -99,11 +101,13 @@ for(locochr in loco_files){
     dplyr::pull(trait)
   
   if(left_out_chr == "X"){
+    # chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
+    #   dplyr::filter(chr=="23") %>%
+    #   dplyr::mutate(trait = trait_n,
+    #                 chr="X")
     chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
-      dplyr::filter(chr=="23") %>%
-      dplyr::mutate(trait = trait_n,
-                    chr="X")
-  } else {
+      dplyr::mutate(trait = trait_n)
+      } else {
     chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
       dplyr::filter(chr==left_out_chr) %>%
       dplyr::mutate(trait = trait_n)
@@ -123,16 +127,61 @@ facet_s <- loco_res %>%
                    max_chr = max(ps)) %>%
   tidyr::gather(bla, ps, -chr)
 
-loco_res %>%
-  # dplyr::filter(trait == mkpl) %>%
-  dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6"))) %>%
-  ggplot()+
-  aes(x = ps/1e6, y = -log10(p_wald))+
-  geom_point(size = 0.5, alpha = 0.5)+
-  facet_grid(factrait~chr, scales = "free", space = "free") +
-  scale_y_continuous(limits = c(0, 10), expand = c(0.01, 0.01))+
-  theme_bw(18)+
+
+don <- loco_res %>%  
+  # filter(-log10(p_wald)>1) %>%
+  dplyr::filter(trait == "pel_pos") %>%
+  dplyr::mutate(chr = ifelse(chr == "23", "X", chr)) %>%
+  dplyr::filter(chr != "MtDNA") %>%
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(ps)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(loco_res %>% dplyr::mutate(chr = ifelse(chr == "23", "X", chr)) %>% dplyr::filter(chr != "MtDNA") , ., by=c("chr"="chr")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, ps) %>%
+  mutate( BPcum=ps+tot) %>%
+  dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6")))
+
+axisdf <- don %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
+
+ggplot(don, aes(x=BPcum, y=-log10(p_wald))) +
+  
+  # Show all points
+  geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1.3) +
+  scale_color_manual(values = rep(c("grey", "grey10"), 22 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0.1, 0.1) ) +     # remove space between plot area and x axis
+  
+  # Custom the theme:
+  theme_bw() +
+  facet_grid(factrait~., scales = "free_y") +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )+
   labs(x = "Genomic Position (Mb)",y = expression(-log[10](italic(p))))
 
-ggsave(filename = "../plots/Figure2.png", height = 8, width = 12)
-ggsave(filename = "../plots/Figure2.pdf", height = 8, width = 12)
+# loco_res %>%
+#   # dplyr::filter(trait == mkpl) %>%
+#   dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6"))) %>%
+#   ggplot()+
+#   aes(x = ps/1e6, y = -log10(p_wald))+
+#   geom_point(size = 0.5, alpha = 0.5)+
+#   facet_grid(factrait~chr, scales = "free", space = "free") +
+#   scale_y_continuous(limits = c(0, 10), expand = c(0.01, 0.01))+
+#   theme_bw(18)+
+#   labs(x = "Genomic Position (Mb)",y = expression(-log[10](italic(p))))
+
+ggsave(filename = "plots/Figure2.png", height = 8, width = 12)
+ggsave(filename = "plots/Figure2.pdf", height = 8, width = 12)
