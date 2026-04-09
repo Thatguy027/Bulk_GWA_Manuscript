@@ -1,0 +1,11 @@
+{
+    "exit_code": 0,
+    "arguments": [
+        "--fasta",
+        "input_hiptgb3_sample.fasta"
+    ],
+    "app_uri": "DTU/DeepTMHMM:1.0.57",
+    "ended_at": "2026-03-16T22:08:22.784343Z",
+    "job_uuid": "dd837f60-8a5d-4548-9a22-c145d3a4b6c9",
+    "started_at": "2026-03-16T22:07:48.643822Z"
+}

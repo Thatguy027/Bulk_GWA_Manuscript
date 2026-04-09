@@ -7,6 +7,7 @@ load("data/pos1_rnai_sensitive/processed_strain_fq.rda")
 
 # get delta traits 
 timepoint = 2
+base_size=18
 
 # time 2 control
 t2c <- processed_strain_frq %>%
@@ -30,14 +31,15 @@ pres_plot <- t2 %>%
   dplyr::mutate(mean_delta = mean(delta_fq, na.rm =T)) %>%
   dplyr::distinct(strain, Gene, mean_delta)
 
-pres_plot%>%
+mig6_ph_plot <- pres_plot%>%
   dplyr::filter(Gene == "mig-6") %>%
   ggplot()+
   aes(x = mean_delta )+
   geom_histogram() +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU1793"), color = "#9794E7", size = 2) +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU2466"), color = "#91D29C", size = 2) +
-  theme_bw(18)+
+  # scale_fill_manual(values = c(JU1793 = "#F34C00", JU2466 = "#40B4AB")) +
+  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU1793"), color = "#F34C00", size = 1,linetype = "dashed") +
+  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU2466"), color = "#40B4AB", size = 1,linetype = "dashed") +
+  theme_bw(base_size)+
   labs(x = "Change in strain frequency", y = "Count")
 
 ggsave(filename = "mig6_JuHighlight.pdf", height = 5, width = 6)
@@ -47,9 +49,9 @@ pres_plot%>%
   ggplot()+
   aes(x = mean_delta )+
   geom_histogram() +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU1793"), color = "#9794E7", size = 2) +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU2466"), color = "#91D29C", size = 2) +
-  theme_bw(18)+
+  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU1793"), color = "#9794E7", size = 1,linetype = "dashed") +
+  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU2466"), color = "#91D29C", size = 1,linetype = "dashed") +
+  theme_bw(base_size)+
   labs(x = "Change in strain frequency", y = "Count")
 
 ggsave(filename = "pos1_JuHighlight.pdf", height = 5, width = 6)
@@ -145,43 +147,102 @@ don <- loco_res %>%
   left_join(loco_res %>% dplyr::mutate(chr = ifelse(chr == "23", "X", chr)) %>% dplyr::filter(chr != "MtDNA") , ., by=c("chr"="chr")) %>%
   
   # Add a cumulative position of each SNP
+  dplyr::filter(trait == "pel_pos") %>%
   arrange(chr, ps) %>%
   mutate( BPcum=ps+tot) %>%
   dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6")))
 
 axisdf <- don %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
-ggplot(don, aes(x=BPcum, y=-log10(p_wald))) +
+pos_man_plot <- ggplot(don, aes(x=BPcum, y=-log10(p_wald))) +
   
   # Show all points
-  geom_point( aes(color=as.factor(chr)), alpha=0.8, size=1.3) +
-  scale_color_manual(values = rep(c("grey", "grey10"), 22 )) +
+  geom_point( aes(color=as.factor(chr)), alpha=0.8, size=0.7) +
+  scale_color_manual(values = rep(c("grey40", "grey10"), 22 )) +
   
   # custom X axis:
   scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
   scale_y_continuous(expand = c(0.1, 0.1) ) +     # remove space between plot area and x axis
   
   # Custom the theme:
-  theme_bw() +
-  facet_grid(factrait~., scales = "free_y") +
+  theme_bw(base_size) +
+  # facet_grid(factrait~., scales = "free_y") +
   theme( 
     legend.position="none",
+    panel.border = element_blank(),
+    axis.title.x=element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )+
+  labs(y = expression(-log[10](italic(p))))
+
+# mig6-specific qtl
+result_file <- "data/cross_experiments/Nov2024_JU_cross_pos_mig/plots/JU1793_JU2466_F2-2_contrast_MIG6g-POS1g_10000_plot_DF.tsv"
+
+result_df <- data.table::fread(result_file) %>%
+  dplyr::select(chrom, physical.position, p)
+
+effective.n.tests <- 2000
+sig_line <- -log10(0.05 / effective.n.tests)
+
+don_cross <- result_df %>%  
+  dplyr::filter(chrom != "MtDNA") %>%
+  # Compute chromosome size
+  group_by(chrom) %>% 
+  summarise(chr_len=max(physical.position)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(result_df, ., by=c("chrom"="chrom")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chrom, physical.position) %>%
+  mutate( BPcum=physical.position+tot) 
+
+axisdf <- don_cross %>% group_by(chrom) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
+
+p_manhattan <- ggplot(don_cross, aes(x=BPcum, y=-log10(p))) +
+  
+  # Show all points
+  geom_point( aes(color=as.factor(chrom)), alpha=0.8, size=0.7) +
+  geom_hline(yintercept = sig_line, linewidth = 0.6, linetype = "dashed", color = "firebrick3") +
+  scale_color_manual(values = rep(c("grey40", "grey10"), 22 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$chrom, breaks= axisdf$center ) +
+  scale_y_continuous(expand = c(0.1, 0.1) ) +     # remove space between plot area and x axis
+  
+  # Custom the theme:
+  theme_bw(base_size) +
+  # facet_grid(factrait~., scales = "free_y") +
+  theme( 
+    legend.position="none",
+    axis.title.x=element_blank(),
     panel.border = element_blank(),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank()
   )+
-  labs(x = "Genomic Position (Mb)",y = expression(-log[10](italic(p))))
+  labs(y = expression(-log[10](italic(p))))
 
-# loco_res %>%
-#   # dplyr::filter(trait == mkpl) %>%
-#   dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6"))) %>%
-#   ggplot()+
-#   aes(x = ps/1e6, y = -log10(p_wald))+
-#   geom_point(size = 0.5, alpha = 0.5)+
-#   facet_grid(factrait~chr, scales = "free", space = "free") +
-#   scale_y_continuous(limits = c(0, 10), expand = c(0.01, 0.01))+
-#   theme_bw(18)+
-#   labs(x = "Genomic Position (Mb)",y = expression(-log[10](italic(p))))
+
+mig6_ph_plot <- mig6_ph_plot + theme(legend.position = "none")
+pos_man_plot <- pos_man_plot + theme(legend.position = "none")
+p_manhattan <- p_manhattan + theme(legend.position = "none")
+
+# assemble
+top_panel <- (pos_man_plot) +
+  # plot_layout(heights = c(1, 1), widths = c(1, 3)) +
+  plot_annotation(tag_levels = list(c("A")))
+
+bottom_panel <- (mig6_ph_plot | p_manhattan) +
+  plot_layout(widths = c(1, 3)) +
+  plot_annotation(tag_levels = list(c("B", "C")))
+
+(top_panel / bottom_panel) +
+  plot_layout(heights = c(1, 1))
 
 ggsave(filename = "plots/Figure2.png", height = 8, width = 12)
 ggsave(filename = "plots/Figure2.pdf", height = 8, width = 12)
