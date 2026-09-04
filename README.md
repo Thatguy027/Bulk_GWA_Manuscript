@@ -1,0 +1,87 @@
+# Bulk GWA manuscript — RNAi sensitivity in wild *Caenorhabditis elegans*
+
+Analysis code and figures for a manuscript on natural variation in RNAi
+sensitivity: pooled competition assays across wild isolates, genome-wide
+association mapping, F2 bulk-segregant crosses, near-isogenic line
+fine-mapping, and characterisation of a *sid-2* coding variant.
+
+Everything here runs from the repository root with no arguments.
+
+## What is in this repository
+
+| path | contents |
+|---|---|
+| `scripts/` | 45 R scripts and 4 Python scripts. One script per figure; shared code in `*_common.R` |
+| `scripts/legacy/` | superseded versions, kept so earlier figures can be reproduced |
+| `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
+| `data/` | the **small** input tables the figure scripts read — trait tables, GWAS result exports, plate phenotyping, NIL breakpoints, structure models, *sid-2* variant tables |
+| `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
+| `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
+| `DATA_AVAILABILITY.md` | what is archived externally, and which figures need it |
+| `main_displays.pdf` | the assembled main display |
+
+Tracked size is about 72 MB.
+
+## What is excluded
+
+The working tree is roughly **12.8 GB**; about 12.7 GB of it is excluded by
+`.gitignore` and archived separately. Excluded, in descending size:
+
+- `data/genotypes/` — CeNDR PLINK panel and processed genotype matrix (7.1 GB)
+- `data/structure_modeling/` — exploratory AlphaFold, HADDOCK and
+  electrostatics work (2.0 GB); one PDB and the text reports are kept
+- `data/cross_experiments/*/` — xQTL exports: allele counts, AFD tables and all
+  contrast tables (1.4 GB); one contrast table is kept
+- `data/pos1_original/gemma_output/`, `data/pos1_rnai_sensitive/gemma/` —
+  per-chromosome GEMMA output from earlier runs (0.7 GB)
+- `data/pooled_RNAi_expt/` — pooled competition raw data (0.7 GB)
+- `data/pooled_cross_intersection/` — regenerable cache (281 MB)
+- `data/cross_experiments/Nov2024_JU_cross_pos_mig/` — superseded analysis (245 MB)
+- `data/LD/` — LD matrices (56 MB)
+- `plots/pooled_cross_intersection/`, `plots/legacy/` — exploratory and
+  superseded figure sets (96 MB); the variant tables in the first are kept
+- large R objects (`*.Rdata`, `*.rda`, `*.rds`), alignment and variant files
+  (`*.bam`, `*.vcf.gz`), PLINK binaries, GATK count tables and MSAs, wherever
+  they appear under `data/` — with named exceptions for the few small ones the
+  figures read
+
+`.gitignore` excludes by rule, not by listing files, so unpacking the archive
+over the repository root restores the tree and git keeps ignoring it.
+
+`*.key` is excluded: a Keynote bundle is rewritten in full on every save and
+would grow history quickly. `main_displays.pdf` is tracked instead.
+
+## Regenerating the figures
+
+```sh
+Rscript scripts/Figure1.R          # and Figure1_boot.R, Figure1_pos1.R
+Rscript scripts/Figure3.R          # and Figure3_{chrIII,pheno,quad,quad_zoom}.R
+python3 scripts/sid2_ribbon_render.py    # once, structure assets
+python3 scripts/sid2_zoom_render.py      # once, structure assets
+Rscript scripts/Figure4_sid2.R
+```
+
+`FIGURE_CAPTIONS.txt` lists the full command sequence for every figure and
+supplement.
+
+**Three things need the external archive**, because they read the genotype
+panel or the intersection cache:
+
+- Figure 2 and the cross-QTL supplements
+- `scripts/eigen_independent_tests.R`
+- `scripts/SUPP_FIG_XX_sid2_allele_in_panel.R`
+
+Figure 1 rebuilds from a committed NNLS result; only `FIG1_REFRESH=1`, which
+redoes the deconvolution from the 31 MB genotype matrix, needs the archive.
+Everything else builds from a clone. See `DATA_AVAILABILITY.md` for the table.
+
+## Software
+
+R 4.5.2 with tidyverse, data.table, patchwork, ggtext, RcppML, png.
+Python 3.13 with NumPy, SciPy, Biopython, Matplotlib, Pillow.
+PLINK 2.00a3, bcftools 1.11. GEMMA was run outside this repository; only its
+exported association tables are here.
+
+Two scripts, `scripts/plate_pheno_comparisons.R` and `scripts/pos1_script1.R`,
+still resolve their working directory through the RStudio API and run only
+inside RStudio. Every other script runs under `Rscript`.

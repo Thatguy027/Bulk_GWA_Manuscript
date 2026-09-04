@@ -23,6 +23,8 @@
 .Ruserdata
 *~
 *.swp
+__pycache__/
+*.pyc
 
 # --- Keynote source for the assembled display ------------------------------
 # A .key is a binary bundle that is rewritten in full on every save, so keeping
