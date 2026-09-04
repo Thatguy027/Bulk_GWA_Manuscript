@@ -110,8 +110,9 @@ pA <- ggplot(a, aes(factor(plate_score), vst)) +
              colour = "grey60") +
   geom_boxplot(outlier.shape = NA, fill = "grey95", width = 0.6,
                linewidth = 0.35) +
-  geom_jitter(width = 0.15, height = 0, size = 1.5, alpha = 0.5,
-              colour = COL_PT) +
+  ## seeded, so the figure is reproducible from the deposit
+  geom_point(position = position_jitter(width = 0.15, height = 0, seed = 1),
+             size = 1.5, alpha = 0.5, colour = COL_PT) +
   geom_richtext(data = tibble(x = -Inf, y = Inf, l = lab(ct_a, nrow(a))),
                 aes(x, y, label = l), inherit.aes = FALSE, hjust = -0.08,
                 vjust = 1.15, size = 3.2, fill = NA, label.color = NA,
@@ -127,8 +128,9 @@ pA <- ggplot(a, aes(factor(plate_score), vst)) +
 pB <- ggplot(b, aes(factor(plate_score), mean_leth)) +
   geom_boxplot(outlier.shape = NA, fill = "grey95", width = 0.6,
                linewidth = 0.35) +
-  geom_jitter(width = 0.15, height = 0, size = 1.5, alpha = 0.5,
-              colour = COL_PT) +
+  ## seeded, so the figure is reproducible from the deposit
+  geom_point(position = position_jitter(width = 0.15, height = 0, seed = 1),
+             size = 1.5, alpha = 0.5, colour = COL_PT) +
   geom_richtext(data = tibble(x = Inf, y = Inf, l = lab(ct_b, nrow(b))),
                 aes(x, y, label = l), inherit.aes = FALSE, hjust = 1.08,
                 vjust = 1.15, size = 3.2, fill = NA, label.color = NA,

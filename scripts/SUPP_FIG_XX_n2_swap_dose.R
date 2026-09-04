@@ -76,9 +76,14 @@ pA <- ggplot(d, aes(dose, p, colour = allele, group = line)) +
                 fill = "white", label.color = NA,
                 label.padding = grid::unit(c(1, 2, 1, 2), "pt")) +
   scale_colour_manual(values = c(`96T` = COL_N2, `96K` = "#B0562A"),
-                      name = "*sid-2* residue 96") +
+                      name = "*sid-2* residue 96",
+                      ## explicit order: with two guides and no order set,
+                      ## ggplot laid them out differently between runs, so the
+                      ## figure was not reproducible
+                      guide = guide_legend(order = 1)) +
   scale_linetype_manual(values = c(N2 = "solid", wSZ203 = "22",
-                                   wSZ204 = "42"), name = NULL) +
+                                   wSZ204 = "42"), name = NULL,
+                        guide = guide_legend(order = 2)) +
   scale_x_continuous(breaks = sort(unique(d$dose)),
                      labels = function(x) paste0(x, "%")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1),

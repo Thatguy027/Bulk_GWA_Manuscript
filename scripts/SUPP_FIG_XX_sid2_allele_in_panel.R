@@ -154,8 +154,10 @@ pA <- ggplot(d, aes(allele, vst, fill = allele)) +
               alpha = 0.35, trim = FALSE) +
   geom_boxplot(width = 0.16, outlier.shape = NA, colour = "grey20",
                linewidth = 0.35, fill = "white") +
-  geom_jitter(width = 0.13, height = 0, size = 1, alpha = 0.45,
-              colour = COL_PT) +
+  ## seeded: an unseeded jitter moved every point on every run, so the
+  ## figure could not be reproduced from the deposit
+  geom_point(position = position_jitter(width = 0.13, height = 0, seed = 1),
+             size = 1, alpha = 0.45, colour = COL_PT) +
   ## the four strains whose allele is independently known
   geom_point(data = mk, size = 2.4, shape = 21, fill = "white",
              colour = "grey15", stroke = 0.6) +
