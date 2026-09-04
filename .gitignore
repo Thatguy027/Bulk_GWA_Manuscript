@@ -76,3 +76,14 @@ scratch/
 tmp/
 regenerated/
 cache/
+
+# FIGURE_REPORT.* is all TRACKED, deliberately.
+#   .Rmd   the source; derives its tables from supplemental_data/ at knit time
+#   .md    renders inline on github.com, figures referenced from plots/
+#   .html  ~13 MB, figures base64-embedded, self-contained -- kept in the repo
+#          so it can be downloaded and opened on any machine with no deps
+# Rebuild both with:
+#   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", output_format = "all")'
+# NOTE: re-committing the .html adds a fresh ~13 MB blob to history each time,
+# since every figure change rewrites the embedded base64. Re-commit it only
+# when the report has actually changed.

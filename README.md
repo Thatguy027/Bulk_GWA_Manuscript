@@ -48,6 +48,25 @@ Also excluded: `plots/legacy/` and `plots/pooled_cross_intersection/`
 `*.key` — a Keynote bundle is rewritten whole on every save and would grow
 history quickly, so `main_displays.pdf` is tracked instead.
 
+## The figure report
+
+[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all sixteen figures with their
+captions, ordered by the argument the manuscript makes rather than by build
+order: the assay, the map, the interval, the residue. It renders inline on
+GitHub — click the link above.
+
+`FIGURE_REPORT.html` is the same report as a single self-contained file, with
+the figures embedded and click-to-zoom, for reading offline or on another
+machine. Download it and open it in any browser; there is nothing to install.
+
+Both come from `FIGURE_REPORT.Rmd`, which reads the figures from `plots/` and
+recomputes its data tables from `supplemental_data/` on every knit, so the
+report cannot drift from the deposit:
+
+```sh
+Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", output_format = "all")'
+```
+
 ## The curated figure set
 
 `plots/` holds exactly the figures intended for the manuscript. Superseded
