@@ -11,8 +11,8 @@ Everything here runs from the repository root with no arguments.
 
 | path | contents |
 |---|---|
-| `scripts/` | 45 R scripts and 4 Python scripts. One script per figure; shared code in `*_common.R` |
-| `scripts/legacy/` | superseded versions, kept so earlier figures can be reproduced |
+| `scripts/` | 16 figure scripts, one per figure and named for it, plus 12 shared, data-prep and rendering scripts |
+| `scripts/legacy/` | 30 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
 | `data/` | the **small** input tables the figure scripts read — trait tables, GWAS result exports, plate phenotyping, NIL breakpoints, structure models, *sid-2* variant tables |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
@@ -67,7 +67,7 @@ them now write there too, so re-running anything will not put them back in
 | `SUPP_FIG_plate_vs_paaby_vs_pos1original` | `SUPP_FIG_plate_vs_paaby_vs_pos1original.R` |
 | `SUPP_FIG_XX_cross_contrast_panels` | `SUPP_FIG_XX_cross_contrast_panels.R` |
 | `SUPP_FIG_XX_pooled_phenotype_ranks` | `SUPP_FIG_XX_pooled_phenotype_ranks.R` |
-| `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation` | `2023_pos1_analysis.R` |
+| `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation` | `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation.R` |
 | `SUPP_FIG_XX_baugh_per_sample_frequencies` | `SUPP_FIG_XX_baugh_per_sample_frequencies.R` |
 | `SUPP_FIG_XX_bootstrap_propagation_checks` | `SUPP_FIG_XX_bootstrap_propagation_checks.R` |
 | `SUPP_FIG_XX_downsample_per_sample` | `SUPP_FIG_XX_downsample_per_sample.R` |
@@ -77,7 +77,9 @@ them now write there too, so re-running anything will not put them back in
 | `SUPP_FIG_XX_nil_hatching_full` | `SUPP_FIG_XX_nil_hatching_full.R` |
 | `SUPP_FIG_XX_sid2_allele_swaps_full` | `SUPP_FIG_XX_sid2_allele_swaps_full.R` |
 
-Each is present as both `.pdf` and `.png`.
+Each is present as both `.pdf` and `.png`, and each script is named for the
+figure it produces. Verified by deleting every file in `plots/` and rebuilding:
+all sixteen regenerate, with nothing extra.
 
 `FIGURE_CAPTIONS.txt` still carries captions for the superseded variants,
 marked where they are; they describe the same measurements in a different
@@ -85,16 +87,22 @@ arrangement and are useful when choosing between layouts.
 
 ## Regenerating the figures
 
+Every figure is `Rscript scripts/<figure name>.R`. Two figures need their
+assets built first:
+
 ```sh
-Rscript scripts/Figure1.R          # and Figure1_boot.R, Figure1_pos1.R
-Rscript scripts/Figure3.R          # and Figure3_{chrIII,pheno,quad,quad_zoom}.R
-python3 scripts/sid2_ribbon_render.py    # once, structure assets
-python3 scripts/sid2_zoom_render.py      # once, structure assets
+python3 scripts/sid2_ribbon_render.py    # once, Figure4_sid2 structure panel
+python3 scripts/sid2_zoom_render.py      # once, Figure4_sid2 structure panel
 Rscript scripts/Figure4_sid2.R
 ```
 
-`FIGURE_CAPTIONS.txt` lists the full command sequence for every figure and
-supplement.
+The other twelve scripts in `scripts/` are shared panel builders
+(`Figure1_common.R`, `Figure3_common.R`, `n2_swap_panels.R`), the
+multiple-testing machinery (`gwas_thresholds.R`, `eigen_independent_tests.R`),
+data preparation (`pooled_cross_intersection_prep.R`,
+`pooled_cross_candidate_variation.R`, `baugh_L1_DownSample_Counts.R`,
+`sid2_variant_table.R`) and an orientation-picking tool
+(`sid2_orientation_sheet.py`).
 
 **Three things need the external archive**, because they read the genotype
 panel or the intersection cache:

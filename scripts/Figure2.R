@@ -18,7 +18,10 @@ suppressPackageStartupMessages({
 })
 
 b   <- readRDS("data/pooled_cross_intersection/bundle.rds")
-OUT <- "plots/pooled_cross_intersection"
+## Figure 2 is a manuscript figure, so it writes to plots/. It used to write
+## into plots/pooled_cross_intersection/, which is untracked, so the copy in
+## plots/ was a stale hand-placed duplicate that re-running never refreshed.
+OUT <- "plots"
 
 ## Bonferroni assumes independent markers, which this panel is not. The eigen
 ## threshold uses the effective number of independent tests from the eigenvalues

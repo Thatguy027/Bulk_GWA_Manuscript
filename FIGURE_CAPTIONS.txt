@@ -400,8 +400,8 @@ if their breakpoints can be recovered.
 CAVEAT: one plate per strain per condition, as in Figure 3C.
 
 --------------------------------------------------------------------------------
-SUPP_FIG_XX_2023_pos1_vst_and_mapping
-(scripts/2023_pos1_analysis.R)
+SUPP_FIG_XX_2023_pos1_vst_and_mapping  -- SUPERSEDED, in plots/legacy/
+(scripts/legacy/SUPP_FIG_XX_2023_pos1_vst_and_mapping.R)
 --------------------------------------------------------------------------------
 (A) Distribution of the 2023 pooled pos-1 response on the vst scale, n = 231 of
 366 strains in the trait file.
@@ -417,7 +417,7 @@ used here.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
-(scripts/2023_pos1_analysis.R)
+(scripts/SUPP_FIG_XX_original_pos1_dfreq_rep_correlation.R)
 --------------------------------------------------------------------------------
 Replicate reproducibility of the 2023 pos-1 delta-frequency phenotype. All six
 pairwise comparisons of the four pos-1 replicates, at read-depth cutoff 5, with
