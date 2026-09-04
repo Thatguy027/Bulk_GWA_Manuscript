@@ -26,7 +26,10 @@ suppressPackageStartupMessages({
 })
 
 TRAITS <- "data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv"
-OUT    <- "plots/pooled_cross_intersection"
+## a kept supplement (see README.md), so it writes to plots/ -- it used to
+## write into plots/pooled_cross_intersection/, which is not tracked, so
+## re-running it left the curated copy stale
+OUT    <- "plots"
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
 PARENTS <- c("XZ1516", "JU1793", "JU2466")

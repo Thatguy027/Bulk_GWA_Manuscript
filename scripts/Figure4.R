@@ -1,3 +1,5 @@
+# SUPERSEDED by scripts/Figure4_sid2.R (see README.md). Outputs go to
+# plots/legacy/. Still RStudio-only: it resolves its path via rstudioapi.
 library(tidyverse)
 
 # Read data
@@ -66,8 +68,8 @@ p <- ggplot(df, aes(x = `glycosylation motif`, y = fraction_hatched,
 
 print(p)
 
-ggsave("../plots/Figure4.pdf", p, width = 10, height = 6)
-ggsave("../plots/Figure4.png", p, width = 10, height = 6, dpi = 300)
+ggsave("../plots/legacy/Figure4.pdf", p, width = 10, height = 6)
+ggsave("../plots/legacy/Figure4.png", p, width = 10, height = 6, dpi = 300)
 
 # --- Figure 4 clean: pos-1 RNAi only, JU1793/JU2466_A/wSZ200/wSZ206 only ---
 
@@ -160,7 +162,7 @@ p_clean <- ggplot(df_pos, aes(x = genotype, y = fraction_hatched, fill = genotyp
 
 print(p_clean)
 
-ggsave("../plots/Figure4_clean.pdf", p_clean, width = 8, height = 7)
-ggsave("../plots/Figure4_clean.png", p_clean, width = 8, height = 7, dpi = 300)
+ggsave("../plots/legacy/Figure4_clean.pdf", p_clean, width = 8, height = 7)
+ggsave("../plots/legacy/Figure4_clean.png", p_clean, width = 8, height = 7, dpi = 300)
 
 

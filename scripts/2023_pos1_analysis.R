@@ -5,7 +5,7 @@
 ##   1  replicate reproducibility of the pos-1 delta-frequency phenotype
 ##      -> plots/SUPP_FIG_XX_original_pos1_dfreq_rep_correlation.{pdf,png}
 ##   2  the vst phenotype distribution and its association scan
-##      -> plots/SUPP_FIG_XX_2023_pos1_vst_and_mapping.{pdf,png}
+##      -> plots/legacy/SUPP_FIG_XX_2023_pos1_vst_and_mapping.{pdf,png}  (superseded)
 ##
 ##   Rscript scripts/2023_pos1_analysis.R
 ##
@@ -313,8 +313,11 @@ fig2 <- p_dist / p_man +
   plot_annotation(tag_levels = "A",
                   theme = theme(plot.tag = element_text(face = "bold", size = 14)))
 
-ggsave(file.path(OUT, "SUPP_FIG_XX_2023_pos1_vst_and_mapping.pdf"), fig2,
+## superseded (README.md): the replicate-correlation figure stays in plots/,
+## this one goes to plots/legacy/
+dir.create(file.path(OUT, "legacy"), showWarnings = FALSE, recursive = TRUE)
+ggsave(file.path(OUT, "legacy", "SUPP_FIG_XX_2023_pos1_vst_and_mapping.pdf"), fig2,
        width = 11, height = 7, device = cairo_pdf)
-ggsave(file.path(OUT, "SUPP_FIG_XX_2023_pos1_vst_and_mapping.png"), fig2,
+ggsave(file.path(OUT, "legacy", "SUPP_FIG_XX_2023_pos1_vst_and_mapping.png"), fig2,
        width = 11, height = 7, dpi = 300, bg = "white")
 msg("  wrote SUPP_FIG_XX_2023_pos1_vst_and_mapping.{pdf,png}")

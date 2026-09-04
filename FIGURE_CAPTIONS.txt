@@ -4,6 +4,34 @@ Bulk GWA manuscript -- RNAi sensitivity in wild Caenorhabditis elegans
 Generated 2026-09-03.
 ================================================================================
 
+CURATED SET, AS OF 2026-09-04
+Sixteen figures are the manuscript set and live in plots/:
+
+  Figure1_pos1   Figure2   Figure3_quad   Figure4_sid2
+  SUPP_FIG_plate_vs_paaby_vs_pos1original
+  SUPP_FIG_XX_cross_contrast_panels
+  SUPP_FIG_XX_pooled_phenotype_ranks
+  SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
+  SUPP_FIG_XX_baugh_per_sample_frequencies
+  SUPP_FIG_XX_bootstrap_propagation_checks
+  SUPP_FIG_XX_downsample_per_sample
+  SUPP_FIG_XX_sid2_electrostatics
+  SUPP_FIG_XX_sid2_allele_in_panel
+  SUPP_FIG_XX_n2_swap_dose
+  SUPP_FIG_XX_nil_hatching_full
+  SUPP_FIG_XX_sid2_allele_swaps_full
+
+Captions below cover those AND the superseded variants, which now live in
+plots/legacy/. Where a caption names a file that is no longer in plots/ -- the
+Figure 1 and Figure 3 layout variants, Figure4/Figure4_clean, the
+cross_qtl_all and pooled_phenotype_heatmap supplements, the
+2023_pos1_vst_and_mapping supplement -- that figure is in plots/legacy/ and the
+caption is kept because the variants describe the same measurements in a
+different arrangement.
+
+Note also that SUPP_FIG_plate_vs_paaby_vs_pos1original was rebuilt on the VST
+trait; its caption below is the current one.
+
 HOW TO READ THIS FILE
 
 Every caption below describes a figure that currently exists in plots/. Numbers
@@ -421,32 +449,39 @@ sensitive direction. Counts and percentages are annotated on each facet.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_plate_vs_paaby_vs_pos1original
-(scripts/plate_pheno_comparisons.R)
+(scripts/SUPP_FIG_plate_vs_paaby_vs_pos1original.R)
 --------------------------------------------------------------------------------
-Manual plate phenotyping of wild isolates on pos-1 RNAi validated against two
+Manual plate phenotyping of wild isolates on pos-1 RNAi, validated against two
 independent measurements. The plate score is a six-level ordinal scale
 (0 = complete RNAi response/sensitive, 5 = no response/resistant), so Spearman
-rank correlation is used for both comparisons: it requires only a monotonic
-relationship, not shared units or linearity.
+rank correlation is used throughout: it requires only a monotonic relationship,
+not shared units or linearity.
 
-(A) Plate score against the pooled bulk-competition pos-1 phenotype
-(pos-1 RNAi minus HT115 control frequency change): Spearman rho = 0.42,
-n = 106 strains, p = 6.3e-6. Positive is the expected direction -- sensitive
-strains score low on the plate and lose pool frequency under RNAi.
+(A) Plate score against the pooled 2023 pos-1 response on the VST scale
+(vst_ctrl_pos-1_T2), the same trait the association mapping was run on:
+Spearman rho = 0.41, n = 111 strains, p = 7.8e-06. Positive is the expected
+direction -- VST is positive for strains that gained pool frequency under
+pos-1 RNAi, i.e. resistant, and resistant strains score high on the plate.
+Dashed line marks zero.
 
 (B) Plate score against Paaby et al. 2015 mean embryonic lethality for the
-pos-1 RNAi clone: Spearman rho = -0.55, n = 19 strains, p = 0.014. Negative is
-the expected direction -- a low plate score means sensitive, and sensitive means
-high lethality.
+pos-1 clone, computed per well as unhatched eggs over eggs plus larvae and
+averaged within a strain: Spearman rho = -0.55, n = 19 strains, p = 0.014.
+Negative is the expected direction -- a low plate score means sensitive, and
+sensitive means high lethality.
 
 Both agree with the plate assay in the predicted direction. The Paaby
-comparison rests on 19 strains and should be described as consistent rather
-than as independent confirmation.
+comparison rests on 19 shared strains and should be described as consistent
+rather than as independent confirmation.
 
-Standalone titled versions of the two panels, carrying rho and p in the title,
-are in plots/plate_pheno_comparisons/plate_vs_pos1original.pdf and
-plots/plate_pheno_comparisons/plate_vs_paaby.pdf. They are the same data as
-panels A and B and should not be presented alongside them.
+REBUILT on the VST trait. The earlier version of panel A used a bootstrap
+frequency change from a different export (rho = 0.42, n = 106), which was on no
+scale used elsewhere in the manuscript; the VST version is on the same scale as
+every other phenotype panel. The script also now runs under Rscript, where
+scripts/plate_pheno_comparisons.R -- which produced the earlier version and
+also writes the two standalone panels under
+plots/plate_pheno_comparisons/ -- resolves its working directory through the
+RStudio API and runs only inside RStudio.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_XX_baugh_per_sample_frequencies

@@ -15,7 +15,10 @@ suppressPackageStartupMessages({
 })
 
 b   <- readRDS("data/pooled_cross_intersection/bundle.rds")
-OUT <- "plots/pooled_cross_intersection"
+## a kept supplement (see README.md), so it writes to plots/ -- it used to
+## write into plots/pooled_cross_intersection/, which is not tracked, so
+## re-running it left the curated copy stale
+OUT <- "plots"
 
 ## Bonferroni assumes independent markers, which this panel is not. The eigen
 ## threshold uses the effective number of independent tests from the eigenvalues

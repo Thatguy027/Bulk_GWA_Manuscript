@@ -32,6 +32,13 @@
 
 source("scripts/Figure3_common.R")
 
+## SUPERSEDED. The curated figure set is listed in README.md; this variant was
+## kept for comparison but is no longer a manuscript figure, so it writes to
+## plots/legacy/ rather than cluttering plots/ on every run.
+OUT <- "plots/legacy"
+dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
+
+
 msg("panel A: cross scan, genome-wide, with pooled phenotype inset")
 scan_t <- thin_scan(load_scan())
 pA  <- panel_A_genome(scan_t)

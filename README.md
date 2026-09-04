@@ -51,6 +51,38 @@ over the repository root restores the tree and git keeps ignoring it.
 `*.key` is excluded: a Keynote bundle is rewritten in full on every save and
 would grow history quickly. `main_displays.pdf` is tracked instead.
 
+## The curated figure set
+
+`plots/` holds exactly the figures intended for the manuscript. Superseded
+variants live in `plots/legacy/`, which is not tracked; the scripts that build
+them now write there too, so re-running anything will not put them back in
+`plots/`.
+
+| figure | script |
+|---|---|
+| `Figure1_pos1` | `Figure1_pos1.R` |
+| `Figure2` | `Figure2.R` |
+| `Figure3_quad` | `Figure3_quad.R` |
+| `Figure4_sid2` | `Figure4_sid2.R` |
+| `SUPP_FIG_plate_vs_paaby_vs_pos1original` | `SUPP_FIG_plate_vs_paaby_vs_pos1original.R` |
+| `SUPP_FIG_XX_cross_contrast_panels` | `SUPP_FIG_XX_cross_contrast_panels.R` |
+| `SUPP_FIG_XX_pooled_phenotype_ranks` | `SUPP_FIG_XX_pooled_phenotype_ranks.R` |
+| `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation` | `2023_pos1_analysis.R` |
+| `SUPP_FIG_XX_baugh_per_sample_frequencies` | `SUPP_FIG_XX_baugh_per_sample_frequencies.R` |
+| `SUPP_FIG_XX_bootstrap_propagation_checks` | `SUPP_FIG_XX_bootstrap_propagation_checks.R` |
+| `SUPP_FIG_XX_downsample_per_sample` | `SUPP_FIG_XX_downsample_per_sample.R` |
+| `SUPP_FIG_XX_sid2_electrostatics` | `SUPP_FIG_XX_sid2_electrostatics.R` |
+| `SUPP_FIG_XX_sid2_allele_in_panel` | `SUPP_FIG_XX_sid2_allele_in_panel.R` |
+| `SUPP_FIG_XX_n2_swap_dose` | `SUPP_FIG_XX_n2_swap_dose.R` |
+| `SUPP_FIG_XX_nil_hatching_full` | `SUPP_FIG_XX_nil_hatching_full.R` |
+| `SUPP_FIG_XX_sid2_allele_swaps_full` | `SUPP_FIG_XX_sid2_allele_swaps_full.R` |
+
+Each is present as both `.pdf` and `.png`.
+
+`FIGURE_CAPTIONS.txt` still carries captions for the superseded variants,
+marked where they are; they describe the same measurements in a different
+arrangement and are useful when choosing between layouts.
+
 ## Regenerating the figures
 
 ```sh

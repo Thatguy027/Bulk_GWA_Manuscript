@@ -35,6 +35,13 @@
 
 source("scripts/Figure3_common.R")
 
+## SUPERSEDED. The curated figure set is listed in README.md; this variant was
+## kept for comparison but is no longer a manuscript figure, so it writes to
+## plots/legacy/ rather than cluttering plots/ on every run.
+OUT <- "plots/legacy"
+dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
+
+
 msg("panel A: cross scan, chromosome III")
 ## finer bins than the genome-wide version: one chromosome across the same
 ## page width is ~7x the resolution, so 1 kb bins are still ~1 point per pixel
