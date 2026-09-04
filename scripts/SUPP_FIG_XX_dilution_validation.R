@@ -8,6 +8,7 @@
 ##   B  the B-into-C dilution series, BC1 to BC7, on the pool-wide reference
 ##   C  the same series with the reference restricted to sets B and C and
 ##      renormalised, which is the analysis the original figure showed
+##   D  whether the strains that resolve badly are the genetically similar ones
 ##
 ## THE EXPERIMENT. 174 wild isolates were split into four sets of roughly equal
 ## size (A, B, C, D). Genomic DNA from each set was pooled, and the pools were
@@ -53,8 +54,10 @@ DEC  <- "supplemental_data/deconvolution"
 SETS <- file.path(DEC, "dilution_strain_sets.tsv")
 POOL <- file.path(DEC, "dilution_predictions_poolref.tsv.gz")
 BCR  <- file.path(DEC, "dilution_predictions_bcref.tsv.gz")
+SIM  <- file.path(DEC, "dilution_strain_similarity.tsv")
 
-stopifnot(file.exists(SETS), file.exists(POOL), file.exists(BCR))
+stopifnot(file.exists(SETS), file.exists(POOL), file.exists(BCR),
+          file.exists(SIM))
 
 ## sets B and C are the titrated pair and carry the colour; A and D are the
 ## untitrated sets and read as the off-target floor
@@ -309,6 +312,90 @@ pC <- ggplot(bcref, aes(step, f, colour = set)) +
         legend.text = element_text(size = 8))
 
 ## ===========================================================================
+## D -- is poor resolution explained by genetic similarity?
+##
+## THE ERROR MEASURE NEEDS NO ASSUMPTION. A strain that is not in a pool must
+## be assigned a frequency of zero in that pool's libraries, whatever the DNA
+## input was. So for each strain, the mean frequency it picks up across the
+## nine libraries of the three sets it is NOT in is pure false-positive
+## assignment -- "leakage" below. Unlike own-pool recovery it needs no guess
+## about how much DNA each strain contributed.
+##
+## THE SIMILARITY MEASURE is the identity-by-state to the closest OTHER strain
+## in the reference: NNLS confusability is driven by the nearest confounder,
+## not by average relatedness. Both are in the deposit; see
+## make_experiments_deposit.R for how the table is built.
+##
+## WHAT IT SHOWS. Leakage rises with nearest-neighbour IBS (Spearman rho +0.33,
+## p 1.4e-05, n = 170). Own-pool RECOVERY does not (rho +0.05, p 0.55), so
+## genetic similarity predicts misassignment into the wrong pool without
+## predicting how well a strain recovers its own share -- see the caption.
+## ===========================================================================
+pure_all <- pool %>% filter(grepl("^[ABCD][012]$", sample)) %>%
+  mutate(pool_set = substr(sample, 1, 1), own = set == pool_set)
+nset <- pool %>% distinct(strain, set) %>% count(set, name = "n_in_set")
+
+perstrain <- pure_all %>% group_by(strain, set, own) %>%
+  summarise(f = mean(frequency), .groups = "drop") %>%
+  pivot_wider(names_from = own, values_from = f,
+              names_prefix = "own_") %>%
+  rename(own_pool = own_TRUE, leakage = own_FALSE) %>%
+  left_join(nset, by = "set") %>%
+  mutate(recovery = own_pool * n_in_set) %>%      # 1 = as expected if input equal
+  left_join(read_tsv(SIM, show_col_types = FALSE), by = "strain")
+stopifnot(!anyNA(perstrain$nn_ibs), nrow(perstrain) == 170)
+
+ct_leak <- suppressWarnings(cor.test(perstrain$nn_ibs, perstrain$leakage,
+                                     method = "spearman"))
+ct_rec  <- suppressWarnings(cor.test(perstrain$nn_ibs, perstrain$recovery,
+                                     method = "spearman"))
+cat("== metric 4: does genetic similarity explain poor resolution? ==\n")
+cat(sprintf("  nearest-neighbour IBS vs off-pool leakage : rho %+.3f, p %.2e\n",
+            ct_leak$estimate, ct_leak$p.value))
+cat(sprintf("  nearest-neighbour IBS vs own-pool recovery: rho %+.3f, p %.2f\n",
+            ct_rec$estimate, ct_rec$p.value))
+bins <- perstrain %>%
+  mutate(bin = cut(nn_ibs, c(0.66, 0.90, 0.95, 0.97, 0.99, 1.0),
+                   include.lowest = TRUE)) %>%
+  group_by(bin) %>% summarise(n = n(), median_leakage = median(leakage),
+                              .groups = "drop")
+print(as.data.frame(bins %>% mutate(median_leakage = signif(median_leakage, 3))),
+      row.names = FALSE)
+cat("  NOTE: the top bin holds only", bins$n[nrow(bins)],
+    "strains, so read the trend, not that bin.\n\n")
+
+BRK <- c(0.66, 0.90, 0.95, 0.97, 0.99, 1.0)
+binmed <- perstrain %>%
+  mutate(bin = cut(nn_ibs, BRK, include.lowest = TRUE)) %>%
+  group_by(bin) %>%
+  summarise(n = n(), median_leakage = median(leakage),
+            mid = median(nn_ibs), .groups = "drop")
+
+pD <- ggplot(perstrain, aes(nn_ibs, 1000 * leakage)) +
+  geom_point(aes(fill = set), shape = 21, size = 1.7, stroke = 0.25,
+             colour = "grey30", alpha = 0.9) +
+  ## Binned medians, not a smoother: leakage is bounded below by zero and the
+  ## left tail holds five strains, so a loess through it dips negative and
+  ## implies something the measure cannot do. These are the same bins the
+  ## console prints.
+  geom_line(data = binmed, aes(x = mid, y = 1000 * median_leakage),
+            inherit.aes = FALSE, colour = "grey25", linewidth = 0.5) +
+  geom_point(data = binmed, aes(x = mid, y = 1000 * median_leakage),
+             inherit.aes = FALSE, colour = "grey15", size = 1.6, shape = 15) +
+  annotate("text", x = 0.668, y = Inf,
+           label = sprintf("rho = %+.2f, p = %.0e", ct_leak$estimate,
+                           ct_leak$p.value),
+           hjust = 0, vjust = 1.6, size = 2.7, colour = "grey20") +
+  scale_fill_manual(values = SET_COL, name = NULL) +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.01)) +
+  labs(x = "Identity-by-state to the closest other strain",
+       y = "Leakage into pools it is not in (per mille)",
+       title = panel_title("D")) +
+  theme_pub() +
+  theme(legend.position = c(0.02, 0.99), legend.justification = c(0, 1),
+        legend.direction = "horizontal", legend.text = element_text(size = 8))
+
+## ===========================================================================
 ## HOW FAR OFF WAS THE INFERENCE?
 ##
 ## Three metrics, in decreasing order of how much they assume.
@@ -377,10 +464,10 @@ cat(sprintf("  Spearman rho against step: %+.0f\n\n",
             cor(filter(bcref, set == "B")$step,
                 filter(bcref, set == "B")$f, method = "spearman")))
 
-fig <- pA | pB | pC
+fig <- (pA | pB) / (pC | pD)
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_dilution_validation.pdf"), fig,
-       width = 11, height = 3.7, device = cairo_pdf)
+       width = 8.4, height = 7.2, device = cairo_pdf)
 ggsave(file.path(OUT, "SUPP_FIG_XX_dilution_validation.png"), fig,
-       width = 11, height = 3.7, dpi = 300, bg = "white")
+       width = 8.4, height = 7.2, dpi = 300, bg = "white")
 cat("wrote SUPP_FIG_XX_dilution_validation.{pdf,png}\n")

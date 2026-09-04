@@ -20,6 +20,7 @@
 ##   dilution_predictions_regenotype.tsv.gz   540-strain, regenotyped VCF
 ##   dilution_predictions_bcref.tsv.gz        84-strain B+C reference (original)
 ##   simulation_nnls_frequencies.tsv.gz       7 traits x 8 depths x 327 strains
+##   dilution_strain_similarity.tsv           per-strain relatedness, 170 rows
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({
@@ -122,6 +123,49 @@ if (have(p)) {
   write_tsv(d, file.path(OUT, "simulation_gwas_traits.tsv.gz"))
   msg("simulation_gwas_traits.tsv.gz: ", nrow(d), " strains x ",
       ncol(d) - 1, " trait-depth columns")
+}
+
+## --- 6. genetic similarity among the pooled strains ------------------------
+## Panel D of the dilution figure asks whether the strains that resolve badly
+## are the genetically similar ones, which needs a relatedness measure. The
+## genotype matrix is 12 GB in memory and Dryad-hosted, so the answer is
+## reduced to a 170-row table here and that table is what the figure reads --
+## the deposit-only rule holds.
+##
+## IBS is the fraction of markers at which two strains carry the same allele.
+## With 0/1 coding, mean(x == y) = (both-1 + both-0) / n, which is what the
+## crossprod expression below computes. 500,000 markers are sampled under a
+## fixed seed: relatedness at this scale is estimated to far better than the
+## third decimal from that many sites, and using all 2.9M costs minutes for no
+## change in the ranking that panel D depends on.
+GM <- "data/genotypes/processed_genotype_matrix.Rda"
+SETF <- file.path(OUT, "dilution_strain_sets.tsv")
+if (have(GM) && file.exists(SETF)) {
+  strains_in <- read_tsv(file.path(OUT, "dilution_predictions_poolref.tsv.gz"),
+                         show_col_types = FALSE) %>% pull(strain) %>% unique()
+  e <- new.env(); load(GM, envir = e)
+  keep <- colnames(e$g) %in% paste(strains_in, strains_in, sep = "_")
+  msg("similarity: ", sum(keep), " of ", length(strains_in),
+      " pooled strains found in the genotype matrix")
+  set.seed(1)
+  idx <- sort(sample(nrow(e$g), 5e5))
+  gs <- e$g[idx, keep, drop = FALSE]
+  rm(e); invisible(gc())
+  colnames(gs) <- sub("_.*", "", colnames(gs))
+  ok <- complete.cases(gs) & apply(gs, 1, function(x) length(unique(x)) > 1)
+  gs <- gs[ok, , drop = FALSE]
+  n <- nrow(gs)
+  cp <- crossprod(gs); cs <- colSums(gs)
+  same <- (cp + (n - outer(cs, cs, "+") + cp)) / n
+  diag(same) <- NA
+  sim <- tibble(strain = colnames(gs),
+                nn_ibs = apply(same, 1, max, na.rm = TRUE),
+                nn_partner = colnames(gs)[apply(same, 1, which.max)],
+                mean_ibs = rowMeans(same, na.rm = TRUE))
+  write_tsv(sim, file.path(OUT, "dilution_strain_similarity.tsv"))
+  msg("dilution_strain_similarity.tsv: ", nrow(sim), " strains from ", n,
+      " variable markers | nearest-neighbour IBS ",
+      sprintf("%.4f-%.4f", min(sim$nn_ibs), max(sim$nn_ibs)))
 }
 
 f <- list.files(OUT, pattern = "^(dilution|simulation)", full.names = TRUE)

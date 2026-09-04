@@ -421,6 +421,66 @@ of sets B and C and renormalised — the analysis the original figure showed:
 B 0.17 → 0.84 against C 0.83 → 0.16, crossing between BC4 and BC5.
 :::
 
+::: panel
+[D]{.pl} Whether the strains that resolve badly are the genetically similar
+ones. For each of the 170 strains, x is identity-by-state to the closest
+*other* strain in the reference and y is its **leakage** — the mean frequency
+it picks up across the nine libraries of the three sets it is **not** in. That
+must be zero whatever the DNA input was, so unlike own-pool recovery it assumes
+nothing about the design. Grey squares are bin medians; points are coloured by
+the strain's own set.
+:::
+
+**Leakage rises with genetic similarity: Spearman &rho; `+0.326`, `p = 1.4e-05`,
+n = 170.** Mean identity to all strains gives the same answer more weakly
+(&rho; `+0.258`, `p = 6.8e-04`).
+
+```{r tab-similarity}
+i2s2 <- read_tsv(file.path(DEC, "dilution_strain_sets.tsv"), show_col_types = FALSE) %>%
+  filter(!is.na(isotype)) %>% distinct(isotype, set) %>%
+  mutate(set = ifelse(isotype == "JU1793", "B", set)) %>% distinct(isotype, set)
+pp <- read_tsv(file.path(DEC, "dilution_predictions_poolref.tsv.gz"),
+               show_col_types = FALSE) %>%
+  select(-set) %>% distinct() %>% left_join(i2s2, by = c("strain" = "isotype")) %>%
+  filter(grepl("^[ABCD][012]$", sample)) %>%
+  mutate(own = set == substr(sample, 1, 1)) %>%
+  group_by(strain, own) %>% summarise(f = mean(frequency), .groups = "drop") %>%
+  pivot_wider(names_from = own, values_from = f, names_prefix = "own_") %>%
+  left_join(read_tsv(file.path(DEC, "dilution_strain_similarity.tsv"),
+                     show_col_types = FALSE), by = "strain")
+
+kb(pp %>%
+     mutate(Bin = cut(nn_ibs, c(0.66, 0.90, 0.95, 0.97, 0.99, 1.0),
+                      include.lowest = TRUE)) %>%
+     group_by(Bin) %>%
+     summarise(Strains = n(),
+               `Median leakage` = sprintf("%.5f", median(own_FALSE)),
+               .groups = "drop"),
+   align = c("l", "r", "r"))
+```
+
+::: derived
+Derived from dilution_predictions_poolref.tsv.gz + dilution_strain_similarity.tsv
+:::
+
+::: aside
+[Two different failure modes, and only one tracks relatedness]{.ch}
+
+**Own-pool recovery shows no relationship with genetic similarity at all** —
+&rho; `+0.046`, `p = 0.55` against the nearest neighbour; `+0.092`, `p = 0.23`
+against mean identity. So similarity predicts a strain being assigned into a
+pool it is absent from, and does *not* predict how much of its own pool it
+recovers. The ~0.8 ceiling in panel A and the leakage in panel D are separate
+problems, and only the second is explained by relatedness.
+
+One thing these data **cannot** support, though the top of the leakage ranking
+is full of near-identical partners: that the damage concentrates in
+near-identical pairs *split across sets*. There are only 30 reciprocal
+nearest-neighbour pairs, two above IBS 0.99, so the pair-level comparison is
+underpowered and answers differently at different thresholds. Worth revisiting
+with a larger design; not a result yet.
+:::
+
 Both panels' plotted fractions are pinned as literals in the script and checked
 against the deposit on every run, so these numbers cannot drift from the figure
 without the script failing.
@@ -556,9 +616,11 @@ and it is a cross parent in Figures 2 and 3.
 [Two further limits]{.ch}
 
 Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of each pool
-is assigned to strains that are not in it; whether that is
-mis-deconvolution, cross-contamination, or unequal DNA input across strains
-within a pool is not resolvable from these data.
+is assigned to strains that are not in it. Panel D rules genetic similarity out
+as the explanation for *that* particular shortfall — recovery is uncorrelated
+with relatedness — which leaves cross-contamination between pools and unequal
+DNA input across strains within a pool, and these data cannot separate those
+two.
 
 Panels A and B use the 170-strain pool reference and panel C the 84-strain B+C
 reference. After renormalising the pool reference within B and C the two

@@ -158,6 +158,20 @@ them, so the titration currently demonstrates monotonic and complementary
 recovery rather than quantitative accuracy. With the design in hand the same
 data give an observed-against-nominal comparison directly.]
 
+Per-strain resolution was related to genetic similarity as follows. A strain
+absent from a pool must be assigned a frequency of zero in that pool's
+libraries whatever the DNA input was, so for each strain the mean frequency
+assigned across the nine libraries of the three sets it does not belong to was
+taken as an assumption-free error measure ("leakage"). Genetic similarity was
+summarised as identity-by-state -- the fraction of markers at which two strains
+carry the same allele -- to the closest other strain in the reference, computed
+over 231,615 variable markers sampled under a fixed seed from the CeNDR
+genotype matrix. Leakage rises with nearest-neighbour identity (Spearman
+rho = 0.326, p = 1.4e-05, n = 170), while the fraction of its own pool a strain
+recovers does not (rho = 0.046, p = 0.55). Genetic similarity therefore predicts
+misassignment into pools a strain is absent from, without predicting how well
+that strain's own share is recovered.
+
 One isotype is assigned to two sets in this experiment: strains JU1580 and
 JU1793 share the isotype JU1793 and were placed in sets B and D respectively.
 Because the deconvolution operates at isotype level and returns a single

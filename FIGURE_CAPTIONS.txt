@@ -485,6 +485,35 @@ sets B and C and renormalised, which is the analysis the original figure
 showed: B 0.17, 0.21, 0.28, 0.48, 0.62, 0.77, 0.84 against C 0.83 down to 0.16,
 crossing between BC4 and BC5.
 
+(D) Whether the strains that resolve badly are the genetically similar ones.
+For each of the 170 strains, the x axis is its identity-by-state to the closest
+OTHER strain in the reference, and the y axis is its "leakage" -- the mean
+frequency it is assigned across the nine libraries of the three sets it is NOT
+in. That leakage must be zero whatever the DNA input was, so unlike own-pool
+recovery it is an error measure that assumes nothing about the design. Grey
+squares are medians of the bins printed by the script; points are coloured by
+the strain's own set.
+
+Leakage rises with nearest-neighbour identity: Spearman rho +0.326,
+p = 1.4e-05, n = 170. Median leakage by bin: 0.0000 below IBS 0.90 (n = 5),
+0.000101 for 0.90-0.95 (n = 34), 0.000231 for 0.95-0.97 (n = 75), 0.00143 for
+0.97-0.99 (n = 52), 0.00106 above 0.99 (n = 4). Mean identity to all other
+strains gives the same answer more weakly (rho +0.258, p = 6.8e-04).
+
+The important negative: own-pool RECOVERY shows no such relationship (rho
++0.046, p = 0.55 against nearest-neighbour identity; +0.092, p = 0.23 against
+mean identity). So genetic similarity predicts being assigned into a pool a
+strain is not in, and does NOT predict how much of its own pool a strain
+recovers. The two are different failure modes and only the first tracks
+relatedness.
+
+Not supported by these data, though the top of the leakage ranking is full of
+near-identical partners: that the damage concentrates in near-identical pairs
+SPLIT ACROSS sets. There are only 30 reciprocal nearest-neighbour pairs and two
+of them sit above IBS 0.99, so the pair-level comparison is underpowered and
+gives inconsistent answers at different thresholds. It is worth revisiting with
+a larger design; it is not a result yet.
+
 Both panels' plotted fractions are pinned as literals in the script and checked
 against the deposit on every run, so the numbers in this caption cannot drift
 from the figure without the script failing.

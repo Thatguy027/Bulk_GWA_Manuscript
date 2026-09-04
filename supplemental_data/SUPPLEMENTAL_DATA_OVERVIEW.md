@@ -260,6 +260,7 @@ triplicate, plus a seven-step titration of set B against set C (BC1–BC7).
 | `dilution_predictions_bcref.tsv.gz` | 84 strains × 7 samples, reference restricted to sets B+C — the original analysis |
 | `dilution_predictions_fullref.tsv.gz` | 540 strains × 19 samples, full CeNDR reference |
 | `dilution_predictions_regenotype.tsv.gz` | as above, from the regenotyped VCF |
+| `dilution_strain_similarity.tsv` | 170 rows: how genetically close each pooled strain is to its nearest neighbour |
 
 `dilution_strain_sets.tsv` columns: `strain` (name as pooled), `isotype` (CeNDR
 isotype; `NA` for ECA252 and LSJ1, which have no isotype in the lookup and are
@@ -283,6 +284,16 @@ original analysis did, and what the estimate's own behaviour indicates — and
 asserts that no other isotype is ambiguous. This is the same strain whose
 duplicated genotype-reference entry is documented under `phenotypes/`, and it is
 a cross parent in Figures 2 and 3.
+
+`dilution_strain_similarity.tsv` columns: `strain` (isotype), `nn_ibs`
+(identity-by-state — the fraction of markers carrying the same allele — to the
+closest *other* strain in the reference), `nn_partner` (which strain that is),
+`mean_ibs` (mean identity to all other strains). Computed over 231,615 variable
+markers sampled under a fixed seed from the 12 GB CeNDR genotype matrix, which
+is Dryad-hosted; this 170-row reduction is what the figure reads, so the
+deposit-only rule holds. Used by panel D of the dilution figure, where leakage
+into pools a strain is absent from rises with `nn_ibs` (Spearman ρ = 0.326,
+p = 1.4e-05) while own-pool recovery does not (ρ = 0.046, p = 0.55).
 
 **The nominal mixing ratios are not recorded.** Nothing in the archived
 experiment states the intended B:C proportions for BC1–BC7, so these data show

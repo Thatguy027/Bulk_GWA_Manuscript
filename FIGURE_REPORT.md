@@ -544,6 +544,126 @@ analysis the original figure showed: B 0.17 → 0.84 against C 0.83 →
 
 </div>
 
+<div class="panel">
+
+<span class="pl">D</span> Whether the strains that resolve badly are the
+genetically similar ones. For each of the 170 strains, x is
+identity-by-state to the closest *other* strain in the reference and y
+is its **leakage** — the mean frequency it picks up across the nine
+libraries of the three sets it is **not** in. That must be zero whatever
+the DNA input was, so unlike own-pool recovery it assumes nothing about
+the design. Grey squares are bin medians; points are coloured by the
+strain’s own set.
+
+</div>
+
+**Leakage rises with genetic similarity: Spearman ρ `+0.326`,
+`p = 1.4e-05`, n = 170.** Mean identity to all strains gives the same
+answer more weakly (ρ `+0.258`, `p = 6.8e-04`).
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Bin
+</th>
+<th style="text-align:right;">
+Strains
+</th>
+<th style="text-align:right;">
+Median leakage
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+\[0.66,0.9\]
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(0.9,0.95\]
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+0.00010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(0.95,0.97\]
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+0.00023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(0.97,0.99\]
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+0.00143
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(0.99,1\]
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.00106
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from dilution_predictions_poolref.tsv.gz +
+dilution_strain_similarity.tsv
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Two different failure modes, and only one tracks
+relatedness</span>
+
+**Own-pool recovery shows no relationship with genetic similarity at
+all** — ρ `+0.046`, `p = 0.55` against the nearest neighbour; `+0.092`,
+`p = 0.23` against mean identity. So similarity predicts a strain being
+assigned into a pool it is absent from, and does *not* predict how much
+of its own pool it recovers. The \~0.8 ceiling in panel A and the
+leakage in panel D are separate problems, and only the second is
+explained by relatedness.
+
+One thing these data **cannot** support, though the top of the leakage
+ranking is full of near-identical partners: that the damage concentrates
+in near-identical pairs *split across sets*. There are only 30
+reciprocal nearest-neighbour pairs, two above IBS 0.99, so the
+pair-level comparison is underpowered and answers differently at
+different thresholds. Worth revisiting with a larger design; not a
+result yet.
+
+</div>
+
 Both panels’ plotted fractions are pinned as literals in the script and
 checked against the deposit on every run, so these numbers cannot drift
 from the figure without the script failing.
@@ -822,9 +942,11 @@ is a cross parent in Figures 2 and 3.
 <span class="ch">Two further limits</span>
 
 Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of
-each pool is assigned to strains that are not in it; whether that is
-mis-deconvolution, cross-contamination, or unequal DNA input across
-strains within a pool is not resolvable from these data.
+each pool is assigned to strains that are not in it. Panel D rules
+genetic similarity out as the explanation for *that* particular
+shortfall — recovery is uncorrelated with relatedness — which leaves
+cross-contamination between pools and unequal DNA input across strains
+within a pool, and these data cannot separate those two.
 
 Panels A and B use the 170-strain pool reference and panel C the
 84-strain B+C reference. After renormalising the pool reference within B
@@ -2531,10 +2653,10 @@ SUPP_FIG_XX_simulation_depth
 SUPP_FIG_XX_dilution_validation
 </td>
 <td style="text-align:right;">
-233
+358
 </td>
 <td style="text-align:right;">
-2026-09-04 12:23
+2026-09-04 12:29
 </td>
 </tr>
 <tr>
