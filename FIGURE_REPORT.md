@@ -2,52 +2,53 @@ From a 231-strain panel to a single residue
 ================
 Assembled 2026-09-04
 
+-   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
     figure](#conventions-that-cross-every-figure)
     -   [RNAi dose is not constant](#rnai-dose-is-not-constant)
     -   [Two thresholds, always both](#two-thresholds-always-both)
 -   [I. The assay](#i-the-assay)
-    -   [Supplement — the simulation the project started
-        from](#supplement--the-simulation-the-project-started-from)
-    -   [Supplement — the designed DNA
-        mixture](#supplement--the-designed-dna-mixture)
+    -   [Figure S1 — the simulation the project started
+        from](#figure-s1--the-simulation-the-project-started-from)
+    -   [Figure S2 — the designed DNA
+        mixture](#figure-s2--the-designed-dna-mixture)
     -   [Figure 1 — the validated assay, the phenotype it produces, and
         the
         map](#figure-1--the-validated-assay-the-phenotype-it-produces-and-the-map)
-    -   [Supplement — the sample-level measurements behind the Figure 1
-        slopes](#supplement--the-sample-level-measurements-behind-the-figure-1-slopes)
-    -   [Supplement — the bootstrap propagation
-        checks](#supplement--the-bootstrap-propagation-checks)
-    -   [Supplement — the sequencing-depth
-        requirement](#supplement--the-sequencing-depth-requirement)
-    -   [Supplement — replicate reproducibility of the
-        phenotype](#supplement--replicate-reproducibility-of-the-phenotype)
-    -   [Supplement — the plate assay, validated
-        externally](#supplement--the-plate-assay-validated-externally)
+    -   [Figure S3 — the sample-level measurements behind the Figure 1
+        slopes](#figure-s3--the-sample-level-measurements-behind-the-figure-1-slopes)
+    -   [Figure S4 — the bootstrap propagation
+        checks](#figure-s4--the-bootstrap-propagation-checks)
+    -   [Figure S5 — the sequencing-depth
+        requirement](#figure-s5--the-sequencing-depth-requirement)
+    -   [Figure S6 — replicate reproducibility of the
+        phenotype](#figure-s6--replicate-reproducibility-of-the-phenotype)
+    -   [Figure S7 — the plate assay, validated
+        externally](#figure-s7--the-plate-assay-validated-externally)
 -   [II. The map](#ii-the-map)
     -   [Figure 2 — pooled GWAS and cross mapping identify overlapping
         loci](#figure-2--pooled-gwas-and-cross-mapping-identify-overlapping-loci)
-    -   [Supplement — why these cross
-        parents](#supplement--why-these-cross-parents)
-    -   [Supplement — the expanded view behind Figure 2’s
-        tracks](#supplement--the-expanded-view-behind-figure-2s-tracks)
+    -   [Figure S8 — why these cross
+        parents](#figure-s8--why-these-cross-parents)
+    -   [Figure S9 — the expanded view behind Figure 2’s
+        tracks](#figure-s9--the-expanded-view-behind-figure-2s-tracks)
 -   [III. The interval](#iii-the-interval)
     -   [Figure 3 — NILs fine-map the chromosome III QTL to 37
         kb](#figure-3--nils-fine-map-the-chromosome-iii-qtl-to-37-kb)
-    -   [Supplement — the complete NIL hatching
-        experiment](#supplement--the-complete-nil-hatching-experiment)
+    -   [Figure S10 — the complete NIL hatching
+        experiment](#figure-s10--the-complete-nil-hatching-experiment)
 -   [IV. The residue](#iv-the-residue)
     -   [Figure 4 — editing *sid-2* residue 96 moves sensitivity in
         three
         backgrounds](#figure-4--editing-sid-2-residue-96-moves-sensitivity-in-three-backgrounds)
-    -   [Supplement — the full N2 dose
-        series](#supplement--the-full-n2-dose-series)
-    -   [Supplement — everything held back from Figure
-        4A](#supplement--everything-held-back-from-figure-4a)
-    -   [Supplement — the honest negative
-        check](#supplement--the-honest-negative-check)
-    -   [Supplement — surface charge of the
-        ectodomain](#supplement--surface-charge-of-the-ectodomain)
+    -   [Figure S11 — the full N2 dose
+        series](#figure-s11--the-full-n2-dose-series)
+    -   [Figure S12 — everything held back from Figure
+        4A](#figure-s12--everything-held-back-from-figure-4a)
+    -   [Figure S13 — the honest negative
+        check](#figure-s13--the-honest-negative-check)
+    -   [Figure S14 — surface charge of the
+        ectodomain](#figure-s14--surface-charge-of-the-ectodomain)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -92,6 +93,221 @@ The argument narrows by roughly an order of magnitude at each step:
 **231 wild isolates** given a quantitative phenotype, **six
 chromosomes** scanned in two crosses, **37 kb** resolved by a NIL
 series, **one residue** edited in three backgrounds.
+
+# Results, as a narrative
+
+A draft Results section in manuscript voice, written to be a reference
+point rather than final text. Every number in it is one this repository
+computes, and each is traceable to the figure entry below that produces
+it. Where the data will not carry a sentence, the sentence is not made —
+the closing box lists the claims to avoid.
+
+Figure numbers follow the curated set: four main figures and fourteen
+supplements, `S1`–`S14`, in the order the argument uses them.
+
+<div class="ms">
+
+### A pooled sequencing assay measures RNAi response across wild isolates
+
+To measure the RNAi response of many wild isolates at once, we pooled
+strains, exposed the pool to RNAi, and sequenced it, inferring each
+strain’s frequency from bulk allele counts by non-negative least squares
+(NNLS) regression. Because every downstream result depends on that
+inference, we validated it three times, each time conceding something
+the previous test controlled.
+
+We first asked whether the inference is possible in principle. We
+assigned each wild isolate a fitness value drawn from an inverse χ²
+distribution, computed the pooled allele frequencies such a population
+would produce, simulated observed alt-allele counts by binomial sampling
+across 1–500× coverage, and deconvolved the simulated counts back to
+per-strain frequencies <span class="cite">(Figure S1)</span>. Using
+seven published traits with validated QTL to seed seven independent
+populations of 327 strains, recovery of the known input was essentially
+exact at high coverage (r² = 1.00 at 500× for all seven traits) and
+degraded gradually as coverage fell. At 1× coverage recovery was
+trait-dependent, ranging from r² = 0.91 to 0.52 (median 0.79); 10× was
+sufficient for five of the seven traits, and 30× was the lowest coverage
+at which all seven reached r² ≥ 0.95.
+
+We then asked whether real libraries behave as the simulation predicts.
+We divided 174 wild isolates into four sets, pooled genomic DNA from
+each, and sequenced the pools both pure and as a seven-step titration of
+one set against another <span class="cite">(Figure S2)</span>. Pure
+pools returned 0.775–0.853 of their own set. Across the titration the
+two titrated sets traded off monotonically — set B rising from 0.12 to
+0.72 and set C falling from 0.70 to 0.10 (Spearman ρ = +1 and −1 against
+titration step) — while the two untitrated sets remained flat. Because
+only two sets were titrated against each other, their combined share of
+the pool must remain constant however the DNA was mixed; it did, to a
+standard deviation of 0.86% and a maximum departure of 1.38%, which
+bounds the inference error without reference to the intended mixing
+ratios.
+
+Two limits of the inference emerged from the same experiment. Roughly a
+fifth of each pure pool was assigned to strains absent from it, and that
+misassignment was predicted by relatedness: a strain’s frequency in
+pools it did not belong to rose with its identity-by-state to the
+nearest other strain in the reference (Spearman ρ = 0.326, p = 1.4 ×
+10⁻⁵, n = 170). The fraction of its own pool a strain recovered, by
+contrast, was uncorrelated with relatedness (ρ = 0.046, p = 0.55).
+Genetic similarity therefore causes strains to absorb signal from one
+another without systematically depleting their own estimates, and the
+shortfall in pure-pool recovery has some other cause.
+
+Finally we compared the inference against an independent measurement of
+the same material. For the one experiment in which both pooled
+whole-genome sequence and published targeted MIP-seq exist — an L1
+starvation time course — per-strain rates of change in pool frequency
+agreed closely across platforms (Spearman ρ = 0.97, p \< 10⁻⁴, n = 98
+strains) <span class="cite">(Figure 1A)</span>. Repeating the entire
+slope calculation inside each of 100 bootstrap replicates of the
+deconvolution gave intervals narrower than the platform disagreement for
+50 of 98 strains and 0.57× it on average <span class="cite">(Figure
+S4)</span>, so the residual scatter reflects disagreement between
+platforms rather than noise in the inference. Agreement was lower and
+more variable at the level of individual samples than of fitted slopes
+(median ρ = 0.84, minimum 0.517) <span class="cite">(Figures S3,
+S5)</span>, and saturated by 3× coverage, consistent with the
+simulation.
+
+Applying the assay to 231 wild isotypes exposed to *pos-1* RNAi produced
+a continuously distributed response phenotype on a variance-stabilised
+scale <span class="cite">(Figure 1B)</span>, reproducible across
+replicate pools <span class="cite">(Figure S6)</span> and correlated in
+the expected direction with manual plate scoring of the same strains
+(Spearman ρ = 0.41, n = 111, p = 7.8 × 10⁻⁶) and with published
+embryonic-lethality measurements (ρ = −0.55, n = 19, p = 0.014) <span
+class="cite">(Figure S7)</span>.
+
+### Pooled association and cross mapping converge on overlapping loci
+
+A genome-wide association scan of the *pos-1* response across 231
+isotypes and 464,045 markers identified ten markers exceeding a
+Bonferroni threshold (maximum −log₁₀*p* = 8.84) and 465 exceeding a
+threshold corrected for the 1,972 effective independent tests <span
+class="cite">(Figure 1C)</span>. Eight of the ten lay on chromosome IV,
+in two clusters near 13.41 and 15.32 Mb, with single markers on
+chromosome III at 5.97 Mb (−log₁₀*p* = 8.68) and chromosome X at 4.88
+Mb.
+
+To separate loci affecting the RNAi response generally from those
+specific to one target, we measured the pooled response to several RNAi
+targets across 84 isotypes and mapped the same responses in F2
+bulk-segregant crosses <span class="cite">(Figure 2)</span>. Cross
+parents were drawn from opposite extremes of the pooled assay rather
+than for convenience <span class="cite">(Figure S8)</span>. Nine cross
+QTL exceeded LOD 100 across the two crosses, on chromosomes I, II, III,
+IV, V and X. Contrasting the response to *pos-1* knockdown against the
+response to knockdown of an unrelated target distinguished the two
+classes <span class="cite">(Figure S9)</span>: a locus on the right arm
+of chromosome III behaved as a general RNAi-response locus, while loci
+on chromosomes I, V and X were target-specific.
+
+Association and cross mapping agreed at the level of locus rather than
+of marker. No cross interval contained its matching association peak,
+the closest correspondences being 0.84 Mb and 0.96 Mb apart, which is
+the resolution a panel of 84 phenotyped strains supports. We therefore
+pursued the chromosome III locus by introgression rather than by
+association.
+
+### Near-isogenic lines resolve the chromosome III locus to 37 kb
+
+To fine-map the general RNAi-response locus, we constructed
+near-isogenic lines carrying overlapping introgressions across the right
+arm of chromosome III in the two cross-parent backgrounds and scored
+embryonic hatching on *pos-1* RNAi <span class="cite">(Figure 3)</span>.
+Hatching formed a graded series across the introgression series — 99.4%
+in the resistant parent, 97.3%, 79.4% and 58.5% in successive lines, and
+35.7% in the sensitive parent — and the smallest interval distinguishing
+a resistant from a sensitive line spanned **37 kb**, from 13.658 to
+13.695 Mb. Control hatching was 97–100% for every line <span
+class="cite">(Figure S10)</span>, so the differences are attributable to
+the RNAi exposure rather than to the introgressions themselves.
+
+### A missense variant in *sid-2* accounts for part of the response
+
+The resolved interval contains *sid-2*, which encodes an intestinal
+transmembrane protein required for the uptake of ingested
+double-stranded RNA. Of eight annotated protein-altering variants
+segregating in *sid-2* in the wild population, only two differ between
+the cross parents, one of which is a threonine-to-lysine substitution at
+residue 96 <span class="cite">(Figure 4D)</span>. A second common
+variant, P153T, is in near-complete linkage disequilibrium with T96K
+across the wild population (r² = 0.935) but is carried by both cross
+parents and therefore cannot contribute to the mapped difference.
+
+Reciprocal editing of residue 96 in both parental backgrounds moved
+hatching in both directions <span class="cite">(Figure 4A)</span>.
+Introducing 96K into the resistant parent reduced hatching from 94.8% to
+53.1% (Fisher’s exact test, p = 1.7 × 10⁻²⁴), and restoring 96T in the
+sensitive parent raised hatching from 5.4% to 18.4% (p = 3.9 × 10⁻⁵).
+Residue 96 therefore contributes in both directions without accounting
+for the whole difference between the parents. The same substitution
+introduced into the laboratory reference background reduced hatching
+from 32.3% to 4.4% and 3.7% in two independently derived lines (p = 7.8
+× 10⁻¹⁷ and 6.2 × 10⁻¹⁹) <span class="cite">(Figure 4B)</span> — a third
+genetic background, and the only one with independent edits, with the
+direction unchanged throughout: 96K sensitive, 96T resistant. That
+comparison required a sub-maximal RNAi dose: in the reference background
+25% *pos-1* bacteria is the only dilution with dynamic range, since
+every genotype hatches without RNAi and every genotype is inviable from
+50% upward <span class="cite">(Figure S11)</span>. Hatching percentages
+are therefore not comparable between the two backgrounds.
+
+Two further observations bound the interpretation. First, T96K has no
+marginal effect across the mapping panel: the variant reaches p = 0.24
+in the association scan, ranking 18,662 of 64,423 markers on chromosome
+III, and splitting the pooled phenotype by residue 96 gives no shift
+(Wilcoxon p = 0.99, r² = 0.007) <span class="cite">(Figure S13)</span>.
+*sid-2* was identified by the crosses and the introgression series, not
+by association, and a variant at 36% frequency whose effect is this
+context-dependent would not be expected to surface in a marginal test.
+Second, residue 96 lies on the lumenal face of the predicted ectodomain,
+on the same face as three residues with published effects on dsRNA
+uptake <span class="cite">(Figure 4C)</span>, and the substitution
+raises the domain’s net charge at gut-lumen pH from −0.2 e to +0.8 e
+<span class="cite">(Figure S14)</span>. Both observations are spatial
+and electrostatic context; neither is evidence of a shared binding site,
+and 41% of the ectodomain lies within 20 Å of residue 96 (binomial p =
+0.19, permutation p = 0.30). A predicted N-glycosylation sequon is
+removed by T96K, but an edit that removes the same sequon while leaving
+residue 96 intact does not phenocopy it <span class="cite">(Figure
+S12)</span>, so no glycosylation mechanism is proposed.
+
+</div>
+
+<div class="msnote">
+
+#### Claims to avoid, each because a figure contradicts or fails to support it
+
+-   **“Accurate at 1× coverage.”** True for the best traits, false for
+    the worst (r² 0.91 to 0.52). Quote the median, or quote 10× and 30×.
+-   **“The dilution series recovers the intended proportions.”** The
+    intended proportions are not recorded. Say monotonic and
+    complementary, and quote the conservation bound (0.86% sd) as the
+    accuracy statement.
+-   **“The association scan found nothing.”** It found ten
+    Bonferroni-significant markers, eight of them on chromosome IV. What
+    it did not find is the chromosome III interval the crosses resolved.
+-   **“The association scan identified *sid-2*.”** It did not — the
+    variant ranks 18,662 of 64,423, and the chromosome III association
+    peak at 5.97 Mb lies 7.7 Mb away. The crosses and the NILs
+    identified it.
+-   **“The chromosome III peak coincides with the NIL interval.”** The
+    peak marker at 13.784 Mb is the chromosome’s terminal marker, so its
+    position is a boundary artefact. The 37 kb NIL interval is the
+    claim.
+-   **Putting Figure 4A and 4B hatching percentages side by side.** 50%
+    versus 25% *pos-1* RNAi; the numbers are not comparable.
+-   **“T96 sits at the dsRNA binding site.”** Proximity only, and not
+    significant (p = 0.19–0.30).
+-   **“T96K acts by removing a glycosylation site.”** The N94A control
+    fails.
+-   **Any statement about what the bootstrap resampled.** Only its
+    outputs were archived.
+
+</div>
 
 # Conventions that cross every figure
 
@@ -162,7 +378,7 @@ claim alone.
 
 </div>
 
-## Supplement — the simulation the project started from
+## Figure S1 — the simulation the project started from
 
 <div class="meta">
 
@@ -495,7 +711,7 @@ not exactly a clean NNLS output.
 
 </div>
 
-## Supplement — the designed DNA mixture
+## Figure S2 — the designed DNA mixture
 
 <div class="meta">
 
@@ -1004,6 +1220,12 @@ phenotype: 464,045 markers, `n = 231`. The grey dashed line is
 Bonferroni over every marker (`6.97`); the green dotted line divides α
 by the 1,972 effective independent tests (`4.60`). Markers clearing
 Bonferroni are red, markers clearing only the eigen threshold are green.
+**Ten markers clear Bonferroni and 465 clear the eigen threshold.** The
+maximum is `8.84` on chromosome IV at 15.323 Mb; eight of the ten lie on
+chromosome IV, in clusters near 13.41 and 15.32 Mb, with single markers
+on chromosome III at 5.966 Mb (`8.68`) and chromosome X at 4.876 Mb
+(`7.83`). **None is near the chromosome III interval the NILs resolve**
+— the chromosome III association peak is 7.7 Mb from it.
 
 </div>
 
@@ -1021,7 +1243,7 @@ because JU1793 is a cross parent in Figures 2 and 3.
 
 </div>
 
-## Supplement — the sample-level measurements behind the Figure 1 slopes
+## Figure S3 — the sample-level measurements behind the Figure 1 slopes
 
 <div class="meta">
 
@@ -1059,7 +1281,7 @@ zeros at all. A block of ties at zero cannot be ranked, which is the
 likely reason per-sample ρ (median 0.84) is so much lower than the
 slope-level 0.97.
 
-## Supplement — the bootstrap propagation checks
+## Figure S4 — the bootstrap propagation checks
 
 <div class="meta">
 
@@ -1148,7 +1370,7 @@ disk.
 
 </div>
 
-## Supplement — the sequencing-depth requirement
+## Figure S5 — the sequencing-depth requirement
 
 <div class="meta">
 
@@ -1203,7 +1425,7 @@ rather than a property of that depth. No error bars here: the bootstrap
 array holds replicates of the full-depth deconvolution only, so there is
 nothing to resample at a reduced depth.
 
-## Supplement — replicate reproducibility of the phenotype
+## Figure S6 — replicate reproducibility of the phenotype
 
 <div class="meta">
 
@@ -1246,7 +1468,7 @@ Summing roughly doubles JU1793’s *pos-1* delta, from 0.00857 to about
 
 </div>
 
-## Supplement — the plate assay, validated externally
+## Figure S7 — the plate assay, validated externally
 
 <div class="meta">
 
@@ -1392,7 +1614,7 @@ cross interval; the claim is concordance of *locus*, not of marker.
 
 </div>
 
-## Supplement — why these cross parents
+## Figure S8 — why these cross parents
 
 <div class="meta">
 
@@ -1416,7 +1638,7 @@ crosses were built from the extremes of the pooled assay rather than
 from convenience. Nine of the 93 panel strains have no vst value, so
 `n = 84` and ranks are out of 84.
 
-## Supplement — the expanded view behind Figure 2’s tracks
+## Figure S9 — the expanded view behind Figure 2’s tracks
 
 <div class="meta">
 
@@ -1622,7 +1844,7 @@ text</span>
 
 </div>
 
-## Supplement — the complete NIL hatching experiment
+## Figure S10 — the complete NIL hatching experiment
 
 <div class="meta">
 
@@ -2088,7 +2310,7 @@ changes to two by inspection.
 
 </div>
 
-## Supplement — the full N2 dose series
+## Figure S11 — the full N2 dose series
 
 <div class="meta">
 
@@ -2244,7 +2466,7 @@ single-dose experiment at full strength would have found nothing** —
 worth stating, because it is also the likely reason a sub-maximal dose
 is needed to see *sid-2* alleles in a resistant background at all.
 
-## Supplement — everything held back from Figure 4A
+## Figure S12 — everything held back from Figure 4A
 
 <div class="meta">
 
@@ -2439,7 +2661,7 @@ mechanism, and each genotype is a single plate.**
 
 </div>
 
-## Supplement — the honest negative check
+## Figure S13 — the honest negative check
 
 <div class="meta">
 
@@ -2500,7 +2722,7 @@ that *sid-2* was found by the cross and the NILs, not by the GWAS.**
 
 </div>
 
-## Supplement — surface charge of the ectodomain
+## Figure S14 — surface charge of the ectodomain
 
 <div class="meta">
 
@@ -2626,7 +2848,10 @@ history; shrinking it needs a history rewrite and a force-push.
 <thead>
 <tr>
 <th style="text-align:left;">
-Figure
+Number
+</th>
+<th style="text-align:left;">
+File
 </th>
 <th style="text-align:right;">
 Size (KB)
@@ -2639,6 +2864,9 @@ Modified
 <tbody>
 <tr>
 <td style="text-align:left;">
+Figure S1
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_simulation_depth
 </td>
 <td style="text-align:right;">
@@ -2650,16 +2878,22 @@ SUPP_FIG_XX_simulation_depth
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S2
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_dilution_validation
 </td>
 <td style="text-align:right;">
 358
 </td>
 <td style="text-align:right;">
-2026-09-04 12:29
+2026-09-04 12:30
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure 1
+</td>
 <td style="text-align:left;">
 Figure1_pos1
 </td>
@@ -2672,6 +2906,9 @@ Figure1_pos1
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S3
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_baugh_per_sample_frequencies
 </td>
 <td style="text-align:right;">
@@ -2682,6 +2919,9 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S4
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_bootstrap_propagation_checks
 </td>
@@ -2694,6 +2934,9 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S5
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_downsample_per_sample
 </td>
 <td style="text-align:right;">
@@ -2704,6 +2947,9 @@ SUPP_FIG_XX_downsample_per_sample
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S6
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 </td>
@@ -2716,6 +2962,9 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S7
+</td>
+<td style="text-align:left;">
 SUPP_FIG_plate_vs_paaby_vs_pos1original
 </td>
 <td style="text-align:right;">
@@ -2726,6 +2975,9 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure 2
+</td>
 <td style="text-align:left;">
 Figure2
 </td>
@@ -2738,6 +2990,9 @@ Figure2
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S8
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_pooled_phenotype_ranks
 </td>
 <td style="text-align:right;">
@@ -2748,6 +3003,9 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S9
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_cross_contrast_panels
 </td>
@@ -2760,6 +3018,9 @@ SUPP_FIG_XX_cross_contrast_panels
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure 3
+</td>
+<td style="text-align:left;">
 Figure3_quad
 </td>
 <td style="text-align:right;">
@@ -2770,6 +3031,9 @@ Figure3_quad
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S10
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_nil_hatching_full
 </td>
@@ -2782,6 +3046,9 @@ SUPP_FIG_XX_nil_hatching_full
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure 4
+</td>
+<td style="text-align:left;">
 Figure4_sid2
 </td>
 <td style="text-align:right;">
@@ -2792,6 +3059,9 @@ Figure4_sid2
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S11
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_n2_swap_dose
 </td>
@@ -2804,6 +3074,9 @@ SUPP_FIG_XX_n2_swap_dose
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S12
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_sid2_allele_swaps_full
 </td>
 <td style="text-align:right;">
@@ -2815,6 +3088,9 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 </tr>
 <tr>
 <td style="text-align:left;">
+Figure S13
+</td>
+<td style="text-align:left;">
 SUPP_FIG_XX_sid2_allele_in_panel
 </td>
 <td style="text-align:right;">
@@ -2825,6 +3101,9 @@ SUPP_FIG_XX_sid2_allele_in_panel
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+Figure S14
+</td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_electrostatics
 </td>

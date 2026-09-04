@@ -163,6 +163,14 @@ strains. Grey dashed line is the Bonferroni threshold over every marker
 independent tests (4.60). Markers clearing Bonferroni are red, markers clearing
 only the eigen threshold are green.
 
+  Ten markers clear Bonferroni and 465 clear the eigen threshold. The maximum
+  is -log10 p = 8.84 on chromosome IV at 15.323 Mb; eight of the ten lie on
+  chromosome IV in two clusters near 13.41 and 15.32 Mb, with single markers on
+  chromosome III at 5.966 Mb (8.68) and chromosome X at 4.876 Mb (7.83). NONE
+  is near the chromosome III interval the NILs resolve -- the chromosome III
+  association peak is 7.7 Mb away from it -- which is the point
+  SUPP_FIG_XX_sid2_allele_in_panel makes at marker resolution.
+
 The phenotype and the scan are used as shipped. scripts/2023_pos1_analysis.R
 documents the read-depth cutoff, the JU1793 duplicate-entry correction, and the
 caveat that the shipped vst value for JU1793 still carries that averaging --
