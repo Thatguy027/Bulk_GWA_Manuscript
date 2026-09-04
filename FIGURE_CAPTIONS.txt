@@ -5,9 +5,11 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-04
-Sixteen figures are the manuscript set and live in plots/:
+Eighteen figures are the manuscript set and live in plots/:
 
   Figure1_pos1   Figure2   Figure3_quad   Figure4_sid2
+  SUPP_FIG_XX_simulation_depth            <- earliest supplement
+  SUPP_FIG_XX_dilution_validation         <- second
   SUPP_FIG_plate_vs_paaby_vs_pos1original
   SUPP_FIG_XX_cross_contrast_panels
   SUPP_FIG_XX_pooled_phenotype_ranks
@@ -58,6 +60,20 @@ only dilution with any dynamic range: at 0% every genotype hatches and from
 SUPP_FIG_XX_n2_swap_dose shows the whole series. Hatching percentages are
 therefore NOT comparable between Figure 4A and Figure 4B, and the text should
 not put those numbers side by side.
+
+THE DECONVOLUTION IS VALIDATED THREE TIMES, IN THIS ORDER
+The method the whole project rests on -- NNLS deconvolution of pooled sequence
+into per-strain frequencies -- is checked three times, each with a different
+thing held known:
+
+    SUPP_FIG_XX_simulation_depth      known input, simulated counts
+    SUPP_FIG_XX_dilution_validation   known input, real counts
+    Figure 1A                         real input, real counts (MIP-seq)
+
+They are ordered that way in the manuscript and in FIGURE_REPORT, because each
+concedes something the one before it controlled. Quote the simulation for the
+depth requirement, the dilution for the fact that real libraries behave, and
+Figure 1A for agreement with an independent published measurement.
 
 Two conventions used throughout:
   - "vst" / "VST" is the variance-stabilised pooled phenotype, the exact trait
@@ -305,6 +321,31 @@ residues with a published effect on dsRNA uptake -- H32 (reduced uptake), D34
 lines giving Ca-Ca distances of 16.4, 13.5 and 19.2 A. In the zoom the ribbon
 is scaffold only and carries no secondary-structure meaning.
 
+(D) sid-2 coding variation in the wild population. The protein runs vertically
+with residue 1 at the top and its DeepTMHMM topology as a filled bar; each
+protein-altering variant is called out to the right with its CeNDR allele
+frequency, then two columns give the JU1793 and JU2466 allele state. Eight
+protein-altering variants are annotated, at frequencies from 0.009 to 0.470:
+V5L 0.015, D78A 0.009, T96K 0.453, M141V 0.009, Q144P 0.009, A151I/T 0.195,
+P153T 0.470, L209M 0.195. Callout rows are evenly spaced and joined to the
+residue by a leader rather than sitting at the residue's own height, because
+four of the eight fall between residues 141 and 153 and overlap completely at
+true scale.
+
+  Two facts from panel D that belong in the text. First, only TWO of the eight
+  annotated coding variants differ between the cross parents -- V5L and T96K --
+  so the cross narrows the candidate coding changes to two by inspection.
+  Second, T96K and P153T are in near-complete linkage disequilibrium across the
+  wild population (r-squared 0.935; 96K never occurs without 153T, though 153T
+  occurs without 96K in nine isotypes), but BOTH cross parents carry 153T, so
+  P153T does not segregate in the JU1793 x JU2466 cross and cannot account for
+  the mapped effect.
+
+  Panel D is not an exhaustive catalogue: the amino-acid annotation covers
+  variants segregating among the four cross parents. 81 variants of any kind
+  segregate in the 3 kb span in CeNDR, and the 8 protein-altering ones above
+  are what is annotated.
+
 CAVEATS, all of which belong in the text rather than being left to a reader
 ------------------------------------------------------------------------------
 1  One plate per strain per condition throughout A and B. The intervals are
@@ -342,6 +383,146 @@ here follows Figure4_clean's colours, ordering and Fisher brackets.
 ================================================================================
 SUPPLEMENTAL FIGURES
 ================================================================================
+
+The first two supplements validate the deconvolution and are ordered before
+everything else, because the rest of the manuscript assumes the method works.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_simulation_depth  -- EARLIEST SUPPLEMENT
+(scripts/SUPP_FIG_XX_simulation_depth.R)
+--------------------------------------------------------------------------------
+NNLS deconvolution recovers simulated strain frequencies, and the depth it
+needs depends on the trait.
+
+This is the simulation the project started from. Each wild isolate was assigned
+a fitness value drawn from an inverse chi-squared distribution; the expected
+pooled allele frequencies such a population would produce were computed;
+observed alt-allele counts were simulated by binomial sampling at 1, 3, 5, 10,
+30, 50, 100 and 500x; and those counts were deconvolved back to per-strain
+frequencies by NNLS and compared with the known input. Seven published
+C. elegans traits with validated QTL supplied the fitness structure, giving
+seven independent simulated populations of 327 strains.
+
+(A) r-squared of estimated against known input frequency, against simulated
+sequencing depth, one line per trait. At 500x every trait reaches r-squared
+1.00. At 1x the spread is wide: PC1 0.91, value 0.86, assay_norm 0.81,
+amsacrine_f.L1 0.79, etoposide_median.TOF 0.72, Albendazole_q75.TOF 0.56,
+mtDNA_ratio 0.52 -- median 0.79. The lowest depth from which a trait stays at
+or above r-squared 0.95 is 3x for PC1 and value, 5x for amsacrine_f.L1, 10x for
+assay_norm and etoposide_median.TOF, and 30x for Albendazole_q75.TOF and
+mtDNA_ratio.
+
+(B) The archived estimates against the 500x estimate, faceted by depth, all
+seven traits pooled (2,289 points per facet). Axes share limits so the dashed
+y = x line means the same thing in every facet. Pooled r-squared against 500x:
+0.79 at 1x, 0.91 at 3x, 0.94 at 5x, 0.97 at 10x, 0.99 at 30x and 50x, 1.00 at
+100x. This is a CONVERGENCE panel, not an accuracy panel -- see caveat 1.
+
+CAVEAT 1, and it decides what this figure can be used for. Only the NNLS OUTPUT
+is archived. The simulation script, the drawn fitness values and the expected
+input frequencies are all absent, as is the trait directory the original
+processing script reads. Panel A therefore cannot be recomputed: its values are
+read back out of the text embedded in the original per-trait PDFs by
+scripts/extract_sim_reported_r2.py, which is the only surviving record of the
+comparison against the known input. Panel B IS recomputed, but against the 500x
+estimate standing in for the truth. That stand-in is defensible because panel A
+puts 500x at r-squared 1.00 for all seven traits, and because the two agree
+where they can be compared -- pooled convergence at 1x is 0.79 against a median
+reported accuracy at 1x of 0.79 -- but it is a stand-in, and the figure says so.
+To restore panel A as a recomputed figure, what is needed is the expected input
+frequencies (327 strains x 7 traits) and the simulation script.
+
+CAVEAT 2, on the wording of the claim. "NNLS can accurately infer strain
+frequencies with as little as 1X sequencing depth" holds for the best-behaved
+traits and not for the worst: at 1x, r-squared runs from 0.91 down to 0.52. A
+statement the whole figure supports is that 1x recovers most of the signal for
+most traits (median r-squared 0.79), that 10x is enough for five traits of
+seven, and that 30x is needed before all seven sit at or above 0.95.
+
+CAVEAT 3. 139 of 18,312 archived coefficients (0.8%) are negative, at depths 5
+through 100. A strict non-negative solver cannot return a negative coefficient,
+so the archive carries solver or post-processing noise of order 1e-2 on the
+count scale. It changes no conclusion here, but the archived values are not
+exactly the output of a clean NNLS.
+
+SCALE NOTE. The archived coefficients are not frequencies: each depth's row
+sums to the depth itself (500x sums to 500.03, 1x to 1.00), so they are on an
+expected-count scale. The deposit's frequency column is coefficient divided by
+the row sum, within a trait and depth, and the builder asserts that reading.
+
+RNAi DOSE: not applicable; this figure is in silico.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_dilution_validation
+(scripts/SUPP_FIG_XX_dilution_validation.R)
+--------------------------------------------------------------------------------
+NNLS recovers a designed DNA mixture of two strain sets from real pooled
+sequence.
+
+174 wild isolates were split into four sets of roughly equal size (A, B, C, D).
+Genomic DNA from each set was pooled and sequenced both pure -- three libraries
+per set -- and as a seven-step titration of set B against set C, BC1 to BC7.
+Alt-allele counts were taken with GATK ASEReadCounter and deconvolved to
+per-strain frequencies by NNLS against the CeNDR genotype matrix. This is the
+middle of the three validations: the simulation has a known input and simulated
+counts, this has a known input and real counts, and Figure 1A has a real input
+and real counts.
+
+(A) Pure pools, three libraries each. The fraction of each pool assigned to its
+own set is 0.785 for A, 0.775 for B, 0.796 for C and 0.853 for D (filled
+points). The fraction misassigned to each of the other three sets runs 0.020 to
+0.127, mean 0.066 (open points), and the total misassigned per pool is 0.135 to
+0.242.
+
+(B) The titration on the 170-strain pool reference, with each B and C value
+labelled. Set B rises monotonically 0.12, 0.16, 0.21, 0.40, 0.53, 0.68, 0.72
+and set C falls monotonically 0.70, 0.67, 0.61, 0.41, 0.28, 0.14, 0.10
+(Spearman rho +1 and -1 against step). Sets A and D are not titrated and stay
+flat: 0.061-0.086 and 0.093-0.116, drawn dotted.
+
+(C) The same seven samples with the reference restricted to the 84 strains of
+sets B and C and renormalised, which is the analysis the original figure
+showed: B 0.17, 0.21, 0.28, 0.48, 0.62, 0.77, 0.84 against C 0.83 down to 0.16,
+crossing between BC4 and BC5.
+
+Both panels' plotted fractions are pinned as literals in the script and checked
+against the deposit on every run, so the numbers in this caption cannot drift
+from the figure without the script failing.
+
+CAVEAT 1, and it is the important one. THE NOMINAL MIXING RATIOS ARE NOT
+RECORDED. Nothing in the archived experiment folder states the intended B:C
+proportions for BC1-BC7. This figure therefore establishes that recovery is
+MONOTONIC and COMPLEMENTARY, not that it is ACCURATE, and no regression against
+a nominal series is drawn because there is no nominal series on disk. If the
+design is recovered from the lab record, put it in NOMINAL_B in the script and
+an observed-against-nominal panel follows directly from these data.
+
+CAVEAT 2. One isotype is assigned to two sets. Strain JU1580 and strain JU1793
+are the same isotype, and the experiment put JU1580 in set B and JU1793 in set
+D. The deconvolution works at isotype level and returns one frequency for the
+pair, and the source prediction tables carry that isotype twice, once labelled
+B and once labelled D. Summed naively the single estimate is added to both
+sets, where it is 5-19% of set D's apparent frequency in BC1-BC7 and RISES
+across the titration -- making set D appear to drift upward, when set D is not
+titrated and cannot respond to the series. The figure resolves the isotype to
+set B, which is what the original analysis did and what the estimate itself
+says, and asserts that no other isotype is ambiguous. This is the same strain
+whose duplicated genotype-reference entry is documented for the pos-1
+phenotype, and it is a cross parent in Figures 2 and 3.
+
+CAVEAT 3. Recovery of a pure pool tops out near 0.8, not 1.0, so roughly a
+fifth of each pool is assigned to strains that are not in it. Whether that is
+mis-deconvolution, cross-contamination between pools, or unequal DNA input
+across the strains within a pool is not resolvable from these data.
+
+CAVEAT 4, on reference choice. Panels A and B use the 170-strain pool reference
+and panel C the 84-strain B+C reference. After renormalising the pool reference
+within B and C, the two disagree by at most 0.054 and on average 0.029 on the
+same samples, which is the size of the reference-choice effect. The deposit also
+carries the 540-strain full-panel and regenotyped references for extending that
+comparison.
+
+RNAi DOSE: not applicable; no RNAi in this experiment.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_XX_pooled_phenotype_ranks
@@ -759,6 +940,10 @@ REGENERATING EVERYTHING
 All scripts run from the repository root and take no arguments:
 
   Rscript scripts/pooled_cross_intersection_prep.R    # once, builds the cache
+  python3 scripts/extract_sim_reported_r2.py          # once, sim r-squared
+  Rscript scripts/make_experiments_deposit.R          # once, validation deposit
+  Rscript scripts/SUPP_FIG_XX_simulation_depth.R
+  Rscript scripts/SUPP_FIG_XX_dilution_validation.R
   Rscript scripts/Figure1.R
   Rscript scripts/Figure1_boot.R
   Rscript scripts/Figure1_pos1.R

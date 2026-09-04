@@ -22,6 +22,16 @@
 ## producer means re-running this script:
 ##   mapping/eigen_independent_tests.tsv    <- eigen_independent_tests.R
 ##   deconvolution/baugh_downsampled_slopes.rda <- baugh_L1_DownSample_Counts.R
+##
+## The two validation experiments are NOT staged here. Their deposit files are
+## derived rather than copied, so they have their own builders:
+##   deconvolution/dilution_*        <- make_experiments_deposit.R
+##   deconvolution/simulation_nnls_frequencies.tsv.gz,
+##   deconvolution/simulation_gwas_traits.tsv.gz
+##                                   <- make_experiments_deposit.R
+##   deconvolution/simulation_reported_r2.tsv
+##                                   <- extract_sim_reported_r2.py  (the only
+##                                      route to those values; see that script)
 ##   structure/sid2_parental_variants.tsv   <- pooled_cross_candidate_variation.R
 ##
 ## NOT copied here, because they have their own builders:

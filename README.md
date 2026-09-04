@@ -14,7 +14,7 @@ Everything here runs from the repository root with no arguments.
 | `scripts/` | 16 figure scripts, one per figure and named for it, plus 12 shared, data-prep and rendering scripts |
 | `scripts/legacy/` | 30 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `supplemental_data/` | **every input the figure scripts read**, 37.7 MB. Self-contained: all sixteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
+| `supplemental_data/` | **every input the figure scripts read**, 37.0 MB. Self-contained: all eighteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
 | `DATA_AVAILABILITY.md` | what is archived externally |
@@ -30,7 +30,7 @@ genotype panels, alignment intermediates, exports and caches — and it is the
 *input* to the deposit rather than the deposit itself. Everything the figures
 actually read has been staged into `supplemental_data/`, which is tracked.
 `DATA_AVAILABILITY.md` lists the archive contents and
-`SUPPLEMENTAL_DATA_SURVEY.md` explains how the 12.8 GB was reduced to 37.7 MB.
+`SUPPLEMENTAL_DATA_SURVEY.md` explains how the 12.8 GB was reduced to 37.0 MB.
 
 Two reductions are worth knowing about when using the deposit:
 
@@ -50,7 +50,7 @@ history quickly, so `main_displays.pdf` is tracked instead.
 
 ## The figure report
 
-[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all sixteen figures with their
+[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all eighteen figures with their
 captions, ordered by the argument the manuscript makes rather than by build
 order: the assay, the map, the interval, the residue. It renders inline on
 GitHub — click the link above.
@@ -76,6 +76,8 @@ them now write there too, so re-running anything will not put them back in
 
 | figure | script |
 |---|---|
+| `SUPP_FIG_XX_simulation_depth` | `SUPP_FIG_XX_simulation_depth.R` |
+| `SUPP_FIG_XX_dilution_validation` | `SUPP_FIG_XX_dilution_validation.R` |
 | `Figure1_pos1` | `Figure1_pos1.R` |
 | `Figure2` | `Figure2.R` |
 | `Figure3_quad` | `Figure3_quad.R` |
@@ -95,7 +97,7 @@ them now write there too, so re-running anything will not put them back in
 
 Each is present as both `.pdf` and `.png`, and each script is named for the
 figure it produces. Verified by deleting every file in `plots/` and rebuilding:
-all sixteen regenerate, with nothing extra.
+all eighteen regenerate, with nothing extra.
 
 `FIGURE_CAPTIONS.txt` still carries captions for the superseded variants,
 marked where they are; they describe the same measurements in a different

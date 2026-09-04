@@ -59,6 +59,8 @@ suppressPackageStartupMessages({
 
 ## ---- the curated set, in the order this report presents them ----------------
 FIGS <- c(
+  "SUPP_FIG_XX_simulation_depth",
+  "SUPP_FIG_XX_dilution_validation",
   "Figure1_pos1",
   "SUPP_FIG_XX_baugh_per_sample_frequencies",
   "SUPP_FIG_XX_bootstrap_propagation_checks",
@@ -82,7 +84,7 @@ missing <- FIGS[!file.exists(png_paths)]
 if (length(missing))
   stop("missing figure PNGs: ", paste(missing, collapse = ", "),
        "\nRebuild with the scripts named in each entry's Source line.")
-stopifnot(length(FIGS) == 16, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 18, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -92,6 +94,7 @@ IS_HTML <- isTRUE(knitr::pandoc_to() %in% c("html", "html4", "html5"))
 
 HA  <- "supplemental_data/hatching_assays"
 ST  <- "supplemental_data/structure"
+DEC <- "supplemental_data/deconvolution"
 
 fnum <- function(x, d = 3) formatC(x, format = "f", digits = d)
 fp   <- function(x) ifelse(x < 1e-3, formatC(x, format = "e", digits = 1),
@@ -275,10 +278,293 @@ scale.
 :::
 
 ::: claim
-Pooled whole-genome sequencing, deconvolved to per-strain frequencies,
-reproduces a published targeted measurement — and then yields a quantitative
+The method everything else rests on is validated three times, each conceding
+something the one before it controlled: in simulation, where both the input
+frequencies and the counts are synthetic; on a designed DNA mixture, where the
+input is known and the counts are real; and against published MIP-seq on the
+same samples, where neither is controlled. It then yields a quantitative
 *pos-1* RNAi phenotype across the wild panel that a genome-wide scan can be run
 on.
+:::
+
+::: aside
+[Read these three in order]{.ch}
+
+Quote the **simulation** for the depth requirement, the **DNA dilution** for the
+fact that real libraries behave, and **Figure 1A** for agreement with an
+independent published measurement. No one of them carries the claim alone.
+:::
+
+## Supplement — the simulation the project started from
+
+::: meta
+**Script** `scripts/SUPP_FIG_XX_simulation_depth.R`<br>
+**Validates** NNLS against a known input, with synthetic counts<br>
+**Scope** 7 seeded traits × 8 depths (1–500×) × 327 strains<br>
+**Depth for r² ≥ 0.95 in all seven** 30×
+:::
+
+::: plate
+```{r fig-s1, fig.alt="Two panels: reported r-squared against simulated sequencing depth for seven traits, and estimated frequencies against the 500x estimate faceted by depth."}
+include_graphics("plots/SUPP_FIG_XX_simulation_depth.png")
+```
+<p class="filecap">SUPP_FIG_XX_simulation_depth</p>
+:::
+
+Each wild isolate was assigned a fitness value drawn from an inverse
+&chi;&sup2; distribution; the expected pooled allele frequencies such a
+population would produce were computed; alt-allele counts were simulated by
+binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500&times;; and those counts
+were deconvolved back to per-strain frequencies by NNLS and compared with the
+known input. Seven published traits with validated QTL seeded seven independent
+populations of 327 strains.
+
+::: panel
+[A]{.pl} r² of estimated against known input frequency, against simulated
+depth, one line per trait. Every trait reaches 1.00 by 500&times;. At
+1&times; the spread is wide — PC1 `0.91`, value `0.86`, assay_norm `0.81`,
+amsacrine_f.L1 `0.79`, etoposide_median.TOF `0.72`, Albendazole_q75.TOF `0.56`,
+mtDNA_ratio `0.52`; median `0.79`. The lowest depth from which a trait stays at
+or above 0.95 is 3&times; for PC1 and value, 5&times; for amsacrine_f.L1,
+10&times; for assay_norm and etoposide_median.TOF, and 30&times; for
+Albendazole_q75.TOF and mtDNA_ratio.
+:::
+
+::: panel
+[B]{.pl} The archived estimates against the 500&times; estimate, faceted by
+depth, all seven traits pooled. Axes share limits so the dashed
+<span class="m">y = x</span> line means the same thing in every facet. Pooled r²
+against 500&times;: `0.79` at 1&times;, `0.91` at 3&times;, `0.94` at
+5&times;, `0.97` at 10&times;, `0.99` at 30&times; and 50&times;, `1.00` at
+100&times;.
+:::
+
+```{r tab-sim}
+sim <- read_tsv(file.path(DEC, "simulation_reported_r2.tsv"), show_col_types = FALSE)
+kb(sim %>% mutate(depth = paste0(depth, "×")) %>%
+     pivot_wider(names_from = depth, values_from = r2) %>%
+     rename(Trait = trait) %>%
+     arrange(desc(`1×`)),
+   align = c("l", rep("r", 8)))
+```
+
+::: derived
+Derived from supplemental_data/deconvolution/simulation_reported_r2.tsv
+:::
+
+::: caveat
+[This decides what the figure can be used for]{.ch}
+
+**Only the NNLS output is archived.** The simulation script, the drawn fitness
+values and the expected input frequencies are all absent, as is the trait
+directory the original processing script reads. Panel A therefore **cannot be
+recomputed**: its values are read back out of text embedded in the original
+per-trait PDFs by `scripts/extract_sim_reported_r2.py`, the only surviving
+record of the comparison against the known input. Panel B *is* recomputed, but
+against the 500&times; estimate standing in for the truth — defensible, because
+panel A puts 500&times; at r² = 1.00 for all seven traits and the two agree
+where they can be compared (pooled convergence at 1&times; is 0.79 against a
+median reported accuracy of 0.79), but a stand-in all the same.
+:::
+
+::: caveat
+[On the wording of the claim]{.ch}
+
+"NNLS can accurately infer strain frequencies with as little as 1× sequencing
+depth" holds for the best-behaved traits and not for the worst: at 1&times;, r²
+runs from **0.91 down to 0.52**. What the whole figure supports is that
+1&times; recovers most of the signal for most traits (median r² 0.79), that
+10&times; suffices for five traits of seven, and that **30&times;** is the
+lowest depth at which all seven sit at or above 0.95.
+
+Separately, 139 of 18,312 archived coefficients (0.8%) are negative, at depths
+5 through 100. A strict non-negative solver cannot return those, so the archive
+carries solver or post-processing noise of order 1e-2 on the count scale. It
+changes no conclusion, but the archived values are not exactly a clean NNLS
+output.
+:::
+
+## Supplement — the designed DNA mixture
+
+::: meta
+**Script** `scripts/SUPP_FIG_XX_dilution_validation.R`<br>
+**Validates** NNLS against a known input, with real counts<br>
+**Design** 174 isolates in 4 sets; pure pools in triplicate + a 7-step B-into-C
+titration<br>
+**Counts** GATK ASEReadCounter
+:::
+
+::: plate
+```{r fig-s2, fig.alt="Three panels: pure-pool recovery per set, the B-into-C titration on the pool-wide reference with values labelled, and the same titration renormalised within sets B and C."}
+include_graphics("plots/SUPP_FIG_XX_dilution_validation.png")
+```
+<p class="filecap">SUPP_FIG_XX_dilution_validation</p>
+:::
+
+::: panel
+[A]{.pl} Pure pools, three libraries each. The fraction assigned to the pool's
+own set is `0.785` (A), `0.775` (B), `0.796` (C), `0.853` (D) — filled points.
+The fraction misassigned to each other set runs `0.020`–`0.127`, mean `0.066`
+(open points); total misassigned per pool `0.135`–`0.242`.
+:::
+
+::: panel
+[B]{.pl} The titration on the 170-strain pool reference, each B and C value
+labelled. Set B rises monotonically 0.12 → 0.72 and set C falls monotonically
+0.70 → 0.10 (Spearman &rho; `+1` and `−1` against step). The two untitrated
+sets stay flat — A `0.061`–`0.086`, D `0.093`–`0.116`, drawn dotted.
+:::
+
+::: panel
+[C]{.pl} The same seven samples with the reference restricted to the 84 strains
+of sets B and C and renormalised — the analysis the original figure showed:
+B 0.17 → 0.84 against C 0.83 → 0.16, crossing between BC4 and BC5.
+:::
+
+Both panels' plotted fractions are pinned as literals in the script and checked
+against the deposit on every run, so these numbers cannot drift from the figure
+without the script failing.
+
+### The renormalisation, step by step
+
+There are two normalisations here and they do different things. The second one
+is why panel C looks the way it does, and it is worth being explicit about.
+
+::: panel
+[1]{.pl} **Within each sample, after the solve.** NNLS fits the observed
+alt-allele counts of one sample as a non-negative combination of the reference
+strains' genotypes, returning one coefficient per strain. Those coefficients
+are on an arbitrary scale — they grow with sequencing depth — so each sample's
+vector is divided by its own sum. After this every sample's strain frequencies
+sum to exactly 1 and read as "the fraction of this pool contributed by that
+strain". The division is *within* a sample, so it cannot move signal between
+samples.
+:::
+
+::: panel
+[2]{.pl} **Which strains the sum runs over.** Step 1's denominator covers
+whatever is in the reference, so the reference decides what "the whole pool"
+means. On the **170-strain pool reference** (panels A, B) the denominator
+includes all four sets, so B + C comes to about `0.82` and the remaining
+`0.18` is assigned to the untitrated sets A and D. On the **84-strain B+C
+reference** (panel C) the reference contains only sets B and C, so the
+denominator runs over those strains alone and **B + C = 1 by construction**.
+:::
+
+::: panel
+[3]{.pl} **Set-level sums.** Per-strain frequencies are added within a set.
+Nothing is renormalised at this stage.
+:::
+
+::: aside
+[What this means for reading panel C]{.ch}
+
+**Panel C's two series are exact complements because the normalisation makes
+them so, not because the inference discovered it.** B and C summing to 1 there
+carries no information. The informative quantity is in panel B, where the
+denominator is the whole panel and B + C is free to move — and it barely does,
+which is metric 1 below.
+
+Before either normalisation, markers were restricted to mean depth above 5 and
+below 100 across samples, high-frequency variants were recoded so the minor
+allele is counted throughout, and sites with any missing genotype were dropped.
+:::
+
+### How far off was the inference?
+
+```{r tab-dilution-metrics}
+i2s <- read_tsv(file.path(DEC, "dilution_strain_sets.tsv"), show_col_types = FALSE) %>%
+  filter(!is.na(isotype)) %>% distinct(isotype, set) %>%
+  mutate(set = ifelse(isotype == "JU1793", "B", set)) %>%   # see the caveat below
+  distinct(isotype, set)
+
+bcw <- read_tsv(file.path(DEC, "dilution_predictions_poolref.tsv.gz"),
+                show_col_types = FALSE) %>%
+  select(-set) %>% distinct() %>%
+  left_join(i2s, by = c("strain" = "isotype")) %>%
+  filter(grepl("^BC[1-7]$", sample)) %>%
+  group_by(sample, set) %>% summarise(f = sum(frequency), .groups = "drop") %>%
+  pivot_wider(names_from = set, values_from = f) %>%
+  mutate(pair = B + C, other = A + D)
+
+kb(bcw %>% transmute(Sample = sample,
+                     `Set B` = fnum(B, 3), `Set C` = fnum(C, 3),
+                     `B + C` = fnum(pair, 3), `A + D` = fnum(other, 3)),
+   align = c("l", rep("r", 4)))
+cons_sd  <- sd(bcw$pair); cons_mean <- mean(bcw$pair)
+cons_max <- max(abs(bcw$pair - cons_mean))
+```
+
+::: derived
+Derived from supplemental_data/deconvolution/dilution_predictions_poolref.tsv.gz
+:::
+
+**Metric 1 — conservation of the titrated pair. Assumes nothing about the
+design, and is the one to quote.** Only B and C are titrated against each
+other, so whatever the intended proportions were, the pair's combined share of
+the pool has to stay constant across BC1–BC7: moving DNA from C to B cannot
+change how much of the pool is B-or-C. Any wobble in `B + C` is therefore
+inference error, measurable without knowing a single nominal ratio. Observed:
+mean `r fnum(cons_mean, 4)`, sd `r fnum(cons_sd, 4)`
+(`r sprintf("%.2f%%", 100*cons_sd/cons_mean)` of the mean), largest deviation
+`r fnum(cons_max, 4)` (`r sprintf("%.2f%%", 100*cons_max/cons_mean)`). **The
+pair is conserved to better than 1.5% across a titration that moves each set
+sixfold**, which bounds the inference error without invoking the design at all.
+
+**Metric 2 — deviation from the nominal series. Assumes the design, which is
+not on disk.** The script computes RMSE, maximum absolute deviation and bias
+against `NOMINAL_B` the moment that vector is filled in. Until then it reports
+against evenly spaced reference series purely so the machinery is demonstrably
+working: RMSE `0.045` against 1/8…7/8, `0.048` against 0.10…0.90, `0.047`
+against 0.15…0.85, with a maximum deviation of `0.08`–`0.10` in each case. The
+insensitivity across those three is reassuring about the *metric*, and says
+nothing about accuracy — **none of those series is known to be what was
+mixed**, so these numbers are not evidence and should not be quoted as such.
+
+**Metric 3 — shape.** The recovered B share is linear in titration step with
+R² `0.974`, slope `+0.124` per step, residual sd `0.044`, and Spearman
+&rho; `+1`. Reported because it is the shape the values take, not because an
+even series is known to be the design.
+
+::: caveat
+[The nominal mixing ratios are not recorded]{.ch}
+
+Nothing in the archived experiment states the intended B:C proportions for
+BC1–BC7. The figure therefore establishes that recovery is **monotonic and
+complementary**, not that it is **accurate**, and no regression against a
+nominal series is drawn because there is no nominal series on disk. If the
+design is recovered from the lab record, it goes in `NOMINAL_B` in the script
+and an observed-against-nominal panel follows directly from these data.
+:::
+
+::: caveat
+[One isotype is assigned to two sets, and it is not cosmetic]{.ch}
+
+Strains JU1580 and JU1793 are the same isotype, and the experiment put them in
+sets B and D. The deconvolution returns one frequency for the pair, so the
+source tables carry that isotype **twice** — once labelled B, once D. Summed
+naively the single estimate is added to both sets, where it is **5–19% of set
+D's apparent frequency** in BC1–BC7 and *rises across the titration*, making
+the untitrated set D appear to drift upward. The figure resolves it to set B —
+what the original analysis did, and what the estimate's own behaviour says —
+and asserts no other isotype is ambiguous. This is the same strain whose
+duplicated genotype-reference entry is documented for the *pos-1* phenotype,
+and it is a cross parent in Figures 2 and 3.
+:::
+
+::: caveat
+[Two further limits]{.ch}
+
+Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of each pool
+is assigned to strains that are not in it; whether that is
+mis-deconvolution, cross-contamination, or unequal DNA input across strains
+within a pool is not resolvable from these data.
+
+Panels A and B use the 170-strain pool reference and panel C the 84-strain B+C
+reference. After renormalising the pool reference within B and C the two
+disagree by at most `0.054`, mean `0.029`, on the same samples — the size of the
+reference-choice effect. The deposit also carries the 540-strain full-panel and
+regenotyped references.
 :::
 
 ## Figure 1 — the validated assay, the phenotype it produces, and the map
@@ -1244,7 +1530,7 @@ kb(tibble(Figure = FIGS,
 ```
 
 ::: tnote
-All sixteen figures rebuild from `supplemental_data/` with `data/` absent, and
+All eighteen figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is

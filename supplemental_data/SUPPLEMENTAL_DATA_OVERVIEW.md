@@ -209,8 +209,93 @@ computed in log space and cannot saturate.
 
 ### `deconvolution/`
 
-Validation of the NNLS strain-frequency deconvolution against published
-MIP-seq, using the Baugh L1 starvation time course.
+Validation of the NNLS strain-frequency deconvolution. Three experiments, in
+the order the manuscript reports them — a simulation with a known input and
+synthetic counts, a designed DNA mixture with a known input and real counts,
+and the Baugh L1 starvation time course compared against published MIP-seq.
+
+#### The simulation (`simulation_*`)
+
+Seven published *C. elegans* traits with validated QTL each seeded a simulated
+pooled population of 327 strains; counts were simulated by binomial sampling at
+eight depths and deconvolved back by NNLS.
+
+| file | what it is |
+|---|---|
+| `simulation_nnls_frequencies.tsv.gz` | the archived NNLS output, 18,312 rows = 7 traits × 8 depths × 327 strains |
+| `simulation_reported_r2.tsv` | 56 rows: the r² of estimate against **known input**, per trait and depth |
+| `simulation_gwas_traits.tsv.gz` | 327 strains × 56 trait-depth columns — the simulated frequencies as a GWAS trait file |
+
+`simulation_nnls_frequencies.tsv.gz` columns: `trait` (which trait seeded the
+population), `depth` (simulated coverage, 1–500), `strain` (isotype),
+`coefficient` (the archived NNLS coefficient — **not** a frequency: each
+trait-and-depth's coefficients sum to the depth itself, so they are on an
+expected-count scale), `frequency` (`coefficient` divided by that sum, which is
+the quantity to use).
+
+`simulation_reported_r2.tsv` columns: `trait`, `depth`, `r2`. **Read the
+provenance before quoting these.** The expected input frequencies and the
+simulation script were never archived, so this r² cannot be recomputed; the
+values are recovered from text embedded in the original per-trait PDFs by
+`scripts/extract_sim_reported_r2.py`, which is the only surviving record of the
+comparison against the known input. Everything else in the deposit is
+recomputable; this one file is not.
+
+Two caveats live with these data. **139 of the 18,312 coefficients (0.8%) are
+negative**, at depths 5 through 100 — a strict non-negative solver cannot return
+those, so the archive carries noise of order 1e-2 on the count scale. And at 1×
+the reported r² spans **0.52 to 0.91** across the seven traits (median 0.79), so
+"accurate at 1×" is trait-dependent; 30× is the lowest depth at which all seven
+reach 0.95.
+
+#### The designed DNA mixture (`dilution_*`)
+
+174 wild isolates in four sets (A–D); each set pooled and sequenced pure in
+triplicate, plus a seven-step titration of set B against set C (BC1–BC7).
+
+| file | what it is |
+|---|---|
+| `dilution_strain_sets.tsv` | 174 rows: which set each strain went into |
+| `dilution_predictions_poolref.tsv.gz` | 170 strains × 19 samples, reference restricted to the pooled strains |
+| `dilution_predictions_bcref.tsv.gz` | 84 strains × 7 samples, reference restricted to sets B+C — the original analysis |
+| `dilution_predictions_fullref.tsv.gz` | 540 strains × 19 samples, full CeNDR reference |
+| `dilution_predictions_regenotype.tsv.gz` | as above, from the regenotyped VCF |
+
+`dilution_strain_sets.tsv` columns: `strain` (name as pooled), `isotype` (CeNDR
+isotype; `NA` for ECA252 and LSJ1, which have no isotype in the lookup and are
+dropped by the analysis), `set` (A, B, C or D). Kept at **strain** level on
+purpose — see the ambiguity note below.
+
+Prediction files share the columns `strain` (isotype), `sample`, `frequency`,
+and the three wide-reference files also carry `set`. Frequencies sum to 1 within
+a sample.
+
+**One isotype is assigned to two sets, and it matters.** Strains JU1580 and
+JU1793 are the same isotype (JU1793) and the experiment put them in sets B and
+D. The deconvolution returns one frequency for the pair, so
+`dilution_predictions_poolref.tsv.gz` carries that isotype **twice**, once
+labelled `B` and once labelled `D` — 171 rows per sample for 170 distinct
+strains. Summing by `set` without resolving this adds the single estimate to
+both, where it is 5–19% of set D's apparent frequency in BC1–BC7 and *rises
+across the titration*, making the untitrated set D look like it drifts.
+`scripts/SUPP_FIG_XX_dilution_validation.R` resolves it to set B — what the
+original analysis did, and what the estimate's own behaviour indicates — and
+asserts that no other isotype is ambiguous. This is the same strain whose
+duplicated genotype-reference entry is documented under `phenotypes/`, and it is
+a cross parent in Figures 2 and 3.
+
+**The nominal mixing ratios are not recorded.** Nothing in the archived
+experiment states the intended B:C proportions for BC1–BC7, so these data show
+monotonic and complementary recovery, not quantitative accuracy.
+
+Both groups are rebuilt by `scripts/make_experiments_deposit.R` from the raw
+folders under `data/experiments/` (Dryad-hosted), except
+`simulation_reported_r2.tsv`, which comes from the Python extractor above.
+
+#### MIP-seq comparison (`baugh_*`)
+
+Validation against published MIP-seq, using the Baugh L1 starvation time
+course.
 
 | file | what it is |
 |---|---|

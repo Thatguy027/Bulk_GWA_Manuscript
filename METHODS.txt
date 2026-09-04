@@ -104,6 +104,67 @@ sample's solution was normalised to sum to one
 --------------------------------------------------------------------------------
 VALIDATION OF THE DECONVOLUTION
 --------------------------------------------------------------------------------
+The deconvolution was validated three times, each holding a different quantity
+known: in simulation, where the input frequencies and the counts are both
+synthetic; on a designed DNA mixture, where the input is known and the counts
+are real; and against a published independent measurement of the same samples,
+where neither is controlled. They are reported in that order.
+
+Simulation. To determine whether non-negative least squares (NNLS) regression
+can infer strain frequencies from pooled populations, we established a
+simulation framework. Each wild isolate was assigned a fitness value drawn from
+an inverse chi-squared distribution; the expected pooled allele frequencies such
+a population would produce were computed from the CeNDR genotype matrix; and
+observed alt-allele counts were simulated by binomial sampling at 1, 3, 5, 10,
+30, 50, 100 and 500x. Those counts were deconvolved back to per-strain
+frequencies by NNLS and compared with the known input. Seven published
+C. elegans traits with validated QTL supplied the fitness structure
+(Albendazole_q75.TOF, PC1, assay_norm, mtDNA_ratio, value, amsacrine_f.L1 and
+etoposide_median.TOF), giving seven independent simulated populations of 327
+strains. Recovery was quantified as the r-squared of estimated against known
+input frequency at each depth (scripts/SUPP_FIG_XX_simulation_depth.R). All
+seven traits reach r-squared 1.00 by 500x. At 1x, recovery ranges from 0.91
+(PC1) to 0.52 (mtDNA_ratio), median 0.79; 10x is sufficient for five of the
+seven traits, and 30x is the lowest depth at which all seven sit at or above
+0.95.
+
+[TO FILL: the simulation code and the drawn fitness values were not archived --
+only the NNLS output and the original per-trait figures survive. State the
+inverse chi-squared parameters (degrees of freedom and scale) and how fitness
+was mapped to expected pooled frequency, or archive the script. Until then the
+simulation is described but not reproducible, and the r-squared values above are
+recovered from text embedded in the original figures by
+scripts/extract_sim_reported_r2.py rather than recomputed.]
+
+Designed DNA mixture. 174 wild isolates were divided into four sets of roughly
+equal size (A, B, C, D). Genomic DNA from each set was pooled and sequenced both
+pure -- three libraries per set -- and as a seven-step titration of set B
+against set C. Alt-allele counts were taken with GATK ASEReadCounter, markers
+were restricted to those with mean depth across samples above 5 and below 100,
+high-frequency variants were recoded so that the minor allele is counted
+throughout, sites with any missing genotype were dropped, and the resulting
+counts were deconvolved by NNLS (scripts/legacy/dilution_experiment.R;
+scripts/SUPP_FIG_XX_dilution_validation.R). Pure pools returned 0.775 to 0.853
+of their own set, with 0.020 to 0.127 misassigned to each other set. Across the
+titration, set B rose monotonically from 0.12 to 0.72 and set C fell
+monotonically from 0.70 to 0.10 (Spearman rho +1 and -1 against titration step),
+while the two untitrated sets stayed flat. Restricting the genotype reference to
+the 84 strains of sets B and C and renormalising gives complementary shares
+running from 0.17:0.83 to 0.84:0.16.
+
+[TO FILL: the intended B:C mixing proportions for the seven titration steps, and
+the DNA input quantities. Nothing in the archived experiment folder records
+them, so the titration currently demonstrates monotonic and complementary
+recovery rather than quantitative accuracy. With the design in hand the same
+data give an observed-against-nominal comparison directly.]
+
+One isotype is assigned to two sets in this experiment: strains JU1580 and
+JU1793 share the isotype JU1793 and were placed in sets B and D respectively.
+Because the deconvolution operates at isotype level and returns a single
+frequency for the pair, that estimate is attributable to either set; it is
+counted in set B throughout, which is both what the original analysis did and
+what the estimate's behaviour across the titration indicates.
+
 Accuracy was assessed against published multiplexed inverse PCR sequencing
 (MIP-seq) frequencies for the Baugh L1 starvation time course, the one dataset
 in which both measurements exist for the same samples (102 strains, 23 samples).

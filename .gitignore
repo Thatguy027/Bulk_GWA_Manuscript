@@ -87,3 +87,11 @@ cache/
 # NOTE: re-committing the .html adds a fresh ~13 MB blob to history each time,
 # since every figure change rewrites the embedded base64. Re-commit it only
 # when the report has actually changed.
+
+# =============================================================================
+# staging
+# =============================================================================
+# incoming/ is where raw transfers land before being routed into
+# supplemental_data/ and given a stager entry. Never tracked: it holds
+# unreviewed copies whose provenance has not been established yet.
+incoming/
