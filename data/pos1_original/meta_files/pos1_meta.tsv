@@ -1,0 +1,14 @@
+sample	time	condition
+A1	t0	baseline
+A2	t1	ctrlA
+A3	t1	ctrlB
+A4	t1	pos1A_outgrowth
+A5	t1	pos1B_outgrowth
+A6	t2	ctrlA
+A7	t2	ctrlB
+A8	t2	ctr1A_pos1
+A9	t2	ctrlB_pos1
+A10	t2	pos1A_pos1A
+A11	t2	pos1A_pos1B
+A12	t2	pos1B_pos1A
+A13	t2	pos1B_pos1B

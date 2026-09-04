@@ -69,18 +69,20 @@ print(p)
 ggsave("../plots/Figure4.pdf", p, width = 10, height = 6)
 ggsave("../plots/Figure4.png", p, width = 10, height = 6, dpi = 300)
 
-# --- Figure 4 clean: pos-1 RNAi only, pairwise significance tests ---
+# --- Figure 4 clean: pos-1 RNAi only, JU1793/JU2466_A/wSZ200/wSZ206 only ---
 
 df_pos <- df %>%
-  filter(condition == "pos", strain != "JU2466_B") %>%
-  mutate(`glycosylation motif` = str_replace(`glycosylation motif`, "_A", ""))
+  filter(condition == "pos", strain %in% c("JU1793", "JU2466_A", "wSZ200", "wSZ206")) %>%
+  mutate(genotype = str_replace(genotype, "_A", ""))
 
-# Group JU1793 backgrounds together, then JU2466 backgrounds
-motif_levels_clean <- c("JU1793[NxT]", "JU1793[NxK]", "JU1793[AxT]",
-                        "JU2466[NxK]", "JU2466[NxT]", "JU2466[AxK]")
+# Order: JU1793 background first, then JU2466 background
+genotype_levels_clean <- c("JU1793[96T]", "JU1793[96K]", "JU2466[96K]", "JU2466[96T]")
+
+bar_colors <- c("JU1793[96T]" = "#F34C00", "JU1793[96K]" = "gray70",
+                "JU2466[96K]" = "#40B4AB", "JU2466[96T]" = "gray70")
 
 df_pos <- df_pos %>%
-  mutate(`glycosylation motif` = factor(`glycosylation motif`, levels = motif_levels_clean))
+  mutate(genotype = factor(genotype, levels = genotype_levels_clean))
 
 # Fisher's exact test for two strains (count data: hatched vs unhatched)
 run_fisher <- function(s1, s2) {
@@ -98,13 +100,13 @@ fmt_p <- function(p) {
   else sprintf("p = %.3f", p)
 }
 
-# Comparisons: strain names map to x-axis positions in motif_levels_clean
+# Comparisons: JU1793 vs wSZ200, JU2466_A vs wSZ206
 comparisons <- tibble(
-  s1      = c("JU1793",   "JU1793",   "JU2466_A", "JU2466_A"),
-  s2      = c("wSZ200",   "wSZ207",   "wSZ206",   "wSZ208"),
-  x1      = c(1,          1,          4,          4),
-  x2      = c(2,          3,          5,          6),
-  y_level = c(1,          2,          1,          2)
+  s1      = c("JU1793",   "JU2466_A"),
+  s2      = c("wSZ200",   "wSZ206"),
+  x1      = c(1,          3),
+  x2      = c(2,          4),
+  y_level = c(1,          1)
 ) %>%
   rowwise() %>%
   mutate(pval  = run_fisher(s1, s2),
@@ -133,8 +135,9 @@ bracket_text <- comparisons %>%
     y     = y_base + (y_level - 1) * y_step + tip_len + 0.018
   )
 
-p_clean <- ggplot(df_pos, aes(x = `glycosylation motif`, y = fraction_hatched)) +
-  geom_col(fill = "firebrick3", color = "black", width = 0.7) +
+p_clean <- ggplot(df_pos, aes(x = genotype, y = fraction_hatched, fill = genotype)) +
+  geom_col(color = "black", width = 0.7) +
+  scale_fill_manual(values = bar_colors, guide = "none") +
   geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi),
                 width = 0.25, color = "black", linewidth = 0.5) +
   geom_segment(data = bracket_segs,
@@ -148,7 +151,7 @@ p_clean <- ggplot(df_pos, aes(x = `glycosylation motif`, y = fraction_hatched)) 
     labels = scales::percent_format(accuracy = 1)
   ) +
   coord_cartesian(ylim = c(0, 1), clip = "off") +
-  labs(x = "Strain genotype", y = "Fraction hatched") +
+  labs(x = "Strain genotype", y = "Percent hatched") +
   theme_bw(18) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
@@ -157,7 +160,7 @@ p_clean <- ggplot(df_pos, aes(x = `glycosylation motif`, y = fraction_hatched)) 
 
 print(p_clean)
 
-ggsave("../plots/Figure4_clean.pdf", p_clean, width = 10, height = 7)
-ggsave("../plots/Figure4_clean.png", p_clean, width = 10, height = 7, dpi = 300)
+ggsave("../plots/Figure4_clean.pdf", p_clean, width = 8, height = 7)
+ggsave("../plots/Figure4_clean.png", p_clean, width = 8, height = 7, dpi = 300)
 
 

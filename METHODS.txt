@@ -1,0 +1,440 @@
+================================================================================
+METHODS
+Bulk GWA manuscript -- RNAi sensitivity in wild Caenorhabditis elegans
+Drafted 2026-09-03 from the analysis code in this repository.
+================================================================================
+
+HOW TO USE THIS DRAFT
+
+Everything below is written from the scripts and data files in this repository,
+so every number can be re-derived by running the script named in the relevant
+paragraph. Where a detail is genuinely not recoverable from the repository --
+worm husbandry, library preparation, the editing protocol, the definition of
+the variance-stabilising transform -- the text says [TO FILL] rather than
+guessing. Please fill those in; do not delete the markers silently, because
+several of them are load-bearing for reproducibility.
+
+Software versions are the ones these analyses were last run under and are
+listed once, at the end.
+
+--------------------------------------------------------------------------------
+STRAINS
+--------------------------------------------------------------------------------
+Wild isolates were obtained from the C. elegans Natural Diversity Resource
+(CeNDR). Genotypes throughout use the CeNDR 20210121 release. [TO FILL:
+husbandry -- growth medium, temperature, bleaching/synchronisation, food source
+for maintenance.]
+
+Strains constructed for this work:
+
+  wSZ176, wSZ191, wSZ196   near-isogenic lines carrying JU2466 introgressions
+                           on a JU1793 background, right arm of chromosome III
+  wSZ192-wSZ195, wSZ153    further NILs from the same series; introgression
+                           breakpoints not determined
+  wSZ200                   JU1793 edited to sid-2 96K
+  wSZ206                   JU2466 edited to sid-2 96T
+  wSZ207                   JU1793 edited to sid-2 N94A
+  wSZ208                   JU2466 edited to sid-2 N94A
+  wSZ203, wSZ204           two independent N2 lines edited to sid-2 96K
+
+[TO FILL: NIL construction -- crossing scheme, number of backcross
+generations, genotyping markers used to follow the introgression.]
+[TO FILL: genome editing -- method (CRISPR-Cas9 ribonucleoprotein injection,
+repair template design, co-conversion marker), screening, and how many
+independent lines were recovered and outcrossed.]
+
+--------------------------------------------------------------------------------
+POOLED RNAi COMPETITION EXPERIMENT AND PHENOTYPES
+--------------------------------------------------------------------------------
+A pool of wild isolates was grown on bacteria expressing double-stranded RNA
+against each of ten target genes (fog-2, mig-6, pos-1, rde-3, ric-3, rpn-12,
+spe-19, spe-43, unc-39, vha-5) and on the HT115 empty-vector control, and the
+pool was sequenced at two timepoints. [TO FILL: pool composition and how it was
+assembled, generations of competition, timepoint definitions, replicate
+structure, DNA extraction, library preparation and sequencing platform.]
+
+Per-strain phenotypes were derived from the timepoint-2 frequencies and are
+distributed in data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv in
+three parameterisations per target: delta_ctrl_<gene>_T2, the RNAi-minus-control
+change in pool frequency; log2fc_<gene>_T2, its log2 ratio; and
+vst_<gene>_T2, a variance-stabilised transform. All association mapping and all
+phenotype figures in this manuscript use the vst columns, so the Manhattan
+panels and the phenotype panels are on the same scale.
+
+Nine of the 93 strains in the pool have no vst value and were dropped, leaving
+n = 84 for association mapping.
+
+[TO FILL: the definition of the variance-stabilising transform. It is not
+reproducible from this repository -- only its output is distributed -- and the
+transform matters for the interpretation of effect sizes.]
+
+The 2023 pos-1 experiment was analysed separately; its full analysis lives
+outside this repository at /UCLA/Projects/bulkGWAS/lipid_RNAi/2023_pos1 and only
+its exported end products are used here
+(data/pos1_original/updated_analysis/). Sample-level frequencies are
+distributed at three read-depth cutoffs; cutoff 5 was used throughout, because
+taking the mean pos-1 delta per strain at cutoff 5 reproduces the shipped
+delta_ctrl_pos-1_T2 to 2.5e-16, against r = 0.9998 at cutoff 3 and r = 0.9988 at
+cutoff 10 (scripts/2023_pos1_analysis.R).
+
+One strain, JU1793, appears twice per sample in that dataset at every depth
+cutoff and in both arms, with one row carrying the frequency and the other
+approximately 1e-21 -- non-negative least squares splitting one strain's
+abundance across two identical entries in the genotype reference. Rows sharing
+a (strain, sample) key were therefore summed before deltas were taken, which
+approximately doubles JU1793's pos-1 delta, from 0.00857 to 0.0171, and is a
+no-op for every other strain. This matters because JU1793 is a cross parent.
+The shipped vst values and the association scan were used as distributed and
+still carry the averaged JU1793 value.
+
+--------------------------------------------------------------------------------
+STRAIN-FREQUENCY DECONVOLUTION FROM POOLED SEQUENCE
+--------------------------------------------------------------------------------
+Strain frequencies were recovered from pooled sequence by non-negative least
+squares against a genotype reference matrix. Markers with any missing genotype
+call were dropped rather than zero-filled, because a zero is a real
+homozygous-reference call in this encoding and imputing one would alter the
+design matrix (in the Baugh reference matrix used for validation, all 1,237,106
+markers are complete, so the filter is a no-op there). Writing G for the
+genotype matrix and a for the per-sample allele counts, the normal-equation
+inputs G'a and G'G were formed and solved per sample with RcppML::nnls, and each
+sample's solution was normalised to sum to one
+(scripts/Figure1_common.R, baugh_frequencies()).
+
+--------------------------------------------------------------------------------
+VALIDATION OF THE DECONVOLUTION
+--------------------------------------------------------------------------------
+Accuracy was assessed against published multiplexed inverse PCR sequencing
+(MIP-seq) frequencies for the Baugh L1 starvation time course, the one dataset
+in which both measurements exist for the same samples (102 strains, 23 samples).
+
+For each strain and replicate arm, the rate of change in pool frequency was
+taken as the slope of the regression of frequency change on day, with day 1 as
+the baseline and day 17 excluded, and slopes were averaged over the five
+replicate arms. Slopes were computed in closed form
+(sum((x - xbar) y) / sum((x - xbar)^2)), which is identical to the least-squares
+coefficient. N2 was excluded from all comparisons: as the reference strain its
+genotype shares sites with every other strain in the pool, so its frequency is
+not identified on the same footing as the wild isolates'. Agreement was
+quantified by Spearman correlation of the two platforms' slopes across strains
+(n = 98, rho = 0.97, p < 1e-4) and, separately, per sample across strains
+(23 samples, median rho = 0.84, minimum 0.517).
+
+Uncertainty on the slopes was obtained by repeating the entire slope
+calculation inside each of 100 bootstrap replicates of the deconvolution --
+delta against the day-1 sample of the same replicate arm, regression on day,
+average over arms -- rather than by propagating a stored standard error through
+that chain, and the reported interval is the percentile interval across
+replicates. Each replicate supplies its own baseline, so the covariance between
+baseline and later timepoints is preserved. The bootstrap distribution of the
+Spearman correlation itself is rho = 0.972, 95% interval [0.969, 0.975]. That
+the array resamples the plotted estimator, and that the transformation is
+carried through it consistently, was verified at four points
+(scripts/SUPP_FIG_XX_bootstrap_propagation_checks.R): bootstrap mean against
+point estimate at the frequency level (r = 0.999984, n = 2,346) and at the slope
+level (r = 0.999994, n = 101); a standardised bias of median -0.029 bootstrap
+SD; and coverage of 101 of 101 intervals containing their own point estimate.
+
+[TO FILL: what the bootstrap resampled -- reads, markers or strains. Only the
+bootstrap outputs were archived, not the resampling scheme or the code that
+produced it, so this cannot be recovered from the repository and no statement
+stronger than "100 bootstrap replicates of the deconvolution" is currently
+supportable.]
+
+Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5,
+1, 3, 5 and 10x, rerunning the deconvolution and recomputing the slopes
+(scripts/baugh_L1_DownSample_Counts.R). Agreement with the MIP-seq slopes
+saturates by 3x (Spearman rho 0.833, 0.870, 0.851, 0.903, 0.906 and 0.904 across
+the six depths). At the level of individual samples rather than slopes the
+median rises from 0.724 to 0.827 over the same range, and the spread between
+samples (roughly 0.43 to 0.88 at any fixed depth) exceeds the effect of depth
+(scripts/SUPP_FIG_XX_downsample_per_sample.R).
+
+--------------------------------------------------------------------------------
+GENOME-WIDE ASSOCIATION MAPPING
+--------------------------------------------------------------------------------
+Association mapping used GEMMA with leave-one-chromosome-out kinship. [TO FILL:
+GEMMA version, kinship construction, covariates, minor-allele-frequency and
+genotyping-rate filters as applied at run time.] Result tables are distributed
+as exported CSVs; GEMMA itself is not invoked by any script in this repository.
+
+Two panels were mapped:
+
+  pooled_RNAi_expt   n = 84 strains,  322,010 markers
+  pos1_2023          n = 231 strains, 464,045 markers
+
+Manhattan panels were thinned for plotting by binning positions (10 kb) and
+retaining the maximum -log10 p per bin. Thinning by row order or by taking every
+nth marker would displace peaks; binning on the maximum preserves peak height
+and position exactly.
+
+--------------------------------------------------------------------------------
+MULTIPLE-TESTING THRESHOLDS
+--------------------------------------------------------------------------------
+Two thresholds are reported on every association panel. The first is Bonferroni
+over every tested marker, which treats markers as independent. They are not:
+these panels carry long haplotype blocks, so that threshold is
+over-conservative. The second divides alpha = 0.05 by the effective number of
+independent tests estimated from the eigenvalues of the marker correlation
+matrix by the method of Li and Ji (2005), in which each eigenvalue lambda
+contributes 1{lambda >= 1} + (lambda - floor(lambda)).
+
+Computing the M x M marker correlation matrix directly is infeasible at these
+marker counts. Instead the non-zero eigenvalues of that matrix were obtained
+from the n x n matrix A = Zc Zc' / (n - 1), where Zc is the column-standardised
+genotype matrix; the two matrices share their non-zero spectrum. Missing calls
+were mean-imputed per marker rather than dropped, because dropping any marker
+with a missing call removed about 40% of markers and silently changed the
+denominator; the Bonferroni threshold is computed over the same marker set.
+trace(A) = M was asserted at run time as a correctness check
+(scripts/eigen_independent_tests.R; accessor in scripts/gwas_thresholds.R).
+
+  panel              markers    M_eff   Bonferroni   Li & Ji
+  pooled_RNAi_expt   322,010      732      6.81       4.17
+  pos1_2023          464,045    1,972      6.97       4.60
+                                          (-log10 p)
+
+--------------------------------------------------------------------------------
+F2 BULK-SEGREGANT (xQTL) CROSSES
+--------------------------------------------------------------------------------
+Two crosses were performed between strains at opposite extremes of the pooled
+assay: N2 x XZ1516 and JU1793 x JU2466. [TO FILL: crossing scheme, F2
+population size, selection or competition regime, generations, DNA extraction,
+library preparation and sequencing platform.]
+
+Allele counts at parental marker sites were obtained with GATK ASEReadCounter,
+summed across sequencing runs, and phased onto the two parental haplotypes at
+genetic-map markers. Per-sample allele-frequency deviations and their standard
+errors were computed in 10 kb bins, and each pair of conditions was compared as
+a contrast, yielding a per-marker effect (contrast.beta), z statistic and LOD.
+Deviations are phased to a single parent per cross (N2 in the N2 x XZ1516
+cross), so the sign of contrast.beta is interpretable as which parental allele
+rose in frequency.
+
+LOD was computed in log space. The p column distributed with these exports is
+formed on the linear scale and underflows to exactly zero above |z| ~ 38.5,
+which occurs frequently in these data, so LOD (or neglog10p) rather than p was
+used for everything quantitative.
+
+The genome-wide significance threshold for the cross scans is LOD 3.57,
+obtained as qchisq(2 x 0.05 / 2000, df = 1, lower.tail = FALSE) / (2 ln 10) --
+alpha = 0.05 over 2,000 effective tests, in the LOD convention the export
+pipeline uses.
+
+Regenerating the exports from the archived per-sample counts reproduces every
+peak position and interval bound exactly, with LOD values agreeing to 1e-14
+relative (data/cross_experiments/*/README.md).
+
+--------------------------------------------------------------------------------
+QTL SUPPORT INTERVALS
+--------------------------------------------------------------------------------
+Support intervals were defined as a fractional LOD drop from each chromosome's
+own peak marker rather than a fixed number of LOD units, because an absolute
+drop wide enough for a strong peak spans an entire chromosome on a weak one.
+The shipped interval tables use a 10% drop, calibrated so that a known causal
+gene falls inside the interval rather than just outside it. The interval tracks
+in Figure 2 use a 5% drop, and are restricted to QTL with a peak LOD above 100
+(nine intervals); the complete significant set is
+SUPP_FIG_XX_cross_qtl_all. Secondary peaks on the same chromosome were masked
+with a 1 Mb buffer either side of a called interval and were required to reach
+30% of the chromosome maximum (scripts/Figure2.R).
+
+--------------------------------------------------------------------------------
+NEAR-ISOGENIC LINES AND FINE-MAPPING
+--------------------------------------------------------------------------------
+Introgression boundaries for the NIL series are in data/nil_ranges.bed. The
+interval resolved by the series is chromosome III 13,657,700-13,695,000 (37 kb),
+the region carried by wSZ191 and not by wSZ196, which is where the hatching
+difference localises.
+
+Note that the chromosome III peak marker in the JU1793 x JU2466 contrast scan
+falls at 13,784,000, the terminal marker of the chromosome. A scan cannot place
+a peak beyond the chromosome end, so that position is a boundary artefact rather
+than a localisation, and the NIL interval is the claim.
+
+--------------------------------------------------------------------------------
+VARIANT ANNOTATION WITHIN QTL INTERVALS
+--------------------------------------------------------------------------------
+Variants differing between the parents of each cross were extracted within every
+support interval and annotated for consequence with bcftools csq (BCSQ)
+(scripts/pooled_cross_candidate_variation.R), giving 62,988 parental-difference
+records across 36 intervals. Per-interval tables are distributed under
+plots/pooled_cross_intersection/. Within the resolved chromosome III interval,
+sid-2 carries two protein-altering differences between JU1793 and JU2466: V5L,
+in the predicted signal peptide, and T96K.
+
+The T96K site is chromosome III 13,680,248 C>A, with REF C encoding 96T and ALT
+A encoding 96K. Allele assignment was verified against four strains whose allele
+is known independently: JU1793 and N2 carry 96T, JU2466 and XZ1516 carry 96K.
+
+--------------------------------------------------------------------------------
+EMBRYO HATCHING ASSAYS
+--------------------------------------------------------------------------------
+Hatching was scored as the number of plated embryos that failed to hatch on a
+lawn of pos-1 RNAi bacteria diluted with HT115. [TO FILL: bacterial strain and
+induction, plate preparation, staging of the scored animals, embryo plating
+procedure, scoring interval, and who scored blind to genotype.]
+
+The dilution differs between experiments and the numbers are not comparable
+across them:
+
+  NIL series (Figure 3C and its supplement)      50% pos-1 RNAi
+  JU1793 / JU2466 edits (Figure 4A, supplement)  50% pos-1 RNAi
+  N2 edits (Figure 4B)                           25% pos-1 RNAi
+
+The 25% dilution used for the N2 edits is the only one with dynamic range in
+that background: across a 0, 25, 50, 75 and 100% series, every genotype hatches
+at 0% and every genotype is dead from 50% upward, so no other dose can report a
+difference (SUPP_FIG_XX_n2_swap_dose). Pooling the two edited lines against N2,
+the difference in hatching is +0.282 at 25% (Fisher p = 8e-25) and between
+-0.007 and +0.026 at every other dose (p >= 0.11).
+
+IMPORTANT: the dilution is not recorded in the source data files for the NIL
+series or the JU1793/JU2466 edits -- their condition column carries only
+"pos"/"ht115" -- so those doses come from the lab record. Only n2_swap.tsv
+encodes its dose. [TO FILL: confirm both 50% figures, and consider adding a
+dose column when those tables are next exported.]
+
+Each strain was assayed on one plate per condition. Reported intervals are
+Wilson 95% binomial intervals on that plate's embryo count and therefore
+describe counting uncertainty, not between-plate variability; no strain is
+replicated. The exception is wSZ203 and wSZ204, which are independently derived
+lines carrying the same edit and are the closest approximation to a biological
+replicate in these assays. Genotypes were compared with Fisher's exact test on
+the hatched/unhatched counts.
+
+--------------------------------------------------------------------------------
+PROTEIN TOPOLOGY AND STRUCTURE PREDICTION
+--------------------------------------------------------------------------------
+SID-2 topology was predicted with DeepTMHMM, which calls a signal peptide at
+residues 1-20, an extracellular region at 21-193, a single transmembrane helix
+at 194-211 and a cytoplasmic region at 212-311. The UniProt annotation for
+G5EEV9 gives slightly different boundaries (signal 1-20, extracellular 21-188,
+transmembrane 189-209, cytoplasmic 210-311); figures state which boundary set
+they use.
+
+The SID-2 dimer was predicted with AlphaFold3 (five models). [TO FILL: whether
+the AlphaFold Server or a local installation was used, and the date and model
+version.] Model confidence limits what the prediction can be used for: ipTM is
+0.45-0.46 and pTM 0.46-0.48 across all five models, with 43-46% of the model
+called disordered, so the dimer interface is not credible, is not shown in any
+figure and dimerisation is not claimed. Mean pLDDT by region for chain A is 56.4
+(signal peptide), 72.3 (extracellular), 46.0 (transmembrane helix) and 40.0
+(cytoplasmic); only the extracellular domain reaches the confident band, and it
+alone is displayed. The variant neighbourhood is locally confident: N94 70.5,
+C95 78.0, T96 79.3.
+
+A separate AlphaFold3 run of the trimmed ectodomain with double-stranded RNA
+gave better protein-protein confidence (ipTM 0.56-0.58, 7-15% disordered) but
+protein-RNA chain-pair ipTM of only 0.22-0.48 across the five models, so the RNA
+placement is not reproducible; it was run for the 96K allele only and is not used
+in any figure.
+
+Molecular docking of double-stranded RNA was attempted with HADDOCK and is not
+reported. Those runs returned positive HADDOCK scores (+98 to +200, where
+favourable is negative), interaction energies of order 1e4, restraint-violation
+energies of 480-1380 and 4-13 structures per cluster, and the two alleles were
+run against different 91-residue ambiguous-restraint sets, so they are not
+comparable even in principle.
+
+--------------------------------------------------------------------------------
+SECONDARY STRUCTURE, ORIENTATION AND DISTANCES
+--------------------------------------------------------------------------------
+Secondary structure was assigned from the model backbone using the Kabsch and
+Sander (1983) electrostatic hydrogen-bond criterion, implemented directly
+because no DSSP binary was available (scripts/sid2_ribbon_render.py). The amide
+hydrogen was placed 1 A from N along the C(i-1)->O(i-1) direction, as DSSP does;
+the hydrogen-bond energy was taken as
+
+  E = 332 x 0.42 x 0.20 x (1/r_ON + 1/r_CH - 1/r_OH - 1/r_CN)   kcal/mol
+
+with a bond called at E < -0.5. Alpha helices were assigned from two consecutive
+4-turns and strands from residues participating in a parallel or antiparallel
+bridge; 3-10 and pi helices were folded into helix, and isolated single-residue
+assignments were discarded. The assignment is independently corroborated: it
+calls residues 194-211 100% helix, exactly the span DeepTMHMM identifies as the
+transmembrane helix, and 60% helix across the signal peptide. The extracellular
+domain is beta-rich (46% strand, 3% helix) and T96 lies within a strand, with
+N94 in the preceding loop.
+
+For display, the model was used in the membrane frame produced by earlier
+orientation work, in which z = 0 is the bilayer centre and +z is the intestinal
+lumen (tilt 32.5 degrees to the membrane normal, hydrophobic thickness 32.4 A,
+transmembrane helix spanning z = -13.2 to +13.2 A). Residue 96 sits at z = +62 A,
+on the lumenal face.
+
+Distances between residue 96 and the residues with a published effect on dsRNA
+uptake were measured C-alpha to C-alpha: D34 13.5 A, H32 16.4 A,
+H168 19.2 A and H175 37.7 A, against a median C-alpha distance from residue 96
+of 23.8 A across the ectodomain. Nearest heavy-atom distances are shorter (D34
+9.9, H32 14.6, H168 16.9 A). Because 41% of the ectodomain lies within 20 A of
+residue 96, three of the four annotated residues falling within that radius is
+not surprising: the binomial probability is 0.19, and a permutation test on
+their mean distance against 20,000 random sets of four ectodomain residues gives
+p = 0.30. The co-localisation is therefore reported as spatial context and not
+as evidence of a shared site.
+
+[Note: D34 is 13.5 A from residue 96 in the membrane-oriented ectodomain file
+and 13.8 A in the full-length AlphaFold model, because the two files are
+different exports of the same prediction; figures state which file they use.]
+
+--------------------------------------------------------------------------------
+ECTODOMAIN CHARGE AS A FUNCTION OF pH
+--------------------------------------------------------------------------------
+Net charge of the extracellular domain (residues 21-193: 11 Asp, 7 Glu, 3 His,
+4 Cys, 5 Tyr, 9 Lys, 1 Arg) was computed by Henderson-Hasselbalch over the side
+chains with pKa values Asp 3.90, Glu 4.07, His 6.04, Cys 8.18, Tyr 10.46, Lys
+10.54 and Arg 12.48. Termini were omitted, because the ectodomain is not a free
+polypeptide -- it continues into the transmembrane helix -- so a free
+alpha-carboxylate would be an artefact of where the domain was cut.
+
+The domain carries -8.4 e at pH 7.4 but only -0.2 e at pH 4.4, and its
+isoelectric point, 4.38, is close to the pH of the intestinal lumen. Adding the
++1 e of T96K takes the surface from -0.2 e to +0.8 e at pH 4.4 and moves the
+isoelectric point to 4.50. This is presented as a hypothesis-framing
+calculation, not as an estimate of binding: no affinity, free energy or
+occupancy is computed anywhere in this work.
+
+--------------------------------------------------------------------------------
+STATISTICS
+--------------------------------------------------------------------------------
+Binomial proportions are reported with Wilson score 95% intervals, which behave
+correctly near 0 and 1 where the Wald interval does not. Counts were compared
+with Fisher's exact test. Rank correlations are Spearman's rho; the plate
+phenotype score is a six-level ordinal scale, so rank correlation is used for
+every comparison involving it. Two-group comparisons of continuous phenotypes
+use the Wilcoxon rank-sum test, with Welch's t test reported alongside where the
+two disagree, and both are reported rather than the more favourable one.
+Permutation tests are stated with their number of draws. No correction for
+multiple comparisons was applied within the small hatching experiments; the
+genome-wide thresholds are given above.
+
+--------------------------------------------------------------------------------
+SOFTWARE
+--------------------------------------------------------------------------------
+Analysis and figures: R 4.5.2 with tidyverse 2.0.0, ggplot2 4.0.3, data.table
+1.18.2.1, patchwork 1.3.2, ggtext 0.1.2, RcppML 0.3.7, scales 1.4.0, ggrepel
+0.9.7, jsonlite 2.0.0 and png 0.1.8.
+
+Structure analysis and rendering: Python 3.13.2 with NumPy 2.4.3, SciPy 1.17.1,
+Biopython 1.86, Matplotlib 3.10.8 and Pillow 12.1.1. Molecular figures are
+pLDDT- or secondary-structure-coloured ribbon renders generated with Matplotlib;
+no molecular graphics package (PyMOL, ChimeraX) was used, and no
+secondary-structure assignment beyond the criterion described above is asserted.
+
+Genotype handling: PLINK v2.00a3 and PLINK v1.90b6.21. Variant annotation:
+bcftools 1.11. Allele counting: GATK ASEReadCounter [TO FILL: version].
+Association mapping: GEMMA [TO FILL: version]. Topology prediction: DeepTMHMM
+[TO FILL: version or web-service access date]. Structure prediction: AlphaFold3
+[TO FILL: server or local, version, date].
+
+--------------------------------------------------------------------------------
+DATA AND CODE AVAILABILITY
+--------------------------------------------------------------------------------
+Every figure in this manuscript is generated by a named script that runs from
+the repository root with no arguments; FIGURE_CAPTIONS.txt lists the script for
+each figure and the command sequence to regenerate all of them. Two figure
+scripts (scripts/plate_pheno_comparisons.R and scripts/pos1_script1.R) currently
+resolve their working directory through the RStudio API and run only inside
+RStudio. [TO FILL: repository or accession where raw sequencing data will be
+deposited.]

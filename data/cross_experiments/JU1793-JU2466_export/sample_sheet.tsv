@@ -1,0 +1,5 @@
+sample_name	parent1	parent2	timepoint	condition	contrast_to
+S31	JU1793	JU2466	12	OP50	
+S32	JU1793	JU2466	2	HT115g	S33,S34
+S33	JU1793	JU2466	2	MIG6g	S34
+S34	JU1793	JU2466	2	POS1g	

@@ -1,0 +1,3 @@
+comparison	n_strains	spearman_rho	p_value
+plate_score_vs_paaby_lethality	19	-0.5510159971502491	0.01447865162915717
+plate_score_vs_pos1original_delta_freq	106	0.42302955263254555	6.251578776945658e-6

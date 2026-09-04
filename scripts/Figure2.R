@@ -1,248 +1,357 @@
-library(tidyverse)
-library(smplot2)
+## Figure 2 -------------------------------------------------------------------
+## Pooled GWAS Manhattan with the cross QTL compressed onto interval tracks:
+## mig-6-specific above the axis, the pos-1 response below, coloured by cross,
+## opacity scaled to peak LOD. Only QTL with peak LOD > 100 are drawn; the
+## complete set is SUPP_FIG_XX_cross_qtl_all.R.
+##
+##   Rscript scripts/pooled_cross_intersection_prep.R   # once, builds the cache
+##   Rscript scripts/Figure2.R
+##
+## The GWAS traits are the vst-transformed pooled phenotypes (vst_ctrl_<gene>_T2),
+## so this figure is already on that scale; nothing here re-derives a phenotype.
+## ---------------------------------------------------------------------------
 
-setwd(glue::glue("{dirname(rstudioapi::getActiveDocumentContext()$path)}/.."))
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(patchwork)
+  library(ggtext)
+})
 
-load("data/pos1_rnai_sensitive/processed_strain_fq.rda")
+b   <- readRDS("data/pooled_cross_intersection/bundle.rds")
+OUT <- "plots/pooled_cross_intersection"
 
-# get delta traits 
-timepoint = 2
-base_size=18
+## Bonferroni assumes independent markers, which this panel is not. The eigen
+## threshold uses the effective number of independent tests from the eigenvalues
+## of the marker correlation matrix (Li & Ji 2005); see
+## scripts/eigen_independent_tests.R.
+source("scripts/gwas_thresholds.R")
+TH <- gwas_thresholds("pooled_RNAi_expt")
+GWAS_BF    <- TH$bonferroni
+GWAS_EIGEN <- TH$eigen
+COL_THR    <- "grey50"
+COL_EIG    <- "#1A7F5A"
 
-# time 2 control
-t2c <- processed_strain_frq %>%
-  dplyr::filter(Gene == "ctrl", Timepoint == timepoint) 
+DROP_FRAC <- 0.05
 
-# mean of time 2 control replicates
-mt2c <- t2c %>%
-  dplyr::select(strain, sample, sample_type, frq) %>%
-  dplyr::group_by(strain, sample_type) %>%
-  dplyr::summarise(ctrlfrq = mean(frq))
+COL_MIG  <- "#2166AC"   # mig-6 trait
+COL_POS  <- "#7C6A9C"   # pos-1 trait
+COL_PEAK <- "#C4302B"   # significant pooled GWAS peaks
+CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
+CROSS_COL <- c(N2xXZ1516 = "#0B7A75", JU1793xJU2466 = "#D57A00")
 
-# get t2 traits for each rnai condition
-t2 <- processed_strain_frq %>%
-  dplyr::filter(Timepoint == timepoint, Gene!="ctrl") %>%
-  dplyr::left_join(., mt2c, by = c("strain", "sample_type")) %>%
-  dplyr::mutate(delta_fq = frq - ctrlfrq)
+CHROMS  <- c("I", "II", "III", "IV", "V", "X")
+ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,
+             IV = 17493829, V = 20924180, X = 17718942)
+fct_chr <- function(x) factor(as.character(x), levels = CHROMS)
 
-pres_plot <- t2 %>%
-  dplyr::filter(Gene %in% c("pos-1", "mig-6")) %>%
-  dplyr::group_by(strain, Gene) %>%
-  dplyr::mutate(mean_delta = mean(delta_fq, na.rm =T)) %>%
-  dplyr::distinct(strain, Gene, mean_delta)
+## the four scans the classification needs, per cross
+SCAN <- tribble(
+  ~cross,          ~cond,   ~key,
+  "N2xXZ1516",     "mig-6", "N2xXZ1516 | ht115 vs mig6",
+  "N2xXZ1516",     "pos-1", "N2xXZ1516 | ht115 vs pos1",
+  "N2xXZ1516",     "contr", "N2xXZ1516 | pos1 vs mig6",
+  "JU1793xJU2466", "mig-6", "JU1793xJU2466 | ht115 vs mig6",
+  "JU1793xJU2466", "pos-1", "JU1793xJU2466 | ht115 vs pos1",
+  "JU1793xJU2466", "contr", "JU1793xJU2466 | mig6 vs pos1")
 
-mig6_ph_plot <- pres_plot%>%
-  dplyr::filter(Gene == "mig-6") %>%
-  ggplot()+
-  aes(x = mean_delta )+
-  geom_histogram() +
-  # scale_fill_manual(values = c(JU1793 = "#F34C00", JU2466 = "#40B4AB")) +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU1793"), color = "#F34C00", size = 1,linetype = "dashed") +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "mig-6", strain == "JU2466"), color = "#40B4AB", size = 1,linetype = "dashed") +
-  theme_bw(base_size)+
-  labs(x = "Change in strain frequency", y = "Count")
+## ===========================================================================
+## intervals at a 5% LOD drop
+## ===========================================================================
+## Faithful to peak_intervals() in the export pipeline: take the chromosome
+## peak, walk outward, and keep the contiguous run of markers staying within
+## `frac` of that peak.
+MIN_GAP       <- 1e6    # buffer masked either side of a called interval
+PEAK_MIN_FRAC <- 0.30   # a second peak must reach this share of the chromosome max
+MAX_PEAKS     <- 1      # see note above: one interval per chromosome per scan
+MAX_WIDTH     <- Inf
 
-ggsave(filename = "mig6_JuHighlight.pdf", height = 5, width = 6)
-
-pres_plot%>%
-  dplyr::filter(Gene == "pos-1") %>%
-  ggplot()+
-  aes(x = mean_delta )+
-  geom_histogram() +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU1793"), color = "#9794E7", size = 1,linetype = "dashed") +
-  geom_vline(aes(xintercept = mean_delta), data = pres_plot %>% dplyr::filter(Gene == "pos-1", strain == "JU2466"), color = "#91D29C", size = 1,linetype = "dashed") +
-  theme_bw(base_size)+
-  labs(x = "Change in strain frequency", y = "Count")
-
-ggsave(filename = "pos1_JuHighlight.pdf", height = 5, width = 6)
-
-
-delta_t2_traits <- t2 %>%
-  dplyr::filter(Gene %in% c("pos-1", "mig-6")) %>%
-  tidyr::unite(trait, sample_type, Gene, sample, sep = "_") %>%
-  dplyr::select(strain, trait, delta_fq) %>%
-  dplyr::group_by(strain) %>%
-  dplyr::mutate(nzero = length(which(delta_fq==0))) %>% 
-  dplyr::filter(nzero < 5) %>% # remove strains that are 0 in more than 30 of 39 traits tested
-  tidyr::pivot_wider(names_from = trait, values_from = delta_fq) %>%
-  dplyr::select(-nzero,-`supernatant_mig-6_S48`) # bad sample
-
-# in case there is a general RNAi trait - guessing it might be on chromosome II
-t2_pc <-data.frame(strain = delta_t2_traits$strain, 
-                   prcomp(as.matrix(delta_t2_traits[,2:ncol(delta_t2_traits)]))$x)
-
-delta_t2_traits_addmeans <- delta_t2_traits %>%
-  dplyr::mutate(pel_pos = (`pellet_pos-1_S17`+`pellet_pos-1_S38`)/2,
-                sup_pos = (`supernatant_pos-1_S27`+`supernatant_pos-1_S49`)/2,
-                pel_mig = (`pellet_mig-6_S16`+`pellet_mig-6_S37`)/2)
-
-write.table(delta_t2_traits_addmeans, file = "../data/pos1_rnai_sensitive/2026_delta_t2_traits.tsv", quote = F, col.names = T, row.names = F, sep = "\t")
-
-# run gemma 
-base_dir <- "data/pos1_rnai_sensitive/"
-trait_file <- "2026_delta_t2_traits.tsv"
-
-trait_values <- data.table::fread(glue::glue("{base_dir}{trait_file}")) %>%
-  tidyr::gather(trait, value, -strain)
-
-# the chrx output uses all snps for K
-# loco_files <- grep("I\\.assoc|II\\.assoc|III\\.assoc|IV\\.assoc|V\\.assoc|X\\.assoc",list.files(glue::glue("{base_dir}/gemma/")), value=T)
-loco_files <- grep("X\\.assoc",list.files(glue::glue("{base_dir}/gemma/")), value=T)
-
-trait_id <- colnames(data.table::fread(glue::glue("{base_dir}{trait_file}")))
-trait_id  <- data.frame(trait = trait_id[2:length(trait_id)], id = 1:(length(trait_id)-1))
-
-
-for(locochr in loco_files){
-  
-  # print(locochr)
-  
-  left_out_chr = strsplit(locochr, split = "\\.")[[1]][3]
-  trait_n = trait_id %>%
-    dplyr::filter(id == as.numeric(strsplit(locochr, split = "\\.")[[1]][2])) %>%
-    dplyr::pull(trait)
-  
-  if(left_out_chr == "X"){
-    # chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
-    #   dplyr::filter(chr=="23") %>%
-    #   dplyr::mutate(trait = trait_n,
-    #                 chr="X")
-    chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
-      dplyr::mutate(trait = trait_n)
-      } else {
-    chr_res <- data.table::fread(glue::glue("{base_dir}/gemma/{locochr}"))%>%
-      dplyr::filter(chr==left_out_chr) %>%
-      dplyr::mutate(trait = trait_n)
-  }
-  
-  
-  if(!exists("loco_res")){
-    loco_res <- chr_res
-  } else {
-    loco_res <- dplyr::bind_rows(loco_res, chr_res)
-  }
+peak_intervals_frac <- function(d, frac = DROP_FRAC, threshold = 0) {
+  d <- d[is.finite(d$LOD), ]
+  if (!nrow(d)) return(NULL)
+  bind_rows(lapply(split(d, as.character(d$chrom)), function(x) {
+    x <- x[order(x$pos), ]
+    chrom_max <- max(x$LOD)
+    avail <- rep(TRUE, nrow(x))
+    out <- list()
+    for (k in seq_len(MAX_PEAKS)) {
+      if (!any(avail)) break
+      i <- which(avail)[which.max(x$LOD[avail])]
+      if (x$LOD[i] <= threshold || x$LOD[i] < PEAK_MIN_FRAC * chrom_max) break
+      ## The run must stay inside the markers still available. Measuring it on
+      ## the full trace let a secondary peak's interval bleed through a taller
+      ## neighbour: the N2 x XZ1516 pos-1 chromosome III peak at 12.11 Mb (LOD
+      ## 245) ran to 13.78 Mb because the 709-LOD primary peak at 13.31 sits
+      ## above its 5% floor. Masking bounds it correctly.
+      above <- avail & (x$LOD > (x$LOD[i] - x$LOD[i] * frac))
+      run <- cumsum(c(TRUE, diff(above) != 0))
+      sel <- which(run == run[i])
+      lo <- min(sel); hi <- max(sel)
+      out[[k]] <- tibble(chrom = as.character(x$chrom[1]),
+                         peak.position = x$pos[i], peak.LOD = x$LOD[i],
+                         lcon = x$pos[lo], rcon = x$pos[hi], peak.rank = k)
+      avail[x$pos >= x$pos[lo] - MIN_GAP & x$pos <= x$pos[hi] + MIN_GAP] <- FALSE
+    }
+    bind_rows(out)
+  })) %>%
+    mutate(width.kb = (rcon - lcon) / 1e3,
+           significant = peak.LOD > threshold & (rcon - lcon) <= MAX_WIDTH)
 }
 
-facet_s <- loco_res %>%
-  dplyr::group_by(chr) %>%
-  dplyr::summarise(min_chr = min(ps),
-                   max_chr = max(ps)) %>%
-  tidyr::gather(bla, ps, -chr)
+## full-resolution scans for the interval maths (thinning happens only to plot)
+scan_of <- function(key) {
+  b$scans[[key]] %>% filter(is.finite(LOD), chrom %in% CHROMS) %>%
+    transmute(chrom = as.character(chrom), pos = physical.position, LOD)
+}
+scans <- set_names(map(SCAN$key, scan_of), paste(SCAN$cross, SCAN$cond))
+
+lod_at <- function(nm, ch, ps) {
+  d <- scans[[nm]]; d <- d[d$chrom == ch, ]
+  if (!nrow(d)) return(NA_real_)
+  d$LOD[which.min(abs(d$pos - ps))]
+}
+
+## ===========================================================================
+## intervals: every significant QTL from each HT115 contrast
+## ===========================================================================
+## upper track from the contrast, lower from HT115 vs pos-1
+TRACK_SRC <- tribble(
+  ~track,   ~cond,
+  "mig-6",  "contr",
+  "pos-1",  "pos-1")
+
+ivs <- pmap_dfr(SCAN %>% inner_join(TRACK_SRC, by = "cond") %>%
+                  select(cross, cond, key, track),
+                function(cross, cond, key, track) {
+  peak_intervals_frac(scan_of(key), threshold = b$CROSS_THR) %>%
+    mutate(cross = cross, cond = cond, track = track, .before = 1)
+}) %>% filter(significant) %>%
+  rowwise() %>%
+  mutate(lod_mig6 = lod_at(paste(cross, "mig-6"), chrom, peak.position),
+         lod_pos1 = lod_at(paste(cross, "pos-1"), chrom, peak.position)) %>%
+  ungroup()
+
+cat("cross genome-wide LOD threshold: ", round(b$CROSS_THR, 2), "\n",
+    "intervals: ", 100 * DROP_FRAC,
+    "% LOD drop from the peak marker of each HT115 contrast\n\n", sep = "")
+cat("== every interval on the tracks ==\n")
+print(as.data.frame(ivs %>%
+  transmute(track = ifelse(track == "mig-6", "UP  mig-6 vs pos-1",
+                           "DN  HT115 vs pos-1"),
+            cross, chrom, peak_Mb = round(peak.position / 1e6, 2),
+            interval = sprintf("%.2f-%.2f", lcon / 1e6, rcon / 1e6),
+            width_kb = round(width.kb), peak_LOD = round(peak.LOD, 1),
+            HT115_mig6 = round(lod_mig6, 1), HT115_pos1 = round(lod_pos1, 1),
+            mig6_dominant = lod_mig6 > lod_pos1) %>%
+  arrange(track, chrom, desc(peak_LOD))), row.names = FALSE)
+
+spec <- ivs
+
+## how close does each pooled GWAS peak come to a track interval of its own trait?
+gp <- b$gwas_sig %>% transmute(gene, chrom = chr, ps)
+cat("\n== each pooled GWAS peak vs the matching-trait cross intervals ==\n")
+print(as.data.frame(pmap_dfr(gp, function(gene, chrom, ps) {
+  s <- ivs %>% filter(chrom == !!chrom, track == gene)
+  if (!nrow(s)) return(tibble(gwas = gene, at = paste0(chrom, ":", round(ps / 1e6, 2)),
+                              cross = "-", cross_peak_Mb = NA_real_,
+                              dist_Mb = NA_real_, contains_peak = NA))
+  s %>% transmute(gwas = gene, at = paste0(chrom, ":", round(ps / 1e6, 2)), cross,
+                  cross_peak_Mb = round(peak.position / 1e6, 2),
+                  dist_Mb = round(abs(peak.position - ps) / 1e6, 2),
+                  contains_peak = ps >= lcon & ps <= rcon)
+})), row.names = FALSE)
+
+write_tsv(ivs, file.path(OUT, "TABLE_cross_qtl_tracks_5pct.tsv"))
+
+## ===========================================================================
+## the Manhattan, with the interval tracks over and under it
+## ===========================================================================
+thin_extreme <- function(d, y, bp = 1e4, by = NULL) {
+  g <- c(by, "chrom", ".bin")
+  d %>% mutate(.bin = floor(pos / bp)) %>%
+    group_by(across(all_of(g))) %>%
+    slice_max(abs(.data[[y]]), n = 1, with_ties = FALSE) %>%
+    ungroup() %>% select(-.bin) %>% arrange(across(all_of(c(by, "chrom", "pos"))))
+}
+
+gw <- b$gwas %>% filter(chr %in% CHROMS) %>%
+  transmute(gene, chrom = fct_chr(chr), pos = ps, pos.mb = ps / 1e6, neglog10p) %>%
+  thin_extreme("neglog10p", by = "gene") %>%
+  mutate(y = ifelse(gene == "mig-6", neglog10p, -neglog10p))
+
+peaks <- b$gwas_sig %>%
+  transmute(gene, chrom = fct_chr(chr), pos.mb = ps / 1e6, neglog10p,
+            y = ifelse(gene == "mig-6", neglog10p, -neglog10p))
+
+## 1 Mb either side of each bulk GWAS peak. Each window is drawn only on its own
+## side of the axis -- the mig-6 peak upward, the pos-1 peak downward -- so a
+## window is never read against the trait it does not belong to.
+FLANK <- 1e6
+bulk_band <- b$gwas_sig %>%
+  transmute(gene, chrom = fct_chr(chr),
+            xmin = pmax(ps - FLANK, 0) / 1e6,
+            xmax = pmin(ps + FLANK, ALL_LEN[as.character(chr)]) / 1e6)
+
+peak_band <- function(top) {
+  d <- bulk_band %>%
+    mutate(ylo = ifelse(gene == "mig-6", 0, -top),
+           yhi = ifelse(gene == "mig-6", top, 0))
+  list(
+    geom_rect(data = d, inherit.aes = FALSE,
+              aes(xmin = xmin, xmax = xmax, ymin = ylo, ymax = yhi),
+              fill = COL_PEAK, alpha = 0.09),
+    geom_segment(data = d, inherit.aes = FALSE,
+                 aes(x = xmin, xend = xmin, y = ylo, yend = yhi),
+                 linetype = "dotted", linewidth = 0.25, colour = COL_PEAK),
+    geom_segment(data = d, inherit.aes = FALSE,
+                 aes(x = xmax, xend = xmax, y = ylo, yend = yhi),
+                 linetype = "dotted", linewidth = 0.25, colour = COL_PEAK))
+}
+
+## One lane per cross in each track, so two crosses overlapping the same region
+## stay legible. Lanes sit outside the data range, which the y expansion opens up.
+LANE <- tibble(cross = names(CROSS_LAB), lane = c(0, 1))
+BASE <- 8.7        # first lane, just clear of the thresholds
+STEP <- 1.15       # lane spacing
+BAR  <- 0.34       # bar half-height
+
+build <- function(lod_min, name, alpha_breaks) {
+  alpha_lim <- range(c(alpha_breaks, spec$peak.LOD[spec$peak.LOD > lod_min]))
+
+bars <- spec %>%
+  filter(peak.LOD > lod_min) %>%
+  left_join(LANE, by = "cross") %>%
+  mutate(chrom = fct_chr(chrom),
+         sign = ifelse(track == "mig-6", 1, -1),
+         yc = sign * (BASE + lane * STEP),
+         ymin = yc - BAR, ymax = yc + BAR,
+         xmin = lcon / 1e6, xmax = rcon / 1e6,
+         cross = factor(cross, levels = names(CROSS_LAB)))
+
+## a bar can be narrower than a pixel, so give every one a visible minimum
+MINW <- 0.09
+bars <- bars %>% mutate(
+  xmid = (xmin + xmax) / 2,
+  xmin = pmin(xmin, xmid - MINW / 2),
+  xmax = pmax(xmax, xmid + MINW / 2))
+
+ylim_hi <- BASE + STEP + BAR + 0.55
+track_lab <- tibble(
+  chrom = fct_chr(c("I", "I")),
+  pos.mb = 0.25,
+  y = c(ylim_hi - 0.25, -(ylim_hi - 0.25)),
+  label = c("*mig-6*-specific", "*pos-1* response"))
+
+## sit on the significance line itself, each label just outside it
+## name the two thresholds at the far right, clear of the trait labels
+## chromosome I, left-aligned. The trait labels already sit just above the
+## Bonferroni line there, so this one goes just below it and the eigen label
+## just above its own line.
+thr_lab <- tibble(
+  chrom  = fct_chr(rep("I", 2)),
+  pos.mb = 0.3,
+  vj     = c(1.35, -0.35),
+  y      = c(GWAS_BF, GWAS_EIGEN),
+  label  = c(sprintf("Bonferroni %.2f", GWAS_BF),
+             sprintf("eigen %.2f (M<sub>eff</sub> = %d)", GWAS_EIGEN, round(TH$m_eff))),
+  col    = c(COL_THR, COL_EIG))
+
+trait_lab <- tibble(
+  chrom  = fct_chr(c("I", "I")),
+  pos.mb = 0.25,
+  y      = c(GWAS_BF, -GWAS_BF),
+  vj     = c(-0.35, 1.35),
+  label  = c("*mig-6* RNAi", "*pos-1* RNAi"),
+  col    = c(COL_MIG, COL_POS))
+
+fig <- ggplot(gw, aes(pos.mb, y)) +
+  ## chromosome-length blanks keep the panels aligned and full width
+  geom_blank(data = bind_rows(
+    tibble(chrom = fct_chr(names(ALL_LEN)), pos.mb = unname(ALL_LEN) / 1e6, y = 0),
+    tibble(chrom = fct_chr(names(ALL_LEN)), pos.mb = 0, y = 0))) +
+  ## the bulk GWAS QTL windows, behind everything
+  peak_band(ylim_hi) +
+  ## separators between the Manhattan and each track
+  geom_hline(yintercept = c(-1, 1) * (BASE - BAR - 0.35),
+             linewidth = 0.25, colour = "grey85") +
+  geom_hline(yintercept = 0, linewidth = 0.35, colour = "grey30") +
+  geom_hline(yintercept = c(-1, 1) * GWAS_BF, linetype = "dashed",
+             linewidth = 0.3, colour = COL_THR) +
+  geom_hline(yintercept = c(-1, 1) * GWAS_EIGEN, linetype = "dotted",
+             linewidth = 0.42, colour = COL_EIG) +
+  geom_point(data = gw %>% filter(gene == "mig-6"), size = 0.4, alpha = 0.5,
+             colour = COL_MIG) +
+  geom_point(data = gw %>% filter(gene == "pos-1"), size = 0.4, alpha = 0.5,
+             colour = COL_POS) +
+  geom_point(data = peaks, aes(y = y), colour = COL_PEAK, size = 2) +
+  geom_text(data = peaks, aes(y = y, label = sprintf("%.2f", neglog10p)),
+            vjust = ifelse(peaks$gene == "mig-6", 1.8, -0.9), hjust = 1.15,
+            size = 3.1, colour = COL_PEAK, fontface = "bold") +
+  ## the interval tracks
+  geom_rect(data = bars, inherit.aes = FALSE,
+            aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
+                fill = cross, alpha = peak.LOD),
+            colour = NA) +
+  geom_richtext(data = trait_lab, aes(y = y, label = label, vjust = vj),
+                colour = trait_lab$col, size = 3.3, hjust = 0,
+                fill = NA, label.color = NA,
+                label.padding = grid::unit(rep(0, 4), "pt")) +
+  geom_richtext(data = thr_lab, aes(y = y, label = label, vjust = vj),
+                colour = thr_lab$col, size = 2.6, hjust = 0,
+                fill = NA, label.color = NA,
+                label.padding = grid::unit(rep(0, 4), "pt")) +
+  geom_richtext(data = track_lab, aes(y = y, label = label),
+                colour = "grey35", size = 3.1, hjust = 0, vjust = 0.5,
+                fill = NA, label.color = NA,
+                label.padding = grid::unit(rep(0, 4), "pt")) +
+  scale_fill_manual(values = CROSS_COL, labels = CROSS_LAB, name = NULL) +
+  ## LOD spans a wide range, so opacity is on a square-root scale
+  scale_alpha_continuous(range = c(0.30, 1), trans = "sqrt",
+                         breaks = alpha_breaks, limits = alpha_lim,
+                         name = "QTL peak LOD  ") +
+  facet_grid(. ~ chrom, scales = "free_x", space = "free_x") +
+  scale_x_continuous(breaks = seq(0, 25, 5), expand = expansion(mult = 0.02),
+                     guide = guide_axis(check.overlap = TRUE)) +
+  scale_y_continuous(breaks = seq(-6, 6, 3), labels = abs,
+                     limits = c(-ylim_hi, ylim_hi), expand = expansion(mult = 0)) +
+  labs(x = "Genomic Position (Mb)", y = "−log<sub>10</sub>*p*") +
+  theme_classic(base_size = 11.5) +
+  theme(strip.background = element_blank(),
+        strip.text = element_text(face = "bold", size = 11.5),
+        panel.spacing.x = grid::unit(5, "pt"),
+        axis.line = element_line(linewidth = 0.3),
+        axis.ticks = element_line(linewidth = 0.3),
+        axis.text.x = element_text(size = 9),
+        axis.title.y = element_markdown(size = 10),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.text = element_text(size = 9.5),
+        legend.key.height = grid::unit(8, "pt"),
+        legend.title = element_text(size = 9.5),
+        legend.box = "horizontal",
+        legend.margin = margin(t = -4),
+        plot.margin = margin(8, 10, 4, 8)) +
+  guides(fill  = guide_legend(order = 1, override.aes = list(alpha = 1)),
+         alpha = guide_legend(order = 2, override.aes = list(fill = "grey25")))
+
+ggsave(file.path(OUT, paste0(name, ".pdf")), fig,
+       width = 13, height = 5.4, device = cairo_pdf)
+ggsave(file.path(OUT, paste0(name, ".png")), fig,
+       width = 13, height = 5.4, dpi = 300, bg = "white")
+cat("wrote ", name, ".{pdf,png}  (", nrow(bars), " intervals, LOD > ", lod_min,
+    ")\n", sep = "")
+invisible(bars)
+}
 
 
-don <- loco_res %>%  
-  # filter(-log10(p_wald)>1) %>%
-  dplyr::filter(trait == "pel_pos") %>%
-  dplyr::mutate(chr = ifelse(chr == "23", "X", chr)) %>%
-  dplyr::filter(chr != "MtDNA") %>%
-  # Compute chromosome size
-  group_by(chr) %>% 
-  summarise(chr_len=max(ps)) %>% 
-  
-  # Calculate cumulative position of each chromosome
-  mutate(tot=cumsum(chr_len)-chr_len) %>%
-  select(-chr_len) %>%
-  
-  # Add this info to the initial dataset
-  left_join(loco_res %>% dplyr::mutate(chr = ifelse(chr == "23", "X", chr)) %>% dplyr::filter(chr != "MtDNA") , ., by=c("chr"="chr")) %>%
-  
-  # Add a cumulative position of each SNP
-  dplyr::filter(trait == "pel_pos") %>%
-  arrange(chr, ps) %>%
-  mutate( BPcum=ps+tot) %>%
-  dplyr::mutate(factrait = factor(trait, levels = c("pel_pos","pel_mig"), labels = c("pos-1","mig-6")))
+## ---------------------------------------------------------------------------
+LOD_MIN <- 100
+kept <- build(LOD_MIN, "Figure2", c(100, 300, 600, 900))
 
-axisdf <- don %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
-
-pos_man_plot <- ggplot(don, aes(x=BPcum, y=-log10(p_wald))) +
-  
-  # Show all points
-  geom_point( aes(color=as.factor(chr)), alpha=0.8, size=0.7) +
-  scale_color_manual(values = rep(c("grey40", "grey10"), 22 )) +
-  
-  # custom X axis:
-  scale_x_continuous( label = axisdf$chr, breaks= axisdf$center ) +
-  scale_y_continuous(expand = c(0.1, 0.1) ) +     # remove space between plot area and x axis
-  
-  # Custom the theme:
-  theme_bw(base_size) +
-  # facet_grid(factrait~., scales = "free_y") +
-  theme( 
-    legend.position="none",
-    panel.border = element_blank(),
-    axis.title.x=element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()
-  )+
-  labs(y = expression(-log[10](italic(p))))
-
-# mig6-specific qtl
-result_file <- "data/cross_experiments/Nov2024_JU_cross_pos_mig/plots/JU1793_JU2466_F2-2_contrast_MIG6g-POS1g_10000_plot_DF.tsv"
-
-result_df <- data.table::fread(result_file) %>%
-  dplyr::select(chrom, physical.position, p)
-
-effective.n.tests <- 2000
-sig_line <- -log10(0.05 / effective.n.tests)
-
-don_cross <- result_df %>%  
-  dplyr::filter(chrom != "MtDNA") %>%
-  # Compute chromosome size
-  group_by(chrom) %>% 
-  summarise(chr_len=max(physical.position)) %>% 
-  
-  # Calculate cumulative position of each chromosome
-  mutate(tot=cumsum(chr_len)-chr_len) %>%
-  select(-chr_len) %>%
-  
-  # Add this info to the initial dataset
-  left_join(result_df, ., by=c("chrom"="chrom")) %>%
-  
-  # Add a cumulative position of each SNP
-  arrange(chrom, physical.position) %>%
-  mutate( BPcum=physical.position+tot) 
-
-axisdf <- don_cross %>% group_by(chrom) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
-
-p_manhattan <- ggplot(don_cross, aes(x=BPcum, y=-log10(p))) +
-  
-  # Show all points
-  geom_point( aes(color=as.factor(chrom)), alpha=0.8, size=0.7) +
-  geom_hline(yintercept = sig_line, linewidth = 0.6, linetype = "dashed", color = "firebrick3") +
-  scale_color_manual(values = rep(c("grey40", "grey10"), 22 )) +
-  
-  # custom X axis:
-  scale_x_continuous( label = axisdf$chrom, breaks= axisdf$center ) +
-  scale_y_continuous(expand = c(0.1, 0.1) ) +     # remove space between plot area and x axis
-  
-  # Custom the theme:
-  theme_bw(base_size) +
-  # facet_grid(factrait~., scales = "free_y") +
-  theme( 
-    legend.position="none",
-    axis.title.x=element_blank(),
-    panel.border = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()
-  )+
-  labs(y = expression(-log[10](italic(p))))
-
-
-mig6_ph_plot <- mig6_ph_plot + theme(legend.position = "none")
-pos_man_plot <- pos_man_plot + theme(legend.position = "none")
-p_manhattan <- p_manhattan + theme(legend.position = "none")
-
-# assemble
-top_panel <- (pos_man_plot) +
-  # plot_layout(heights = c(1, 1), widths = c(1, 3)) +
-  plot_annotation(tag_levels = list(c("A")))
-
-bottom_panel <- (mig6_ph_plot | p_manhattan) +
-  plot_layout(widths = c(1, 3)) +
-  plot_annotation(tag_levels = list(c("B", "C")))
-
-(top_panel / bottom_panel) +
-  plot_layout(heights = c(1, 1))
-
-ggsave(filename = "plots/Figure2.png", height = 8, width = 12)
-ggsave(filename = "plots/Figure2.pdf", height = 8, width = 12)
+cat("\n== intervals on Figure 2 (peak LOD > ", LOD_MIN, ") ==\n", sep = "")
+print(as.data.frame(kept %>%
+  transmute(track = ifelse(track == "mig-6", "UP  mig-6 vs pos-1",
+                           "DN  HT115 vs pos-1"), cross, chrom,
+            peak_Mb = round(peak.position / 1e6, 2),
+            interval = sprintf("%.2f-%.2f", lcon / 1e6, rcon / 1e6),
+            width_kb = round(width.kb), peak_LOD = round(peak.LOD, 1)) %>%
+  arrange(track, chrom, desc(peak_LOD))), row.names = FALSE)

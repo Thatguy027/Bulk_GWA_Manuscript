@@ -14,7 +14,7 @@ source("common_functions.R")
 # genotype calls - genotype_calls_vcf
 load("../data/genotypes/processed_genotype_matrix.Rda")
 
-experiment_folder <- "../data/experiments/20230406_pos1-rnai/"
+experiment_folder <- "../data/pos1_original/"
 
 #################################################### load and clean up strain names
 isotype_lookup <- data.table::fread("../data/meta/strain_isotype_lookup.tsv") 
@@ -215,6 +215,72 @@ ggplot(plot_df)+
   geom_line() +
   facet_wrap(~condition)
 
+# 
+plot_df1 <- plot_df %>%
+  mutate(variable = factor(variable, levels = c("btm_ctrl", "bootmean"))) %>%
+  group_by(strain, condition) %>%
+  mutate(dir = if_else(
+    value[variable == "bootmean"] - value[variable == "btm_ctrl"] < 0,
+    "neg", "pos")) %>%
+  ungroup()
+
+slope_summary <- plot_df1 %>%
+  distinct(strain, condition, dir) %>%
+  count(condition, dir) %>%
+  group_by(condition) %>%
+  mutate(frac = n / sum(n)) %>%
+  ungroup()
+
+slope_labs <- slope_summary %>%
+  group_by(condition) %>%
+  summarise(lab = paste0(
+    "<span style='color:black'>↑ ", n[dir == "pos"], "/", sum(n),
+    " (", scales::percent(frac[dir == "pos"], 1), ")</span><br>",
+    "<span style='color:firebrick3'>↓ ", n[dir == "neg"], "/", sum(n),
+    " (", scales::percent(frac[dir == "neg"], 1), ")</span>"))
+
+slope_labs <- slope_summary %>%
+  mutate(lab = paste0(n, "/", ave(n, condition, FUN = sum),
+                      " (", scales::percent(frac, 1), ")"))
+
+ggplot(plot_df1) +
+  aes(x = variable, y = value, group = strain, color = dir) +
+  geom_line(alpha=0.75, size =.5) +
+  facet_grid(dir ~ condition,
+             labeller = labeller(dir = c(pos = "Increase", neg = "Decrease"))) +
+  geom_text(data = slope_labs, aes(x = 0.6, y = Inf, label = lab),
+            inherit.aes = FALSE, hjust = 0, vjust = 1.4, size = 3.5) +
+  scale_color_manual(values = c(neg = "firebrick3", pos = "black"), guide = "none") +
+  scale_x_discrete(expand = expansion(mult = 0.05),
+                   labels = c(btm_ctrl = "Control", bootmean = "*pos-1*<br>RNAi")) +
+  labs(x = NULL) +
+  theme_bw(18) +
+  labs(y = "Predicted strain frequency", x = NULL) +
+  theme(axis.text.x = element_markdown(hjust = 0.5, lineheight = 1.1))
+
+ggsave(filename = "../plots/original_pos1_strain_freq_change.pdf", height = 6, width=8)
+
+library(ggtext)
+
+ggplot(plot_df1) +
+  aes(x = variable, y = value, group = strain, color = dir) +
+  geom_line() +
+  facet_wrap(~condition) +
+  scale_color_manual(values = c(neg = "firebrick3", pos = "black"), guide = "none") +
+  scale_x_discrete(
+    expand = expansion(mult = 0.05),
+    labels = c(btm_ctrl = "Control", bootmean = "*pos-1*<br>RNAi")
+  ) +
+  theme_bw(18)+
+  theme(axis.text.x = element_markdown(hjust = 0.5, lineheight = 1.1))+
+  labs(y = "Predicted strain frequency", x = NULL) +
+  geom_richtext(data = slope_labs,
+                aes(x = 0.6, y = Inf, label = lab),
+                inherit.aes = FALSE, hjust = 0, vjust = 1.05,
+                fill = NA, label.color = NA, size = 3.5)
+
+
+
 # visualize replicate correlation  
 t2_pos1 %>%
   dplyr::mutate(delta_boot = bootmean-btm_ctrl) %>%
@@ -223,23 +289,23 @@ t2_pos1 %>%
   dplyr::mutate(cors = cor(A10, A13, method = "spearman")) %>% 
   ggplot()+
   aes(x = A10, y = A13)+
-  geom_point()+
+  geom_point(size = 2, alpha = 0.5)+
   sm_statCorr(color = "firebrick3", corr_method = "spearman",
               linetype = "dashed", size = 1)+
-  geom_point(color = "#0072B2", size = 4, data = t2_pos1 %>%
-               dplyr::mutate(delta_boot = bootmean-btm_ctrl) %>%
-               dplyr::select(strain, sample, delta_boot) %>%
-               tidyr::spread(sample, delta_boot) %>%
-               dplyr::filter(strain == "ECA738"))+
-  geom_point(color = "#CC7AA7", size = 4, data = t2_pos1 %>%
-               dplyr::mutate(delta_boot = bootmean-btm_ctrl) %>%
-               dplyr::select(strain, sample, delta_boot) %>%
-               tidyr::spread(sample, delta_boot) %>%
-               dplyr::filter(strain == "ECA760"))+
+  # geom_point(color = "#0072B2", size = 4, data = t2_pos1 %>%
+  #              dplyr::mutate(delta_boot = bootmean-btm_ctrl) %>%
+  #              dplyr::select(strain, sample, delta_boot) %>%
+  #              tidyr::spread(sample, delta_boot) %>%
+  #              dplyr::filter(strain == "ECA738"))+
+  # geom_point(color = "#CC7AA7", size = 4, data = t2_pos1 %>%
+  #              dplyr::mutate(delta_boot = bootmean-btm_ctrl) %>%
+  #              dplyr::select(strain, sample, delta_boot) %>%
+  #              tidyr::spread(sample, delta_boot) %>%
+  #              dplyr::filter(strain == "ECA760"))+
   theme_bw(18)+
   labs(x = "Replicate 1", y= "Replicate 2")
 
-ggsave(filename = "../figures/original_pos1_rep_correlation.pdf", height = 6, width=8)
+ggsave(filename = "../plots/original_pos1_dfreq_rep_correlation.pdf", height = 6, width=8)
 
 
 t2pos1_traits <- t2_pos1 %>%
