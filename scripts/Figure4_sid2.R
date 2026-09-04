@@ -80,9 +80,9 @@ suppressPackageStartupMessages({
 source("scripts/n2_swap_panels.R")
 
 OUT  <- "plots"
-SWAP <- "data/plate_rnai_phenotyping/20260409_ju2466swap_plus_N2A_swap.csv"
-VAR  <- "data/structure/sid2_variants_cendr.tsv"
-PERRES2 <- "data/structure/sid2_per_residue.tsv"
+SWAP <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
+VAR  <- "supplemental_data/structure/sid2_variants_cendr.tsv"
+PERRES2 <- "supplemental_data/structure/sid2_per_residue.tsv"
 OVER <- "plots/assets/sid2_overview_oriented.png"
 ZOOM <- "plots/assets/sid2_zoom_t96.png"
 
@@ -301,7 +301,7 @@ p_n2 <- ggplot(n25, aes(line, p, fill = line)) +
 ##
 ## The protein runs vertically with residue 1 at the top, the topology as a
 ## filled bar, and each protein-altering variant labelled to the right with a
-## frequency bar. Built from data/structure/sid2_variants_cendr.tsv; run
+## frequency bar. Built from supplemental_data/structure/sid2_variants_cendr.tsv; run
 ## scripts/sid2_variant_table.R to rebuild it.
 ##
 ## COVERAGE. The amino-acid annotation covers variants segregating among the

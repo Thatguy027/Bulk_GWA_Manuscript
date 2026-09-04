@@ -29,7 +29,7 @@
 ##
 ## ALLELE ORIENTATION, CHECKED
 ## The site is chrIII:13,680,248 C>A, from
-## plots/pooled_cross_intersection/TABLE_sid2_parental_variants.tsv: REF C =
+## supplemental_data/structure/sid2_parental_variants.tsv: REF C =
 ## 96T, ALT A = 96K. Genotypes come from the CeNDR 20210121 PLINK set. The
 ## orientation was verified against the four strains whose allele is known
 ## independently: JU1793 and N2 are 96T, JU2466 and XZ1516 are 96K. Both cross
@@ -44,8 +44,8 @@ suppressPackageStartupMessages({
 })
 
 OUT   <- "plots"
-DIR   <- "data/pos1_original/updated_analysis"
-PLINK <- "data/genotypes/CeNDR20210121_Plink/III"
+DIR   <- "supplemental_data"
+PLINK <- "supplemental_data/genotypes/sid2_region"
 SITE  <- 13680248L
 GENE  <- c(13679000, 13682000)   # sid-2, for the panel B window
 
@@ -123,7 +123,7 @@ msg("  orientation confirmed on all ", nrow(chk), " known strains")
 ## ===========================================================================
 ## A -- phenotype split by allele
 ## ===========================================================================
-tr <- read_csv(file.path(DIR, "association_traits.csv"), show_col_types = FALSE) %>%
+tr <- read_csv(file.path(DIR, "phenotypes/pos1_2023_association_traits.csv.gz"), show_col_types = FALSE) %>%
   transmute(strain, vst = `vst_ctrl_pos-1_T2`) %>% filter(is.finite(vst))
 d <- tr %>% inner_join(gt, by = "strain") %>% filter(!is.na(allele)) %>%
   mutate(allele = factor(allele, levels = c("96T", "96K")))
@@ -185,7 +185,7 @@ pA <- ggplot(d, aes(allele, vst, fill = allele)) +
 ## B -- the scan around sid-2
 ## ===========================================================================
 msg("panel B: local scan")
-gw <- fread(file.path(DIR, "vst_ctrl_pos-1_T2_loco_results.csv.gz"),
+gw <- fread(file.path(DIR, "mapping/pos1_2023_gemma_loco.csv.gz"),
             select = c("chr", "ps", "af", "beta", "p_wald"))
 gw <- gw[chr == "III"][, nlp := -log10(p_wald)]
 source("scripts/gwas_thresholds.R", local = TRUE)

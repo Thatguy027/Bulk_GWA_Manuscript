@@ -59,7 +59,7 @@ from scipy.interpolate import splev, splprep
 
 warnings.filterwarnings("ignore")
 
-PDB = Path("data/structure/AF_sid2_wt_dimer/sid2wt.pdb")
+PDB = Path("supplemental_data/structure/sid2_alphafold_dimer.pdb")
 OUT = Path("plots/assets")
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -352,13 +352,13 @@ def main():
 
     # export the per-residue assignment so the R figure draws the same track
     topo = {}
-    tl = Path("data/structure/SID2deeptmhmm/predicted_topologies.3line")
+    tl = Path("supplemental_data/structure/sid2_deeptmhmm_topology.3line")
     if tl.exists():
         code = {"S": "Signal peptide", "O": "Extracellular",
                 "M": "TM helix", "I": "Cytoplasmic"}
         line = open(tl).read().split("\n")[2]
         topo = {i + 1: code[c] for i, c in enumerate(line)}
-    tsv = Path("data/structure/sid2_per_residue.tsv")
+    tsv = Path("supplemental_data/structure/sid2_per_residue.tsv")
     with open(tsv, "w") as fh:
         fh.write("resid\tresname\tplddt\tsse\ttopology\tx\ty\tz\n")
         st = PDBParser(QUIET=True).get_structure("sid2", PDB)

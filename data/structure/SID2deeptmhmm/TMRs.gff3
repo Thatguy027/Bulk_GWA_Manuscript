@@ -1,7 +1,0 @@
-##gff-version 3
-# SID2 Length: 311
-# SID2 Number of predicted TMRs: 1
-SID2	signal	1	20				
-SID2	outside	21	193				
-SID2	TMhelix	194	211				
-SID2	inside	212	311				

@@ -8,7 +8,7 @@
 ## Phenotype
 ## ---------
 ## Uses the vst_ctrl_<gene>_T2 columns of
-## data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv -- the exact
+## supplemental_data/phenotypes/pooled_vst_traits.csv.gz -- the exact
 ## traits the GEMMA association was run on, so this figure and the Manhattan in
 ## Figure 2 are on the same scale. The file also carries delta_ctrl_ (the raw
 ## RNAi-minus-control frequency change) and log2fc_ columns; the vst column is
@@ -25,7 +25,7 @@ suppressPackageStartupMessages({
   library(patchwork)
 })
 
-TRAITS <- "data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv"
+TRAITS <- "supplemental_data/phenotypes/pooled_vst_traits.csv.gz"
 ## a kept supplement (see README.md), so it writes to plots/ -- it used to
 ## write into plots/pooled_cross_intersection/, which is not tracked, so
 ## re-running it left the curated copy stale

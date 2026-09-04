@@ -1,7 +1,7 @@
 ## sid-2 coding variation in the wild population ----------------------------
 ##
 ##   Rscript scripts/sid2_variant_table.R
-##     -> data/structure/sid2_variants_cendr.tsv
+##     -> supplemental_data/structure/sid2_variants_cendr.tsv
 ##
 ## Builds the table behind the variant panel of Figure 4: every annotated
 ## protein-altering sid-2 variant, with its allele frequency across the CeNDR
@@ -34,11 +34,11 @@ suppressPackageStartupMessages({
   library(tidyverse)
 })
 
-ANN   <- "plots/pooled_cross_intersection/TABLE_sid2_parental_variants.tsv"
-LDOUT <- "data/structure/sid2_variant_ld.tsv"
+ANN   <- "supplemental_data/structure/sid2_parental_variants.tsv"
+LDOUT <- "supplemental_data/structure/sid2_variant_ld.tsv"
 PARENTS <- c("JU1793", "JU2466", "N2", "XZ1516")
-PLINK <- "data/genotypes/CeNDR20210121_Plink/III"
-OUT   <- "data/structure/sid2_variants_cendr.tsv"
+PLINK <- "supplemental_data/genotypes/sid2_region"
+OUT   <- "supplemental_data/structure/sid2_variants_cendr.tsv"
 SPAN  <- c(13679000L, 13682000L)     # the sid-2 span, from the annotation
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
@@ -189,14 +189,23 @@ msg("JU1793 and JU2466 differ at ", sum(v$parents_differ), " of ", nrow(v),
     " protein-altering sites: ",
     paste(v$label[v$parents_differ], collapse = ", "))
 
+## A clean TSV: no comment lines. Leading "#" lines made the file
+## unparseable by anything that does not skip them, which is the wrong
+## trade for a deposited table. The provenance goes in a sidecar instead.
+write_tsv(v, OUT)
 writeLines(c(
-  sprintf("# sid-2 protein-altering variants with CeNDR allele frequencies"),
-  sprintf("# generated %s by scripts/sid2_variant_table.R", Sys.Date()),
-  sprintf("# annotation: bcftools csq, variants segregating among N2, XZ1516, JU1793, JU2466"),
-  sprintf("# NOT an exhaustive catalogue: %d variants of any kind segregate in the", nrow(frq)),
-  sprintf("# %.1f kb sid-2 span in CeNDR; %d are annotated here and %d are protein-altering",
-          diff(SPAN) / 1000, nrow(d), nrow(v)),
-  sprintf("# frequencies are across the CeNDR 20210121 isotype set (%d isotypes)",
-          max(v$n_isotypes))), OUT)
-write_tsv(v, OUT, append = TRUE, col_names = TRUE)
+  "sid-2 protein-altering variants with CeNDR allele frequencies",
+  paste0("generated ", Sys.Date(), " by scripts/sid2_variant_table.R"),
+  "",
+  "Annotation: bcftools csq (BCSQ), restricted to variants segregating among",
+  "the four cross parents N2, XZ1516, JU1793 and JU2466.",
+  "",
+  "NOT an exhaustive catalogue of sid-2 coding variation:",
+  sprintf("  %d variants of any kind segregate in the %.1f kb sid-2 span in CeNDR",
+          nrow(frq), diff(SPAN) / 1000),
+  sprintf("  %d of those are annotated here, %d are protein-altering",
+          nrow(d), nrow(v)),
+  sprintf("Allele frequencies are across the CeNDR 20210121 isotype set (%d isotypes).",
+          max(v$n_isotypes))),
+  sub("[.]tsv$", "_README.txt", OUT))
 msg("wrote ", OUT)

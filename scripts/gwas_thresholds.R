@@ -17,12 +17,12 @@
 ##                appropriate to the LD in the panel.
 ##
 ## Both are computed by scripts/eigen_independent_tests.R, which writes
-## data/eigen_independent_tests.tsv. Run that first if the file is missing or
+## supplemental_data/mapping/eigen_independent_tests.tsv. Run that first if the file is missing or
 ## the panels change.
 ## ---------------------------------------------------------------------------
 
 gwas_thresholds <- function(panel,
-                            file = "data/eigen_independent_tests.tsv",
+                            file = "supplemental_data/mapping/eigen_independent_tests.tsv",
                             method = c("liji", "var995")) {
   method <- match.arg(method)
   if (!file.exists(file))

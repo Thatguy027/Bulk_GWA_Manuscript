@@ -17,7 +17,7 @@ suppressPackageStartupMessages({
   library(ggtext)
 })
 
-b   <- readRDS("data/pooled_cross_intersection/bundle.rds")
+b   <- readRDS("supplemental_data/mapping/pooled_cross_bundle_thinned.rds")
 ## Figure 2 is a manuscript figure, so it writes to plots/. It used to write
 ## into plots/pooled_cross_intersection/, which is untracked, so the copy in
 ## plots/ was a stale hand-placed duplicate that re-running never refreshed.

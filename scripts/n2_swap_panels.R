@@ -43,7 +43,7 @@ suppressPackageStartupMessages({
   library(ggtext)
 })
 
-N2SWAP <- "data/plate_rnai_phenotyping/n2_swap.tsv"
+N2SWAP <- "supplemental_data/hatching_assays/n2_allele_swaps_hatching.tsv"
 
 ## N2 has no strain colour in this manuscript; parental keeps the dark
 ## reference colour and edited lines go grey, as in Figure 4B

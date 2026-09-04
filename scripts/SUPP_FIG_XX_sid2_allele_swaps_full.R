@@ -58,10 +58,10 @@ suppressPackageStartupMessages({
 })
 
 OUT    <- "plots"
-PERRES <- "data/structure/sid2_per_residue.tsv"
-SWAP   <- "data/plate_rnai_phenotyping/20260409_ju2466swap_plus_N2A_swap.csv"
+PERRES <- "supplemental_data/structure/sid2_per_residue.tsv"
+SWAP   <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
 RIBBON <- "plots/assets/sid2_ecd_ribbon_plddt.png"
-AFDIR  <- "data/structure/AF_sid2_wt_dimer"
+AFDIR  <- "supplemental_data/structure/sid2_alphafold_confidences"
 
 COL_PT   <- "#2E4057"
 COL_MARK <- "#C4302B"

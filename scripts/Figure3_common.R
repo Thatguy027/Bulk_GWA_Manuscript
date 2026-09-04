@@ -66,12 +66,11 @@ suppressPackageStartupMessages({
 })
 
 OUT  <- "plots"
-NILB <- "data/nil_ranges.bed"
-PHEN <- paste0("data/plate_rnai_phenotyping/",
-               "RNAi Sensitivity - JU1793 - November2025 gSZ177 - gSZ179 NILs.tsv")
-SCAN <- paste0("data/cross_experiments/JU1793-JU2466_export/plot_data/",
-               "JU1793_JU2466_F2-2_contrast_HT115g-POS1g_10000_plot_DF.tsv.gz")
-POOL <- "data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv"
+NILB <- "supplemental_data/hatching_assays/nil_introgression_ranges.bed"
+PHEN <- "supplemental_data/hatching_assays/nil_series_hatching.tsv"
+SCAN <- paste0("supplemental_data/mapping/",
+               "ju_cross_ht115_vs_pos1_scan.tsv.gz")
+POOL <- "supplemental_data/phenotypes/pooled_vst_traits.csv.gz"
 
 ## the strain colours as defined for this figure; do not re-map these
 COL_JU1793 <- "#F34C00"

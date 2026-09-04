@@ -54,7 +54,7 @@ suppressPackageStartupMessages({
 })
 
 OUT    <- "plots"
-PERRES <- "data/structure/sid2_per_residue.tsv"
+PERRES <- "supplemental_data/structure/sid2_per_residue.tsv"
 ASSET  <- "plots/assets/sid2_ecd_ribbon_charge.png"
 
 ECD <- c(21, 193)          # DeepTMHMM extracellular span

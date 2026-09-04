@@ -38,128 +38,19 @@ scripts/Rplots.pdf
 *_JuHighlight.pdf
 
 # =============================================================================
-# Whole directories no current script reads. All archived.
+# data/ -- the provenance tree, archived to Dryad, not in git
+#
+# 12.8 GB of raw sequence, genotype panels, alignment intermediates, exports
+# and caches. It is the input to the deposit, not the deposit: everything the
+# figures actually read has been staged into supplemental_data/, which IS
+# tracked. See DATA_AVAILABILITY.md for what is in the archive, and
+# SUPPLEMENTAL_DATA_SURVEY.md for how the deposit set was chosen.
+#
+# Rebuild the deposit from a restored archive with:
+#   Rscript scripts/make_supplemental_data.R
+#   Rscript scripts/make_thinned_bundle.R
 # =============================================================================
-
-# 6.6 GB. CeNDR PLINK panel and the processed genotype matrix. Rebuildable from
-# the CeNDR release; scripts that need it say so.
-data/genotypes/
-
-# 53 MB. LD matrices, not read by any script in scripts/.
-data/LD/
-
-# 550 MB. Output of an earlier GEMMA run on the 2023 pos-1 panel. The exported
-# association table the figures read is kept in updated_analysis/.
-data/pos1_original/gemma_output/
-
-# figure output written by analyses that live outside this repository
-data/pooled_RNAi_expt/plot/
-data/**/*_manplot.png
-
-# 140 MB. Per-chromosome GEMMA output from an earlier run. Not read by any
-# script; the exported association tables are what the figures use.
-data/pos1_rnai_sensitive/gemma/
-
-# 180 MB. The superseded JU cross analysis, including three 42 MB uncompressed
-# contrast tables. Replaced by data/cross_experiments/JU1793-JU2466_export/ and
-# referenced only by scripts/legacy/.
-data/cross_experiments/Nov2024_JU_cross_pos_mig/
-
-# 281 MB. Cache built by scripts/pooled_cross_intersection_prep.R. Regenerable,
-# and the prep script is the documented way to get it back.
-data/pooled_cross_intersection/
-
-# =============================================================================
-# data/structure_modeling -- 1.9 GB of exploratory modelling. One file from it
-# is used by the figures: the membrane-oriented ectodomain.
-# =============================================================================
-data/structure_modeling/*
-!data/structure_modeling/claude_docking/
-data/structure_modeling/claude_docking/*
-!data/structure_modeling/claude_docking/stage4_electrostatics/
-data/structure_modeling/claude_docking/stage4_electrostatics/*
-!data/structure_modeling/claude_docking/stage4_electrostatics/sid2_wt_elec.pdb
-!data/structure_modeling/claude_docking/stage*/**/*report*.txt
-
-# =============================================================================
-# data/cross_experiments -- 1.5 GB of exports. Keep the one contrast scan
-# Figure 3 reads, plus the READMEs and sample sheets that document them.
-# =============================================================================
-data/cross_experiments/*
-!data/cross_experiments/*/
-data/cross_experiments/*/*
-!data/cross_experiments/*/README.md
-!data/cross_experiments/*/sample_sheet.tsv
-!data/cross_experiments/*/MANIFEST.tsv
-!data/cross_experiments/*/intervals/
-!data/cross_experiments/JU1793-JU2466_export/plot_data/
-data/cross_experiments/JU1793-JU2466_export/plot_data/*
-!data/cross_experiments/JU1793-JU2466_export/plot_data/*HT115g-POS1g*_plot_DF.tsv.gz
-
-# =============================================================================
-# data/structure -- keep the model and its confidence files, drop the 20 MB of
-# CIFs, MSAs and templates.
-# =============================================================================
-data/structure/AF_sid2_wt_dimer/*
-!data/structure/AF_sid2_wt_dimer/sid2wt.pdb
-!data/structure/AF_sid2_wt_dimer/*summary_confidences_*.json
-data/structure/*.zip
-
-# =============================================================================
-# Large formats, wherever they appear under data/
-# =============================================================================
-
-# alignment and variant files
-data/**/*.bam
-data/**/*.bai
-data/**/*.cram
-data/**/*.crai
-data/**/*.vcf
-data/**/*.vcf.gz
-data/**/*.vcf.gz.tbi
-data/**/*.bcf
-
-# PLINK binary sets
-data/**/*.bed
-data/**/*.bim
-data/**/*.fam
-data/**/*.pgen
-data/**/*.pvar
-data/**/*.psam
-!data/nil_ranges.bed
-
-# GEMMA/PLINK working inputs. data/pooled_RNAi_expt/reanalysis/mapping/plink/
-# holds a 188 MB traits.gen; only the exported *_loco_results.csv.gz in that
-# directory are needed by the figures.
-data/**/plink/
-data/**/*.gen
-data/**/*.gen.gz
-data/**/*.sample
-
-# GATK ASEReadCounter tables and MSAs
-data/**/*.table.gz
-data/**/*.a3m
-
-# R binary objects are large by default. The few small ones the figures read
-# are re-admitted here; keep this list in step with the scripts.
-data/**/*.Rdata
-data/**/*.RData
-data/**/*.rda
-data/**/*.Rda
-data/**/*.rds
-!data/baugh/2024_processedBOOTs_with_MIP.RData
-!data/baugh/2024baugh_bootstrap_prediction.rda
-!data/baugh/2026downsampled_dataset.rda
-!data/pos1_rnai_sensitive/processed_strain_fq.rda
-!data/pos1_original/2024pub_prediction_bootstrap_combined_df.Rdata
-
-# caches written by the Figure 1 scripts; rebuilt with FIG1_REFRESH=1
-data/baugh/cache_*.rds
-
-# archives
-data/**/*.zip
-data/**/*.tar
-data/**/*.tar.gz
+data/
 
 # =============================================================================
 # plots -- keep the figures, drop the exploratory set and the regenerable
@@ -170,10 +61,9 @@ data/**/*.tar.gz
 # and the versions that matter are in git history.
 plots/legacy/
 
-plots/pooled_cross_intersection/*
-!plots/pooled_cross_intersection/TABLE_*.tsv
-!plots/pooled_cross_intersection/TABLE_*.tsv.gz
-!plots/pooled_cross_intersection/variants_by_qtl/
+# exploratory figure set and the tables behind it; the one table the figures
+# need is staged into supplemental_data/structure/
+plots/pooled_cross_intersection/
 # plots/assets is KEPT (4.6 MB): the R figure scripts read these renders, so
 # keeping them means Figure 4 builds from a fresh clone without running the
 # Python renderers first. Regenerate with sid2_ribbon_render.py and

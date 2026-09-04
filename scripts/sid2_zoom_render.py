@@ -11,10 +11,10 @@ Writes to plots/assets/:
                                  uptake-critical residues
 
 WHY A DIFFERENT INPUT FILE
-The AlphaFold output (data/structure/AF_sid2_wt_dimer/sid2wt.pdb) is in an
+The AlphaFold output (supplemental_data/structure/sid2_alphafold_dimer.pdb) is in an
 arbitrary frame, so scripts/sid2_ribbon_render.py orients it by PCA -- which
 gives a reproducible view but not a meaningful one. This script instead reads
-    data/structure_modeling/claude_docking/stage4_electrostatics/sid2_wt_elec.pdb
+    supplemental_data/structure/sid2_membrane_oriented.pdb
 which is the same model already rotated onto the membrane normal by the
 earlier stage3 work: z = 0 is the bilayer centre, +z is the intestinal lumen.
 Keeping that frame and putting +z up the page means the picture is anatomically
@@ -50,8 +50,7 @@ import sid2_ribbon_render as rr          # geometry + Kabsch-Sander helpers
 
 warnings.filterwarnings("ignore")
 
-PDB = Path("data/structure_modeling/claude_docking/stage4_electrostatics/"
-           "sid2_wt_elec.pdb")
+PDB = Path("supplemental_data/structure/sid2_membrane_oriented.pdb")
 OUT = Path("plots/assets")
 OUT.mkdir(parents=True, exist_ok=True)
 

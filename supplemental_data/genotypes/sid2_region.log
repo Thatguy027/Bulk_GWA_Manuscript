@@ -1,0 +1,28 @@
+PLINK v2.00a3 AVX2 (20 Oct 2020)
+Options in effect:
+  --allow-extra-chr
+  --bfile data/genotypes/CeNDR20210121_Plink/III
+  --chr III
+  --from-bp 13679000
+  --make-bed
+  --out supplemental_data/genotypes/sid2_region
+  --silent
+  --to-bp 13682000
+
+Hostname: stefans-imac.ad.medctr.ucla.edu
+Working directory: /Users/Stefan/UCLA/Projects/RNAi/Manuscript/Bulk_GWA_Manuscript
+Start time: Fri Sep  4 10:25:26 2026
+
+Random number seed: 1788542726
+32768 MiB RAM detected; reserving 16384 MiB for main workspace.
+Using up to 6 compute threads.
+540 samples (0 females, 0 males, 540 ambiguous; 540 founders) loaded from
+data/genotypes/CeNDR20210121_Plink/III.fam.
+341971 variants loaded from data/genotypes/CeNDR20210121_Plink/III.bim.
+Note: No phenotype data present.
+81 variants remaining after main filters.
+Writing supplemental_data/genotypes/sid2_region.fam ... done.
+Writing supplemental_data/genotypes/sid2_region.bim ... done.
+Writing supplemental_data/genotypes/sid2_region.bed ... done.
+
+End time: Fri Sep  4 10:25:26 2026

@@ -33,9 +33,8 @@ suppressPackageStartupMessages({
 })
 
 OUT  <- "plots"
-PHEN <- paste0("data/plate_rnai_phenotyping/",
-               "RNAi Sensitivity - JU1793 - November2025 gSZ177 - gSZ179 NILs.tsv")
-NILB <- "data/nil_ranges.bed"
+PHEN <- "supplemental_data/hatching_assays/nil_series_hatching.tsv"
+NILB <- "supplemental_data/hatching_assays/nil_introgression_ranges.bed"
 
 COL_CTRL <- "grey80"
 COL_RNAI <- "grey40"

@@ -10,7 +10,7 @@
 ## changes:
 ##
 ## 1  PANEL A IS NOW THE VST TRAIT, vst_ctrl_pos-1_T2 from
-##    data/pos1_original/updated_analysis/association_traits.csv -- the same
+##    supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz -- the same
 ##    trait the association mapping was run on, so this figure is on the same
 ##    scale as every other phenotype panel in the manuscript. The old version
 ##    used a bootstrap frequency change from a different export, which was on
@@ -45,9 +45,9 @@ suppressPackageStartupMessages({
 })
 
 OUT   <- "plots"
-PLATE <- "data/pos1_plate_phenotyping/pos1_phenotypes_first2rounds.tsv"
-TRAIT <- "data/pos1_original/updated_analysis/association_traits.csv"
-PAABY <- "data/pooled_RNAi_expt/paaby2015/emb_leth_data.txt"
+PLATE <- "supplemental_data/phenotypes/plate_scores_pos1.tsv"
+TRAIT <- "supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz"
+PAABY <- "supplemental_data/phenotypes/paaby2015_embryonic_lethality.txt.gz"
 
 COL_PT <- "#2E4057"
 

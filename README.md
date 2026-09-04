@@ -14,42 +14,39 @@ Everything here runs from the repository root with no arguments.
 | `scripts/` | 16 figure scripts, one per figure and named for it, plus 12 shared, data-prep and rendering scripts |
 | `scripts/legacy/` | 30 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `data/` | the **small** input tables the figure scripts read — trait tables, GWAS result exports, plate phenotyping, NIL breakpoints, structure models, *sid-2* variant tables |
+| `supplemental_data/` | **every input the figure scripts read**, 37.7 MB. Self-contained: all sixteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
-| `DATA_AVAILABILITY.md` | what is archived externally, and which figures need it |
+| `DATA_AVAILABILITY.md` | what is archived externally |
+| `SUPPLEMENTAL_DATA_SURVEY.md` | how the deposit set was chosen, and which files have no recipe here |
 | `main_displays.pdf` | the assembled main display |
 
-Tracked size is about 72 MB.
+Tracked size is about 58 MB.
 
 ## What is excluded
 
-The working tree is roughly **12.8 GB**; about 12.7 GB of it is excluded by
-`.gitignore` and archived separately. Excluded, in descending size:
+`data/` is **not** in git. It is the provenance tree — 12.8 GB of raw sequence,
+genotype panels, alignment intermediates, exports and caches — and it is the
+*input* to the deposit rather than the deposit itself. Everything the figures
+actually read has been staged into `supplemental_data/`, which is tracked.
+`DATA_AVAILABILITY.md` lists the archive contents and
+`SUPPLEMENTAL_DATA_SURVEY.md` explains how the 12.8 GB was reduced to 37.7 MB.
 
-- `data/genotypes/` — CeNDR PLINK panel and processed genotype matrix (7.1 GB)
-- `data/structure_modeling/` — exploratory AlphaFold, HADDOCK and
-  electrostatics work (2.0 GB); one PDB and the text reports are kept
-- `data/cross_experiments/*/` — xQTL exports: allele counts, AFD tables and all
-  contrast tables (1.4 GB); one contrast table is kept
-- `data/pos1_original/gemma_output/`, `data/pos1_rnai_sensitive/gemma/` —
-  per-chromosome GEMMA output from earlier runs (0.7 GB)
-- `data/pooled_RNAi_expt/` — pooled competition raw data (0.7 GB)
-- `data/pooled_cross_intersection/` — regenerable cache (281 MB)
-- `data/cross_experiments/Nov2024_JU_cross_pos_mig/` — superseded analysis (245 MB)
-- `data/LD/` — LD matrices (56 MB)
-- `plots/pooled_cross_intersection/`, `plots/legacy/` — exploratory and
-  superseded figure sets (96 MB); the variant tables in the first are kept
-- large R objects (`*.Rdata`, `*.rda`, `*.rds`), alignment and variant files
-  (`*.bam`, `*.vcf.gz`), PLINK binaries, GATK count tables and MSAs, wherever
-  they appear under `data/` — with named exceptions for the few small ones the
-  figures read
+Two reductions are worth knowing about when using the deposit:
 
-`.gitignore` excludes by rule, not by listing files, so unpacking the archive
-over the repository root restores the tree and git keeps ignoring it.
+- **The pooled/cross bundle is thinned** to one marker per 5 kb (cross scans)
+  and 10 kb (pooled GWAS), keeping the maximum-LOD marker so every peak
+  survives exactly: 9.6 MB instead of 258.7 MB. Peak positions and peak LODs
+  are identical to the full data; **QTL support interval widths are 0–9 kb
+  narrower**. `scripts/compare_full_vs_thinned_bundle.R` rebuilds Figure 2 from
+  both bundles and reports the difference.
+- **The genotypes are a region subset**, chromosome III 13,679,000–13,682,000,
+  because the two scripts that read genotypes need the *sid-2* region.
 
-`*.key` is excluded: a Keynote bundle is rewritten in full on every save and
-would grow history quickly. `main_displays.pdf` is tracked instead.
+Also excluded: `plots/legacy/` and `plots/pooled_cross_intersection/`
+(superseded and exploratory figures, regenerable from `scripts/legacy/`), and
+`*.key` — a Keynote bundle is rewritten whole on every save and would grow
+history quickly, so `main_displays.pdf` is tracked instead.
 
 ## The curated figure set
 

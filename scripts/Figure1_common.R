@@ -53,14 +53,18 @@ suppressPackageStartupMessages({
 })
 
 OUT   <- "plots"
-BAUGH <- "data/baugh"
-POS1  <- "data/pos1_original/updated_analysis"
+BAUGH <- "supplemental_data/deconvolution"
+POS1  <- "supplemental_data/phenotypes"
 
-CACHE <- file.path(BAUGH, "2024_processedBOOTs_with_MIP.RData")
-BOOT  <- file.path(BAUGH, "2024bootstrapINPUT.Rdata")
-MIP   <- file.path(BAUGH, "MIPseq_frequencies.txt")
-DS    <- file.path(BAUGH, "2026downsampled_dataset.rda")
-BPRED <- file.path(BAUGH, "2024baugh_bootstrap_prediction.rda")
+CACHE <- file.path(BAUGH, "baugh_nnls_with_mipseq.RData")
+BOOT  <- file.path(BAUGH, "2024bootstrapINPUT.Rdata")   # Dryad only
+## The bootstrap array's first dimension is unnamed; its order is the column
+## order of the genotype matrix. Rather than open that 31 MB matrix just to
+## recover 102 strain names, the order is shipped as a one-column file.
+SORDER <- file.path(BAUGH, "baugh_strain_order.txt")
+MIP   <- file.path(BAUGH, "mipseq_frequencies.txt.gz")
+DS    <- file.path(BAUGH, "baugh_downsampled_slopes.rda")
+BPRED <- file.path(BAUGH, "baugh_bootstrap_array.rda")
 BCACHE<- file.path(BAUGH, "cache_boot_slopes.rds")
 FCACHE<- file.path(BAUGH, "cache_boot_freq.rds")
 
@@ -399,7 +403,7 @@ panel_downsample <- function(slopes, letter = "C", bare = TRUE,
 ## in both places until they are converged.
 ## ===========================================================================
 pos1_traits <- function() {
-  read_csv(file.path(POS1, "association_traits.csv"), show_col_types = FALSE) %>%
+  read_csv(file.path(POS1, "pos1_2023_association_traits.csv.gz"), show_col_types = FALSE) %>%
     transmute(strain, vst = `vst_ctrl_pos-1_T2`)
 }
 
@@ -447,7 +451,7 @@ panel_pos1_dist <- function(letter = "B", bare = TRUE, base_size = 11.5,
 
 ## --- the pos-1 association scan ------------------------------------------
 panel_pos1_manhattan <- function(letter = "C", bare = TRUE, base_size = 11.5) {
-  gw <- fread(file.path(POS1, "vst_ctrl_pos-1_T2_loco_results.csv.gz"),
+  gw <- fread("supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz",
               select = c("chr", "ps", "af", "beta", "p_wald"))
   gw <- gw[chr %in% CHROMS]
   gw[, neglog10p := -log10(p_wald)]
@@ -539,7 +543,7 @@ write_fig <- function(fig, stem, width, height) {
 ## ===========================================================================
 ## bootstrap uncertainty on the NNLS slopes
 ##
-## data/baugh/2024baugh_bootstrap_prediction.rda carries `ab`, the full
+## supplemental_data/deconvolution/baugh_bootstrap_array.rda carries `ab`, the full
 ## bootstrap array: 102 strains x 23 samples x 100 replicates of the NNLS
 ## deconvolution, already normalised to sum to 1 within each sample. The legacy
 ## scripts loaded it, averaged it to `bootmean`/`bootse`, carried both through
@@ -557,6 +561,22 @@ write_fig <- function(fig, stem, width, height) {
 ## genotype matrix, which is why the 30 MB input has to be opened once. The
 ## result is cached, so that happens only on the first run.
 ## ===========================================================================
+## Strain order for the bootstrap array. Reads the shipped one-column file;
+## falls back to the genotype matrix if only that is available, so the
+## function works from either the supplemental deposit or the full archive.
+baugh_strain_order <- function() {
+  ## the shipped file carries a "strain" header line
+  if (file.exists(SORDER)) {
+    x <- readLines(SORDER)
+    return(if (identical(x[1], "strain")) x[-1] else x)
+  }
+  if (!file.exists(BOOT))
+    stop("need ", SORDER, " or ", BOOT, " to recover the bootstrap array's\n",
+         "  strain order; see DATA_AVAILABILITY.md")
+  g <- new.env(); load(BOOT, g)
+  sub("_.*$", "", colnames(g$flipped_bootstrap_input[[1]]))
+}
+
 boot_slope_matrix <- function(refresh = FALSE) {
   if (!refresh && file.exists(BCACHE)) {
     S <- readRDS(BCACHE)
@@ -569,10 +589,7 @@ boot_slope_matrix <- function(refresh = FALSE) {
   ab <- e$ab
   samples <- dimnames(ab)[[2]]
 
-  ## the strain order of ab's first dimension is the genotype matrix's column
-  ## order and is recorded nowhere else
-  g <- new.env(); load(BOOT, g)
-  strains <- sub("_.*$", "", colnames(g$flipped_bootstrap_input[[1]]))
+  strains <- baugh_strain_order()
   stopifnot(length(strains) == dim(ab)[1])
 
   meta <- tibble(sample = samples,
@@ -633,8 +650,8 @@ boot_rho <- function(S, mip, level = 0.95) {
 ## The same array, summarised one level earlier: a percentile interval per
 ## (strain, sample) rather than per strain. These are the estimates that go
 ## into the deltas, which go into the slopes, so this is what the slope panel
-## aggregates over. Cached for the same reason -- the strain order of ab's
-## first dimension lives only in the 30 MB genotype matrix.
+## aggregates over. Cached because the reduction is slow, not because the
+## inputs are large.
 ## ---------------------------------------------------------------------------
 boot_freq_intervals <- function(refresh = FALSE, level = 0.95) {
   if (!refresh && file.exists(FCACHE)) {
@@ -645,8 +662,7 @@ boot_freq_intervals <- function(refresh = FALSE, level = 0.95) {
   e <- new.env(); load(BPRED, e)
   ab <- e$ab
   samples <- dimnames(ab)[[2]]
-  g <- new.env(); load(BOOT, g)
-  strains <- sub("_.*$", "", colnames(g$flipped_bootstrap_input[[1]]))
+  strains <- baugh_strain_order()
   stopifnot(length(strains) == dim(ab)[1])
 
   a  <- (1 - level) / 2

@@ -37,7 +37,7 @@
 ##      than the platform disagreement, so most points fall below the line.
 ##
 ## CAVEAT, and it is not resolvable from this repository: only the bootstrap
-## OUTPUTS were saved. data/baugh/2024baugh_bootstrap_prediction.rda holds `ab`
+## OUTPUTS were saved. supplemental_data/deconvolution/baugh_bootstrap_array.rda holds `ab`
 ## (102 strains x 23 samples x 100 replicates) and `blist`, which is the same
 ## content reshaped -- not the resampling scheme. So these panels establish
 ## that the array is resampling the plotted estimator and that the

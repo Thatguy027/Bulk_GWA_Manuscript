@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
   library(ggtext)
 })
 
-b   <- readRDS("data/pooled_cross_intersection/bundle.rds")
+b   <- readRDS("supplemental_data/mapping/pooled_cross_bundle_thinned.rds")
 ## a kept supplement (see README.md), so it writes to plots/ -- it used to
 ## write into plots/pooled_cross_intersection/, which is not tracked, so
 ## re-running it left the curated copy stale

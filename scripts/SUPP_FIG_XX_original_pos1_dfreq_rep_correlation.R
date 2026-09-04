@@ -18,12 +18,12 @@
 ##       /UCLA/Projects/bulkGWAS/lipid_RNAi/2023_pos1
 ##
 ## What is used here is only the exported end product of that analysis:
-##   data/pos1_original/updated_analysis/final_dataset.csv
+##   supplemental_data/phenotypes/pos1_2023_sample_frequencies.csv.gz
 ##       sample-level frequencies, 366 strains, T2 only, ctrl replicates A and B
 ##       and pos-1 replicates 1-4, each at three read-depth cutoffs (3, 5, 10).
-##   data/pos1_original/updated_analysis/association_traits.csv
+##   supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz
 ##       the per-strain association traits (delta_ctrl, vst, log2fc).
-##   data/pos1_original/updated_analysis/vst_ctrl_pos-1_T2_loco_results.csv.gz
+##   supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz
 ##       GEMMA LOCO results for vst_ctrl_pos-1_T2.
 ##
 ## Depth cutoff
@@ -71,7 +71,7 @@ suppressPackageStartupMessages({
   library(ggtext)
 })
 
-DIR   <- "data/pos1_original/updated_analysis"
+DIR   <- "supplemental_data/phenotypes"
 OUT   <- "plots"
 DEPTH <- 5
 
@@ -90,7 +90,7 @@ msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 ## Figure 1 -- replicate reproducibility
 ## ===========================================================================
 msg("replicate reproducibility")
-dat <- read_csv(file.path(DIR, "final_dataset.csv"), show_col_types = FALSE)
+dat <- read_csv(file.path(DIR, "pos1_2023_sample_frequencies.csv.gz"), show_col_types = FALSE)
 
 ## --- collapse rows that share a (strain, sample) key ------------------------
 dup_keys <- dat %>% filter(depth_cutoff == DEPTH) %>%
@@ -114,7 +114,7 @@ reps <- collapsed %>% filter(rnai == "pos-1") %>%
             delta_ctrl = frq - ctrl_base)
 
 ## does the recomputed delta reproduce the shipped trait for unduplicated strains?
-shipped <- read_csv(file.path(DIR, "association_traits.csv"), show_col_types = FALSE) %>%
+shipped <- read_csv(file.path(DIR, "pos1_2023_association_traits.csv.gz"), show_col_types = FALSE) %>%
   transmute(strain, shipped = `delta_ctrl_pos-1_T2`)
 chk <- reps %>% group_by(strain) %>%
   summarise(recomputed = mean(delta_ctrl, na.rm = TRUE), .groups = "drop") %>%
