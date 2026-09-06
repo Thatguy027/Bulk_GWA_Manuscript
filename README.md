@@ -11,10 +11,10 @@ Everything here runs from the repository root with no arguments.
 
 | path | contents |
 |---|---|
-| `scripts/` | 16 figure scripts, one per figure and named for it, plus 12 shared, data-prep and rendering scripts |
-| `scripts/legacy/` | 30 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
+| `scripts/` | 18 figure scripts, one per figure and named for it, plus 17 shared, data-prep, deposit-building and rendering scripts |
+| `scripts/legacy/` | 32 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `supplemental_data/` | **every input the figure scripts read**, 37.0 MB. Self-contained: all eighteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
+| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all eighteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
 | `DATA_AVAILABILITY.md` | what is archived externally |
@@ -30,7 +30,7 @@ genotype panels, alignment intermediates, exports and caches — and it is the
 *input* to the deposit rather than the deposit itself. Everything the figures
 actually read has been staged into `supplemental_data/`, which is tracked.
 `DATA_AVAILABILITY.md` lists the archive contents and
-`SUPPLEMENTAL_DATA_SURVEY.md` explains how the 12.8 GB was reduced to 37.0 MB.
+`SUPPLEMENTAL_DATA_SURVEY.md` explains how the 12.8 GB was reduced to 38.2 MB.
 
 Two reductions are worth knowing about when using the deposit:
 
@@ -114,13 +114,16 @@ python3 scripts/sid2_zoom_render.py      # once, Figure4_sid2 structure panel
 Rscript scripts/Figure4_sid2.R
 ```
 
-The other twelve scripts in `scripts/` are shared panel builders
+The other seventeen scripts in `scripts/` are shared panel builders
 (`Figure1_common.R`, `Figure3_common.R`, `n2_swap_panels.R`), the
 multiple-testing machinery (`gwas_thresholds.R`, `eigen_independent_tests.R`),
 data preparation (`pooled_cross_intersection_prep.R`,
 `pooled_cross_candidate_variation.R`, `baugh_L1_DownSample_Counts.R`,
-`sid2_variant_table.R`) and an orientation-picking tool
-(`sid2_orientation_sheet.py`).
+`sid2_variant_table.R`, `extract_sim_reported_r2.py`), the structure renderers
+and an orientation-picking tool (`sid2_ribbon_render.py`,
+`sid2_zoom_render.py`, `sid2_orientation_sheet.py`), and the deposit builders
+(`make_supplemental_data.R`, `make_thinned_bundle.R`,
+`make_experiments_deposit.R`, `compare_full_vs_thinned_bundle.R`).
 
 **Three things need the external archive**, because they read the genotype
 panel or the intersection cache:

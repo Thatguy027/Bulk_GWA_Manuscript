@@ -1,8 +1,8 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all sixteen manuscript figures, and nothing
-else. **37.7 MB in 37 files.** Verified by deleting `data/` entirely and
-rebuilding: all sixteen figures and the three asset builders run from this
+Every file needed to regenerate all eighteen manuscript figures, and nothing
+else. **38.2 MB in 46 files.** Verified by deleting `data/` entirely and
+rebuilding: all eighteen figures and the three asset builders run from this
 directory alone.
 
 Reproduce with the scripts in `scripts/`, from the repository root:

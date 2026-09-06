@@ -53,7 +53,7 @@ Assembled 2026-09-04
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the sixteen manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the eighteen manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
