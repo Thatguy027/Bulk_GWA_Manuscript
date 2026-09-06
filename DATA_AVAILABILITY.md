@@ -59,11 +59,25 @@ clone**, with no archive needed. The table below is about rebuilding the
 | `SUPP_FIG_XX_sid2_allele_in_panel` | **no** — needs `data/genotypes/CeNDR20210121_Plink/` |
 | `SUPP_FIG_XX_sid2_electrostatics` | yes |
 | `eigen_independent_tests.R` | **no** — needs `data/genotypes/` |
+| `baugh_strain_similarity.R` | **no** — needs `data/baugh/2024bootstrapINPUT.Rdata` (31 MB) |
+| `baugh_leakage_vs_similarity.R` | yes, on a borrowed predictor — see below |
 | plate-phenotype comparisons | yes |
 
-So Figure 2, the eigen-threshold computation and the allele-frequency
-supplement are the three things that need the archive. Everything else builds
-from the repository as it stands.
+So Figure 2, the eigen-threshold computation, the allele-frequency supplement
+and the Baugh similarity table are the four things that need the archive.
+Everything else builds from the repository as it stands.
+
+`scripts/baugh_leakage_vs_similarity.R` is the one script that runs from a
+clone but runs *better* with the archive. It tests whether the strains the
+deconvolution resolves badly are the genetically similar ones, and needs a
+relatedness measure to do it. From a clone the only one available is
+`dilution_strain_similarity.tsv`, whose distances are to the closest of the 170
+dilution strains rather than of the 98-strain Baugh panel — a borrowed
+predictor that covers 66 of the 98 and is well posed for 24. Running
+`scripts/baugh_strain_similarity.R` once against the archive writes a 102-row
+table computed inside the Baugh reference itself; it is small enough to commit,
+after which the analysis runs from a clone on the right predictor. The script
+prints how much the substitution mattered.
 
 ## Kept in git on purpose
 
