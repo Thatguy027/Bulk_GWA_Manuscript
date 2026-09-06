@@ -15,6 +15,10 @@ far beyond what a git repository should carry.
 dropping the archive back into place restores the tree exactly and nothing has
 to be re-pointed.
 
+This file is the inventory of the whole archive. For the much smaller subset
+that has to be reachable from a *second working machine*, and the order to move
+it in, see `SYNC_MANIFEST.md`.
+
 ## What is in the archive
 
 | size | files | path | contents |
