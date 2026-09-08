@@ -84,9 +84,11 @@ cache/
 #          so it can be downloaded and opened on any machine with no deps
 # Rebuild both with:
 #   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", output_format = "all")'
-# NOTE: re-committing the .html adds a fresh ~13 MB blob to history each time,
-# since every figure change rewrites the embedded base64. Re-commit it only
-# when the report has actually changed.
+# DECIDED 2026-09-08: both stay tracked. The .html is now ~15.7 MB and every
+# knit rewrites the whole file, because the figures are base64-embedded, so each
+# commit adds a fresh blob of that size. That cost is accepted deliberately --
+# do not re-litigate it by quietly ignoring the file. If it ever needs cutting,
+# the lever is embedding downscaled figures rather than untracking the report.
 
 # =============================================================================
 # staging
