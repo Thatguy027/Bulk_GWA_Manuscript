@@ -31,6 +31,22 @@
 ##    system whose columns are near-collinear for related strains. Panel D is
 ##    the part of this figure that does not rest on that argument.
 ##
+## RESOLVED 2026-09-08: points 2, 3 and 4 below were written against the
+## borrowed dilution table. baugh_strain_similarity.R has since been run
+## against the archive, and with the correct reference:
+##   - point 2 is fixed. All 98 strains have a predictor, 95 of them well
+##     posed, and the effect is STRONGER: rho +0.319 over all 98 (p 0.0014)
+##     and +0.375 over the well-posed 95 (p 0.00018), against +0.391 on 66
+##     strains before.
+##   - point 3 no longer holds. The scale-free log-ratio version reaches
+##     rho +0.205, p 0.043, where the proxy run gave p 0.15.
+##   - point 4 is OVERTURNED, and this is the substantive change. Dropping the
+##     13 strains above IBS 0.97 leaves rho +0.357, p 0.00079 (n 85), so the
+##     relationship is GRADED and not a step at 0.97. The binned medians rise
+##     0.70, 1.51, 2.81 per mille across the three populated bins below 0.99.
+## The original text is kept below because it records what the borrowed
+## predictor supported, which is why the reference mattered.
+##
 ## 2. THE IBS TABLE IS FROM THE WRONG REFERENCE. nn_ibs in the deposit is
 ##    identity-by-state to the closest other strain among the 170 DILUTION
 ##    strains. NNLS confusability depends on the nearest confounder IN THE
@@ -162,6 +178,14 @@ PINNED <- list(n_strains = 98L, n_ibs = 66L, n_valid = 24L,
                rho_all = 0.391, rho_valid = 0.536, rho_ctrl_valid = -0.248,
                ibs_step = 0.97, n_above = 6L)
 
+## The true-reference run, pinned separately. These replace the proxy values
+## above as the numbers to quote; the proxy block is kept only so a run against
+## the borrowed table still self-checks.
+PINNED_TRUE <- list(n_strains = 98L, n_ibs = 98L, n_valid = 95L,
+                    rho_all = 0.319, rho_valid = 0.375,
+                    rho_ctrl_all = -0.303, rho_log2 = 0.205,
+                    rho_drop_above = 0.357, n_above = 13L)
+
 ## ===========================================================================
 ## the data
 ## ===========================================================================
@@ -234,6 +258,29 @@ diag(conf_mat) <- NA
 rownames(conf_mat) <- colnames(conf_mat) <- ord[keep]
 
 similarity <- read_tsv(SIM, show_col_types = FALSE)
+
+## ---------------------------------------------------------------------------
+## WHICH NEIGHBOUR COLUMN TO USE
+##
+## baugh_strain_similarity.R writes two: nn_ibs_wild searches wild isolates
+## only, nn_ibs also allows N2. N2 is the reference strain and carries the
+## swept haplotype, so it is genuinely the closest relative of much of the
+## panel -- but it is excluded from every MIP comparison, so with N2 allowed
+## only 57 of 102 strains have a partner that is itself measured here, against
+## 98 of 101 on the wild-only column. The wild-only column is therefore the one
+## used, and the difference is small where both are defined: excluding N2 moves
+## nn_ibs by a median of 0.0063.
+##
+## nn_ibs_n2 is carried through unused so the sensitivity of any result to this
+## choice can be checked without rerunning the similarity script.
+## ---------------------------------------------------------------------------
+if (all(c("nn_ibs_wild", "nn_partner_wild") %in% names(similarity))) {
+  similarity <- similarity %>%
+    mutate(nn_ibs_n2 = nn_ibs, nn_partner_n2 = nn_partner,
+           nn_ibs = nn_ibs_wild, nn_partner = nn_partner_wild) %>%
+    select(-nn_ibs_wild, -nn_partner_wild)
+  cat("   using nn_ibs_wild (N2 excluded as a candidate neighbour)\n")
+}
 tab <- perstrain %>%
   left_join(tibble(strain   = rownames(conf_mat),
                    min_r    = apply(conf_mat, 1, min, na.rm = TRUE),
@@ -244,9 +291,19 @@ tab <- perstrain %>%
 
 if (TRUE_REF) {
   cat("== IBS source: ", SIM_TRUE, " (the Baugh reference) ==\n", sep = "")
-  ## every strain's nearest neighbour is by construction in this panel, so the
-  ## proxy/well-posed split collapses and panels A and B become the same test
-  stopifnot(all(tab$well_posed))
+  ## With the true reference the nearest neighbour is by construction a column
+  ## of the design matrix, so the proxy/well-posed split all but collapses.
+  ## It does not collapse completely: the design matrix has 102 columns and only
+  ## 98 of those strains carry a MIP measurement, so a strain can be confounded
+  ## by a column that is real to the solver but unmeasurable here. Those strains
+  ## keep a valid predictor and drop out of the pairwise panel only.
+  off <- tab %>% filter(!well_posed) %>% pull(nn_partner) %>% unique()
+  cat("   nearest neighbour measured here: ", sum(tab$well_posed), " of ",
+      nrow(tab), "\n", sep = "")
+  if (length(off))
+    cat("   confounders present in the solve but not MIP-measured: ",
+        paste(sort(off), collapse = ", "), "\n", sep = "")
+  stopifnot(mean(tab$well_posed) > 0.9)
 } else {
   cat("== IBS source: ", SIM_PROXY, " ==\n", sep = "")
   cat("   BORROWED PREDICTOR. Distances are to the closest of the 170 DILUTION\n")
@@ -316,7 +373,7 @@ bin_report(valid,   "panel B")
 
 jk <- sapply(seq_len(nrow(valid)), function(i)
   cor(valid$nn_ibs[-i], valid$d_abs[-i], method = "spearman"))
-cat(sprintf("  jackknife on the well-posed 24: rho %+.3f to %+.3f, no strain carries it\n",
+cat(sprintf("  jackknife on the well-posed set: rho %+.3f to %+.3f, no strain carries it\n",
             min(jk), max(jk)))
 cat("    (most influential single strain: ", valid$strain[which.min(jk)], ")\n\n", sep = "")
 

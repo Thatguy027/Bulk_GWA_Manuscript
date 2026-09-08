@@ -131,25 +131,84 @@ cs   <- colSums(gt)
 same <- (cp + (n - outer(cs, cs, "+") + cp)) / n
 diag(same) <- NA
 
-sim <- tibble(strain     = colnames(gt),
-              nn_ibs     = apply(same, 1, max, na.rm = TRUE),
-              nn_partner = colnames(same)[apply(same, 1, which.max)],
-              mean_ibs   = rowMeans(same, na.rm = TRUE))
+## ---------------------------------------------------------------------------
+## N2 AS A NEAREST NEIGHBOUR: WHY BOTH COLUMNS ARE WRITTEN
+##
+## With N2 allowed as a candidate it is named nearest neighbour for 42 of the
+## 102 strains. That is not the artefact it first looks like. N2 carries the
+## swept haplotype, shared across much of the genome by a large part of the
+## wild panel, so high identity to N2 is real haplotype sharing; N2 was also
+## absent from the dilution experiment, which is why the borrowed table named a
+## different partner.
+##
+## Measured rather than assumed, and it turns out to be a NAMING issue and not
+## a measurement one. For the 42 strains where N2 wins the argmax, excluding it
+## drops nn_ibs by a median of 0.0063 and at most 0.0111, and only 3 of the 42
+## drop by more than 0.01 -- a wild strain sits at essentially the same
+## distance, so the predictor's VALUE barely moves even though the named
+## partner changes. Both columns track mean relatedness similarly (Spearman
+## +0.48 wild-only against +0.62 with N2 allowed), so allowing N2 does not make
+## the predictor a categorically different variable.
+##
+## Two distinct reasons N2 can win, worth keeping apart when reading a result:
+##   34 swept strains  genuinely N2-like, median nn_ibs 0.968 -- legitimate
+##    8 divergent      nothing is close, so N2 wins by default (XZ1516 0.703,
+##                     ECA369 0.848). For these "nearest neighbour" is a weak
+##                     construct whoever is named -- their wild-only partner is
+##                     no closer -- which is a limitation of the predictor at
+##                     the divergent end rather than a problem with N2.
+##
+## nn_ibs_wild is preferred for the analysis only because Figure 1 excludes N2
+## from every comparison, so the panel under test is the 98 wild isolates. The
+## conclusion does not depend on the choice. N2's own row is NA.
+## ---------------------------------------------------------------------------
+is_n2   <- colnames(same) == "N2"
+same_w  <- same; same_w[, is_n2] <- NA          # N2 not a candidate neighbour
+wild_ok <- rowSums(!is.na(same_w)) > 0
+
+pick <- function(m, ok) {
+  out_ibs <- rep(NA_real_, nrow(m)); out_who <- rep(NA_character_, nrow(m))
+  for (i in which(ok)) {
+    j <- which.max(m[i, ])
+    out_ibs[i] <- m[i, j]; out_who[i] <- colnames(m)[j]
+  }
+  list(ibs = out_ibs, who = out_who)
+}
+w <- pick(same_w, wild_ok & !is_n2)
+a <- pick(same,   rep(TRUE, nrow(same)))
+
+sim <- tibble(strain          = colnames(gt),
+              nn_ibs_wild     = w$ibs,
+              nn_partner_wild = w$who,
+              nn_ibs          = a$ibs,
+              nn_partner      = a$who,
+              mean_ibs        = rowMeans(same_w, na.rm = TRUE))
+
+msg("N2 named as nearest neighbour with N2 allowed: ",
+    sum(sim$nn_partner == "N2", na.rm = TRUE), " of ", nrow(sim))
+msg("median nn_ibs shift when N2 is excluded: ",
+    sprintf("%+.4f", median(sim$nn_ibs_wild - sim$nn_ibs, na.rm = TRUE)))
 
 ## a similarity outside these bounds means the identity above misfired
 stopifnot(all(sim$nn_ibs > 0.5), all(sim$nn_ibs <= 1),
-          all(sim$mean_ibs > 0.3), all(sim$mean_ibs < sim$nn_ibs))
+          all(sim$nn_ibs_wild > 0.5, na.rm = TRUE),
+          all(sim$nn_ibs_wild <= 1, na.rm = TRUE),
+          all(sim$mean_ibs > 0.3), all(sim$mean_ibs < sim$nn_ibs),
+          ## exactly one strain -- N2 -- has no wild-only neighbour
+          sum(is.na(sim$nn_ibs_wild)) == 1, is.na(sim$nn_ibs_wild[sim$strain == "N2"]))
 
 write_tsv(sim, OUT)
 msg("wrote ", OUT, ": ", nrow(sim), " strains")
-msg("nearest-neighbour IBS ", sprintf("%.4f-%.4f", min(sim$nn_ibs), max(sim$nn_ibs)))
+msg("nearest-neighbour IBS, wild only: ",
+    sprintf("%.4f-%.4f", min(sim$nn_ibs_wild, na.rm = TRUE),
+            max(sim$nn_ibs_wild, na.rm = TRUE)))
 
 ## ---------------------------------------------------------------------------
 ## how much did the reference matter? The whole reason for this script.
 ## ---------------------------------------------------------------------------
 old <- "supplemental_data/deconvolution/dilution_strain_similarity.tsv"
 if (file.exists(old)) {
-  cmp <- sim %>% rename(new_ibs = nn_ibs, new_partner = nn_partner) %>%
+  cmp <- sim %>% rename(new_ibs = nn_ibs_wild, new_partner = nn_partner_wild) %>%
     inner_join(read_tsv(old, show_col_types = FALSE) %>%
                  select(strain, old_ibs = nn_ibs, old_partner = nn_partner),
                by = "strain")
