@@ -41,11 +41,21 @@ if Rscript scripts/check_figure_lists.R; then :; else
   FAIL=$((FAIL + $?)); fi
 
 echo "== 5. scripts that self-assert their pinned numbers still pass =="
+# These scripts assert their pinned literals AND write their figures, so running
+# them dirties plots/ with a fresh cairo_pdf timestamp even when nothing changed.
+# A check must not have side effects on tracked files -- the hook would leave the
+# tree dirty on every push -- so plots/ is snapshotted and restored around it.
+# Only the exit status matters here; output determinism is check 6.
+SNAP="$(mktemp -d)"
+cp plots/*.pdf plots/*.png "$SNAP"/ 2>/dev/null || true
 for s in scripts/SUPP_FIG_XX_dilution_validation.R; do
-  if Rscript "$s" >/tmp/pin_$(basename "$s").log 2>&1; then ok "$(basename "$s") pins agree"
+  if Rscript "$s" >"/tmp/pin_$(basename "$s").log" 2>&1; then ok "$(basename "$s") pins agree"
   else bad "$(basename "$s") failed — pins stale or a real error"
-       tail -4 /tmp/pin_$(basename "$s").log | sed 's/^/        /'; fi
+       tail -4 "/tmp/pin_$(basename "$s").log" | sed 's/^/        /'; fi
 done
+cp "$SNAP"/* plots/ 2>/dev/null || true
+rm -rf "$SNAP"
+note "plots/ restored; this check leaves no working-tree changes"
 
 if [ "${1:-}" = "--full" ]; then
   echo "== 6. determinism: every figure byte-identical across two runs =="
