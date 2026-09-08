@@ -2205,12 +2205,44 @@ sensitive, 96T resistant**.
 rotated onto the membrane normal so the intestinal lumen is up;
 β-strands dark, coil pale, and the grey slab is the bilayer. Left,
 residues 21–188 of chain A with the dashed ring marking the region
-enlarged at right. Right, side chains for T96 (orange) and for the three
-residues with a published effect on dsRNA uptake — H32 (reduced uptake),
-D34 (*qt13*, complete RNAi resistance) and H168 (no detectable uptake) —
-with dashed lines giving Cα–Cα distances of 16.4, 13.5 and 19.2 Å. In
-the zoom the ribbon is scaffold only and carries no secondary-structure
-meaning.
+enlarged at right. Right, side chains for T96 (orange) and for two
+classes of annotated residue, coloured apart because they are different
+kinds of evidence. Dark blue, histidines from the McEwan et al. 2012
+mutagenesis, where His→Ala and His→Glu each reduced dsRNA transport: H32
+at `16.4` Å and H168 at `19.2` Å. Purple, D34 — the *qt13*
+loss-of-function allele at `13.5` Å, a separate line of evidence, not
+one of the histidines. Dashed lines give Cα–Cα distances. In the zoom
+the ribbon is scaffold only and carries no secondary-structure meaning.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">A correction, applied here and in the caption</span>
+
+An earlier version of this panel described H32, D34 and H168 together as
+“the three residues with a published effect on dsRNA uptake”. Both
+halves of that were wrong. McEwan, Weisman & Hunter (2012, *Mol Cell*
+47:746) identify SID-2’s three extracellular histidines as **H32, H168
+and H175** and test exactly those; they never mention residue 34. D34 is
+the *qt13* loss-of-function allele, a different experiment needing its
+own citation. And residue 34 is an aspartate, so it was never a
+candidate for that set.
+
+The model confirms the numbering independently of any database: its
+ectodomain (21–188) contains **exactly three histidines, at 32, 168 and
+175**, which is checkable straight from the deposited coordinates.
+Residue 199, which an earlier UniProt-derived list also carried, lies in
+the transmembrane helix and is not in the modelled span at all.
+
+H175 is not drawn because it sits `37.8` Å from T96, outside this 20 Å
+field. The correction also weakens a statistic that is now dropped
+rather than defended: `41.9%` of the ectodomain lies within 20 Å of T96,
+so two of the three histidines falling inside it is a binomial
+`p = 0.38`, against the `0.19` the earlier four-residue set gave.
+`METHODS.txt` now states that no proximity claim is made. The panel’s
+argument is about charge instead, which does not depend on proximity to
+the annotated residues.
 
 </div>
 
@@ -4330,7 +4362,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4344,7 +4376,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4358,7 +4390,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4372,7 +4404,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4386,7 +4418,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4400,7 +4432,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4414,7 +4446,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4428,7 +4460,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4442,7 +4474,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4456,7 +4488,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4470,7 +4502,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4484,7 +4516,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4498,7 +4530,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4512,7 +4544,7 @@ Figure4_sid2
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4526,7 +4558,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4540,7 +4572,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4554,7 +4586,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -4568,7 +4600,7 @@ SUPP_FIG_XX_sid2_electrostatics
 795
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 </tbody>

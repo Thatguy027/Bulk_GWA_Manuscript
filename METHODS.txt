@@ -448,16 +448,35 @@ lumen (tilt 32.5 degrees to the membrane normal, hydrophobic thickness 32.4 A,
 transmembrane helix spanning z = -13.2 to +13.2 A). Residue 96 sits at z = +62 A,
 on the lumenal face.
 
-Distances between residue 96 and the residues with a published effect on dsRNA
-uptake were measured C-alpha to C-alpha: D34 13.5 A, H32 16.4 A,
-H168 19.2 A and H175 37.7 A, against a median C-alpha distance from residue 96
-of 23.8 A across the ectodomain. Nearest heavy-atom distances are shorter (D34
-9.9, H32 14.6, H168 16.9 A). Because 41% of the ectodomain lies within 20 A of
-residue 96, three of the four annotated residues falling within that radius is
-not surprising: the binomial probability is 0.19, and a permutation test on
-their mean distance against 20,000 random sets of four ectodomain residues gives
-p = 0.30. The co-localisation is therefore reported as spatial context and not
-as evidence of a shared site.
+Two classes of annotated residue were measured against residue 96, and they are
+kept separate because they are different kinds of evidence.
+
+McEwan, Weisman & Hunter (2012) identify SID-2's three extracellular histidines
+as H32, H168 and H175 and test exactly those, with His->Ala and His->Glu each
+reducing dsRNA transport. The modelled ectodomain (residues 21-188) contains
+exactly three histidines, at 32, 168 and 175, which confirms the numbering
+independently of any sequence database. D34 is a separate line of evidence: it
+is the qt13 loss-of-function allele, not one of the histidines, and residue 34
+is an aspartate. An earlier version of this section grouped the two together as
+"residues with a published effect on dsRNA uptake" and, being drawn from a
+UniProt-derived list, also carried a residue 199 that lies in the transmembrane
+helix and does not belong to the ectodomain at all.
+
+C-alpha distances from residue 96: H32 16.4 A, H168 19.2 A, H175 37.8 A, and
+D34 13.5 A, against a median C-alpha distance from residue 96 of 22.3 A across
+the other 167 residues of the modelled ectodomain (21-188). Nearest heavy-atom distances are shorter (D34 9.9, H32 14.6,
+H168 16.9 A).
+
+NO PROXIMITY CLAIM IS MADE, and the corrected residue set is why. 41.9% of the
+ectodomain (70 of the other 167 residues) lies within 20 A of residue 96, so two
+of the three histidines falling inside that radius carries a binomial
+probability of 0.38 -- weaker than the 0.19 that the earlier four-residue set
+gave, and that earlier figure was computed over a set that should not have
+included D34. All of these are recomputed by
+scripts/sid2_local_charge_table.py, which prints them, rather than being
+carried as prose. The co-localisation is
+reported as spatial context only. The argument that Figure 4C does make is about
+charge, below, which does not depend on proximity to the annotated residues.
 
 [Note: D34 is 13.5 A from residue 96 in the membrane-oriented ectodomain file
 and 13.8 A in the full-length AlphaFold model, because the two files are

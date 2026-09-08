@@ -323,10 +323,15 @@ two independent edits, and the direction is the same throughout: 96K sensitive,
 (C) The SID-2 ectodomain, AlphaFold3 model, rotated onto the membrane normal so
 the intestinal lumen is up; beta-strands dark, coil pale, and the grey slab is
 the bilayer. Left, residues 21-188 of chain A with the dashed ring marking the
-region enlarged at right. Right, side chains for T96 (orange) and for the three
-residues with a published effect on dsRNA uptake -- H32 (reduced uptake), D34
-(qt13, complete RNAi resistance) and H168 (no detectable uptake) -- with dashed
-lines giving Ca-Ca distances of 16.4, 13.5 and 19.2 A. In the zoom the ribbon
+region enlarged at right. Right, side chains for T96 (orange) and for two
+distinct classes of annotated residue, coloured apart because they are
+different kinds of evidence. Dark blue, histidines from the McEwan et al. 2012
+mutagenesis, in which His->Ala and His->Glu each reduced dsRNA transport: H32
+at 16.4 A and H168 at 19.2 A. That paper identifies SID-2's three extracellular
+histidines as H32, H168 and H175, and H175 is not shown because it lies 37.8 A
+from T96, outside this 20 A field. Purple, D34, the qt13 loss-of-function
+allele at 13.5 A -- a separate line of evidence from the histidine
+mutagenesis, not one of the histidines. Dashed lines give Ca-Ca distances. In the zoom the ribbon
 is scaffold only and carries no secondary-structure meaning.
 
 (D) sid-2 coding variation in the wild population. The protein runs vertically

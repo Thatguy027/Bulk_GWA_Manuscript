@@ -1604,7 +1604,13 @@ plots/Figure4_sid2.pdf · .png
 <p><span class="pl">B</span> The same substitution in N2, at <strong>25%</strong> <em>pos-1</em> RNAi. N2 carries 96T and hatches 32.3% (<code>n = 220</code>); two independently derived lines edited to 96K hatch 4.4% (wSZ203, <code>n = 273</code>) and 3.7% (wSZ204, <code>n = 295</code>), Fisher <code>p = 7.8e-17</code> and <code>p = 6.2e-19</code>. The two edited lines are labelled by genotype and not distinguished on the axis, because they are independent lines of the same edit. This is the third genetic background to show the effect and the only one with two independent edits, and the direction is the same throughout: <strong>96K sensitive, 96T resistant</strong>.</p>
 </div>
 <div class="panel">
-<p><span class="pl">C</span> The SID-2 ectodomain, AlphaFold3 model, rotated onto the membrane normal so the intestinal lumen is up; β-strands dark, coil pale, and the grey slab is the bilayer. Left, residues 21–188 of chain A with the dashed ring marking the region enlarged at right. Right, side chains for T96 (orange) and for the three residues with a published effect on dsRNA uptake — H32 (reduced uptake), D34 (<em>qt13</em>, complete RNAi resistance) and H168 (no detectable uptake) — with dashed lines giving Cα–Cα distances of 16.4, 13.5 and 19.2 Å. In the zoom the ribbon is scaffold only and carries no secondary-structure meaning.</p>
+<p><span class="pl">C</span> The SID-2 ectodomain, AlphaFold3 model, rotated onto the membrane normal so the intestinal lumen is up; β-strands dark, coil pale, and the grey slab is the bilayer. Left, residues 21–188 of chain A with the dashed ring marking the region enlarged at right. Right, side chains for T96 (orange) and for two classes of annotated residue, coloured apart because they are different kinds of evidence. Dark blue, histidines from the McEwan et al. 2012 mutagenesis, where His→Ala and His→Glu each reduced dsRNA transport: H32 at <code>16.4</code> Å and H168 at <code>19.2</code> Å. Purple, D34 — the <em>qt13</em> loss-of-function allele at <code>13.5</code> Å, a separate line of evidence, not one of the histidines. Dashed lines give Cα–Cα distances. In the zoom the ribbon is scaffold only and carries no secondary-structure meaning.</p>
+</div>
+<div class="caveat">
+<p><span class="ch">A correction, applied here and in the caption</span></p>
+<p>An earlier version of this panel described H32, D34 and H168 together as “the three residues with a published effect on dsRNA uptake”. Both halves of that were wrong. McEwan, Weisman &amp; Hunter (2012, <em>Mol Cell</em> 47:746) identify SID-2’s three extracellular histidines as <strong>H32, H168 and H175</strong> and test exactly those; they never mention residue 34. D34 is the <em>qt13</em> loss-of-function allele, a different experiment needing its own citation. And residue 34 is an aspartate, so it was never a candidate for that set.</p>
+<p>The model confirms the numbering independently of any database: its ectodomain (21–188) contains <strong>exactly three histidines, at 32, 168 and 175</strong>, which is checkable straight from the deposited coordinates. Residue 199, which an earlier UniProt-derived list also carried, lies in the transmembrane helix and is not in the modelled span at all.</p>
+<p>H175 is not drawn because it sits <code>37.8</code> Å from T96, outside this 20 Å field. The correction also weakens a statistic that is now dropped rather than defended: <code>41.9%</code> of the ectodomain lies within 20 Å of T96, so two of the three histidines falling inside it is a binomial <code>p = 0.38</code>, against the <code>0.19</code> the earlier four-residue set gave. <code>METHODS.txt</code> now states that no proximity claim is made. The panel’s argument is about charge instead, which does not depend on proximity to the annotated residues.</p>
 </div>
 <div class="panel">
 <p><span class="pl">D</span> <em>sid-2</em> coding variation in the wild population: the protein drawn vertically with residue 1 at the top and its topology as a filled bar, and each protein-altering variant labelled to the right with its CeNDR allele frequency, then two columns giving the JU1793 and JU2466 allele state. Callout rows are evenly spaced and joined to the residue by a leader rather than sitting at the residue’s own height: four of the eight fall between residues 141 and 153 and would overlap completely at true scale.</p>
@@ -3252,7 +3258,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3266,7 +3272,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3280,7 +3286,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3294,7 +3300,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3308,7 +3314,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3322,7 +3328,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3336,7 +3342,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3350,7 +3356,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3364,7 +3370,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3378,7 +3384,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3392,7 +3398,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3406,7 +3412,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3420,7 +3426,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3434,7 +3440,7 @@ Figure4_sid2
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3448,7 +3454,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3462,7 +3468,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3476,7 +3482,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 <tr>
@@ -3490,7 +3496,7 @@ SUPP_FIG_XX_sid2_electrostatics
 795
 </td>
 <td style="text-align:right;">
-2026-09-08 12:56
+2026-09-08 14:31
 </td>
 </tr>
 </tbody>

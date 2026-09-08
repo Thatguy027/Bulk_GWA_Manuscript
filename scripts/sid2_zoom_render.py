@@ -55,7 +55,8 @@ OUT = Path("plots/assets")
 OUT.mkdir(parents=True, exist_ok=True)
 
 COL_T96  = "#F34C00"
-COL_FUNC = "#16324A"
+COL_FUNC = "#16324A"      # histidine mutagenesis (McEwan 2012)
+COL_ALLELE = "#7A4E8C"    # the qt13 loss-of-function allele, D34
 COL_STICK = {"C": "#4A5A66", "N": "#2F6FB5", "O": "#C0392B", "S": "#C9A227"}
 MEMBRANE = "#DCE3E8"
 ZOOM_RADIUS = 20.0          # A around T96, the radius used in the p-value
@@ -73,7 +74,27 @@ OVERVIEW_ELEV, OVERVIEW_AZIM = 8, 108
 ZOOM_ELEV, ZOOM_AZIM = 18, -89
 ## label placement along the T96->target line, per residue: all three targets
 ## project below T96 in this view, so labels at a common midpoint stacked
-FUNC = {32: "H32", 34: "D34", 168: "H168"}
+## TWO CLASSES OF EVIDENCE, drawn differently, because they are not the same
+## kind of claim.
+##
+## HIS: the histidine mutagenesis of McEwan, Weisman & Hunter 2012 (Mol Cell
+## 47:746). That paper states SID-2 has exactly three extracellular histidines
+## -- H32, H168, H175 -- and tests those three; His->Ala and His->Glu each
+## reduced dsRNA transport. The model's ectodomain (21-188) contains exactly
+## three histidines, at those positions, which confirms the numbering
+## independently of any database. H175 is 37.8 A from T96 and so falls OUTSIDE
+## this 20 A zoom; the caption says so rather than the figure implying there are
+## only two.
+##
+## ALLELE: D34 is the qt13 loss-of-function allele -- a separate line of
+## evidence with its own citation, not part of the histidine set. An earlier
+## version of this file had FUNC = {32, 34, 168}, which both omitted H175 and
+## folded D34 into "residues with a published effect on dsRNA uptake". Residue
+## 34 is an aspartate; it was never one of the histidines.
+HIS    = {32: "H32", 168: "H168"}          # H175 is 37.8 A away, off-frame
+ALLELE = {34: "D34"}
+FUNC   = {**HIS, **ALLELE}                 # drawing order and geometry below
+COL_CLASS = {**{p: COL_FUNC for p in HIS}, **{p: COL_ALLELE for p in ALLELE}}
 LABEL_FRAC = {34: 0.40, 32: 0.58, 168: 0.76}
 ## per-residue label offsets in the membrane frame. A single +z offset for all
 ## four put H32's label on top of a dashed line at this camera angle.
@@ -214,7 +235,7 @@ def zoom(res, ids, CA, sse, fname, elev=None, azim=None):
                                          alpha=0.85))
 
     show = {FOCAL: ("T96", COL_T96)}
-    show.update({p: (l, COL_FUNC) for p, l in FUNC.items()})
+    show.update({p: (l, COL_CLASS[p]) for p, l in FUNC.items()})
     print("  Ca-Ca and nearest heavy-atom distances from T96:")
     for pos, (lab, col) in show.items():
         r = res[int(np.where(ids == pos)[0][0])]
@@ -237,13 +258,13 @@ def zoom(res, ids, CA, sse, fname, elev=None, azim=None):
                     if a.element != "H" and b.element != "H")
         print(f"    {lab:5s} Ca-Ca {d_ca:5.1f} A   nearest atom {d_min:5.1f} A")
         ## dashed Ca-Ca line, labelled with the distance quoted in the text
-        ax.plot(*np.array([p96, p]).T, color=COL_FUNC, linewidth=1.0,
+        ax.plot(*np.array([p96, p]).T, color=COL_CLASS[pos], linewidth=1.0,
                 linestyle=(0, (3, 2.5)), zorder=11,
                 path_effects=[pe.withStroke(linewidth=2.4,
                                             foreground="white")])
         f = LABEL_FRAC.get(pos, 0.5)
         mid = p96 + (p - p96) * f
-        ax.text(mid[0], mid[1], mid[2], f"{d_ca:.1f} Å", color=COL_FUNC,
+        ax.text(mid[0], mid[1], mid[2], f"{d_ca:.1f} Å", color=COL_CLASS[pos],
                 fontsize=8.6, ha="center", va="center", zorder=17,
                 path_effects=[pe.withStroke(linewidth=2.8,
                                             foreground="white")])
