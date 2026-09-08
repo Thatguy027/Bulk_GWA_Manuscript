@@ -2005,8 +2005,61 @@ Corroboration arrived independently: genome-wide, the 14 isolated markers have
 median allele frequency `0.082` against `0.394` for the 451 supported ones — the
 low-frequency signature of spurious association.
 
+### Interval extent against the LD cutoff
+
+```{r diag-intervals, eval=file.exists(file.path(DIAGDIR,"gwas_qtl_intervals_eigen.png")), fig.alt="Interval width against LD cutoff per locus, the intervals themselves faceted by cutoff, and the LD profile of the chromosome III peak."}
+include_graphics(file.path(DIAGDIR, "gwas_qtl_intervals_eigen.png"))
+```
+
+Admission by local support gives **11 loci** at the eigen threshold. Extent is
+then LD to the peak marker, and the cutoff matters enormously:
+
+```{r tab-r2-sweep}
+sw <- read_tsv(file.path(DIAGDIR, "TABLE_gwas_interval_r2_sweep_eigen.tsv"),
+               show_col_types = FALSE)
+kb(sw %>%
+     mutate(locus = sprintf("%s:%.2f", chr, peak_ps/1e6)) %>%
+     select(locus, `-log10 p` = peak_lp, r2, width_kb) %>%
+     pivot_wider(names_from = r2, values_from = width_kb,
+                 names_prefix = "r² ") %>%
+     arrange(desc(`-log10 p`)) %>%
+     mutate(`-log10 p` = fnum(`-log10 p`, 2)),
+   align = c("l", "r", rep("r", 4)))
+```
+
+::: derived
+Derived from plots/diagnostics/TABLE_gwas_interval_r2_sweep_eigen.tsv — widths in kb
+:::
+
+**Loci that localise** — interval under 10% of their chromosome — go `3`, `4`,
+`5`, `6` of 11 as the cutoff rises 0.5 → 0.8. It tracks signal strength: median
+peak −log₁₀p is `6.90` for the localising loci against `4.76` for the rest,
+because a marginal peak's LD partners are scattered.
+
 ::: caveat
-[What this implies for the concordance claim]{.ch}
+[What this implies for the concordance claim, and it is cutoff-dependent]{.ch}
+
+The chromosome III association locus at 12.718 Mb meets the NIL interval at
+r² 0.5, 0.6 **and** 0.7 — all giving a 2,347 kb interval, 17% of the
+chromosome — and collapses to **14 kb** at r² 0.8, sitting `0.93` Mb away. The
+signal-drop interval (97 kb) is `0.86` Mb away.
+
+Panel C shows why. The peak's distant LD partners span r² `0.505`–`0.775`, so
+any cutoff above 0.78 drops every one of them and the interval falls back to
+the local block. The plateau at 0.5–0.7 is held open by a marker at 13.784 Mb
+(r² `0.701`) — which is the chromosome's **terminal marker**, the same boundary
+artefact that makes the cross scan's peak position uninformative.
+
+One distinction worth keeping: at r² 0.5 the overlap is **genuine** — 8 markers
+inside the NIL window reach r² ≈ `0.527` with the peak. At 0.6 and 0.7 no
+qualifying marker falls inside it, and the interval spans it only as a
+min–max hull. So the overlap is real only under the most permissive cutoff.
+
+**The defensible statement** is that the association signal and the NIL interval
+are about 0.9 Mb apart, and that they coincide only under an interval definition
+wide enough to cover a sixth of chromosome III. That reads as a distinct locus,
+not concordance.
+:::
 
 The supported cluster sits at 12.70–12.80 Mb. The NIL interval is
 13.658–13.695 Mb, and **13.5–13.9 Mb has nothing above the eigen line at all**.

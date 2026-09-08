@@ -3344,17 +3344,309 @@ Corroboration arrived independently: genome-wide, the 14 isolated
 markers have median allele frequency `0.082` against `0.394` for the 451
 supported ones — the low-frequency signature of spurious association.
 
+### Interval extent against the LD cutoff
+
+<img src="plots/diagnostics/gwas_qtl_intervals_eigen.png" alt="Interval width against LD cutoff per locus, the intervals themselves faceted by cutoff, and the LD profile of the chromosome III peak." width="100%" />
+
+Admission by local support gives **11 loci** at the eigen threshold.
+Extent is then LD to the peak marker, and the cutoff matters enormously:
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+locus
+</th>
+<th style="text-align:right;">
+-log10 p
+</th>
+<th style="text-align:right;">
+r² 0.5
+</th>
+<th style="text-align:right;">
+r² 0.6
+</th>
+<th style="text-align:right;">
+r² 0.7
+</th>
+<th style="text-align:right;">
+r² 0.8
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+IV:15.32
+</td>
+<td style="text-align:right;">
+8.84
+</td>
+<td style="text-align:right;">
+1046
+</td>
+<td style="text-align:right;">
+242
+</td>
+<td style="text-align:right;">
+241
+</td>
+<td style="text-align:right;">
+241
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X:4.88
+</td>
+<td style="text-align:right;">
+7.83
+</td>
+<td style="text-align:right;">
+1461
+</td>
+<td style="text-align:right;">
+1355
+</td>
+<td style="text-align:right;">
+1020
+</td>
+<td style="text-align:right;">
+1020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV:13.41
+</td>
+<td style="text-align:right;">
+7.49
+</td>
+<td style="text-align:right;">
+2033
+</td>
+<td style="text-align:right;">
+2033
+</td>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III:12.72
+</td>
+<td style="text-align:right;">
+6.31
+</td>
+<td style="text-align:right;">
+2347
+</td>
+<td style="text-align:right;">
+2347
+</td>
+<td style="text-align:right;">
+2347
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X:5.80
+</td>
+<td style="text-align:right;">
+5.62
+</td>
+<td style="text-align:right;">
+3322
+</td>
+<td style="text-align:right;">
+3322
+</td>
+<td style="text-align:right;">
+3322
+</td>
+<td style="text-align:right;">
+3322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V:0.61
+</td>
+<td style="text-align:right;">
+5.40
+</td>
+<td style="text-align:right;">
+566
+</td>
+<td style="text-align:right;">
+373
+</td>
+<td style="text-align:right;">
+201
+</td>
+<td style="text-align:right;">
+179
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV:10.53
+</td>
+<td style="text-align:right;">
+5.17
+</td>
+<td style="text-align:right;">
+5885
+</td>
+<td style="text-align:right;">
+5682
+</td>
+<td style="text-align:right;">
+5125
+</td>
+<td style="text-align:right;">
+4411
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III:3.82
+</td>
+<td style="text-align:right;">
+4.76
+</td>
+<td style="text-align:right;">
+5453
+</td>
+<td style="text-align:right;">
+5453
+</td>
+<td style="text-align:right;">
+5453
+</td>
+<td style="text-align:right;">
+3765
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III:4.41
+</td>
+<td style="text-align:right;">
+4.76
+</td>
+<td style="text-align:right;">
+4868
+</td>
+<td style="text-align:right;">
+4839
+</td>
+<td style="text-align:right;">
+4279
+</td>
+<td style="text-align:right;">
+3765
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV:17.10
+</td>
+<td style="text-align:right;">
+4.70
+</td>
+<td style="text-align:right;">
+2204
+</td>
+<td style="text-align:right;">
+1111
+</td>
+<td style="text-align:right;">
+1111
+</td>
+<td style="text-align:right;">
+858
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV:12.08
+</td>
+<td style="text-align:right;">
+4.60
+</td>
+<td style="text-align:right;">
+5939
+</td>
+<td style="text-align:right;">
+5568
+</td>
+<td style="text-align:right;">
+5081
+</td>
+<td style="text-align:right;">
+5081
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from plots/diagnostics/TABLE_gwas_interval_r2_sweep_eigen.tsv —
+widths in kb
+
+</div>
+
+**Loci that localise** — interval under 10% of their chromosome — go
+`3`, `4`, `5`, `6` of 11 as the cutoff rises 0.5 → 0.8. It tracks signal
+strength: median peak −log₁₀p is `6.90` for the localising loci against
+`4.76` for the rest, because a marginal peak’s LD partners are
+scattered.
+
 <div class="caveat">
 
-<span class="ch">What this implies for the concordance claim</span>
+<span class="ch">What this implies for the concordance claim, and it is
+cutoff-dependent</span>
+
+The chromosome III association locus at 12.718 Mb meets the NIL interval
+at r² 0.5, 0.6 **and** 0.7 — all giving a 2,347 kb interval, 17% of the
+chromosome — and collapses to **14 kb** at r² 0.8, sitting `0.93` Mb
+away. The signal-drop interval (97 kb) is `0.86` Mb away.
+
+Panel C shows why. The peak’s distant LD partners span r²
+`0.505`–`0.775`, so any cutoff above 0.78 drops every one of them and
+the interval falls back to the local block. The plateau at 0.5–0.7 is
+held open by a marker at 13.784 Mb (r² `0.701`) — which is the
+chromosome’s **terminal marker**, the same boundary artefact that makes
+the cross scan’s peak position uninformative.
+
+One distinction worth keeping: at r² 0.5 the overlap is **genuine** — 8
+markers inside the NIL window reach r² ≈ `0.527` with the peak. At 0.6
+and 0.7 no qualifying marker falls inside it, and the interval spans it
+only as a min–max hull. So the overlap is real only under the most
+permissive cutoff.
+
+**The defensible statement** is that the association signal and the NIL
+interval are about 0.9 Mb apart, and that they coincide only under an
+interval definition wide enough to cover a sixth of chromosome III. That
+reads as a distinct locus, not concordance.
+
+</div>
 
 The supported cluster sits at 12.70–12.80 Mb. The NIL interval is
 13.658–13.695 Mb, and **13.5–13.9 Mb has nothing above the eigen line at
 all**. Defining intervals rigorously may therefore show the association
 signal is a *distinct locus* rather than confirming concordance with the
 crosses. Worth deciding how to present before the intervals are drawn.
-
-</div>
+:::
 
 ## Coverage against reference size
 
@@ -3671,7 +3963,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3685,7 +3977,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3699,7 +3991,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3713,7 +4005,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3727,7 +4019,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3741,7 +4033,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3755,7 +4047,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3769,7 +4061,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3783,7 +4075,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3797,7 +4089,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3811,7 +4103,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3825,7 +4117,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3839,7 +4131,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3853,7 +4145,7 @@ Figure4_sid2
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3867,7 +4159,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3881,7 +4173,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3895,7 +4187,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 <tr>
@@ -3909,7 +4201,7 @@ SUPP_FIG_XX_sid2_electrostatics
 795
 </td>
 <td style="text-align:right;">
-2026-09-08 11:33
+2026-09-08 11:42
 </td>
 </tr>
 </tbody>
