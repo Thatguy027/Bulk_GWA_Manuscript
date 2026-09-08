@@ -1,0 +1,36 @@
+PLINK v1.90b6.15 64-bit (21 Jan 2020)
+Options in effect:
+  --allow-extra-chr
+  --biallelic-only strict
+  --geno 0.10
+  --maf 0.05
+  --make-bed
+  --out all
+  --set-missing-var-ids @:#
+  --snps-only
+  --threads 1
+  --vcf WI.20210121.hard-filter.isotype_with_cM.vcf.gz
+
+Hostname: n6445
+Working directory: /u/project/kruglyak/thatguy0/scratch/e3/021ae5b67f1b99bd0ad46112db2a0f
+Start time: Tue Sep  8 11:36:58 2026
+
+Random number seed: 1788892618
+192097 MB RAM detected; reserving 96048 MB for main workspace.
+--vcf: all-temporary.bed + all-temporary.bim + all-temporary.fam written.
+2919294 out of 3504135 variants loaded from .bim file.
+2919294 missing IDs set.
+540 people (0 males, 0 females, 540 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to all.nosex .
+Using 1 thread.
+Before main variant filters, 540 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.957211.
+350437 variants removed due to missing genotype data (--geno).
+2049516 variants removed due to minor allele threshold(s)
+(--maf/--max-maf/--mac/--max-mac).
+519341 variants and 540 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to all.bed + all.bim + all.fam ... done.
+
+End time: Tue Sep  8 11:40:07 2026

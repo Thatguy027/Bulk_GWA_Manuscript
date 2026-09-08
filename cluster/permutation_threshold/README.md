@@ -99,6 +99,40 @@ Strains with a missing phenotype stay missing and are never shuffled into
 phenotyped positions — otherwise the sample size would change between
 permutations and the maxima would not be comparable.
 
+## The smoke run found a real problem — read this before the long run
+
+The smoke run completed but returned **`observed_max = 8.6894`** where the
+shipped scan's genome-wide maximum is **8.84**. That mismatch is the whole point
+of carrying the observed phenotype as permutation 0, and it meant the pipeline
+was not mapping the same data as the scan it was meant to threshold.
+
+The plink log said why: **519,341 markers passed filters** against the scan's
+**464,045**. Two causes, both now fixed.
+
+**MAF was computed on all 540 isotypes, not the 231 phenotyped ones.** A marker
+at 5% across the whole collection can sit below 5% among the strains that
+actually carry a *pos-1* value. `PREP_PANEL` now writes the phenotyped panel and
+`--keep` restricts the conversion to it. On chromosome III alone that changes
+the count from 80,639 to 78,507.
+
+**The scan's filter chain is not recoverable, so it is no longer guessed.**
+Instead the permutation scan tests **exactly the markers the scan tested**,
+supplied as an id list (`markers/pos1_2023_scan_markers.txt.gz`, 464,045 ids,
+all of which resolve in the CeNDR plink set) and applied with `--extract`. No
+`--maf` or `--geno`: the list defines the set, and any further filter would
+silently shrink it. `PLINK_CONVERT` now **fails the run** if the retained count
+is not `expect_markers` (464045), rather than discovering the problem after a
+thousand permutations.
+
+**One trait per panel, enforced.** Traits in this file do not share a panel —
+the three *pos-1* traits have 231 strains each, `negctrl_growth_HT115_delta_t0`
+has all 366. Requesting traits with different panels together would compute MAF
+on a superset for at least one of them, reintroducing the first bug by the back
+door, so `prep_panel.R` refuses and tells you to split the run.
+
+After re-running, **`observed_max` must be 8.84**. If it is not, stop and work
+out why before trusting the threshold.
+
 ## Fixed after the first cluster attempt
 
 Three things, recorded because two of them would have produced a *wrong number*

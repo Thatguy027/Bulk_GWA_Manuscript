@@ -62,16 +62,57 @@ def required(name, value) {
 
 /* ------------------------------------------------------------------ */
 
+/* The panel: strains carrying a value for the requested trait(s). MAF must be
+ * computed among THESE strains, not all 540 -- a marker at 5% in the full
+ * collection can be below 5% in the phenotyped subset and vice versa. The first
+ * version filtered on all 540 and produced 519,341 markers against the scan's
+ * 464,045, which is why its observed maximum came out at 8.69 instead of 8.84. */
+process PREP_PANEL {
+    publishDir "${params.outdir}/panel", mode: 'copy'
+    input:  path phenofile
+    output: path 'panel.txt', emit: keep
+            path 'panel_summary.txt'
+    script:
+    """
+    Rscript ${projectDir}/bin/prep_panel.R --pheno ${phenofile} \\
+        --traits '${params.traits}'
+    """
+}
+
+/* MARKER SET. Rather than re-derive the scan's filter chain -- which is not
+ * recoverable from the archived output and which the first attempt got wrong --
+ * the permutation scan tests EXACTLY the markers the real scan tested, supplied
+ * as an id list. The multiple-testing burden then matches by construction
+ * instead of by luck, and the threshold provably applies to that scan.
+ *
+ * No --maf or --geno here for the same reason: the extract list already defines
+ * the set, and any further filter would silently shrink it. The assertion below
+ * fails the run immediately if the count does not match, rather than after a
+ * thousand permutations. */
 process PLINK_CONVERT {
     publishDir "${params.outdir}/plink", mode: 'copy', pattern: '*.log'
     input:  path vcf
+            path keep
+            path markers
     output: tuple path('all.bed'), path('all.bim'), path('all.fam'), emit: bed
             path 'all.log'
     script:
     """
+    set -euo pipefail
+    zcat -f ${markers} > markers.txt
     ${params.plink} --vcf ${vcf} --allow-extra-chr --set-missing-var-ids '@:#' \\
-        --snps-only --biallelic-only strict --maf ${params.maf} --geno 0.10 \\
+        --keep ${keep} --extract markers.txt \\
         --make-bed --out all --threads ${task.cpus}
+
+    n_mk=\$(wc -l < all.bim)
+    n_id=\$(wc -l < all.fam)
+    echo "markers retained: \$n_mk   strains retained: \$n_id"
+    if [ "${params.expect_markers}" != "0" ] && [ "\$n_mk" != "${params.expect_markers}" ]; then
+      echo "ERROR: \$n_mk markers, expected ${params.expect_markers}." >&2
+      echo "  The permutation scan must test the same markers as the scan it" >&2
+      echo "  thresholds. Check --markers, or set --expect_markers 0 to skip." >&2
+      exit 1
+    fi
     """
 }
 
@@ -203,7 +244,9 @@ workflow {
     vcf       = file(params.vcf,   checkIfExists: true)
     traits    = params.traits.tokenize(',')*.trim()
 
-    PLINK_CONVERT(vcf)
+    markers = file(params.markers, checkIfExists: true)
+    PREP_PANEL(phenofile)
+    PLINK_CONVERT(vcf, PREP_PANEL.out.keep, markers)
     BUILD_CHROM(PLINK_CONVERT.out.bed, params.chromosomes)
 
     // GEMMA needs SOME phenotype column to compute a kinship matrix; the values
