@@ -190,3 +190,50 @@ sufficient; the model has to match too, and only the observed maximum tests that
 
 To threshold a trait with no shipped scan to compare against, pass
 `--expect_observed_max 0`.
+
+## The observed maximum: what has been ruled out
+
+Target 8.8361, the maximum of `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz`.
+
+| Run | observed_max | cause |
+|---|---|---|
+| smoke  | 8.6894 | MAF computed on all 540 strains, 519,341 markers tested |
+| smoke2 | 8.5700 | kinship built with `-gk 1` (centered) where the scan used `-gk 2` |
+| smoke3 | 8.8759 | open -- 0.4%, cause not yet identified |
+
+Eliminated as causes of the remaining 0.4%, each by measurement rather than
+by argument:
+
+* **Marker set.** `--extract` of the scan's own 464,045 IDs; PLINK_CONVERT
+  asserts the count and reported exactly 464045.
+* **Panel.** 231 strains, and `panel.txt` is the same set as the trait's
+  non-missing strains and as trait 1's, so the GRM's individuals match however
+  GEMMA selects them.
+* **Phenotype.** `traits/2023_pos1_association_traits.csv` is byte-identical
+  (md5 b35a18aeeb0acfbc741c33c4159d12ae) to the `association_traits.csv` that
+  produced the scan, at full precision; the 231 mapped values differ by 0.
+* **GEMMA version.** 0.98.5 on the cluster, 0.98.5 in the scan's archived log.
+* **Missing genotypes.** `n_miss` is 0 for all 464,045 markers in the scan, so
+  the oxford (`dosage 0`) versus `.traw` (`NA`, mean-imputed) difference in
+  missing handling has nothing to act on.
+* **p-value column.** `-lmm 1`, and `p_wald` located by header name.
+
+What remains, in order of suspicion:
+
+1. **The kinship's marker set.** gemma_nf hands GEMMA the whole genotype file
+   with `-loco ${chrom}`; this pipeline pre-splits with plink `--not-chr` and
+   passes no `-loco`. GEMMA_GRM now publishes its log, so its analysed count can
+   be compared against the expected kinship size for each chromosome:
+   I 412322, II 388154, III 399622, IV 387572, V 341788, X 390767.
+2. **Individuals in the genotype file.** gemma_nf passes 366 columns and lets
+   GEMMA select the 231 by phenotype missingness; this passes 231 columns.
+   Equivalent unless GEMMA's internal MAF filter uses the file rather than the
+   analysed subset -- the scan retains all 464,045 markers, so it dropped none,
+   and a difference here would show as a marker-count difference.
+3. **`-loco` at the mapping step**, which gemma_nf passes and this does not,
+   having already split the genotypes by chromosome.
+
+`scripts/compare_observed_scan.R` in the main repo distinguishes 1 from 3: a
+near-constant ratio across the whole range of the statistic is the signature of
+a variance-component difference, disagreement confined to particular markers is
+not.
