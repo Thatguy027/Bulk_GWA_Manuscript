@@ -862,24 +862,65 @@ dilution_strain_similarity.tsv
 
 <div class="aside">
 
-<span class="ch">Two different failure modes, and only one tracks
-relatedness</span>
+<span class="ch">The ceiling and the leakage are one quantity, not
+two</span>
 
-**Own-pool recovery shows no relationship with genetic similarity at
-all** — ρ `+0.046`, `p = 0.55` against the nearest neighbour; `+0.092`,
-`p = 0.23` against mean identity. So similarity predicts a strain being
-assigned into a pool it is absent from, and does *not* predict how much
-of its own pool it recovers. The \~0.8 ceiling in panel A and the
-leakage in panel D are separate problems, and only the second is
-explained by relatedness.
+For a pure pool the fractions sum to 1, so **own-set share = 1 − (mass
+assigned to strains not in the pool)**. Checked: `own + out = 1` to
+4.4e-16 across all twelve pure pools, mean own-set share `0.802` against
+out-of-pool `0.198`. The \~0.8 ceiling in panel A *is* the leakage in
+panel D, seen from the other side.
 
-One thing these data **cannot** support, though the top of the leakage
-ranking is full of near-identical partners: that the damage concentrates
-in near-identical pairs *split across sets*. There are only 30
-reciprocal nearest-neighbour pairs, two above IBS 0.99, so the
-pair-level comparison is underpowered and answers differently at
-different thresholds. Worth revisiting with a larger design; not a
-result yet.
+**And the leakage is relatedness-directed.** Across the 1,530
+strain-by-pool combinations where a strain is absent from the pool, mass
+assigned to it averages `1.33` per mille when its nearest neighbour is
+elsewhere and `2.25` per mille when its nearest neighbour is *in* that
+pool — a 1.70× enrichment, Mann-Whitney `p = 3.6e-05`. Those pairs are
+24.3% of the combinations but carry **35.3%** of all out-of-pool mass.
+Rescaling, relatedness accounts for about **14%** of the out-of-pool
+mass, so it is a real contributor to the ceiling.
+
+That 14% is a **lower bound**, because “nearest neighbour in the pool”
+is the crudest possible measure: a strain has many relatives among a
+pool’s \~43 members, not one. The proper test is mass against
+relatedness to *all* pool members, which needs the full genotype matrix.
+
+What the per-strain null actually showed.
+`ρ(nn_ibs, own-pool recovery) = +0.046, p = 0.55` is about *per-strain*
+recovery, which is **bidirectional** — a strain both loses mass to
+confusable partners and gains it from them, and a trade with a partner
+in the same set does not move the set total at all. So per-strain
+recovery can show no correlation while relatedness drives every
+transfer. Leakage is unidirectional, which is why the signal survives
+there.
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Restricting the reference does recover the input ratios
+better</span>
+
+Against the designed B fraction, in RMSE:
+
+| estimate                                      |     RMSE |      bias |
+|:----------------------------------------------|---------:|----------:|
+| 170-strain reference, raw                     | `0.0788` | `−0.0593` |
+| 170-strain reference, renormalised within B+C | `0.0415` | `+0.0297` |
+| 84-strain B+C reference                       | `0.0376` | `+0.0208` |
+
+Most of the damage is undone by renormalising — that removes the \~18%
+of mass sitting on sets A and D — and restricting the reference to the
+strains actually present recovers a further **9%**. So the panel B
+against panel C comparison reads the way you would expect: the fewer
+absent candidates the solver is offered, the closer the set frequencies
+land to the input.
+
+One thing these data still **cannot** support: that the damage
+concentrates in near-identical pairs *split across sets*. Only 30
+reciprocal nearest-neighbour pairs exist, two above IBS 0.99, so that
+comparison is underpowered and answers differently at different
+thresholds.
 
 </div>
 
@@ -1355,11 +1396,13 @@ is a cross parent in Figures 2 and 3.
 <span class="ch">Two further limits</span>
 
 Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of
-each pool is assigned to strains that are not in it. Panel D rules
-genetic similarity out as the explanation for *that* particular
-shortfall — recovery is uncorrelated with relatedness — which leaves
+each pool is assigned to strains that are not in it — and that fifth
+*is* the leakage of panel D, since the two sum to 1 by construction.
+Relatedness demonstrably directs it (1.70× enrichment when the absent
+strain’s nearest neighbour is in the pool, `p = 3.6e-05`) and accounts
+for at least \~14% of it. The rest is not attributed here:
 cross-contamination between pools and unequal DNA input across strains
-within a pool, and these data cannot separate those two.
+within a pool remain candidates these data cannot separate.
 
 Panels A and B use the 170-strain pool reference and panel C the
 84-strain B+C reference. After renormalising the pool reference within B
@@ -3084,7 +3127,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 10:11
+2026-09-08 10:18
 </td>
 </tr>
 <tr>

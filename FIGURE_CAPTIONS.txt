@@ -508,12 +508,30 @@ p = 1.4e-05, n = 170. Median leakage by bin: 0.0000 below IBS 0.90 (n = 5),
 0.97-0.99 (n = 52), 0.00106 above 0.99 (n = 4). Mean identity to all other
 strains gives the same answer more weakly (rho +0.258, p = 6.8e-04).
 
-The important negative: own-pool RECOVERY shows no such relationship (rho
-+0.046, p = 0.55 against nearest-neighbour identity; +0.092, p = 0.23 against
-mean identity). So genetic similarity predicts being assigned into a pool a
-strain is not in, and does NOT predict how much of its own pool a strain
-recovers. The two are different failure modes and only the first tracks
-relatedness.
+READ THE TWO QUANTITIES AS ONE. For a pure pool the fractions sum to 1, so the
+own-set share is exactly 1 minus the mass assigned to strains not in the pool
+(verified to 4.4e-16 across all twelve pure pools; mean own-set 0.802,
+out-of-pool 0.198). The recovery ceiling in panel A and the leakage in panel D
+are the same quantity from opposite sides, not two problems.
+
+The leakage is relatedness-directed. Across the 1,530 strain-by-pool
+combinations in which a strain is absent from the pool, the mass assigned to it
+averages 1.33 per mille when its nearest neighbour lies elsewhere and 2.25 per
+mille when its nearest neighbour is IN that pool -- a 1.70-fold enrichment,
+Mann-Whitney p = 3.6e-05. Those combinations are 24.3% of the total and carry
+35.3% of all out-of-pool mass, putting the relatedness-attributable share of
+that mass at roughly 14%. That is a LOWER BOUND: "nearest neighbour in the
+pool" is a binary summary, and a strain has many relatives among a pool's ~43
+members. The graded test needs relatedness to every pool member.
+
+A NULL THAT MUST NOT BE OVER-READ. Per-strain own-pool recovery is uncorrelated
+with relatedness (rho +0.046, p = 0.55 nearest-neighbour; +0.092, p = 0.23
+mean). Per-strain recovery is BIDIRECTIONAL -- a strain both loses mass to
+confusable partners and gains it from them, and a trade with a partner in the
+same set leaves the set total untouched -- so it can show no correlation while
+relatedness drives every transfer. Leakage is unidirectional, which is why the
+signal appears there. The null concerns per-strain recovery and says nothing
+about the set-level ceiling.
 
 Not supported by these data, though the top of the leakage ranking is full of
 near-identical partners: that the damage concentrates in near-identical pairs
@@ -569,9 +587,19 @@ whose duplicated genotype-reference entry is documented for the pos-1
 phenotype, and it is a cross parent in Figures 2 and 3.
 
 CAVEAT 3. Recovery of a pure pool tops out near 0.8, not 1.0, so roughly a
-fifth of each pool is assigned to strains that are not in it. Whether that is
-mis-deconvolution, cross-contamination between pools, or unequal DNA input
-across the strains within a pool is not resolvable from these data.
+fifth of each pool is assigned to strains that are not in it -- and that fifth
+IS the leakage of panel D, since the two sum to 1 by construction. Relatedness
+directs that mass and accounts for at least ~14% of it. The remainder is not
+attributed here: cross-contamination between pools and unequal DNA input across
+the strains within a pool remain candidates these data cannot separate.
+
+  Offering the solver fewer absent candidates measurably improves the answer.
+  Against the designed B fraction: the un-renormalised 170-strain estimate has
+  RMSE 0.0788 (bias -0.0593), renormalising within B and C brings it to 0.0415
+  (+0.0297), and restricting the reference to the 84 strains actually present
+  brings it to 0.0376 (+0.0208). Most of the damage is undone by
+  renormalisation, which removes the ~18% of mass sitting on the untitrated
+  sets; restricting the reference recovers a further 9%.
 
 CAVEAT 4, on reference choice. Panels A and B use the 170-strain pool reference
 and panel C the 84-strain B+C reference. After renormalising the pool reference

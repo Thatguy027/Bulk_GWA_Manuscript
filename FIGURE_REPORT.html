@@ -746,9 +746,43 @@ Median leakage
 <p>Derived from dilution_predictions_poolref.tsv.gz + dilution_strain_similarity.tsv</p>
 </div>
 <div class="aside">
-<p><span class="ch">Two different failure modes, and only one tracks relatedness</span></p>
-<p><strong>Own-pool recovery shows no relationship with genetic similarity at all</strong> — ρ <code>+0.046</code>, <code>p = 0.55</code> against the nearest neighbour; <code>+0.092</code>, <code>p = 0.23</code> against mean identity. So similarity predicts a strain being assigned into a pool it is absent from, and does <em>not</em> predict how much of its own pool it recovers. The ~0.8 ceiling in panel A and the leakage in panel D are separate problems, and only the second is explained by relatedness.</p>
-<p>One thing these data <strong>cannot</strong> support, though the top of the leakage ranking is full of near-identical partners: that the damage concentrates in near-identical pairs <em>split across sets</em>. There are only 30 reciprocal nearest-neighbour pairs, two above IBS 0.99, so the pair-level comparison is underpowered and answers differently at different thresholds. Worth revisiting with a larger design; not a result yet.</p>
+<p><span class="ch">The ceiling and the leakage are one quantity, not two</span></p>
+<p>For a pure pool the fractions sum to 1, so <strong>own-set share = 1 − (mass assigned to strains not in the pool)</strong>. Checked: <code>own + out = 1</code> to 4.4e-16 across all twelve pure pools, mean own-set share <code>0.802</code> against out-of-pool <code>0.198</code>. The ~0.8 ceiling in panel A <em>is</em> the leakage in panel D, seen from the other side.</p>
+<p><strong>And the leakage is relatedness-directed.</strong> Across the 1,530 strain-by-pool combinations where a strain is absent from the pool, mass assigned to it averages <code>1.33</code> per mille when its nearest neighbour is elsewhere and <code>2.25</code> per mille when its nearest neighbour is <em>in</em> that pool — a 1.70× enrichment, Mann-Whitney <code>p = 3.6e-05</code>. Those pairs are 24.3% of the combinations but carry <strong>35.3%</strong> of all out-of-pool mass. Rescaling, relatedness accounts for about <strong>14%</strong> of the out-of-pool mass, so it is a real contributor to the ceiling.</p>
+<p>That 14% is a <strong>lower bound</strong>, because “nearest neighbour in the pool” is the crudest possible measure: a strain has many relatives among a pool’s ~43 members, not one. The proper test is mass against relatedness to <em>all</em> pool members, which needs the full genotype matrix.</p>
+<p>What the per-strain null actually showed. <code>ρ(nn_ibs, own-pool recovery) = +0.046, p = 0.55</code> is about <em>per-strain</em> recovery, which is <strong>bidirectional</strong> — a strain both loses mass to confusable partners and gains it from them, and a trade with a partner in the same set does not move the set total at all. So per-strain recovery can show no correlation while relatedness drives every transfer. Leakage is unidirectional, which is why the signal survives there.</p>
+</div>
+<div class="aside">
+<p><span class="ch">Restricting the reference does recover the input ratios better</span></p>
+<p>Against the designed B fraction, in RMSE:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">estimate</th>
+<th align="right">RMSE</th>
+<th align="right">bias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">170-strain reference, raw</td>
+<td align="right"><code>0.0788</code></td>
+<td align="right"><code>−0.0593</code></td>
+</tr>
+<tr class="even">
+<td align="left">170-strain reference, renormalised within B+C</td>
+<td align="right"><code>0.0415</code></td>
+<td align="right"><code>+0.0297</code></td>
+</tr>
+<tr class="odd">
+<td align="left">84-strain B+C reference</td>
+<td align="right"><code>0.0376</code></td>
+<td align="right"><code>+0.0208</code></td>
+</tr>
+</tbody>
+</table>
+<p>Most of the damage is undone by renormalising — that removes the ~18% of mass sitting on sets A and D — and restricting the reference to the strains actually present recovers a further <strong>9%</strong>. So the panel B against panel C comparison reads the way you would expect: the fewer absent candidates the solver is offered, the closer the set frequencies land to the input.</p>
+<p>One thing these data still <strong>cannot</strong> support: that the damage concentrates in near-identical pairs <em>split across sets</em>. Only 30 reciprocal nearest-neighbour pairs exist, two above IBS 0.99, so that comparison is underpowered and answers differently at different thresholds.</p>
 </div>
 <p>Both panels’ plotted fractions are pinned as literals in the script and checked against the deposit on every run, so these numbers cannot drift from the figure without the script failing.</p>
 <div id="the-renormalisation-step-by-step" class="section level3">
@@ -1104,7 +1138,7 @@ BC7
 </div>
 <div class="caveat">
 <p><span class="ch">Two further limits</span></p>
-<p>Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of each pool is assigned to strains that are not in it. Panel D rules genetic similarity out as the explanation for <em>that</em> particular shortfall — recovery is uncorrelated with relatedness — which leaves cross-contamination between pools and unequal DNA input across strains within a pool, and these data cannot separate those two.</p>
+<p>Pure-pool recovery tops out near 0.8, not 1.0, so roughly a fifth of each pool is assigned to strains that are not in it — and that fifth <em>is</em> the leakage of panel D, since the two sum to 1 by construction. Relatedness demonstrably directs it (1.70× enrichment when the absent strain’s nearest neighbour is in the pool, <code>p = 3.6e-05</code>) and accounts for at least ~14% of it. The rest is not attributed here: cross-contamination between pools and unequal DNA input across strains within a pool remain candidates these data cannot separate.</p>
 <p>Panels A and B use the 170-strain pool reference and panel C the 84-strain B+C reference. After renormalising the pool reference within B and C the two disagree by at most <code>0.054</code>, mean <code>0.029</code>, on the same samples — the size of the reference-choice effect. The deposit also carries the 540-strain full-panel and regenotyped references.</p>
 </div>
 </div>
@@ -2246,7 +2280,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 10:11
+2026-09-08 10:18
 </td>
 </tr>
 <tr>
