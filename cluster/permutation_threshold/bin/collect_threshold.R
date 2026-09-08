@@ -80,8 +80,12 @@ if (is.finite(expect_obs) && expect_obs > 0) {
          "  The permutation scan is not reproducing the scan it thresholds, so\n",
          "  its threshold does not apply to that scan. Check the GEMMA model\n",
          "  (-gk 1 vs -gk 2, -lmm), the kinship, and the phenotype column\n",
-         "  before using any number in this run. --expect_observed_max 0 skips\n",
-         "  this check for a trait with no shipped scan to compare against.",
+         "  before using any number in this run.\n",
+         "  To proceed anyway: --observed_tol <bigger> accepts a known and\n",
+         "  documented difference, --expect_observed_max 0 skips the check\n",
+         "  entirely, which is the right flag for a trait with no shipped scan.\n",
+         "  Both are run-time overrides: pass them to `nextflow run`, and check\n",
+         "  the value echoed in the failing command before assuming it applied.",
          call. = FALSE)
   }
   cat("\nobserved maximum ", got, " matches the shipped scan (", expect_obs,

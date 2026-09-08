@@ -172,11 +172,31 @@ process GEMMA_GRM {
     input:  tuple val(chrom), path(geno), path(anno), path(notchr)
             path pheno_placeholder
     output: tuple val(chrom), path("kin_${chrom}.sXX.txt"), emit: kin
+            path "kin_${chrom}.log.txt"
     script:
     """
     set -euo pipefail
+
+    # The split must be exact: every marker belongs to this chromosome or to the
+    # kinship set, never to both and never to neither. A silent drop here would
+    # change the kinship without changing anything the marker-count assertion in
+    # PLINK_CONVERT can see.
+    n_chr=\$(wc -l < ${geno})
+    n_not=\$(wc -l < ${notchr})
+    echo "chr ${chrom}: \$n_chr markers tested, \$n_not in the kinship"
+    if [ "${params.expect_markers}" != "0" ] \\
+       && [ \$(( n_chr + n_not )) != "${params.expect_markers}" ]; then
+      echo "ERROR: \$n_chr + \$n_not != ${params.expect_markers}" >&2
+      exit 1
+    fi
+
     ${params.gemma} -g ${notchr} -p ${pheno_placeholder} -gk 2 -o kin_${chrom}
     mv output/kin_${chrom}.sXX.txt .
+    # The log carries GEMMA's version banner and the counts it actually analysed,
+    # which is the evidence for whether the kinship was built from the markers
+    # intended. Published, because a kinship is not self-describing.
+    mv output/kin_${chrom}.log.txt .
+    grep -E "Version|analyzed|total SNPs" kin_${chrom}.log.txt || true
     """
 }
 

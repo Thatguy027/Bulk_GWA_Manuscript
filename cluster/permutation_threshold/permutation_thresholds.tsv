@@ -1,2 +1,2 @@
 trait	n_permutations	alpha	threshold	observed_max	empirical_p	null_median	null_max
-x	3	0.05	4.84	8.57	0.25	4.3	4.9
+x	3	0.05	4.84	8.8759	0.25	4.3	4.9
