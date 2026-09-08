@@ -1,0 +1,37 @@
+##
+## GEMMA Version    = 0.98.5 (2021-08-25)
+## Build profile    = /gnu/store/8rvid272yb53bgascf5c468z0jhsyflj-profile
+## GCC version      = 7.5.0
+## GSL Version      = 2.6
+## OpenBlas         = OpenBLAS 0.3.9  - OpenBLAS 0.3.9 DYNAMIC_ARCH NO_AFFINITY SkylakeX MAX_THREADS=128
+##   arch           = SkylakeX
+##   threads        = 1
+##   parallel type  = threaded
+##
+## Command Line Input = /u/project/kruglyak/thatguy0/bin/gemma -g geno_V.bimbam -p perm_vst_ctrl_pos-1_T2_b0.txt -a anno_V.txt -k kin_V.sXX.txt -lmm 1 -n 1 -o run_1 
+##
+## Date = Tue Sep  8 14:00:12 2026
+##
+## Summary Statistics:
+## number of total individuals = 231
+## number of analyzed individuals = 231
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var = 122257
+## number of analyzed SNPs/var = 108409
+## REMLE log-likelihood in the null model = 360.012
+## MLE log-likelihood in the null model = 362.271
+## pve estimate in the null model = 0.486232
+## se(pve) in the null model = 0.125834
+## vg estimate in the null model = 0.00165371
+## ve estimate in the null model = 0.00174736
+## beta estimate in the null model =   -0.0180883
+## se(beta) =   0.00275034
+##
+## Computation Time:
+## total computation time = 0.282715 min 
+## computation time break down: 
+##      time on eigen-decomposition = 0.000257183 min 
+##      time on calculating UtX = 0.00409638 min 
+##      time on optimization = 0.191386 min 
+##

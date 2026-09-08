@@ -1,0 +1,9 @@
+target,n_target,tm_norm_sid2,tm_norm_target,rmsd,aligned,pct_id,role
+cSID1 BRD1 vs BRD2 (internal reference),132,0.525,0.575,2.75,96,10.4,internal reference
+Ig 12E8 chain H,221,0.427,0.265,4.03,80,5.0,negative control
+cSID1 BRD1 (18-178),147,0.404,0.344,4.23,77,5.2,query vs SID-1 domain
+cSID1 BRD2 (179-310),132,0.386,0.357,4.46,80,5.0,query vs SID-1 domain
+fn3 1TEN chain A,89,0.385,0.461,3.72,70,5.7,negative control
+galectin 2JJ6 chain A,134,0.337,0.308,4.61,69,2.9,negative control
+cSID1 TMD (311-776),381,0.333,0.143,4.99,75,6.7,negative control
+lectin 1LOB chain A,180,0.317,0.232,4.35,62,1.6,negative control

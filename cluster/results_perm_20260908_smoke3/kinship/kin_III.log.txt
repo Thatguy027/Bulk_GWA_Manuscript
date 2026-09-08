@@ -1,0 +1,27 @@
+##
+## GEMMA Version    = 0.98.5 (2021-08-25)
+## Build profile    = /gnu/store/8rvid272yb53bgascf5c468z0jhsyflj-profile
+## GCC version      = 7.5.0
+## GSL Version      = 2.6
+## OpenBlas         = OpenBLAS 0.3.9  - OpenBLAS 0.3.9 DYNAMIC_ARCH NO_AFFINITY SkylakeX MAX_THREADS=128
+##   arch           = SkylakeX
+##   threads        = 1
+##   parallel type  = threaded
+##
+## Command Line Input = /u/project/kruglyak/thatguy0/bin/gemma -g notchr_III.bimbam -p perm_vst_ctrl_pos-1_T2_b0.txt -gk 2 -o kin_III 
+##
+## Date = Tue Sep  8 13:58:40 2026
+##
+## Summary Statistics:
+## number of total individuals = 231
+## number of analyzed individuals = 231
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var = 399622
+## number of analyzed SNPs/var = 370270
+##
+## Computation Time:
+## total computation time = 0.283962 min 
+## computation time break down: 
+##      time on calculating relatedness matrix = 0.181562 min 
+##

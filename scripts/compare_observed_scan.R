@@ -97,6 +97,63 @@ print(as.data.frame(m[order(-abs(d))][1:10,
         .(chr, rs, ps, af, shipped = round(lp_old, 4),
           this_run = round(lp_new, 4), diff = round(d, 4))]), row.names = FALSE)
 
+## ---------------------------------------------------------------------------
+## Why were markers dropped? GEMMA's only defaults that discard a marker are
+## -maf 0.01 and -miss 0.05, so the allele frequencies of the dropped set
+## separate the two: extreme af means MAF, ordinary af means missingness.
+## ---------------------------------------------------------------------------
+drop <- old[!new, on = "rs"]
+if (nrow(drop)) {
+  cat("\n== the ", nrow(drop), " markers this run dropped ==\n", sep = "")
+  n_extreme <- sum(drop$af < 0.01 | drop$af > 0.99)
+  cat(sprintf("  af < 0.01 or > 0.99 (would fail -maf 0.01): %d (%.1f%%)\n",
+              n_extreme, 100 * n_extreme / nrow(drop)))
+  cat("  af quantiles: ",
+      paste(sprintf("%.3f", quantile(drop$af, c(0, .25, .5, .75, 1))),
+            collapse = " "), "\n", sep = "")
+  if (n_extreme == 0)
+    cat("  -> NOT the MAF filter. GEMMA's remaining default that discards a\n",
+        "     marker is -miss 0.05, so these are markers whose missingness the\n",
+        "     shipped scan did not see. Confirm on the cluster with\n",
+        "     plink --bfile all --missing: the count of F_MISS > 0.05 should\n",
+        "     match, and the ids should be the same ones.\n", sep = "")
+
+  cat("\n  per chromosome:\n")
+  tab <- merge(old[, .(total = .N), by = chr], drop[, .(dropped = .N), by = chr],
+               by = "chr")
+  tab[, pct := round(100 * dropped / total, 1)]
+  print(as.data.frame(tab[order(chr)]), row.names = FALSE)
+
+  ## Missingness in this species tracks the hyper-divergent regions, which sit
+  ## on the arms and tips. A drop rate that is flat across 1 Mb windows would
+  ## argue against the missingness explanation.
+  old[, win := paste0(chr, ":", floor(ps / 1e6))]
+  drop[, win := paste0(chr, ":", floor(ps / 1e6))]
+  z <- merge(old[, .(n = .N), by = win], drop[, .(d = .N), by = win],
+             by = "win", all.x = TRUE)
+  z[is.na(d), d := 0][, pct := 100 * d / n]
+  cat("\n  1 Mb windows with the highest drop rate (>=200 markers):\n")
+  print(as.data.frame(z[n >= 200][order(-pct)][1:10,
+          .(win, markers = n, dropped = d, pct = round(pct, 1))]),
+        row.names = FALSE)
+
+  fwrite(drop[, .(rs)], "plots/diagnostics/TABLE_scan_markers_dropped.txt",
+         col.names = FALSE)
+  cat("\n  ids written to plots/diagnostics/TABLE_scan_markers_dropped.txt\n")
+
+  ## Are the largest p-value disagreements in the dropped-heavy regions? If not,
+  ## local marker loss is not what moved them and the kinship is.
+  top <- m[order(-abs(d))][1:200]
+  top[, win := paste0(chr, ":", floor(ps / 1e6))]
+  cat("\n  drop rate in the windows of the 200 most-disagreeing markers: ",
+      sprintf("%.1f%%", mean(merge(top[, .(win)], z, by = "win")$pct)),
+      " against ", sprintf("%.1f%%", 100 * nrow(drop) / nrow(old)),
+      " genome-wide.\n", sep = "")
+  cat("  Below the genome-wide rate means local marker loss is NOT what moved\n",
+      "  them; the kinship is, and it changed because it is built from the\n",
+      "  markers that survived -- 7.4% fewer, concentrated on the arms.\n", sep = "")
+}
+
 cat("\n== where each scan peaks ==\n")
 cat("  shipped:  ", m[which.min(p_old), rs], " at ",
     sprintf("%.4f", m[, max(lp_old)]), "\n", sep = "")

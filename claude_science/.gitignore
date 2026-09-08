@@ -1,0 +1,13 @@
+# The root .gitignore excludes `data/` at any depth (the provenance tree, which
+# is archived to Dryad rather than tracked). That rule also catches
+# claude_science/data/, but these tables are the small derived inputs the
+# figures actually read -- the analogue of supplemental_data/, which IS tracked
+# -- so re-include the directory here. A negation cannot reach inside an
+# excluded directory, so the directory itself has to be un-excluded first.
+!/data/
+!/data/*
+
+# Re-downloadable from files.rcsb.org by 04_fold_comparison.py on first run.
+/data/pdb_cache/
+
+.DS_Store
