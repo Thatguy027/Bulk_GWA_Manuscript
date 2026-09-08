@@ -99,141 +99,119 @@ Strains with a missing phenotype stay missing and are never shuffled into
 phenotyped positions — otherwise the sample size would change between
 permutations and the maxima would not be comparable.
 
-## The smoke run found a real problem — read this before the long run
+## Reproducing the scan, and why every flag matters
 
-The smoke run completed but returned **`observed_max = 8.6894`** where the
-shipped scan's genome-wide maximum is **8.84**. That mismatch is the whole point
-of carrying the observed phenotype as permutation 0, and it meant the pipeline
-was not mapping the same data as the scan it was meant to threshold.
+A threshold is only meaningful for the scan it is computed against, so this
+pipeline reproduces the 2023 pos-1 scan rather than doing the same thing in
+spirit. Four attempts were needed. Each returned a different observed
+genome-wide maximum against the scan's **8.8361**, and each difference had a
+single cause:
 
-The plink log said why: **519,341 markers passed filters** against the scan's
-**464,045**. Two causes, both now fixed.
+| Run | observed_max | cause |
+|---|---|---|
+| smoke  | 8.6894 | MAF computed on the 231 phenotyped strains, so 519,341 markers were tested |
+| smoke2 | 8.5700 | kinship built with `-gk 1` (centered); the scan used `-gk 2` (standardized) |
+| smoke3 | 8.8759 | markers, panel and kinship type all correct — and still 34,316 markers short |
+| current | — | the missing-genotype encoding below |
 
-**MAF was computed on all 540 isotypes, not the 231 phenotyped ones.** A marker
-at 5% across the whole collection can sit below 5% among the strains that
-actually carry a *pos-1* value. `PREP_PANEL` now writes the phenotyped panel and
-`--keep` restricts the conversion to it. On chromosome III alone that changes
-the count from 80,639 to 78,507.
+### The panel is 366 strains, not 231
 
-**The scan's filter chain is not recoverable, so it is no longer guessed.**
-Instead the permutation scan tests **exactly the markers the scan tested**,
-supplied as an id list (`markers/pos1_2023_scan_markers.txt.gz`, 464,045 ids,
-all of which resolve in the CeNDR plink set) and applied with `--extract`. No
-`--maf` or `--geno`: the list defines the set, and any further filter would
-silently shrink it. `PLINK_CONVERT` now **fails the run** if the retained count
-is not `expect_markers` (464045), rather than discovering the problem after a
-thousand permutations.
+The scan's plink step kept every strain in the phenotype file, so `--maf 0.05`
+and `--geno` were computed across all 366. A marker carried by two of the 231
+phenotyped strains can therefore be in the scan. GEMMA then drops the strains
+with no value for the trait and analyses 231. Filtering on the 231 instead is
+the first bug in the table.
 
-**One trait per panel, enforced.** Traits in this file do not share a panel —
-the three *pos-1* traits have 231 strains each, `negctrl_growth_HT115_delta_t0`
-has all 366. Requesting traits with different panels together would compute MAF
-on a superset for at least one of them, reintroducing the first bug by the back
-door, so `prep_panel.R` refuses and tells you to split the run.
+### The kinship is `-gk 2`
 
-After re-running, **`observed_max` must be 8.84**. If it is not, stop and work
-out why before trusting the threshold.
+`-gk 1` is the centered relatedness matrix, `-gk 2` the standardized one, where
+each marker is divided by its own standard deviation before the cross-product.
+Different matrices, different p-values. The scan's archived
+`gemmeGRM.*.sXX.txt` names which.
 
-## Fixed after the first cluster attempt
+### Missing genotypes become dosage 0, deliberately
 
-Three things, recorded because two of them would have produced a *wrong number*
-rather than an error.
+This is the subtle one, and it is why the pipeline goes through plink's oxford
+format rather than `.traw`.
 
-**Params must be declared in `nextflow.config`, not `main.nf`.** The config is
-parsed before the script, so a `${params.x}` interpolated inside a `process` or
-`profiles` block can only resolve against params defined in the config file.
-Declaring them in the script gave
+The scan's plink log removed **339,834** variants at >10% missingness and kept
+464,209 that each carry up to 10%. GEMMA then dropped **none** of them — but its
+`-miss` default is 0.05, which those markers plainly exceed. A marker above 5%
+missing exceeds that threshold under any individual set, so GEMMA cannot have
+seen a missing value at all.
+
+The reason is the encoding. `--recode oxford` writes a missing call as `0 0 0`,
+and the dosage expression `2*P(AA) + P(AB)` turns that into **0** — a homozygous
+call for the second allele, indistinguishable from a real one. A `.traw` route
+passes `NA` through instead, GEMMA counts it missing, and 34,316 markers fall
+out. That was the whole of the smoke3 discrepancy.
+
+**This is not the better choice on its own terms.** It substitutes a fabricated
+genotype for an absent one, and does so most often on the chromosome arms where
+the hyper-divergent regions are and where calls fail: 41.8% of the markers in
+the V:17 Mb window, 24% at V:18, 20% on the II left arm. It is here because the
+published scan was built that way. `scripts/compare_observed_scan.R` in the main
+repo quantifies what it costs: 94.75% of shared markers differ, the largest by
+3.58 in -log10 p, and the biggest disagreements are a chrX 10.2-10.9 Mb block
+that moves in both directions. The top of the scan is stable — the same peak
+marker, `IV:15323414` — but a scan with missingness handled honestly is a
+different scan and needs its own threshold. Emitting `NA` from that one awk
+expression in `BUILD_BIMBAM` is the change.
+
+### The marker list is shipped, not derived
+
+`snps/pos1_2023_gemma_snps.tsv.gz` is the 464,208 ids GEMMA actually received,
+from the scan's own `traits_gemmaSnps.tsv`. It is one marker short of plink's
+464,209 because the scan built its annotation with `awk 'NR!=1'` on a `.gen`
+file, which has no header, silently dropping the first variant. Shipping the
+list reproduces the scan exactly without reproducing the bug in code:
 
 ```
-Unknown config attribute `process.withName:MAKE_PERMS|COLLECT_THRESHOLD.params.r_env_bin`
+464,209   plink retained (snps/pos1_2023_plink_traits.log)
+     -1   the `awk 'NR!=1'` on a headerless .gen
+464,208   the -snps list GEMMA received
+   -163   MtDNA, which -loco never maps
+464,045   shipped scan rows  = supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz
 ```
 
-They now live in a `params { }` block at the top of the config, above everything
-that interpolates them — config is evaluated top-down, and a reference above its
-definition silently yields `[:]/...` instead of failing.
+`snps/pos1_2023_traits.sample` is the scan's oxford `.sample`. BIMBAM has no
+sample ids — dosage columns are positional — so that file *is* the definition of
+which column is which strain, and it is checked against plink's own output
+rather than trusted.
 
-**GEMMA now runs `-lmm 1`, not `-lmm 4`, and `p_wald` is found by name.**
-`-lmm 4` emits `p_wald`, `p_lrt` *and* `p_score`, so reading the last column
-positionally picked up **p_score** — a different test statistic from the one the
-shipped scan reports, which would have thresholded the wrong thing. The column
-is now located from the header, so a GEMMA version that reorders its output
-cannot silently change the answer.
+## Three assertions, at three points
 
-**BIMBAM allele order.** `.traw` dosages count the `COUNTED` allele (column 5),
-and BIMBAM's dosages count the allele listed *first*. The first version emitted
-column 6 then 5, flipping the coding. That changes the sign of `beta` and leaves
-`p_wald` alone, so it would not have broken this threshold — but it would have
-quietly corrupted any effect size read from those files.
+* `PLINK_CONVERT` fails unless it retains exactly `expect_variants` (464,209)
+  and `expect_individuals` (366).
+* `PREP_ORDER` fails if a strain in the scan's order is absent from the
+  phenotype file, or if several requested traits have different phenotyped-strain
+  sets — GEMMA's `-gk` takes its individuals from phenotype column 1, so one
+  kinship cannot serve two different sets.
+* `COLLECT_THRESHOLD` fails unless the observed genome-wide maximum equals
+  `expect_observed_max` (8.8361) within `observed_tol`.
 
-## Notes on this copy
-
-`traits/2023_pos1_association_traits.csv` is the same file the shipped scan was
-run on: 366 strains, 231 with a `vst_ctrl_pos-1_T2` value, the trait behind the
-464,045-marker scan in `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz`.
-Replace it or point `--pheno` elsewhere for another experiment.
-
-Paths to `plink`, `gemma`, the conda bin and the R env are the defaults from
-`gemma_nf`'s config. Override on the command line if any of them moves.
-
-## Two assertions, at both ends
-
-`PLINK_CONVERT` fails unless it retains exactly `expect_markers` (464,045)
-markers, and `COLLECT_THRESHOLD` fails unless the observed genome-wide maximum
-equals `expect_observed_max` (8.8361) within `observed_tol`.
-
-Both are needed, and the history says why. The marker assertion was added after
-a first run computed MAF on all 540 strains instead of the 231 phenotyped ones
-and tested 519,341 markers, giving 8.6894. With the marker set pinned, the next
-run matched 464,045 markers and 231 strains exactly -- and still returned 8.5700,
-because the kinship was built with `-gk 1` (centered) where the scan used
-`-gk 2` (standardized). A correct panel and a correct marker set are not
-sufficient; the model has to match too, and only the observed maximum tests that.
+All three are needed, and the table above is why. The marker count passed while
+the kinship was wrong; the marker count and the kinship together passed while
+the encoding was wrong. Only the observed maximum tests the whole chain.
 
 To threshold a trait with no shipped scan to compare against, pass
 `--expect_observed_max 0`.
 
-## The observed maximum: what has been ruled out
+## Ruled out as causes of the smoke3 discrepancy
 
-Target 8.8361, the maximum of `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz`.
+Each by measurement, not argument, and recorded so they are not re-litigated:
 
-| Run | observed_max | cause |
-|---|---|---|
-| smoke  | 8.6894 | MAF computed on all 540 strains, 519,341 markers tested |
-| smoke2 | 8.5700 | kinship built with `-gk 1` (centered) where the scan used `-gk 2` |
-| smoke3 | 8.8759 | open -- 0.4%, cause not yet identified |
-
-Eliminated as causes of the remaining 0.4%, each by measurement rather than
-by argument:
-
-* **Marker set.** `--extract` of the scan's own 464,045 IDs; PLINK_CONVERT
-  asserts the count and reported exactly 464045.
-* **Panel.** 231 strains, and `panel.txt` is the same set as the trait's
-  non-missing strains and as trait 1's, so the GRM's individuals match however
-  GEMMA selects them.
-* **Phenotype.** `traits/2023_pos1_association_traits.csv` is byte-identical
-  (md5 b35a18aeeb0acfbc741c33c4159d12ae) to the `association_traits.csv` that
-  produced the scan, at full precision; the 231 mapped values differ by 0.
-* **GEMMA version.** 0.98.5 on the cluster, 0.98.5 in the scan's archived log.
-* **Missing genotypes.** `n_miss` is 0 for all 464,045 markers in the scan, so
-  the oxford (`dosage 0`) versus `.traw` (`NA`, mean-imputed) difference in
-  missing handling has nothing to act on.
-* **p-value column.** `-lmm 1`, and `p_wald` located by header name.
-
-What remains, in order of suspicion:
-
-1. **The kinship's marker set.** gemma_nf hands GEMMA the whole genotype file
-   with `-loco ${chrom}`; this pipeline pre-splits with plink `--not-chr` and
-   passes no `-loco`. GEMMA_GRM now publishes its log, so its analysed count can
-   be compared against the expected kinship size for each chromosome:
-   I 412322, II 388154, III 399622, IV 387572, V 341788, X 390767.
-2. **Individuals in the genotype file.** gemma_nf passes 366 columns and lets
-   GEMMA select the 231 by phenotype missingness; this passes 231 columns.
-   Equivalent unless GEMMA's internal MAF filter uses the file rather than the
-   analysed subset -- the scan retains all 464,045 markers, so it dropped none,
-   and a difference here would show as a marker-count difference.
-3. **`-loco` at the mapping step**, which gemma_nf passes and this does not,
-   having already split the genotypes by chromosome.
-
-`scripts/compare_observed_scan.R` in the main repo distinguishes 1 from 3: a
-near-constant ratio across the whole range of the statistic is the signature of
-a variance-component difference, disagreement confined to particular markers is
-not.
+* **GEMMA version** — 0.98.5 on the cluster, 0.98.5 in the scan's archived log.
+* **Phenotype file** — byte-identical to the `association_traits.csv` that
+  produced the scan (md5 `b35a18aeeb0acfbc741c33c4159d12ae`), full precision,
+  and the 231 mapped values differ by 0.
+* **The strain set** — `panel.txt` was the same 231 as the trait's non-missing
+  set and as trait 1's, so the kinship's individuals matched however GEMMA
+  selects them.
+* **MAF** — of the 34,316 markers GEMMA dropped, *none* has af below 0.01 or
+  above 0.99; their frequencies are unremarkable (median 0.139). Not the MAF
+  filter, which left `-miss` as the only remaining default that discards a
+  marker.
+* **The LOCO split** — GEMMA's own logs reported `total SNPs` matching the
+  expected per-chromosome kinship sizes exactly (I 412322, II 388154,
+  III 399622, IV 387572, V 341788, X 390767).

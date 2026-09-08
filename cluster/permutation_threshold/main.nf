@@ -2,7 +2,8 @@
 nextflow.enable.dsl = 2
 
 /*
- * Genome-wide significance by phenotype permutation.
+ * Genome-wide significance by phenotype permutation, reconstructing the 2023
+ * pos-1 scan exactly.
  *
  *   nextflow run main.nf -profile hoffman2 \
  *     --pheno traits/2023_pos1_association_traits.csv \
@@ -11,39 +12,62 @@ nextflow.enable.dsl = 2
  *
  * WHY. The eigen threshold (Li & Ji) and Bonferroni both approximate the
  * multiple-testing burden analytically. Permutation measures it in THIS panel,
- * with its actual linkage disequilibrium and relatedness, and needs no
- * assumption about how many independent tests there are.
+ * with its actual linkage disequilibrium and relatedness.
  *
- * HOW. Genotypes are fixed; the phenotype is shuffled across strains. Each
- * shuffle is mapped genome-wide with the same leave-one-chromosome-out kinship
- * matrices as the real scan, and the genome-wide MAXIMUM -log10 p is recorded.
- * The (1 - alpha) quantile of those maxima is the threshold. The observed
- * phenotype is carried as permutation 0, so its own maximum and empirical
- * p-value come out of the same machinery.
+ * HOW. Genotypes are fixed; the phenotype is shuffled among the strains that
+ * have one. Each shuffle is mapped genome-wide with the same leave-one-
+ * chromosome-out kinship matrices as the real scan, and the genome-wide MAXIMUM
+ * -log10 p is recorded. The (1 - alpha) quantile of those maxima is the
+ * threshold. The observed phenotype is carried as permutation 0, so its own
+ * maximum comes out of the same code path.
+ *
+ * WHY THE STEPS BELOW LOOK THE WAY THEY DO -- read before changing any flag.
+ *
+ * A threshold is only meaningful for the scan it is computed against, so this
+ * pipeline reproduces that scan rather than doing the same thing in spirit.
+ * Three earlier attempts did the latter and each returned a different observed
+ * maximum against the scan's 8.8361:
+ *
+ *   8.6894  MAF computed on all 540 strains, so 519,341 markers were tested
+ *   8.5700  kinship built with -gk 1 (centered) where the scan used -gk 2
+ *   8.8759  markers correct, panel correct, kinship type correct -- and still
+ *           34,316 markers short, because of the last item below
+ *
+ * The remaining difference was MISSING GENOTYPES, and it is the reason this
+ * pipeline now goes through plink's oxford format rather than .traw. The scan's
+ * plink step removed 339,834 variants at >10% missingness and kept 464,209 that
+ * carry up to 10% each. GEMMA then dropped NONE of them -- but its -miss
+ * default is 0.05, which those markers plainly exceed. The explanation is the
+ * encoding: `--recode oxford` writes a missing call as "0 0 0", and the dosage
+ * expression below turns that into 0, a homozygous call for the second allele.
+ * GEMMA therefore never sees a missing value. A .traw route passes "NA" through
+ * instead, GEMMA counts it missing, and 34,316 markers fall out.
+ *
+ * So the oxford route is kept DELIBERATELY, and it is worth being clear that it
+ * is not the better choice on its own terms -- it substitutes a fabricated
+ * genotype for an absent one, and does so most often on the chromosome arms
+ * where the hyper-divergent regions are and where calls fail. It is here
+ * because the published scan was built that way and a threshold has to match
+ * the scan it thresholds. Anything drawn from a properly-missing scan needs its
+ * own threshold, computed by changing this one expression.
  *
  * THE ONE THING THAT MAKES THIS AFFORDABLE. Shuffling the phenotype does not
  * change the genotypes, so the kinship matrices are computed ONCE and reused by
- * every permutation. Recomputing them per permutation would multiply the cost
- * by the number of permutations for no change in the result.
+ * every permutation.
  *
- * WHAT PERMUTING A LABEL DOES AND DOES NOT DO -- read before quoting the number.
- * Shuffling phenotype labels destroys the relatedness structure the mixed model
- * is fitted to. The null it samples is therefore "no association AND no
- * population structure", while the model assumes structure is present and
- * corrects for it. The resulting threshold is the standard one in the C. elegans
- * GWAS literature and is what cegwas/NemaScan report, but it is not exact: it
- * tends to be slightly ANTI-conservative where structure inflates the real
- * scan, because the permuted scans have no structure to inflate them. The
- * defensible reading is "a threshold calibrated to this panel's LD and marker
- * density", not "an exact family-wise error rate". A structure-preserving
- * alternative is to permute in the space rotated by the eigenvectors of the
- * kinship matrix; that is not implemented here and would be the thing to do if
- * a reviewer presses.
+ * WHAT PERMUTING A LABEL DOES AND DOES NOT DO. Shuffling phenotype labels
+ * destroys the relatedness structure the mixed model is fitted to. The null it
+ * samples is "no association AND no population structure", while the model
+ * assumes structure is present and corrects for it. This is the standard
+ * threshold in the C. elegans GWAS literature and is what cegwas/NemaScan
+ * report, but it is not exact: it tends to be slightly ANTI-conservative where
+ * structure inflates the real scan. The defensible reading is "a threshold
+ * calibrated to this panel's LD and marker density", not "an exact family-wise
+ * error rate".
  *
  * COST. Jobs are (n_perm / perm_batch) x 6 chromosomes, plus 6 GRMs and the
  * conversions. At n_perm 1000 and perm_batch 25 that is 240 mapping jobs, each
- * running 25 GEMMA calls in series. Batching exists because 6000 one-call jobs
- * would spend most of the wall clock in the SGE queue rather than in GEMMA.
+ * running 25 GEMMA calls in series.
  */
 
 def required(name, value) {
@@ -56,218 +80,248 @@ def required(name, value) {
 
 /* Param defaults are declared in nextflow.config, NOT here. A ${params.x}
  * interpolated inside a process or profile block in the config can only resolve
- * against params defined in the config file itself. Declaring them in both
- * places invites the two copies to drift.
- */
+ * against params defined in the config file itself. */
 
 /* ------------------------------------------------------------------ */
 
-/* The panel: strains carrying a value for the requested trait(s). MAF must be
- * computed among THESE strains, not all 540 -- a marker at 5% in the full
- * collection can be below 5% in the phenotyped subset and vice versa. The first
- * version filtered on all 540 and produced 519,341 markers against the scan's
- * 464,045, which is why its observed maximum came out at 8.69 instead of 8.84. */
-process PREP_PANEL {
+/* THE PANEL IS EVERY STRAIN IN THE PHENOTYPE FILE, not only the strains with a
+ * value for the trait being mapped. That is what the scan did: its plink step
+ * kept all 366, so --maf 0.05 and --geno were computed across 366, and a marker
+ * carried by two of the 231 phenotyped strains can still be in the scan. GEMMA
+ * then drops the strains with no value for the trait, analysing 231.
+ *
+ * Getting this wrong is the first bug in the list above: filtering on the 231
+ * gave 519,341 markers instead of 464,209.
+ *
+ * The order comes from the scan's own traits.sample rather than from anything
+ * recomputed here. BIMBAM has no sample IDs -- dosage columns are positional --
+ * so this file is the definition of which column is which strain, and it is
+ * checked against plink's own output below rather than trusted. */
+process PREP_ORDER {
     publishDir "${params.outdir}/panel", mode: 'copy'
     input:  path phenofile
-    output: path 'panel.txt', emit: keep
+            path sample_order
+    output: path 'keep.txt',         emit: keep
+            path 'strain_order.txt', emit: order
             path 'panel_summary.txt'
     script:
     """
-    Rscript ${projectDir}/bin/prep_panel.R --pheno ${phenofile} \\
-        --traits '${params.traits}'
+    set -euo pipefail
+    # oxford .sample carries two header lines before the samples
+    sed 1,2d ${sample_order} | awk '{print \$1}' > strain_order.txt
+    awk '{print \$1, \$1}' strain_order.txt > keep.txt
+
+    Rscript ${projectDir}/bin/prep_order.R --pheno ${phenofile} \\
+        --order strain_order.txt --traits '${params.traits}' \\
+        --expect_individuals ${params.expect_individuals}
     """
 }
 
-/* MARKER SET. Rather than re-derive the scan's filter chain -- which is not
- * recoverable from the archived output and which the first attempt got wrong --
- * the permutation scan tests EXACTLY the markers the real scan tested, supplied
- * as an id list. The multiple-testing burden then matches by construction
- * instead of by luck, and the threshold provably applies to that scan.
+/* plink, with the scan's flags verbatim. Deviations that were tried and are
+ * wrong are noted rather than removed, because each one changed the answer:
  *
- * No --maf or --geno here for the same reason: the extract list already defines
- * the set, and any further filter would silently shrink it. The assertion below
- * fails the run immediately if the count does not match, rather than after a
- * thousand permutations. */
+ *   --snps-only --biallelic-only  restricts to 2,919,294 of the VCF's 3,504,135
+ *                                records. Without them, --set-missing-var-ids
+ *                                can give an indel at the same position the
+ *                                same chr:pos id as the SNP.
+ *   --maf 0.05 --geno            computed across all 366 kept strains. --geno
+ *                                with no argument is 0.1.
+ *   --recode oxford              the missing-genotype encoding described in the
+ *                                header. This is the load-bearing flag.
+ *   --output-missing-genotype 9  carried over from the scan. It governs text
+ *                                formats such as .ped, not the .gen
+ *                                probabilities, so it has no effect here -- it
+ *                                is kept only so this command is the scan's.
+ *
+ * --pheno is NOT passed. The scan passed it and plink reported "0 phenotype
+ * values present", because the file is strain/trait columns where plink expects
+ * FID IID value. It filtered nothing, so omitting it changes no genotype. */
 process PLINK_CONVERT {
     publishDir "${params.outdir}/plink", mode: 'copy', pattern: '*.log'
     input:  path vcf
             path keep
-            path markers
-    output: tuple path('all.bed'), path('all.bim'), path('all.fam'), emit: bed
-            path 'all.log'
+    output: tuple path('traits.gen'), path('traits.sample'), emit: gen
+            path 'traits.log'
     script:
     """
     set -euo pipefail
-    zcat -f ${markers} > markers.txt
-    ${params.plink} --vcf ${vcf} --allow-extra-chr --set-missing-var-ids '@:#' \\
-        --keep ${keep} --extract markers.txt \\
-        --make-bed --out all --threads ${task.cpus} --memory 6000
+    ${params.plink} --vcf ${vcf} \\
+        --snps-only --biallelic-only \\
+        --maf ${params.maf} --geno \\
+        --set-missing-var-ids '@:#' \\
+        --keep ${keep} \\
+        --output-missing-genotype 9 \\
+        --recode oxford \\
+        --out traits \\
+        --allow-extra-chr \\
+        --threads ${task.cpus} --memory 6000
 
-    n_mk=\$(wc -l < all.bim)
-    n_id=\$(wc -l < all.fam)
-    echo "markers retained: \$n_mk   strains retained: \$n_id"
-    if [ "${params.expect_markers}" != "0" ] && [ "\$n_mk" != "${params.expect_markers}" ]; then
-      echo "ERROR: \$n_mk markers, expected ${params.expect_markers}." >&2
-      echo "  The permutation scan must test the same markers as the scan it" >&2
-      echo "  thresholds. Check --markers, or set --expect_markers 0 to skip." >&2
+    n_var=\$(wc -l < traits.gen)
+    n_ind=\$(( \$(wc -l < traits.sample) - 2 ))
+    echo "variants: \$n_var   individuals: \$n_ind"
+    if [ "${params.expect_variants}" != "0" ] && [ "\$n_var" != "${params.expect_variants}" ]; then
+      echo "ERROR: \$n_var variants, expected ${params.expect_variants}." >&2
+      echo "  The scan's plink step retained ${params.expect_variants}; see" >&2
+      echo "  snps/pos1_2023_plink_traits.log for its exact counts. A different" >&2
+      echo "  number means a different VCF release or a changed filter, and the" >&2
+      echo "  threshold would not apply to the scan. --expect_variants 0 skips." >&2
+      exit 1
+    fi
+    if [ "\$n_ind" != "${params.expect_individuals}" ]; then
+      echo "ERROR: \$n_ind individuals, expected ${params.expect_individuals}." >&2
       exit 1
     fi
     """
 }
 
-/* Per-chromosome BIMBAM for mapping, and the complement for the LOCO kinship.
- * BIMBAM is built from plink's A-transpose (.traw) rather than --recode bimbam,
- * because .traw's column layout is unambiguous: CHR SNP CM POS COUNTED ALT then
- * one dosage column per sample, in .fam order. */
-process BUILD_CHROM {
-    tag "${chrom}"
-    input:  tuple path(bed), path(bim), path(fam)
-            each chrom
-    output: tuple val(chrom), path("geno_${chrom}.bimbam"), path("anno_${chrom}.txt"),
-                  path("notchr_${chrom}.bimbam"), emit: sets
+/* .gen -> BIMBAM, and the annotation.
+ *
+ * THE DOSAGE EXPRESSION IS THE SCAN'S, character for character. .gen carries
+ * chr, rs, pos, alleleA, alleleB then three genotype probabilities per sample,
+ * so sample i occupies columns 3i+3, 3i+4, 3i+5 and 2*P(AA) + P(AB) is its
+ * count of allele A. BIMBAM's dosages count the allele listed first after the
+ * marker id, which is why alleleA (\$4) precedes alleleB (\$5).
+ *
+ * A missing call is "0 0 0", so this yields 0 -- see the header. Changing it to
+ * emit NA is the one-line change that makes missingness honest, and it produces
+ * a DIFFERENT scan needing its own threshold.
+ *
+ * The annotation deliberately does NOT reproduce the scan's `awk 'NR!=1'`. A
+ * .gen file has no header, so that expression silently dropped the scan's first
+ * variant: 464,209 retained by plink, 464,208 in the marker list it handed
+ * GEMMA. Rather than replicate the bug, the shipped marker list -- which is
+ * that 464,208, exactly what GEMMA received -- is passed as -snps, and the
+ * annotation is built complete. GEMMA tests the intersection, which is the
+ * scan's 464,045 once MtDNA is excluded by -loco. */
+process BUILD_BIMBAM {
+    publishDir "${params.outdir}/bimbam", mode: 'copy', pattern: '*.tsv'
+    input:  tuple path(gen), path(sample)
+    output: path 'traits.csv',                  emit: geno
+            path 'traits_gemmaAnnotation.tsv',  emit: anno
     script:
     """
     set -euo pipefail
-    ${params.plink} --bfile all --allow-extra-chr --chr ${chrom} \\
-        --recode A-transpose --out chr_${chrom} --threads ${task.cpus} --memory 6000
-    ${params.plink} --bfile all --allow-extra-chr --not-chr ${chrom} \\
-        --recode A-transpose --out not_${chrom} --threads ${task.cpus} --memory 6000
+    nsamp=\$(( \$(wc -l < ${sample}) - 2 ))
+    awk -v s=\$nsamp '{ printf \$2","\$4","\$5;
+                        for (i = 1; i <= s; i++) printf ","\$(i*3+3)*2+\$(i*3+4);
+                        printf "\\n" }' ${gen} > traits.csv
 
-    # .traw -> BIMBAM geno: "snp, minor, major, dosage..."  (dosage is ALT count)
-    # .traw is: CHR SNP (C)M POS COUNTED ALT <one dosage column per sample>,
-    # and each dosage is the count of the COUNTED allele (\$5). BIMBAM's dosages
-    # count the allele listed FIRST after the marker id, so \$5 must come before
-    # \$6. Reversing them flips the allele coding, which changes the sign of beta;
-    # it leaves p_wald untouched, so it would not have broken this threshold --
-    # but it would quietly corrupt any effect size taken from these files.
-    awk 'NR>1 {printf "%s, %s, %s", \$2, \$5, \$6; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
-        chr_${chrom}.traw > geno_${chrom}.bimbam
-    awk 'NR>1 {printf "%s, %s, %s", \$2, \$5, \$6; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
-        not_${chrom}.traw > notchr_${chrom}.bimbam
+    cut -f-3 -d' ' ${gen} | awk '{print \$2, \$3, \$1}' OFS='\\t' \\
+        > traits_gemmaAnnotation.tsv
 
-    # annotation: snp, position, chromosome
-    awk 'NR>1 {print \$2 ", " \$4 ", " \$1}' chr_${chrom}.traw > anno_${chrom}.txt
-
-    test -s geno_${chrom}.bimbam
-    test -s notchr_${chrom}.bimbam
+    test "\$(wc -l < traits.csv)" = "\$(wc -l < ${gen})"
+    test "\$(wc -l < traits_gemmaAnnotation.tsv)" = "\$(wc -l < ${gen})"
     """
 }
 
-/* One kinship matrix per chromosome, from every marker NOT on it. Computed once
- * and reused by every permutation -- see the header.
+/* One kinship matrix per chromosome, from every marker NOT on it, computed once
+ * and reused by every permutation.
  *
  * -gk 2, NOT -gk 1. GEMMA's -gk 1 is the centered relatedness matrix and -gk 2
  * the standardized one, where each marker is divided by its own standard
- * deviation before the cross-product. They are different matrices, they give
- * different p-values, and the scan being thresholded here used -gk 2 (the lab
- * gemma_nf pipeline's GEMMA_GRM process, and its archived gemmeGRM.*.sXX.txt
- * output). Using -gk 1 put the observed maximum at 8.5700 against the scan's
- * 8.8361. Nothing about the marker set or the panel was wrong at that point --
- * both matched exactly -- so this is the whole of the remaining discrepancy.
- * The output filename follows the flag: -gk 1 writes .cXX.txt, -gk 2 .sXX.txt. */
+ * deviation before the cross-product. They are different matrices and give
+ * different p-values; the scan used -gk 2. Using -gk 1 put the observed maximum
+ * at 8.5700 against 8.8361 with everything else already correct.
+ *
+ * -loco does the chromosome selection, rather than splitting the genotype file
+ * per chromosome as an earlier version did. Same reasoning as everywhere else
+ * here: it is what the scan did.
+ *
+ * GEMMA needs A phenotype column to decide which individuals to include, and
+ * uses column 1. The permutation matrix's first batch is passed, whose column 1
+ * is the OBSERVED phenotype -- the same 231 strains the scan's column 1 had, so
+ * the matrix is identical. The values are irrelevant to -gk; only the
+ * individual set is. */
 process GEMMA_GRM {
     tag "${chrom}"
     publishDir "${params.outdir}/kinship", mode: 'copy'
-    input:  tuple val(chrom), path(geno), path(anno), path(notchr)
+    input:  each chrom
+            path geno
+            path anno
+            path snps
             path pheno_placeholder
-    output: tuple val(chrom), path("kin_${chrom}.sXX.txt"), emit: kin
-            path "kin_${chrom}.log.txt"
+    output: tuple val(chrom), path("gemmeGRM.${chrom}.sXX.txt"), emit: kin
+            path "gemmeGRM.${chrom}.log.txt"
     script:
     """
     set -euo pipefail
-
-    # The split must be exact: every marker belongs to this chromosome or to the
-    # kinship set, never to both and never to neither. A silent drop here would
-    # change the kinship without changing anything the marker-count assertion in
-    # PLINK_CONVERT can see.
-    n_chr=\$(wc -l < ${geno})
-    n_not=\$(wc -l < ${notchr})
-    echo "chr ${chrom}: \$n_chr markers tested, \$n_not in the kinship"
-    if [ "${params.expect_markers}" != "0" ] \\
-       && [ \$(( n_chr + n_not )) != "${params.expect_markers}" ]; then
-      echo "ERROR: \$n_chr + \$n_not != ${params.expect_markers}" >&2
-      exit 1
-    fi
-
-    ${params.gemma} -g ${notchr} -p ${pheno_placeholder} -gk 2 -o kin_${chrom}
-    mv output/kin_${chrom}.sXX.txt .
-    # The log carries GEMMA's version banner and the counts it actually analysed,
-    # which is the evidence for whether the kinship was built from the markers
-    # intended. Published, because a kinship is not self-describing.
-    mv output/kin_${chrom}.log.txt .
-    grep -E "Version|analyzed|total SNPs" kin_${chrom}.log.txt || true
+    zcat -f ${snps} > snps.txt
+    ${params.gemma} -g ${geno} -p ${pheno_placeholder} -gk 2 -loco ${chrom} \\
+        -a ${anno} -snps snps.txt -o gemmeGRM.${chrom} -outdir .
+    grep -E "Version|analyzed|total SNPs" gemmeGRM.${chrom}.log.txt || true
     """
 }
 
-/* Permuted phenotype columns, in .fam order. Column 1 is the OBSERVED
- * phenotype, so the real scan's genome-wide maximum comes from the same code
- * path as the permutations and cannot drift from them. */
+/* Permuted phenotype columns, in strain_order (which is .sample order, which is
+ * BIMBAM column order). Column 1 is the OBSERVED phenotype, so the real scan's
+ * genome-wide maximum comes from the same code path as the permutations and
+ * cannot drift from them. Strains with no value stay NA and GEMMA drops them,
+ * exactly as in the scan. */
 process MAKE_PERMS {
     tag "${trait}"
     publishDir "${params.outdir}/permutations", mode: 'copy', pattern: '*.tsv'
-    input:  tuple path(bed), path(bim), path(fam)
+    input:  path order
             path phenofile
             each trait
-    output: tuple val(trait), path("perm_${trait}_*.txt"), path("strains_${trait}.tsv"), emit: perms
+    output: tuple val(trait), path("perm_${trait}_b*.txt"), path("strains_${trait}.tsv"), emit: perms
     script:
     """
+    awk '{print \$1, \$1}' ${order} > order.fam
     Rscript ${projectDir}/bin/make_permutations.R \\
-        --fam all.fam --pheno ${phenofile} --trait '${trait}' \\
+        --fam order.fam --pheno ${phenofile} --trait '${trait}' \\
         --n_perm ${params.n_perm} --batch ${params.perm_batch} --seed ${params.seed}
     """
 }
 
-/* One job per (trait, chromosome, batch). Runs GEMMA once per column in the
- * batch, keeping only each column's maximum -- the per-marker output of a
- * permutation is never needed and would be terabytes. */
 process GEMMA_PERM {
     tag "${trait}:${chrom}:${batch.baseName}"
-    /* The observed scan (permutation 0) is published in full. Everything else
-     * keeps only its genome-wide maximum, which is all a threshold needs -- but
-     * when the observed maximum does not match the scan being thresholded, a
-     * single number gives nothing to diagnose with. The per-marker table can be
-     * differenced against the shipped scan directly, which turns "it is 0.04
-     * off" into a statement about which markers and by how much. Perm 0 is one
-     * scan per chromosome, so this costs nothing. */
+    /* The observed scan (permutation 0) is published in full, with its GEMMA
+     * log. Everything else keeps only its genome-wide maximum, which is all a
+     * threshold needs -- but when the observed maximum does not match the scan
+     * being thresholded, a single number gives nothing to diagnose with. The
+     * per-marker table can be differenced against the shipped scan by
+     * scripts/compare_observed_scan.R, which is how the missing-genotype
+     * encoding was found. Perm 0 is one scan per chromosome, so it costs
+     * nothing. */
     publishDir "${params.outdir}/observed_scan", mode: 'copy',
                pattern: 'observed_*.assoc.txt.gz'
     publishDir "${params.outdir}/observed_scan", mode: 'copy',
                pattern: 'gemma_*.log.txt'
-    input:  tuple val(trait), val(chrom), path(geno), path(anno), path(kin), path(batch)
+    input:  tuple val(trait), val(chrom), path(kin), path(batch)
+            path geno
+            path anno
+            path snps
     output: path "maxima_${trait}_${chrom}_${batch.baseName}.tsv", emit: maxima
             path "observed_${trait}_${chrom}.assoc.txt.gz", optional: true
             path "gemma_${trait}_${chrom}.log.txt", optional: true
     script:
     """
     set -euo pipefail
+    zcat -f ${snps} > snps.txt
     ncol=\$(awk 'NR==1{print NF}' ${batch})
     offset=\$(echo ${batch.baseName} | sed 's/.*_b//')
     : > maxima_${trait}_${chrom}_${batch.baseName}.tsv
     for k in \$(seq 1 \$ncol); do
-      # -lmm 1 is the Wald test ALONE, matching the shipped scan's p_wald column.
-      # -lmm 4 would emit p_wald, p_lrt and p_score, so a positional \$NF would
-      # silently read p_score -- a different statistic from the one the
-      # threshold is meant to apply to.
-      ${params.gemma} -g ${geno} -p ${batch} -a ${anno} -k ${kin} \\
-          -lmm 1 -n \$k -o run_\$k > /dev/null 2>&1
+      # -lmm 1 is the Wald test ALONE, matching the scan's p_wald column. -lmm 4
+      # would emit p_wald, p_lrt and p_score, so a positional \$NF would silently
+      # read p_score -- a different statistic from the one being thresholded.
+      ${params.gemma} -g ${geno} -p ${batch} -n \$k -lmm 1 -k ${kin} \\
+          -loco ${chrom} -a ${anno} -snps snps.txt -o run_\$k -outdir . \\
+          > /dev/null 2>&1
       # p_wald is located BY NAME from the header, not by position: GEMMA's
       # column layout differs between -lmm modes and versions.
       mx=\$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++) if(\$i=="p_wald") c=i; next}
              c && \$c!="" {p=\$c+0; if(p>0 && (m==""||p<m)) m=p}
              END{if(m=="") print "NA"; else printf "%.6f", -log(m)/log(10)}' \\
-             output/run_\$k.assoc.txt)
+             run_\$k.assoc.txt)
       pid=\$(( offset + k - 1 ))
       printf "%s\\t%s\\t%s\\t%s\\n" "${trait}" "${chrom}" "\$pid" "\$mx" \\
           >> maxima_${trait}_${chrom}_${batch.baseName}.tsv
-      # permutation 0 IS the observed phenotype -- keep its scan and its GEMMA
-      # log, the latter because the version banner and the analyzed marker and
-      # individual counts are what a mismatch is diagnosed from
       if [ "\$pid" -eq 0 ]; then
-        gzip -c output/run_\$k.assoc.txt > observed_${trait}_${chrom}.assoc.txt.gz
-        cp output/run_\$k.log.txt gemma_${trait}_${chrom}.log.txt
+        gzip -c run_\$k.assoc.txt > observed_${trait}_${chrom}.assoc.txt.gz
+        cp run_\$k.log.txt gemma_${trait}_${chrom}.log.txt
       fi
-      rm -f output/run_\$k.assoc.txt output/run_\$k.log.txt
+      rm -f run_\$k.assoc.txt run_\$k.log.txt
     done
     """
 }
@@ -294,36 +348,30 @@ workflow {
     required('pheno', params.pheno)
     phenofile = file(params.pheno, checkIfExists: true)
     vcf       = file(params.vcf,   checkIfExists: true)
+    snps      = file(params.snps,  checkIfExists: true)
+    order     = file(params.sample_order, checkIfExists: true)
     traits    = params.traits.tokenize(',')*.trim()
 
-    markers = file(params.markers, checkIfExists: true)
-    PREP_PANEL(phenofile)
-    PLINK_CONVERT(vcf, PREP_PANEL.out.keep, markers)
-    BUILD_CHROM(PLINK_CONVERT.out.bed, params.chromosomes)
+    PREP_ORDER(phenofile, order)
+    PLINK_CONVERT(vcf, PREP_ORDER.out.keep)
+    BUILD_BIMBAM(PLINK_CONVERT.out.gen)
 
-    // GEMMA needs SOME phenotype column to compute a kinship matrix; the values
-    // are irrelevant to -gk, so a column of the observed trait is passed. The
-    // matrix depends on genotypes only.
-    MAKE_PERMS(PLINK_CONVERT.out.bed, phenofile, traits)
+    MAKE_PERMS(PREP_ORDER.out.order, phenofile, traits)
 
     // the first batch of the first trait doubles as the -gk placeholder
     grm_pheno = MAKE_PERMS.out.perms
         .map { trait, batches, strains -> (batches instanceof List ? batches[0] : batches) }
         .first()
-    GEMMA_GRM(BUILD_CHROM.out.sets, grm_pheno)
 
-    // (trait, chrom, geno, anno, kin, batch)
-    per_chrom = BUILD_CHROM.out.sets
-        .map { chrom, geno, anno, notchr -> tuple(chrom, geno, anno) }
-        .join(GEMMA_GRM.out.kin)
+    GEMMA_GRM(params.chromosomes, BUILD_BIMBAM.out.geno,
+              BUILD_BIMBAM.out.anno, snps, grm_pheno)
 
     jobs = MAKE_PERMS.out.perms
         .flatMap { trait, batches, strains ->
             (batches instanceof List ? batches : [batches]).collect { b -> tuple(trait, b) } }
-        .combine(per_chrom)
-        .map { trait, batch, chrom, geno, anno, kin ->
-            tuple(trait, chrom, geno, anno, kin, batch) }
+        .combine(GEMMA_GRM.out.kin)
+        .map { trait, batch, chrom, kin -> tuple(trait, chrom, kin, batch) }
 
-    GEMMA_PERM(jobs)
+    GEMMA_PERM(jobs, BUILD_BIMBAM.out.geno, BUILD_BIMBAM.out.anno, snps)
     COLLECT_THRESHOLD(GEMMA_PERM.out.maxima.collect())
 }
