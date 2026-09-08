@@ -100,3 +100,8 @@ incoming/
 
 # nightly invariant-check output
 logs/
+
+# Diagnostic intermediate: 230k rows of per-strain predictions across every
+# reference size and depth. The figure and both tables are derived from it in
+# the same session, so it is a debugging convenience, not an input.
+plots/diagnostics/reference_size_predictions.rds
