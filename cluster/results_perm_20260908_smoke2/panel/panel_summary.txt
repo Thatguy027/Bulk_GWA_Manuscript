@@ -1,0 +1,6 @@
+traits: vst_ctrl_pos-1_T2
+strains in the phenotype file: 366
+strains with a value for at least one trait: 231
+
+per trait:
+  vst_ctrl_pos-1_T2                  231

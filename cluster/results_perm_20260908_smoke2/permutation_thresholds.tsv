@@ -1,0 +1,4 @@
+trait	n_permutations	alpha	threshold	observed_max	empirical_p	null_median	null_max
+vst_ctrl_pos-1_T2	20	0.05	6.7973	8.57	0.04762	4.4288	7.3382
+vst_ctrl_pos-1_T2	20	0.1	6.535	8.57	0.04762	4.4288	7.3382
+vst_ctrl_pos-1_T2	20	0.01	7.23	8.57	0.04762	4.4288	7.3382

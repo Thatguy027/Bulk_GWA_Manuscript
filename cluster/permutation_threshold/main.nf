@@ -203,8 +203,21 @@ process MAKE_PERMS {
  * permutation is never needed and would be terabytes. */
 process GEMMA_PERM {
     tag "${trait}:${chrom}:${batch.baseName}"
+    /* The observed scan (permutation 0) is published in full. Everything else
+     * keeps only its genome-wide maximum, which is all a threshold needs -- but
+     * when the observed maximum does not match the scan being thresholded, a
+     * single number gives nothing to diagnose with. The per-marker table can be
+     * differenced against the shipped scan directly, which turns "it is 0.04
+     * off" into a statement about which markers and by how much. Perm 0 is one
+     * scan per chromosome, so this costs nothing. */
+    publishDir "${params.outdir}/observed_scan", mode: 'copy',
+               pattern: 'observed_*.assoc.txt.gz'
+    publishDir "${params.outdir}/observed_scan", mode: 'copy',
+               pattern: 'gemma_*.log.txt'
     input:  tuple val(trait), val(chrom), path(geno), path(anno), path(kin), path(batch)
     output: path "maxima_${trait}_${chrom}_${batch.baseName}.tsv", emit: maxima
+            path "observed_${trait}_${chrom}.assoc.txt.gz", optional: true
+            path "gemma_${trait}_${chrom}.log.txt", optional: true
     script:
     """
     set -euo pipefail
@@ -227,6 +240,13 @@ process GEMMA_PERM {
       pid=\$(( offset + k - 1 ))
       printf "%s\\t%s\\t%s\\t%s\\n" "${trait}" "${chrom}" "\$pid" "\$mx" \\
           >> maxima_${trait}_${chrom}_${batch.baseName}.tsv
+      # permutation 0 IS the observed phenotype -- keep its scan and its GEMMA
+      # log, the latter because the version banner and the analyzed marker and
+      # individual counts are what a mismatch is diagnosed from
+      if [ "\$pid" -eq 0 ]; then
+        gzip -c output/run_\$k.assoc.txt > observed_${trait}_${chrom}.assoc.txt.gz
+        cp output/run_\$k.log.txt gemma_${trait}_${chrom}.log.txt
+      fi
       rm -f output/run_\$k.assoc.txt output/run_\$k.log.txt
     done
     """
