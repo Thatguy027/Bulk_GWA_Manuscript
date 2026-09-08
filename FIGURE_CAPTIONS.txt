@@ -5,7 +5,7 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-04
-Eighteen figures are the manuscript set and live in plots/:
+Twenty figures are the manuscript set and live in plots/:
 
   Figure1_pos1   Figure2   Figure3_quad   Figure4_sid2
   SUPP_FIG_XX_simulation_depth            <- earliest supplement
@@ -190,14 +190,24 @@ Grey dashed lines are the Bonferroni threshold over every marker
 (-log10 p = 6.81); green dotted lines divide alpha by the 732 effective
 independent tests (4.17). Threshold labels are placed in the chromosome I panel.
 
-Overlaid tracks compress the F2 cross QTL into intervals, flush against the
-significance line and directional: mig-6-specific QTL above, the pos-1 response
-below. Intervals are a 5% LOD drop from the chromosome peak marker, coloured by
-cross (N2 x XZ1516, JU1793 x JU2466) with opacity scaled to peak LOD. The mig-6
-track is drawn from the mig-6-vs-pos-1 contrast and the pos-1 track from the
-HT115-vs-pos-1 contrast, so each track shows the comparison that isolates the
-effect it is labelled with. Only QTL with peak LOD > 100 are drawn -- 9
-intervals, listed below -- and the complete significant set is
+Arrowheads mark the F2 cross QTL, one per QTL at its peak marker, coloured by
+cross (N2 x XZ1516 teal, JU1793 x JU2466 orange) and directional: mig-6-specific
+QTL above the axis, the pos-1 response below. The mig-6 arrows are drawn from
+the mig-6-vs-pos-1 contrast and the pos-1 arrows from the HT115-vs-pos-1
+contrast, so each side shows the comparison that isolates the effect it is
+labelled with. Only QTL with peak LOD > 100 are drawn -- 9, listed below -- and
+the complete significant set is
+
+The arrows carry POSITION ONLY: no interval width and no peak LOD. Those were
+previously drawn as interval bars with opacity scaled to LOD, which overstated
+what the mark could support. A cross interval is often a few tens of kb against
+a 15-20 Mb axis, so every bar had to be padded to a 0.09 Mb minimum to be
+visible at all -- the drawn width was the padding, not the interval. Widths and
+peak LODs are in the table below and in the cross-QTL supplement.
+
+A variant with the cross QTL removed entirely, plots/Figure2_no_cross_qtl.png,
+is written by the same script for comparison: the mirrored Manhattan alone,
+with the QTL tracks, their labels and the cross legend dropped.
 SUPP_FIG_XX_cross_qtl_all. Shaded vertical bands mark +/- 1 Mb around the
 pooled GWAS peaks.
 
@@ -255,6 +265,60 @@ SECOND CAVEAT worth a sentence in the text: the chromosome III peak marker at
 past the chromosome end, so that position is a boundary artefact rather than a
 localisation, and the NIL interval at 13.658-13.695 Mb is the claim. "The peak
 coincides with the NIL interval" is not a sentence these data support.
+
+--------------------------------------------------------------------------------
+FIGURE 3  (plots/Figure3_quad.pdf, .png -- scripts/Figure3_quad.R)
+--------------------------------------------------------------------------------
+The block above describes the superseded figure3.pdf. This is the current
+Figure 3, three panels rather than four.
+
+Near-isogenic lines fine-map the chromosome III RNAi-response QTL to a 37 kb
+interval.
+
+(A) The pooled pos-1 response across the wild panel, with the two cross parents
+marked: JU2466 sensitive and JU1793 resistant, at opposite ends of the
+distribution the cross was built from.
+
+(B) Parental allele frequency along the right arm of chromosome III, 8 Mb to the
+telomere, in the JU1793 x JU2466 F2 pool under pos-1 RNAi. JU1793's haplotype
+frequency is filled from below in orange and JU2466's above it in teal, so the
+two sum to 1 and the panel reads as which parent occupies the pool at each
+position. Frequencies are count-weighted within 50 kb bins -- counts summed and
+the frequency taken from the sums, so depth is respected rather than each marker
+counting equally -- then shown as a centred 250 kb rolling mean. The JU1793
+fraction rises from 42% at 8 Mb to 79% at the telomere.
+
+The solid line is the HT115 control pool over the same interval, and it is what
+makes this selection rather than a segregation artefact: it runs the other way,
+42% to 33%. A dashed line marks 50%.
+
+This panel replaces the LOD trace of the earlier layout. A LOD trace answers
+whether there is a QTL, which Figure 2 already answers, and says nothing about
+which parent's allele the selection favoured -- which is the point being made
+here, since sid-2 sits at 13.68 Mb.
+
+(C) The NIL series: genotype and phenotype in one panel, one row per strain,
+JU1793 at the bottom to JU2466 at the top.
+
+Left, the introgressions on the right arm of chromosome III, 13.60 Mb to the
+telomere, JU1793 genotype in orange and JU2466 in teal. FIVE OF THE SIX NILs
+CARRY A SEGMENT THAT RUNS TO THE CHROMOSOME END at 13,783,801 bp, which the
+right-hand edge marks; wSZ191 is the exception, an internal 13.658-13.695 Mb
+segment that stops short. That contrast is the fine-mapping argument, so the
+window keeps its right edge at the terminus rather than compressing to the
+breakpoints alone. The shaded band with dotted edges is the interval the series
+resolves, 13.658-13.695 Mb -- the region wSZ191 carries and wSZ196 does not.
+
+Right, embryos hatched under 50% pos-1 RNAi on the same rows: JU1793 99.4%
+(n = 179 embryos), wSZ196 97.3% (n = 261), wSZ191 79.4% (n = 252), wSZ176 58.5%
+(n = 272), JU2466 35.7% (n = 230). Bars are one plate per strain with Wilson 95%
+binomial intervals on that plate's embryo count. The two halves share the row
+axis and carry separate x scales, labelled beneath each.
+
+CAVEAT: one plate per strain per condition, so those intervals describe counting
+uncertainty, not between-plate variability, and no strain is replicated -- the
+ordering is an allelic series, not a set of tested contrasts. The HT115 control
+arm and four further NILs are in SUPP_FIG_XX_nil_hatching_full.
 
 --------------------------------------------------------------------------------
 FIGURE 3, VARIANTS

@@ -440,6 +440,25 @@ panel_pos1_dist <- function(letter = "B", bare = TRUE, base_size = 11.5,
   }
 
   p +
+    ## DIRECTION IS SPELLED OUT, because "response" alone does not say which
+    ## way is which and the axis is signed. The VST trait is positive for
+    ## strains that GAINED pool frequency under pos-1 RNAi -- i.e. resistant --
+    ## which is checkable rather than asserted: it correlates +0.410
+    ## (p = 7.8e-6) with the ordinal plate resistance score in
+    ## SUPP_FIG_plate_vs_paaby_vs_pos1original.R, and JU1793, resistant at 95%
+    ## hatching, sits at the 92nd percentile of this distribution.
+    ##
+    ## The quantity keeps its name; the direction is added as end labels rather
+    ## than by renaming the axis "resistance", which would silently redefine a
+    ## trait that the methods, the trait file and Figure 2 all call a response.
+    ## One label, anchored just right of the zero line rather than at the far
+    ## edge: the reader is looking at the bulk of the distribution around zero,
+    ## and a note in the empty right tail is furthest from where the question
+    ## arises. The opposite direction needs no label -- one arrow fixes the axis.
+    annotate("richtext", x = 0, y = Inf, hjust = -0.05, vjust = 2.4,
+             label = "more resistant \u2192", size = 3.1, colour = "grey40",
+             fill = NA, label.color = NA,
+             label.padding = grid::unit(rep(0, 4), "pt")) +
     labs(x = "*pos-1* response (VST)", y = "Wild isotypes",
          title = if (bare) panel_title(letter)
                  else titled(letter, "**Phenotype distribution**"),

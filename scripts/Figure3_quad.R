@@ -27,8 +27,11 @@
 ## distribution of 84 values and five percentage bars do not.
 ##
 ## The bottom row is C then D, phenotype then genotype, as specified. Rows in
-## C and D are the same five strains in the same order, JU1793 at the bottom to
-## JU2466 at the top, and share y limits so the rows line up across the pair.
+## Panel C is the same five strains in one row each, JU1793 at the bottom to
+## JU2466 at the top: genotype on the left, hatching on the right. The file
+## keeps the name Figure3_quad because that stem is registered in
+## FIGURE_REPORT.Rmd, FIGURE_CAPTIONS.txt and the figure-list check; it is
+## three panels now, not four.
 ##
 ## CAVEAT: one plate per strain per condition -- see Figure3_common.R.
 ## ---------------------------------------------------------------------------
@@ -41,17 +44,21 @@ msg("panel A: pooled pos-1 phenotype")
 ## that one strain each supports
 pA <- pheno_inset(type = "hist", base_size = 11.5, letter = "A")
 
-msg("panel B: cross scan, chromosome III")
-scan_t <- thin_scan(load_scan(), bin = 1e3)
-pB <- panel_A_chr3(scan_t, letter = "B")
+msg("panel B: parental allele frequency, chromosome III right arm")
+freq <- load_parent_freq(chrom_keep = "III", from_mb = 8)
+pB <- panel_parent_freq_chr3(freq, letter = "B")
 
-msg("panel C: hatching")
-pC <- panel_C(letter = "C")
+msg("panel C: NIL genotypes and hatching, merged")
+## Was two panels, C (hatching) and D (genotypes), drawing the same five
+## strains as rows twice with two x axes. panel_nil_geno_hatch() puts each
+## strain's genotype immediately left of its own hatching bar, so the pairing
+## no longer has to be carried across a panel boundary. panel_C() and panel_B()
+## are left in Figure3_common.R: Figure3_chrIII.R and the supplements still use
+## them, and they are what the two-panel version was.
+pC <- panel_nil_geno_hatch(letter = "C")
 
-msg("panel D: NIL introgressions")
-pD <- panel_B(letter = "D")
-
-fig <- four_panel(pA, pB, pC, pD)
+## C is now as wide as A and B together, so it takes the whole bottom row
+fig <- (pA + pB) / pC + plot_layout(heights = c(1, 1.08))
 
 ggsave(file.path(OUT, "Figure3_quad.pdf"), fig, width = 9.6, height = 6.2,
        device = cairo_pdf)

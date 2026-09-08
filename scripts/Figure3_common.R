@@ -455,3 +455,278 @@ panel_C <- function(verbose = TRUE, letter = "C") {
           axis.line.y = element_blank(),
           legend.position = "none")
 }
+
+## --- chromosome III parental allele frequency -----------------------------
+##
+## Replaces the LOD trace that used to be Figure 3B. A LOD trace answers "is
+## there a QTL here", which Figure 2 already answers; it says nothing about
+## WHICH parent's allele the pos-1 selection favoured, which is the point being
+## made -- that the resistant parent's haplotype sweeps toward the right end of
+## chromosome III, where sid-2 sits at 13.68 Mb.
+##
+## PARENT ASSIGNMENT IS FROM THE EXPORT, NOT INFERRED. The p1/p2 columns are,
+## per data/cross_experiments/JU1793-JU2466_export/README.md, "the counts
+## assigned to the JU1793 and JU2466 haplotypes". So JU1793 frequency is
+## p1/(p1+p2). Getting this backwards would invert the whole panel and still
+## look plausible, so the direction is asserted at the bottom of this function
+## against the known result: the pos-1 pool must end up MORE JU1793 than the
+## HT115 control at the right end.
+##
+## FREQUENCIES ARE COUNT-WEIGHTED, not averages of per-marker frequencies.
+## Counts are summed within each physical bin and the frequency taken from the
+## sums, so a marker with 200 reads counts for more than one with 4. Averaging
+## per-marker frequencies would let the shallowest markers pull the trace
+## around. The rolling mean is then applied to the binned frequencies for
+## display only.
+FREQ_BIN_KB  <- 50    # physical bin for the count-weighted frequency
+FREQ_ROLL_N  <- 5     # centred rolling mean, in bins: 5 x 50 kb = 250 kb
+
+load_parent_freq <- function(chrom_keep = "III", from_mb = 8) {
+  nm <- names(fread(SCAN, nrows = 0))
+  p1_ht <- grep("^p1_.*HT115g$", nm, value = TRUE)
+  p2_ht <- grep("^p2_.*HT115g$", nm, value = TRUE)
+  p1_ps <- grep("^p1_.*POS1g$",  nm, value = TRUE)
+  p2_ps <- grep("^p2_.*POS1g$",  nm, value = TRUE)
+  if (length(c(p1_ht, p2_ht, p1_ps, p2_ps)) != 4)
+    stop("expected one p1/p2 column per sample in ", SCAN, ", found: ",
+         paste(c(p1_ht, p2_ht, p1_ps, p2_ps), collapse = ", "), call. = FALSE)
+
+  d <- fread(SCAN, select = c("chrom", "physical.position",
+                              p1_ht, p2_ht, p1_ps, p2_ps)) %>% as_tibble()
+  names(d) <- c("chrom", "pos", "p1_ht", "p2_ht", "p1_ps", "p2_ps")
+  d <- d %>% filter(chrom == chrom_keep, pos >= from_mb * 1e6)
+  msg("    ", nrow(d), " markers on ", chrom_keep, " from ", from_mb, " Mb")
+
+  roll <- function(x, n) {
+    if (n <= 1 || length(x) < n) return(x)
+    stats::filter(x, rep(1 / n, n), sides = 2) %>% as.numeric() %>%
+      ## the filter leaves NA at both ends; hold the nearest fitted value so
+      ## the fill reaches the panel edges instead of stopping short
+      (function(v) { k <- which(!is.na(v))
+                     v[seq_len(min(k) - 1)] <- v[min(k)]
+                     v[seq(max(k) + 1, length(v), length.out =
+                             max(0, length(v) - max(k)))] <- v[max(k)]
+                     v })()
+  }
+
+  b <- d %>%
+    mutate(bin = floor(pos / (FREQ_BIN_KB * 1e3))) %>%
+    group_by(bin) %>%
+    summarise(pos.mb = mean(pos) / 1e6,
+              f_ps = sum(p1_ps) / sum(p1_ps + p2_ps),
+              f_ht = sum(p1_ht) / sum(p1_ht + p2_ht),
+              n = n(), .groups = "drop") %>%
+    arrange(pos.mb) %>%
+    mutate(f_ps_s = roll(f_ps, FREQ_ROLL_N), f_ht_s = roll(f_ht, FREQ_ROLL_N))
+
+  ## the assertion that catches a swapped parent assignment
+  tail_n <- max(3, round(nrow(b) * 0.1))
+  end_ps <- mean(tail(b$f_ps_s, tail_n)); end_ht <- mean(tail(b$f_ht_s, tail_n))
+  msg("    JU1793 frequency over the last ", tail_n, " bins: pos-1 ",
+      sprintf("%.3f", end_ps), " vs HT115 ", sprintf("%.3f", end_ht))
+  if (!(end_ps > end_ht))
+    stop("the pos-1 pool is not enriched for JU1793 at the right end of ",
+         chrom_keep, " (", sprintf("%.3f vs %.3f", end_ps, end_ht), ").\n",
+         "  JU1793 is the RESISTANT parent, so pos-1 selection must raise its\n",
+         "  frequency relative to the HT115 control. If this fails, p1/p2 have\n",
+         "  most likely been swapped -- see the README quoted above.",
+         call. = FALSE)
+  b
+}
+
+panel_parent_freq_chr3 <- function(b, letter = "B") {
+  xr <- range(b$pos.mb)
+  ggplot(b, aes(pos.mb)) +
+    ## JU2466 above the trace, JU1793 below it: the two fills sum to 1, so the
+    ## panel reads as "which parent occupies this interval of the pool"
+    geom_ribbon(aes(ymin = f_ps_s, ymax = 1), fill = COL_JU2466, alpha = 0.85) +
+    geom_ribbon(aes(ymin = 0, ymax = f_ps_s), fill = COL_JU1793, alpha = 0.85) +
+    geom_hline(yintercept = 0.5, linewidth = 0.3, linetype = "dashed",
+               colour = "grey30") +
+    ## the HT115 control, as a line only. It is the reason this panel shows
+    ## selection rather than a segregation artefact: the control runs the other
+    ## way over the same interval.
+    geom_line(aes(y = f_ht_s), linewidth = 0.5, colour = "grey20") +
+    annotate("richtext", x = xr[1], y = 0.5, hjust = -0.03, vjust = -0.45,
+             label = "HT115 control", size = 2.6, colour = "grey20",
+             fill = NA, label.color = NA,
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    annotate("richtext", x = xr[2], y = 0.02, hjust = 1.02, vjust = 0,
+             label = "JU1793", size = 2.9, colour = "white",
+             fill = NA, label.color = NA, fontface = "bold",
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    annotate("richtext", x = xr[2], y = 0.98, hjust = 1.02, vjust = 1,
+             label = "JU2466", size = 2.9, colour = "white",
+             fill = NA, label.color = NA, fontface = "bold",
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    scale_x_continuous("Chromosome III (Mb)", expand = expansion(0)) +
+    scale_y_continuous("Parental allele frequency",
+                       labels = scales::percent_format(accuracy = 1),
+                       limits = c(0, 1), expand = expansion(0)) +
+    labs(title = panel_title(letter)) +
+    theme_pub() +
+    theme(panel.grid = element_blank())
+}
+
+## --- C: NIL genotype and hatching, in ONE panel ---------------------------
+##
+## Replaces the old panels C and D, which drew the same five strains as rows
+## twice, in two panels with two x axes, so a reader had to carry a row
+## position across a panel boundary to pair a genotype with its phenotype.
+## Here each row is one strain and the genotype sits immediately left of its
+## own hatching bar.
+##
+## TWO X SCALES IN ONE PANEL, so both are drawn on an abstract coordinate: the
+## genotype occupies [0, GEN_W], the hatching [GEN_W + GAP, GEN_W + GAP +
+## HAT_W], and each gets its own tick labels annotated beneath the rows. A
+## single scale_x_continuous cannot carry two units, and patchwork would put
+## them back into two panels, which is what this change is undoing.
+##
+## THE INTROGRESSIONS RUN TO THE END OF THE CHROMOSOME, and the panel has to
+## say so, because that is what distinguishes the strains. Five of the six NILs
+## carry a JU2466 segment that starts at a breakpoint and continues to the
+## chromosome III terminus at 13,783,801; wSZ191 is the exception, an internal
+## 13.658-13.695 Mb segment that stops short. Compressing the axis to the
+## informative span alone would crop exactly that contrast, so the window keeps
+## its right edge at the terminus and marks it, and the compression is in the
+## left flank and the row height instead.
+GEN_W <- 1.00      # genotype track width, abstract x units
+GAP   <- 0.14
+HAT_W <- 0.78      # hatching axis width
+BAR_H2 <- 0.30
+
+panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
+                                 labels = TRUE) {
+  gx <- function(pos) (pos - WIN[1]) / diff(WIN) * GEN_W
+  hx <- function(p)   GEN_W + GAP + p * HAT_W
+
+  bed <- fread(NILB, header = FALSE,
+               col.names = c("chr", "start", "end", "strain", "geno")) %>%
+    as_tibble() %>% filter(strain %in% LEVELS) %>%
+    mutate(y = ROW[strain],
+           other = ifelse(geno == "JU1793", "JU2466", "JU1793"),
+           seg_start = pmax(start, WIN[1]),
+           is_parent = strain %in% c("JU1793", "JU2466"))
+  ## every NIL segment in the file must actually reach the terminus, except
+  ## wSZ191; if that changes, the sentence in the caption stops being true
+  reach <- bed %>% filter(!is_parent) %>%
+    transmute(strain, to_end = end >= ALL_LEN[["III"]])
+  if (verbose)
+    msg("    NIL segments reaching the chrIII terminus: ",
+        paste(reach$strain[reach$to_end], collapse = ", "),
+        " | stopping short: ",
+        paste(reach$strain[!reach$to_end], collapse = ", "))
+
+  bg  <- bed %>% transmute(y, xmin = gx(WIN[1]), xmax = gx(WIN[2]),
+                           geno = ifelse(is_parent, geno, other))
+  seg <- bed %>% filter(!is_parent) %>%
+    transmute(y, xmin = gx(seg_start), xmax = gx(end), geno)
+
+  z <- qnorm(0.975)
+  phen <- fread(PHEN) %>% as_tibble() %>%
+    filter(Strain %in% LEVELS, condition != "ht115") %>%
+    transmute(strain = Strain, y = ROW[Strain],
+              n = `plated embryo`, hatched = `plated embryo` - unhatched) %>%
+    mutate(p = hatched / n,
+           lo = pmax(0, (p + z^2 / (2 * n) -
+                           z * sqrt(p * (1 - p) / n + z^2 / (4 * n^2))) /
+                       (1 + z^2 / n)),
+           hi = pmin(1, (p + z^2 / (2 * n) +
+                           z * sqrt(p * (1 - p) / n + z^2 / (4 * n^2))) /
+                       (1 + z^2 / n)))
+  if (verbose) {
+    cat("\n== hatching under pos-1 RNAi (Wilson 95% CI) ==\n")
+    print(as.data.frame(phen %>%
+      transmute(strain, embryos = n, hatched = round(p, 3),
+                CI = sprintf("%.3f-%.3f", lo, hi)) %>%
+      arrange(desc(hatched))), row.names = FALSE)
+  }
+
+  band <- RESOLVED %>% mutate(ymin = min(ROW) - BAR_H2,
+                              ymax = max(ROW) + BAR_H2)
+  y0   <- min(ROW) - 0.72          # where the two tick rows sit
+  gen_ticks <- tibble(pos = c(13.60, 13.65, 13.70, 13.75) * 1e6) %>%
+    mutate(x = gx(pos), lab = sprintf("%.2f", pos / 1e6))
+  hat_ticks <- tibble(p = c(0, 0.5, 1)) %>%
+    mutate(x = hx(p), lab = scales::percent(p, accuracy = 1))
+
+  ggplot() +
+    ## genotype: background haplotype, then the introgression over it
+    geom_rect(data = bg, aes(xmin = xmin, xmax = xmax, ymin = y - BAR_H2,
+                             ymax = y + BAR_H2, fill = geno),
+              colour = "grey25", linewidth = 0.3) +
+    geom_rect(data = seg, aes(xmin = xmin, xmax = xmax, ymin = y - BAR_H2,
+                              ymax = y + BAR_H2, fill = geno),
+              colour = "grey25", linewidth = 0.3) +
+    ## the resolved interval, tinting the bars rather than sitting behind them
+    geom_rect(data = band, inherit.aes = FALSE,
+              aes(xmin = gx(xmin), xmax = gx(xmax), ymin = ymin, ymax = ymax),
+              fill = COL_REGION, alpha = 0.22) +
+    geom_segment(data = band, inherit.aes = FALSE,
+                 aes(x = gx(xmin), xend = gx(xmin), y = ymin, yend = ymax),
+                 linetype = "dotted", linewidth = 0.4, colour = COL_REGION) +
+    geom_segment(data = band, inherit.aes = FALSE,
+                 aes(x = gx(xmax), xend = gx(xmax), y = ymin, yend = ymax),
+                 linetype = "dotted", linewidth = 0.4, colour = COL_REGION) +
+    geom_richtext(data = band %>% mutate(mid = gx((xmin + xmax) / 2)),
+                  inherit.aes = FALSE,
+                  aes(x = mid, y = max(ROW) + 0.62,
+                      label = sprintf("%.3f&ndash;%.3f Mb",
+                                      RESOLVED$xmin / 1e6, RESOLVED$xmax / 1e6)),
+                  colour = COL_REGION, size = 2.9, hjust = 0.5,
+                  fill = NA, label.color = NA,
+                  label.padding = grid::unit(rep(0, 4), "pt")) +
+    ## the chromosome end, named rather than implied
+    annotate("segment", x = gx(WIN[2]), xend = gx(WIN[2]),
+             y = min(ROW) - BAR_H2, yend = max(ROW) + BAR_H2,
+             linewidth = 0.5, colour = "grey20") +
+    annotate("richtext", x = gx(WIN[2]), y = min(ROW) - 0.42,
+             label = "end of III", size = 2.5, colour = "grey30",
+             hjust = 1, vjust = 1, fill = NA, label.color = NA,
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    ## hatching bars, on their own stretch of the same abstract axis
+    geom_rect(data = phen, aes(xmin = hx(0), xmax = hx(p),
+                               ymin = y - BAR_H2, ymax = y + BAR_H2),
+              fill = "grey70", colour = "grey25", linewidth = 0.3) +
+    geom_segment(data = phen, aes(x = hx(lo), xend = hx(hi), y = y, yend = y),
+                 linewidth = 0.4, colour = "grey15") +
+    geom_segment(data = phen, aes(x = hx(lo), xend = hx(lo),
+                                  y = y - 0.11, yend = y + 0.11),
+                 linewidth = 0.4, colour = "grey15") +
+    geom_segment(data = phen, aes(x = hx(hi), xend = hx(hi),
+                                  y = y - 0.11, yend = y + 0.11),
+                 linewidth = 0.4, colour = "grey15") +
+    ## two tick rows and two sub-axis titles, annotated because the panel
+    ## carries two units on one coordinate
+    annotate("segment", x = gx(WIN[1]), xend = gx(WIN[2]), y = y0, yend = y0,
+             linewidth = 0.3, colour = "grey30") +
+    annotate("segment", x = hx(0), xend = hx(1), y = y0, yend = y0,
+             linewidth = 0.3, colour = "grey30") +
+    geom_text(data = gen_ticks, aes(x = x, y = y0, label = lab),
+              vjust = 1.6, size = 2.6, colour = "grey25") +
+    geom_text(data = hat_ticks, aes(x = x, y = y0, label = lab),
+              vjust = 1.6, size = 2.6, colour = "grey25") +
+    annotate("richtext", x = gx(mean(WIN)), y = y0 - 0.42,
+             label = "Chromosome III (Mb)", size = 3.1, colour = "grey15",
+             vjust = 1, fill = NA, label.color = NA,
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    annotate("richtext", x = hx(0.5), y = y0 - 0.42,
+             label = "Embryos hatched", size = 3.1, colour = "grey15",
+             vjust = 1, fill = NA, label.color = NA,
+             label.padding = grid::unit(rep(0, 4), "pt")) +
+    scale_fill_manual(values = c(JU1793 = COL_JU1793, JU2466 = COL_JU2466),
+                      name = NULL) +
+    scale_y_continuous(breaks = seq_along(LEVELS),
+                       labels = if (labels) LEVELS else NULL,
+                       limits = c(y0 - 1.05, max(ROW) + 1.05),
+                       expand = expansion(mult = 0)) +
+    coord_cartesian(xlim = c(0, GEN_W + GAP + HAT_W), clip = "off") +
+    labs(x = NULL, y = NULL, title = panel_title(letter)) +
+    theme_pub() +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.line.x = element_blank(),
+          axis.ticks.y = element_blank(), axis.line.y = element_blank(),
+          axis.text.y = element_text(size = 8.6),
+          panel.grid = element_blank(),
+          legend.position = "top", legend.margin = margin(b = -6))
+}

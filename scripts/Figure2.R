@@ -213,31 +213,47 @@ peak_band <- function(top) {
 ## One lane per cross in each track, so two crosses overlapping the same region
 ## stay legible. Lanes sit outside the data range, which the y expansion opens up.
 LANE <- tibble(cross = names(CROSS_LAB), lane = c(0, 1))
-BASE <- 8.7        # first lane, just clear of the thresholds
-STEP <- 1.15       # lane spacing
+BASE <- 8.7        # arrow tip for the first lane, clear of the thresholds
+STEP <- 1.15       # lane spacing, so two crosses at one locus do not overlap
+ARROW_LEN <- 0.85  # tail length, in -log10 p units
 BAR  <- 0.34       # bar half-height
 
-build <- function(lod_min, name, alpha_breaks) {
-  alpha_lim <- range(c(alpha_breaks, spec$peak.LOD[spec$peak.LOD > lod_min]))
+## arrows = FALSE gives the version with the cross QTL taken out entirely:
+## the mirrored Manhattan alone, with the QTL tracks, their labels and the
+## cross legend all dropped and the y range tightened to the data. The cross
+## QTL then live only in the supplement.
+build <- function(lod_min, name, arrows = TRUE) {
 
+## ARROWS AT THE PEAK MARKER, not interval rectangles.
+##
+## The intervals these replace were slivers: a cross QTL interval is often a
+## few tens of kb against a 15-20 Mb axis, so every one had to be padded to a
+## MINW of 0.09 Mb just to be visible -- at which point the drawn width was the
+## padding, not the interval, and the figure implied a precision it did not
+## have. Encoding peak LOD in opacity on top of that gave three visual channels
+## (position, width, opacity) to a mark that only reliably carries one.
+##
+## So: one arrowhead per QTL, at the peak marker, coloured by cross, pointing
+## at the Manhattan it belongs to. Interval widths and peak LODs are in the
+## printed table below and in the cross-QTL supplement, which is where a
+## number that needs three significant figures should live.
 bars <- spec %>%
   filter(peak.LOD > lod_min) %>%
   left_join(LANE, by = "cross") %>%
   mutate(chrom = fct_chr(chrom),
          sign = ifelse(track == "mig-6", 1, -1),
-         yc = sign * (BASE + lane * STEP),
-         ymin = yc - BAR, ymax = yc + BAR,
-         xmin = lcon / 1e6, xmax = rcon / 1e6,
+         ## the arrow flies from the outer edge inward and stops short of the
+         ## Manhattan, so the head marks the locus and the tail does not
+         ## collide with the points
+         x    = peak.position / 1e6,
+         yend = sign * (BASE + lane * STEP),
+         y    = yend + sign * ARROW_LEN,
          cross = factor(cross, levels = names(CROSS_LAB)))
 
-## a bar can be narrower than a pixel, so give every one a visible minimum
-MINW <- 0.09
-bars <- bars %>% mutate(
-  xmid = (xmin + xmax) / 2,
-  xmin = pmin(xmin, xmid - MINW / 2),
-  xmax = pmax(xmax, xmid + MINW / 2))
-
-ylim_hi <- BASE + STEP + BAR + 0.55
+## with no arrows there is no track to leave room for, so the panel ends just
+## above the tallest point instead of carrying an empty band
+ylim_hi <- if (arrows) BASE + STEP + BAR + 0.55
+           else max(gw$neglog10p, GWAS_BF, na.rm = TRUE) + 0.85
 track_lab <- tibble(
   chrom = fct_chr(c("I", "I")),
   pos.mb = 0.25,
@@ -289,11 +305,14 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
   geom_text(data = peaks, aes(y = y, label = sprintf("%.2f", neglog10p)),
             vjust = ifelse(peaks$gene == "mig-6", 1.8, -0.9), hjust = 1.15,
             size = 3.1, colour = COL_PEAK, fontface = "bold") +
-  ## the interval tracks
-  geom_rect(data = bars, inherit.aes = FALSE,
-            aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax,
-                fill = cross, alpha = peak.LOD),
-            colour = NA) +
+  ## the cross QTL, one arrow each at the peak marker
+  (if (arrows)
+     geom_segment(data = bars, inherit.aes = FALSE,
+                  aes(x = x, xend = x, y = y, yend = yend, colour = cross),
+                  linewidth = 0.55, lineend = "butt",
+                  arrow = arrow(length = grid::unit(4.2, "pt"),
+                                type = "closed", angle = 26))
+   else NULL) +
   geom_richtext(data = trait_lab, aes(y = y, label = label, vjust = vj),
                 colour = trait_lab$col, size = 3.3, hjust = 0,
                 fill = NA, label.color = NA,
@@ -302,15 +321,13 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
                 colour = thr_lab$col, size = 2.6, hjust = 0,
                 fill = NA, label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
-  geom_richtext(data = track_lab, aes(y = y, label = label),
+  (if (arrows) geom_richtext(data = track_lab, aes(y = y, label = label),
                 colour = "grey35", size = 3.1, hjust = 0, vjust = 0.5,
                 fill = NA, label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
+                label.padding = grid::unit(rep(0, 4), "pt"))
+   else NULL) +
   scale_fill_manual(values = CROSS_COL, labels = CROSS_LAB, name = NULL) +
-  ## LOD spans a wide range, so opacity is on a square-root scale
-  scale_alpha_continuous(range = c(0.30, 1), trans = "sqrt",
-                         breaks = alpha_breaks, limits = alpha_lim,
-                         name = "QTL peak LOD  ") +
+  scale_colour_manual(values = CROSS_COL, labels = CROSS_LAB, name = NULL) +
   facet_grid(. ~ chrom, scales = "free_x", space = "free_x") +
   scale_x_continuous(breaks = seq(0, 25, 5), expand = expansion(mult = 0.02),
                      guide = guide_axis(check.overlap = TRUE)) +
@@ -333,22 +350,27 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
         legend.box = "horizontal",
         legend.margin = margin(t = -4),
         plot.margin = margin(8, 10, 4, 8)) +
-  guides(fill  = guide_legend(order = 1, override.aes = list(alpha = 1)),
-         alpha = guide_legend(order = 2, override.aes = list(fill = "grey25")))
+  guides(colour = guide_legend(order = 1,
+                               override.aes = list(linewidth = 1.1)),
+         fill = "none")
 
 ggsave(file.path(OUT, paste0(name, ".pdf")), fig,
        width = 13, height = 5.4, device = cairo_pdf)
 ggsave(file.path(OUT, paste0(name, ".png")), fig,
        width = 13, height = 5.4, dpi = 300, bg = "white")
-cat("wrote ", name, ".{pdf,png}  (", nrow(bars), " intervals, LOD > ", lod_min,
-    ")\n", sep = "")
+cat("wrote ", name, ".{pdf,png}  (",
+    if (arrows) paste0(nrow(bars), " QTL arrows, LOD > ", lod_min)
+    else "no cross QTL drawn", ")\n", sep = "")
 invisible(bars)
 }
 
 
 ## ---------------------------------------------------------------------------
 LOD_MIN <- 100
-kept <- build(LOD_MIN, "Figure2", c(100, 300, 600, 900))
+kept <- build(LOD_MIN, "Figure2")
+## the same figure with the cross QTL removed entirely -- the mirrored
+## Manhattan on its own, for comparison
+invisible(build(LOD_MIN, "Figure2_no_cross_qtl", arrows = FALSE))
 
 cat("\n== intervals on Figure 2 (peak LOD > ", LOD_MIN, ") ==\n", sep = "")
 print(as.data.frame(kept %>%

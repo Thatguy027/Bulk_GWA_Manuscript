@@ -1278,14 +1278,31 @@ dashed lines are Bonferroni over every marker (`6.81`); green dotted lines
 divide α by the 732 effective independent tests (`4.17`). Threshold labels sit
 in the chromosome I panel.
 
-Overlaid tracks compress the F2 cross QTL into intervals, flush against the
-significance line and directional: *mig-6*-specific QTL above, the *pos-1*
-response below. Intervals are a 5% LOD drop from the chromosome peak marker,
-coloured by cross with opacity scaled to peak LOD. The *mig-6* track is drawn
-from the *mig-6*-vs-*pos-1* contrast and the *pos-1* track from the
-HT115-vs-*pos-1* contrast, so each track shows the comparison that isolates the
-effect it is labelled with. Shaded vertical bands mark ±1 Mb around the pooled
-GWAS peaks.
+Arrowheads mark the F2 cross QTL, one per QTL at its peak marker, coloured by
+cross and directional: *mig-6*-specific QTL above the axis, the *pos-1* response
+below. The *mig-6* arrows come from the *mig-6*-vs-*pos-1* contrast and the
+*pos-1* arrows from the HT115-vs-*pos-1* contrast, so each side shows the
+comparison that isolates the effect it is labelled with. Shaded vertical bands
+mark ±1 Mb around the pooled GWAS peaks.
+
+::: aside
+[Why the intervals became arrows]{.ch}
+
+The arrows carry **position only** — no interval width, no peak LOD. The
+previous version drew each QTL as an interval bar with opacity scaled to LOD,
+which gave three visual channels to a mark that reliably carries one.
+
+The width in particular was not what it appeared to be. A cross interval is
+often a few tens of kb against a 15–20 Mb axis, so every bar had to be padded
+to a `0.09` Mb minimum just to be visible — at which point the drawn width *was
+the padding*, not the interval, and the figure implied a precision the data do
+not have. Widths and peak LODs are in the table below, where a number needing
+three significant figures belongs.
+
+`plots/Figure2_no_cross_qtl.png` is the same figure with the cross QTL removed
+altogether — the mirrored Manhattan alone, tracks, labels and cross legend
+dropped — written by the same script for comparison.
+:::
 
 | Track | Cross | Chr | Peak Mb | Interval | kb | LOD |
 |:---|:---|:---|--:|:---|--:|--:|
@@ -1385,10 +1402,10 @@ include_graphics("plots/Figure3_quad.png")
 <p class="filecap">plots/Figure3_quad.pdf · .png</p>
 :::
 
-Four panels, arranged so the figure reads in the order the argument runs: two
-strains at opposite ends of the pooled panel, crossing them maps a QTL, NILs
-carrying pieces of it give an allelic series, and the pieces they carry are
-these.
+Three panels, arranged so the figure reads in the order the argument runs: two
+strains at opposite ends of the pooled panel, crossing them drives one parent's
+haplotype toward the QTL, and NILs carrying pieces of it give an allelic series
+whose genotypes and phenotypes sit side by side.
 
 ::: panel
 [A]{.pl} The pooled *pos-1* phenotype distribution as a histogram, with both
@@ -1398,16 +1415,45 @@ opposite ends of the pooled panel.
 :::
 
 ::: panel
-[B]{.pl} The JU1793×JU2466 F2 bulk-segregant scan on chromosome III, HT115
-against *pos-1* RNAi. The resolved interval is drawn as a shaded band with
-dotted edges — possible at this scale because 37 kb is 0.3% of a 13.8 Mb axis,
-and not possible genome-wide, where it is sub-pixel. The genome-wide threshold
-(LOD 3.57) is not drawn; the peak is at 13.784 Mb, LOD 139.7.
+[B]{.pl} **Parental allele frequency** along the right arm of chromosome III,
+8 Mb to the telomere, in the JU1793×JU2466 F2 pool under *pos-1* RNAi. JU1793's
+haplotype frequency is filled from below in orange and JU2466's above it in
+teal, so the two sum to 1 and the panel reads as which parent occupies the pool
+at each position. Frequencies are count-weighted within 50 kb bins, then shown
+as a centred 250 kb rolling mean. The JU1793 fraction rises from `42%` at 8 Mb
+to `79%` at the telomere. The solid line is the HT115 control pool; a dashed
+line marks 50%.
+:::
+
+::: aside
+[Why a frequency trace instead of a LOD trace]{.ch}
+
+A LOD trace answers whether there is a QTL here, which Figure 2 already answers.
+It says nothing about **which parent's allele** the selection favoured, and that
+is the claim this panel is making: *sid-2* sits at 13.68 Mb, and the resistant
+parent's haplotype is what sweeps toward it.
+
+The control is what makes this selection rather than a segregation artefact.
+Over the same interval the HT115 pool runs the **other** way, `42%` → `33%`,
+while the *pos-1* pool goes `42%` → `79%`.
+
+Two details that matter for trusting it. Frequencies are **count-weighted** —
+counts summed within each bin and the frequency taken from the sums — so a
+marker with 200 reads counts for more than one with 4; averaging per-marker
+frequencies would let the shallowest markers pull the trace around. And the
+parent assignment is taken from the cross export's own README (`p1`/`p2` are the
+JU1793 and JU2466 haplotypes), not inferred: a swap would invert the panel and
+still look plausible, so the script asserts that the *pos-1* pool ends up more
+JU1793 than the control at the right end and stops if it does not.
 :::
 
 ::: panel
-[C]{.pl} Embryos hatched under 50% *pos-1* RNAi, rows aligned to panel D. Bars
-are one plate per strain with Wilson 95% binomial intervals.
+[C]{.pl} The NIL series with **genotype and phenotype in one panel**, one row
+per strain, JU1793 at the bottom to JU2466 at the top. Left, the introgressions
+on the right arm of chromosome III, 13.60 Mb to the telomere, JU1793 genotype in
+orange and JU2466 in teal. Right, embryos hatched under 50% *pos-1* RNAi on the
+same rows, one plate per strain with Wilson 95% binomial intervals. The two
+halves share the row axis and carry separate x scales, labelled beneath each.
 :::
 
 ```{r tab-nil}
@@ -1425,19 +1471,40 @@ kb(nil, align = c("l", "r", "r"))
 Derived from supplemental_data/hatching_assays/nil_series_hatching.tsv
 :::
 
+::: aside
+[The introgressions run to the end of the chromosome]{.ch}
+
+This is what distinguishes the strains, so the panel says it rather than leaving
+it to be inferred. Five of the six NILs carry a JU2466 segment that begins at a
+breakpoint and continues to the chromosome III terminus at **13,783,801 bp**,
+which the right-hand edge of the genotype track marks. **wSZ191 is the
+exception** — an internal 13.658–13.695 Mb segment that stops short.
+
+That contrast is the fine-mapping argument: wSZ191 carries the resolved interval
+and nothing distal to it, wSZ196 carries everything distal and not the interval,
+and their hatching differs (`79.4%` against `97.3%`). So compressing the axis to
+the breakpoints alone would crop exactly the fact the panel exists to show; the
+window keeps its right edge at the terminus, and the compression is in the left
+flank and the row height instead.
+
+The shaded band with dotted edges is the interval the series resolves,
+**13.658–13.695 Mb** — the region wSZ191 carries and wSZ196 does not.
+:::
+
 ::: panel
-[D]{.pl} Introgressions carried by the NIL series on the right arm of chromosome
-III, 13.60 Mb to the telomere. JU1793 genotype in orange, JU2466 in teal; rows
-run JU1793 at the bottom to JU2466 at the top. The shaded band with dotted edges
-is the interval the series resolves, **13.658–13.695 Mb** — the region wSZ191
-carries and wSZ196 does not.
+[Previously two panels]{.pl} C (hatching) and D (genotypes) drew the same five
+strains as rows twice, in two panels with two x axes, so pairing a genotype with
+its phenotype meant carrying a row position across a panel boundary. The
+two-panel functions are still in `Figure3_common.R` — `Figure3_chrIII.R` and the
+supplements use them.
 :::
 
 ::: caveat
 [Two caveats, the second worth a sentence in the text]{.ch}
 
-1. One plate per strain per condition, so the intervals in C describe *counting*
-   uncertainty, not between-plate variability, and no strain is replicated. The
+1. One plate per strain per condition, so the hatching intervals in C describe
+   *counting* uncertainty, not between-plate variability, and no strain is
+   replicated. The
    ordering should be read as an allelic series, not as a set of tested
    contrasts. The HT115 control arm and four further NILs are in the supplement
    below.
