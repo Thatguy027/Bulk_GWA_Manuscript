@@ -105,3 +105,10 @@ logs/
 # reference size and depth. The figure and both tables are derived from it in
 # the same session, so it is a debugging convenience, not an input.
 plots/diagnostics/reference_size_predictions.rds
+
+# Nextflow run artifacts. The pipeline under cluster/ is meant to be scp'd and
+# run on Hoffman2; a local compile check leaves these behind and they are not
+# part of the deliverable.
+.nextflow/
+.nextflow.log*
+work/
