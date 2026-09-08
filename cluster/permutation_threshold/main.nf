@@ -102,7 +102,7 @@ process PLINK_CONVERT {
     zcat -f ${markers} > markers.txt
     ${params.plink} --vcf ${vcf} --allow-extra-chr --set-missing-var-ids '@:#' \\
         --keep ${keep} --extract markers.txt \\
-        --make-bed --out all --threads ${task.cpus}
+        --make-bed --out all --threads ${task.cpus} --memory 6000
 
     n_mk=\$(wc -l < all.bim)
     n_id=\$(wc -l < all.fam)
@@ -130,9 +130,9 @@ process BUILD_CHROM {
     """
     set -euo pipefail
     ${params.plink} --bfile all --allow-extra-chr --chr ${chrom} \\
-        --recode A-transpose --out chr_${chrom} --threads ${task.cpus}
+        --recode A-transpose --out chr_${chrom} --threads ${task.cpus} --memory 6000
     ${params.plink} --bfile all --allow-extra-chr --not-chr ${chrom} \\
-        --recode A-transpose --out not_${chrom} --threads ${task.cpus}
+        --recode A-transpose --out not_${chrom} --threads ${task.cpus} --memory 6000
 
     # .traw -> BIMBAM geno: "snp, minor, major, dosage..."  (dosage is ALT count)
     # .traw is: CHR SNP (C)M POS COUNTED ALT <one dosage column per sample>,
