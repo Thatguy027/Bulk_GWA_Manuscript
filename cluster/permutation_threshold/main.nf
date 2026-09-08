@@ -54,21 +54,11 @@ def required(name, value) {
     return value
 }
 
-params.vcf         = '/u/project/kruglyak/thatguy0/genomics/vcf/WI.20210121.hard-filter.isotype_with_cM.vcf.gz'
-params.pheno       = null
-params.traits      = 'vst_ctrl_pos-1_T2'   // comma-separated; one threshold per trait
-params.maf         = 0.05
-params.chromosomes = ['I', 'II', 'III', 'IV', 'V', 'X']
-params.n_perm      = 1000
-params.perm_batch  = 25
-params.seed        = 1
-params.alpha       = [0.05, 0.10, 0.01]
-params.name        = null
-params.outdir      = "results_perm_${new Date().format('yyyyMMdd')}${params.name ? '_' + params.name : ''}"
-params.plink       = '/u/project/kruglyak/thatguy0/bin/plink'
-params.gemma       = '/u/project/kruglyak/thatguy0/bin/gemma'
-params.r_env_bin   = '/u/project/kruglyak/thatguy0/conda/envs/gemma_plots/bin'
-params.conda_bin   = '/u/project/kruglyak/thatguy0/conda/bin'
+/* Param defaults are declared in nextflow.config, NOT here. A ${params.x}
+ * interpolated inside a process or profile block in the config can only resolve
+ * against params defined in the config file itself. Declaring them in both
+ * places invites the two copies to drift.
+ */
 
 /* ------------------------------------------------------------------ */
 
@@ -104,9 +94,15 @@ process BUILD_CHROM {
         --recode A-transpose --out not_${chrom} --threads ${task.cpus}
 
     # .traw -> BIMBAM geno: "snp, minor, major, dosage..."  (dosage is ALT count)
-    awk 'NR>1 {printf "%s, %s, %s", \$2, \$6, \$5; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
+    # .traw is: CHR SNP (C)M POS COUNTED ALT <one dosage column per sample>,
+    # and each dosage is the count of the COUNTED allele (\$5). BIMBAM's dosages
+    # count the allele listed FIRST after the marker id, so \$5 must come before
+    # \$6. Reversing them flips the allele coding, which changes the sign of beta;
+    # it leaves p_wald untouched, so it would not have broken this threshold --
+    # but it would quietly corrupt any effect size taken from these files.
+    awk 'NR>1 {printf "%s, %s, %s", \$2, \$5, \$6; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
         chr_${chrom}.traw > geno_${chrom}.bimbam
-    awk 'NR>1 {printf "%s, %s, %s", \$2, \$6, \$5; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
+    awk 'NR>1 {printf "%s, %s, %s", \$2, \$5, \$6; for(i=7;i<=NF;i++) printf ", %s", \$i; printf "\\n"}' \\
         not_${chrom}.traw > notchr_${chrom}.bimbam
 
     # annotation: snp, position, chromosome
@@ -165,12 +161,18 @@ process GEMMA_PERM {
     offset=\$(echo ${batch.baseName} | sed 's/.*_b//')
     : > maxima_${trait}_${chrom}_${batch.baseName}.tsv
     for k in \$(seq 1 \$ncol); do
+      # -lmm 1 is the Wald test ALONE, matching the shipped scan's p_wald column.
+      # -lmm 4 would emit p_wald, p_lrt and p_score, so a positional \$NF would
+      # silently read p_score -- a different statistic from the one the
+      # threshold is meant to apply to.
       ${params.gemma} -g ${geno} -p ${batch} -a ${anno} -k ${kin} \\
-          -lmm 4 -n \$k -o run_\$k > /dev/null 2>&1
-      # smallest p_wald in the chromosome -> largest -log10 p
-      mx=\$(awk 'NR>1 && \$NF!="" {p=\$NF; if(p>0 && (m==""||p<m)) m=p} END{
-              if(m=="") print "NA"; else printf "%.6f", -log(m)/log(10)}' \\
-              output/run_\$k.assoc.txt)
+          -lmm 1 -n \$k -o run_\$k > /dev/null 2>&1
+      # p_wald is located BY NAME from the header, not by position: GEMMA's
+      # column layout differs between -lmm modes and versions.
+      mx=\$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++) if(\$i=="p_wald") c=i; next}
+             c && \$c!="" {p=\$c+0; if(p>0 && (m==""||p<m)) m=p}
+             END{if(m=="") print "NA"; else printf "%.6f", -log(m)/log(10)}' \\
+             output/run_\$k.assoc.txt)
       pid=\$(( offset + k - 1 ))
       printf "%s\\t%s\\t%s\\t%s\\n" "${trait}" "${chrom}" "\$pid" "\$mx" \\
           >> maxima_${trait}_${chrom}_${batch.baseName}.tsv

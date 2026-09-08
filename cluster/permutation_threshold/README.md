@@ -99,6 +99,37 @@ Strains with a missing phenotype stay missing and are never shuffled into
 phenotyped positions — otherwise the sample size would change between
 permutations and the maxima would not be comparable.
 
+## Fixed after the first cluster attempt
+
+Three things, recorded because two of them would have produced a *wrong number*
+rather than an error.
+
+**Params must be declared in `nextflow.config`, not `main.nf`.** The config is
+parsed before the script, so a `${params.x}` interpolated inside a `process` or
+`profiles` block can only resolve against params defined in the config file.
+Declaring them in the script gave
+
+```
+Unknown config attribute `process.withName:MAKE_PERMS|COLLECT_THRESHOLD.params.r_env_bin`
+```
+
+They now live in a `params { }` block at the top of the config, above everything
+that interpolates them — config is evaluated top-down, and a reference above its
+definition silently yields `[:]/...` instead of failing.
+
+**GEMMA now runs `-lmm 1`, not `-lmm 4`, and `p_wald` is found by name.**
+`-lmm 4` emits `p_wald`, `p_lrt` *and* `p_score`, so reading the last column
+positionally picked up **p_score** — a different test statistic from the one the
+shipped scan reports, which would have thresholded the wrong thing. The column
+is now located from the header, so a GEMMA version that reorders its output
+cannot silently change the answer.
+
+**BIMBAM allele order.** `.traw` dosages count the `COUNTED` allele (column 5),
+and BIMBAM's dosages count the allele listed *first*. The first version emitted
+column 6 then 5, flipping the coding. That changes the sign of `beta` and leaves
+`p_wald` alone, so it would not have broken this threshold — but it would have
+quietly corrupted any effect size read from those files.
+
 ## Notes on this copy
 
 `traits/2023_pos1_association_traits.csv` is the same file the shipped scan was
