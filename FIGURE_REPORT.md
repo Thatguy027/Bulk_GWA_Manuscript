@@ -49,6 +49,12 @@ Assembled 2026-09-08
         check](#figure-s13--the-honest-negative-check)
     -   [Figure S14 — surface charge of the
         ectodomain](#figure-s14--surface-charge-of-the-ectodomain)
+-   [Diagnostics](#diagnostics)
+    -   [Leakage in the MIP-seq
+        validation](#leakage-in-the-mip-seq-validation)
+    -   [GWAS interval admission](#gwas-interval-admission)
+    -   [Coverage against reference
+        size](#coverage-against-reference-size)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -3049,6 +3055,335 @@ energies of 480–1380, 4–13 structures per cluster, and different
 
 </div>
 
+# Diagnostics
+
+Not manuscript figures. These settle methodological questions that arose
+while assembling the figures above, and they live in
+`plots/diagnostics/`. They are tracked so this report reads from a
+clone, but unlike the eighteen they need the Dryad archive to rebuild.
+
+## Leakage in the MIP-seq validation
+
+<div class="meta">
+
+**Script** `scripts/baugh_leakage_vs_similarity.R`<br> **Asks** whether
+the strains the deconvolution resolves badly are the genetically similar
+ones<br> **Predictor** `baugh_strain_similarity.tsv` — identity-by-state
+within the Baugh design matrix, the reference actually solved
+
+</div>
+
+<img src="plots/diagnostics/baugh_leakage_vs_similarity.png" alt="Four panels relating identity-by-state to the NNLS minus MIP-seq discrepancy, with a control panel and a within-pair residual-correlation panel." width="100%" />
+
+This ports the dilution experiment’s question to the one dataset with an
+independent measurement of the same material. Relatedness predicts
+NNLS–MIP-seq disagreement: ρ `+0.319` over all 98 strains
+(`p = 0.0014`), `+0.375` over the 95 whose nearest neighbour is itself
+measured here (`p = 0.00018`), surviving with abundance held constant.
+Confusable pairs trade signal — the most-confusable 2% of pairs have
+median residual correlation `−0.100` against `−0.004` for the rest
+(Wilcoxon `p = 0.0079`).
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Strain
+</th>
+<th style="text-align:left;">
+Closest relative
+</th>
+<th style="text-align:right;">
+IBS
+</th>
+<th style="text-align:right;">
+NNLS slope
+</th>
+<th style="text-align:right;">
+MIP slope
+</th>
+<th style="text-align:right;">
+Ratio
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NIC256
+</td>
+<td style="text-align:left;">
+NIC271
+</td>
+<td style="text-align:right;">
+0.9948
+</td>
+<td style="text-align:right;">
+-1.37e-04
+</td>
+<td style="text-align:right;">
+-4.32e-04
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIC271
+</td>
+<td style="text-align:left;">
+NIC256
+</td>
+<td style="text-align:right;">
+0.9948
+</td>
+<td style="text-align:right;">
+2.73e-05
+</td>
+<td style="text-align:right;">
+-5.87e-05
+</td>
+<td style="text-align:right;">
+-0.47
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS2025
+</td>
+<td style="text-align:left;">
+ECA348
+</td>
+<td style="text-align:right;">
+0.9841
+</td>
+<td style="text-align:right;">
+7.67e-05
+</td>
+<td style="text-align:right;">
+1.98e-04
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU782
+</td>
+<td style="text-align:left;">
+NIC271
+</td>
+<td style="text-align:right;">
+0.9816
+</td>
+<td style="text-align:right;">
+-5.26e-04
+</td>
+<td style="text-align:right;">
+-6.63e-04
+</td>
+<td style="text-align:right;">
+0.79
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIC262
+</td>
+<td style="text-align:left;">
+NIC271
+</td>
+<td style="text-align:right;">
+0.9813
+</td>
+<td style="text-align:right;">
+2.73e-04
+</td>
+<td style="text-align:right;">
+4.88e-04
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CX11264
+</td>
+<td style="text-align:left;">
+CX11262
+</td>
+<td style="text-align:right;">
+0.9729
+</td>
+<td style="text-align:right;">
+-5.20e-04
+</td>
+<td style="text-align:right;">
+-4.88e-04
+</td>
+<td style="text-align:right;">
+1.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793
+</td>
+<td style="text-align:left;">
+JU2106
+</td>
+<td style="text-align:right;">
+0.9726
+</td>
+<td style="text-align:right;">
+-5.12e-04
+</td>
+<td style="text-align:right;">
+-5.84e-04
+</td>
+<td style="text-align:right;">
+0.88
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU2106
+</td>
+<td style="text-align:left;">
+JU1793
+</td>
+<td style="text-align:right;">
+0.9726
+</td>
+<td style="text-align:right;">
+-4.79e-04
+</td>
+<td style="text-align:right;">
+-3.29e-04
+</td>
+<td style="text-align:right;">
+1.46
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from baugh_nnls_with_mipseq.RData + baugh_strain_similarity.tsv
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Does it reach the manuscript? Mostly not — and that is
+the finding</span>
+
+Two things protect the manuscript, and they stack.
+
+**The reference here contains only pooled strains.** All 102 columns are
+strains that were in the pool, so the set-level leakage that costs the
+dilution experiment \~20% of each pure pool is **zero by construction**.
+That 20% is not a property of NNLS — it is what happens when the solver
+is offered 127 candidates that are not in the pool. The transferable
+finding is a **design rule**: restrict the reference to strains actually
+pooled.
+
+**The phenotype is a change, and the error differences out.**
+Confusability is systematic across timepoints, so a pair splitting mass
+in constant proportion gets the level wrong and the change much less so:
+
+| error measure        | ρ vs relatedness |          p |
+|:---------------------|-----------------:|-----------:|
+| per-sample frequency |         `+0.322` |   `0.0012` |
+| fitted slope         |         `+0.130` | **`0.20`** |
+
+Median slope error is `0.086` per mille for the 13 strains above IBS
+0.97 against `0.075` for the other 85 — 1.15×, Mann-Whitney `p = 0.48`.
+The aggregation says it from the other side too: slopes agree at ρ
+`0.974` where per-sample frequencies agree at `0.835`. Every manuscript
+phenotype is a difference, so this applies throughout.
+
+**Caveat on that conclusion.** `p = 0.20` at n = 98 is absence of
+evidence, and the effect falls from 0.322 to 0.130 rather than to zero.
+Read it as “no longer detectable at this n”, not “provably absent”.
+
+**What still stands.** Individual strains at the extreme remain
+unreliable even in slopes — NIC256’s NNLS slope is 0.32× the MIP slope
+and NIC271’s has the *wrong sign* — so an extreme phenotypic outlier
+from that pair deserves a check before it is believed. And a
+single-timepoint frequency should not be used as a phenotype: that is
+where ρ +0.32 lives, and it is structured along kinship, the same axis a
+GWAS kinship matrix models.
+
+</div>
+
+## GWAS interval admission
+
+<div class="meta">
+
+**Script** `scripts/diagnostic_gwas_intervals.R`<br> **Settles** how to
+admit a QTL from the association scan so an unsupported lone marker is
+excluded and a supported sub-Bonferroni region is kept
+
+</div>
+
+<img src="plots/diagnostics/gwas_interval_diagnostic.png" alt="Chromosome III association scan with both thresholds, zooms on an isolated marker and a supported cluster, and local support against significance genome-wide." width="100%" />
+
+The marker at **5.966 Mb** clears Bonferroni (`8.68`) with **zero**
+other eigen-passing markers within 100 kb, out of 628 present. The
+cluster at **12.70–12.80 Mb** peaks *below* Bonferroni (`6.31`) with
+**14**. A threshold cannot separate them; local support can, and
+admission at ≥1 supporting marker excludes the first and keeps the
+second, stable up to k = 5.
+
+Corroboration arrived independently: genome-wide, the 14 isolated
+markers have median allele frequency `0.082` against `0.394` for the 451
+supported ones — the low-frequency signature of spurious association.
+
+<div class="caveat">
+
+<span class="ch">What this implies for the concordance claim</span>
+
+The supported cluster sits at 12.70–12.80 Mb. The NIL interval is
+13.658–13.695 Mb, and **13.5–13.9 Mb has nothing above the eigen line at
+all**. Defining intervals rigorously may therefore show the association
+signal is a *distinct locus* rather than confirming concordance with the
+crosses. Worth deciding how to present before the intervals are drawn.
+
+</div>
+
+## Coverage against reference size
+
+<div class="meta">
+
+**Script** `scripts/diagnostic_reference_size.R`<br> **Asks** how slope
+recovery degrades as coverage falls, and how much worse it gets as the
+reference admits candidates that are not in the pool
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">Still running</span>
+
+The 102 pooled strains are always in the reference; larger references
+add candidates from the other 438 CeNDR isotypes at sizes 102, 150, 250,
+400 and 540, crossed with coverage from 1/64 of full depth to full.
+Coverage is varied by binomial thinning of the archived alt counts,
+which is exact read thinning; depth is therefore RELATIVE, because the
+archive stores alt counts only and absolute coverage cannot be
+recovered. Full depth is 2.576 alt reads per marker.
+
+The reconstruction is already validated: rebuilding the reference from
+CeNDR genotypes and applying the recovered flip mask reproduces the
+archive’s design matrix with **0 mismatching cells of 126,184,812**.
+
+</div>
+
 # Open before submission
 
 Everything above is generated and verified. These are the items that
@@ -3127,7 +3462,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 10:18
+2026-09-08 10:20
 </td>
 </tr>
 <tr>

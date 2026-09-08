@@ -119,6 +119,18 @@ HA  <- "supplemental_data/hatching_assays"
 ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 
+## Diagnostics are NOT part of the curated eighteen. They live in
+## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
+## archive to rebuild -- unlike the eighteen, which rebuild from the deposit.
+## Missing ones are skipped rather than fatal, so the report still knits on a
+## machine that has never had the archive.
+DIAGDIR <- "plots/diagnostics"
+DIAG <- c(baugh_leakage_vs_similarity = "Leakage in the MIP-seq validation",
+          gwas_interval_diagnostic    = "GWAS interval admission",
+          reference_size_vs_coverage  = "Coverage against reference size")
+diag_have <- function(stem)
+  file.exists(file.path(DIAGDIR, paste0(stem, ".png")))
+
 fnum <- function(x, d = 3) formatC(x, format = "f", digits = d)
 fp   <- function(x) ifelse(x < 1e-3, formatC(x, format = "e", digits = 1),
                            formatC(x, format = "f", digits = 2))
@@ -1867,6 +1879,167 @@ order 1e4, restraint-violation energies of 480–1380, 4–13 structures per
 cluster, and different 91-residue active-residue lists between the two arms
 being compared.
 :::
+
+# Diagnostics
+
+Not manuscript figures. These settle methodological questions that arose while
+assembling the figures above, and they live in `plots/diagnostics/`. They are
+tracked so this report reads from a clone, but unlike the eighteen they need the
+Dryad archive to rebuild.
+
+## Leakage in the MIP-seq validation
+
+::: meta
+**Script** `scripts/baugh_leakage_vs_similarity.R`<br>
+**Asks** whether the strains the deconvolution resolves badly are the
+genetically similar ones<br>
+**Predictor** `baugh_strain_similarity.tsv` — identity-by-state within the
+Baugh design matrix, the reference actually solved
+:::
+
+```{r diag-baugh, eval=diag_have("baugh_leakage_vs_similarity"), fig.alt="Four panels relating identity-by-state to the NNLS minus MIP-seq discrepancy, with a control panel and a within-pair residual-correlation panel."}
+include_graphics(file.path(DIAGDIR, "baugh_leakage_vs_similarity.png"))
+```
+
+This ports the dilution experiment's question to the one dataset with an
+independent measurement of the same material. Relatedness predicts
+NNLS–MIP-seq disagreement: &rho; `+0.319` over all 98 strains (`p = 0.0014`),
+`+0.375` over the 95 whose nearest neighbour is itself measured here
+(`p = 0.00018`), surviving with abundance held constant. Confusable pairs trade
+signal — the most-confusable 2% of pairs have median residual correlation
+`−0.100` against `−0.004` for the rest (Wilcoxon `p = 0.0079`).
+
+```{r tab-baugh-confusable}
+be <- new.env(); load(file.path(DEC, "baugh_nnls_with_mipseq.RData"), be)
+d0 <- as_tibble(be$wgs_mip_results)
+bsim <- read_tsv(file.path(DEC, "baugh_strain_similarity.tsv"), show_col_types = FALSE) %>%
+  transmute(strain, nn_ibs = nn_ibs_wild, nn_partner = nn_partner_wild)
+no_mip <- d0 %>% group_by(strain) %>%
+  summarise(k = sum(is.na(published_frq)), .groups = "drop") %>%
+  filter(k > 0) %>% pull(strain)
+ols1 <- function(x, y) {
+  o <- is.finite(x) & is.finite(y); x <- x[o]; y <- y[o]
+  if (length(x) < 2) return(NA_real_)
+  xc <- x - mean(x); if (sum(xc^2) == 0) return(NA_real_)
+  sum(xc * y) / sum(xc^2)
+}
+ff <- d0 %>% filter(!baseline, day != 17, !strain %in% c("N2", no_mip))
+bb <- ff %>% filter(day == 1) %>% select(replicate, strain, bw = frq, bm = published_frq)
+slp <- ff %>% left_join(bb, by = c("replicate", "strain")) %>%
+  mutate(dw = frq - bw, dm = published_frq - bm) %>%
+  group_by(replicate, strain) %>%
+  summarise(sw = ols1(day, dw), sm = ols1(day, dm), .groups = "drop") %>%
+  group_by(strain) %>%
+  summarise(sw = mean(sw, na.rm = TRUE), sm = mean(sm, na.rm = TRUE), .groups = "drop") %>%
+  filter(is.finite(sw), is.finite(sm)) %>% inner_join(bsim, by = "strain")
+kb(slp %>% arrange(desc(nn_ibs)) %>% head(8) %>%
+     transmute(Strain = strain, `Closest relative` = nn_partner,
+               IBS = fnum(nn_ibs, 4),
+               `NNLS slope` = signif(sw, 3), `MIP slope` = signif(sm, 3),
+               `Ratio` = fnum(sw / sm, 2)),
+   align = c("l", "l", "r", "r", "r", "r"))
+```
+
+::: derived
+Derived from baugh_nnls_with_mipseq.RData + baugh_strain_similarity.tsv
+:::
+
+::: aside
+[Does it reach the manuscript? Mostly not — and that is the finding]{.ch}
+
+Two things protect the manuscript, and they stack.
+
+**The reference here contains only pooled strains.** All 102 columns are strains
+that were in the pool, so the set-level leakage that costs the dilution
+experiment ~20% of each pure pool is **zero by construction**. That 20% is not a
+property of NNLS — it is what happens when the solver is offered 127 candidates
+that are not in the pool. The transferable finding is a **design rule**:
+restrict the reference to strains actually pooled.
+
+**The phenotype is a change, and the error differences out.** Confusability is
+systematic across timepoints, so a pair splitting mass in constant proportion
+gets the level wrong and the change much less so:
+
+| error measure | ρ vs relatedness | p |
+|:---|--:|--:|
+| per-sample frequency | `+0.322` | `0.0012` |
+| fitted slope | `+0.130` | **`0.20`** |
+
+Median slope error is `0.086` per mille for the 13 strains above IBS 0.97
+against `0.075` for the other 85 — 1.15×, Mann-Whitney `p = 0.48`. The
+aggregation says it from the other side too: slopes agree at &rho; `0.974`
+where per-sample frequencies agree at `0.835`. Every manuscript phenotype is a
+difference, so this applies throughout.
+
+**Caveat on that conclusion.** `p = 0.20` at n = 98 is absence of evidence, and
+the effect falls from 0.322 to 0.130 rather than to zero. Read it as "no longer
+detectable at this n", not "provably absent".
+
+**What still stands.** Individual strains at the extreme remain unreliable even
+in slopes — NIC256's NNLS slope is 0.32× the MIP slope and NIC271's has the
+*wrong sign* — so an extreme phenotypic outlier from that pair deserves a check
+before it is believed. And a single-timepoint frequency should not be used as a
+phenotype: that is where &rho; +0.32 lives, and it is structured along kinship,
+the same axis a GWAS kinship matrix models.
+:::
+
+## GWAS interval admission
+
+::: meta
+**Script** `scripts/diagnostic_gwas_intervals.R`<br>
+**Settles** how to admit a QTL from the association scan so an unsupported lone
+marker is excluded and a supported sub-Bonferroni region is kept
+:::
+
+```{r diag-gwas, eval=diag_have("gwas_interval_diagnostic"), fig.alt="Chromosome III association scan with both thresholds, zooms on an isolated marker and a supported cluster, and local support against significance genome-wide."}
+include_graphics(file.path(DIAGDIR, "gwas_interval_diagnostic.png"))
+```
+
+The marker at **5.966 Mb** clears Bonferroni (`8.68`) with **zero** other
+eigen-passing markers within 100 kb, out of 628 present. The cluster at
+**12.70–12.80 Mb** peaks *below* Bonferroni (`6.31`) with **14**. A threshold
+cannot separate them; local support can, and admission at ≥1 supporting marker
+excludes the first and keeps the second, stable up to k = 5.
+
+Corroboration arrived independently: genome-wide, the 14 isolated markers have
+median allele frequency `0.082` against `0.394` for the 451 supported ones — the
+low-frequency signature of spurious association.
+
+::: caveat
+[What this implies for the concordance claim]{.ch}
+
+The supported cluster sits at 12.70–12.80 Mb. The NIL interval is
+13.658–13.695 Mb, and **13.5–13.9 Mb has nothing above the eigen line at all**.
+Defining intervals rigorously may therefore show the association signal is a
+*distinct locus* rather than confirming concordance with the crosses. Worth
+deciding how to present before the intervals are drawn.
+:::
+
+## Coverage against reference size
+
+::: meta
+**Script** `scripts/diagnostic_reference_size.R`<br>
+**Asks** how slope recovery degrades as coverage falls, and how much worse it
+gets as the reference admits candidates that are not in the pool
+:::
+
+```{r diag-refsize, eval=diag_have("reference_size_vs_coverage"), fig.alt="Slope agreement, RMSE, discrepancy and relatedness correlation against fraction of full-depth reads, one line per reference size."}
+include_graphics(file.path(DIAGDIR, "reference_size_vs_coverage.png"))
+```
+
+```{r diag-refsize-pending, results="asis", eval=!diag_have("reference_size_vs_coverage")}
+cat("::: caveat\n[Still running]{.ch}\n\nThe 102 pooled strains are always in",
+    "the reference; larger references add candidates from the other 438 CeNDR",
+    "isotypes at sizes 102, 150, 250, 400 and 540, crossed with coverage from",
+    "1/64 of full depth to full. Coverage is varied by binomial thinning of the",
+    "archived alt counts, which is exact read thinning; depth is therefore",
+    "RELATIVE, because the archive stores alt counts only and absolute coverage",
+    "cannot be recovered. Full depth is 2.576 alt reads per marker.\n\n",
+    "The reconstruction is already validated: rebuilding the reference from",
+    "CeNDR genotypes and applying the recovered flip mask reproduces the",
+    "archive's design matrix with **0 mismatching cells of 126,184,812**.\n:::\n",
+    sep = " ")
+```
 
 # Open before submission
 

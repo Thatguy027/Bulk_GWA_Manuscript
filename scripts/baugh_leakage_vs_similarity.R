@@ -31,6 +31,53 @@
 ##    system whose columns are near-collinear for related strains. Panel D is
 ##    the part of this figure that does not rest on that argument.
 ##
+## ---------------------------------------------------------------------------
+## DOES ANY OF THIS REACH THE MANUSCRIPT? MOSTLY NO -- AND THAT IS THE POINT
+##
+## Added 2026-09-08 after Stefan asked what the big deal is. The honest answer
+## is that for this manuscript it is small, and the reason is worth stating
+## next to the result rather than leaving a reader to infer alarm.
+##
+## Two things protect the manuscript, and they stack.
+##
+## 1. THE REFERENCE HERE CONTAINS ONLY POOLED STRAINS. All 102 columns are
+##    strains that were in the pool, so the set-level leakage that costs the
+##    dilution experiment ~20% of each pure pool is zero by construction. That
+##    20% is not a property of NNLS; it is what happens when the solver is
+##    offered 127 candidates that are not in the pool. The actionable finding
+##    from the dilution experiment is a DESIGN RULE -- restrict the reference to
+##    strains actually pooled -- not a limit on the method.
+##
+## 2. THE PHENOTYPE IS A CHANGE, AND THE ERROR DIFFERENCES OUT. Confusability is
+##    systematic across timepoints: a near-identical pair splits mass in roughly
+##    constant proportion every day, so the LEVEL is wrong and the CHANGE is
+##    much less so. Measured on this panel:
+##
+##      per-sample frequency error vs relatedness   rho +0.322, p 0.0012
+##      fitted slope error vs relatedness           rho +0.130, p 0.20
+##
+##    Median slope error is 0.086 per mille for the 13 strains above IBS 0.97
+##    against 0.075 for the other 85 -- 1.15x, Mann-Whitney p 0.48. And the
+##    aggregation shows the same thing from the other side: slopes agree at
+##    rho 0.974 where per-sample frequencies agree at 0.835. Every manuscript
+##    phenotype is a difference (vst_ctrl_pos-1_T2 is a control-versus-treatment
+##    delta), so the mitigation applies throughout.
+##
+## CAVEAT ON THAT CONCLUSION. p 0.20 at n 98 is absence of evidence, and the
+## effect size falls from 0.322 to 0.130 rather than to zero. Read it as "no
+## longer detectable at this n", not "provably absent".
+##
+## WHAT STILL STANDS, none of it alarming:
+##   - Individual strains at the extreme remain unreliable even in slopes.
+##     NIC256's NNLS slope is 0.32x the MIP slope and NIC271's has the WRONG
+##     SIGN (-0.47x); that is the pair at IBS 0.9948. Not a panel-wide trend,
+##     but worth knowing before believing either as a phenotypic outlier.
+##   - A single-timepoint frequency must not be used as a phenotype. That is
+##     where rho +0.32 lives, and it is structured along kinship -- the same
+##     axis a GWAS kinship matrix models -- so it would not behave like white
+##     noise.
+## ---------------------------------------------------------------------------
+##
 ## RESOLVED 2026-09-08: points 2, 3 and 4 below were written against the
 ## borrowed dilution table. baugh_strain_similarity.R has since been run
 ## against the archive, and with the correct reference:
