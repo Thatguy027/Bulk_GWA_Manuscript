@@ -57,8 +57,11 @@ cp "$SNAP"/* plots/ 2>/dev/null || true
 rm -rf "$SNAP"
 note "plots/ restored; this check leaves no working-tree changes"
 
+echo "== 6. every number in the manuscript draft is one the code produced =="
+if python3 scripts/check_manuscript_numbers.py; then :; else FAIL=$((FAIL+1)); fi
+
 if [ "${1:-}" = "--full" ]; then
-  echo "== 6. determinism: every figure byte-identical across two runs =="
+  echo "== 7. determinism: every figure byte-identical across two runs =="
   mkdir -p /tmp/det && rm -f /tmp/det/*
   for f in plots/*.png; do cp "$f" "/tmp/det/$(basename "$f")"; done
   for s in scripts/Figure*.R scripts/SUPP_FIG*.R; do Rscript "$s" >/dev/null 2>&1; done
@@ -68,7 +71,7 @@ if [ "${1:-}" = "--full" ]; then
   done
   [ "$n" = 0 ] && ok "all figures byte-identical across runs"
 
-  echo "== 7. isolation: every figure builds with data/ absent =="
+  echo "== 8. isolation: every figure builds with data/ absent =="
   if [ -d data ]; then
     mv data /tmp/data_hidden_check
     n=0

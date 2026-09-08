@@ -1,0 +1,10 @@
+# Numbers that appear in the manuscript draft but are NOT produced by the code
+# in this repository. One per line, with a reason.
+#
+#   <number>    # why it is not computed here
+#
+# Everything in here is, by construction, a number no script can verify — so
+# this file is worth reading on its own before submission. Keep it short: if a
+# number could be computed here, compute it here instead of exempting it.
+#
+# Checked by scripts/check_manuscript_numbers.py.
