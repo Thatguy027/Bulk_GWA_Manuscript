@@ -155,18 +155,28 @@ process BUILD_CHROM {
 }
 
 /* One kinship matrix per chromosome, from every marker NOT on it. Computed once
- * and reused by every permutation -- see the header. */
+ * and reused by every permutation -- see the header.
+ *
+ * -gk 2, NOT -gk 1. GEMMA's -gk 1 is the centered relatedness matrix and -gk 2
+ * the standardized one, where each marker is divided by its own standard
+ * deviation before the cross-product. They are different matrices, they give
+ * different p-values, and the scan being thresholded here used -gk 2 (the lab
+ * gemma_nf pipeline's GEMMA_GRM process, and its archived gemmeGRM.*.sXX.txt
+ * output). Using -gk 1 put the observed maximum at 8.5700 against the scan's
+ * 8.8361. Nothing about the marker set or the panel was wrong at that point --
+ * both matched exactly -- so this is the whole of the remaining discrepancy.
+ * The output filename follows the flag: -gk 1 writes .cXX.txt, -gk 2 .sXX.txt. */
 process GEMMA_GRM {
     tag "${chrom}"
     publishDir "${params.outdir}/kinship", mode: 'copy'
     input:  tuple val(chrom), path(geno), path(anno), path(notchr)
             path pheno_placeholder
-    output: tuple val(chrom), path("kin_${chrom}.cXX.txt"), emit: kin
+    output: tuple val(chrom), path("kin_${chrom}.sXX.txt"), emit: kin
     script:
     """
     set -euo pipefail
-    ${params.gemma} -g ${notchr} -p ${pheno_placeholder} -gk 1 -o kin_${chrom}
-    mv output/kin_${chrom}.cXX.txt .
+    ${params.gemma} -g ${notchr} -p ${pheno_placeholder} -gk 2 -o kin_${chrom}
+    mv output/kin_${chrom}.sXX.txt .
     """
 }
 
@@ -234,7 +244,9 @@ process COLLECT_THRESHOLD {
     cat ${maxima} > all_maxima.tsv
     Rscript ${projectDir}/bin/collect_threshold.R \\
         --maxima all_maxima.tsv --alpha '${params.alpha.join(",")}' \\
-        --n_perm ${params.n_perm}
+        --n_perm ${params.n_perm} \\
+        --expect_observed_max ${params.expect_observed_max} \\
+        --observed_tol ${params.observed_tol}
     """
 }
 

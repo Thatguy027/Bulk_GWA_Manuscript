@@ -173,3 +173,20 @@ Replace it or point `--pheno` elsewhere for another experiment.
 
 Paths to `plink`, `gemma`, the conda bin and the R env are the defaults from
 `gemma_nf`'s config. Override on the command line if any of them moves.
+
+## Two assertions, at both ends
+
+`PLINK_CONVERT` fails unless it retains exactly `expect_markers` (464,045)
+markers, and `COLLECT_THRESHOLD` fails unless the observed genome-wide maximum
+equals `expect_observed_max` (8.8361) within `observed_tol`.
+
+Both are needed, and the history says why. The marker assertion was added after
+a first run computed MAF on all 540 strains instead of the 231 phenotyped ones
+and tested 519,341 markers, giving 8.6894. With the marker set pinned, the next
+run matched 464,045 markers and 231 strains exactly -- and still returned 8.5700,
+because the kinship was built with `-gk 1` (centered) where the scan used
+`-gk 2` (standardized). A correct panel and a correct marker set are not
+sufficient; the model has to match too, and only the observed maximum tests that.
+
+To threshold a trait with no shipped scan to compare against, pass
+`--expect_observed_max 0`.

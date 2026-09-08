@@ -19,6 +19,14 @@ args <- commandArgs(TRUE)
 get <- function(f, d = NULL) { i <- match(f, args); if (is.na(i)) return(d); args[i + 1] }
 maxf   <- get("--maxima"); alphas <- as.numeric(strsplit(get("--alpha", "0.05"), ",")[[1]])
 n_perm <- as.integer(get("--n_perm", NA))
+## The observed genome-wide maximum this pipeline reproduces is a KNOWN number:
+## it is the maximum of the scan being thresholded. Asserting it is the only
+## check that the model, kinship and phenotype all match that scan -- the marker
+## count assertion in PLINK_CONVERT catches the panel and the marker set, and
+## passed while the kinship was still wrong (-gk 1 gave 8.5700 against 8.8361).
+## Pass --expect_observed_max 0 to disable, e.g. for a trait with no shipped scan.
+expect_obs <- as.numeric(get("--expect_observed_max", "0"))
+obs_tol    <- as.numeric(get("--observed_tol", "0.01"))
 
 d <- fread(maxf, header = FALSE,
            col.names = c("trait", "chrom", "perm", "max_lp"))
@@ -62,6 +70,23 @@ res <- rbindlist(lapply(split(gw, gw$trait), function(x) {
 }))
 fwrite(res, "permutation_thresholds.tsv", sep = "\t")
 cat("\n== thresholds ==\n"); print(as.data.frame(res), row.names = FALSE)
+
+if (is.finite(expect_obs) && expect_obs > 0) {
+  got <- unique(res$observed_max)
+  if (length(got) != 1L || !is.finite(got) || abs(got - expect_obs) > obs_tol) {
+    cat("\n")
+    stop("observed genome-wide maximum is ", paste(got, collapse = ", "),
+         ", expected ", expect_obs, " (tolerance ", obs_tol, ").\n",
+         "  The permutation scan is not reproducing the scan it thresholds, so\n",
+         "  its threshold does not apply to that scan. Check the GEMMA model\n",
+         "  (-gk 1 vs -gk 2, -lmm), the kinship, and the phenotype column\n",
+         "  before using any number in this run. --expect_observed_max 0 skips\n",
+         "  this check for a trait with no shipped scan to compare against.",
+         call. = FALSE)
+  }
+  cat("\nobserved maximum ", got, " matches the shipped scan (", expect_obs,
+      ") within ", obs_tol, "\n", sep = "")
+}
 
 ## Reference lines: the analytic thresholds this is meant to replace. Values are
 ## those the manuscript quotes for the 231-strain pos-1 panel; they are drawn
