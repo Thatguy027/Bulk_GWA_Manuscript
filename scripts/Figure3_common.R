@@ -590,14 +590,28 @@ panel_parent_freq_chr3 <- function(b, letter = "B") {
 ## informative span alone would crop exactly that contrast, so the window keeps
 ## its right edge at the terminus and marks it, and the compression is in the
 ## left flank and the row height instead.
-GEN_W <- 1.00      # genotype track width, abstract x units
-GAP   <- 0.14
-HAT_W <- 0.78      # hatching axis width
+## The genotype track is deliberately the SMALLER half. It carries two
+## breakpoints; the hatching bars carry a five-level ordinal series with
+## intervals, so they earn the width. An equal split gave the genotypes half the
+## panel to show 37 kb of real information.
+GEN_W <- 0.58      # genotype track width, abstract x units
+GAP   <- 0.13
+HAT_W <- 0.92      # hatching axis width
+## Row half-height. The bars are THICK vertically and short horizontally: the
+## horizontal extent is set by GEN_W/HAT_W above, which is where "smaller"
+## belonged, and thinning them vertically as well just made them hard to read.
 BAR_H2 <- 0.30
+
+## The window trims dead flank on the LEFT only. Its right edge must stay at
+## the chromosome terminus: wSZ191 stopping short of it, where the others run
+## to it, is the fine-mapping contrast, and cropping there would remove the
+## point of the panel. 13.635 Mb leaves ~23 kb of proximal flank, enough to
+## show the NILs are JU1793 proximal to their breakpoints.
+GWIN <- c(13.635e6, 13783801)
 
 panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                                  labels = TRUE) {
-  gx <- function(pos) (pos - WIN[1]) / diff(WIN) * GEN_W
+  gx <- function(pos) (pos - GWIN[1]) / diff(GWIN) * GEN_W
   hx <- function(p)   GEN_W + GAP + p * HAT_W
 
   bed <- fread(NILB, header = FALSE,
@@ -605,7 +619,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
     as_tibble() %>% filter(strain %in% LEVELS) %>%
     mutate(y = ROW[strain],
            other = ifelse(geno == "JU1793", "JU2466", "JU1793"),
-           seg_start = pmax(start, WIN[1]),
+           seg_start = pmax(start, GWIN[1]),
            is_parent = strain %in% c("JU1793", "JU2466"))
   ## every NIL segment in the file must actually reach the terminus, except
   ## wSZ191; if that changes, the sentence in the caption stops being true
@@ -617,7 +631,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
         " | stopping short: ",
         paste(reach$strain[!reach$to_end], collapse = ", "))
 
-  bg  <- bed %>% transmute(y, xmin = gx(WIN[1]), xmax = gx(WIN[2]),
+  bg  <- bed %>% transmute(y, xmin = gx(GWIN[1]), xmax = gx(GWIN[2]),
                            geno = ifelse(is_parent, geno, other))
   seg <- bed %>% filter(!is_parent) %>%
     transmute(y, xmin = gx(seg_start), xmax = gx(end), geno)
@@ -645,7 +659,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
   band <- RESOLVED %>% mutate(ymin = min(ROW) - BAR_H2,
                               ymax = max(ROW) + BAR_H2)
   y0   <- min(ROW) - 0.72          # where the two tick rows sit
-  gen_ticks <- tibble(pos = c(13.60, 13.65, 13.70, 13.75) * 1e6) %>%
+  gen_ticks <- tibble(pos = c(13.65, 13.70, 13.75) * 1e6) %>%
     mutate(x = gx(pos), lab = sprintf("%.2f", pos / 1e6))
   hat_ticks <- tibble(p = c(0, 0.5, 1)) %>%
     mutate(x = hx(p), lab = scales::percent(p, accuracy = 1))
@@ -677,10 +691,10 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                   fill = NA, label.color = NA,
                   label.padding = grid::unit(rep(0, 4), "pt")) +
     ## the chromosome end, named rather than implied
-    annotate("segment", x = gx(WIN[2]), xend = gx(WIN[2]),
+    annotate("segment", x = gx(GWIN[2]), xend = gx(GWIN[2]),
              y = min(ROW) - BAR_H2, yend = max(ROW) + BAR_H2,
              linewidth = 0.5, colour = "grey20") +
-    annotate("richtext", x = gx(WIN[2]), y = min(ROW) - 0.42,
+    annotate("richtext", x = gx(GWIN[2]), y = min(ROW) - 0.42,
              label = "end of III", size = 2.5, colour = "grey30",
              hjust = 1, vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
@@ -698,7 +712,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                  linewidth = 0.4, colour = "grey15") +
     ## two tick rows and two sub-axis titles, annotated because the panel
     ## carries two units on one coordinate
-    annotate("segment", x = gx(WIN[1]), xend = gx(WIN[2]), y = y0, yend = y0,
+    annotate("segment", x = gx(GWIN[1]), xend = gx(GWIN[2]), y = y0, yend = y0,
              linewidth = 0.3, colour = "grey30") +
     annotate("segment", x = hx(0), xend = hx(1), y = y0, yend = y0,
              linewidth = 0.3, colour = "grey30") +
@@ -706,7 +720,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
               vjust = 1.6, size = 2.6, colour = "grey25") +
     geom_text(data = hat_ticks, aes(x = x, y = y0, label = lab),
               vjust = 1.6, size = 2.6, colour = "grey25") +
-    annotate("richtext", x = gx(mean(WIN)), y = y0 - 0.42,
+    annotate("richtext", x = gx(mean(GWIN)), y = y0 - 0.42,
              label = "Chromosome III (Mb)", size = 3.1, colour = "grey15",
              vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +

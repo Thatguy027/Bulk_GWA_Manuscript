@@ -300,8 +300,12 @@ here, since sid-2 sits at 13.68 Mb.
 (C) The NIL series: genotype and phenotype in one panel, one row per strain,
 JU1793 at the bottom to JU2466 at the top.
 
-Left, the introgressions on the right arm of chromosome III, 13.60 Mb to the
-telomere, JU1793 genotype in orange and JU2466 in teal. FIVE OF THE SIX NILs
+Left, the introgressions on the right arm of chromosome III, 13.635 Mb to the
+telomere, JU1793 genotype in orange and JU2466 in teal. The track is
+deliberately the smaller half of the panel and the bars are thin: it carries two
+breakpoints, where the hatching bars carry a five-level series with intervals.
+The window trims dead flank on the LEFT only, leaving ~23 kb proximal to the
+first breakpoint. FIVE OF THE SIX NILs
 CARRY A SEGMENT THAT RUNS TO THE CHROMOSOME END at 13,783,801 bp, which the
 right-hand edge marks; wSZ191 is the exception, an internal 13.658-13.695 Mb
 segment that stops short. That contrast is the fine-mapping argument, so the
