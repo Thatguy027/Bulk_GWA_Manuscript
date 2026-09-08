@@ -3366,21 +3366,244 @@ reference admits candidates that are not in the pool
 
 </div>
 
-<div class="caveat">
+<img src="plots/diagnostics/reference_size_vs_coverage.png" alt="Slope agreement, RMSE, discrepancy and relatedness correlation against fraction of full-depth reads, one line per reference size." width="100%" />
 
-<span class="ch">Still running</span>
+**A larger reference costs per-strain accuracy, and almost nothing in
+the slopes.** The 102 pooled strains are always present; larger
+references add candidates from the other 438 CeNDR isotypes. Depth is
+the fraction of full-depth reads retained, by binomial thinning of the
+archived alt counts (exact read thinning); full depth is 2.576 alt reads
+per marker, so absolute coverage is not recoverable from this archive
+and the axis is relative.
 
-The 102 pooled strains are always in the reference; larger references
-add candidates from the other 438 CeNDR isotypes at sizes 102, 150, 250,
-400 and 540, crossed with coverage from 1/64 of full depth to full.
-Coverage is varied by binomial thinning of the archived alt counts,
-which is exact read thinning; depth is therefore RELATIVE, because the
-archive stores alt counts only and absolute coverage cannot be
-recovered. Full depth is 2.576 alt reads per marker.
+The reconstruction is validated rather than assumed: rebuilding the
+reference from CeNDR genotypes and applying the recovered flip mask
+reproduces the archive’s design matrix with **0 mismatching cells of
+126,184,812**, and the deconvolution at reference 102 / full depth
+reproduces the archived frequencies with a **maximum difference of
+exactly 0** across 2,346 strain-samples.
 
-The reconstruction is already validated: rebuilding the reference from
-CeNDR genotypes and applying the recovered flip mask reproduces the
-archive’s design matrix with **0 mismatching cells of 126,184,812**.
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Depth (fraction)
+</th>
+<th style="text-align:right;">
+Alt reads/marker
+</th>
+<th style="text-align:right;">
+R=102
+</th>
+<th style="text-align:right;">
+R=150
+</th>
+<th style="text-align:right;">
+R=250
+</th>
+<th style="text-align:right;">
+R=400
+</th>
+<th style="text-align:right;">
+R=540
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1/64
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+<td style="text-align:right;">
+0.938
+</td>
+<td style="text-align:right;">
+0.948
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/32
+</td>
+<td style="text-align:right;">
+0.080
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.941
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/16
+</td>
+<td style="text-align:right;">
+0.161
+</td>
+<td style="text-align:right;">
+0.952
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+<td style="text-align:right;">
+0.954
+</td>
+<td style="text-align:right;">
+0.952
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/8
+</td>
+<td style="text-align:right;">
+0.322
+</td>
+<td style="text-align:right;">
+0.970
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+0.966
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/4
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+0.973
+</td>
+<td style="text-align:right;">
+0.975
+</td>
+<td style="text-align:right;">
+0.973
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/2
+</td>
+<td style="text-align:right;">
+1.288
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+<td style="text-align:right;">
+0.973
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/1
+</td>
+<td style="text-align:right;">
+2.576
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+<td style="text-align:right;">
+0.973
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+<td style="text-align:right;">
+0.975
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from plots/diagnostics/TABLE_reference_size_vs_coverage.tsv
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Three things the surface says</span>
+
+**Slope recovery is flat in reference size.** At full depth ρ goes
+`0.974` at 102 candidates to `0.975` at 540; at 1/64 depth it is `0.937`
+against `0.955` — if anything slightly *better* with the larger
+reference. So a reference carrying five times as many absent candidates
+costs essentially nothing in the quantity the manuscript uses.
+
+**Per-strain accuracy does pay.** Median \|NNLS − MIP\| rises from
+`2.30` to `2.85` per mille at full depth, a 24% increase, and from
+`2.92` to `3.54` at 1/64 depth. The cost is real but it lands on
+individual frequencies, not on fitted slopes — the same split as the
+leakage result above.
+
+**Relatedness bites harder as coverage falls, and *less* as the
+reference grows.** ρ(nn_ibs, discrepancy) at reference 102 runs `0.322`
+at full depth up to `0.504` at 1/64 — confusability needs reads to
+resolve, as predicted. But at fixed depth it *falls* with reference size
+(`0.322` → `0.178` at full depth), because when every strain has a close
+relative among 540 candidates, nearest-neighbour identity stops
+discriminating. That is a property of the predictor losing range, not of
+the deconvolution improving.
 
 </div>
 
@@ -3448,7 +3671,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3462,7 +3685,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 10:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3476,7 +3699,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3490,7 +3713,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3504,7 +3727,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3518,7 +3741,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3532,7 +3755,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3546,7 +3769,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3560,7 +3783,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3574,7 +3797,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3588,7 +3811,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3602,7 +3825,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3616,7 +3839,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-04 12:22
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3630,7 +3853,7 @@ Figure4_sid2
 562
 </td>
 <td style="text-align:right;">
-2026-09-04 12:20
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3644,7 +3867,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-04 12:22
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3658,7 +3881,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-04 12:22
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3672,7 +3895,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-04 12:22
+2026-09-08 11:33
 </td>
 </tr>
 <tr>
@@ -3686,7 +3909,7 @@ SUPP_FIG_XX_sid2_electrostatics
 795
 </td>
 <td style="text-align:right;">
-2026-09-04 12:21
+2026-09-08 11:33
 </td>
 </tr>
 </tbody>

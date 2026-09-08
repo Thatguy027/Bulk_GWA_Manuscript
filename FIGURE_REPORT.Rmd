@@ -2027,6 +2027,58 @@ gets as the reference admits candidates that are not in the pool
 include_graphics(file.path(DIAGDIR, "reference_size_vs_coverage.png"))
 ```
 
+**A larger reference costs per-strain accuracy, and almost nothing in the
+slopes.** The 102 pooled strains are always present; larger references add
+candidates from the other 438 CeNDR isotypes. Depth is the fraction of
+full-depth reads retained, by binomial thinning of the archived alt counts
+(exact read thinning); full depth is 2.576 alt reads per marker, so absolute
+coverage is not recoverable from this archive and the axis is relative.
+
+The reconstruction is validated rather than assumed: rebuilding the reference
+from CeNDR genotypes and applying the recovered flip mask reproduces the
+archive's design matrix with **0 mismatching cells of 126,184,812**, and the
+deconvolution at reference 102 / full depth reproduces the archived
+frequencies with a **maximum difference of exactly 0** across 2,346
+strain-samples.
+
+```{r tab-refsize}
+kb(read_tsv(file.path(DIAGDIR, "TABLE_reference_size_vs_coverage.tsv"),
+            show_col_types = FALSE) %>%
+     transmute(`Depth (fraction)` = sprintf("1/%.0f", 1/fraction),
+               `Alt reads/marker` = fnum(alt_per_marker, 3),
+               Reference = ref_size, `ρ vs MIP` = fnum(rho, 3)) %>%
+     pivot_wider(names_from = Reference, values_from = `ρ vs MIP`,
+                 names_prefix = "R="),
+   align = c("l", "r", rep("r", 5)))
+```
+
+::: derived
+Derived from plots/diagnostics/TABLE_reference_size_vs_coverage.tsv
+:::
+
+::: aside
+[Three things the surface says]{.ch}
+
+**Slope recovery is flat in reference size.** At full depth &rho; goes `0.974`
+at 102 candidates to `0.975` at 540; at 1/64 depth it is `0.937` against
+`0.955` — if anything slightly *better* with the larger reference. So a
+reference carrying five times as many absent candidates costs essentially
+nothing in the quantity the manuscript uses.
+
+**Per-strain accuracy does pay.** Median |NNLS − MIP| rises from `2.30` to
+`2.85` per mille at full depth, a 24% increase, and from `2.92` to `3.54` at
+1/64 depth. The cost is real but it lands on individual frequencies, not on
+fitted slopes — the same split as the leakage result above.
+
+**Relatedness bites harder as coverage falls, and *less* as the reference
+grows.** &rho;(nn_ibs, discrepancy) at reference 102 runs `0.322` at full depth
+up to `0.504` at 1/64 — confusability needs reads to resolve, as predicted. But
+at fixed depth it *falls* with reference size (`0.322` → `0.178` at full depth),
+because when every strain has a close relative among 540 candidates,
+nearest-neighbour identity stops discriminating. That is a property of the
+predictor losing range, not of the deconvolution improving.
+:::
+
 ```{r diag-refsize-pending, results="asis", eval=!diag_have("reference_size_vs_coverage")}
 cat("::: caveat\n[Still running]{.ch}\n\nThe 102 pooled strains are always in",
     "the reference; larger references add candidates from the other 438 CeNDR",

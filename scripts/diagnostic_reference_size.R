@@ -176,11 +176,24 @@ saveRDS(pred, file.path(OUT, "reference_size_predictions.rds"))
 ## ---------------------------------------------------------------------------
 a <- new.env(); load(NNLS, a)
 arch <- as_tibble(a$wgs_mip_results) %>% select(strain, sample, frq, published_frq)
+## The columns are renamed EXPLICITLY rather than relying on join suffixes.
+## The first version used suffix = c("_new","_arch"), which renamed both `frq`
+## columns, then differenced against `chk$frq` -- a column that no longer
+## existed. That yields numeric(0), max(abs(numeric(0)), na.rm=TRUE) is -Inf,
+## and `-Inf < 1e-6` is TRUE, so the gate PASSED without comparing anything.
+## A check that cannot fail is worse than no check, so this one asserts its own
+## inputs before it asserts the result.
 chk <- pred %>% filter(ref_size == 102, fraction == 1) %>%
-  inner_join(arch, by = c("strain", "sample"), suffix = c("_new", "_arch"))
-mx <- max(abs(chk$frq_new - chk$frq), na.rm = TRUE)
+  select(strain, sample, new_frq = frq) %>%
+  inner_join(arch %>% select(strain, sample, arch_frq = frq),
+             by = c("strain", "sample"))
+stopifnot(nrow(chk) > 1000,
+          !anyNA(chk$new_frq), !anyNA(chk$arch_frq))
+mx <- max(abs(chk$new_frq - chk$arch_frq))
+stopifnot(is.finite(mx))
 say("fidelity at 102 strains, full depth: ", nrow(chk),
-    " strain-samples, max |difference| ", signif(mx, 3))
+    " strain-samples, max |difference| ", signif(mx, 3),
+    " (correlation ", signif(cor(chk$new_frq, chk$arch_frq), 8), ")")
 if (!(mx < 1e-6))
   stop("pipeline does not reproduce the archived frequencies (max diff ",
        signif(mx, 3), "). Fix before reading anything below.", call. = FALSE)
