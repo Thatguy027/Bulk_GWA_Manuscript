@@ -499,6 +499,54 @@ isoelectric point to 4.50. This is presented as a hypothesis-framing
 calculation, not as an estimate of binding: no affinity, free energy or
 occupancy is computed anywhere in this work.
 
+LOCAL NET CHARGE, AND WHERE T96 SITS IN IT
+--------------------------------------------------------------------------------
+The whole-domain figure above averages over a surface that is not uniform, so
+the same Henderson-Hasselbalch calculation was applied locally. For each residue
+of the modelled ectodomain (21-188), the side-chain charges of every ectodomain
+residue with a C-alpha within 12 A were summed, giving a per-residue local net
+charge. pKa values are the set used above. Computed by
+scripts/sid2_local_charge_table.py, which writes the per-residue table to
+supplemental_data/structure/ and prints every number quoted here.
+
+At pH 4.4 the domain is net +0.47 e across 21-188 (against -8.34 e at pH 7.4;
+the -0.2 e above is for 21-193, so the two differ by the five residues the
+membrane-oriented file does not carry -- quote the 21-193 figure in the text and
+this one only for the local analysis).
+
+T96's own neighbourhood is +1.24 e, the 82nd percentile of the 168 ectodomain
+residues, whose median is 0.00. Substituting lysine adds +1 e to give +2.24 e,
+the 98th percentile. The pocket is made by two lysines, K93 with its C-alpha at
+6.6 A and K132 at 6.8 A (4.5 and 4.4 A nearest heavy atom). T96 is
+solvent-exposed at the domain median, SASA 62.4 A^2, the 48th percentile, so the
+side chain is available to solvent rather than buried.
+
+The three uptake histidines sit at -0.15 (H32), +0.85 (H168) and +1.46 e (H175).
+H175, which is 37.8 A from T96, is in the most positive local environment of the
+three.
+
+TWO BOUNDS ON THE INTERPRETATION. 81 of the 168 residues have positive local
+charge at this pH, so a positive pocket by itself is unremarkable; the claim is
+the percentile, not the sign. And the domain is net acidic at neutral pH, so
+this is a basic pocket in an otherwise acidic domain, not a polybasic surface.
+
+WHY CHARGE IS THE RELEVANT AXIS AT ALL. McEwan, Weisman & Hunter (2012) found
+that individual His->Arg substitutions retained more function than His->Ala but
+did not reach wild type, while the TRIPLE His->Arg mutant internalised more
+dsRNA than wild type. Replacing pH-dependent positive charge with permanent
+positive charge increased uptake. T96K adds permanent positive charge to the
+same lumenal domain and increases RNAi sensitivity in all three backgrounds
+tested here, so the published experiment and ours point the same way.
+
+This remains a hypothesis with a direction, not a demonstration. Charge counting
+is formal and ignores pKa shifts, local dielectric and glycan shielding (three
+of the nine N-glycosylation sequons lie in the ectodomain); whether SID-2
+contacts dsRNA at all is not established by anything here; and the directional
+agreement is a correlation across three backgrounds rather than evidence that
+charge is the mechanism. The discriminating experiment is charge-matched: T96R
+should behave like T96K if charge is the mechanism, and T96Q, isosteric and
+neutral, like the wild type.
+
 --------------------------------------------------------------------------------
 STATISTICS
 --------------------------------------------------------------------------------

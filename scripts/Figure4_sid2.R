@@ -83,8 +83,25 @@ OUT  <- "plots"
 SWAP <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
 VAR  <- "supplemental_data/structure/sid2_variants_cendr.tsv"
 PERRES2 <- "supplemental_data/structure/sid2_per_residue.tsv"
-OVER <- "plots/assets/sid2_overview_oriented.png"
-ZOOM <- "plots/assets/sid2_zoom_t96.png"
+## Panel C is coloured by LOCAL NET CHARGE, not by secondary structure.
+##
+## The claim the panel makes is a charge claim: in a pathway where dsRNA
+## recognition is known to be electrostatic and sequence-independent (McEwan et
+## al. 2012, whose triple His->Arg mutant internalised MORE dsRNA than wild
+## type), T96 sits in the most positive solvent-exposed pocket of an otherwise
+## acidic lumenal domain, and T96K adds another positive charge there. Colouring
+## by beta-strand and coil showed the fold instead, which is not the argument
+## and is not in dispute.
+##
+## Both PNGs carry their own colourbar, so this script adds no colour key --
+## the colour encodes a continuous quantity and cannot be named in a subtitle
+## the way the two residue classes could.
+##
+## The secondary-structure renders are kept for the model-confidence supplement
+## (scripts/sid2_zoom_render.py writes sid2_zoom_t96.png), which is where the
+## annotated-residue classes are shown.
+OVER <- "plots/assets/sid2_overview_charge.png"
+ZOOM <- "plots/assets/sid2_zoom_charge.png"
 
 ## the strain colours as defined for this manuscript; do not re-map these
 COL_JU1793 <- "#F34C00"
@@ -139,7 +156,22 @@ CAP_Y <- -0.20
 msg("  composite: ", round(TOTAL, 2), " x ", round(H, 2), " in")
 
 caps <- tibble(x = c(W_OV / 2, X_ZM + W_ZM / 2), y = CAP_Y,
-               lab = c("Ectodomain", "T96 environment"))
+               ## the left caption does NOT repeat the quantity: the key
+               ## directly below it already names "net charge within 12 A (e),
+               ## pH 4.4", and saying it twice in adjacent lines reads as an
+               ## error rather than as emphasis
+               lab = c("Ectodomain", "T96 pocket: K93, K132"))
+
+## the diverging key, under the left image. QLIM must equal the renderer's.
+QLIM  <- 2
+KEY_W <- W_OV * 0.82
+KEY_Y <- CAP_Y - 0.42
+KEY_H <- 0.13
+ramp <- colorRampPalette(RColorBrewer::brewer.pal(11, "RdBu"))(64)
+key <- tibble(i = seq_along(ramp),
+              xmin = (i - 1) / length(ramp) * KEY_W,
+              xmax = i / length(ramp) * KEY_W,
+              col = ramp)
 
 p_struct <- ggplot() +
   annotation_raster(im_ov, xmin = 0, xmax = W_OV, ymin = 0, ymax = H,
@@ -149,12 +181,31 @@ p_struct <- ggplot() +
   geom_richtext(data = caps, aes(x, y, label = lab), size = 2.8,
                 colour = "grey30", vjust = 1, fill = NA, label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## No colour key. Two classes are cheaper to name in the subtitle than to
-  ## key, and any fixed corner collided with something the render draws there.
+  ## The charge key, drawn here rather than in the render.
+  ##
+  ## Panel C's colour now encodes a CONTINUOUS quantity, so unlike the
+  ## secondary-structure version it cannot be named in a subtitle -- it needs a
+  ## scale. The renders do not carry one, so the first version of this panel
+  ## shipped a diverging colour map with no key at all.
+  ##
+  ## The ramp is RdBu NOT reversed, matching Normalize(-QLIM, +QLIM) in
+  ## scripts/sid2_charge_render.py: matplotlib's RdBu runs red at the low end to
+  ## blue at the high end, so red is NEGATIVE charge and blue POSITIVE.
+  ## Reversing it here would silently invert the key while leaving the structure
+  ## colours untouched -- the failure would look like a result.
+  geom_rect(data = key, aes(xmin = xmin, xmax = xmax, ymin = KEY_Y,
+                            ymax = KEY_Y + KEY_H), fill = key$col) +
+  annotate("text", x = 0, y = KEY_Y - 0.07, hjust = 0, size = 2.2,
+           colour = "grey30", label = paste0("\u2212", QLIM)) +
+  annotate("text", x = KEY_W, y = KEY_Y - 0.07, hjust = 1, size = 2.2,
+           colour = "grey30", label = paste0("+", QLIM)) +
+  annotate("text", x = 0, y = KEY_Y + KEY_H + 0.11, hjust = 0, size = 2.3,
+           colour = "grey30",
+           label = "net charge within 12 \u00c5 (e), pH 4.4") +
   ## a little x padding: the captions are centred under each image and the
   ## left one is flush at x = 0, so without it clip = "off" let it run off
   coord_fixed(ratio = 1, xlim = c(-0.45, TOTAL + 0.1),
-              ylim = c(CAP_Y - 0.06, H), expand = FALSE, clip = "off") +
+              ylim = c(KEY_Y - 0.20, H), expand = FALSE, clip = "off") +
   labs(title = panel_title("C")) +
   theme_void(base_size = 11) +
   theme(plot.title = element_markdown(size = 11.5),

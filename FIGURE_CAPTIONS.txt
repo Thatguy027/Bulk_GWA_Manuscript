@@ -18,6 +18,8 @@ Eighteen figures are the manuscript set and live in plots/:
   SUPP_FIG_XX_bootstrap_propagation_checks
   SUPP_FIG_XX_downsample_per_sample
   SUPP_FIG_XX_sid2_electrostatics
+  SUPP_FIG_XX_sid2_local_charge
+  SUPP_FIG_XX_sid2_model_confidence
   SUPP_FIG_XX_sid2_allele_in_panel
   SUPP_FIG_XX_n2_swap_dose
   SUPP_FIG_XX_nil_hatching_full
@@ -320,19 +322,28 @@ This is the third genetic background to show the effect and the only one with
 two independent edits, and the direction is the same throughout: 96K sensitive,
 96T resistant.
 
-(C) The SID-2 ectodomain, AlphaFold3 model, rotated onto the membrane normal so
-the intestinal lumen is up; beta-strands dark, coil pale, and the grey slab is
-the bilayer. Left, residues 21-188 of chain A with the dashed ring marking the
-region enlarged at right. Right, side chains for T96 (orange) and for two
-distinct classes of annotated residue, coloured apart because they are
-different kinds of evidence. Dark blue, histidines from the McEwan et al. 2012
-mutagenesis, in which His->Ala and His->Glu each reduced dsRNA transport: H32
-at 16.4 A and H168 at 19.2 A. That paper identifies SID-2's three extracellular
-histidines as H32, H168 and H175, and H175 is not shown because it lies 37.8 A
-from T96, outside this 20 A field. Purple, D34, the qt13 loss-of-function
-allele at 13.5 A -- a separate line of evidence from the histidine
-mutagenesis, not one of the histidines. Dashed lines give Ca-Ca distances. In the zoom the ribbon
-is scaffold only and carries no secondary-structure meaning.
+(C) The SID-2 ectodomain coloured by LOCAL NET CHARGE, AlphaFold3 model,
+rotated onto the membrane normal so the intestinal lumen is up; the grey slab is
+the bilayer. Colour is the net side-chain charge of all ectodomain residues with
+a C-alpha within 12 A, by Henderson-Hasselbalch at pH 4.4 -- the gut-lumen pH at
+which SID-2 functions -- on a diverging scale saturating at +/- 2 e, red
+negative and blue positive. Left, residues 21-188 of chain A: T96 (orange), the
+two lysines that make its pocket, K93 and K132 (blue), and SID-2's three
+extracellular histidines, H32, H168 and H175 (teal), which McEwan et al. 2012
+identified and mutated. Right, the pocket enlarged, with C-alpha distances from
+T96 to K93 (6.6 A) and K132 (6.8 A); nearest heavy-atom distances are 4.5 and
+4.4 A.
+
+The panel makes a charge argument, not a proximity or homology one. The
+ectodomain is net acidic overall (-8.34 e at pH 7.4, +0.47 e at pH 4.4 over the
+modelled 21-188), but T96's own neighbourhood is +1.24 e, the 82nd percentile of
+the domain, and T96K takes it to +2.24 e, the 98th percentile -- see
+SUPP_FIG_XX_sid2_local_charge for that distribution. The relevant precedent is
+that permanent positive charge at this surface INCREASES uptake: the triple
+His->Arg mutant of McEwan et al. internalised more dsRNA than wild type, and
+T96K raises RNAi sensitivity in all three backgrounds tested here. Whether
+SID-2 contacts dsRNA at all is not established, so this is a reason to test the
+charge-matched controls (T96R, T96Q) rather than a result.
 
 (D) sid-2 coding variation in the wild population. The protein runs vertically
 with residue 1 at the top and its DeepTMHMM topology as a filled bar; each
@@ -967,10 +978,19 @@ near-neutral background the +1 e from T96K takes the surface from -0.2 e to
 at lumenal pH it is the difference between a slightly negative and a slightly
 positive face -- and 96K is the allele with efficient uptake.
 
-(C) Ca distances from residue 96 to every other ectodomain residue with the
-four published uptake-critical residues marked, against the null. Three of four
-are nearer than the median but 41% of the domain is within 20 A, so binomial
-p = 0.19 and a permutation test on their mean distance gives p = 0.30.
+(C) Ca distances from residue 96 to every other ectodomain residue, with the
+three uptake histidines of McEwan et al. 2012 marked and the qt13 allele D34
+marked separately, against the null. The statistic is over the HISTIDINES only:
+two of the three lie within 20 A, but 41% of the domain does, so binomial
+p = 0.37, and a permutation test on their mean distance against 20,000 random
+triples gives p = 0.47. Their mean, 24.3 A, is FARTHER from residue 96 than the
+domain median of 23.8 A over this figure's 21-193 span. (METHODS quotes 22.3 A
+for the same median because it uses the 21-188 modelled span; each states its
+span, and the difference is the five residues the membrane-oriented file does
+not carry.) D34 is excluded from the statistic because it is a separate
+experiment; folding it in gave three of four and p = 0.19, which is how the
+earlier version of this caption overstated the proximity. No proximity claim is
+made in either direction.
 
 NOTE, and it corrects an earlier internal figure. The stage4 analysis in
 data/structure_modeling reported the ectodomain flipping to strongly net
@@ -1068,3 +1088,54 @@ scripts/plate_pheno_comparisons.R and scripts/pos1_script1.R still open with
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) and therefore run
 only inside RStudio. They are the two remaining figure scripts that cannot be
 regenerated from the command line.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_sid2_local_charge
+(scripts/SUPP_FIG_XX_sid2_local_charge.R)
+--------------------------------------------------------------------------------
+Where T96's pocket sits in the ectodomain's charge distribution. Figure 4C shows
+where the positive pocket is; this shows how unusual it is, which is the part
+that can be argued with.
+
+Local net charge is the Henderson-Hasselbalch side-chain charge summed over
+every ectodomain residue with a Ca within 12 A, at the gut-lumen pH of 4.4, over
+residues 21-188. Grey, all 168 ectodomain residues. Orange line, T96 at +1.24 e,
+the 82nd percentile (domain median 0.00). Blue dashed line and arrow, T96K at
++2.24 e, the 98th percentile. Open circles, the three uptake histidines of
+McEwan et al. 2012: H32 at -0.15, H168 at +0.85, H175 at +1.46 e -- H175, the
+one 37.8 A from T96 and so absent from Figure 4C's field, sits in the most
+positive environment of the three.
+
+Two things bound the claim. 81 of the 168 residues have positive local charge at
+this pH, so a positive pocket by itself is unremarkable; the 98th percentile is
+the claim, not the sign. And the domain is net ACIDIC overall (-8.34 e at pH
+7.4, +0.47 e at pH 4.4 across 21-188), so this is a basic pocket in an acidic
+domain rather than a polybasic surface of the kind SID-1 uses. Charges are
+formal: pKa shifts, local dielectric and glycan shielding are ignored, and three
+of the nine N-glycosylation sequons lie in this domain.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_sid2_model_confidence
+(scripts/SUPP_FIG_XX_sid2_model_confidence.R)
+--------------------------------------------------------------------------------
+Model confidence for the SID-2 ectodomain, and the proximity null. Figure 4C is
+coloured by charge and carries no confidence encoding, so this is where the
+model's quality where it matters can be checked, and where the proximity null is
+shown rather than argued.
+
+(A) The ectodomain cartoon coloured by AlphaFold pLDDT band, lumenal face up,
+with the 20 A region around T96 ringed. 117 of the 168 ectodomain residues reach
+pLDDT >= 70 and T96 itself is at 79.3: confident, but at the edge of the
+well-modelled core rather than deep inside it. The low-confidence region is the
+lumenal cap above T96, and nothing in Figure 4C rests on the cap.
+
+(B) The T96 zoom in the same pLDDT colouring, with side chains and Ca-Ca
+distances for the annotated residues in range, and the two evidence classes kept
+apart: the uptake histidines H32 (16.4 A) and H168 (19.2 A) against the qt13
+allele D34 (13.5 A). H175 is 37.8 A from T96 and outside this field.
+
+(C) Ca distances from T96 to every other ectodomain residue, with the annotated
+residues marked by class. 41.9% of the ectodomain lies within 20 A of T96, so
+two of the three histidines falling inside it is a binomial p = 0.38. The
+proximity argument is reported as failing; METHODS states that no proximity
+claim is made.

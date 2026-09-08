@@ -70,15 +70,32 @@ COL_MUT    <- "#F34C00"
 CLASS_COL <- c(`Basic (Arg, Lys)` = "#3B6FB6", `His` = "#8E6BAF",
                `Acidic (Asp, Glu)` = "#C0392B", `Other` = "#D5DCE1")
 
-## published alleles with a reported dsRNA-uptake effect (UniProt G5EEV9, via
-## data/structure_modeling/claude_docking/stage3b_dimer/dimerization_report.txt
-## -- VERIFY these residue numbers against UniProt before publication)
+## Annotated residues, in TWO CLASSES, from the primary paper rather than from
+## UniProt. The "VERIFY these residue numbers against UniProt" note that stood
+## here was answered, and the answer was that UniProt is not the right source:
+##
+## McEwan, Weisman & Hunter 2012 (Mol Cell 47:746, PMID 22902558) state that
+## SID-2 has three extracellular histidines -- H32, H168, H175 -- and test
+## exactly those, targeted because the imidazole protonates only in the acidic
+## conditions SID-2 requires; His->Ala and His->Glu each reduced transport. The
+## model's ectodomain contains exactly three histidines, at those positions,
+## which confirms the numbering with no database involved.
+##
+## D34 is a DIFFERENT line of evidence -- the qt13 loss-of-function allele --
+## and residue 34 is an aspartate, so it was never a member of the histidine
+## set. The earlier UniProt-derived list also carried a residue 199, which lies
+## in the transmembrane helix and is not in the ectodomain at all.
+##
+## The statistic in panel C is computed over the HISTIDINES only. Folding D34 in
+## made it 3 of 4 and p = 0.19; the histidines alone are 2 of 3 and p = 0.38.
 FUNC <- tribble(
-  ~pos, ~effect,
-  32,   "reduced uptake",
-  34,   "qt13, complete RNAi resistance",
-  168,  "no detectable uptake",
-  175,  "reduced uptake")
+  ~pos, ~effect,                          ~class,
+  32,   "reduced uptake",                 "Uptake histidine",
+  168,  "no detectable uptake",           "Uptake histidine",
+  175,  "reduced uptake",                 "Uptake histidine")
+ALLELE <- tribble(
+  ~pos, ~effect,                          ~class,
+  34,   "qt13, complete RNAi resistance", "qt13 allele")
 
 ## side-chain pKa values, Nozaki & Tanford / standard set
 PKA <- tribble(~res, ~pka, ~sign,
@@ -246,6 +263,12 @@ d <- tibble(resid = as.integer(rownames(xyz)),
 fd <- FUNC %>% left_join(d, by = c("pos" = "resid")) %>%
   mutate(lab = paste0(ecd$resname[match(pos, ecd$resid)], pos))
 med <- median(d$dist)
+
+## The qt13 allele is carried along for display but is NOT in the statistic:
+## it is a separate experiment, and including it was what made the proximity
+## look better than it is.
+ad <- ALLELE %>% left_join(d, by = c("pos" = "resid")) %>%
+  mutate(lab = paste0(ecd$resname[match(pos, ecd$resid)], pos))
 
 ## two null comparisons, both reported because both are unimpressive
 set.seed(42)

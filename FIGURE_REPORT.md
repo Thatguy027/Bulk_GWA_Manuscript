@@ -57,6 +57,10 @@ Assembled 2026-09-08
         size](#coverage-against-reference-size)
     -   [Off-pool leakage against
         coverage](#off-pool-leakage-against-coverage)
+    -   [Figure S15 — where T96’s pocket sits in the charge
+        distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
+    -   [Figure S16 — model confidence, and the proximity
+        null](#figure-s16--model-confidence-and-the-proximity-null)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -2201,48 +2205,61 @@ sensitive, 96T resistant**.
 
 <div class="panel">
 
-<span class="pl">C</span> The SID-2 ectodomain, AlphaFold3 model,
-rotated onto the membrane normal so the intestinal lumen is up;
-β-strands dark, coil pale, and the grey slab is the bilayer. Left,
-residues 21–188 of chain A with the dashed ring marking the region
-enlarged at right. Right, side chains for T96 (orange) and for two
-classes of annotated residue, coloured apart because they are different
-kinds of evidence. Dark blue, histidines from the McEwan et al. 2012
-mutagenesis, where His→Ala and His→Glu each reduced dsRNA transport: H32
-at `16.4` Å and H168 at `19.2` Å. Purple, D34 — the *qt13*
-loss-of-function allele at `13.5` Å, a separate line of evidence, not
-one of the histidines. Dashed lines give Cα–Cα distances. In the zoom
-the ribbon is scaffold only and carries no secondary-structure meaning.
+<span class="pl">C</span> The SID-2 ectodomain coloured by **local net
+charge**, AlphaFold3 model, rotated onto the membrane normal so the
+intestinal lumen is up; the grey slab is the bilayer. Colour is the net
+side-chain charge of every ectodomain residue with a Cα within 12 Å, by
+Henderson–Hasselbalch at pH 4.4 — the gut-lumen pH at which SID-2
+functions — on a diverging scale saturating at ±`2` e, red negative and
+blue positive. Left, residues 21–188 of chain A: T96 (orange), the two
+lysines that make its pocket, K93 and K132 (blue), and SID-2’s three
+extracellular histidines H32, H168 and H175 (teal). Right, the pocket
+enlarged, with Cα distances from T96 of `6.6` Å to K93 and `6.8` Å to
+K132 (nearest heavy atoms `4.5` and `4.4` Å).
 
 </div>
 
-<div class="caveat">
+<div class="aside">
 
-<span class="ch">A correction, applied here and in the caption</span>
+<span class="ch">Why this panel is about charge and not about
+shape</span>
 
-An earlier version of this panel described H32, D34 and H168 together as
-“the three residues with a published effect on dsRNA uptake”. Both
-halves of that were wrong. McEwan, Weisman & Hunter (2012, *Mol Cell*
-47:746) identify SID-2’s three extracellular histidines as **H32, H168
-and H175** and test exactly those; they never mention residue 34. D34 is
-the *qt13* loss-of-function allele, a different experiment needing its
-own citation. And residue 34 is an aspartate, so it was never a
-candidate for that set.
+The panel used to be coloured by secondary structure, which showed the
+fold — not the argument, and not anything in dispute. The argument is
+electrostatic, and it rests on a precedent running the same direction as
+our own result.
 
-The model confirms the numbering independently of any database: its
-ectodomain (21–188) contains **exactly three histidines, at 32, 168 and
-175**, which is checkable straight from the deposited coordinates.
-Residue 199, which an earlier UniProt-derived list also carried, lies in
-the transmembrane helix and is not in the modelled span at all.
+SID-1’s dsRNA recognition is **electrostatic and sequence-independent**:
+basic side chains against the phosphate backbone, no sequence
+preference. That transfers as physics without any fold relationship,
+which matters because the fold relationship does *not* hold — an
+unrelated immunoglobulin domain scores higher against the SID-2 model
+(TM `0.427`) than SID-1’s BRD1 does (`0.404`), while the two genuine
+BRDs of SID-1 score `0.525` against each other. The resemblance is the
+background level for any compact β-sandwich of this size. Nothing in the
+manuscript claims otherwise, and nothing should: do not superpose the
+8XC1 dsRNA onto this model.
 
-H175 is not drawn because it sits `37.8` Å from T96, outside this 20 Å
-field. The correction also weakens a statistic that is now dropped
-rather than defended: `41.9%` of the ectodomain lies within 20 Å of T96,
-so two of the three histidines falling inside it is a binomial
-`p = 0.38`, against the `0.19` the earlier four-residue set gave.
-`METHODS.txt` now states that no proximity claim is made. The panel’s
-argument is about charge instead, which does not depend on proximity to
-the annotated residues.
+What the charge measurement says: the ectodomain is net **acidic**
+overall (`−8.34` e at pH 7.4, `+0.47` e at pH 4.4 across the modelled
+21–188), yet T96’s own neighbourhood is `+1.24` e — the **82nd
+percentile** of the domain — and T96K takes it to `+2.24` e, the
+**98th**. T96 is solvent-exposed at the domain median (SASA `62.4` Å²,
+48th percentile), so the side chain is available. The precedent: the
+triple His→Arg mutant of McEwan et al. internalised **more** dsRNA than
+wild type — replacing pH-dependent positive charge with permanent
+positive charge increased uptake. T96K adds permanent positive charge to
+the same surface and increases RNAi sensitivity in all three
+backgrounds.
+
+Read it as a hypothesis with a direction, not a result. Whether SID-2
+contacts dsRNA at all is untested here, charge counting ignores pKa
+shifts and glycan shielding (three of the nine N-glycosylation sequons
+are in the ectodomain), and the direction is a correlation across three
+backgrounds. The discriminating experiment is charge-matched: T96R
+should behave like T96K if charge is the mechanism, T96Q (isosteric,
+neutral) like the wild type. See Figure S15 for the distribution and
+Figure S16 for model confidence.
 
 </div>
 
@@ -4298,6 +4315,93 @@ deconvolution will choose to be wrong about.
 
 </div>
 
+## Figure S15 — where T96’s pocket sits in the charge distribution
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_sid2_local_charge.R`<br> **Supports**
+Figure 4C, the quantitative half<br> **Scope** residues 21–188 · 12 Å
+neighbourhoods · pH 4.4
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_sid2_local_charge.png" alt="Histogram of local net charge across the ectodomain, with the three uptake histidines marked and vertical lines at T96 and T96K." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_sid2_local_charge
+</p>
+
+</div>
+
+Figure 4C shows *where* the positive pocket is. This shows *how unusual*
+it is, which is the part that can be argued with.
+
+<div class="aside">
+
+<span class="ch">The claim, and its size</span>
+
+T96’s neighbourhood is `+1.24` e, the **82nd percentile** of the 168
+ectodomain residues (median `0.00`); T96K takes it to `+2.24` e, the
+**98th**. The pocket is made by two lysines, K93 at `6.6` Å and K132 at
+`6.8` Å (`4.5` and `4.4` Å nearest heavy atom).
+
+Two things stop this being over-read. `81` of the 168 residues have
+positive local charge at this pH, so a positive pocket by itself is
+unremarkable — the percentile is the claim, not the sign. And the domain
+is net **acidic** overall, so this is a basic pocket in an acidic
+domain, not a polybasic surface of the kind SID-1 uses.
+
+The three uptake histidines are marked for context: H32 at `−0.15`, H168
+at `+0.85`, H175 at `+1.46` e. H175 — the one `37.8` Å from T96 and so
+absent from Figure 4C’s field — sits in the most positive environment of
+the three.
+
+</div>
+
+## Figure S16 — model confidence, and the proximity null
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_sid2_model_confidence.R`<br>
+**Supports** Figure 4C, defensively<br> **Scope** residues 21–188 ·
+AlphaFold3 pLDDT
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_sid2_model_confidence.png" alt="Ectodomain cartoon coloured by pLDDT, the T96 zoom in the same colouring, and the distribution of Ca distances from T96 with the annotated residues marked." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_sid2_model_confidence
+</p>
+
+</div>
+
+Figure 4C is coloured by charge and carries no confidence encoding, so
+this is where the model’s quality where it matters can be checked, and
+where the proximity null is shown rather than argued.
+
+<div class="aside">
+
+<span class="ch">Two defensive points</span>
+
+**The model is sound where the claim is made.** `117` of the 168
+ectodomain residues reach pLDDT ≥ 70, and T96 itself is at `79.3` —
+confident, though at the edge of the well-modelled core rather than deep
+inside it. The low-confidence region is the lumenal cap above T96, and
+nothing rests on the cap.
+
+**The proximity argument is shown failing, not omitted.** `41.9%` of the
+ectodomain lies within 20 Å of T96, and two of the three uptake
+histidines fall inside that radius — binomial `p = 0.38`. The zoom keeps
+the two evidence classes apart, the histidines against the *qt13* allele
+D34, which is the distinction the released panel collapsed.
+`METHODS.txt` states that no proximity claim is made; this figure is why
+that can be stated rather than asserted.
+
+</div>
+
 # Open before submission
 
 Everything above is generated and verified. These are the items that
@@ -4362,7 +4466,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4376,7 +4480,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4390,7 +4494,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4404,7 +4508,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4418,7 +4522,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4432,7 +4536,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4446,7 +4550,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4460,7 +4564,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4474,7 +4578,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4488,7 +4592,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4502,7 +4606,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4516,7 +4620,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4530,7 +4634,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4541,10 +4645,10 @@ Figure 4
 Figure4_sid2
 </td>
 <td style="text-align:right;">
-562
+552
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4558,7 +4662,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4572,7 +4676,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4586,7 +4690,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
 </td>
 </tr>
 <tr>
@@ -4597,10 +4701,38 @@ Figure S14
 SUPP_FIG_XX_sid2_electrostatics
 </td>
 <td style="text-align:right;">
-795
+794
 </td>
 <td style="text-align:right;">
-2026-09-08 14:31
+2026-09-08 15:07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S15
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_sid2_local_charge
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+2026-09-08 15:07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S16
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_sid2_model_confidence
+</td>
+<td style="text-align:right;">
+441
+</td>
+<td style="text-align:right;">
+2026-09-08 15:07
 </td>
 </tr>
 </tbody>
