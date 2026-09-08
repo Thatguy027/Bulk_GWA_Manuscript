@@ -206,11 +206,43 @@ process BUILD_BIMBAM {
                         for (i = 1; i <= s; i++) printf ","\$(i*3+3)*2+\$(i*3+4);
                         printf "\\n" }' ${gen} > traits.csv
 
-    cut -f-3 -d' ' ${gen} | awk '{print \$2, \$3, \$1}' OFS='\\t' \\
-        > traits_gemmaAnnotation.tsv
+    # ANNOTATION CHROMOSOME NAMES MUST MATCH WHAT -loco IS GIVEN.
+    #
+    # plink's oxford export writes chromosomes by its own numeric codes, and X
+    # is a name plink knows: it comes out as 23. The roman numerals I-V are not
+    # names plink knows, so --allow-extra-chr passes them through untouched.
+    # The result is an annotation reading I, II, III, IV, V, 23, MtDNA.
+    #
+    # GEMMA's -loco X then matches NOTHING, and it does not fail -- it silently
+    # tests every marker in the file against the chromosome-X-excluded kinship.
+    # That is how an earlier run reported a genome-wide maximum of 9.0220: the
+    # chromosome III peak was re-tested inside the -loco X job, where the
+    # kinship still contains chromosome III, and 8.6837 inflated to 9.0220. The
+    # six per-chromosome scans were individually correct the whole time.
+    #
+    # So plink's codes are mapped back to the VCF's names, and then every
+    # chromosome the workflow will ask for is asserted to be present. The
+    # assertion is the part that matters: a silent fallback that inflates the
+    # answer is worth failing the run over.
+    cut -f-3 -d' ' ${gen} \\
+      | awk 'BEGIN{OFS="\\t"; m["23"]="X"; m["24"]="Y"; m["25"]="XY"; m["26"]="MT"}
+             {c=\$1; if (c in m) c=m[c]; print \$2, \$3, c}' \\
+      > traits_gemmaAnnotation.tsv
 
     test "\$(wc -l < traits.csv)" = "\$(wc -l < ${gen})"
     test "\$(wc -l < traits_gemmaAnnotation.tsv)" = "\$(wc -l < ${gen})"
+
+    cut -f3 traits_gemmaAnnotation.tsv | sort -u > .chroms
+    echo "chromosomes in the annotation: \$(tr '\\n' ' ' < .chroms)"
+    for c in ${params.chromosomes.join(' ')}; do
+      if ! grep -qx "\$c" .chroms; then
+        echo "ERROR: chromosome '\$c' is not in the annotation." >&2
+        echo "  GEMMA's -loco would match nothing and would then test EVERY" >&2
+        echo "  marker against that chromosome's kinship instead of failing." >&2
+        echo "  Annotation has: \$(tr '\\n' ' ' < .chroms)" >&2
+        exit 1
+      fi
+    done
     """
 }
 
@@ -310,6 +342,21 @@ process GEMMA_PERM {
           > /dev/null 2>&1
       # p_wald is located BY NAME from the header, not by position: GEMMA's
       # column layout differs between -lmm modes and versions.
+      # A -loco run must test ONLY its own chromosome. If -loco silently
+      # matched nothing, this file would carry the whole genome and its maximum
+      # would be a marker scored against the wrong kinship -- the 9.0220 bug.
+      # Checked on every call, because it costs one awk pass and the failure it
+      # catches produces a plausible number rather than an error.
+      n_other=\$(awk -F'\t' -v want="${chrom}" \\
+        'NR==1{for(i=1;i<=NF;i++) if(\$i=="chr") c=i; next} c && \$c!=want {n++}
+         END{print n+0}' run_\$k.assoc.txt)
+      if [ "\$n_other" -ne 0 ]; then
+        echo "ERROR: the -loco ${chrom} scan tested \$n_other markers that are" >&2
+        echo "  not on ${chrom}. GEMMA's -loco matched no chromosome and fell" >&2
+        echo "  back to the whole genome; check the annotation's chromosome" >&2
+        echo "  names against ${chrom}." >&2
+        exit 1
+      fi
       mx=\$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++) if(\$i=="p_wald") c=i; next}
              c && \$c!="" {p=\$c+0; if(p>0 && (m==""||p<m)) m=p}
              END{if(m=="") print "NA"; else printf "%.6f", -log(m)/log(10)}' \\

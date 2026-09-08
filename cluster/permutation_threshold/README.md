@@ -112,7 +112,8 @@ single cause:
 | smoke  | 8.6894 | MAF computed on the 231 phenotyped strains, so 519,341 markers were tested |
 | smoke2 | 8.5700 | kinship built with `-gk 1` (centered); the scan used `-gk 2` (standardized) |
 | smoke3 | 8.8759 | markers, panel and kinship type all correct — and still 34,316 markers short |
-| current | — | the missing-genotype encoding below |
+| smoke4 | 9.0220 | plink writes chromosome X as `23`, so `-loco X` matched nothing |
+| current | 8.8361 | reproduces the scan |
 
 ### The panel is 366 strains, not 231
 
@@ -157,6 +158,39 @@ that moves in both directions. The top of the scan is stable — the same peak
 marker, `IV:15323414` — but a scan with missingness handled honestly is a
 different scan and needs its own threshold. Emitting `NA` from that one awk
 expression in `BUILD_BIMBAM` is the change.
+
+### -loco needs the annotation to use the VCF's chromosome names
+
+plink's oxford export writes chromosomes by its own numeric codes. The roman
+numerals I–V are not names plink knows, so `--allow-extra-chr` passes them
+through, but **X is a name plink knows and comes out as `23`**. The annotation
+then reads `I II III IV V 23 MtDNA`.
+
+GEMMA's `-loco X` matches nothing in that, and it does not fail. It silently
+tests **every** marker in the file against the chromosome-X-excluded kinship.
+That is the whole of smoke4's 9.0220: the chromosome III peak was re-tested
+inside the `-loco X` job, where the kinship still contains chromosome III, and
+8.6837 inflated to 9.0220. The six per-chromosome scans were individually
+correct the entire time —
+
+    -loco I     3.5949   I:2008157
+    -loco II    3.9851   II:13204782
+    -loco III   8.6837   III:5965738
+    -loco IV    8.8361   IV:15323414   <- the scan's peak, exactly
+    -loco V     5.4011   V:605248
+    chrX only   7.8308   X:4875969
+
+— and their maximum is 8.8361, the scan's value. `BUILD_BIMBAM` now maps
+plink's codes back (23→X, and 24/25/26 defensively) and **asserts that every
+chromosome the workflow will request is present in the annotation**. GEMMA_PERM
+separately asserts that a `-loco` scan tested only its own chromosome. Both
+guards exist because the failure mode is a plausible number rather than an
+error.
+
+Everything else was already exact by smoke4: the kinship matrices are
+bit-identical to the scan's (max |difference| 0 on chr I and X, 1e-14 on chr
+IV), which also proves the BIMBAM dosages and the missing-genotype encoding
+match, and the `af` and `n_miss` columns agree exactly.
 
 ### The marker list is shipped, not derived
 
