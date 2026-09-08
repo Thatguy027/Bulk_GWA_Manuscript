@@ -526,13 +526,34 @@ Both panels' plotted fractions are pinned as literals in the script and checked
 against the deposit on every run, so the numbers in this caption cannot drift
 from the figure without the script failing.
 
-CAVEAT 1, and it is the important one. THE NOMINAL MIXING RATIOS ARE NOT
-RECORDED. Nothing in the archived experiment folder states the intended B:C
-proportions for BC1-BC7. This figure therefore establishes that recovery is
-MONOTONIC and COMPLEMENTARY, not that it is ACCURATE, and no regression against
-a nominal series is drawn because there is no nominal series on disk. If the
-design is recovered from the lab record, put it in NOMINAL_B in the script and
-an observed-against-nominal panel follows directly from these data.
+(E) Recovered against designed fraction of set B, the accuracy panel. The
+design is a two-fold doubling series of set B against a fixed 1 uL of set C,
+made up to 10 uL with water; stocks measured 100 ng/uL (B1) and 99.9 ng/uL
+(C1), so the mass fraction is the volume fraction to within 2.5e-4 and the
+equal-concentration assumption is verified rather than assumed. Point area is
+the B volume pipetted. Recovery tracks the design with Pearson r = 0.997 and
+RMSE 0.038 in fraction units, Spearman rho +1: designed 0.091, 0.167, 0.286,
+0.444, 0.616, 0.762, 0.865 against recovered 0.171, 0.209, 0.285, 0.478, 0.620,
+0.771, 0.843.
+
+CAVEAT 1, now quantified rather than open. There are NO REPLICATE DILUTIONS, so
+pipetting error is unreplicated and enters the comparison in full. The largest
+deviation is at BC1 (+0.080), whose B volume is 0.1 uL and is the hardest
+volume in the series to pipette accurately; dropping BC1 halves the error to
+RMSE 0.024, max 0.043. Deviation does trend with 1/volume across the series but
+not significantly at n = 7 (Spearman +0.50, p = 0.27), so the pipetting
+explanation is mechanistically plausible and statistically unproven.
+
+  A SECOND FEATURE OF THE DESIGN worth a sentence: total DNA is not constant
+  across the series, running 11 ng at BC1 to 74 ng at BC7, because only the B
+  volume was varied. Input mass and B fraction are therefore perfectly
+  confounded, and a deviation scaling with total DNA would be indistinguishable
+  from one scaling with B fraction.
+
+  THE BIAS IS TOWARD B: mean deviation +0.021 on the B+C reference and +0.030
+  on the pool reference. Stock concentration is excluded as the cause (100
+  against 99.9 ng/uL). Set B holds 46 of the 84 reference columns against set
+  C's 38, which is one candidate explanation and is not tested here.
 
 CAVEAT 2. One isotype is assigned to two sets. Strain JU1580 and strain JU1793
 are the same isotype, and the experiment put JU1580 in set B and JU1793 in set

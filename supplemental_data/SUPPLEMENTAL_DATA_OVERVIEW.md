@@ -260,6 +260,7 @@ triplicate, plus a seven-step titration of set B against set C (BC1–BC7).
 | `dilution_predictions_bcref.tsv.gz` | 84 strains × 7 samples, reference restricted to sets B+C — the original analysis |
 | `dilution_predictions_fullref.tsv.gz` | 540 strains × 19 samples, full CeNDR reference |
 | `dilution_predictions_regenotype.tsv.gz` | as above, from the regenotyped VCF |
+| `dilution_design.tsv` | 7 rows: the designed titration — volumes, total DNA, and nominal B fraction |
 | `dilution_strain_similarity.tsv` | 170 rows: how genetically close each pooled strain is to its nearest neighbour |
 
 `dilution_strain_sets.tsv` columns: `strain` (name as pooled), `isotype` (CeNDR
@@ -295,9 +296,19 @@ deposit-only rule holds. Used by panel D of the dilution figure, where leakage
 into pools a strain is absent from rises with `nn_ibs` (Spearman ρ = 0.326,
 p = 1.4e-05) while own-pool recovery does not (ρ = 0.046, p = 0.55).
 
-**The nominal mixing ratios are not recorded.** Nothing in the archived
-experiment states the intended B:C proportions for BC1–BC7, so these data show
-monotonic and complementary recovery, not quantitative accuracy.
+`dilution_design.tsv` columns: `sample`, `b_vol_ul`, `c_vol_ul`, `water_ul`,
+`total_ng`, `nominal_b_volume` (the volume fraction of set B),
+`nominal_b` (the same corrected for the measured stock concentrations, 100 vs
+99.9 ng/µL — it differs from the volume fraction by at most 2.5e-4), and
+`nominal_c`. This is the designed titration, recovered from the lab record on
+2026-09-08, and it is what makes the dilution figure an accuracy measurement
+rather than an ordering one: recovery tracks it at r = 0.997, RMSE 0.038.
+
+Two properties of the design to carry with the numbers. Each dilution was made
+**once**, so pipetting error is unreplicated — the largest deviation is at BC1,
+whose 0.1 µL of B is the smallest volume in the series. And **total DNA is not
+constant**, running 11 ng to 74 ng, because only the B volume varied; input mass
+and B fraction are therefore confounded across the series.
 
 Both groups are rebuilt by `scripts/make_experiments_deposit.R` from the raw
 folders under `data/experiments/` (Dryad-hosted), except

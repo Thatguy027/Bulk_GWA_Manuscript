@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Runs the fast invariant checks before every push.
+#
+# Tracked in githooks/ rather than .git/hooks/ so it exists on every clone.
+# Activate once per machine:
+#     git config core.hooksPath githooks
+#
+# To push past a failure (you judged it a false positive):
+#     SKIP_CHECKS=1 git push
+set -uo pipefail
+
+if [ "${SKIP_CHECKS:-0}" = "1" ]; then
+  echo "pre-push: checks skipped (SKIP_CHECKS=1)"
+  exit 0
+fi
+
+repo="$(git rev-parse --show-toplevel)"
+echo "pre-push: running fast invariant checks"
+if bash "$repo/scripts/check_repo_invariants.sh"; then
+  echo "pre-push: ok"
+  exit 0
+fi
+
+cat >&2 <<'MSG'
+
+pre-push: BLOCKED — invariant checks failed.
+
+These checks exist because this repository's failure mode is a plausible
+figure with a wrong number in it, not a crash. The usual causes:
+
+  - a caption or the report quotes a number the script no longer prints
+  - a pinned literal went stale after an input or method changed
+  - a figure script picked up a data/ path and would break a fresh clone
+  - a new jitter or repel geom has no seed, so the figure will not reproduce
+
+Fix the reported item, or push anyway with:
+
+    SKIP_CHECKS=1 git push
+
+MSG
+exit 1

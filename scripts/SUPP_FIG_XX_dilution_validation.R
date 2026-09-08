@@ -9,6 +9,7 @@
 ##   C  the same series with the reference restricted to sets B and C and
 ##      renormalised, which is the analysis the original figure showed
 ##   D  whether the strains that resolve badly are the genetically similar ones
+##   E  recovered against designed B fraction -- the accuracy panel
 ##
 ## THE EXPERIMENT. 174 wild isolates were split into four sets of roughly equal
 ## size (A, B, C, D). Genomic DNA from each set was pooled, and the pools were
@@ -23,14 +24,13 @@
 ##   THIS, the DNA dilution      known input, real counts
 ##   Figure 1A                   real input, real counts, published MIP-seq
 ##
-## THE NOMINAL MIXING RATIOS ARE NOT RECORDED. Nothing in the transferred
-## experiment folder states the intended B:C proportions for BC1-BC7, so this
-## figure shows that recovery is MONOTONIC and COMPLEMENTARY, not that it is
-## ACCURATE. Panel B is the ordering; it is not an accuracy plot, and no
-## regression against a nominal series is drawn because there is no nominal
-## series on disk. If the design is recovered from the lab record, a
-## nominal-against-observed panel is the obvious addition and the data here
-## support it directly.
+## THE NOMINAL MIXING RATIOS ARE NOW KNOWN (lab record, 2026-09-08), so this
+## figure reports ACCURACY and not merely ordering. Panel E is the comparison:
+## recovery tracks the designed series with Pearson r = 0.997 and RMSE 0.038 in
+## fraction units, Spearman +1. There are no replicate dilutions, so pipetting
+## error is unreplicated and enters the comparison in full; the largest
+## deviation is at BC1, whose B volume is 0.1 uL, the hardest to pipette
+## accurately. Dropping BC1 halves the error to RMSE 0.024.
 ##
 ## TWO GENOTYPE REFERENCES, DELIBERATELY. Panels A and B use the reference
 ## restricted to the 170 strains that are actually in the pools; panel C uses
@@ -95,11 +95,23 @@ PINNED_C <- tibble::tribble(          # panel C, B+C reference, renormalised
   "BC6",   0.7706, 0.2294,
   "BC7",   0.8433, 0.1567)
 
-## NOMINAL DNA MIXING RATIOS ARE UNKNOWN. If the lab record turns up, put the
-## intended B fraction for BC1-BC7 here and the figure gains an
-## observed-against-nominal comparison; until then there is nothing to compare
-## the recovery against and the panels show ordering, not accuracy.
-NOMINAL_B <- NULL
+## THE NOMINAL DESIGN, recovered from the lab record 2026-09-08.
+##
+## A two-fold doubling series of set B against a fixed 1 uL of set C, made up
+## to 10 uL with water. Stocks were measured at 100 ng/uL (B1) and 99.9 ng/uL
+## (C1), so the mass fraction of B is the volume fraction to within 2.5e-4 --
+## four orders of magnitude below the error being measured -- and the
+## equal-concentration assumption is verified rather than assumed. The design
+## is in supplemental_data/deconvolution/dilution_design.tsv, which carries
+## both the volume-only and mass-corrected nominal values.
+##
+## NOTE that total DNA is NOT constant across the series: it runs 11 ng in BC1
+## to 74 ng in BC7, because only the B volume was varied. That is a property of
+## the design, not an error, but it means input mass and B fraction are
+## perfectly confounded here -- a deviation that scaled with total DNA would be
+## indistinguishable from one that scaled with B fraction.
+NOMINAL_B <- c(BC1 = 0.09099, BC2 = 0.16681, BC3 = 0.28592, BC4 = 0.44469,
+               BC5 = 0.61562, BC6 = 0.76209, BC7 = 0.86498)
 
 check_pinned <- function(computed, pinned, what, tol) {
   cmp <- computed %>% filter(set %in% c("B", "C")) %>%
@@ -290,9 +302,16 @@ check_pinned(bcref, PINNED_C, "panel C", tol = 0.001)
 
 lab_c <- bcref %>% mutate(lab = sprintf("%.2f", f))
 
+nomdf <- tibble(step = seq_along(NOMINAL_B),
+                B = unname(NOMINAL_B)) %>% mutate(C = 1 - B) %>%
+  pivot_longer(c(B, C), names_to = "set", values_to = "f")
+
 pC <- ggplot(bcref, aes(step, f, colour = set)) +
   geom_hline(yintercept = 0.5, linetype = "dashed", linewidth = 0.3,
              colour = "grey70") +
+  ## the design, so observed and intended are in one view
+  geom_line(data = nomdf, linetype = "22", linewidth = 0.4, alpha = 0.85) +
+  geom_point(data = nomdf, shape = 4, size = 1.5, stroke = 0.5, alpha = 0.9) +
   geom_line(linewidth = 0.6) +
   geom_point(size = 2) +
   geom_text_repel(data = lab_c, aes(label = lab), size = 2.5,
@@ -441,8 +460,17 @@ dev_against <- function(observed, nominal, label) {
 }
 obs_B <- bcref %>% filter(set == "B") %>% arrange(step) %>% pull(f)
 if (!is.null(NOMINAL_B)) {
-  stopifnot(length(NOMINAL_B) == 7)
-  dev_against(obs_B, NOMINAL_B, "NOMINAL_B (recorded)")
+  stopifnot(length(NOMINAL_B) == 7,
+            identical(names(NOMINAL_B), paste0("BC", 1:7)))
+  nom <- NOMINAL_B[paste0("BC", seq_along(obs_B))]
+  st <- dev_against(obs_B, nom, "designed series")
+  cat(sprintf("    Pearson r %.5f | Spearman %+.0f\n",
+              cor(obs_B, nom), cor(obs_B, nom, method = "spearman")))
+  cat(sprintf("    dropping BC1 (0.1 uL of B, the hardest pipette): RMSE %.4f\n",
+              sqrt(mean((obs_B[-1] - nom[-1])^2))))
+  cat("    bias is positive: B is over-recovered on average. Stock",
+      " concentration\n    is excluded (100 vs 99.9 ng/uL); B also holds 46 of",
+      " the 84 reference\n    columns, which is one candidate explanation.\n", sep = "")
 } else {
   cat("  NOMINAL_B is NULL -- the design is not on disk. Reported below",
       "against\n  evenly spaced reference series, which is an ASSUMPTION and",
@@ -464,10 +492,48 @@ cat(sprintf("  Spearman rho against step: %+.0f\n\n",
             cor(filter(bcref, set == "B")$step,
                 filter(bcref, set == "B")$f, method = "spearman")))
 
-fig <- (pA | pB) / (pC | pD)
+## ===========================================================================
+## E -- recovered against designed, the accuracy panel
+## ===========================================================================
+acc <- tibble(sample = names(NOMINAL_B), nominal = unname(NOMINAL_B)) %>%
+  left_join(bcref %>% filter(set == "B") %>% select(sample, observed = f),
+            by = "sample") %>%
+  mutate(b_vol = c(0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4))
+acc_rmse <- sqrt(mean((acc$observed - acc$nominal)^2))
+acc_r    <- cor(acc$observed, acc$nominal)
+
+pE <- ggplot(acc, aes(nominal, observed)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed",
+              linewidth = 0.35, colour = "grey60") +
+  geom_segment(aes(xend = nominal, yend = nominal), linewidth = 0.3,
+               colour = "grey65") +
+  geom_point(aes(size = b_vol), shape = 21, fill = SET_COL[["B"]],
+             colour = "grey20", stroke = 0.3) +
+  ggrepel::geom_text_repel(aes(label = sample), size = 2.4, seed = 1,
+                           box.padding = 0.3, min.segment.length = 0,
+                           segment.size = 0.2, segment.colour = "grey65",
+                           colour = "grey25") +
+  annotate("text", x = 0.06, y = 0.95,
+           label = sprintf("r = %.3f\nRMSE = %.3f", acc_r, acc_rmse),
+           hjust = 0, vjust = 1, size = 2.7, colour = "grey20",
+           lineheight = 1.15) +
+  scale_size_continuous(range = c(1.4, 3.6), name = "B volume (µL)",
+                        breaks = c(0.1, 0.8, 6.4)) +
+  scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25),
+                     labels = scales::percent_format(accuracy = 1)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25),
+                     labels = scales::percent_format(accuracy = 1)) +
+  labs(x = "Designed fraction of set B", y = "Recovered fraction of set B",
+       title = panel_title("E")) +
+  theme_pub() +
+  theme(legend.position = c(0.99, 0.02), legend.justification = c(1, 0),
+        legend.title = element_text(size = 7.5),
+        legend.text = element_text(size = 7))
+
+fig <- (pA | pB | pC) / (pE | pD)
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_dilution_validation.pdf"), fig,
-       width = 8.4, height = 7.2, device = cairo_pdf)
+       width = 12.2, height = 7.4, device = cairo_pdf)
 ggsave(file.path(OUT, "SUPP_FIG_XX_dilution_validation.png"), fig,
-       width = 8.4, height = 7.2, dpi = 300, bg = "white")
+       width = 12.2, height = 7.4, dpi = 300, bg = "white")
 cat("wrote SUPP_FIG_XX_dilution_validation.{pdf,png}\n")

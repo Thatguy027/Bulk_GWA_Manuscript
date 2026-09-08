@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-04
+Assembled 2026-09-08
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -140,9 +140,12 @@ two titrated sets traded off monotonically — set B rising from 0.12 to
 titration step) — while the two untitrated sets remained flat. Because
 only two sets were titrated against each other, their combined share of
 the pool must remain constant however the DNA was mixed; it did, to a
-standard deviation of 0.86% and a maximum departure of 1.38%, which
-bounds the inference error without reference to the intended mixing
-ratios.
+standard deviation of 0.86% and a maximum departure of 1.38%. Against
+the designed proportions themselves the recovered fractions were
+accurate to a root mean squared error of 0.038 (Pearson r = 0.997), with
+the largest single deviation at the step whose 0.1 µL of set B was the
+smallest volume pipetted; each dilution was prepared once, so pipetting
+error is unreplicated and enters that figure in full.
 
 Two limits of the inference emerged from the same experiment. Roughly a
 fifth of each pure pool was assigned to strains absent from it, and that
@@ -1104,33 +1107,227 @@ mean), largest deviation 0.0113 (1.38%). **The pair is conserved to
 better than 1.5% across a titration that moves each set sixfold**, which
 bounds the inference error without invoking the design at all.
 
-**Metric 2 — deviation from the nominal series. Assumes the design,
-which is not on disk.** The script computes RMSE, maximum absolute
-deviation and bias against `NOMINAL_B` the moment that vector is filled
-in. Until then it reports against evenly spaced reference series purely
-so the machinery is demonstrably working: RMSE `0.045` against 1/8…7/8,
-`0.048` against 0.10…0.90, `0.047` against 0.15…0.85, with a maximum
-deviation of `0.08`–`0.10` in each case. The insensitivity across those
-three is reassuring about the *metric*, and says nothing about accuracy
-— **none of those series is known to be what was mixed**, so these
-numbers are not evidence and should not be quoted as such.
+**Metric 2 — deviation from the designed series.** The design was
+recovered from the lab record on 2026-09-08 and is in
+`supplemental_data/deconvolution/dilution_design.tsv`: a two-fold
+doubling series of set B against a fixed 1 µL of set C, made up to 10 µL
+with water. Stocks measured 100 ng/µL (B1) against 99.9 ng/µL (C1), so
+the DNA mass fraction equals the volume fraction to within `2.5e-4` —
+the equal-concentration assumption is verified, not assumed, and the
+correction is four orders of magnitude below the error being measured.
+
+Recovery tracks the design at **Pearson r = 0.997**, **RMSE 0.038** in
+fraction units, Spearman ρ `+1`:
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Sample
+</th>
+<th style="text-align:right;">
+B (µL)
+</th>
+<th style="text-align:right;">
+Total DNA (ng)
+</th>
+<th style="text-align:right;">
+Designed
+</th>
+<th style="text-align:right;">
+Recovered
+</th>
+<th style="text-align:right;">
+Deviation
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BC1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+<td style="text-align:right;">
++0.080
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC2
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.167
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:right;">
++0.043
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC3
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+<td style="text-align:right;">
+0.285
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC4
+</td>
+<td style="text-align:right;">
+0.8
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0.445
+</td>
+<td style="text-align:right;">
+0.478
+</td>
+<td style="text-align:right;">
++0.033
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC5
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+0.616
+</td>
+<td style="text-align:right;">
+0.620
+</td>
+<td style="text-align:right;">
++0.004
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC6
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+0.762
+</td>
+<td style="text-align:right;">
+0.771
+</td>
+<td style="text-align:right;">
++0.009
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BC7
+</td>
+<td style="text-align:right;">
+6.4
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+0.865
+</td>
+<td style="text-align:right;">
+0.843
+</td>
+<td style="text-align:right;">
+-0.022
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from dilution_design.tsv + dilution_predictions_bcref.tsv.gz
+
+</div>
 
 **Metric 3 — shape.** The recovered B share is linear in titration step
-with R² `0.974`, slope `+0.124` per step, residual sd `0.044`, and
-Spearman ρ `+1`. Reported because it is the shape the values take, not
-because an even series is known to be the design.
+with R² `0.974`, and Spearman ρ `+1` against both step and designed
+fraction.
+
+<div class="panel">
+
+<span class="pl">E</span> Recovered against designed fraction of set B,
+point area giving the volume of B pipetted. This is the accuracy panel,
+and it exists because the design was recovered.
+
+</div>
 
 <div class="caveat">
 
-<span class="ch">The nominal mixing ratios are not recorded</span>
+<span class="ch">The error is unreplicated, and one step dominates
+it</span>
 
-Nothing in the archived experiment states the intended B:C proportions
-for BC1–BC7. The figure therefore establishes that recovery is
-**monotonic and complementary**, not that it is **accurate**, and no
-regression against a nominal series is drawn because there is no nominal
-series on disk. If the design is recovered from the lab record, it goes
-in `NOMINAL_B` in the script and an observed-against-nominal panel
-follows directly from these data.
+**There are no replicate dilutions**, so pipetting error enters the
+comparison in full. The largest deviation is at **BC1** (`+0.080`),
+whose B volume is 0.1 µL — the smallest and hardest-to-pipette volume in
+the series. Dropping BC1 halves the error to RMSE `0.024`, max `0.043`.
+Deviation does trend with 1/volume across the series, but not
+significantly at n = 7 (Spearman `+0.50`, `p = 0.27`), so the pipetting
+explanation is mechanistically plausible and statistically unproven.
+
+**Total DNA is not constant** across the series either — 11 ng at BC1
+rising to 74 ng at BC7, because only the B volume varied. Input mass and
+B fraction are therefore perfectly confounded, and a deviation that
+scaled with total DNA would be indistinguishable from one that scaled
+with B fraction.
+
+**The bias runs toward B**: mean deviation `+0.021` on the B+C
+reference, `+0.030` on the pool reference. Stock concentration is
+excluded as the cause (100 vs 99.9 ng/µL). Set B holds 46 of the 84
+reference columns against set C’s 38, which is a candidate explanation
+and is not tested here.
 
 </div>
 
@@ -2884,10 +3081,10 @@ Figure S2
 SUPP_FIG_XX_dilution_validation
 </td>
 <td style="text-align:right;">
-358
+463
 </td>
 <td style="text-align:right;">
-2026-09-04 12:30
+2026-09-08 10:11
 </td>
 </tr>
 <tr>

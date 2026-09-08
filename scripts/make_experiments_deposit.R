@@ -20,6 +20,7 @@
 ##   dilution_predictions_regenotype.tsv.gz   540-strain, regenotyped VCF
 ##   dilution_predictions_bcref.tsv.gz        84-strain B+C reference (original)
 ##   simulation_nnls_frequencies.tsv.gz       7 traits x 8 depths x 327 strains
+##   dilution_design.tsv                      the designed titration, 7 steps
 ##   dilution_strain_similarity.tsv           per-strain relatedness, 170 rows
 ## ---------------------------------------------------------------------------
 
@@ -124,6 +125,27 @@ if (have(p)) {
   msg("simulation_gwas_traits.tsv.gz: ", nrow(d), " strains x ",
       ncol(d) - 1, " trait-depth columns")
 }
+
+## --- 5b. the designed titration -------------------------------------------
+## Transcribed from the lab record; there is no upstream file to derive it from,
+## which is why it is written out here as literals rather than staged. Stocks
+## were 100 ng/uL (B1) and 99.9 ng/uL (C1), so the mass fraction differs from
+## the volume fraction by at most 2.5e-4.
+design <- tibble::tibble(
+  sample   = paste0("BC", 1:7),
+  b_vol_ul = c(0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4),
+  c_vol_ul = 1,
+  water_ul = c(8.9, 8.8, 8.6, 8.2, 7.4, 5.8, 2.6),
+  total_ng = c(11, 12, 14, 18, 26, 42, 74)) %>%
+  mutate(nominal_b_volume = b_vol_ul / (b_vol_ul + c_vol_ul),
+         nominal_b        = (100 * b_vol_ul) / (100 * b_vol_ul + 99.9 * c_vol_ul),
+         nominal_c        = 1 - nominal_b)
+stopifnot(all(design$b_vol_ul + design$c_vol_ul + design$water_ul == 10),
+          all(design$total_ng == 10 * (design$b_vol_ul + design$c_vol_ul)),
+          max(abs(design$nominal_b - design$nominal_b_volume)) < 3e-4)
+write_tsv(design, file.path(OUT, "dilution_design.tsv"))
+msg("dilution_design.tsv: ", nrow(design), " steps, designed B fraction ",
+    sprintf("%.3f-%.3f", min(design$nominal_b), max(design$nominal_b)))
 
 ## --- 6. genetic similarity among the pooled strains ------------------------
 ## Panel D of the dilution figure asks whether the strains that resolve badly

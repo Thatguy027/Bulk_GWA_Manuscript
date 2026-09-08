@@ -152,11 +152,21 @@ while the two untitrated sets stayed flat. Restricting the genotype reference to
 the 84 strains of sets B and C and renormalising gives complementary shares
 running from 0.17:0.83 to 0.84:0.16.
 
-[TO FILL: the intended B:C mixing proportions for the seven titration steps, and
-the DNA input quantities. Nothing in the archived experiment folder records
-them, so the titration currently demonstrates monotonic and complementary
-recovery rather than quantitative accuracy. With the design in hand the same
-data give an observed-against-nominal comparison directly.]
+The titration was a two-fold doubling series of set B against a fixed 1 uL of
+set C, made up to 10 uL with water, giving designed B fractions of 0.091, 0.167,
+0.286, 0.444, 0.616, 0.762 and 0.865. Stock concentrations were measured at
+100 ng/uL for B1 and 99.9 ng/uL for C1, so the DNA mass fraction equals the
+volume fraction to within 2.5e-4. Total input DNA was not held constant, rising
+from 11 ng at BC1 to 74 ng at BC7, because only the B volume was varied; input
+mass and B fraction are consequently confounded across the series. Each dilution
+was prepared once, so pipetting error is unreplicated.
+
+Recovered set fractions tracked the design with Pearson r = 0.997 and a root
+mean squared error of 0.038 in fraction units (Spearman rho = 1). The largest
+single deviation was at the first step (+0.080), whose 0.1 uL of set B is the
+smallest volume in the series; excluding it gives RMSE 0.024. Recovery was
+biased toward set B by a mean of 0.021, which stock concentration does not
+explain and which is not accounted for here.
 
 Per-strain resolution was related to genetic similarity as follows. A strain
 absent from a pool must be assigned a frequency of zero in that pool's

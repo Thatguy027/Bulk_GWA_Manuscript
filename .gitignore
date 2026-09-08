@@ -95,3 +95,6 @@ cache/
 # supplemental_data/ and given a stager entry. Never tracked: it holds
 # unreviewed copies whose provenance has not been established yet.
 incoming/
+
+# nightly invariant-check output
+logs/
