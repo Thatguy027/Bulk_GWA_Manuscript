@@ -127,7 +127,8 @@ DEC <- "supplemental_data/deconvolution"
 DIAGDIR <- "plots/diagnostics"
 DIAG <- c(baugh_leakage_vs_similarity = "Leakage in the MIP-seq validation",
           gwas_interval_diagnostic    = "GWAS interval admission",
-          reference_size_vs_coverage  = "Coverage against reference size")
+          reference_size_vs_coverage  = "Coverage against reference size",
+          downsample_leakage          = "Off-pool leakage against coverage")
 diag_have <- function(stem)
   file.exists(file.path(DIAGDIR, paste0(stem, ".png")))
 
@@ -2143,6 +2144,151 @@ cat("::: caveat\n[Still running]{.ch}\n\nThe 102 pooled strains are always in",
     "The reconstruction is already validated: rebuilding the reference from",
     "CeNDR genotypes and applying the recovered flip mask reproduces the",
     "archive's design matrix with **0 mismatching cells of 126,184,812**.\n:::\n",
+    sep = " ")
+```
+
+## Off-pool leakage against coverage
+
+**Script** `scripts/diagnostic_downsample_leakage.R`<br>
+**Figure** `plots/diagnostics/downsample_leakage.png`
+
+The section above measures *discrepancy* — how far a pool member's estimated
+frequency sits from its MIP-seq measurement. This one measures *leakage*:
+frequency handed to reference columns that are not in the pool at all. They are
+different failure modes, and only the second is what a real experiment risks
+when it cannot name its own members. At 102 candidates leakage is zero by
+construction, because every column is a pool member; at 540 there are 438
+columns that should carry nothing.
+
+No deconvolution is rerun. The reference-size diagnostic saved every fitted
+frequency for all 540 columns and its own tables then dropped the absent ones in
+a join against the MIP-seq measurements, so these numbers come out of the same
+fit and cannot drift from what is reported above.
+
+```{r diag-leak, eval=diag_have("downsample_leakage"), fig.alt="Off-pool leakage against sequencing depth by reference size, frequency absorbed against identity-by-state to the closest pool member, the correlation between the two against depth, and slope agreement with MIP-seq as fitted versus restricted to the true pool."}
+include_graphics(file.path(DIAGDIR, "downsample_leakage.png"))
+```
+
+```{r diag-leak-tab, eval=diag_have("downsample_leakage")}
+kb(read_tsv(file.path(DIAGDIR, "TABLE_downsample_leakage.tsv"),
+            show_col_types = FALSE) %>%
+     filter(ref_size > 102) %>%
+     transmute(`Depth` = sprintf("1/%.0f", 1/fraction),
+               Reference = ref_size,
+               `Leakage (%)` = fnum(100 * leak_median, 2)) %>%
+     pivot_wider(names_from = Reference, values_from = `Leakage (%)`,
+                 names_prefix = "R="),
+   align = c("l", rep("r", 4)),
+   caption = "Median across samples of the pool frequency assigned to strains absent from the pool.")
+```
+
+::: derived
+Derived from plots/diagnostics/TABLE_downsample_leakage.tsv and
+TABLE_downsample_leakage_slopes.tsv
+:::
+
+::: aside
+[Both things are true at once]{.ch}
+
+**Leakage is large, and it scales with the count of absent candidates.** At the
+full 540-strain reference and full depth, `14.9%` of the pool goes to strains
+that are not in it; total pool frequency retained is `0.8505`. Across reference
+sizes it runs `3.6%`, `7.5%`, `11.8%`, `14.9%` for 48, 148, 298 and 438 absent
+candidates — about `0.34` per mille each throughout. Nothing subtler than the
+number of extra columns is needed to predict it.
+
+**Coverage is almost irrelevant to it.** Over a 64-fold depth reduction leakage
+at 540 candidates rises only from `14.9%` to `20.1%`, most of that in the last
+two halvings. Low coverage is not what makes an unknown membership list
+expensive, which was the thing worth checking and is not what I would have
+guessed.
+
+**It is not spread evenly, and individual strains are displaced outright.**
+Among strain-samples above 0.5% of the pool the median retained fraction is
+`0.898`, but the 5–95% range is `0.396`–`1.04`. The cleanest case: ECA36 falls
+from `4.17` per mille at 102 candidates to `0.00` at 540, while JU3226 — absent
+from the pool, IBS `0.9898` to ECA36 — absorbs `4.39`. One strain is swapped for
+its look-alike almost exactly.
+
+**And none of it reaches the phenotype.** Spearman agreement between NNLS growth
+slopes and MIP-seq slopes is `0.975` at 540 candidates against `0.974` at 102,
+with RMSE `0.0001` for both. Restricting the reference to the true pool and
+renormalising — what an experiment with a known membership list gets — moves the
+third decimal at most. The cost of not knowing the membership, as loss in ρ
+against the 102-candidate reference, is between `-0.001` and `+0.003` at every
+depth above 1/64.
+
+So the answer to "is this a big deal" is: not for anything the manuscript
+claims. Per-strain identity degrades badly at the extreme of relatedness, and
+the slope phenotype behind Figure 1 and the pooled GWAS does not notice, because
+displacement is consistent across the samples of a replicate and so shifts a
+strain's whole trajectory rather than its trend.
+:::
+
+:::: {.aside}
+[Relatedness grades the magnitude, not the membership]{.ch}
+
+Panel C plots a whole-set rank correlation, and read alone it is misleading —
+it falls from `+0.304` at 150 candidates to `+0.051` at 540 and looks like a
+relationship dissolving. It is not. NNLS is non-negative, so its solutions are
+sparse: at 540 candidates and full depth `56.8%` of absent columns absorb
+*exactly* zero, and those ties flatten any Spearman.
+
+Split in two, it resolves. IBS does **not** predict which candidates enter the
+solution's support at all — logistic P(absorbs > 0) on IBS has slope `-1.13`,
+`p = 0.71`, and the rank correlation with the indicator is `-0.021`. Among the
+candidates that do absorb something, IBS predicts how much, and does so
+consistently at every reference size and depth: `+0.46`, `+0.39`, `+0.34`,
+`+0.35` at 150, 250, 400 and 540 at full depth, and between `+0.28` and `+0.49`
+across the whole grid. The whole-set decline is entirely the zero fraction
+climbing from `25%` to `57%`.
+
+Panel B is the same fact in the form that matters: mean frequency absorbed rises
+`9.6`-fold across IBS deciles, from `0.081` per mille in the least related tenth
+of absent candidates to `0.785` in the most related. Decile *means* are plotted
+rather than medians for exactly the reason above — with 57% exact zeros every
+decile median is 0, which would draw a flat line through data that has a
+ten-fold gradient in it.
+
+One incidental result worth keeping: sparsity increases with depth. The zero
+fraction at 540 candidates goes from `20.5%` at 1/64 depth to `56.8%` at full
+depth, so shallow sequencing does not just leak more in total — it spreads the
+leak across more wrong strains.
+::::
+
+```{r diag-leak-ibs, eval=file.exists(file.path(DIAGDIR,"TABLE_downsample_leakage_ibs.tsv"))}
+kb(read_tsv(file.path(DIAGDIR, "TABLE_downsample_leakage_ibs.tsv"),
+            show_col_types = FALSE) %>%
+     filter(fraction == 1) %>%
+     transmute(Reference = ref_size,
+               `Absent candidates` = n,
+               `Absorbing exactly 0` = sprintf("%.1f%%", 100 * zero_frac),
+               `ρ, whole set` = sprintf("%+.3f", rho),
+               `ρ, among absorbers` = sprintf("%+.3f", rho_nonzero)),
+   align = c("r", "r", "r", "r", "r"),
+   caption = "Full depth. The whole-set correlation tracks the zero fraction; the among-absorbers correlation does not move.")
+```
+
+::: caveat
+[What is still not established]{.ch}
+
+Which reference columns the solver admits into its support in the first place.
+That is a property of the collinearity of the whole design matrix, not of any
+one pairwise distance, and nothing measured here explains it — a strain's IBS to
+its closest pool member carries no information about whether it absorbs anything
+(`p = 0.71`). The claim this section supports is about how much an admitted
+candidate takes, plus the wholesale displacement seen in the near-duplicate
+pairs above IBS ≈ 0.985. It does not support a story about which strains the
+deconvolution will choose to be wrong about.
+:::
+
+```{r diag-leak-pending, results="asis", eval=!diag_have("downsample_leakage")}
+cat("::: caveat\n[Not yet generated]{.ch}\n\nRun",
+    "`Rscript scripts/diagnostic_downsample_leakage.R`. It needs",
+    "plots/diagnostics/reference_size_predictions.rds from the reference-size",
+    "diagnostic, and the 12 GB genotype matrix on first run only -- the",
+    "identity-by-state block is cached to",
+    "plots/diagnostics/CACHE_absent_strain_ibs.tsv and reused after that.\n:::\n",
     sep = " ")
 ```
 

@@ -55,6 +55,8 @@ Assembled 2026-09-08
     -   [GWAS interval admission](#gwas-interval-admission)
     -   [Coverage against reference
         size](#coverage-against-reference-size)
+    -   [Off-pool leakage against
+        coverage](#off-pool-leakage-against-coverage)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -3899,6 +3901,371 @@ the deconvolution improving.
 
 </div>
 
+## Off-pool leakage against coverage
+
+**Script** `scripts/diagnostic_downsample_leakage.R`<br> **Figure**
+`plots/diagnostics/downsample_leakage.png`
+
+The section above measures *discrepancy* — how far a pool member’s
+estimated frequency sits from its MIP-seq measurement. This one measures
+*leakage*: frequency handed to reference columns that are not in the
+pool at all. They are different failure modes, and only the second is
+what a real experiment risks when it cannot name its own members. At 102
+candidates leakage is zero by construction, because every column is a
+pool member; at 540 there are 438 columns that should carry nothing.
+
+No deconvolution is rerun. The reference-size diagnostic saved every
+fitted frequency for all 540 columns and its own tables then dropped the
+absent ones in a join against the MIP-seq measurements, so these numbers
+come out of the same fit and cannot drift from what is reported above.
+
+<img src="plots/diagnostics/downsample_leakage.png" alt="Off-pool leakage against sequencing depth by reference size, frequency absorbed against identity-by-state to the closest pool member, the correlation between the two against depth, and slope agreement with MIP-seq as fitted versus restricted to the true pool." width="100%" />
+
+<table>
+<caption>
+Median across samples of the pool frequency assigned to strains absent
+from the pool.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Depth
+</th>
+<th style="text-align:right;">
+R=150
+</th>
+<th style="text-align:right;">
+R=250
+</th>
+<th style="text-align:right;">
+R=400
+</th>
+<th style="text-align:right;">
+R=540
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1/64
+</td>
+<td style="text-align:right;">
+5.03
+</td>
+<td style="text-align:right;">
+10.99
+</td>
+<td style="text-align:right;">
+16.67
+</td>
+<td style="text-align:right;">
+20.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/32
+</td>
+<td style="text-align:right;">
+4.36
+</td>
+<td style="text-align:right;">
+8.65
+</td>
+<td style="text-align:right;">
+14.64
+</td>
+<td style="text-align:right;">
+17.77
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/16
+</td>
+<td style="text-align:right;">
+4.05
+</td>
+<td style="text-align:right;">
+8.49
+</td>
+<td style="text-align:right;">
+13.00
+</td>
+<td style="text-align:right;">
+15.96
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/8
+</td>
+<td style="text-align:right;">
+3.96
+</td>
+<td style="text-align:right;">
+8.24
+</td>
+<td style="text-align:right;">
+12.11
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/4
+</td>
+<td style="text-align:right;">
+3.89
+</td>
+<td style="text-align:right;">
+7.78
+</td>
+<td style="text-align:right;">
+12.14
+</td>
+<td style="text-align:right;">
+15.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/2
+</td>
+<td style="text-align:right;">
+3.78
+</td>
+<td style="text-align:right;">
+7.54
+</td>
+<td style="text-align:right;">
+12.01
+</td>
+<td style="text-align:right;">
+15.27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1/1
+</td>
+<td style="text-align:right;">
+3.62
+</td>
+<td style="text-align:right;">
+7.47
+</td>
+<td style="text-align:right;">
+11.81
+</td>
+<td style="text-align:right;">
+14.87
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from plots/diagnostics/TABLE_downsample_leakage.tsv and
+TABLE_downsample_leakage_slopes.tsv
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Both things are true at once</span>
+
+**Leakage is large, and it scales with the count of absent candidates.**
+At the full 540-strain reference and full depth, `14.9%` of the pool
+goes to strains that are not in it; total pool frequency retained is
+`0.8505`. Across reference sizes it runs `3.6%`, `7.5%`, `11.8%`,
+`14.9%` for 48, 148, 298 and 438 absent candidates — about `0.34` per
+mille each throughout. Nothing subtler than the number of extra columns
+is needed to predict it.
+
+**Coverage is almost irrelevant to it.** Over a 64-fold depth reduction
+leakage at 540 candidates rises only from `14.9%` to `20.1%`, most of
+that in the last two halvings. Low coverage is not what makes an unknown
+membership list expensive, which was the thing worth checking and is not
+what I would have guessed.
+
+**It is not spread evenly, and individual strains are displaced
+outright.** Among strain-samples above 0.5% of the pool the median
+retained fraction is `0.898`, but the 5–95% range is `0.396`–`1.04`. The
+cleanest case: ECA36 falls from `4.17` per mille at 102 candidates to
+`0.00` at 540, while JU3226 — absent from the pool, IBS `0.9898` to
+ECA36 — absorbs `4.39`. One strain is swapped for its look-alike almost
+exactly.
+
+**And none of it reaches the phenotype.** Spearman agreement between
+NNLS growth slopes and MIP-seq slopes is `0.975` at 540 candidates
+against `0.974` at 102, with RMSE `0.0001` for both. Restricting the
+reference to the true pool and renormalising — what an experiment with a
+known membership list gets — moves the third decimal at most. The cost
+of not knowing the membership, as loss in ρ against the 102-candidate
+reference, is between `-0.001` and `+0.003` at every depth above 1/64.
+
+So the answer to “is this a big deal” is: not for anything the
+manuscript claims. Per-strain identity degrades badly at the extreme of
+relatedness, and the slope phenotype behind Figure 1 and the pooled GWAS
+does not notice, because displacement is consistent across the samples
+of a replicate and so shifts a strain’s whole trajectory rather than its
+trend.
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Relatedness grades the magnitude, not the
+membership</span>
+
+Panel C plots a whole-set rank correlation, and read alone it is
+misleading — it falls from `+0.304` at 150 candidates to `+0.051` at 540
+and looks like a relationship dissolving. It is not. NNLS is
+non-negative, so its solutions are sparse: at 540 candidates and full
+depth `56.8%` of absent columns absorb *exactly* zero, and those ties
+flatten any Spearman.
+
+Split in two, it resolves. IBS does **not** predict which candidates
+enter the solution’s support at all — logistic P(absorbs \> 0) on IBS
+has slope `-1.13`, `p = 0.71`, and the rank correlation with the
+indicator is `-0.021`. Among the candidates that do absorb something,
+IBS predicts how much, and does so consistently at every reference size
+and depth: `+0.46`, `+0.39`, `+0.34`, `+0.35` at 150, 250, 400 and 540
+at full depth, and between `+0.28` and `+0.49` across the whole grid.
+The whole-set decline is entirely the zero fraction climbing from `25%`
+to `57%`.
+
+Panel B is the same fact in the form that matters: mean frequency
+absorbed rises `9.6`-fold across IBS deciles, from `0.081` per mille in
+the least related tenth of absent candidates to `0.785` in the most
+related. Decile *means* are plotted rather than medians for exactly the
+reason above — with 57% exact zeros every decile median is 0, which
+would draw a flat line through data that has a ten-fold gradient in it.
+
+One incidental result worth keeping: sparsity increases with depth. The
+zero fraction at 540 candidates goes from `20.5%` at 1/64 depth to
+`56.8%` at full depth, so shallow sequencing does not just leak more in
+total — it spreads the leak across more wrong strains.
+
+</div>
+
+<table>
+<caption>
+Full depth. The whole-set correlation tracks the zero fraction; the
+among-absorbers correlation does not move.
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Reference
+</th>
+<th style="text-align:right;">
+Absent candidates
+</th>
+<th style="text-align:right;">
+Absorbing exactly 0
+</th>
+<th style="text-align:right;">
+ρ, whole set
+</th>
+<th style="text-align:right;">
+ρ, among absorbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:right;">
+25.0%
+</td>
+<td style="text-align:right;">
++0.304
+</td>
+<td style="text-align:right;">
++0.464
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+250
+</td>
+<td style="text-align:right;">
+148
+</td>
+<td style="text-align:right;">
+41.9%
+</td>
+<td style="text-align:right;">
++0.136
+</td>
+<td style="text-align:right;">
++0.392
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+298
+</td>
+<td style="text-align:right;">
+47.7%
+</td>
+<td style="text-align:right;">
++0.126
+</td>
+<td style="text-align:right;">
++0.340
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+540
+</td>
+<td style="text-align:right;">
+438
+</td>
+<td style="text-align:right;">
+56.8%
+</td>
+<td style="text-align:right;">
++0.051
+</td>
+<td style="text-align:right;">
++0.353
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="caveat">
+
+<span class="ch">What is still not established</span>
+
+Which reference columns the solver admits into its support in the first
+place. That is a property of the collinearity of the whole design
+matrix, not of any one pairwise distance, and nothing measured here
+explains it — a strain’s IBS to its closest pool member carries no
+information about whether it absorbs anything (`p = 0.71`). The claim
+this section supports is about how much an admitted candidate takes,
+plus the wholesale displacement seen in the near-duplicate pairs above
+IBS ≈ 0.985. It does not support a story about which strains the
+deconvolution will choose to be wrong about.
+
+</div>
+
 # Open before submission
 
 Everything above is generated and verified. These are the items that
@@ -3963,7 +4330,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -3977,7 +4344,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -3991,7 +4358,7 @@ Figure1_pos1
 807
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4005,7 +4372,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4019,7 +4386,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4033,7 +4400,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4047,7 +4414,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4061,7 +4428,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4075,7 +4442,7 @@ Figure2
 1336
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4089,7 +4456,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4103,7 +4470,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4117,7 +4484,7 @@ Figure3_quad
 125
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4131,7 +4498,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4145,7 +4512,7 @@ Figure4_sid2
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4159,7 +4526,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4173,7 +4540,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4187,7 +4554,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 <tr>
@@ -4201,7 +4568,7 @@ SUPP_FIG_XX_sid2_electrostatics
 795
 </td>
 <td style="text-align:right;">
-2026-09-08 11:42
+2026-09-08 12:56
 </td>
 </tr>
 </tbody>
