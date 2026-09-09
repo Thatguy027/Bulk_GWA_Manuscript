@@ -2168,6 +2168,40 @@ any cutoff above 0.78 drops every one of them and the interval falls back to
 the local block. The plateau at 0.5–0.7 is held open by a marker at 13.784 Mb
 (r² `0.701`) — which is the chromosome's **terminal marker**, the same boundary
 artefact that makes the cross scan's peak position uninformative.
+:::
+
+::: caveat
+[Where *sid-2* falls in that block, and what it does not show]{.ch}
+
+Stated explicitly, because it is the question a reader arrives with. The
+*sid-2* T96K variant sits at `III:13,680,248` = `13.680` Mb, `0.962` Mb distal
+to the association peak. Against the intervals above:
+
+| cutoff | interval | width | contains *sid-2*? |
+|:--|:--|--:|:--|
+| r² ≥ 0.5 | 11.436–13.784 Mb | 2,347 kb | **yes** |
+| r² ≥ 0.6 | 11.436–13.784 Mb | 2,347 kb | **yes** |
+| r² ≥ 0.7 | 11.436–13.784 Mb | 2,347 kb | **yes** |
+| r² ≥ 0.8 | 12.718–12.732 Mb | 14 kb | no |
+
+So at r² ≥ 0.7 the association's LD block does contain *sid-2*, and the
+"megabases apart" objection to the concordance is answered at that cutoff:
+the pooled *pos-1* peak, both cross peaks and *sid-2* all fall inside one
+block.
+
+**Three limits, all of which belong with the claim.** It is cutoff-dependent —
+one step to r² ≥ 0.8 and the interval is 14 kb and excludes *sid-2*. The
+plateau that reaches *sid-2* rests on the terminal marker noted above, so the
+distal edge is a boundary artefact rather than a measured LD boundary. And
+containment is not evidence: the NIL interval is flat in this scan — 88
+markers, best −log₁₀p `0.98`, with T96K itself at `0.62`, ranking 18,662 of
+64,423 on the chromosome.
+
+What this supports is the negative statement, which is the useful one. The
+association cannot resolve *within* this block, so *sid-2* lying inside it is
+**consistent with** the NIL result rather than in tension with it. The
+positive claim — that *sid-2* is the gene — is carried by the NILs and the
+allele swaps, not by the scan.
 
 One distinction worth keeping: at r² 0.5 the overlap is **genuine** — 8 markers
 inside the NIL window reach r² ≈ `0.527` with the peak. At 0.6 and 0.7 no

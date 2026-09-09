@@ -72,23 +72,34 @@ borrow: "A GWAS on 84 strains is not expected to localise to a cross interval; t
 concordance of locus, not of marker." One clause covers it and forecloses the obvious referee
 question.
 
-### 2. Chromosome III is the GENERAL locus, not the pos-1-specific one
+### 2. Chromosome III is the GENERAL locus, not the pos-1-specific one -- and the contrast design is why
 
-This is the one framing conflict. In the association scans each locus is treatment-specific in
-the sense of being significant for one treatment only -- that part is fine. But the crosses
-resolve mechanism, and `SUPP_FIG_XX_cross_contrast_panels` is explicit: it "justifies calling
-the chromosome III locus general and the chromosome V, I and X loci specific." Chromosome III
-rises in HT115-vs-pos-1 and is flat between mig-6 and pos-1 (the pos1-vs-mig6 contrast has
-cross_LOD 0.0 at the GWAS peak marker), i.e. the machinery is affected whatever the target.
-Figure 3 follows the same line, fine-mapping "the chromosome III RNAi-response QTL" rather than
-a pos-1 QTL.
+CONFIRMED BY THE AUTHOR. The chromosome III locus is not *pos-1*-specific: it shows up under
+multiple RNAi conditions, and the contrast design is what makes that legible.
 
-Calling the chromosome III QTL pos-1-specific in the text would collide with both. It also
-throws away the payoff you set up in the previous paragraph -- you wrote that from the pilot
-alone it was unclear whether these were pos-1-specific or general RNAi-response QTL, and the
-two-contrast design is exactly what answers it. Suggested split: the ASSOCIATION detected one
+**Read the contrast design before reading the QTL.** Each condition is contrasted against the
+frequency changes under *pos-1*, so *pos-1* is the common reference arm rather than one
+treatment among equals. A knockdown-SPECIFIC QTL is therefore one that appears in an
+X-versus-*pos-1* contrast: the two arms differ at that locus because the locus acts on X and
+not on *pos-1*. A locus affecting the RNAi machinery generally does the opposite -- it moves
+the same way in both arms, cancels in the contrast between them, and shows up instead against
+the HT115 empty-vector control. Chromosome III behaves the second way: it rises in
+HT115-vs-*pos-1* and is flat between *mig-6* and *pos-1* (cross_LOD 0.0 at the GWAS peak
+marker). Under the contrast design that is the signature of a general locus, not a *pos-1* one,
+and the flatness is the evidence rather than an absence of it.
+
+The repository already says so in two places. `SUPP_FIG_XX_cross_contrast_panels` exists to
+"justify calling the chromosome III locus general and the chromosome V, I and X loci specific",
+and Figure 3 fine-maps "the chromosome III RNAi-response QTL" rather than a *pos-1* QTL.
+
+Calling it *pos-1*-specific would collide with both, and would also read the contrast
+backwards -- treating a locus's absence from the *mig-6*-vs-*pos-1* contrast as evidence that
+it is *pos-1*-specific, when under this design that absence is exactly what a general locus
+produces. It also throws away the payoff set up in the previous paragraph: from the pilot alone
+it was unclear whether these were *pos-1*-specific or general RNAi-response QTL, and the
+contrast design is precisely what answers that. Suggested split -- the ASSOCIATION detected one
 locus per treatment; the CROSSES then show chromosome III is general and chromosome V is
-mig-6-specific.
+*mig-6*-specific.
 
 ### 3. The crossing scheme is a [TO FILL]
 
@@ -136,10 +147,13 @@ interval 104 kb against 51 kb. Peaks and LODs from the bundle, widths from the c
 > correspondence is supported by linkage disequilibrium: markers spanning 11.44 to 13.78 Mb
 > remain in LD with the association peak at r2 >= 0.7, placing both cross peaks and the
 > association peak within a single LD block. Comparing the two contrasts
-> within each cross then separated the loci by mechanism: the chromosome III locus rose in the
-> HT115-versus-pos-1 contrast but was flat between mig-6 and pos-1, marking it as a general
-> RNAi-response locus, whereas the chromosome V locus appeared only in the mig-6 comparisons and
-> is therefore specific to that knockdown (SUPP FIGURE XX).
+> within each cross then separated the loci by mechanism. Because each condition is contrasted
+> against the frequency changes under pos-1, a locus acting on one knockdown alone appears in
+> that contrast, whereas a locus acting on the RNAi machinery generally moves both arms together
+> and cancels. The chromosome III locus rose in the HT115-versus-pos-1 contrast but was flat
+> between mig-6 and pos-1, marking it as a general RNAi-response locus, whereas the chromosome V
+> locus appeared only in the mig-6 comparisons and is therefore specific to that knockdown
+> (SUPP FIGURE XX).
 
 If you want the specific/general verdict to arrive later instead -- with the NILs in Figure 3 --
 cut the last sentence and keep the cross paragraph purely about concordance.
