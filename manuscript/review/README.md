@@ -55,8 +55,10 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
   deposit, and `pos1_2023_association_traits.csv.gz` carries 231 strains with a response value —
   seven more than the stated pool. Needs the pool composition list from the lab record.
 - **Broad-sense heritability.** No estimate exists anywhere in this repository.
-- **QTL intervals.** No linkage-disequilibrium interval can be computed here; see
-  `SYNC_MANIFEST.md`, Tier 1.
+- **QTL intervals.** ~~No linkage-disequilibrium interval can be computed here~~ — **partly
+  settled.** `TABLE_gwas_qtl_intervals_eigen.tsv` now carries r² intervals at four cutoffs for
+  all eleven eigen-significant loci. What still needs Tier 1 of `SYNC_MANIFEST.md` is an
+  interval anchored on *sid-2* itself rather than on a scan peak.
 - **The simulation's provenance.** ~~Per `METHODS.txt`, the simulation script, drawn fitness
   values and expected input frequencies were never archived~~ — **partly settled.** The script
   was recovered and is archived as `scripts/simulation_deconvolution.R`, with the original

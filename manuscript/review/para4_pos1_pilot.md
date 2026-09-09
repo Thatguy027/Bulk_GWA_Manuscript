@@ -178,29 +178,75 @@ over 1,972 effective independent tests. 10 markers clear Bonferroni, 465 clear e
 
 ### The ten Bonferroni markers
 
-| marker | Mb | -log10 p | allele freq | beta |
-|---|---|---|---|---|
-| IV:15323414 | 15.323 | 8.84 | 0.208 | +0.0258 |
-| III:5965738 | 5.966 | 8.68 | 0.091 | +0.0608 |
-| IV:15323794 | 15.324 | 8.52 | 0.208 | +0.0252 |
-| X:4875969 | 4.876 | 7.83 | 0.087 | +0.0363 |
-| IV:13408895 | 13.409 | 7.49 | 0.100 | +0.0314 |
-| IV:13413079 | 13.413 | 7.49 | 0.100 | +0.0314 |
-| IV:13404290 | 13.404 | 7.42 | 0.100 | +0.0311 |
-| IV:15986656 | 15.987 | 7.29 | 0.450 | +0.0184 |
-| IV:13405229 | 13.405 | 7.11 | 0.095 | +0.0311 |
-| IV:13405230 | 13.405 | 7.11 | 0.095 | +0.0311 |
+`support` is the number of markers in the same 100 kb window that also clear the eigen
+threshold, from `plots/diagnostics/TABLE_gwas_local_support.tsv`; `window` is how many markers
+that region contains at all.
+
+| marker | Mb | -log10 p | allele freq | beta | support | window |
+|---|---|---|---|---|---|---|
+| IV:15323414 | 15.323 | 8.84 | 0.208 | +0.0258 | 95 | 1094 |
+| **III:5965738** | **5.966** | **8.68** | **0.091** | **+0.0608** | **0** | **628** |
+| IV:15323794 | 15.324 | 8.52 | 0.208 | +0.0252 | 95 | 1093 |
+| X:4875969 | 4.876 | 7.83 | 0.087 | +0.0363 | 2 | 926 |
+| IV:13408895 | 13.409 | 7.49 | 0.100 | +0.0314 | 20 | 703 |
+| IV:13413079 | 13.413 | 7.49 | 0.100 | +0.0314 | 20 | 697 |
+| IV:13404290 | 13.404 | 7.42 | 0.100 | +0.0311 | 20 | 701 |
+| IV:15986656 | 15.987 | 7.29 | 0.450 | +0.0184 | 17 | 1093 |
+| IV:13405229 | 13.405 | 7.11 | 0.095 | +0.0311 | 20 | 694 |
+| IV:13405230 | 13.405 | 7.11 | 0.095 | +0.0311 | 20 | 694 |
 
 Every beta is positive: the minor allele raises the VST response, i.e. toward resistance. All
 but IV:15986656 (af 0.450) are rare in the panel, af 0.087-0.208.
 
-### CORRECTION to the framing
+**III:5965738 is the only one of the ten with no local support at all**, in a window holding
+628 markers. Genome-wide only 14 of the 465 eigen-significant markers have support 0, and this
+is the only Bonferroni marker among them. See the correction below.
 
-Chromosome III is not eigen-only. **III:5965738 clears Bonferroni at 8.68 -- the second
-strongest marker genome-wide.** What is eigen-only on chromosome III is a SECOND signal peaking
-at III:12718465 (6.31), which is 0.962 Mb from the sid-2 focal variant III:13,680,248; the
-Bonferroni marker at 5.966 Mb is 7.715 Mb from it, which is the distance the Figure 1C caption
-quotes when it says no Bonferroni marker is near the NIL-resolved interval.
+### CORRECTION to the framing, and then a correction to the correction
+
+The first pass through this file said: "Chromosome III is not eigen-only -- III:5965738 clears
+Bonferroni at 8.68, the second strongest marker genome-wide." That is arithmetically true and
+substantively wrong, and it should not go into the draft in that form.
+
+**III:5,965,738 does not behave like an association.** Two independent lines in this
+repository agree, having been written without reference to each other:
+
+- `scripts/chrIII_association_support.R` (commit 97057ad) tests every Bonferroni marker for
+  local support, on the reasoning that a causal variant is detected through the markers in
+  linkage disequilibrium with it, so a real association is a CLUSTER. Of the 628 markers within
+  100 kb of this one, **zero** clear the eigen threshold and their median -log10 p is 0.11.
+- `TABLE_gwas_local_support.tsv`, from the interval pipeline, records the same marker at
+  `support = 0, n_window = 628` -- the identical numbers, and the only one of the ten
+  Bonferroni markers with no support. Every other has 2 to 95 supporting markers.
+
+The recombination domain is what makes this decisive rather than suggestive. 5.97 Mb sits in
+the chromosome III low-recombination CENTRE, where LD blocks are long and support is easiest to
+come by; a real association there should drag up markers across hundreds of kilobases. It drags
+up none. A lone significant marker in a well-covered region is the signature of something that
+tracks no haplotype -- genotyping error, an alignment artefact, a mismapped duplication.
+
+The interval pipeline reaches the same verdict structurally: **III:5,965,738 appears in neither
+`TABLE_gwas_qtl_intervals.tsv` nor its eigen variant.** The three chromosome III loci that do
+are 3.818, 4.407 and 12.718 Mb. It was not dropped as a bad marker upstream -- it is absent from
+`TABLE_scan_markers_dropped.txt` -- it was excluded for having no supporting markers to build
+an interval from.
+
+**What is left on chromosome III is the right-arm cluster**, 15 markers over 12.702-12.800 Mb
+peaking at III:12,718,465 (6.31), which clears the eigen threshold but not Bonferroni (6.97).
+That cluster is the tightest-localising locus in the whole scan: an r2 >= 0.8 interval of
+**14 kb**, the smallest of the eleven, and one of the six flagged `localises = TRUE`. The next
+tightest is IV:13.409 Mb at 36 kb. The two other chromosome III loci sprawl over 3,765 kb each
+and are flagged FALSE.
+
+Distances to the *sid-2* focal variant III:13,680,248: the right-arm cluster peak is 0.962 Mb
+proximal, the discarded singleton 7.715 Mb. The Figure 1C caption quotes the 7.715 Mb figure
+when it says no Bonferroni marker is near the NIL-resolved interval -- which remains true, and
+is now true for a better reason than distance.
+
+None of this puts the association on *sid-2*. The 37 kb NIL interval holds 88 markers whose
+best -log10 p is 0.98, and the T96K variant itself is 0.62, ranking 18,662 of 64,423 on the
+chromosome. The claim the scan supports is the right ARM of chromosome III, at the resolution
+231 phenotyped strains buy.
 
 ### Eigen-level support by chromosome
 
@@ -208,10 +254,15 @@ Counts below are markers at or above the eigen threshold, Bonferroni markers inc
 
 | chr | Bonferroni | eigen total | max -log10 p | eigen span (Mb) |
 |---|---|---|---|---|
-| III | 1 | 39 | 8.68 | 3.086-12.800 |
+| III | 1 | 39 | 8.68 † | 3.086-12.800 |
 | IV | 8 | 413 | 8.84 | 0.773-17.098 (concentrated in two blocks) |
 | V | 0 | 5 | 5.40 | 0.605-17.857 |
 | X | 1 | 8 | 7.83 | 4.876-14.753 |
+
+† chromosome III's maximum is the unsupported singleton at 5.97 Mb. Excluding it, the
+chromosome III maximum is 6.31 at the right-arm cluster, which is below Bonferroni. Read the
+"1" in the Bonferroni column with that in mind: on the local-support criterion chromosome III
+carries no Bonferroni-supported association.
 
 Chromosome IV carries two distinct blocks: 13.379-13.415 Mb (21 eigen markers, max 7.49) and
 15.103-16.120 Mb (250 eigen markers, max 8.84). The caption's "two clusters near 13.41 and
@@ -224,20 +275,33 @@ Chromosome IV carries two distinct blocks: 13.379-13.415 Mb (21 eigen markers, m
 > Ten markers exceeded a Bonferroni threshold of -log10 p = 6.97 and 465 exceeded an
 > eigenvalue-based threshold of 4.60. Eight of the ten Bonferroni markers fall on chromosome
 > IV, in a cluster at 13.40-13.41 Mb and a stronger cluster at 15.32 Mb that carries the
-> genome-wide maximum (-log10 p = 8.84), together with a single marker at 15.99 Mb. The
-> remaining two lie on chromosome III at 5.97 Mb (8.68) and chromosome X at 4.88 Mb (7.83). A
-> second chromosome III signal reaches only the eigen threshold, peaking at 12.72 Mb (6.31).
-> Each of these associations acts in the same direction, with the minor allele conferring
-> resistance, and all but the chromosome IV marker at 15.99 Mb are rare in the panel (allele
-> frequency 0.09 to 0.21).
+> genome-wide maximum (-log10 p = 8.84), together with a single marker at 15.99 Mb; a ninth
+> lies on chromosome X at 4.88 Mb (7.83). The tenth, on chromosome III at 5.97 Mb, has no
+> supporting marker within 100 kb of it although 628 are genotyped there, and it falls in the
+> low-recombination centre of the chromosome, where an association should be flanked by the
+> markers in linkage disequilibrium with it; we therefore do not carry it forward. The
+> chromosome III signal we do carry forward is a cluster of 15 markers spanning 12.70-12.80 Mb
+> on the right arm, which clears the eigenvalue-based threshold but not Bonferroni (peak
+> -log10 p = 6.31) and is the most tightly localised locus in the scan. Each of these
+> associations acts in the same direction, with the minor allele conferring resistance, and all
+> but the chromosome IV marker at 15.99 Mb are rare in the panel (allele frequency 0.09 to
+> 0.21).
 
 If you want it shorter, the first two sentences plus "Eight of the ten Bonferroni markers fall
-on chromosome IV, with the remaining two on chromosome III at 5.97 Mb and chromosome X at
-4.88 Mb (Figure 1C)" carries the result.
+on chromosome IV and a ninth on chromosome X at 4.88 Mb; the tenth, on chromosome III at
+5.97 Mb, has no supporting marker within 100 kb and is not treated as an association. A cluster
+on the right arm of chromosome III (12.70-12.80 Mb) clears the eigenvalue-based threshold
+(Figure 1C)" carries the result.
 
-Two things I deliberately did NOT write into the draft. Whether to connect the eigen-level
-III:12.72 Mb peak to sid-2 is unsettled -- it is 0.962 Mb away, the Figure 1C caption stresses
-that no Bonferroni marker is near the NIL interval, and the most recent commit on this branch is
-"Test which chromosome III association is real". And no QTL intervals are given, because
-nothing in the repository can produce a linkage-disequilibrium interval without Tier 1 of
-SYNC_MANIFEST.md.
+Whether to connect the right-arm cluster to *sid-2* is still unsettled and is deliberately not
+written into the draft above. It is 0.962 Mb from the focal variant, the NIL interval itself is
+flat (88 markers, best -log10 p 0.98; T96K 0.62, rank 18,662 of 64,423), and the Figure 1C
+caption stresses that no Bonferroni marker is near the NIL-resolved interval. The defensible
+claim is the right ARM, which is also what the JU1793 x JU2466 cross supports independently --
+though the cross peaks at 13.78 Mb, roughly 1 Mb distal to the GWA cluster, so the two associate
+the same arm without overlapping. Present them as two independent associations to one arm, not
+as an intersection.
+
+Intervals ARE now available for the eigen loci -- `TABLE_gwas_qtl_intervals_eigen.tsv` carries
+r2 intervals at four cutoffs -- but not for *sid-2* itself, which needs Tier 1 of
+`SYNC_MANIFEST.md`.
