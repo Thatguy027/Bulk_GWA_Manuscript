@@ -15,6 +15,7 @@ they travel between machines with the repository.
 | `para2_dilution.md` | the designed DNA mixture, sets B and C | `SUPP_FIG_XX_dilution_validation` |
 | `para3_mipseq.md` | comparison against published MIP-seq (Webster et al. 2022) | `Figure1_pos1` panel A, `SUPP_FIG_XX_downsample_per_sample` |
 | `para4_pos1_pilot.md` | the pooled *pos-1* pilot, plate re-evaluation, and the GWA | `Figure1_pos1` panels B and C, `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation`, `SUPP_FIG_plate_vs_paaby_vs_pos1original` |
+| `para5_pooled_and_cross.md` | phenotyping the responsive pool on *pos-1* and *mig-6*, and the two F2 crosses | `Figure2`, `SUPP_FIG_XX_cross_contrast_panels`, `SUPP_FIG_XX_cross_qtl_all`, `SUPP_FIG_XX_pooled_phenotype_ranks` |
 
 ## Recomputed tables
 
@@ -65,6 +66,8 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
   settled.** `TABLE_gwas_qtl_intervals_eigen.tsv` now carries r² intervals at four cutoffs for
   all eleven eigen-significant loci. What still needs Tier 1 of `SYNC_MANIFEST.md` is an
   interval anchored on *sid-2* itself rather than on a scan peak.
+- **The crossing scheme.** Ten rounds of intercrossing plus two rounds of selection on *pos-1*
+  and *mig-6* RNAi is not recorded anywhere here; `METHODS.txt` carries a [TO FILL] for it.
 - **The simulation's provenance.** ~~Per `METHODS.txt`, the simulation script, drawn fitness
   values and expected input frequencies were never archived~~ — **partly settled.** The script
   was recovered and is archived as `scripts/simulation_deconvolution.R`, with the original
