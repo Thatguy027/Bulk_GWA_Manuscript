@@ -6,23 +6,26 @@ Sources: `METHODS.txt` (Designed DNA mixture), `FIGURE_CAPTIONS.txt`
 Every statistic below was recomputed from the deposit; the recomputation reproduces the
 script's pinned panel-C fractions to 0.0000.
 
-## 1. The experiment was four pools, not two, and the sizes are wrong
+## 1. The sizes are wrong; "two pools" is right
 
-174 wild isolates were divided into four sets of roughly equal size (A, B, C, D) and genomic
-DNA from each set was pooled. All four were sequenced pure, three libraries each -- that is
-panel A. The titration used two of them: set B against set C.
+CORRECTED after author input. The first pass through this file said the experiment "was four
+pools, not two". That conflates two things. The DILUTION experiment is two sets titrated into
+each other, exactly as the paragraph says; sets A and D were sequenced in the same run but are
+not part of it. Nothing needs changing on that point.
 
-| set | strains | isotypes |
-|---|---|---|
-| A | 46 | 46 |
-| B | 46 | 46 |
-| C | 40 | 38 |
-| D | 42 | 42 |
+What does need changing is the sizes. 174 wild isolates were divided into four sets and genomic
+DNA pooled within each; the titration used sets B and C.
 
-So "two pooled populations composed of ~48 strains each" should be sets B and C at 46 and 40
-strains (84 isotypes combined, which is the reference panel C uses). The four-set design is
-also what makes panel A and the leakage analysis possible, so it is worth one clause rather
-than being dropped.
+| set | strains | isotypes | in the dilution experiment? |
+|---|---|---|---|
+| A | 46 | 46 | no -- sequenced pure only |
+| B | 46 | 46 | **yes** |
+| C | 40 | 38 | **yes** |
+| D | 42 | 42 | no -- sequenced pure only |
+
+So "two pooled populations composed of ~48 strains each" should be **sets B and C at 46 and 40
+strains**, 84 isotypes combined, which is the reference panel C uses. The "~48 each" is wrong
+for both and hides that the two pools are of different sizes.
 
 ## 2. DNA was pooled, not populations
 
@@ -100,9 +103,8 @@ pool-wide reference. Cite S2E for this claim, not the whole figure.
 
 Next, we wanted to establish an effective strain pooling and frequency inference strategy for
 genetically diverse C. elegans isolates. To this end, we performed a small-scale experiment in
-which we divided 174 wild isolates into four sets of roughly equal size and pooled genomic DNA
-from the strains within each set. We combined the DNA from two of these pools, sets B (46
-strains) and C (40 strains), across a seven-step titration at known mass ratios, sequenced the
+which we pooled genomic DNA from two sets of wild isolates, sets B (46 strains) and C (40
+strains), and combined them across a seven-step titration at known mass ratios, sequenced the
 resulting libraries, and inferred individual strain frequencies. Because the strains within
 each pool were not combined at known frequencies, we assessed recovery at the level of the
 pools, summing the inferred strain frequencies within each set to obtain its share of the

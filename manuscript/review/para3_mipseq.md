@@ -33,6 +33,15 @@ sentence.
 
 ## 3. "The same analysis": what the code actually does
 
+**VERIFIED (2026-09-08), and METHODS.txt now states it.** Re-read line by line at author
+request. `platform_slopes()` builds one frame, applies `filter(!baseline, day != 17)` and the
+`day == 1` baseline join once to both columns, forms `delta_d1_wgs` and `delta_d1_mip` in a
+single `mutate()`, and passes each through the same `fit()` -> same `ols_slope(day, .)` under
+the same `group_by(replicate, strain)`. The only asymmetry between the two paths is which
+column is named. `ols_slope` centres x before the closed-form fit, so the intercept is free.
+Confirmed: the two experiments are analysed identically, and `METHODS.txt` now says so
+explicitly rather than leaving it to be inferred from the code.
+
 CORRECTED after reading `scripts/Figure1_common.R:213`. `platform_slopes()` puts both platforms
 through one identical path -- `delta_d1_wgs = frq - base_frq` and
 `delta_d1_mip = published_frq - base_pubfrq`, then the same `ols_slope(day, ...)` per replicate

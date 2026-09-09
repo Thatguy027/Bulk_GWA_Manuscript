@@ -63,9 +63,16 @@ What the current data support, by definition of "responsive":
 
 65% matches none of them on the current data. The strictest and most defensible statement is
 the last row: 151 of 277 strains (55%) decrease in frequency under pos-1 RNAi in every one of
-the four replicates. If the denominator should be the pool as constructed rather than the
-reference, note that the trait file carries 366 strains of which 231 have a value -- 224 is not
-reproducible from the deposit and needs to come from the lab record.
+the four replicates.
+
+**The denominator is 231, and 224 is simply wrong.** RESOLVED after author input: the pool size
+here is operationally whatever number of strains carries a *pos-1* VST measurement from the 2023
+experiment, and that is 231. `pos1_2023_association_traits.csv.gz` holds 366 rows, of which 231
+have a non-NA value -- identically 231 across `delta_ctrl`, `vst_ctrl`, `log2fc_ctrl` and
+`negctrl_abundance`, so it is one filter and not four. The 135 without a value are the strains
+that never established in the pool: 128 have a mean control frequency of exactly zero and the
+remaining seven top out at 0.00028. No read-depth cutoff in the frequency file yields 224 either
+-- all three (3, 5, 10) carry the full 366. This does not need the lab record.
 
 ### 3. rho = 0.42, n = 106, p = 6e-6 is the superseded panel A
 
@@ -91,13 +98,25 @@ it "should be described as consistent rather than as independent confirmation." 
 measurement is embryonic lethality for the pos-1 clone, which is worth naming rather than
 calling it an "evaluation of wild isolate RNAi responses".
 
-## 5. Broad-sense heritability 0.32 is not computed anywhere in this repository
+## 5. Broad-sense heritability 0.32 is not computed anywhere -- replaced by a repeatability
 
 No heritability estimate appears in `METHODS.txt`, `FIGURE_CAPTIONS.txt`, `FIGURE_REPORT.md` or
 any script. The number checker passes `0.32` only because it rounds onto the leakage Spearman
 rho (0.323/0.326) from an unrelated analysis in the report -- the same bag-of-numbers accident
-as the earlier `2.85`. Either compute it and deposit it (the four pos-1 and two control
-replicates support a repeatability/variance-component estimate) or cite its source.
+as the earlier `2.85`.
+
+RESOLVED by computing what the data actually support. `scripts/pos1_repeatability.R` ->
+`plots/diagnostics/TABLE_pos1_repeatability.tsv`:
+
+| scale | R | what it measures |
+|---|---|---|
+| `delta_ctrl` (raw) | 0.95 | mostly abundance -- do not quote |
+| `log2fc_ctrl` (normalised) | **0.52** [0.43, 0.60] | **quote this** |
+| within-replicate rank | 0.84 | ordering only |
+
+Stable across all three read-depth cutoffs (0.52 / 0.44 / 0.51 on the log2 scale). See "The two
+slots" below for why the scale is the whole story and why this is repeatability rather than
+heritability.
 
 ## 6. Numbers that are right but unattested
 
@@ -113,7 +132,8 @@ ones.
 ## The paragraph, reworded
 
 Numbers here are figure-exact: the replicate range is what the six facets print, 0.41/111/7.8e-06
-reproduces panel A, -0.55/19/0.014 reproduces panel B. Two slots still need you (marked).
+reproduces panel A, -0.55/19/0.014 reproduces panel B. Both slots that previously needed you are
+now closed -- 224 resolves to 231, and the heritability sentence becomes a repeatability.
 
 > C. elegans RNAi screens are routinely performed in the N2 strain. However, extending these
 > screens to multiple wild isolates is challenging because each isolate needs to get assayed
@@ -122,7 +142,7 @@ reproduces panel A, -0.55/19/0.014 reproduces panel B. Two slots still need you 
 > embryonic lethal phenotype, making this treatment amenable to the pooled phenotyping because
 > RNAi-responsive strains will fail to contribute progeny to subsequent generations. To explore
 > if we could quickly evaluate wild isolate RNAi responses, we performed a pilot experiment
-> where we exposed 224 pooled wild isolates to pos-1 RNAi-expressing HT115 bacteria or control
+> where we exposed 231 pooled wild isolates to pos-1 RNAi-expressing HT115 bacteria or control
 > HT115 bacteria (Methods). We grew these populations for two generations in these conditions,
 > sequenced the resulting F3 L1 populations, and inferred the individual strain frequencies in
 > each population, across four pos-1 replicates and two control replicates. We calculated
@@ -133,8 +153,10 @@ reproduces panel A, -0.55/19/0.014 reproduces panel B. Two slots still need you 
 > observed that 183 of the 231 strains with a pos-1 response value (79%) were responsive to
 > RNAi, as indicated by these strains having a lower frequency in pos-1 RNAi conditions than
 > they did in the control condition (Figure 1B). We observed substantial variation within
-> RNAi-responsive and -insensitive strain groups and estimated the broad-sense heritability to
-> be [HERITABILITY], suggesting that genetic factors influence strain responses to pos-1 RNAi.
+> RNAi-responsive and -insensitive strain groups. The response is repeatable across the four
+> pos-1 replicate pools (repeatability R = 0.52, 95% CI 0.43-0.60, n = 231 strains), indicating
+> that a substantial and consistent fraction of the variation is attributable to the strains
+> themselves rather than to measurement noise.
 > These results motivated us to construct a pooled population of RNAi-responsive strains that we
 > could expose to different RNAi conditions. To construct this population, we manually
 > re-evaluated pos-1 RNAi responses of 191 wild strains on agar plates and identified 93 strains
@@ -153,22 +175,33 @@ reproduces panel A, -0.55/19/0.014 reproduces panel B. Two slots still need you 
 | rho = 0.72, p < 0.001 | rho = 0.77-0.87, n = 366, six comparisons | 0.72 was the old single scatter |
 | 146 of 224 (65%), SUPP FIG | 183 of 231 (79%), Figure 1B | the 224/146 figure is not in the repository; Figure 1B is the curated panel that shows this distribution |
 | rho = 0.42, p = 6e-6, n = 106 | rho = 0.41, p = 7.8e-06, n = 111 | panel A was rebuilt on the VST scale |
+| "224 pooled wild isolates" | 231 | the pool size is the number with a pos-1 VST measurement, which is 231; no cutoff yields 224 |
+| broad-sense heritability 0.32 | repeatability R = 0.52 [0.43, 0.60] | 0.32 exists nowhere in the repository; R is what four replicate pools support |
 | Paaby cited to panel A | panel B | it is panel B of that supplement |
 | "a previously published evaluation of wild isolate RNAi responses" | "a previously published measurement of pos-1 embryonic lethality" | that is what the Paaby data are |
 | "good agreement" for Paaby | "consistent with" | the caption asks for this given 19 shared strains |
 
-### The two slots
+### The two slots, both now closed
 
-1. **[HERITABILITY]** -- 0.32 is not computed anywhere in the repository. I can estimate
-   repeatability across the four pos-1 replicates if you want a number derived from these data,
-   but it would be a new estimate, not a recovered one.
-2. **224** -- kept as you wrote it, but it is not reproducible from the deposit, and it sits
-   awkwardly with the sentence that follows: the trait file gives 231 strains with a pos-1
-   response value, seven MORE than the stated pool size. If 224 is the pool as constructed, then
-   231 includes strains the deconvolution assigned frequency to without their being pooled --
-   exactly the leakage the dilution experiment quantifies -- and the responsive fraction should
-   be computed on pool members only. Send me the pool composition list and I will recompute it
-   restricted to those strains.
+1. **Heritability -> repeatability.** 0.32 is not computed anywhere in this repository and is
+   not recoverable. What these data support is a repeatability across the four *pos-1* replicate
+   pools, now computed by `scripts/pos1_repeatability.R`:
+   **R = 0.52, 95% bootstrap CI [0.43, 0.60], n = 231 strains x 4 replicates.**
+
+   This is an upper bound on broad-sense heritability, not an estimate of it, and the draft
+   sentence above says "repeatable" rather than "heritable" for that reason. Two structural
+   limits: the four replicates are replicate pools within one experiment at one timepoint, so
+   they span technical and within-batch variation rather than an environmental range; and all
+   four share one control baseline (`ctrl_frq` is verified identical across all four replicates
+   for all 231 strains), so baseline error is counted as among-strain signal.
+
+   **The scale matters more than anything else here.** On the raw `delta_ctrl` the estimate is
+   0.95 -- but that is mostly abundance, not response: |delta| tracks control frequency at
+   Spearman 0.90, and median |delta| rises 46-fold from the lowest to the highest abundance
+   quartile. Normalising by the control (log2 fold change) halves it to 0.52. Do not quote the
+   0.95. The mapped trait is variance-stabilised for exactly this reason, but the VST exists per
+   strain rather than per replicate, so it cannot be used for this.
+2. **224 -> 231.** Closed; see section 2 above.
 
 ## 7. Replacing the heritability sentence with the QTL
 

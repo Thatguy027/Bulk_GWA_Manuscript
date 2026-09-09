@@ -224,7 +224,24 @@ taken as the slope of the regression of frequency change on day, with day 1 as
 the baseline and day 17 excluded, and slopes were averaged over the five
 replicate arms. Slopes were computed in closed form
 (sum((x - xbar) y) / sum((x - xbar)^2)), which is identical to the least-squares
-coefficient. N2 was excluded from all comparisons: as the reference strain its
+coefficient.
+
+BOTH PLATFORMS WERE PUT THROUGH ONE IDENTICAL TRANSFORMATION, which is what
+makes the correlation a comparison of measurements rather than of methods. In
+scripts/Figure1_common.R the function platform_slopes() takes one frame, applies
+the same day-1 baseline and the same day-17 exclusion to both columns, forms
+both differences in a single step, and passes each through the same slope
+function grouped the same way. The only asymmetry between the two is which
+column is read.
+
+That slope is NOT on the scale of the Slope trait published by Webster et al.
+Theirs is fitted to log2-transformed frequencies normalised to day 1 with the
+intercept forced through the origin; the slope here is a raw difference from
+day 1 with a free intercept, x being centred before the closed-form fit. Day 1
+as the baseline, day 13 as the last point and the exclusion of day 17 agree
+between the two. The rank correlation is unaffected -- it compares two columns
+treated identically -- but the slope VALUES should not be compared numerically
+against the published trait. N2 was excluded from all comparisons: as the reference strain its
 genotype shares sites with every other strain in the pool, so its frequency is
 not identified on the same footing as the wild isolates'. Agreement was
 quantified by Spearman correlation of the two platforms' slopes across strains

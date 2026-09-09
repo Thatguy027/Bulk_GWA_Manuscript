@@ -51,10 +51,16 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
 
 ## Open items the repository cannot settle
 
-- **The *pos-1* pool size.** The draft says 224 strains. That is not reproducible from the
-  deposit, and `pos1_2023_association_traits.csv.gz` carries 231 strains with a response value —
-  seven more than the stated pool. Needs the pool composition list from the lab record.
-- **Broad-sense heritability.** No estimate exists anywhere in this repository.
+- **The *pos-1* pool size.** ~~The draft says 224 strains … needs the lab record~~ —
+  **settled: it is 231.** The pool size here is operationally the number of strains carrying a
+  *pos-1* VST measurement from the 2023 experiment, and that is 231 of the 366 rows in
+  `pos1_2023_association_traits.csv.gz`. The 135 without one never established in the pool
+  (128 at exactly zero mean control frequency). No read-depth cutoff yields 224.
+- **Broad-sense heritability.** ~~No estimate exists anywhere in this repository~~ —
+  **replaced.** `scripts/pos1_repeatability.R` computes what four replicate pools support:
+  repeatability **R = 0.52** [0.43, 0.60] on the abundance-normalised scale, an upper bound on
+  H² rather than an estimate of it. The raw-delta figure of 0.95 is an abundance artefact and
+  should not be quoted.
 - **QTL intervals.** ~~No linkage-disequilibrium interval can be computed here~~ — **partly
   settled.** `TABLE_gwas_qtl_intervals_eigen.tsv` now carries r² intervals at four cutoffs for
   all eleven eigen-significant loci. What still needs Tier 1 of `SYNC_MANIFEST.md` is an
