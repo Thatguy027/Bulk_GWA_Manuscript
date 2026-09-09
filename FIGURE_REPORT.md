@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-08
+Assembled 2026-09-09
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -61,12 +61,14 @@ Assembled 2026-09-08
         distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
     -   [Figure S16 — model confidence, and the proximity
         null](#figure-s16--model-confidence-and-the-proximity-null)
+    -   [Figure S17 — Figure 2 without the cross
+        QTL](#figure-s17--figure-2-without-the-cross-qtl)
     -   [The panel split at two loci](#the-panel-split-at-two-loci)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the eighteen manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-one manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -116,7 +118,7 @@ it. Where the data will not carry a sentence, the sentence is not made —
 the closing box lists the claims to avoid.
 
 Figure numbers follow the curated set: four main figures and fourteen
-supplements, `S1`–`S14`, in the order the argument uses them.
+supplements, `S1`–`S17`, in the order the argument uses them.
 
 <div class="ms">
 
@@ -1846,9 +1848,10 @@ drawn width *was the padding*, not the interval, and the figure implied
 a precision the data do not have. Widths and peak LODs are in the table
 below, where a number needing three significant figures belongs.
 
-`plots/Figure2_no_cross_qtl.png` is the same figure with the cross QTL
-removed altogether — the mirrored Manhattan alone, tracks, labels and
-cross legend dropped — written by the same script for comparison.
+Figure S17 is the same figure with the cross QTL removed altogether —
+the mirrored Manhattan alone, tracks, labels and cross legend dropped —
+written by the same script, so the arrows can be judged against the
+panel without them.
 
 </div>
 
@@ -1918,28 +1921,25539 @@ from convenience. Nine of the 93 panel strains have no vst value, so
 
 **Script** `scripts/SUPP_FIG_XX_cross_contrast_panels.R`<br>
 **Supports** Figure 2’s compressed tracks<br> **Contrasts**
-HT115-vs-*pos-1* · *mig-6*-vs-*pos-1*
+HT115-vs-*pos-1* · HT115-vs-*mig-6* · *mig-6*-vs-*pos-1*
 
 </div>
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_cross_contrast_panels.png" alt="Mirrored pooled GWAS above, then one panel per cross with the HT115-vs-pos-1 and mig-6-vs-pos-1 LOD contrasts overlaid." width="100%" />
+<img src="plots/SUPP_FIG_XX_cross_contrast_panels.png" alt="Mirrored pooled GWAS above, then one panel per cross with three LOD contrasts overlaid: HT115-vs-pos-1, HT115-vs-mig-6, and mig-6-vs-pos-1." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_cross_contrast_panels
 </p>
 
 </div>
 
-Mirrored pooled GWAS on top, then one panel per cross with both
-contrasts overlaid: HT115 vs *pos-1* in purple and *mig-6* vs *pos-1* in
-blue.
+Mirrored pooled GWAS on top, then one panel per cross with all three
+contrasts overlaid: each knockdown against the HT115 control — *pos-1*
+in purple, *mig-6* in orange — and the difference between the two
+knockdowns in blue.
 
-Purple high with blue flat marks a **general** RNAi-response locus — the
-machinery is affected whatever the target — and blue high marks a
+Both HT115 traces high with the blue difference flat marks a **general**
+RNAi-response locus — the machinery is affected whatever the target —
+while one HT115 trace high with blue tracking it marks a
 **knockdown-specific** one. This is the panel that justifies calling the
 chromosome III locus general and the chromosome V, I and X loci
-specific.
+specific: at chromosome III both knockdowns respond, while chromosome V
+and X move under *mig-6* with *pos-1* flat. Drawing the *mig-6* response
+directly, rather than inferring it from the difference trace, is what
+separates those two readings.
+
+Figure 2 draws only the peaks above LOD 100, and only the tallest peak
+per chromosome per contrast. `scripts/cross_qtl_full_summary.R` drops
+both cutoffs and tabulates every peak above the genome-wide threshold of
+LOD 3.57 into `plots/TABLE_cross_qtl_full.tsv`, with the model effect at
+the peak, the parental allele frequency of each pool in a ±50 kb window,
+and — for the three contrasts run in both crosses — whether the QTL is
+shared. That table also flags which secondary peaks are separated from a
+taller peak by a sub-threshold LOD trough and which are merely shoulders
+of one sweep.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Quantity
+</th>
+<th style="text-align:right;">
+Value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Contrasts scanned
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+QTL above the genome-wide threshold (LOD 3.57)
+</td>
+<td style="text-align:right;">
+495
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Of those, drawn in Figure 2 (LOD \> 100, tallest per chromosome)
+</td>
+<td style="text-align:right;">
+46
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Secondary peaks Figure 2’s MAX_PEAKS = 1 cannot call
+</td>
+<td style="text-align:right;">
+387
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+— separated from the taller peak by a sub-threshold trough
+</td>
+<td style="text-align:right;">
+79
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+— shoulders of one sweep, not independent QTL
+</td>
+<td style="text-align:right;">
+308
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Defensible QTL (rank 1, or a secondary with a clean trough)
+</td>
+<td style="text-align:right;">
+187
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+The 495 against 46 is the whole point of the table: Figure 2’s two
+display constants, `LOD_MIN <- 100` and `MAX_PEAKS <- 1`, are doing more
+of the filtering than the significance threshold is. Selection in these
+pools is strong enough that one sweep can span most of a chromosome, so
+the raw count overstates the number of independent loci — `trough.LOD`
+is the column that separates a real secondary QTL from a shoulder, and
+`separated` is that test applied.
+
+</div>
+
+Of the three contrasts run in both crosses, these are the QTL whose
+interval is matched by a call in the other cross. The *sid-2* region on
+chromosome III is shared for HT115 vs *mig-6* in both directions, at LOD
+940 in N2 × XZ1516 and 335 in JU1793 × JU2466.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Cross
+</th>
+<th style="text-align:left;">
+Contrast
+</th>
+<th style="text-align:left;">
+Chr
+</th>
+<th style="text-align:right;">
+Peak (Mb)
+</th>
+<th style="text-align:right;">
+LOD
+</th>
+<th style="text-align:right;">
+Interval
+</th>
+<th style="text-align:right;">
+Δfreq
+</th>
+<th style="text-align:right;">
+Other cross peak (Mb)
+</th>
+<th style="text-align:right;">
+Other LOD
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.47
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:right;">
+13.37–13.53
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+<td style="text-align:right;">
+13.72
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+939.5
+</td>
+<td style="text-align:right;">
+13.09–13.53
+</td>
+<td style="text-align:right;">
+-0.320
+</td>
+<td style="text-align:right;">
+13.45
+</td>
+<td style="text-align:right;">
+334.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.45
+</td>
+<td style="text-align:right;">
+334.7
+</td>
+<td style="text-align:right;">
+13.23–13.66
+</td>
+<td style="text-align:right;">
+-0.616
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+939.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+109.2
+</td>
+<td style="text-align:right;">
+0.32–0.67
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+<td style="text-align:right;">
+0.45–0.90
+</td>
+<td style="text-align:right;">
+-0.449
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+109.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.98
+</td>
+<td style="text-align:right;">
+155.8
+</td>
+<td style="text-align:right;">
+7.77–9.36
+</td>
+<td style="text-align:right;">
+-0.153
+</td>
+<td style="text-align:right;">
+8.40
+</td>
+<td style="text-align:right;">
+87.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.15
+</td>
+<td style="text-align:right;">
+798.0
+</td>
+<td style="text-align:right;">
+6.86–7.45
+</td>
+<td style="text-align:right;">
+-0.836
+</td>
+<td style="text-align:right;">
+7.05
+</td>
+<td style="text-align:right;">
+39.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.71
+</td>
+<td style="text-align:right;">
+154.3
+</td>
+<td style="text-align:right;">
+9.14–9.94
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+9.70
+</td>
+<td style="text-align:right;">
+469.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+15.06
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+15.06–15.06
+</td>
+<td style="text-align:right;">
+-0.158
+</td>
+<td style="text-align:right;">
+15.07
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.71
+</td>
+<td style="text-align:right;">
+148.4
+</td>
+<td style="text-align:right;">
+3.59–3.80
+</td>
+<td style="text-align:right;">
+0.239
+</td>
+<td style="text-align:right;">
+3.52
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.52
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+3.17–3.87
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+3.71
+</td>
+<td style="text-align:right;">
+148.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.88
+</td>
+<td style="text-align:right;">
+74.7
+</td>
+<td style="text-align:right;">
+10.74–11.08
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+10.23
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+70.2
+</td>
+<td style="text-align:right;">
+0.43–0.88
+</td>
+<td style="text-align:right;">
+0.416
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+165.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.16
+</td>
+<td style="text-align:right;">
+35.5
+</td>
+<td style="text-align:right;">
+13.00–13.32
+</td>
+<td style="text-align:right;">
+0.173
+</td>
+<td style="text-align:right;">
+13.40
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.25
+</td>
+<td style="text-align:right;">
+28.0
+</td>
+<td style="text-align:right;">
+9.17–9.34
+</td>
+<td style="text-align:right;">
+-0.055
+</td>
+<td style="text-align:right;">
+9.83
+</td>
+<td style="text-align:right;">
+11.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+165.3
+</td>
+<td style="text-align:right;">
+0.28–0.59
+</td>
+<td style="text-align:right;">
+-0.162
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+70.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.40
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+13.18–13.58
+</td>
+<td style="text-align:right;">
+-0.016
+</td>
+<td style="text-align:right;">
+13.16
+</td>
+<td style="text-align:right;">
+35.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+9.35
+</td>
+<td style="text-align:right;">
+37.6
+</td>
+<td style="text-align:right;">
+9.26–9.53
+</td>
+<td style="text-align:right;">
+0.057
+</td>
+<td style="text-align:right;">
+9.35
+</td>
+<td style="text-align:right;">
+31.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.89
+</td>
+<td style="text-align:right;">
+91.0
+</td>
+<td style="text-align:right;">
+6.73–7.17
+</td>
+<td style="text-align:right;">
+-0.117
+</td>
+<td style="text-align:right;">
+6.94
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+</tr>
+</tbody>
+</table>
+
+The complete table follows: every peak above the genome-wide threshold,
+in every contrast, with both effect-size scales and the parental
+frequencies they come from. `f1.a` and `f1.b` are parent 1’s frequency
+in the first and second pool the contrast names, each pooled over ±50 kb
+and weighted by read depth; `Δfreq` is their difference. Parent 1 is N2
+in one cross and JU1793 in the other, so the sign of `Δfreq` is not
+comparable between crosses without saying which parent is which. One QTL
+has no frequency: its peak falls in a single-marker gap with no coverage
+in either pool.
+
+<div style="max-height:560px;overflow:auto">
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Cross
+</th>
+<th style="text-align:left;">
+Contrast
+</th>
+<th style="text-align:left;">
+Chr
+</th>
+<th style="text-align:right;">
+Peak (Mb)
+</th>
+<th style="text-align:right;">
+LOD
+</th>
+<th style="text-align:right;">
+Interval
+</th>
+<th style="text-align:right;">
+Width (kb)
+</th>
+<th style="text-align:right;">
+Rank
+</th>
+<th style="text-align:right;">
+β
+</th>
+<th style="text-align:right;">
+f1.a
+</th>
+<th style="text-align:right;">
+f1.b
+</th>
+<th style="text-align:right;">
+Δfreq
+</th>
+<th style="text-align:right;">
+Trough LOD
+</th>
+<th style="text-align:right;">
+Separated
+</th>
+<th style="text-align:right;">
+Other LOD at peak
+</th>
+<th style="text-align:right;">
+Shared
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.68
+</td>
+<td style="text-align:right;">
+39.1
+</td>
+<td style="text-align:right;">
+7.31–10.30
+</td>
+<td style="text-align:right;">
+2990
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.297
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.23
+</td>
+<td style="text-align:right;">
+28.6
+</td>
+<td style="text-align:right;">
+6.14–6.23
+</td>
+<td style="text-align:right;">
+90
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.259
+</td>
+<td style="text-align:right;">
+0.200
+</td>
+<td style="text-align:right;">
+0.125
+</td>
+<td style="text-align:right;">
+0.075
+</td>
+<td style="text-align:right;">
+28.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.30
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:right;">
+11.30–11.37
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.237
+</td>
+<td style="text-align:right;">
+0.537
+</td>
+<td style="text-align:right;">
+0.236
+</td>
+<td style="text-align:right;">
+0.301
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+13.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+5.08
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+5.08–5.08
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.173
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+0.429
+</td>
+<td style="text-align:right;">
+0.071
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.19
+</td>
+<td style="text-align:right;">
+10.8
+</td>
+<td style="text-align:right;">
+1.10–1.26
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+0.663
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+-0.154
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+318.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+14.77–15.24
+</td>
+<td style="text-align:right;">
+476
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.267
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+0.632
+</td>
+<td style="text-align:right;">
+-0.472
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+18.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.72
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+<td style="text-align:right;">
+13.26–13.72
+</td>
+<td style="text-align:right;">
+459
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.249
+</td>
+<td style="text-align:right;">
+0.200
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+50.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.25
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:right;">
+11.69–12.25
+</td>
+<td style="text-align:right;">
+561
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.233
+</td>
+<td style="text-align:right;">
+0.333
+</td>
+<td style="text-align:right;">
+0.474
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+10.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.68
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+10.12–10.68
+</td>
+<td style="text-align:right;">
+561
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.217
+</td>
+<td style="text-align:right;">
+0.258
+</td>
+<td style="text-align:right;">
+0.435
+</td>
+<td style="text-align:right;">
+-0.177
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+35.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+20.4
+</td>
+<td style="text-align:right;">
+0.02–0.51
+</td>
+<td style="text-align:right;">
+489
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.217
+</td>
+<td style="text-align:right;">
+0.225
+</td>
+<td style="text-align:right;">
+0.514
+</td>
+<td style="text-align:right;">
+-0.289
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.45
+</td>
+<td style="text-align:right;">
+334.7
+</td>
+<td style="text-align:right;">
+13.23–13.66
+</td>
+<td style="text-align:right;">
+430
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.655
+</td>
+<td style="text-align:right;">
+0.349
+</td>
+<td style="text-align:right;">
+0.964
+</td>
+<td style="text-align:right;">
+-0.616
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+921.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+11.62
+</td>
+<td style="text-align:right;">
+117.1
+</td>
+<td style="text-align:right;">
+11.43–11.79
+</td>
+<td style="text-align:right;">
+357
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.464
+</td>
+<td style="text-align:right;">
+0.393
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+-0.448
+</td>
+<td style="text-align:right;">
+89.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+90.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+<td style="text-align:right;">
+0.45–0.90
+</td>
+<td style="text-align:right;">
+454
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.398
+</td>
+<td style="text-align:right;">
+0.282
+</td>
+<td style="text-align:right;">
+0.731
+</td>
+<td style="text-align:right;">
+-0.449
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+102.9
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+9.36
+</td>
+<td style="text-align:right;">
+54.1
+</td>
+<td style="text-align:right;">
+9.26–9.48
+</td>
+<td style="text-align:right;">
+214
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.346
+</td>
+<td style="text-align:right;">
+0.420
+</td>
+<td style="text-align:right;">
+0.731
+</td>
+<td style="text-align:right;">
+-0.311
+</td>
+<td style="text-align:right;">
+37.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.75
+</td>
+<td style="text-align:right;">
+168.5
+</td>
+<td style="text-align:right;">
+5.41–6.16
+</td>
+<td style="text-align:right;">
+749
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.555
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+0.825
+</td>
+<td style="text-align:right;">
+-0.538
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+47.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.17
+</td>
+<td style="text-align:right;">
+144.5
+</td>
+<td style="text-align:right;">
+7.17–7.36
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.526
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+<td style="text-align:right;">
+0.769
+</td>
+<td style="text-align:right;">
+-0.483
+</td>
+<td style="text-align:right;">
+144.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+154.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+3.66
+</td>
+<td style="text-align:right;">
+141.9
+</td>
+<td style="text-align:right;">
+3.56–3.78
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.522
+</td>
+<td style="text-align:right;">
+0.215
+</td>
+<td style="text-align:right;">
+0.710
+</td>
+<td style="text-align:right;">
+-0.495
+</td>
+<td style="text-align:right;">
+121.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+13.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.40
+</td>
+<td style="text-align:right;">
+87.8
+</td>
+<td style="text-align:right;">
+8.40–8.50
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.434
+</td>
+<td style="text-align:right;">
+0.227
+</td>
+<td style="text-align:right;">
+0.641
+</td>
+<td style="text-align:right;">
+-0.414
+</td>
+<td style="text-align:right;">
+87.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+153.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+72.7
+</td>
+<td style="text-align:right;">
+9.69–10.38
+</td>
+<td style="text-align:right;">
+696
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.400
+</td>
+<td style="text-align:right;">
+0.219
+</td>
+<td style="text-align:right;">
+0.768
+</td>
+<td style="text-align:right;">
+-0.549
+</td>
+<td style="text-align:right;">
+67.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+117.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+30.7
+</td>
+<td style="text-align:right;">
+0.16–0.37
+</td>
+<td style="text-align:right;">
+213
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.274
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+0.660
+</td>
+<td style="text-align:right;">
+-0.249
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+2.94
+</td>
+<td style="text-align:right;">
+29.8
+</td>
+<td style="text-align:right;">
+2.90–2.98
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.270
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+0.493
+</td>
+<td style="text-align:right;">
+-0.185
+</td>
+<td style="text-align:right;">
+18.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.64
+</td>
+<td style="text-align:right;">
+28.7
+</td>
+<td style="text-align:right;">
+1.47–1.73
+</td>
+<td style="text-align:right;">
+256
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.266
+</td>
+<td style="text-align:right;">
+0.411
+</td>
+<td style="text-align:right;">
+0.666
+</td>
+<td style="text-align:right;">
+-0.255
+</td>
+<td style="text-align:right;">
+18.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.98
+</td>
+<td style="text-align:right;">
+19.6
+</td>
+<td style="text-align:right;">
+3.98–4.01
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.221
+</td>
+<td style="text-align:right;">
+0.336
+</td>
+<td style="text-align:right;">
+0.557
+</td>
+<td style="text-align:right;">
+-0.221
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+26.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+6.36
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+6.31–6.42
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+0.284
+</td>
+<td style="text-align:right;">
+0.332
+</td>
+<td style="text-align:right;">
+-0.047
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+91.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.15
+</td>
+<td style="text-align:right;">
+798.0
+</td>
+<td style="text-align:right;">
+6.86–7.45
+</td>
+<td style="text-align:right;">
+591
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.823
+</td>
+<td style="text-align:right;">
+0.085
+</td>
+<td style="text-align:right;">
+0.921
+</td>
+<td style="text-align:right;">
+-0.836
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.86
+</td>
+<td style="text-align:right;">
+663.2
+</td>
+<td style="text-align:right;">
+5.75–5.86
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.798
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+-0.817
+</td>
+<td style="text-align:right;">
+663.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.45
+</td>
+<td style="text-align:right;">
+569.1
+</td>
+<td style="text-align:right;">
+8.45–8.68
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.775
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+-0.742
+</td>
+<td style="text-align:right;">
+569.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+132.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.70
+</td>
+<td style="text-align:right;">
+469.9
+</td>
+<td style="text-align:right;">
+9.70–9.85
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.744
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+0.826
+</td>
+<td style="text-align:right;">
+-0.753
+</td>
+<td style="text-align:right;">
+469.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+154.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+10.85
+</td>
+<td style="text-align:right;">
+313.8
+</td>
+<td style="text-align:right;">
+10.85–11.09
+</td>
+<td style="text-align:right;">
+243
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.670
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.747
+</td>
+<td style="text-align:right;">
+-0.646
+</td>
+<td style="text-align:right;">
+313.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+71.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+14.4
+</td>
+<td style="text-align:right;">
+0.73–1.08
+</td>
+<td style="text-align:right;">
+352
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.180
+</td>
+<td style="text-align:right;">
+0.610
+</td>
+<td style="text-align:right;">
+0.795
+</td>
+<td style="text-align:right;">
+-0.185
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.11
+</td>
+<td style="text-align:right;">
+7.8
+</td>
+<td style="text-align:right;">
+2.08–2.16
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+0.837
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+15.06
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+15.06–15.06
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+0.270
+</td>
+<td style="text-align:right;">
+0.429
+</td>
+<td style="text-align:right;">
+-0.158
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+15.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.15
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+8.78–9.53
+</td>
+<td style="text-align:right;">
+744
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.471
+</td>
+<td style="text-align:right;">
+0.278
+</td>
+<td style="text-align:right;">
+0.193
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+15.24–15.24
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.132
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+0.412
+</td>
+<td style="text-align:right;">
+-0.252
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.52
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+3.17–3.87
+</td>
+<td style="text-align:right;">
+690
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.125
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.375
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+125.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+2.02
+</td>
+<td style="text-align:right;">
+4.1
+</td>
+<td style="text-align:right;">
+2.02–2.02
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+0.357
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+4.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+16.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.78
+</td>
+<td style="text-align:right;">
+139.7
+</td>
+<td style="text-align:right;">
+13.73–13.78
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.525
+</td>
+<td style="text-align:right;">
+0.367
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+-0.416
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+521.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.73
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+12.68–12.73
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.355
+</td>
+<td style="text-align:right;">
+0.358
+</td>
+<td style="text-align:right;">
+0.755
+</td>
+<td style="text-align:right;">
+-0.397
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+460.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+11.68
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+11.61–11.68
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.225
+</td>
+<td style="text-align:right;">
+0.396
+</td>
+<td style="text-align:right;">
+0.657
+</td>
+<td style="text-align:right;">
+-0.261
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+60.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.42
+</td>
+<td style="text-align:right;">
+56.7
+</td>
+<td style="text-align:right;">
+5.10–7.29
+</td>
+<td style="text-align:right;">
+2191
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.370
+</td>
+<td style="text-align:right;">
+0.180
+</td>
+<td style="text-align:right;">
+0.609
+</td>
+<td style="text-align:right;">
+-0.428
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.10
+</td>
+<td style="text-align:right;">
+44.6
+</td>
+<td style="text-align:right;">
+3.92–4.10
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.327
+</td>
+<td style="text-align:right;">
+0.143
+</td>
+<td style="text-align:right;">
+0.357
+</td>
+<td style="text-align:right;">
+-0.214
+</td>
+<td style="text-align:right;">
+44.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.30
+</td>
+<td style="text-align:right;">
+43.5
+</td>
+<td style="text-align:right;">
+8.30–8.58
+</td>
+<td style="text-align:right;">
+282
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.328
+</td>
+<td style="text-align:right;">
+0.189
+</td>
+<td style="text-align:right;">
+0.592
+</td>
+<td style="text-align:right;">
+-0.403
+</td>
+<td style="text-align:right;">
+43.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+2.92
+</td>
+<td style="text-align:right;">
+32.8
+</td>
+<td style="text-align:right;">
+2.82–2.92
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.277
+</td>
+<td style="text-align:right;">
+0.198
+</td>
+<td style="text-align:right;">
+0.440
+</td>
+<td style="text-align:right;">
+-0.242
+</td>
+<td style="text-align:right;">
+32.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+7.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.61
+</td>
+<td style="text-align:right;">
+31.5
+</td>
+<td style="text-align:right;">
+9.61–9.82
+</td>
+<td style="text-align:right;">
+213
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.281
+</td>
+<td style="text-align:right;">
+0.300
+</td>
+<td style="text-align:right;">
+0.596
+</td>
+<td style="text-align:right;">
+-0.296
+</td>
+<td style="text-align:right;">
+31.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+23.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.53
+</td>
+<td style="text-align:right;">
+5.5
+</td>
+<td style="text-align:right;">
+14.26–14.79
+</td>
+<td style="text-align:right;">
+533
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.23
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+9.82–10.94
+</td>
+<td style="text-align:right;">
+1120
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.093
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+0.129
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+55.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.91
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+12.50–13.25
+</td>
+<td style="text-align:right;">
+749
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+<td style="text-align:right;">
+0.172
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.074
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+8.53
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+7.97–8.80
+</td>
+<td style="text-align:right;">
+835
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:right;">
+0.231
+</td>
+<td style="text-align:right;">
+0.141
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+<td style="text-align:right;">
+9.4
+</td>
+<td style="text-align:right;">
+6.67–7.14
+</td>
+<td style="text-align:right;">
+468
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+0.081
+</td>
+<td style="text-align:right;">
+0.193
+</td>
+<td style="text-align:right;">
+-0.112
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+12.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+9.74–10.26
+</td>
+<td style="text-align:right;">
+521
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+0.183
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+150.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.15
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+8.15–8.31
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+0.177
+</td>
+<td style="text-align:right;">
+-0.074
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+111.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.67
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+5.64–5.67
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.077
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+<td style="text-align:right;">
+0.152
+</td>
+<td style="text-align:right;">
+-0.065
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.65
+</td>
+<td style="text-align:right;">
+16.6
+</td>
+<td style="text-align:right;">
+7.18–8.25
+</td>
+<td style="text-align:right;">
+1070
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.202
+</td>
+<td style="text-align:right;">
+0.182
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+-0.318
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+10.17
+</td>
+<td style="text-align:right;">
+16.1
+</td>
+<td style="text-align:right;">
+9.61–10.80
+</td>
+<td style="text-align:right;">
+1190
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.200
+</td>
+<td style="text-align:right;">
+0.172
+</td>
+<td style="text-align:right;">
+0.227
+</td>
+<td style="text-align:right;">
+-0.055
+</td>
+<td style="text-align:right;">
+14.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.14
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+6.09–6.14
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.174
+</td>
+<td style="text-align:right;">
+0.345
+</td>
+<td style="text-align:right;">
+0.400
+</td>
+<td style="text-align:right;">
+-0.055
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.80
+</td>
+<td style="text-align:right;">
+7.6
+</td>
+<td style="text-align:right;">
+11.80–11.84
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.141
+</td>
+<td style="text-align:right;">
+0.234
+</td>
+<td style="text-align:right;">
+0.409
+</td>
+<td style="text-align:right;">
+-0.175
+</td>
+<td style="text-align:right;">
+7.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+79.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.55
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+2.52–2.59
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.085
+</td>
+<td style="text-align:right;">
+0.805
+</td>
+<td style="text-align:right;">
+0.899
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+319.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.36
+</td>
+<td style="text-align:right;">
+15.6
+</td>
+<td style="text-align:right;">
+10.84–12.07
+</td>
+<td style="text-align:right;">
+1230
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.199
+</td>
+<td style="text-align:right;">
+0.518
+</td>
+<td style="text-align:right;">
+0.226
+</td>
+<td style="text-align:right;">
+0.292
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.16
+</td>
+<td style="text-align:right;">
+12.6
+</td>
+<td style="text-align:right;">
+13.16–13.38
+</td>
+<td style="text-align:right;">
+224
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.183
+</td>
+<td style="text-align:right;">
+0.583
+</td>
+<td style="text-align:right;">
+0.350
+</td>
+<td style="text-align:right;">
+0.233
+</td>
+<td style="text-align:right;">
+12.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.83
+</td>
+<td style="text-align:right;">
+11.1
+</td>
+<td style="text-align:right;">
+7.73–9.83
+</td>
+<td style="text-align:right;">
+2099
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+0.463
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:right;">
+0.176
+</td>
+<td style="text-align:right;">
+11.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+<td style="text-align:right;">
+0.02–0.09
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.168
+</td>
+<td style="text-align:right;">
+0.514
+</td>
+<td style="text-align:right;">
+0.318
+</td>
+<td style="text-align:right;">
+0.195
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+31.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6.73
+</td>
+<td style="text-align:right;">
+9.2
+</td>
+<td style="text-align:right;">
+6.18–6.73
+</td>
+<td style="text-align:right;">
+555
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.156
+</td>
+<td style="text-align:right;">
+0.399
+</td>
+<td style="text-align:right;">
+0.321
+</td>
+<td style="text-align:right;">
+0.078
+</td>
+<td style="text-align:right;">
+9.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+70.2
+</td>
+<td style="text-align:right;">
+0.43–0.88
+</td>
+<td style="text-align:right;">
+447
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+0.729
+</td>
+<td style="text-align:right;">
+0.314
+</td>
+<td style="text-align:right;">
+0.416
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+149.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.16
+</td>
+<td style="text-align:right;">
+35.5
+</td>
+<td style="text-align:right;">
+13.00–13.32
+</td>
+<td style="text-align:right;">
+311
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.218
+</td>
+<td style="text-align:right;">
+0.949
+</td>
+<td style="text-align:right;">
+0.776
+</td>
+<td style="text-align:right;">
+0.173
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+48.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+9.35
+</td>
+<td style="text-align:right;">
+31.7
+</td>
+<td style="text-align:right;">
+9.25–9.44
+</td>
+<td style="text-align:right;">
+187
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.279
+</td>
+<td style="text-align:right;">
+0.723
+</td>
+<td style="text-align:right;">
+0.460
+</td>
+<td style="text-align:right;">
+0.263
+</td>
+<td style="text-align:right;">
+8.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+37.6
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+11.49
+</td>
+<td style="text-align:right;">
+31.3
+</td>
+<td style="text-align:right;">
+11.38–11.62
+</td>
+<td style="text-align:right;">
+237
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.250
+</td>
+<td style="text-align:right;">
+0.861
+</td>
+<td style="text-align:right;">
+0.614
+</td>
+<td style="text-align:right;">
+0.247
+</td>
+<td style="text-align:right;">
+8.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1.89
+</td>
+<td style="text-align:right;">
+16.7
+</td>
+<td style="text-align:right;">
+1.89–1.94
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:right;">
+0.450
+</td>
+<td style="text-align:right;">
+0.280
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+16.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+74.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+3.64
+</td>
+<td style="text-align:right;">
+17.5
+</td>
+<td style="text-align:right;">
+3.57–3.69
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.214
+</td>
+<td style="text-align:right;">
+0.707
+</td>
+<td style="text-align:right;">
+0.529
+</td>
+<td style="text-align:right;">
+0.178
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+0.37–0.82
+</td>
+<td style="text-align:right;">
+446
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.204
+</td>
+<td style="text-align:right;">
+0.486
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+0.178
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+16.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.72
+</td>
+<td style="text-align:right;">
+15.0
+</td>
+<td style="text-align:right;">
+5.48–5.91
+</td>
+<td style="text-align:right;">
+429
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.189
+</td>
+<td style="text-align:right;">
+0.779
+</td>
+<td style="text-align:right;">
+0.609
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+9.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+31.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.94
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+<td style="text-align:right;">
+6.94–7.17
+</td>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.164
+</td>
+<td style="text-align:right;">
+0.907
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+0.227
+</td>
+<td style="text-align:right;">
+11.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+90.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.39
+</td>
+<td style="text-align:right;">
+11.1
+</td>
+<td style="text-align:right;">
+12.34–12.53
+</td>
+<td style="text-align:right;">
+197
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.177
+</td>
+<td style="text-align:right;">
+0.613
+</td>
+<td style="text-align:right;">
+0.481
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.67
+</td>
+<td style="text-align:right;">
+39.6
+</td>
+<td style="text-align:right;">
+1.51–1.75
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.320
+</td>
+<td style="text-align:right;">
+0.668
+</td>
+<td style="text-align:right;">
+0.380
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+33.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.76
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+<td style="text-align:right;">
+3.73–3.81
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+0.538
+</td>
+<td style="text-align:right;">
+0.289
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+112.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+28.1
+</td>
+<td style="text-align:right;">
+0.22–0.41
+</td>
+<td style="text-align:right;">
+181
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.274
+</td>
+<td style="text-align:right;">
+0.674
+</td>
+<td style="text-align:right;">
+0.388
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+<td style="text-align:right;">
+20.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+17.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+7.04
+</td>
+<td style="text-align:right;">
+13.3
+</td>
+<td style="text-align:right;">
+6.92–7.14
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+0.360
+</td>
+<td style="text-align:right;">
+0.192
+</td>
+<td style="text-align:right;">
+0.168
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+114.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+<td style="text-align:right;">
+9.93–10.09
+</td>
+<td style="text-align:right;">
+161
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.153
+</td>
+<td style="text-align:right;">
+0.345
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+<td style="text-align:right;">
+0.212
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+234.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.96
+</td>
+<td style="text-align:right;">
+361.4
+</td>
+<td style="text-align:right;">
+5.66–6.24
+</td>
+<td style="text-align:right;">
+582
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.713
+</td>
+<td style="text-align:right;">
+0.906
+</td>
+<td style="text-align:right;">
+0.169
+</td>
+<td style="text-align:right;">
+0.736
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+10.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.24
+</td>
+<td style="text-align:right;">
+358.5
+</td>
+<td style="text-align:right;">
+7.24–7.70
+</td>
+<td style="text-align:right;">
+450
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.710
+</td>
+<td style="text-align:right;">
+0.905
+</td>
+<td style="text-align:right;">
+0.214
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+<td style="text-align:right;">
+329.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.70
+</td>
+<td style="text-align:right;">
+297.3
+</td>
+<td style="text-align:right;">
+8.70–9.24
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.678
+</td>
+<td style="text-align:right;">
+0.892
+</td>
+<td style="text-align:right;">
+0.208
+</td>
+<td style="text-align:right;">
+0.684
+</td>
+<td style="text-align:right;">
+297.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+10.24
+</td>
+<td style="text-align:right;">
+207.5
+</td>
+<td style="text-align:right;">
+10.24–10.38
+</td>
+<td style="text-align:right;">
+142
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.611
+</td>
+<td style="text-align:right;">
+0.861
+</td>
+<td style="text-align:right;">
+0.168
+</td>
+<td style="text-align:right;">
+0.693
+</td>
+<td style="text-align:right;">
+207.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+12.72
+</td>
+<td style="text-align:right;">
+198.1
+</td>
+<td style="text-align:right;">
+11.88–12.93
+</td>
+<td style="text-align:right;">
+1053
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.601
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:right;">
+0.564
+</td>
+<td style="text-align:right;">
+183.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+22.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.88
+</td>
+<td style="text-align:right;">
+728.2
+</td>
+<td style="text-align:right;">
+1.80–1.98
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.386
+</td>
+<td style="text-align:right;">
+0.725
+</td>
+<td style="text-align:right;">
+0.315
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+5.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+249.2
+</td>
+<td style="text-align:right;">
+0.01–0.80
+</td>
+<td style="text-align:right;">
+795
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+<td style="text-align:right;">
+0.635
+</td>
+<td style="text-align:right;">
+0.403
+</td>
+<td style="text-align:right;">
+0.232
+</td>
+<td style="text-align:right;">
+249.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+6.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.99
+</td>
+<td style="text-align:right;">
+153.8
+</td>
+<td style="text-align:right;">
+2.99–3.00
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+<td style="text-align:right;">
+0.142
+</td>
+<td style="text-align:right;">
+153.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.65
+</td>
+<td style="text-align:right;">
+100.8
+</td>
+<td style="text-align:right;">
+3.57–3.80
+</td>
+<td style="text-align:right;">
+220
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.154
+</td>
+<td style="text-align:right;">
+0.651
+</td>
+<td style="text-align:right;">
+0.503
+</td>
+<td style="text-align:right;">
+0.148
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+16.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.47
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:right;">
+13.37–13.53
+</td>
+<td style="text-align:right;">
+151
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.142
+</td>
+<td style="text-align:right;">
+0.415
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+26.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.40
+</td>
+<td style="text-align:right;">
+41.8
+</td>
+<td style="text-align:right;">
+11.27–11.52
+</td>
+<td style="text-align:right;">
+241
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.349
+</td>
+<td style="text-align:right;">
+0.253
+</td>
+<td style="text-align:right;">
+0.096
+</td>
+<td style="text-align:right;">
+8.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+21.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.80
+</td>
+<td style="text-align:right;">
+26.6
+</td>
+<td style="text-align:right;">
+4.80–4.89
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+<td style="text-align:right;">
+0.435
+</td>
+<td style="text-align:right;">
+0.371
+</td>
+<td style="text-align:right;">
+0.064
+</td>
+<td style="text-align:right;">
+23.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+15.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.95
+</td>
+<td style="text-align:right;">
+26.4
+</td>
+<td style="text-align:right;">
+9.89–10.07
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.076
+</td>
+<td style="text-align:right;">
+0.366
+</td>
+<td style="text-align:right;">
+0.282
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+23.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+19.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+939.5
+</td>
+<td style="text-align:right;">
+13.09–13.53
+</td>
+<td style="text-align:right;">
+436
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.314
+</td>
+<td style="text-align:right;">
+0.677
+</td>
+<td style="text-align:right;">
+0.996
+</td>
+<td style="text-align:right;">
+-0.320
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+328.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.08
+</td>
+<td style="text-align:right;">
+259.4
+</td>
+<td style="text-align:right;">
+12.04–12.08
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.153
+</td>
+<td style="text-align:right;">
+0.818
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+259.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+92.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+109.2
+</td>
+<td style="text-align:right;">
+0.32–0.67
+</td>
+<td style="text-align:right;">
+350
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.156
+</td>
+<td style="text-align:right;">
+0.516
+</td>
+<td style="text-align:right;">
+0.678
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+69.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.98
+</td>
+<td style="text-align:right;">
+155.8
+</td>
+<td style="text-align:right;">
+7.77–9.36
+</td>
+<td style="text-align:right;">
+1587
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.148
+</td>
+<td style="text-align:right;">
+0.108
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+-0.153
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+72.8
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.77
+</td>
+<td style="text-align:right;">
+132.8
+</td>
+<td style="text-align:right;">
+6.72–6.77
+</td>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.144
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.250
+</td>
+<td style="text-align:right;">
+-0.135
+</td>
+<td style="text-align:right;">
+132.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+150.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+11.17
+</td>
+<td style="text-align:right;">
+111.5
+</td>
+<td style="text-align:right;">
+10.78–11.42
+</td>
+<td style="text-align:right;">
+631
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.127
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+101.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+55.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:right;">
+17.44–17.49
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.137
+</td>
+<td style="text-align:right;">
+0.396
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+0.131
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+27.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.42
+</td>
+<td style="text-align:right;">
+68.6
+</td>
+<td style="text-align:right;">
+12.42–12.50
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+0.166
+</td>
+<td style="text-align:right;">
+0.280
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+68.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+70.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.76
+</td>
+<td style="text-align:right;">
+806.1
+</td>
+<td style="text-align:right;">
+10.52–11.02
+</td>
+<td style="text-align:right;">
+491
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.397
+</td>
+<td style="text-align:right;">
+0.389
+</td>
+<td style="text-align:right;">
+0.773
+</td>
+<td style="text-align:right;">
+-0.384
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.21
+</td>
+<td style="text-align:right;">
+725.1
+</td>
+<td style="text-align:right;">
+12.02–12.60
+</td>
+<td style="text-align:right;">
+583
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.385
+</td>
+<td style="text-align:right;">
+0.341
+</td>
+<td style="text-align:right;">
+0.728
+</td>
+<td style="text-align:right;">
+-0.387
+</td>
+<td style="text-align:right;">
+682.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.81
+</td>
+<td style="text-align:right;">
+611.1
+</td>
+<td style="text-align:right;">
+13.61–13.94
+</td>
+<td style="text-align:right;">
+330
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.359
+</td>
+<td style="text-align:right;">
+0.357
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+-0.374
+</td>
+<td style="text-align:right;">
+525.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.94
+</td>
+<td style="text-align:right;">
+480.4
+</td>
+<td style="text-align:right;">
+14.94–15.26
+</td>
+<td style="text-align:right;">
+320
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.320
+</td>
+<td style="text-align:right;">
+0.262
+</td>
+<td style="text-align:right;">
+0.587
+</td>
+<td style="text-align:right;">
+-0.325
+</td>
+<td style="text-align:right;">
+454.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+16.26
+</td>
+<td style="text-align:right;">
+398.9
+</td>
+<td style="text-align:right;">
+16.26–16.44
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.296
+</td>
+<td style="text-align:right;">
+0.302
+</td>
+<td style="text-align:right;">
+0.626
+</td>
+<td style="text-align:right;">
+-0.323
+</td>
+<td style="text-align:right;">
+398.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.71
+</td>
+<td style="text-align:right;">
+154.3
+</td>
+<td style="text-align:right;">
+9.14–9.94
+</td>
+<td style="text-align:right;">
+796
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:right;">
+0.941
+</td>
+<td style="text-align:right;">
+0.802
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+469.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.14
+</td>
+<td style="text-align:right;">
+105.4
+</td>
+<td style="text-align:right;">
+8.05–8.14
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+<td style="text-align:right;">
+0.866
+</td>
+<td style="text-align:right;">
+0.085
+</td>
+<td style="text-align:right;">
+105.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+610.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+10.95
+</td>
+<td style="text-align:right;">
+63.0
+</td>
+<td style="text-align:right;">
+10.95–10.98
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.077
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.856
+</td>
+<td style="text-align:right;">
+0.077
+</td>
+<td style="text-align:right;">
+63.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+307.9
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.99
+</td>
+<td style="text-align:right;">
+51.9
+</td>
+<td style="text-align:right;">
+11.99–12.04
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+<td style="text-align:right;">
+0.881
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+50.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+290.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.05
+</td>
+<td style="text-align:right;">
+39.5
+</td>
+<td style="text-align:right;">
+7.04–7.05
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+0.954
+</td>
+<td style="text-align:right;">
+0.916
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+39.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+789.1
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.63
+</td>
+<td style="text-align:right;">
+83.7
+</td>
+<td style="text-align:right;">
+9.29–9.86
+</td>
+<td style="text-align:right;">
+566
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:right;">
+0.917
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.82
+</td>
+<td style="text-align:right;">
+76.0
+</td>
+<td style="text-align:right;">
+7.62–8.29
+</td>
+<td style="text-align:right;">
+666
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+0.933
+</td>
+<td style="text-align:right;">
+0.858
+</td>
+<td style="text-align:right;">
+0.074
+</td>
+<td style="text-align:right;">
+71.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.58
+</td>
+<td style="text-align:right;">
+57.3
+</td>
+<td style="text-align:right;">
+11.46–11.82
+</td>
+<td style="text-align:right;">
+351
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+0.880
+</td>
+<td style="text-align:right;">
+0.826
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+42.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.62
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+6.51–6.62
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+0.929
+</td>
+<td style="text-align:right;">
+0.859
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.91
+</td>
+<td style="text-align:right;">
+45.8
+</td>
+<td style="text-align:right;">
+13.77–14.15
+</td>
+<td style="text-align:right;">
+376
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.707
+</td>
+<td style="text-align:right;">
+0.615
+</td>
+<td style="text-align:right;">
+0.092
+</td>
+<td style="text-align:right;">
+35.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+8.62
+</td>
+<td style="text-align:right;">
+63.9
+</td>
+<td style="text-align:right;">
+8.52–8.71
+</td>
+<td style="text-align:right;">
+181
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+0.343
+</td>
+<td style="text-align:right;">
+0.447
+</td>
+<td style="text-align:right;">
+-0.104
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.20
+</td>
+<td style="text-align:right;">
+60.7
+</td>
+<td style="text-align:right;">
+7.15–7.28
+</td>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.117
+</td>
+<td style="text-align:right;">
+0.315
+</td>
+<td style="text-align:right;">
+0.443
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+34.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.59
+</td>
+<td style="text-align:right;">
+47.9
+</td>
+<td style="text-align:right;">
+11.49–11.66
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.106
+</td>
+<td style="text-align:right;">
+0.374
+</td>
+<td style="text-align:right;">
+0.494
+</td>
+<td style="text-align:right;">
+-0.120
+</td>
+<td style="text-align:right;">
+22.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+5.94
+</td>
+<td style="text-align:right;">
+45.7
+</td>
+<td style="text-align:right;">
+5.84–6.04
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.104
+</td>
+<td style="text-align:right;">
+0.347
+</td>
+<td style="text-align:right;">
+0.463
+</td>
+<td style="text-align:right;">
+-0.116
+</td>
+<td style="text-align:right;">
+33.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.66
+</td>
+<td style="text-align:right;">
+44.0
+</td>
+<td style="text-align:right;">
+12.66–12.69
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+0.352
+</td>
+<td style="text-align:right;">
+0.451
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+32.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+18.5
+</td>
+<td style="text-align:right;">
+0.45–0.67
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.067
+</td>
+<td style="text-align:right;">
+0.522
+</td>
+<td style="text-align:right;">
+0.577
+</td>
+<td style="text-align:right;">
+-0.056
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+2.13
+</td>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+2.06–2.21
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.033
+</td>
+<td style="text-align:right;">
+0.669
+</td>
+<td style="text-align:right;">
+0.681
+</td>
+<td style="text-align:right;">
+-0.012
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.17
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+13.07–13.28
+</td>
+<td style="text-align:right;">
+201
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.029
+</td>
+<td style="text-align:right;">
+0.690
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+-0.024
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+3.21
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+3.21–3.25
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.022
+</td>
+<td style="text-align:right;">
+0.840
+</td>
+<td style="text-align:right;">
+0.861
+</td>
+<td style="text-align:right;">
+-0.021
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.01
+</td>
+<td style="text-align:right;">
+141.0
+</td>
+<td style="text-align:right;">
+8.72–9.90
+</td>
+<td style="text-align:right;">
+1177
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.257
+</td>
+<td style="text-align:right;">
+-0.141
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.29
+</td>
+<td style="text-align:right;">
+114.1
+</td>
+<td style="text-align:right;">
+6.97–7.53
+</td>
+<td style="text-align:right;">
+552
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.129
+</td>
+<td style="text-align:right;">
+0.123
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+106.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.91
+</td>
+<td style="text-align:right;">
+105.0
+</td>
+<td style="text-align:right;">
+10.91–11.54
+</td>
+<td style="text-align:right;">
+630
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.123
+</td>
+<td style="text-align:right;">
+0.130
+</td>
+<td style="text-align:right;">
+0.257
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+105.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.96
+</td>
+<td style="text-align:right;">
+87.1
+</td>
+<td style="text-align:right;">
+4.84–5.08
+</td>
+<td style="text-align:right;">
+236
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.116
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+0.267
+</td>
+<td style="text-align:right;">
+-0.135
+</td>
+<td style="text-align:right;">
+76.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.54
+</td>
+<td style="text-align:right;">
+80.5
+</td>
+<td style="text-align:right;">
+12.54–12.60
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.113
+</td>
+<td style="text-align:right;">
+0.156
+</td>
+<td style="text-align:right;">
+0.256
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+80.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.55
+</td>
+<td style="text-align:right;">
+90.0
+</td>
+<td style="text-align:right;">
+14.42–14.71
+</td>
+<td style="text-align:right;">
+286
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+0.298
+</td>
+<td style="text-align:right;">
+0.438
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+15.72
+</td>
+<td style="text-align:right;">
+71.8
+</td>
+<td style="text-align:right;">
+15.72–16.21
+</td>
+<td style="text-align:right;">
+495
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+0.321
+</td>
+<td style="text-align:right;">
+0.450
+</td>
+<td style="text-align:right;">
+-0.130
+</td>
+<td style="text-align:right;">
+71.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+11.76
+</td>
+<td style="text-align:right;">
+70.4
+</td>
+<td style="text-align:right;">
+11.65–11.98
+</td>
+<td style="text-align:right;">
+321
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+0.339
+</td>
+<td style="text-align:right;">
+0.458
+</td>
+<td style="text-align:right;">
+-0.119
+</td>
+<td style="text-align:right;">
+39.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.98
+</td>
+<td style="text-align:right;">
+45.7
+</td>
+<td style="text-align:right;">
+12.98–13.06
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+0.333
+</td>
+<td style="text-align:right;">
+0.433
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+45.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.65
+</td>
+<td style="text-align:right;">
+40.1
+</td>
+<td style="text-align:right;">
+10.54–10.65
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+0.417
+</td>
+<td style="text-align:right;">
+0.514
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+40.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+15.73
+</td>
+<td style="text-align:right;">
+18.4
+</td>
+<td style="text-align:right;">
+15.50–15.85
+</td>
+<td style="text-align:right;">
+345
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+0.780
+</td>
+<td style="text-align:right;">
+0.750
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.81
+</td>
+<td style="text-align:right;">
+15.6
+</td>
+<td style="text-align:right;">
+5.50–5.94
+</td>
+<td style="text-align:right;">
+435
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.025
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+0.942
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+12.43
+</td>
+<td style="text-align:right;">
+14.5
+</td>
+<td style="text-align:right;">
+12.23–12.65
+</td>
+<td style="text-align:right;">
+411
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+<td style="text-align:right;">
+0.909
+</td>
+<td style="text-align:right;">
+0.025
+</td>
+<td style="text-align:right;">
+3.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+4.50
+</td>
+<td style="text-align:right;">
+13.7
+</td>
+<td style="text-align:right;">
+4.45–4.50
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.962
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+10.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.72
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+8.57–8.98
+</td>
+<td style="text-align:right;">
+401
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+<td style="text-align:right;">
+0.950
+</td>
+<td style="text-align:right;">
+0.918
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.47
+</td>
+<td style="text-align:right;">
+29.9
+</td>
+<td style="text-align:right;">
+13.27–13.55
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.072
+</td>
+<td style="text-align:right;">
+0.731
+</td>
+<td style="text-align:right;">
+0.799
+</td>
+<td style="text-align:right;">
+-0.068
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+15.07
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+14.95–15.07
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.060
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+13.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.08
+</td>
+<td style="text-align:right;">
+12.5
+</td>
+<td style="text-align:right;">
+10.96–11.14
+</td>
+<td style="text-align:right;">
+177
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.032
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+0.931
+</td>
+<td style="text-align:right;">
+-0.035
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+0.01–0.04
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.633
+</td>
+<td style="text-align:right;">
+0.585
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+8.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.71
+</td>
+<td style="text-align:right;">
+148.4
+</td>
+<td style="text-align:right;">
+3.59–3.80
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.186
+</td>
+<td style="text-align:right;">
+0.661
+</td>
+<td style="text-align:right;">
+0.421
+</td>
+<td style="text-align:right;">
+0.239
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+6.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.77
+</td>
+<td style="text-align:right;">
+66.2
+</td>
+<td style="text-align:right;">
+10.71–10.83
+</td>
+<td style="text-align:right;">
+116
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+0.370
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+1.57
+</td>
+<td style="text-align:right;">
+50.8
+</td>
+<td style="text-align:right;">
+1.52–1.63
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+0.717
+</td>
+<td style="text-align:right;">
+0.640
+</td>
+<td style="text-align:right;">
+0.076
+</td>
+<td style="text-align:right;">
+16.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.92
+</td>
+<td style="text-align:right;">
+47.7
+</td>
+<td style="text-align:right;">
+12.88–12.97
+</td>
+<td style="text-align:right;">
+86
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+0.388
+</td>
+<td style="text-align:right;">
+0.283
+</td>
+<td style="text-align:right;">
+0.105
+</td>
+<td style="text-align:right;">
+13.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+8.12
+</td>
+<td style="text-align:right;">
+47.1
+</td>
+<td style="text-align:right;">
+8.04–8.21
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.097
+</td>
+<td style="text-align:right;">
+0.346
+</td>
+<td style="text-align:right;">
+0.242
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+23.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+709.9
+</td>
+<td style="text-align:right;">
+13.11–13.50
+</td>
+<td style="text-align:right;">
+385
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.288
+</td>
+<td style="text-align:right;">
+0.681
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+-0.287
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+88.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.11
+</td>
+<td style="text-align:right;">
+247.4
+</td>
+<td style="text-align:right;">
+12.08–12.11
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.153
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.965
+</td>
+<td style="text-align:right;">
+-0.154
+</td>
+<td style="text-align:right;">
+247.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+28.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.56
+</td>
+<td style="text-align:right;">
+75.4
+</td>
+<td style="text-align:right;">
+12.39–12.72
+</td>
+<td style="text-align:right;">
+330
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.109
+</td>
+<td style="text-align:right;">
+0.156
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+17.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.85
+</td>
+<td style="text-align:right;">
+48.7
+</td>
+<td style="text-align:right;">
+15.75–15.95
+</td>
+<td style="text-align:right;">
+196
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.106
+</td>
+<td style="text-align:right;">
+0.322
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+10.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+13.73
+</td>
+<td style="text-align:right;">
+38.8
+</td>
+<td style="text-align:right;">
+13.73–13.88
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+0.233
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+-0.074
+</td>
+<td style="text-align:right;">
+38.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+7.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+11.38
+</td>
+<td style="text-align:right;">
+33.7
+</td>
+<td style="text-align:right;">
+11.31–11.38
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.066
+</td>
+<td style="text-align:right;">
+0.167
+</td>
+<td style="text-align:right;">
+0.214
+</td>
+<td style="text-align:right;">
+-0.046
+</td>
+<td style="text-align:right;">
+33.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+23.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.32
+</td>
+<td style="text-align:right;">
+24.6
+</td>
+<td style="text-align:right;">
+8.99–9.54
+</td>
+<td style="text-align:right;">
+546
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+22.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+34.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.88
+</td>
+<td style="text-align:right;">
+74.7
+</td>
+<td style="text-align:right;">
+10.74–11.08
+</td>
+<td style="text-align:right;">
+341
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.133
+</td>
+<td style="text-align:right;">
+0.390
+</td>
+<td style="text-align:right;">
+0.518
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.30
+</td>
+<td style="text-align:right;">
+65.2
+</td>
+<td style="text-align:right;">
+1.18–1.44
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+0.720
+</td>
+<td style="text-align:right;">
+0.585
+</td>
+<td style="text-align:right;">
+0.135
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+65.0
+</td>
+<td style="text-align:right;">
+0.01–0.18
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.117
+</td>
+<td style="text-align:right;">
+0.735
+</td>
+<td style="text-align:right;">
+0.634
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+48.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+2.49
+</td>
+<td style="text-align:right;">
+45.3
+</td>
+<td style="text-align:right;">
+2.49–2.74
+</td>
+<td style="text-align:right;">
+249
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.885
+</td>
+<td style="text-align:right;">
+0.872
+</td>
+<td style="text-align:right;">
+0.014
+</td>
+<td style="text-align:right;">
+45.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.74
+</td>
+<td style="text-align:right;">
+34.7
+</td>
+<td style="text-align:right;">
+3.74–3.90
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.085
+</td>
+<td style="text-align:right;">
+0.729
+</td>
+<td style="text-align:right;">
+0.639
+</td>
+<td style="text-align:right;">
+0.090
+</td>
+<td style="text-align:right;">
+34.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.38
+</td>
+<td style="text-align:right;">
+183.4
+</td>
+<td style="text-align:right;">
+11.13–11.62
+</td>
+<td style="text-align:right;">
+490
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.55
+</td>
+<td style="text-align:right;">
+159.3
+</td>
+<td style="text-align:right;">
+9.33–9.97
+</td>
+<td style="text-align:right;">
+637
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+0.125
+</td>
+<td style="text-align:right;">
+125.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.61
+</td>
+<td style="text-align:right;">
+119.8
+</td>
+<td style="text-align:right;">
+7.50–7.91
+</td>
+<td style="text-align:right;">
+401
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+0.852
+</td>
+<td style="text-align:right;">
+0.093
+</td>
+<td style="text-align:right;">
+109.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+7.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.00
+</td>
+<td style="text-align:right;">
+109.1
+</td>
+<td style="text-align:right;">
+12.79–13.18
+</td>
+<td style="text-align:right;">
+386
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.113
+</td>
+<td style="text-align:right;">
+0.916
+</td>
+<td style="text-align:right;">
+0.802
+</td>
+<td style="text-align:right;">
+0.114
+</td>
+<td style="text-align:right;">
+103.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+14.19
+</td>
+<td style="text-align:right;">
+38.9
+</td>
+<td style="text-align:right;">
+14.19–14.24
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.080
+</td>
+<td style="text-align:right;">
+0.831
+</td>
+<td style="text-align:right;">
+0.758
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+36.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.86
+</td>
+<td style="text-align:right;">
+17.1
+</td>
+<td style="text-align:right;">
+9.70–10.02
+</td>
+<td style="text-align:right;">
+320
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.036
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+<td style="text-align:right;">
+0.882
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.78
+</td>
+<td style="text-align:right;">
+16.8
+</td>
+<td style="text-align:right;">
+7.67–7.87
+</td>
+<td style="text-align:right;">
+195
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.900
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+5.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.08
+</td>
+<td style="text-align:right;">
+14.3
+</td>
+<td style="text-align:right;">
+13.95–14.18
+</td>
+<td style="text-align:right;">
+221
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.720
+</td>
+<td style="text-align:right;">
+0.659
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+12.95
+</td>
+<td style="text-align:right;">
+13.7
+</td>
+<td style="text-align:right;">
+12.69–12.95
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+0.796
+</td>
+<td style="text-align:right;">
+0.743
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+8.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.33
+</td>
+<td style="text-align:right;">
+12.8
+</td>
+<td style="text-align:right;">
+11.24–11.44
+</td>
+<td style="text-align:right;">
+200
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.893
+</td>
+<td style="text-align:right;">
+0.858
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.08
+</td>
+<td style="text-align:right;">
+27.6
+</td>
+<td style="text-align:right;">
+12.01–12.15
+</td>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.082
+</td>
+<td style="text-align:right;">
+0.431
+</td>
+<td style="text-align:right;">
+0.545
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.21
+</td>
+<td style="text-align:right;">
+26.3
+</td>
+<td style="text-align:right;">
+13.15–13.29
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.079
+</td>
+<td style="text-align:right;">
+0.348
+</td>
+<td style="text-align:right;">
+0.451
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+16.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.28
+</td>
+<td style="text-align:right;">
+18.8
+</td>
+<td style="text-align:right;">
+15.27–15.28
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.067
+</td>
+<td style="text-align:right;">
+0.408
+</td>
+<td style="text-align:right;">
+0.462
+</td>
+<td style="text-align:right;">
+-0.054
+</td>
+<td style="text-align:right;">
+8.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.81
+</td>
+<td style="text-align:right;">
+18.4
+</td>
+<td style="text-align:right;">
+3.72–3.87
+</td>
+<td style="text-align:right;">
+147
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+0.622
+</td>
+<td style="text-align:right;">
+0.568
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+5.42
+</td>
+<td style="text-align:right;">
+11.0
+</td>
+<td style="text-align:right;">
+5.38–5.46
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.373
+</td>
+<td style="text-align:right;">
+0.436
+</td>
+<td style="text-align:right;">
+-0.063
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.29
+</td>
+<td style="text-align:right;">
+82.4
+</td>
+<td style="text-align:right;">
+13.03–13.54
+</td>
+<td style="text-align:right;">
+511
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.122
+</td>
+<td style="text-align:right;">
+0.680
+</td>
+<td style="text-align:right;">
+0.793
+</td>
+<td style="text-align:right;">
+-0.113
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+8.01
+</td>
+<td style="text-align:right;">
+72.4
+</td>
+<td style="text-align:right;">
+7.96–8.08
+</td>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.045
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+0.990
+</td>
+<td style="text-align:right;">
+-0.043
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+6.08
+</td>
+<td style="text-align:right;">
+69.8
+</td>
+<td style="text-align:right;">
+5.95–6.30
+</td>
+<td style="text-align:right;">
+345
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+0.933
+</td>
+<td style="text-align:right;">
+0.983
+</td>
+<td style="text-align:right;">
+-0.050
+</td>
+<td style="text-align:right;">
+24.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+4.95
+</td>
+<td style="text-align:right;">
+30.4
+</td>
+<td style="text-align:right;">
+4.74–4.95
+</td>
+<td style="text-align:right;">
+205
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.041
+</td>
+<td style="text-align:right;">
+0.921
+</td>
+<td style="text-align:right;">
+0.953
+</td>
+<td style="text-align:right;">
+-0.032
+</td>
+<td style="text-align:right;">
+30.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.03
+</td>
+<td style="text-align:right;">
+22.0
+</td>
+<td style="text-align:right;">
+11.99–12.03
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+0.853
+</td>
+<td style="text-align:right;">
+-0.036
+</td>
+<td style="text-align:right;">
+22.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.21
+</td>
+<td style="text-align:right;">
+13.9
+</td>
+<td style="text-align:right;">
+16.99–17.39
+</td>
+<td style="text-align:right;">
+391
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.057
+</td>
+<td style="text-align:right;">
+0.422
+</td>
+<td style="text-align:right;">
+0.340
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+8.0
+</td>
+<td style="text-align:right;">
+0.02–0.08
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.045
+</td>
+<td style="text-align:right;">
+0.494
+</td>
+<td style="text-align:right;">
+0.553
+</td>
+<td style="text-align:right;">
+-0.059
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.14
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+4.07–4.20
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+0.452
+</td>
+<td style="text-align:right;">
+0.386
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+13.73
+</td>
+<td style="text-align:right;">
+5.1
+</td>
+<td style="text-align:right;">
+13.64–13.86
+</td>
+<td style="text-align:right;">
+221
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.237
+</td>
+<td style="text-align:right;">
+0.218
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.26
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+6.19–6.40
+</td>
+<td style="text-align:right;">
+206
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+0.182
+</td>
+<td style="text-align:right;">
+0.147
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.76
+</td>
+<td style="text-align:right;">
+97.7
+</td>
+<td style="text-align:right;">
+10.58–10.94
+</td>
+<td style="text-align:right;">
+362
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.153
+</td>
+<td style="text-align:right;">
+0.398
+</td>
+<td style="text-align:right;">
+0.546
+</td>
+<td style="text-align:right;">
+-0.148
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+11.94
+</td>
+<td style="text-align:right;">
+86.4
+</td>
+<td style="text-align:right;">
+11.94–12.11
+</td>
+<td style="text-align:right;">
+163
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.142
+</td>
+<td style="text-align:right;">
+0.337
+</td>
+<td style="text-align:right;">
+0.494
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+73.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+15.85
+</td>
+<td style="text-align:right;">
+75.7
+</td>
+<td style="text-align:right;">
+15.60–16.15
+</td>
+<td style="text-align:right;">
+540
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.132
+</td>
+<td style="text-align:right;">
+0.339
+</td>
+<td style="text-align:right;">
+0.465
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+49.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.60
+</td>
+<td style="text-align:right;">
+68.0
+</td>
+<td style="text-align:right;">
+14.16–14.60
+</td>
+<td style="text-align:right;">
+438
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+0.300
+</td>
+<td style="text-align:right;">
+0.457
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+59.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.11
+</td>
+<td style="text-align:right;">
+53.4
+</td>
+<td style="text-align:right;">
+13.11–13.16
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.112
+</td>
+<td style="text-align:right;">
+0.373
+</td>
+<td style="text-align:right;">
+0.478
+</td>
+<td style="text-align:right;">
+-0.105
+</td>
+<td style="text-align:right;">
+53.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.62
+</td>
+<td style="text-align:right;">
+10.4
+</td>
+<td style="text-align:right;">
+8.50–8.70
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+0.924
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.64
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+11.50–11.78
+</td>
+<td style="text-align:right;">
+281
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.021
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+2.29
+</td>
+<td style="text-align:right;">
+5.3
+</td>
+<td style="text-align:right;">
+2.19–2.39
+</td>
+<td style="text-align:right;">
+196
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+0.826
+</td>
+<td style="text-align:right;">
+0.786
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.70
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+9.70–9.72
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.50
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+7.48–7.50
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.950
+</td>
+<td style="text-align:right;">
+0.933
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+12.54
+</td>
+<td style="text-align:right;">
+48.5
+</td>
+<td style="text-align:right;">
+12.45–12.66
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:right;">
+0.836
+</td>
+<td style="text-align:right;">
+0.699
+</td>
+<td style="text-align:right;">
+0.136
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.85
+</td>
+<td style="text-align:right;">
+45.9
+</td>
+<td style="text-align:right;">
+7.62–8.13
+</td>
+<td style="text-align:right;">
+511
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+0.097
+</td>
+<td style="text-align:right;">
+15.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.37
+</td>
+<td style="text-align:right;">
+45.6
+</td>
+<td style="text-align:right;">
+2.25–2.46
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+0.793
+</td>
+<td style="text-align:right;">
+0.667
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+18.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.61
+</td>
+<td style="text-align:right;">
+39.0
+</td>
+<td style="text-align:right;">
+6.44–6.61
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+<td style="text-align:right;">
+0.929
+</td>
+<td style="text-align:right;">
+0.830
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+37.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.06
+</td>
+<td style="text-align:right;">
+38.0
+</td>
+<td style="text-align:right;">
+13.80–14.19
+</td>
+<td style="text-align:right;">
+386
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:right;">
+0.716
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+0.072
+</td>
+<td style="text-align:right;">
+29.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.44
+</td>
+<td style="text-align:right;">
+38.1
+</td>
+<td style="text-align:right;">
+7.27–7.75
+</td>
+<td style="text-align:right;">
+470
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+0.354
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.48
+</td>
+<td style="text-align:right;">
+33.9
+</td>
+<td style="text-align:right;">
+9.29–9.56
+</td>
+<td style="text-align:right;">
+271
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.119
+</td>
+<td style="text-align:right;">
+0.353
+</td>
+<td style="text-align:right;">
+0.469
+</td>
+<td style="text-align:right;">
+-0.116
+</td>
+<td style="text-align:right;">
+26.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6.27
+</td>
+<td style="text-align:right;">
+31.4
+</td>
+<td style="text-align:right;">
+6.24–6.27
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+0.354
+</td>
+<td style="text-align:right;">
+0.491
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+24.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.56
+</td>
+<td style="text-align:right;">
+27.9
+</td>
+<td style="text-align:right;">
+10.56–10.59
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.109
+</td>
+<td style="text-align:right;">
+0.362
+</td>
+<td style="text-align:right;">
+0.474
+</td>
+<td style="text-align:right;">
+-0.112
+</td>
+<td style="text-align:right;">
+19.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.79
+</td>
+<td style="text-align:right;">
+21.4
+</td>
+<td style="text-align:right;">
+11.59–11.85
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.450
+</td>
+<td style="text-align:right;">
+-0.069
+</td>
+<td style="text-align:right;">
+13.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+138.1
+</td>
+<td style="text-align:right;">
+13.10–13.53
+</td>
+<td style="text-align:right;">
+421
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.184
+</td>
+<td style="text-align:right;">
+0.681
+</td>
+<td style="text-align:right;">
+0.886
+</td>
+<td style="text-align:right;">
+-0.204
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.10
+</td>
+<td style="text-align:right;">
+43.5
+</td>
+<td style="text-align:right;">
+12.07–12.10
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.090
+</td>
+<td style="text-align:right;">
+0.815
+</td>
+<td style="text-align:right;">
+0.893
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+43.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+37.3
+</td>
+<td style="text-align:right;">
+0.60–0.92
+</td>
+<td style="text-align:right;">
+316
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.120
+</td>
+<td style="text-align:right;">
+0.545
+</td>
+<td style="text-align:right;">
+0.664
+</td>
+<td style="text-align:right;">
+-0.119
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+15.6
+</td>
+<td style="text-align:right;">
+0.29–0.70
+</td>
+<td style="text-align:right;">
+410
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.082
+</td>
+<td style="text-align:right;">
+0.466
+</td>
+<td style="text-align:right;">
+0.581
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.01
+</td>
+<td style="text-align:right;">
+7.1
+</td>
+<td style="text-align:right;">
+8.89–9.18
+</td>
+<td style="text-align:right;">
+285
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.038
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+<td style="text-align:right;">
+-0.024
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.98
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+5.87–6.07
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.039
+</td>
+<td style="text-align:right;">
+0.137
+</td>
+<td style="text-align:right;">
+0.184
+</td>
+<td style="text-align:right;">
+-0.047
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.27
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+15.17–15.35
+</td>
+<td style="text-align:right;">
+176
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.318
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.18
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+16.85–17.38
+</td>
+<td style="text-align:right;">
+526
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+0.340
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+11.90
+</td>
+<td style="text-align:right;">
+135.4
+</td>
+<td style="text-align:right;">
+11.74–12.17
+</td>
+<td style="text-align:right;">
+431
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.235
+</td>
+<td style="text-align:right;">
+0.340
+</td>
+<td style="text-align:right;">
+0.592
+</td>
+<td style="text-align:right;">
+-0.252
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.51
+</td>
+<td style="text-align:right;">
+132.9
+</td>
+<td style="text-align:right;">
+10.28–10.70
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.230
+</td>
+<td style="text-align:right;">
+0.427
+</td>
+<td style="text-align:right;">
+0.668
+</td>
+<td style="text-align:right;">
+-0.241
+</td>
+<td style="text-align:right;">
+118.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.17
+</td>
+<td style="text-align:right;">
+95.3
+</td>
+<td style="text-align:right;">
+13.17–14.06
+</td>
+<td style="text-align:right;">
+885
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.199
+</td>
+<td style="text-align:right;">
+0.347
+</td>
+<td style="text-align:right;">
+0.542
+</td>
+<td style="text-align:right;">
+-0.195
+</td>
+<td style="text-align:right;">
+95.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+9.28
+</td>
+<td style="text-align:right;">
+74.3
+</td>
+<td style="text-align:right;">
+9.23–9.28
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.171
+</td>
+<td style="text-align:right;">
+0.491
+</td>
+<td style="text-align:right;">
+0.665
+</td>
+<td style="text-align:right;">
+-0.174
+</td>
+<td style="text-align:right;">
+74.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+15.06
+</td>
+<td style="text-align:right;">
+65.0
+</td>
+<td style="text-align:right;">
+15.06–15.13
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+0.418
+</td>
+<td style="text-align:right;">
+-0.163
+</td>
+<td style="text-align:right;">
+65.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+15.52
+</td>
+<td style="text-align:right;">
+14.7
+</td>
+<td style="text-align:right;">
+15.43–15.66
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:right;">
+0.784
+</td>
+<td style="text-align:right;">
+0.692
+</td>
+<td style="text-align:right;">
+0.092
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.00
+</td>
+<td style="text-align:right;">
+10.0
+</td>
+<td style="text-align:right;">
+12.92–13.07
+</td>
+<td style="text-align:right;">
+141
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+0.914
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+<td style="text-align:right;">
+0.080
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.92
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+<td style="text-align:right;">
+11.81–11.92
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.897
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+14.43
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+14.39–14.43
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.805
+</td>
+<td style="text-align:right;">
+0.742
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:right;">
+493.0
+</td>
+<td style="text-align:right;">
+1.78–1.96
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.327
+</td>
+<td style="text-align:right;">
+0.314
+</td>
+<td style="text-align:right;">
+0.646
+</td>
+<td style="text-align:right;">
+-0.332
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+223.4
+</td>
+<td style="text-align:right;">
+0.23–0.78
+</td>
+<td style="text-align:right;">
+553
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.227
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+0.613
+</td>
+<td style="text-align:right;">
+-0.208
+</td>
+<td style="text-align:right;">
+221.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+94.7
+</td>
+<td style="text-align:right;">
+2.96–2.98
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.131
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+0.794
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+94.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+10.33
+</td>
+<td style="text-align:right;">
+69.0
+</td>
+<td style="text-align:right;">
+10.20–10.41
+</td>
+<td style="text-align:right;">
+206
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.081
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+<td style="text-align:right;">
+0.865
+</td>
+<td style="text-align:right;">
+0.071
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.83
+</td>
+<td style="text-align:right;">
+56.6
+</td>
+<td style="text-align:right;">
+7.62–8.03
+</td>
+<td style="text-align:right;">
+405
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+0.923
+</td>
+<td style="text-align:right;">
+0.858
+</td>
+<td style="text-align:right;">
+0.065
+</td>
+<td style="text-align:right;">
+49.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.38
+</td>
+<td style="text-align:right;">
+204.3
+</td>
+<td style="text-align:right;">
+13.28–13.48
+</td>
+<td style="text-align:right;">
+201
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.210
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+<td style="text-align:right;">
+0.472
+</td>
+<td style="text-align:right;">
+-0.199
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.49
+</td>
+<td style="text-align:right;">
+176.9
+</td>
+<td style="text-align:right;">
+11.42–11.63
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.197
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+<td style="text-align:right;">
+-0.203
+</td>
+<td style="text-align:right;">
+83.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.06
+</td>
+<td style="text-align:right;">
+116.2
+</td>
+<td style="text-align:right;">
+9.93–10.20
+</td>
+<td style="text-align:right;">
+266
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.160
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+-0.163
+</td>
+<td style="text-align:right;">
+105.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.69
+</td>
+<td style="text-align:right;">
+106.2
+</td>
+<td style="text-align:right;">
+4.55–4.76
+</td>
+<td style="text-align:right;">
+206
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+0.386
+</td>
+<td style="text-align:right;">
+0.537
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+57.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6.70
+</td>
+<td style="text-align:right;">
+101.7
+</td>
+<td style="text-align:right;">
+6.63–6.76
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.148
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+0.441
+</td>
+<td style="text-align:right;">
+-0.154
+</td>
+<td style="text-align:right;">
+68.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.37
+</td>
+<td style="text-align:right;">
+825.0
+</td>
+<td style="text-align:right;">
+13.11–13.62
+</td>
+<td style="text-align:right;">
+505
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+0.996
+</td>
+<td style="text-align:right;">
+0.712
+</td>
+<td style="text-align:right;">
+0.284
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.11
+</td>
+<td style="text-align:right;">
+259.5
+</td>
+<td style="text-align:right;">
+12.06–12.11
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.154
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+0.798
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+259.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+93.3
+</td>
+<td style="text-align:right;">
+17.46–17.49
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+0.402
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+47.2
+</td>
+<td style="text-align:right;">
+0.02–0.07
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.106
+</td>
+<td style="text-align:right;">
+0.589
+</td>
+<td style="text-align:right;">
+0.489
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.64
+</td>
+<td style="text-align:right;">
+42.0
+</td>
+<td style="text-align:right;">
+15.53–15.91
+</td>
+<td style="text-align:right;">
+371
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.092
+</td>
+<td style="text-align:right;">
+0.246
+</td>
+<td style="text-align:right;">
+0.348
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+35.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+14.45
+</td>
+<td style="text-align:right;">
+37.9
+</td>
+<td style="text-align:right;">
+14.23–14.53
+</td>
+<td style="text-align:right;">
+297
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+0.192
+</td>
+<td style="text-align:right;">
+0.295
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+23.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+3.24
+</td>
+<td style="text-align:right;">
+14.1
+</td>
+<td style="text-align:right;">
+2.96–3.34
+</td>
+<td style="text-align:right;">
+375
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.056
+</td>
+<td style="text-align:right;">
+0.314
+</td>
+<td style="text-align:right;">
+0.385
+</td>
+<td style="text-align:right;">
+-0.071
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.68
+</td>
+<td style="text-align:right;">
+440.5
+</td>
+<td style="text-align:right;">
+10.47–10.98
+</td>
+<td style="text-align:right;">
+507
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.297
+</td>
+<td style="text-align:right;">
+0.783
+</td>
+<td style="text-align:right;">
+0.513
+</td>
+<td style="text-align:right;">
+0.270
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.34
+</td>
+<td style="text-align:right;">
+329.7
+</td>
+<td style="text-align:right;">
+12.06–12.61
+</td>
+<td style="text-align:right;">
+550
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.267
+</td>
+<td style="text-align:right;">
+0.741
+</td>
+<td style="text-align:right;">
+0.475
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+293.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.80
+</td>
+<td style="text-align:right;">
+299.7
+</td>
+<td style="text-align:right;">
+13.66–13.90
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.257
+</td>
+<td style="text-align:right;">
+0.733
+</td>
+<td style="text-align:right;">
+0.464
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+257.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+9.47
+</td>
+<td style="text-align:right;">
+223.0
+</td>
+<td style="text-align:right;">
+9.38–9.47
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.215
+</td>
+<td style="text-align:right;">
+0.778
+</td>
+<td style="text-align:right;">
+0.536
+</td>
+<td style="text-align:right;">
+0.242
+</td>
+<td style="text-align:right;">
+223.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.90
+</td>
+<td style="text-align:right;">
+161.9
+</td>
+<td style="text-align:right;">
+14.90–15.13
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.194
+</td>
+<td style="text-align:right;">
+0.600
+</td>
+<td style="text-align:right;">
+0.404
+</td>
+<td style="text-align:right;">
+0.197
+</td>
+<td style="text-align:right;">
+132.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.72
+</td>
+<td style="text-align:right;">
+91.9
+</td>
+<td style="text-align:right;">
+9.42–10.13
+</td>
+<td style="text-align:right;">
+711
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+0.808
+</td>
+<td style="text-align:right;">
+0.930
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.42
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+<td style="text-align:right;">
+8.27–8.42
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+0.846
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+16.06
+</td>
+<td style="text-align:right;">
+46.5
+</td>
+<td style="text-align:right;">
+15.93–16.17
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.740
+</td>
+<td style="text-align:right;">
+0.072
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.27
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+<td style="text-align:right;">
+7.25–7.27
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+0.875
+</td>
+<td style="text-align:right;">
+0.939
+</td>
+<td style="text-align:right;">
+-0.063
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.58
+</td>
+<td style="text-align:right;">
+27.7
+</td>
+<td style="text-align:right;">
+11.29–11.68
+</td>
+<td style="text-align:right;">
+385
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.849
+</td>
+<td style="text-align:right;">
+0.915
+</td>
+<td style="text-align:right;">
+-0.066
+</td>
+<td style="text-align:right;">
+25.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:right;">
+671.7
+</td>
+<td style="text-align:right;">
+1.79–1.96
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.375
+</td>
+<td style="text-align:right;">
+0.314
+</td>
+<td style="text-align:right;">
+0.715
+</td>
+<td style="text-align:right;">
+-0.401
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:right;">
+221.4
+</td>
+<td style="text-align:right;">
+0.64–0.78
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.226
+</td>
+<td style="text-align:right;">
+0.398
+</td>
+<td style="text-align:right;">
+0.628
+</td>
+<td style="text-align:right;">
+-0.230
+</td>
+<td style="text-align:right;">
+221.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+137.1
+</td>
+<td style="text-align:right;">
+2.96–2.99
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.155
+</td>
+<td style="text-align:right;">
+0.684
+</td>
+<td style="text-align:right;">
+0.827
+</td>
+<td style="text-align:right;">
+-0.143
+</td>
+<td style="text-align:right;">
+137.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.38
+</td>
+<td style="text-align:right;">
+199.1
+</td>
+<td style="text-align:right;">
+13.31–13.44
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.208
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+<td style="text-align:right;">
+0.478
+</td>
+<td style="text-align:right;">
+-0.205
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.81
+</td>
+<td style="text-align:right;">
+91.5
+</td>
+<td style="text-align:right;">
+11.45–11.97
+</td>
+<td style="text-align:right;">
+510
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.143
+</td>
+<td style="text-align:right;">
+0.307
+</td>
+<td style="text-align:right;">
+0.433
+</td>
+<td style="text-align:right;">
+-0.127
+</td>
+<td style="text-align:right;">
+59.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.28
+</td>
+<td style="text-align:right;">
+76.8
+</td>
+<td style="text-align:right;">
+15.26–15.28
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.133
+</td>
+<td style="text-align:right;">
+0.338
+</td>
+<td style="text-align:right;">
+0.462
+</td>
+<td style="text-align:right;">
+-0.123
+</td>
+<td style="text-align:right;">
+49.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.05
+</td>
+<td style="text-align:right;">
+55.6
+</td>
+<td style="text-align:right;">
+9.96–10.13
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.110
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+0.397
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+42.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.54
+</td>
+<td style="text-align:right;">
+37.0
+</td>
+<td style="text-align:right;">
+3.48–3.65
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+0.419
+</td>
+<td style="text-align:right;">
+0.539
+</td>
+<td style="text-align:right;">
+-0.120
+</td>
+<td style="text-align:right;">
+5.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+477.8
+</td>
+<td style="text-align:right;">
+13.10–13.54
+</td>
+<td style="text-align:right;">
+435
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.192
+</td>
+<td style="text-align:right;">
+0.997
+</td>
+<td style="text-align:right;">
+0.794
+</td>
+<td style="text-align:right;">
+0.203
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.09
+</td>
+<td style="text-align:right;">
+130.9
+</td>
+<td style="text-align:right;">
+12.05–12.09
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.959
+</td>
+<td style="text-align:right;">
+0.859
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+130.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+48.6
+</td>
+<td style="text-align:right;">
+0.21–0.64
+</td>
+<td style="text-align:right;">
+421
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.681
+</td>
+<td style="text-align:right;">
+0.599
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.14
+</td>
+<td style="text-align:right;">
+196.2
+</td>
+<td style="text-align:right;">
+6.82–7.32
+</td>
+<td style="text-align:right;">
+495
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+0.281
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.32
+</td>
+<td style="text-align:right;">
+178.9
+</td>
+<td style="text-align:right;">
+8.32–8.86
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+0.258
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.141
+</td>
+<td style="text-align:right;">
+178.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.86
+</td>
+<td style="text-align:right;">
+132.5
+</td>
+<td style="text-align:right;">
+9.86–9.98
+</td>
+<td style="text-align:right;">
+125
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.135
+</td>
+<td style="text-align:right;">
+0.260
+</td>
+<td style="text-align:right;">
+0.113
+</td>
+<td style="text-align:right;">
+0.146
+</td>
+<td style="text-align:right;">
+132.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+11.12
+</td>
+<td style="text-align:right;">
+123.3
+</td>
+<td style="text-align:right;">
+10.98–11.33
+</td>
+<td style="text-align:right;">
+341
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+<td style="text-align:right;">
+0.241
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:right;">
+0.119
+</td>
+<td style="text-align:right;">
+112.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.82
+</td>
+<td style="text-align:right;">
+76.9
+</td>
+<td style="text-align:right;">
+5.71–5.82
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+0.226
+</td>
+<td style="text-align:right;">
+0.114
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+76.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.48
+</td>
+<td style="text-align:right;">
+310.7
+</td>
+<td style="text-align:right;">
+12.25–12.63
+</td>
+<td style="text-align:right;">
+371
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.729
+</td>
+<td style="text-align:right;">
+0.460
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.78
+</td>
+<td style="text-align:right;">
+296.5
+</td>
+<td style="text-align:right;">
+10.40–11.25
+</td>
+<td style="text-align:right;">
+846
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.244
+</td>
+<td style="text-align:right;">
+0.783
+</td>
+<td style="text-align:right;">
+0.532
+</td>
+<td style="text-align:right;">
+0.250
+</td>
+<td style="text-align:right;">
+259.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.78
+</td>
+<td style="text-align:right;">
+259.4
+</td>
+<td style="text-align:right;">
+13.63–13.89
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.240
+</td>
+<td style="text-align:right;">
+0.723
+</td>
+<td style="text-align:right;">
+0.487
+</td>
+<td style="text-align:right;">
+0.237
+</td>
+<td style="text-align:right;">
+230.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+15.09
+</td>
+<td style="text-align:right;">
+171.7
+</td>
+<td style="text-align:right;">
+14.89–15.36
+</td>
+<td style="text-align:right;">
+469
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.201
+</td>
+<td style="text-align:right;">
+0.573
+</td>
+<td style="text-align:right;">
+0.366
+</td>
+<td style="text-align:right;">
+0.207
+</td>
+<td style="text-align:right;">
+158.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+9.40
+</td>
+<td style="text-align:right;">
+147.1
+</td>
+<td style="text-align:right;">
+9.35–9.40
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+0.768
+</td>
+<td style="text-align:right;">
+0.583
+</td>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+147.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.98
+</td>
+<td style="text-align:right;">
+118.4
+</td>
+<td style="text-align:right;">
+9.83–10.14
+</td>
+<td style="text-align:right;">
+311
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.112
+</td>
+<td style="text-align:right;">
+0.818
+</td>
+<td style="text-align:right;">
+0.929
+</td>
+<td style="text-align:right;">
+-0.111
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.82
+</td>
+<td style="text-align:right;">
+85.8
+</td>
+<td style="text-align:right;">
+8.70–8.82
+</td>
+<td style="text-align:right;">
+127
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.093
+</td>
+<td style="text-align:right;">
+0.823
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+85.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.69
+</td>
+<td style="text-align:right;">
+56.2
+</td>
+<td style="text-align:right;">
+7.55–7.69
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.071
+</td>
+<td style="text-align:right;">
+0.855
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+<td style="text-align:right;">
+-0.079
+</td>
+<td style="text-align:right;">
+56.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+6.40
+</td>
+<td style="text-align:right;">
+33.1
+</td>
+<td style="text-align:right;">
+6.24–6.50
+</td>
+<td style="text-align:right;">
+251
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.044
+</td>
+<td style="text-align:right;">
+0.908
+</td>
+<td style="text-align:right;">
+0.953
+</td>
+<td style="text-align:right;">
+-0.044
+</td>
+<td style="text-align:right;">
+23.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.14
+</td>
+<td style="text-align:right;">
+27.9
+</td>
+<td style="text-align:right;">
+11.14–11.19
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.860
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+27.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:right;">
+197.7
+</td>
+<td style="text-align:right;">
+1.77–1.94
+</td>
+<td style="text-align:right;">
+161
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.280
+</td>
+<td style="text-align:right;">
+0.314
+</td>
+<td style="text-align:right;">
+0.597
+</td>
+<td style="text-align:right;">
+-0.283
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+<td style="text-align:right;">
+50.1
+</td>
+<td style="text-align:right;">
+0.62–0.77
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.145
+</td>
+<td style="text-align:right;">
+0.394
+</td>
+<td style="text-align:right;">
+0.543
+</td>
+<td style="text-align:right;">
+-0.149
+</td>
+<td style="text-align:right;">
+50.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.85
+</td>
+<td style="text-align:right;">
+36.1
+</td>
+<td style="text-align:right;">
+7.62–8.04
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+0.926
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+5.92
+</td>
+<td style="text-align:right;">
+35.2
+</td>
+<td style="text-align:right;">
+5.73–6.15
+</td>
+<td style="text-align:right;">
+416
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+0.917
+</td>
+<td style="text-align:right;">
+0.861
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+10.24
+</td>
+<td style="text-align:right;">
+29.7
+</td>
+<td style="text-align:right;">
+9.97–10.36
+</td>
+<td style="text-align:right;">
+385
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.074
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+<td style="text-align:right;">
+0.881
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+22.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.37
+</td>
+<td style="text-align:right;">
+90.2
+</td>
+<td style="text-align:right;">
+13.26–13.44
+</td>
+<td style="text-align:right;">
+177
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.189
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+<td style="text-align:right;">
+0.434
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.52
+</td>
+<td style="text-align:right;">
+90.2
+</td>
+<td style="text-align:right;">
+10.40–10.65
+</td>
+<td style="text-align:right;">
+251
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.192
+</td>
+<td style="text-align:right;">
+0.282
+</td>
+<td style="text-align:right;">
+0.472
+</td>
+<td style="text-align:right;">
+-0.190
+</td>
+<td style="text-align:right;">
+26.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.65
+</td>
+<td style="text-align:right;">
+80.7
+</td>
+<td style="text-align:right;">
+11.65–11.76
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.181
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+<td style="text-align:right;">
+0.481
+</td>
+<td style="text-align:right;">
+-0.190
+</td>
+<td style="text-align:right;">
+68.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6.40
+</td>
+<td style="text-align:right;">
+64.3
+</td>
+<td style="text-align:right;">
+6.28–6.58
+</td>
+<td style="text-align:right;">
+301
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.162
+</td>
+<td style="text-align:right;">
+0.306
+</td>
+<td style="text-align:right;">
+0.447
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+37.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.91
+</td>
+<td style="text-align:right;">
+53.0
+</td>
+<td style="text-align:right;">
+4.68–5.05
+</td>
+<td style="text-align:right;">
+367
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.149
+</td>
+<td style="text-align:right;">
+0.361
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+30.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.29
+</td>
+<td style="text-align:right;">
+121.5
+</td>
+<td style="text-align:right;">
+13.05–13.56
+</td>
+<td style="text-align:right;">
+506
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.131
+</td>
+<td style="text-align:right;">
+0.996
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.105
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.05
+</td>
+<td style="text-align:right;">
+32.5
+</td>
+<td style="text-align:right;">
+11.87–12.05
+</td>
+<td style="text-align:right;">
+181
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.064
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:right;">
+32.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.14
+</td>
+<td style="text-align:right;">
+68.4
+</td>
+<td style="text-align:right;">
+6.97–7.27
+</td>
+<td style="text-align:right;">
+301
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+0.280
+</td>
+<td style="text-align:right;">
+0.146
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.27
+</td>
+<td style="text-align:right;">
+51.8
+</td>
+<td style="text-align:right;">
+8.27–8.87
+</td>
+<td style="text-align:right;">
+594
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.240
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+<td style="text-align:right;">
+0.096
+</td>
+<td style="text-align:right;">
+51.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.90
+</td>
+<td style="text-align:right;">
+48.1
+</td>
+<td style="text-align:right;">
+10.73–11.15
+</td>
+<td style="text-align:right;">
+421
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+<td style="text-align:right;">
+0.251
+</td>
+<td style="text-align:right;">
+0.141
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.27
+</td>
+<td style="text-align:right;">
+28.1
+</td>
+<td style="text-align:right;">
+12.15–12.55
+</td>
+<td style="text-align:right;">
+397
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.085
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+26.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+25.7
+</td>
+<td style="text-align:right;">
+17.46–17.49
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.096
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+0.354
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.81
+</td>
+<td style="text-align:right;">
+81.9
+</td>
+<td style="text-align:right;">
+10.68–10.99
+</td>
+<td style="text-align:right;">
+306
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.174
+</td>
+<td style="text-align:right;">
+0.780
+</td>
+<td style="text-align:right;">
+0.616
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.53
+</td>
+<td style="text-align:right;">
+70.1
+</td>
+<td style="text-align:right;">
+12.33–12.71
+</td>
+<td style="text-align:right;">
+375
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.168
+</td>
+<td style="text-align:right;">
+0.728
+</td>
+<td style="text-align:right;">
+0.579
+</td>
+<td style="text-align:right;">
+0.149
+</td>
+<td style="text-align:right;">
+53.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+16.24
+</td>
+<td style="text-align:right;">
+69.3
+</td>
+<td style="text-align:right;">
+16.06–16.42
+</td>
+<td style="text-align:right;">
+350
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+0.612
+</td>
+<td style="text-align:right;">
+0.417
+</td>
+<td style="text-align:right;">
+0.195
+</td>
+<td style="text-align:right;">
+41.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.81
+</td>
+<td style="text-align:right;">
+67.0
+</td>
+<td style="text-align:right;">
+13.71–13.89
+</td>
+<td style="text-align:right;">
+175
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+0.558
+</td>
+<td style="text-align:right;">
+0.174
+</td>
+<td style="text-align:right;">
+47.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+20.49
+</td>
+<td style="text-align:right;">
+65.0
+</td>
+<td style="text-align:right;">
+20.45–20.49
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+<td style="text-align:right;">
+-0.000
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.77
+</td>
+<td style="text-align:right;">
+92.6
+</td>
+<td style="text-align:right;">
+9.61–10.06
+</td>
+<td style="text-align:right;">
+440
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+0.818
+</td>
+<td style="text-align:right;">
+0.942
+</td>
+<td style="text-align:right;">
+-0.124
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.61
+</td>
+<td style="text-align:right;">
+65.4
+</td>
+<td style="text-align:right;">
+8.40–8.61
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.096
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+-0.106
+</td>
+<td style="text-align:right;">
+63.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.39
+</td>
+<td style="text-align:right;">
+32.2
+</td>
+<td style="text-align:right;">
+7.37–7.39
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.063
+</td>
+<td style="text-align:right;">
+0.887
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+<td style="text-align:right;">
+-0.049
+</td>
+<td style="text-align:right;">
+32.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+15.88
+</td>
+<td style="text-align:right;">
+25.0
+</td>
+<td style="text-align:right;">
+15.69–16.10
+</td>
+<td style="text-align:right;">
+405
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.798
+</td>
+<td style="text-align:right;">
+0.724
+</td>
+<td style="text-align:right;">
+0.074
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+mig6 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.06
+</td>
+<td style="text-align:right;">
+17.0
+</td>
+<td style="text-align:right;">
+11.06–11.09
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.864
+</td>
+<td style="text-align:right;">
+0.915
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+17.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+8.58
+</td>
+<td style="text-align:right;">
+37.7
+</td>
+<td style="text-align:right;">
+8.42–8.96
+</td>
+<td style="text-align:right;">
+541
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.063
+</td>
+<td style="text-align:right;">
+0.849
+</td>
+<td style="text-align:right;">
+0.904
+</td>
+<td style="text-align:right;">
+-0.055
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.01
+</td>
+<td style="text-align:right;">
+24.8
+</td>
+<td style="text-align:right;">
+6.64–7.35
+</td>
+<td style="text-align:right;">
+712
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.050
+</td>
+<td style="text-align:right;">
+0.859
+</td>
+<td style="text-align:right;">
+0.904
+</td>
+<td style="text-align:right;">
+-0.045
+</td>
+<td style="text-align:right;">
+20.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+10.36
+</td>
+<td style="text-align:right;">
+22.7
+</td>
+<td style="text-align:right;">
+10.27–10.62
+</td>
+<td style="text-align:right;">
+350
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.050
+</td>
+<td style="text-align:right;">
+0.860
+</td>
+<td style="text-align:right;">
+0.905
+</td>
+<td style="text-align:right;">
+-0.045
+</td>
+<td style="text-align:right;">
+20.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+5.56
+</td>
+<td style="text-align:right;">
+18.2
+</td>
+<td style="text-align:right;">
+5.42–5.63
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.044
+</td>
+<td style="text-align:right;">
+0.858
+</td>
+<td style="text-align:right;">
+0.909
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+15.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.65
+</td>
+<td style="text-align:right;">
+17.2
+</td>
+<td style="text-align:right;">
+11.62–11.82
+</td>
+<td style="text-align:right;">
+193
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.049
+</td>
+<td style="text-align:right;">
+0.829
+</td>
+<td style="text-align:right;">
+0.869
+</td>
+<td style="text-align:right;">
+-0.040
+</td>
+<td style="text-align:right;">
+10.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.18
+</td>
+<td style="text-align:right;">
+39.2
+</td>
+<td style="text-align:right;">
+7.15–7.23
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+0.441
+</td>
+<td style="text-align:right;">
+0.320
+</td>
+<td style="text-align:right;">
+0.121
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.06
+</td>
+<td style="text-align:right;">
+29.3
+</td>
+<td style="text-align:right;">
+8.93–9.14
+</td>
+<td style="text-align:right;">
+206
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+0.459
+</td>
+<td style="text-align:right;">
+0.355
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+13.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.54
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:right;">
+4.42–4.61
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.077
+</td>
+<td style="text-align:right;">
+0.501
+</td>
+<td style="text-align:right;">
+0.426
+</td>
+<td style="text-align:right;">
+0.075
+</td>
+<td style="text-align:right;">
+6.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+5.88
+</td>
+<td style="text-align:right;">
+23.1
+</td>
+<td style="text-align:right;">
+5.83–5.92
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.075
+</td>
+<td style="text-align:right;">
+0.507
+</td>
+<td style="text-align:right;">
+0.443
+</td>
+<td style="text-align:right;">
+0.064
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.52
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+<td style="text-align:right;">
+10.45–10.62
+</td>
+<td style="text-align:right;">
+166
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+0.444
+</td>
+<td style="text-align:right;">
+0.382
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+9.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+8.01
+</td>
+<td style="text-align:right;">
+80.1
+</td>
+<td style="text-align:right;">
+7.95–8.06
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.049
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.989
+</td>
+<td style="text-align:right;">
+-0.054
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+6.25
+</td>
+<td style="text-align:right;">
+62.4
+</td>
+<td style="text-align:right;">
+6.05–6.39
+</td>
+<td style="text-align:right;">
+330
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.047
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+<td style="text-align:right;">
+0.983
+</td>
+<td style="text-align:right;">
+-0.047
+</td>
+<td style="text-align:right;">
+22.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.78
+</td>
+<td style="text-align:right;">
+61.3
+</td>
+<td style="text-align:right;">
+13.69–13.78
+</td>
+<td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+0.801
+</td>
+<td style="text-align:right;">
+0.882
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.68
+</td>
+<td style="text-align:right;">
+38.7
+</td>
+<td style="text-align:right;">
+12.61–12.68
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.079
+</td>
+<td style="text-align:right;">
+0.761
+</td>
+<td style="text-align:right;">
+0.842
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+<td style="text-align:right;">
+38.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+4.78
+</td>
+<td style="text-align:right;">
+22.8
+</td>
+<td style="text-align:right;">
+4.65–4.89
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.034
+</td>
+<td style="text-align:right;">
+0.924
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+<td style="text-align:right;">
+-0.037
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.87
+</td>
+<td style="text-align:right;">
+151.5
+</td>
+<td style="text-align:right;">
+8.37–9.67
+</td>
+<td style="text-align:right;">
+1291
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+<td style="text-align:right;">
+0.232
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+0.123
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.10
+</td>
+<td style="text-align:right;">
+149.3
+</td>
+<td style="text-align:right;">
+6.58–7.37
+</td>
+<td style="text-align:right;">
+791
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.146
+</td>
+<td style="text-align:right;">
+0.256
+</td>
+<td style="text-align:right;">
+0.106
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+135.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.67
+</td>
+<td style="text-align:right;">
+124.0
+</td>
+<td style="text-align:right;">
+10.67–10.96
+</td>
+<td style="text-align:right;">
+286
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+0.239
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+0.127
+</td>
+<td style="text-align:right;">
+124.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.57
+</td>
+<td style="text-align:right;">
+108.3
+</td>
+<td style="text-align:right;">
+5.09–5.57
+</td>
+<td style="text-align:right;">
+485
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+0.253
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.137
+</td>
+<td style="text-align:right;">
+108.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+11.96
+</td>
+<td style="text-align:right;">
+92.3
+</td>
+<td style="text-align:right;">
+11.96–12.09
+</td>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.117
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+0.120
+</td>
+<td style="text-align:right;">
+0.135
+</td>
+<td style="text-align:right;">
+92.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.30
+</td>
+<td style="text-align:right;">
+86.5
+</td>
+<td style="text-align:right;">
+1.20–1.48
+</td>
+<td style="text-align:right;">
+280
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.132
+</td>
+<td style="text-align:right;">
+0.625
+</td>
+<td style="text-align:right;">
+0.742
+</td>
+<td style="text-align:right;">
+-0.116
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+67.9
+</td>
+<td style="text-align:right;">
+0.01–0.20
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.117
+</td>
+<td style="text-align:right;">
+0.642
+</td>
+<td style="text-align:right;">
+0.756
+</td>
+<td style="text-align:right;">
+-0.114
+</td>
+<td style="text-align:right;">
+60.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.11
+</td>
+<td style="text-align:right;">
+50.6
+</td>
+<td style="text-align:right;">
+2.93–3.31
+</td>
+<td style="text-align:right;">
+376
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.099
+</td>
+<td style="text-align:right;">
+0.656
+</td>
+<td style="text-align:right;">
+0.754
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+38.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+4.35
+</td>
+<td style="text-align:right;">
+46.9
+</td>
+<td style="text-align:right;">
+4.31–4.54
+</td>
+<td style="text-align:right;">
+220
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.097
+</td>
+<td style="text-align:right;">
+0.635
+</td>
+<td style="text-align:right;">
+0.731
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+45.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+6.13
+</td>
+<td style="text-align:right;">
+24.3
+</td>
+<td style="text-align:right;">
+5.97–6.21
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.073
+</td>
+<td style="text-align:right;">
+0.653
+</td>
+<td style="text-align:right;">
+0.721
+</td>
+<td style="text-align:right;">
+-0.068
+</td>
+<td style="text-align:right;">
+19.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+4.51
+</td>
+<td style="text-align:right;">
+17.6
+</td>
+<td style="text-align:right;">
+4.45–4.56
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.027
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.975
+</td>
+<td style="text-align:right;">
+-0.030
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+2.47
+</td>
+<td style="text-align:right;">
+12.4
+</td>
+<td style="text-align:right;">
+2.38–2.53
+</td>
+<td style="text-align:right;">
+152
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+0.846
+</td>
+<td style="text-align:right;">
+0.809
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+16.01
+</td>
+<td style="text-align:right;">
+9.8
+</td>
+<td style="text-align:right;">
+15.91–16.10
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.044
+</td>
+<td style="text-align:right;">
+0.743
+</td>
+<td style="text-align:right;">
+0.748
+</td>
+<td style="text-align:right;">
+-0.005
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.56
+</td>
+<td style="text-align:right;">
+9.4
+</td>
+<td style="text-align:right;">
+5.56–5.98
+</td>
+<td style="text-align:right;">
+415
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.020
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+<td style="text-align:right;">
+-0.026
+</td>
+<td style="text-align:right;">
+8.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+8.2
+</td>
+<td style="text-align:right;">
+0.57–0.75
+</td>
+<td style="text-align:right;">
+181
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+<td style="text-align:right;">
+0.795
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+21.1
+</td>
+<td style="text-align:right;">
+0.01–0.18
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+0.632
+</td>
+<td style="text-align:right;">
+0.532
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.40
+</td>
+<td style="text-align:right;">
+13.2
+</td>
+<td style="text-align:right;">
+2.31–2.51
+</td>
+<td style="text-align:right;">
+195
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:right;">
+0.781
+</td>
+<td style="text-align:right;">
+0.671
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.18
+</td>
+<td style="text-align:right;">
+11.3
+</td>
+<td style="text-align:right;">
+1.18–1.21
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+0.665
+</td>
+<td style="text-align:right;">
+0.609
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+11.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+3.52
+</td>
+<td style="text-align:right;">
+8.1
+</td>
+<td style="text-align:right;">
+3.52–3.54
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.876
+</td>
+<td style="text-align:right;">
+0.832
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+8.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+12.52
+</td>
+<td style="text-align:right;">
+6.4
+</td>
+<td style="text-align:right;">
+12.47–12.57
+</td>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.047
+</td>
+<td style="text-align:right;">
+0.758
+</td>
+<td style="text-align:right;">
+0.699
+</td>
+<td style="text-align:right;">
+0.059
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.35
+</td>
+<td style="text-align:right;">
+13.1
+</td>
+<td style="text-align:right;">
+3.28–3.39
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.074
+</td>
+<td style="text-align:right;">
+0.680
+</td>
+<td style="text-align:right;">
+0.609
+</td>
+<td style="text-align:right;">
+0.071
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+1.92
+</td>
+<td style="text-align:right;">
+8.4
+</td>
+<td style="text-align:right;">
+1.90–1.94
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.937
+</td>
+<td style="text-align:right;">
+0.920
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+14.23
+</td>
+<td style="text-align:right;">
+6.4
+</td>
+<td style="text-align:right;">
+14.11–14.27
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+0.446
+</td>
+<td style="text-align:right;">
+0.496
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.50
+</td>
+<td style="text-align:right;">
+103.8
+</td>
+<td style="text-align:right;">
+13.20–13.77
+</td>
+<td style="text-align:right;">
+566
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+0.702
+</td>
+<td style="text-align:right;">
+0.866
+</td>
+<td style="text-align:right;">
+-0.165
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.20
+</td>
+<td style="text-align:right;">
+46.4
+</td>
+<td style="text-align:right;">
+12.15–12.20
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.096
+</td>
+<td style="text-align:right;">
+0.804
+</td>
+<td style="text-align:right;">
+0.884
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+<td style="text-align:right;">
+46.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1.11
+</td>
+<td style="text-align:right;">
+14.3
+</td>
+<td style="text-align:right;">
+0.95–1.22
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.070
+</td>
+<td style="text-align:right;">
+0.648
+</td>
+<td style="text-align:right;">
+0.737
+</td>
+<td style="text-align:right;">
+-0.090
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.43
+</td>
+<td style="text-align:right;">
+50.8
+</td>
+<td style="text-align:right;">
+10.13–10.77
+</td>
+<td style="text-align:right;">
+637
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:right;">
+0.230
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+7.14
+</td>
+<td style="text-align:right;">
+46.3
+</td>
+<td style="text-align:right;">
+6.95–7.32
+</td>
+<td style="text-align:right;">
+368
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.108
+</td>
+<td style="text-align:right;">
+0.260
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+<td style="text-align:right;">
+35.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.12
+</td>
+<td style="text-align:right;">
+41.7
+</td>
+<td style="text-align:right;">
+8.59–9.12
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.240
+</td>
+<td style="text-align:right;">
+0.131
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+41.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.43
+</td>
+<td style="text-align:right;">
+36.7
+</td>
+<td style="text-align:right;">
+11.95–12.64
+</td>
+<td style="text-align:right;">
+683
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.283
+</td>
+<td style="text-align:right;">
+0.164
+</td>
+<td style="text-align:right;">
+0.119
+</td>
+<td style="text-align:right;">
+33.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.65
+</td>
+<td style="text-align:right;">
+26.3
+</td>
+<td style="text-align:right;">
+4.05–5.07
+</td>
+<td style="text-align:right;">
+1020
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.087
+</td>
+<td style="text-align:right;">
+0.247
+</td>
+<td style="text-align:right;">
+0.191
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+17.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.42
+</td>
+<td style="text-align:right;">
+45.9
+</td>
+<td style="text-align:right;">
+10.23–10.61
+</td>
+<td style="text-align:right;">
+371
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.136
+</td>
+<td style="text-align:right;">
+0.519
+</td>
+<td style="text-align:right;">
+0.650
+</td>
+<td style="text-align:right;">
+-0.131
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+6.46
+</td>
+<td style="text-align:right;">
+33.1
+</td>
+<td style="text-align:right;">
+6.29–6.61
+</td>
+<td style="text-align:right;">
+316
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+0.630
+</td>
+<td style="text-align:right;">
+0.730
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+13.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+8.30
+</td>
+<td style="text-align:right;">
+29.5
+</td>
+<td style="text-align:right;">
+8.08–8.52
+</td>
+<td style="text-align:right;">
+432
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.106
+</td>
+<td style="text-align:right;">
+0.567
+</td>
+<td style="text-align:right;">
+0.661
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:right;">
+13.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.04
+</td>
+<td style="text-align:right;">
+28.8
+</td>
+<td style="text-align:right;">
+11.84–12.23
+</td>
+<td style="text-align:right;">
+388
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.110
+</td>
+<td style="text-align:right;">
+0.459
+</td>
+<td style="text-align:right;">
+0.563
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+24.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+4.57
+</td>
+<td style="text-align:right;">
+26.9
+</td>
+<td style="text-align:right;">
+4.44–4.74
+</td>
+<td style="text-align:right;">
+296
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+0.642
+</td>
+<td style="text-align:right;">
+0.736
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+par1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+4.78
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+4.72–4.83
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.017
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+0.956
+</td>
+<td style="text-align:right;">
+-0.016
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.88
+</td>
+<td style="text-align:right;">
+751.1
+</td>
+<td style="text-align:right;">
+1.80–1.96
+</td>
+<td style="text-align:right;">
+162
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.391
+</td>
+<td style="text-align:right;">
+0.725
+</td>
+<td style="text-align:right;">
+0.315
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+199.4
+</td>
+<td style="text-align:right;">
+2.96–2.98
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.181
+</td>
+<td style="text-align:right;">
+0.855
+</td>
+<td style="text-align:right;">
+0.684
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+<td style="text-align:right;">
+199.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.79
+</td>
+<td style="text-align:right;">
+195.8
+</td>
+<td style="text-align:right;">
+0.62–0.79
+</td>
+<td style="text-align:right;">
+169
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+<td style="text-align:right;">
+0.609
+</td>
+<td style="text-align:right;">
+0.403
+</td>
+<td style="text-align:right;">
+0.206
+</td>
+<td style="text-align:right;">
+195.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.23
+</td>
+<td style="text-align:right;">
+166.8
+</td>
+<td style="text-align:right;">
+13.05–13.38
+</td>
+<td style="text-align:right;">
+326
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.176
+</td>
+<td style="text-align:right;">
+0.799
+</td>
+<td style="text-align:right;">
+0.596
+</td>
+<td style="text-align:right;">
+0.203
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.38
+</td>
+<td style="text-align:right;">
+144.0
+</td>
+<td style="text-align:right;">
+14.38–14.42
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.174
+</td>
+<td style="text-align:right;">
+0.765
+</td>
+<td style="text-align:right;">
+0.597
+</td>
+<td style="text-align:right;">
+0.168
+</td>
+<td style="text-align:right;">
+108.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+43.7
+</td>
+<td style="text-align:right;">
+0.79–0.98
+</td>
+<td style="text-align:right;">
+186
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.099
+</td>
+<td style="text-align:right;">
+0.599
+</td>
+<td style="text-align:right;">
+0.707
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.62
+</td>
+<td style="text-align:right;">
+36.6
+</td>
+<td style="text-align:right;">
+13.56–13.69
+</td>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.090
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+0.285
+</td>
+<td style="text-align:right;">
+0.121
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+11.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.25
+</td>
+<td style="text-align:right;">
+28.0
+</td>
+<td style="text-align:right;">
+9.17–9.34
+</td>
+<td style="text-align:right;">
+166
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.074
+</td>
+<td style="text-align:right;">
+0.254
+</td>
+<td style="text-align:right;">
+0.309
+</td>
+<td style="text-align:right;">
+-0.055
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.18
+</td>
+<td style="text-align:right;">
+27.7
+</td>
+<td style="text-align:right;">
+7.07–7.23
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.073
+</td>
+<td style="text-align:right;">
+0.251
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+-0.036
+</td>
+<td style="text-align:right;">
+14.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+9.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.09
+</td>
+<td style="text-align:right;">
+27.5
+</td>
+<td style="text-align:right;">
+3.01–3.16
+</td>
+<td style="text-align:right;">
+145
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.082
+</td>
+<td style="text-align:right;">
+0.420
+</td>
+<td style="text-align:right;">
+0.521
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+165.3
+</td>
+<td style="text-align:right;">
+0.28–0.59
+</td>
+<td style="text-align:right;">
+301
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.192
+</td>
+<td style="text-align:right;">
+0.513
+</td>
+<td style="text-align:right;">
+0.675
+</td>
+<td style="text-align:right;">
+-0.162
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+67.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1.86
+</td>
+<td style="text-align:right;">
+74.8
+</td>
+<td style="text-align:right;">
+1.74–2.00
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+0.573
+</td>
+<td style="text-align:right;">
+0.698
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+22.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+17.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.40
+</td>
+<td style="text-align:right;">
+51.3
+</td>
+<td style="text-align:right;">
+13.18–13.58
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.026
+</td>
+<td style="text-align:right;">
+0.981
+</td>
+<td style="text-align:right;">
+0.997
+</td>
+<td style="text-align:right;">
+-0.016
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+31.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+9.35
+</td>
+<td style="text-align:right;">
+37.6
+</td>
+<td style="text-align:right;">
+9.26–9.53
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.961
+</td>
+<td style="text-align:right;">
+0.904
+</td>
+<td style="text-align:right;">
+0.057
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+31.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+10.53
+</td>
+<td style="text-align:right;">
+22.9
+</td>
+<td style="text-align:right;">
+10.53–10.55
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+<td style="text-align:right;">
+0.914
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+22.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+11.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+167.3
+</td>
+<td style="text-align:right;">
+17.44–17.49
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+0.420
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+0.154
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.88
+</td>
+<td style="text-align:right;">
+135.5
+</td>
+<td style="text-align:right;">
+15.70–15.98
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+<td style="text-align:right;">
+0.402
+</td>
+<td style="text-align:right;">
+0.215
+</td>
+<td style="text-align:right;">
+0.188
+</td>
+<td style="text-align:right;">
+104.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.89
+</td>
+<td style="text-align:right;">
+91.0
+</td>
+<td style="text-align:right;">
+6.73–7.17
+</td>
+<td style="text-align:right;">
+437
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.123
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+0.267
+</td>
+<td style="text-align:right;">
+-0.117
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+14.41
+</td>
+<td style="text-align:right;">
+78.0
+</td>
+<td style="text-align:right;">
+14.18–14.57
+</td>
+<td style="text-align:right;">
+381
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:right;">
+0.357
+</td>
+<td style="text-align:right;">
+0.193
+</td>
+<td style="text-align:right;">
+0.163
+</td>
+<td style="text-align:right;">
+60.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.17
+</td>
+<td style="text-align:right;">
+72.9
+</td>
+<td style="text-align:right;">
+8.17–8.43
+</td>
+<td style="text-align:right;">
+259
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+0.158
+</td>
+<td style="text-align:right;">
+0.276
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+72.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+5.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.81
+</td>
+<td style="text-align:right;">
+730.3
+</td>
+<td style="text-align:right;">
+13.63–13.91
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.388
+</td>
+<td style="text-align:right;">
+0.336
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+-0.395
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.55
+</td>
+<td style="text-align:right;">
+565.4
+</td>
+<td style="text-align:right;">
+12.15–12.63
+</td>
+<td style="text-align:right;">
+481
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.346
+</td>
+<td style="text-align:right;">
+0.377
+</td>
+<td style="text-align:right;">
+0.718
+</td>
+<td style="text-align:right;">
+-0.342
+</td>
+<td style="text-align:right;">
+543.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.91
+</td>
+<td style="text-align:right;">
+526.4
+</td>
+<td style="text-align:right;">
+14.91–15.28
+</td>
+<td style="text-align:right;">
+370
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.333
+</td>
+<td style="text-align:right;">
+0.242
+</td>
+<td style="text-align:right;">
+0.599
+</td>
+<td style="text-align:right;">
+-0.356
+</td>
+<td style="text-align:right;">
+447.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+16.33
+</td>
+<td style="text-align:right;">
+513.6
+</td>
+<td style="text-align:right;">
+16.28–16.46
+</td>
+<td style="text-align:right;">
+182
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.330
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+0.620
+</td>
+<td style="text-align:right;">
+-0.330
+</td>
+<td style="text-align:right;">
+466.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:right;">
+355.4
+</td>
+<td style="text-align:right;">
+10.51–10.89
+</td>
+<td style="text-align:right;">
+372
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.266
+</td>
+<td style="text-align:right;">
+0.551
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+-0.235
+</td>
+<td style="text-align:right;">
+322.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+7.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.58
+</td>
+<td style="text-align:right;">
+84.6
+</td>
+<td style="text-align:right;">
+13.36–13.69
+</td>
+<td style="text-align:right;">
+320
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+0.784
+</td>
+<td style="text-align:right;">
+0.877
+</td>
+<td style="text-align:right;">
+-0.093
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+166.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+2.93
+</td>
+<td style="text-align:right;">
+63.8
+</td>
+<td style="text-align:right;">
+2.76–3.13
+</td>
+<td style="text-align:right;">
+366
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+<td style="text-align:right;">
+0.901
+</td>
+<td style="text-align:right;">
+0.802
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+16.35
+</td>
+<td style="text-align:right;">
+45.4
+</td>
+<td style="text-align:right;">
+16.25–16.41
+</td>
+<td style="text-align:right;">
+156
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.092
+</td>
+<td style="text-align:right;">
+0.689
+</td>
+<td style="text-align:right;">
+0.772
+</td>
+<td style="text-align:right;">
+-0.084
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+106.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.39
+</td>
+<td style="text-align:right;">
+41.5
+</td>
+<td style="text-align:right;">
+11.20–11.48
+</td>
+<td style="text-align:right;">
+281
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.077
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+0.863
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+<td style="text-align:right;">
+18.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+183.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+4.14
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+4.14–4.16
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+0.930
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+83.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.54
+</td>
+<td style="text-align:right;">
+135.7
+</td>
+<td style="text-align:right;">
+13.21–13.86
+</td>
+<td style="text-align:right;">
+645
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+0.646
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+10.89
+</td>
+<td style="text-align:right;">
+102.1
+</td>
+<td style="text-align:right;">
+10.56–11.24
+</td>
+<td style="text-align:right;">
+681
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+0.918
+</td>
+<td style="text-align:right;">
+0.825
+</td>
+<td style="text-align:right;">
+0.093
+</td>
+<td style="text-align:right;">
+40.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.56
+</td>
+<td style="text-align:right;">
+87.1
+</td>
+<td style="text-align:right;">
+9.43–9.56
+</td>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.935
+</td>
+<td style="text-align:right;">
+0.838
+</td>
+<td style="text-align:right;">
+0.097
+</td>
+<td style="text-align:right;">
+83.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.59
+</td>
+<td style="text-align:right;">
+82.2
+</td>
+<td style="text-align:right;">
+7.32–7.95
+</td>
+<td style="text-align:right;">
+632
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.085
+</td>
+<td style="text-align:right;">
+0.943
+</td>
+<td style="text-align:right;">
+0.854
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:right;">
+65.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.86
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+<td style="text-align:right;">
+14.86–14.91
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.663
+</td>
+<td style="text-align:right;">
+0.545
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.76
+</td>
+<td style="text-align:right;">
+226.0
+</td>
+<td style="text-align:right;">
+10.70–10.81
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.221
+</td>
+<td style="text-align:right;">
+0.251
+</td>
+<td style="text-align:right;">
+0.475
+</td>
+<td style="text-align:right;">
+-0.224
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.20
+</td>
+<td style="text-align:right;">
+198.4
+</td>
+<td style="text-align:right;">
+7.12–7.29
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.203
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+0.443
+</td>
+<td style="text-align:right;">
+-0.188
+</td>
+<td style="text-align:right;">
+132.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.22
+</td>
+<td style="text-align:right;">
+197.6
+</td>
+<td style="text-align:right;">
+8.97–9.49
+</td>
+<td style="text-align:right;">
+515
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.203
+</td>
+<td style="text-align:right;">
+0.251
+</td>
+<td style="text-align:right;">
+0.435
+</td>
+<td style="text-align:right;">
+-0.184
+</td>
+<td style="text-align:right;">
+132.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.81
+</td>
+<td style="text-align:right;">
+176.7
+</td>
+<td style="text-align:right;">
+11.81–11.90
+</td>
+<td style="text-align:right;">
+90
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.196
+</td>
+<td style="text-align:right;">
+0.268
+</td>
+<td style="text-align:right;">
+0.467
+</td>
+<td style="text-align:right;">
+-0.199
+</td>
+<td style="text-align:right;">
+146.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.96
+</td>
+<td style="text-align:right;">
+162.4
+</td>
+<td style="text-align:right;">
+12.90–13.06
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.186
+</td>
+<td style="text-align:right;">
+0.250
+</td>
+<td style="text-align:right;">
+0.431
+</td>
+<td style="text-align:right;">
+-0.181
+</td>
+<td style="text-align:right;">
+112.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.34
+</td>
+<td style="text-align:right;">
+609.3
+</td>
+<td style="text-align:right;">
+13.13–13.58
+</td>
+<td style="text-align:right;">
+440
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+<td style="text-align:right;">
+0.702
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.13
+</td>
+<td style="text-align:right;">
+250.1
+</td>
+<td style="text-align:right;">
+12.10–12.13
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.154
+</td>
+<td style="text-align:right;">
+0.964
+</td>
+<td style="text-align:right;">
+0.800
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:right;">
+250.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.60
+</td>
+<td style="text-align:right;">
+65.8
+</td>
+<td style="text-align:right;">
+6.37–6.87
+</td>
+<td style="text-align:right;">
+496
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:right;">
+0.283
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.37
+</td>
+<td style="text-align:right;">
+58.7
+</td>
+<td style="text-align:right;">
+5.09–5.37
+</td>
+<td style="text-align:right;">
+280
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.097
+</td>
+<td style="text-align:right;">
+0.166
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+54.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.70
+</td>
+<td style="text-align:right;">
+50.9
+</td>
+<td style="text-align:right;">
+8.13–9.04
+</td>
+<td style="text-align:right;">
+906
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.090
+</td>
+<td style="text-align:right;">
+0.159
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:right;">
+-0.090
+</td>
+<td style="text-align:right;">
+46.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+10.05
+</td>
+<td style="text-align:right;">
+43.3
+</td>
+<td style="text-align:right;">
+10.05–10.13
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+0.149
+</td>
+<td style="text-align:right;">
+0.265
+</td>
+<td style="text-align:right;">
+-0.117
+</td>
+<td style="text-align:right;">
+43.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.08
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+4.06–4.08
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+0.188
+</td>
+<td style="text-align:right;">
+0.295
+</td>
+<td style="text-align:right;">
+-0.107
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+16.36
+</td>
+<td style="text-align:right;">
+114.9
+</td>
+<td style="text-align:right;">
+16.16–16.49
+</td>
+<td style="text-align:right;">
+330
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+0.263
+</td>
+<td style="text-align:right;">
+0.425
+</td>
+<td style="text-align:right;">
+-0.162
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.65
+</td>
+<td style="text-align:right;">
+97.9
+</td>
+<td style="text-align:right;">
+14.55–14.82
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.145
+</td>
+<td style="text-align:right;">
+0.253
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+-0.154
+</td>
+<td style="text-align:right;">
+86.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.55
+</td>
+<td style="text-align:right;">
+63.1
+</td>
+<td style="text-align:right;">
+13.52–13.55
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.120
+</td>
+<td style="text-align:right;">
+0.339
+</td>
+<td style="text-align:right;">
+0.439
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+63.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+17.54
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+<td style="text-align:right;">
+17.49–17.60
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+0.306
+</td>
+<td style="text-align:right;">
+0.406
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+29.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.51
+</td>
+<td style="text-align:right;">
+27.1
+</td>
+<td style="text-align:right;">
+12.45–12.51
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.080
+</td>
+<td style="text-align:right;">
+0.373
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+-0.080
+</td>
+<td style="text-align:right;">
+27.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.37
+</td>
+<td style="text-align:right;">
+134.5
+</td>
+<td style="text-align:right;">
+11.19–11.55
+</td>
+<td style="text-align:right;">
+350
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.128
+</td>
+<td style="text-align:right;">
+0.778
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+-0.131
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.52
+</td>
+<td style="text-align:right;">
+96.8
+</td>
+<td style="text-align:right;">
+9.37–10.13
+</td>
+<td style="text-align:right;">
+756
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+0.917
+</td>
+<td style="text-align:right;">
+-0.100
+</td>
+<td style="text-align:right;">
+77.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.62
+</td>
+<td style="text-align:right;">
+84.9
+</td>
+<td style="text-align:right;">
+7.51–7.87
+</td>
+<td style="text-align:right;">
+351
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+0.852
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+67.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.21
+</td>
+<td style="text-align:right;">
+49.1
+</td>
+<td style="text-align:right;">
+12.93–13.33
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+0.871
+</td>
+<td style="text-align:right;">
+-0.084
+</td>
+<td style="text-align:right;">
+41.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs par1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+29.4
+</td>
+<td style="text-align:right;">
+0.02–0.04
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+0.876
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.23
+</td>
+<td style="text-align:right;">
+75.4
+</td>
+<td style="text-align:right;">
+13.13–13.37
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.799
+</td>
+<td style="text-align:right;">
+0.686
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.37
+</td>
+<td style="text-align:right;">
+48.3
+</td>
+<td style="text-align:right;">
+14.37–14.42
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+0.763
+</td>
+<td style="text-align:right;">
+0.659
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+48.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.10
+</td>
+<td style="text-align:right;">
+46.2
+</td>
+<td style="text-align:right;">
+10.99–11.21
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+0.918
+</td>
+<td style="text-align:right;">
+0.849
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+9.94
+</td>
+<td style="text-align:right;">
+22.2
+</td>
+<td style="text-align:right;">
+9.76–9.99
+</td>
+<td style="text-align:right;">
+226
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+21.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.60
+</td>
+<td style="text-align:right;">
+20.2
+</td>
+<td style="text-align:right;">
+7.48–7.78
+</td>
+<td style="text-align:right;">
+295
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.77
+</td>
+<td style="text-align:right;">
+127.4
+</td>
+<td style="text-align:right;">
+10.72–10.83
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.166
+</td>
+<td style="text-align:right;">
+0.261
+</td>
+<td style="text-align:right;">
+0.423
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.96
+</td>
+<td style="text-align:right;">
+125.1
+</td>
+<td style="text-align:right;">
+12.88–13.11
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.164
+</td>
+<td style="text-align:right;">
+0.247
+</td>
+<td style="text-align:right;">
+0.411
+</td>
+<td style="text-align:right;">
+-0.164
+</td>
+<td style="text-align:right;">
+71.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.88
+</td>
+<td style="text-align:right;">
+123.9
+</td>
+<td style="text-align:right;">
+11.83–11.88
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.166
+</td>
+<td style="text-align:right;">
+0.274
+</td>
+<td style="text-align:right;">
+0.454
+</td>
+<td style="text-align:right;">
+-0.180
+</td>
+<td style="text-align:right;">
+71.6
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.34
+</td>
+<td style="text-align:right;">
+84.4
+</td>
+<td style="text-align:right;">
+9.26–9.48
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.131
+</td>
+<td style="text-align:right;">
+0.224
+</td>
+<td style="text-align:right;">
+0.359
+</td>
+<td style="text-align:right;">
+-0.135
+</td>
+<td style="text-align:right;">
+63.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+8.02
+</td>
+<td style="text-align:right;">
+72.4
+</td>
+<td style="text-align:right;">
+7.88–8.18
+</td>
+<td style="text-align:right;">
+296
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+0.242
+</td>
+<td style="text-align:right;">
+0.367
+</td>
+<td style="text-align:right;">
+-0.125
+</td>
+<td style="text-align:right;">
+56.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+309.4
+</td>
+<td style="text-align:right;">
+13.13–13.50
+</td>
+<td style="text-align:right;">
+360
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.166
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+0.794
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.13
+</td>
+<td style="text-align:right;">
+123.7
+</td>
+<td style="text-align:right;">
+12.11–12.13
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.098
+</td>
+<td style="text-align:right;">
+0.964
+</td>
+<td style="text-align:right;">
+0.861
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+123.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+32.4
+</td>
+<td style="text-align:right;">
+0.32–0.56
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+0.516
+</td>
+<td style="text-align:right;">
+0.592
+</td>
+<td style="text-align:right;">
+-0.076
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+13.59
+</td>
+<td style="text-align:right;">
+74.1
+</td>
+<td style="text-align:right;">
+13.22–13.85
+</td>
+<td style="text-align:right;">
+622
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+0.329
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.89
+</td>
+<td style="text-align:right;">
+57.3
+</td>
+<td style="text-align:right;">
+15.75–16.10
+</td>
+<td style="text-align:right;">
+346
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.397
+</td>
+<td style="text-align:right;">
+0.296
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+35.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.22
+</td>
+<td style="text-align:right;">
+56.9
+</td>
+<td style="text-align:right;">
+12.10–12.22
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.092
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:right;">
+0.145
+</td>
+<td style="text-align:right;">
+0.077
+</td>
+<td style="text-align:right;">
+56.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+45.1
+</td>
+<td style="text-align:right;">
+17.10–17.49
+</td>
+<td style="text-align:right;">
+396
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.420
+</td>
+<td style="text-align:right;">
+0.337
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+44.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+11.10
+</td>
+<td style="text-align:right;">
+35.2
+</td>
+<td style="text-align:right;">
+10.91–11.10
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+0.198
+</td>
+<td style="text-align:right;">
+0.119
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+<td style="text-align:right;">
+35.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.39
+</td>
+<td style="text-align:right;">
+127.0
+</td>
+<td style="text-align:right;">
+1.22–1.61
+</td>
+<td style="text-align:right;">
+386
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.161
+</td>
+<td style="text-align:right;">
+0.586
+</td>
+<td style="text-align:right;">
+0.768
+</td>
+<td style="text-align:right;">
+-0.182
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+16.33
+</td>
+<td style="text-align:right;">
+114.9
+</td>
+<td style="text-align:right;">
+16.11–16.52
+</td>
+<td style="text-align:right;">
+405
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.158
+</td>
+<td style="text-align:right;">
+0.289
+</td>
+<td style="text-align:right;">
+0.440
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+2.65
+</td>
+<td style="text-align:right;">
+109.5
+</td>
+<td style="text-align:right;">
+2.61–2.94
+</td>
+<td style="text-align:right;">
+326
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.148
+</td>
+<td style="text-align:right;">
+0.621
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+-0.166
+</td>
+<td style="text-align:right;">
+108.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.94
+</td>
+<td style="text-align:right;">
+106.3
+</td>
+<td style="text-align:right;">
+3.94–4.09
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.146
+</td>
+<td style="text-align:right;">
+0.625
+</td>
+<td style="text-align:right;">
+0.775
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+91.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+<td style="text-align:right;">
+106.0
+</td>
+<td style="text-align:right;">
+0.01–0.22
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.146
+</td>
+<td style="text-align:right;">
+0.633
+</td>
+<td style="text-align:right;">
+0.777
+</td>
+<td style="text-align:right;">
+-0.144
+</td>
+<td style="text-align:right;">
+91.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.21
+</td>
+<td style="text-align:right;">
+130.0
+</td>
+<td style="text-align:right;">
+11.04–11.51
+</td>
+<td style="text-align:right;">
+466
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+0.797
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+124.1
+</td>
+<td style="text-align:right;">
+9.86–10.04
+</td>
+<td style="text-align:right;">
+176
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.116
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+<td style="text-align:right;">
+0.928
+</td>
+<td style="text-align:right;">
+-0.120
+</td>
+<td style="text-align:right;">
+89.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.02
+</td>
+<td style="text-align:right;">
+89.9
+</td>
+<td style="text-align:right;">
+12.87–13.18
+</td>
+<td style="text-align:right;">
+305
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.105
+</td>
+<td style="text-align:right;">
+0.802
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:right;">
+70.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+7.59
+</td>
+<td style="text-align:right;">
+76.8
+</td>
+<td style="text-align:right;">
+7.49–7.84
+</td>
+<td style="text-align:right;">
+341
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.084
+</td>
+<td style="text-align:right;">
+0.848
+</td>
+<td style="text-align:right;">
+0.919
+</td>
+<td style="text-align:right;">
+-0.072
+</td>
+<td style="text-align:right;">
+64.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs rpn12
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.85
+</td>
+<td style="text-align:right;">
+75.5
+</td>
+<td style="text-align:right;">
+8.84–8.85
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.086
+</td>
+<td style="text-align:right;">
+0.853
+</td>
+<td style="text-align:right;">
+0.948
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+75.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+13.60
+</td>
+<td style="text-align:right;">
+88.7
+</td>
+<td style="text-align:right;">
+13.23–14.04
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.180
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+<td style="text-align:right;">
+0.631
+</td>
+<td style="text-align:right;">
+0.176
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+7.60
+</td>
+<td style="text-align:right;">
+48.5
+</td>
+<td style="text-align:right;">
+7.26–8.04
+</td>
+<td style="text-align:right;">
+776
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.096
+</td>
+<td style="text-align:right;">
+0.943
+</td>
+<td style="text-align:right;">
+0.822
+</td>
+<td style="text-align:right;">
+0.121
+</td>
+<td style="text-align:right;">
+31.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+11.40
+</td>
+<td style="text-align:right;">
+45.4
+</td>
+<td style="text-align:right;">
+11.16–11.98
+</td>
+<td style="text-align:right;">
+810
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.920
+</td>
+<td style="text-align:right;">
+0.845
+</td>
+<td style="text-align:right;">
+0.076
+</td>
+<td style="text-align:right;">
+41.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.46
+</td>
+<td style="text-align:right;">
+43.2
+</td>
+<td style="text-align:right;">
+2.26–2.76
+</td>
+<td style="text-align:right;">
+502
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:right;">
+0.816
+</td>
+<td style="text-align:right;">
+0.688
+</td>
+<td style="text-align:right;">
+0.128
+</td>
+<td style="text-align:right;">
+25.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.26
+</td>
+<td style="text-align:right;">
+39.5
+</td>
+<td style="text-align:right;">
+6.05–6.26
+</td>
+<td style="text-align:right;">
+205
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+39.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+9.47
+</td>
+<td style="text-align:right;">
+116.4
+</td>
+<td style="text-align:right;">
+9.24–9.55
+</td>
+<td style="text-align:right;">
+310
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.214
+</td>
+<td style="text-align:right;">
+0.244
+</td>
+<td style="text-align:right;">
+0.489
+</td>
+<td style="text-align:right;">
+-0.245
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.43
+</td>
+<td style="text-align:right;">
+115.2
+</td>
+<td style="text-align:right;">
+7.29–7.55
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.214
+</td>
+<td style="text-align:right;">
+0.260
+</td>
+<td style="text-align:right;">
+0.479
+</td>
+<td style="text-align:right;">
+-0.219
+</td>
+<td style="text-align:right;">
+84.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+11.36
+</td>
+<td style="text-align:right;">
+110.5
+</td>
+<td style="text-align:right;">
+11.22–11.50
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.210
+</td>
+<td style="text-align:right;">
+0.236
+</td>
+<td style="text-align:right;">
+0.427
+</td>
+<td style="text-align:right;">
+-0.191
+</td>
+<td style="text-align:right;">
+80.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+12.92
+</td>
+<td style="text-align:right;">
+82.1
+</td>
+<td style="text-align:right;">
+12.86–13.00
+</td>
+<td style="text-align:right;">
+130
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.180
+</td>
+<td style="text-align:right;">
+0.283
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+-0.170
+</td>
+<td style="text-align:right;">
+35.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.45
+</td>
+<td style="text-align:right;">
+60.2
+</td>
+<td style="text-align:right;">
+4.35–4.55
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.158
+</td>
+<td style="text-align:right;">
+0.326
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+-0.174
+</td>
+<td style="text-align:right;">
+27.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+71.9
+</td>
+<td style="text-align:right;">
+13.12–13.50
+</td>
+<td style="text-align:right;">
+375
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.105
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+0.886
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+57.5
+</td>
+<td style="text-align:right;">
+0.42–0.69
+</td>
+<td style="text-align:right;">
+261
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+0.491
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+-0.155
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+1.81
+</td>
+<td style="text-align:right;">
+39.3
+</td>
+<td style="text-align:right;">
+1.70–1.95
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.121
+</td>
+<td style="text-align:right;">
+0.571
+</td>
+<td style="text-align:right;">
+0.711
+</td>
+<td style="text-align:right;">
+-0.139
+</td>
+<td style="text-align:right;">
+12.1
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+12.12
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+12.09–12.12
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+0.965
+</td>
+<td style="text-align:right;">
+0.897
+</td>
+<td style="text-align:right;">
+0.068
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+9.88
+</td>
+<td style="text-align:right;">
+26.8
+</td>
+<td style="text-align:right;">
+9.67–10.03
+</td>
+<td style="text-align:right;">
+356
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+0.965
+</td>
+<td style="text-align:right;">
+0.911
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+15.83
+</td>
+<td style="text-align:right;">
+46.0
+</td>
+<td style="text-align:right;">
+15.68–15.96
+</td>
+<td style="text-align:right;">
+271
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+<td style="text-align:right;">
+0.414
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+0.106
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+13.80
+</td>
+<td style="text-align:right;">
+42.3
+</td>
+<td style="text-align:right;">
+13.53–14.21
+</td>
+<td style="text-align:right;">
+670
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+0.326
+</td>
+<td style="text-align:right;">
+0.202
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:right;">
+24.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.53
+</td>
+<td style="text-align:right;">
+33.3
+</td>
+<td style="text-align:right;">
+12.49–12.53
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.248
+</td>
+<td style="text-align:right;">
+0.155
+</td>
+<td style="text-align:right;">
+0.093
+</td>
+<td style="text-align:right;">
+33.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+16.96
+</td>
+<td style="text-align:right;">
+20.3
+</td>
+<td style="text-align:right;">
+16.96–17.49
+</td>
+<td style="text-align:right;">
+537
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.092
+</td>
+<td style="text-align:right;">
+0.435
+</td>
+<td style="text-align:right;">
+0.348
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+<td style="text-align:right;">
+20.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.62
+</td>
+<td style="text-align:right;">
+7.7
+</td>
+<td style="text-align:right;">
+0.45–0.79
+</td>
+<td style="text-align:right;">
+343
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.058
+</td>
+<td style="text-align:right;">
+0.502
+</td>
+<td style="text-align:right;">
+0.539
+</td>
+<td style="text-align:right;">
+-0.036
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.74
+</td>
+<td style="text-align:right;">
+121.6
+</td>
+<td style="text-align:right;">
+13.59–13.97
+</td>
+<td style="text-align:right;">
+382
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.223
+</td>
+<td style="text-align:right;">
+0.349
+</td>
+<td style="text-align:right;">
+0.562
+</td>
+<td style="text-align:right;">
+-0.213
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+14.98
+</td>
+<td style="text-align:right;">
+81.2
+</td>
+<td style="text-align:right;">
+14.98–15.05
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.179
+</td>
+<td style="text-align:right;">
+0.257
+</td>
+<td style="text-align:right;">
+0.421
+</td>
+<td style="text-align:right;">
+-0.165
+</td>
+<td style="text-align:right;">
+75.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.08
+</td>
+<td style="text-align:right;">
+80.6
+</td>
+<td style="text-align:right;">
+11.85–12.36
+</td>
+<td style="text-align:right;">
+506
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.183
+</td>
+<td style="text-align:right;">
+0.402
+</td>
+<td style="text-align:right;">
+0.569
+</td>
+<td style="text-align:right;">
+-0.167
+</td>
+<td style="text-align:right;">
+75.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+6.48
+</td>
+<td style="text-align:right;">
+75.1
+</td>
+<td style="text-align:right;">
+6.36–6.59
+</td>
+<td style="text-align:right;">
+226
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.163
+</td>
+<td style="text-align:right;">
+0.574
+</td>
+<td style="text-align:right;">
+0.725
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+18.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+4.88
+</td>
+<td style="text-align:right;">
+73.3
+</td>
+<td style="text-align:right;">
+4.80–5.10
+</td>
+<td style="text-align:right;">
+301
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.160
+</td>
+<td style="text-align:right;">
+0.640
+</td>
+<td style="text-align:right;">
+0.730
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+63.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+9.81
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+9.55–10.12
+</td>
+<td style="text-align:right;">
+565
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.119
+</td>
+<td style="text-align:right;">
+0.824
+</td>
+<td style="text-align:right;">
+0.939
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+11.18
+</td>
+<td style="text-align:right;">
+80.9
+</td>
+<td style="text-align:right;">
+11.12–11.42
+</td>
+<td style="text-align:right;">
+296
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.122
+</td>
+<td style="text-align:right;">
+0.803
+</td>
+<td style="text-align:right;">
+0.906
+</td>
+<td style="text-align:right;">
+-0.102
+</td>
+<td style="text-align:right;">
+62.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+8.55
+</td>
+<td style="text-align:right;">
+59.6
+</td>
+<td style="text-align:right;">
+7.55–8.55
+</td>
+<td style="text-align:right;">
+1004
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.091
+</td>
+<td style="text-align:right;">
+0.856
+</td>
+<td style="text-align:right;">
+0.939
+</td>
+<td style="text-align:right;">
+-0.083
+</td>
+<td style="text-align:right;">
+55.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+12.42
+</td>
+<td style="text-align:right;">
+30.8
+</td>
+<td style="text-align:right;">
+12.42–12.53
+</td>
+<td style="text-align:right;">
+106
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.073
+</td>
+<td style="text-align:right;">
+0.827
+</td>
+<td style="text-align:right;">
+0.912
+</td>
+<td style="text-align:right;">
+-0.085
+</td>
+<td style="text-align:right;">
+30.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.53
+</td>
+<td style="text-align:right;">
+23.8
+</td>
+<td style="text-align:right;">
+13.53–13.59
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.076
+</td>
+<td style="text-align:right;">
+0.760
+</td>
+<td style="text-align:right;">
+0.829
+</td>
+<td style="text-align:right;">
+-0.069
+</td>
+<td style="text-align:right;">
+22.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.18
+</td>
+<td style="text-align:right;">
+29.7
+</td>
+<td style="text-align:right;">
+2.06–2.40
+</td>
+<td style="text-align:right;">
+336
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.105
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+0.657
+</td>
+<td style="text-align:right;">
+0.134
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+0.01–0.03
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+<td style="text-align:right;">
+0.648
+</td>
+<td style="text-align:right;">
+0.532
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:right;">
+14.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+3.41
+</td>
+<td style="text-align:right;">
+25.0
+</td>
+<td style="text-align:right;">
+3.41–3.48
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.078
+</td>
+<td style="text-align:right;">
+0.890
+</td>
+<td style="text-align:right;">
+0.819
+</td>
+<td style="text-align:right;">
+0.071
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+6.61
+</td>
+<td style="text-align:right;">
+22.3
+</td>
+<td style="text-align:right;">
+6.42–6.87
+</td>
+<td style="text-align:right;">
+450
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.068
+</td>
+<td style="text-align:right;">
+0.929
+</td>
+<td style="text-align:right;">
+0.830
+</td>
+<td style="text-align:right;">
+0.099
+</td>
+<td style="text-align:right;">
+8.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+12.51
+</td>
+<td style="text-align:right;">
+21.1
+</td>
+<td style="text-align:right;">
+12.43–12.58
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+<td style="text-align:right;">
+0.819
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+0.105
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+7.20
+</td>
+<td style="text-align:right;">
+23.3
+</td>
+<td style="text-align:right;">
+7.07–7.29
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.099
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+<td style="text-align:right;">
+0.428
+</td>
+<td style="text-align:right;">
+-0.105
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+10.42
+</td>
+<td style="text-align:right;">
+19.1
+</td>
+<td style="text-align:right;">
+10.36–10.49
+</td>
+<td style="text-align:right;">
+125
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.091
+</td>
+<td style="text-align:right;">
+0.385
+</td>
+<td style="text-align:right;">
+0.525
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+6.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+8.98
+</td>
+<td style="text-align:right;">
+18.5
+</td>
+<td style="text-align:right;">
+8.93–9.07
+</td>
+<td style="text-align:right;">
+136
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+0.379
+</td>
+<td style="text-align:right;">
+0.434
+</td>
+<td style="text-align:right;">
+-0.054
+</td>
+<td style="text-align:right;">
+6.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+4.93
+</td>
+<td style="text-align:right;">
+8.4
+</td>
+<td style="text-align:right;">
+4.86–5.03
+</td>
+<td style="text-align:right;">
+161
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.061
+</td>
+<td style="text-align:right;">
+0.469
+</td>
+<td style="text-align:right;">
+0.504
+</td>
+<td style="text-align:right;">
+-0.035
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+1.78
+</td>
+<td style="text-align:right;">
+7.9
+</td>
+<td style="text-align:right;">
+1.76–1.79
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+0.853
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+8.04
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+<td style="text-align:right;">
+7.97–8.16
+</td>
+<td style="text-align:right;">
+186
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.057
+</td>
+<td style="text-align:right;">
+0.992
+</td>
+<td style="text-align:right;">
+0.934
+</td>
+<td style="text-align:right;">
+0.059
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+6.88
+</td>
+<td style="text-align:right;">
+30.6
+</td>
+<td style="text-align:right;">
+6.80–6.93
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.989
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+12.4
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+5.80
+</td>
+<td style="text-align:right;">
+25.5
+</td>
+<td style="text-align:right;">
+5.75–5.80
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.047
+</td>
+<td style="text-align:right;">
+0.984
+</td>
+<td style="text-align:right;">
+0.930
+</td>
+<td style="text-align:right;">
+0.054
+</td>
+<td style="text-align:right;">
+25.5
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.33
+</td>
+<td style="text-align:right;">
+17.2
+</td>
+<td style="text-align:right;">
+13.16–13.51
+</td>
+<td style="text-align:right;">
+346
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.061
+</td>
+<td style="text-align:right;">
+0.803
+</td>
+<td style="text-align:right;">
+0.890
+</td>
+<td style="text-align:right;">
+-0.086
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+4.75
+</td>
+<td style="text-align:right;">
+13.3
+</td>
+<td style="text-align:right;">
+4.57–4.75
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.958
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+13.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+6.03
+</td>
+<td style="text-align:right;">
+14.6
+</td>
+<td style="text-align:right;">
+5.87–6.17
+</td>
+<td style="text-align:right;">
+296
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.059
+</td>
+<td style="text-align:right;">
+0.132
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+<td style="text-align:right;">
+-0.039
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+8.30
+</td>
+<td style="text-align:right;">
+9.6
+</td>
+<td style="text-align:right;">
+8.05–8.70
+</td>
+<td style="text-align:right;">
+650
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.045
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.144
+</td>
+<td style="text-align:right;">
+-0.029
+</td>
+<td style="text-align:right;">
+6.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+9.70
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+9.70–9.76
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.036
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.152
+</td>
+<td style="text-align:right;">
+-0.037
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+5.8
+</td>
+<td style="text-align:right;">
+0.59–0.95
+</td>
+<td style="text-align:right;">
+356
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-0.051
+</td>
+<td style="text-align:right;">
+0.521
+</td>
+<td style="text-align:right;">
+0.523
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+4.87
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:right;">
+4.83–4.87
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.038
+</td>
+<td style="text-align:right;">
+0.141
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:right;">
+-0.019
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+20.49
+</td>
+<td style="text-align:right;">
+22.2
+</td>
+<td style="text-align:right;">
+20.48–20.49
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+12.34
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+12.06–12.53
+</td>
+<td style="text-align:right;">
+468
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-0.096
+</td>
+<td style="text-align:right;">
+0.504
+</td>
+<td style="text-align:right;">
+0.584
+</td>
+<td style="text-align:right;">
+-0.080
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.31
+</td>
+<td style="text-align:right;">
+19.8
+</td>
+<td style="text-align:right;">
+10.20–10.46
+</td>
+<td style="text-align:right;">
+256
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-0.089
+</td>
+<td style="text-align:right;">
+0.575
+</td>
+<td style="text-align:right;">
+0.664
+</td>
+<td style="text-align:right;">
+-0.088
+</td>
+<td style="text-align:right;">
+11.8
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.28
+</td>
+<td style="text-align:right;">
+19.3
+</td>
+<td style="text-align:right;">
+1.18–1.43
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.083
+</td>
+<td style="text-align:right;">
+0.738
+</td>
+<td style="text-align:right;">
+0.654
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+13.54
+</td>
+<td style="text-align:right;">
+16.3
+</td>
+<td style="text-align:right;">
+13.54–13.60
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.084
+</td>
+<td style="text-align:right;">
+0.452
+</td>
+<td style="text-align:right;">
+0.508
+</td>
+<td style="text-align:right;">
+-0.056
+</td>
+<td style="text-align:right;">
+16.3
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+15.79
+</td>
+<td style="text-align:right;">
+6.3
+</td>
+<td style="text-align:right;">
+15.69–15.90
+</td>
+<td style="text-align:right;">
+201
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.047
+</td>
+<td style="text-align:right;">
+0.783
+</td>
+<td style="text-align:right;">
+0.725
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.02
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+12.95–13.07
+</td>
+<td style="text-align:right;">
+116
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.076
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+TRUE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+rpn12 vs vha5
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+14.69
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+14.68–14.69
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+0.801
+</td>
+<td style="text-align:right;">
+0.748
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+FALSE
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 
 # III. The interval
 
@@ -3193,7 +28707,7 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the eighteen they need the Dryad archive to rebuild.
+clone, but unlike the twenty-one they need the Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
 
@@ -3760,6 +29274,43 @@ the interval falls back to the local block. The plateau at 0.5–0.7 is
 held open by a marker at 13.784 Mb (r² `0.701`) — which is the
 chromosome’s **terminal marker**, the same boundary artefact that makes
 the cross scan’s peak position uninformative.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">Where *sid-2* falls in that block, and what it does not
+show</span>
+
+Stated explicitly, because it is the question a reader arrives with. The
+*sid-2* T96K variant sits at `III:13,680,248` = `13.680` Mb, `0.962` Mb
+distal to the association peak. Against the intervals above:
+
+| cutoff   | interval         |    width | contains *sid-2*? |
+|:---------|:-----------------|---------:|:------------------|
+| r² ≥ 0.5 | 11.436–13.784 Mb | 2,347 kb | **yes**           |
+| r² ≥ 0.6 | 11.436–13.784 Mb | 2,347 kb | **yes**           |
+| r² ≥ 0.7 | 11.436–13.784 Mb | 2,347 kb | **yes**           |
+| r² ≥ 0.8 | 12.718–12.732 Mb |    14 kb | no                |
+
+So at r² ≥ 0.7 the association’s LD block does contain *sid-2*, and the
+“megabases apart” objection to the concordance is answered at that
+cutoff: the pooled *pos-1* peak, both cross peaks and *sid-2* all fall
+inside one block.
+
+**Three limits, all of which belong with the claim.** It is
+cutoff-dependent — one step to r² ≥ 0.8 and the interval is 14 kb and
+excludes *sid-2*. The plateau that reaches *sid-2* rests on the terminal
+marker noted above, so the distal edge is a boundary artefact rather
+than a measured LD boundary. And containment is not evidence: the NIL
+interval is flat in this scan — 88 markers, best −log₁₀p `0.98`, with
+T96K itself at `0.62`, ranking 18,662 of 64,423 on the chromosome.
+
+What this supports is the negative statement, which is the useful one.
+The association cannot resolve *within* this block, so *sid-2* lying
+inside it is **consistent with** the NIL result rather than in tension
+with it. The positive claim — that *sid-2* is the gene — is carried by
+the NILs and the allele swaps, not by the scan.
 
 One distinction worth keeping: at r² 0.5 the overlap is **genuine** — 8
 markers inside the NIL window reach r² ≈ `0.527` with the peak. At 0.6
@@ -4484,6 +30035,49 @@ that can be stated rather than asserted.
 
 </div>
 
+## Figure S17 — Figure 2 without the cross QTL
+
+<div class="meta">
+
+**Script** `scripts/Figure2.R`<br> **Supports** Figure 2, as its
+control<br> **Scope** the same two pooled GWAS scans · cross QTL tracks
+removed
+
+</div>
+
+<div class="plate">
+
+<img src="plots/Figure2_no_cross_qtl.png" alt="The same mirrored Manhattan as Figure 2 - mig-6 above the axis, pos-1 below - with the cross QTL arrow tracks, their labels and the cross legend removed." width="100%" />
+<p class="filecap">
+Figure2_no_cross_qtl
+</p>
+
+</div>
+
+Figure 2 draws nine cross QTL as arrows over a mirrored Manhattan, which
+asks the reader to judge two sources of evidence at once. This is the
+same panel with the arrows, their labels and the cross legend removed,
+written by the same script from the same data in the same call —
+`build(LOD_MIN, "Figure2_no_cross_qtl", arrows = FALSE)` — so nothing
+but the QTL layer differs.
+
+<div class="aside">
+
+<span class="ch">What it is for</span>
+
+**It separates the claim from the annotation.** The arrows carry
+position only, and the association peaks beneath them are the
+independent measurement. Seeing the Manhattan alone is how a reader
+checks that a peak is present where an arrow points, rather than reading
+the arrow as the evidence.
+
+**It is a control, not an alternative.** Figure 2 is the figure the
+argument uses. This one exists so the overlay can be removed and the
+underlying scan inspected, which is a question a reviewer is entitled to
+ask and which no amount of caption prose answers as directly.
+
+</div>
+
 ## The panel split at two loci
 
 **Script** `scripts/diagnostic_genotype_splits.R`<br> **Figure**
@@ -4701,7 +30295,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4715,7 +30309,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4729,7 +30323,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4743,7 +30337,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4757,7 +30351,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4771,7 +30365,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4785,7 +30379,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4799,7 +30393,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4813,7 +30407,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4827,7 +30421,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4838,10 +30432,10 @@ Figure S9
 SUPP_FIG_XX_cross_contrast_panels
 </td>
 <td style="text-align:right;">
-966
+1011
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4855,7 +30449,7 @@ Figure3_quad
 172
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4869,7 +30463,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4883,7 +30477,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4897,7 +30491,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4911,7 +30505,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4925,7 +30519,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4939,7 +30533,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4953,7 +30547,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
 </td>
 </tr>
 <tr>
@@ -4967,7 +30561,21 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-08 16:38
+2026-09-09 12:51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S17
+</td>
+<td style="text-align:left;">
+Figure2_no_cross_qtl
+</td>
+<td style="text-align:right;">
+1515
+</td>
+<td style="text-align:right;">
+2026-09-09 12:51
 </td>
 </tr>
 </tbody>
@@ -4975,7 +30583,7 @@ SUPP_FIG_XX_sid2_model_confidence
 
 <div class="tnote">
 
-All eighteen figures rebuild from `supplemental_data/` with `data/`
+All twenty-one figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every

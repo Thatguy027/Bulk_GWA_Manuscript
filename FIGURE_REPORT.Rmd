@@ -1393,6 +1393,90 @@ contrasts run in both crosses — whether the QTL is shared. That table also
 flags which secondary peaks are separated from a taller peak by a sub-threshold
 LOD trough and which are merely shoulders of one sweep.
 
+```{r cross-qtl-load}
+CQF <- "plots/TABLE_cross_qtl_full.tsv"
+have_cqf <- file.exists(CQF)
+if (have_cqf) {
+  cqf <- read_tsv(CQF, show_col_types = FALSE) %>%
+    mutate(chrom = factor(chrom, levels = c("I","II","III","IV","V","X")))
+}
+```
+
+```{r cross-qtl-counts, eval=have_cqf}
+kb(tibble::tibble(
+  Quantity = c("Contrasts scanned",
+               "QTL above the genome-wide threshold (LOD 3.57)",
+               "Of those, drawn in Figure 2 (LOD > 100, tallest per chromosome)",
+               "Secondary peaks Figure 2's MAX_PEAKS = 1 cannot call",
+               "— separated from the taller peak by a sub-threshold trough",
+               "— shoulders of one sweep, not independent QTL",
+               "Defensible QTL (rank 1, or a secondary with a clean trough)"),
+  Value = c(dplyr::n_distinct(paste(cqf$cross, cqf$contrast)),
+            nrow(cqf),
+            sum(cqf$drawn.in.figure2),
+            sum(cqf$peak.rank > 1),
+            sum(cqf$peak.rank > 1 & cqf$separated),
+            sum(cqf$peak.rank > 1 & !cqf$separated),
+            sum(cqf$separated))),
+  align = c("l", "r"))
+```
+
+::: derived
+The 495 against 46 is the whole point of the table: Figure 2's two display
+constants, `LOD_MIN <- 100` and `MAX_PEAKS <- 1`, are doing more of the
+filtering than the significance threshold is. Selection in these pools is
+strong enough that one sweep can span most of a chromosome, so the raw count
+overstates the number of independent loci — `trough.LOD` is the column that
+separates a real secondary QTL from a shoulder, and `separated` is that test
+applied.
+:::
+
+Of the three contrasts run in both crosses, these are the QTL whose interval is
+matched by a call in the other cross. The *sid-2* region on chromosome III is
+shared for HT115 vs *mig-6* in both directions, at LOD 940 in N2 × XZ1516 and
+335 in JU1793 × JU2466.
+
+```{r cross-qtl-shared, eval=have_cqf}
+kb(cqf %>%
+     filter(shared, separated) %>%
+     transmute(Cross = cross, Contrast = contrast, Chr = chrom,
+               `Peak (Mb)` = fnum(peak.Mb, 2), LOD = fnum(peak.LOD, 1),
+               Interval = sprintf("%.2f–%.2f", lcon.Mb, rcon.Mb),
+               `Δfreq` = fnum(dfreq, 3),
+               `Other cross peak (Mb)` = fnum(other.peak.Mb, 2),
+               `Other LOD` = fnum(other.peak.LOD, 1)) %>%
+     arrange(Contrast, Chr, desc(as.numeric(LOD))),
+   align = c("l", "l", "l", rep("r", 6)))
+```
+
+The complete table follows: every peak above the genome-wide threshold, in
+every contrast, with both effect-size scales and the parental frequencies they
+come from. `f1.a` and `f1.b` are parent 1's frequency in the first and second
+pool the contrast names, each pooled over ±50 kb and weighted by read depth;
+`Δfreq` is their difference. Parent 1 is N2 in one cross and JU1793 in the
+other, so the sign of `Δfreq` is not comparable between crosses without saying
+which parent is which. One QTL has no frequency: its peak falls in a
+single-marker gap with no coverage in either pool.
+
+<div style="max-height:560px;overflow:auto">
+
+```{r cross-qtl-full, eval=have_cqf}
+kb(cqf %>%
+     transmute(Cross = cross, Contrast = contrast, Chr = chrom,
+               `Peak (Mb)` = fnum(peak.Mb, 2), LOD = fnum(peak.LOD, 1),
+               Interval = sprintf("%.2f–%.2f", lcon.Mb, rcon.Mb),
+               `Width (kb)` = fnum(width.kb, 0), Rank = peak.rank,
+               `β` = fnum(contrast.beta, 3),
+               `f1.a` = fnum(f1.a, 3), `f1.b` = fnum(f1.b, 3),
+               `Δfreq` = fnum(dfreq, 3),
+               `Trough LOD` = fnum(trough.LOD, 1), Separated = separated,
+               `Other LOD at peak` = fnum(other.LOD.at.peak, 1),
+               Shared = shared),
+   align = c("l", "l", "l", rep("r", 13)))
+```
+
+</div>
+
 # III. The interval
 
 ::: scale
