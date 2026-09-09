@@ -52,6 +52,13 @@ scripts/Rplots.pdf
 # =============================================================================
 data/
 
+# `data/` above is unanchored, so it matches a directory of that name at any
+# depth -- including manuscript/review/data/, which holds small recomputed
+# CSVs that belong in git. Re-include it explicitly. The negation must name
+# the directory, not the files: git will not descend into an excluded
+# directory to find re-included files inside it.
+!manuscript/review/data/
+
 # =============================================================================
 # plots -- keep the figures, drop the exploratory set and the regenerable
 # render assets. The variant tables under pooled_cross_intersection ARE read by

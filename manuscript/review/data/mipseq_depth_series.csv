@@ -1,0 +1,8 @@
+depth,slope_level_rho,per_sample_median_rho
+0.25x,0.833,0.724
+0.5x,0.87,
+1x,0.851,
+3x,0.903,
+5x,0.906,0.827
+10x,0.904,
+full,0.97,0.835

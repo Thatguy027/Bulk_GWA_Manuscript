@@ -1,0 +1,8 @@
+trait,n_strains_gwas_trait_file,n_NA,pct_NA,n_strains_nnls_deposit,r2_at_1x,r2_at_500x
+mtDNA_ratio,327,0,0.0,327,0.52,1.0
+Albendazole_q75.TOF,199,128,39.1,327,0.56,1.0
+assay_norm,152,175,53.5,327,0.81,1.0
+etoposide_median.TOF,137,190,58.1,327,0.72,1.0
+amsacrine_f.L1,135,192,58.7,327,0.79,1.0
+value,131,196,59.9,327,0.86,1.0
+PC1,84,243,74.3,327,0.91,1.0

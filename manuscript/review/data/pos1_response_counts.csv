@@ -1,0 +1,6 @@
+definition,n_responsive,n_total,pct
+"replicate A (superseded dataset, per caption)",146,224,65.2
+"replicate B (superseded dataset, per caption)",144,224,64.3
+shipped delta_ctrl_pos-1_T2 < 0,183,231,79.2
+negative mean delta across the four pos-1 replicates,183,277,66.1
+negative in ALL four pos-1 replicates,151,277,54.5
