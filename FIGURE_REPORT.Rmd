@@ -136,7 +136,8 @@ DIAGDIR <- "plots/diagnostics"
 DIAG <- c(baugh_leakage_vs_similarity = "Leakage in the MIP-seq validation",
           gwas_interval_diagnostic    = "GWAS interval admission",
           reference_size_vs_coverage  = "Coverage against reference size",
-          downsample_leakage          = "Off-pool leakage against coverage")
+          downsample_leakage          = "Off-pool leakage against coverage",
+          genotype_splits             = "The panel split at two loci")
 diag_have <- function(stem)
   file.exists(file.path(DIAGDIR, paste0(stem, ".png")))
 
@@ -2477,6 +2478,85 @@ inside that radius — binomial `p = 0.38`. The zoom keeps the two evidence
 classes apart, the histidines against the *qt13* allele D34, which is the
 distinction the released panel collapsed. `METHODS.txt` states that no proximity
 claim is made; this figure is why that can be stated rather than asserted.
+:::
+
+## The panel split at two loci
+
+**Script** `scripts/diagnostic_genotype_splits.R`<br>
+**Figure** `plots/diagnostics/genotype_splits.png`
+
+Two loci, asked separately and then together: `IV:15,323,414`, the strongest
+marker in the pooled scan, and `III:13,680,248`, *sid-2* T96K — the allele the
+cross and the NILs implicate. Higher VST is more resistant.
+
+```{r diag-splits, eval=diag_have("genotype_splits"), fig.alt="Boxplots of the pooled pos-1 response split by genotype at the chromosome IV peak, at sid-2 T96K, and by both jointly."}
+include_graphics(file.path(DIAGDIR, "genotype_splits.png"))
+```
+
+```{r diag-splits-tab, eval=file.exists(file.path(DIAGDIR,"TABLE_genotype_splits_marginal.tsv"))}
+kb(read_tsv(file.path(DIAGDIR, "TABLE_genotype_splits_marginal.tsv"),
+            show_col_types = FALSE) %>%
+     transmute(Locus = label,
+               AF = fnum(af, 3),
+               `β` = sprintf("%+.4f", beta),
+               `p (Wald)` = signif(p_wald, 3),
+               `−log₁₀p` = fnum(lp, 2),
+               `Rank of 464,045` = format(rank, big.mark = ","),
+               `Single-locus R²` = fnum(r2_single, 3)),
+   align = c("l", "r", "r", "r", "r", "r", "r"),
+   caption = "The marginal association each marker carries in the scan itself.")
+```
+
+::: derived
+Derived from plots/diagnostics/TABLE_genotype_splits.tsv and
+TABLE_genotype_splits_marginal.tsv
+:::
+
+::: aside
+[Chromosome IV is what this panel can see]{.ch}
+
+Splitting at the chromosome IV peak separates `48` strains carrying the
+resistant allele (mean `+0.023`) from `182` carrying the other (`−0.029`):
+Δ = `−0.0514`, Wilcoxon `p = 1.2e-07`, which is **12% of the phenotypic
+range**. Its marginal statistic is the strongest in the scan — rank `1` of
+464,045, `−log₁₀p = 8.84`, single-locus R² `0.159` — and in an additive
+two-locus fit it is the only term that carries anything: β `−0.052`,
+`p = 8e-10`, adjusted R² `0.152`.
+
+So there is more than *sid-2* segregating for this trait in the wild
+population, and chromosome IV is the part of it the pooled GWAS is actually
+powered to find.
+:::
+
+::: caveat
+[Why *sid-2* is invisible here, and why that is not a contradiction]{.ch}
+
+Splitting at T96K separates `83` strains carrying 96K (mean `−0.024`) from `147`
+carrying 96T (`−0.015`). The direction is right — 96T more resistant, matching
+the allele swaps — but Δ = `+0.0089` with Wilcoxon `p = 0.99`, single-locus R²
+`0.007`, and a marginal rank of `101,105` of 464,045. In the additive fit,
+β = `−0.002`, `p = 0.74`.
+
+**The two loci are not independent in the panel.** Fisher `p = 8.1e-05`, odds
+ratio `0.20`: only `6` of 230 strains carry 96K on the chromosome IV resistant
+background. The allele is largely confined to one background, so a marginal test
+at T96K is asking a question this panel cannot cleanly answer — which is a
+different statement from the allele having no effect.
+
+The evidence for *sid-2* is the cross, the NIL series and the allele swaps, not
+the mapping. T96K moves JU1793 from `95%` to `53%` hatching, roughly two-thirds
+of the `64`-point parental gap, and the direction holds in all three backgrounds
+tested. What this diagnostic adds is the honest account of the GWAS side: the
+scan does not support *sid-2*, it is not powered to, and the reason is visible
+in the genotype table rather than a matter of assertion.
+
+One further caution on interval arithmetic. The r² ≥ 0.7 interval around the
+chromosome III peak reaches *sid-2* only through a **single** marker — the
+chromosome's terminal marker at 13.7835 Mb, r² = `0.7014`, a thousandth above
+the cutoff. Every other marker beyond 13.6 Mb, *sid-2*'s own included, sits at
+r² = `0.5275`. At r² ≥ 0.71 the interval collapses to 14 kb. So "the LD interval
+contains *sid-2*" is a convex-hull effect at 0.7 and only a genuine statement at
+0.5, and the causal argument does not need it either way.
 :::
 
 # Open before submission

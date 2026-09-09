@@ -61,6 +61,7 @@ Assembled 2026-09-08
         distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
     -   [Figure S16 — model confidence, and the proximity
         null](#figure-s16--model-confidence-and-the-proximity-null)
+    -   [The panel split at two loci](#the-panel-split-at-two-loci)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -4483,6 +4484,159 @@ that can be stated rather than asserted.
 
 </div>
 
+## The panel split at two loci
+
+**Script** `scripts/diagnostic_genotype_splits.R`<br> **Figure**
+`plots/diagnostics/genotype_splits.png`
+
+Two loci, asked separately and then together: `IV:15,323,414`, the
+strongest marker in the pooled scan, and `III:13,680,248`, *sid-2* T96K
+— the allele the cross and the NILs implicate. Higher VST is more
+resistant.
+
+<img src="plots/diagnostics/genotype_splits.png" alt="Boxplots of the pooled pos-1 response split by genotype at the chromosome IV peak, at sid-2 T96K, and by both jointly." width="100%" />
+
+<table>
+<caption>
+The marginal association each marker carries in the scan itself.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Locus
+</th>
+<th style="text-align:right;">
+AF
+</th>
+<th style="text-align:right;">
+β
+</th>
+<th style="text-align:right;">
+p (Wald)
+</th>
+<th style="text-align:right;">
+−log₁₀p
+</th>
+<th style="text-align:right;">
+Rank of 464,045
+</th>
+<th style="text-align:right;">
+Single-locus R²
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+IV:15.32 Mb (GWAS peak)
+</td>
+<td style="text-align:right;">
+0.208
+</td>
+<td style="text-align:right;">
++0.0258
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8.84
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.159
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sid-2 T96K
+</td>
+<td style="text-align:right;">
+0.359
+</td>
+<td style="text-align:right;">
+-0.0050
+</td>
+<td style="text-align:right;">
+0.243
+</td>
+<td style="text-align:right;">
+0.62
+</td>
+<td style="text-align:right;">
+101,105
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+Derived from plots/diagnostics/TABLE_genotype_splits.tsv and
+TABLE_genotype_splits_marginal.tsv
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Chromosome IV is what this panel can see</span>
+
+Splitting at the chromosome IV peak separates `48` strains carrying the
+resistant allele (mean `+0.023`) from `182` carrying the other
+(`−0.029`): Δ = `−0.0514`, Wilcoxon `p = 1.2e-07`, which is **12% of the
+phenotypic range**. Its marginal statistic is the strongest in the scan
+— rank `1` of 464,045, `−log₁₀p = 8.84`, single-locus R² `0.159` — and
+in an additive two-locus fit it is the only term that carries anything:
+β `−0.052`, `p = 8e-10`, adjusted R² `0.152`.
+
+So there is more than *sid-2* segregating for this trait in the wild
+population, and chromosome IV is the part of it the pooled GWAS is
+actually powered to find.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">Why *sid-2* is invisible here, and why that is not a
+contradiction</span>
+
+Splitting at T96K separates `83` strains carrying 96K (mean `−0.024`)
+from `147` carrying 96T (`−0.015`). The direction is right — 96T more
+resistant, matching the allele swaps — but Δ = `+0.0089` with Wilcoxon
+`p = 0.99`, single-locus R² `0.007`, and a marginal rank of `101,105` of
+464,045. In the additive fit, β = `−0.002`, `p = 0.74`.
+
+**The two loci are not independent in the panel.** Fisher `p = 8.1e-05`,
+odds ratio `0.20`: only `6` of 230 strains carry 96K on the chromosome
+IV resistant background. The allele is largely confined to one
+background, so a marginal test at T96K is asking a question this panel
+cannot cleanly answer — which is a different statement from the allele
+having no effect.
+
+The evidence for *sid-2* is the cross, the NIL series and the allele
+swaps, not the mapping. T96K moves JU1793 from `95%` to `53%` hatching,
+roughly two-thirds of the `64`-point parental gap, and the direction
+holds in all three backgrounds tested. What this diagnostic adds is the
+honest account of the GWAS side: the scan does not support *sid-2*, it
+is not powered to, and the reason is visible in the genotype table
+rather than a matter of assertion.
+
+One further caution on interval arithmetic. The r² ≥ 0.7 interval around
+the chromosome III peak reaches *sid-2* only through a **single** marker
+— the chromosome’s terminal marker at 13.7835 Mb, r² = `0.7014`, a
+thousandth above the cutoff. Every other marker beyond 13.6 Mb,
+*sid-2*’s own included, sits at r² = `0.5275`. At r² ≥ 0.71 the interval
+collapses to 14 kb. So “the LD interval contains *sid-2*” is a
+convex-hull effect at 0.7 and only a genuine statement at 0.5, and the
+causal argument does not need it either way.
+
+</div>
+
 # Open before submission
 
 Everything above is generated and verified. These are the items that
@@ -4547,7 +4701,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4561,7 +4715,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4575,7 +4729,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4589,7 +4743,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4603,7 +4757,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4617,7 +4771,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4631,7 +4785,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4645,7 +4799,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4659,7 +4813,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4673,7 +4827,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4687,7 +4841,7 @@ SUPP_FIG_XX_cross_contrast_panels
 966
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4701,7 +4855,7 @@ Figure3_quad
 172
 </td>
 <td style="text-align:right;">
-2026-09-08 16:36
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4715,7 +4869,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4729,7 +4883,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4743,7 +4897,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4757,7 +4911,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4771,7 +4925,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4785,7 +4939,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4799,7 +4953,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 <tr>
@@ -4813,7 +4967,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-08 16:34
+2026-09-08 16:38
 </td>
 </tr>
 </tbody>
