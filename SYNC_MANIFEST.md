@@ -73,6 +73,34 @@ calls unusable), `data/cross_experiments/N2-XZ_export/` (1.27 GB),
 `data/cross_experiments/Nov2024_JU_cross_pos_mig/` (245 MB, superseded),
 `plots/pooled_cross_intersection/` and `plots/legacy/` (96 MB, regenerable).
 
+## The R environment is not the same on both machines
+
+`METHODS.txt` records the environment the deposited figures were built in. A
+second machine will not match it by default, and one of the differences changes
+how figures render rather than only which numbers come out:
+
+| package | METHODS.txt (build machine) | this MacBook, 2026-09-08 |
+|---|---|---|
+| R | 4.5.2 | 4.5.1 |
+| ggplot2 | 4.0.3 | **3.5.2** |
+| data.table | 1.18.2.1 | 1.17.6 |
+| patchwork | 1.3.2 | 1.3.1 |
+| ggtext | 0.1.2 | **0.2.0** |
+| ggrepel | 0.9.7 | 0.9.6 |
+| png | 0.1.8 | 0.1.9 |
+
+The ggplot2 gap is a major version. `scripts/check_repo_invariants.sh` passes
+here, but it checks pinned NUMBERS, which are mostly renderer-independent — it
+does not compare the rendered figure against the committed PNG. Rebuilding a
+figure on this machine and committing the result would therefore quietly mix
+two renderers into `plots/`. Rebuild figures on the machine whose versions
+match `METHODS.txt`, or update that section deliberately once both agree.
+
+`ggtext` is a hard dependency of `SUPP_FIG_XX_dilution_validation.R`, which
+fails to load without it; `chrIII_association_support.R` degrades gracefully via
+`requireNamespace`. Install it before running the invariant checks on a new
+machine.
+
 ## Outside the archive entirely — two hard-coded absolute paths
 
 These point at a location `DATA_AVAILABILITY.md` does not cover, because it is
