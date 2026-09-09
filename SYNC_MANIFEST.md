@@ -20,6 +20,7 @@ routinely rather than archive.
 | `data/genotypes/CeNDR20210121_Plink/III.{bed,bim,fam}` | ~56 MB (est.) | 341,971 chrIII variants × 540 samples. Needed to run `plink --r2 --ld-snp III:12718465` and put an r² ≥ 0.5 interval around the GWA peak itself, not just around *sid-2* |
 | `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz` | in git | already available everywhere |
 | `supplemental_data/mapping/ju_cross_ht115_vs_pos1_scan.tsv.gz` | in git | already available everywhere |
+| `supplemental_data/mapping/cross_af_*.tsv.gz` | 11.2 MB, in git | genome-wide parental allele counts for every pool of both crosses, so a windowed parental frequency at any position is available from a clone. See below |
 
 The rest of `data/genotypes/CeNDR20210121_Plink/` (all six chromosomes,
 ~400 MB est.) is only needed if intervals are wanted for QTL off chromosome III.
@@ -32,7 +33,7 @@ their inputs.
 
 | item | size | unblocks |
 |---|---|---|
-| `data/pooled_cross_intersection/bundle.rds` | part of 281 MB | Figure 2, `SUPP_FIG_XX_cross_contrast_panels.R`, `compare_full_vs_thinned_bundle.R` |
+| `data/pooled_cross_intersection/bundle.rds` | part of 281 MB | `compare_full_vs_thinned_bundle.R`, `make_thinned_bundle.R`, `pooled_cross_candidate_variation.R`. **Not** Figure 2 or `SUPP_FIG_XX_cross_contrast_panels.R`: both read the 9.6 MB thinned bundle in git, so neither is blocked on a second machine |
 | `data/baugh/2024bootstrapINPUT.Rdata` | 31 MB | Figure 1 with `FIG1_REFRESH=1`; `baugh_strain_similarity.R` |
 | `data/genotypes/processed_genotype_matrix.Rda` | part of 7.08 GB | `baugh_leakage_vs_similarity.R` on the right predictor; `make_experiments_deposit.R` |
 | `data/genotypes/CeNDR20210121_Plink/` | ~400 MB (est.) | `eigen_independent_tests.R` (the Bonferroni and eigen thresholds); `SUPP_FIG_XX_sid2_allele_in_panel.R`; `simulation_deconvolution.R` (all six chromosomes, via `CENDR_PLINK`) |
@@ -64,6 +65,23 @@ clone permanently. Worth doing on whichever machine gets the archive first.
   `baugh_L1_DownSample_Counts.R`, i.e. from a sibling checkout, not this tree
 
 Deposit rebuilds are rare. Archive these rather than sync them.
+
+## The cross allele frequencies no longer need the exports
+
+`scripts/make_cross_af_tables.R` reduces both cross exports to two committed
+tables, `supplemental_data/mapping/cross_af_{N2xXZ1516,JU1793xJU2466}.tsv.gz`,
+11.2 MB together at full marker resolution — 522,357 markers × 10 samples and
+153,963 × 4. Everything a frequency question needs is in them:
+
+| what the exports hold | size | what is kept |
+|---|---|---|
+| `plot_data/*_plot_DF.tsv.gz` | 780 + 45 MB | nothing: each sample's 11 columns are repeated once per contrast it appears in, five times over for the N2 × XZ1516 pools |
+| `afd/*.afd.tsv.gz` | 158 + 18 MB | `chrom`, `physical.position`, and each sample's `p1`/`p2` — the counts every other column is derived from |
+
+So the exports are needed only to *rebuild* those tables, which is a one-time
+job on the machine that has the archive. `plots/TABLE_cross_qtl_full.tsv` and
+`SUPP_FIG_XX_cross_contrast_panels.R` both read the committed tables, not the
+exports, and `Figure3_common.R` reads the staged JU scan as before.
 
 ## Tier 4 — do not sync
 

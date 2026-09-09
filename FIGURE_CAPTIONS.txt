@@ -745,11 +745,18 @@ SUPP_FIG_XX_cross_contrast_panels
 (scripts/SUPP_FIG_XX_cross_contrast_panels.R)
 --------------------------------------------------------------------------------
 The expanded view behind Figure 2's compressed tracks. Mirrored pooled GWAS on
-top, then one panel per cross with both contrasts overlaid: HT115 vs pos-1 in
-purple and mig-6 vs pos-1 in blue. Purple high with blue flat marks a general
-RNAi-response locus -- the machinery is affected whatever the target -- and blue
-high marks a knockdown-specific one. This is the panel that justifies calling
-the chromosome III locus general and the chromosome V, I and X loci specific.
+top, then one panel per cross with all three contrasts overlaid: each knockdown
+against the HT115 control -- pos-1 in purple, mig-6 in orange -- and the
+difference between the two knockdowns in blue. Both HT115 traces high with the
+blue difference flat marks a general RNAi-response locus, the machinery being
+affected whatever the target; one HT115 trace high with blue tracking it marks a
+knockdown-specific locus. This is the panel that justifies calling the
+chromosome III locus general and the chromosome V, I and X loci specific: at
+chromosome III both knockdowns respond, while chromosome V and X move under
+mig-6 with pos-1 flat. Drawing the mig-6 response rather than inferring it from
+the difference trace is what separates those two readings. Every peak in these
+traces, at the genome-wide threshold rather than Figure 2's display cutoff of
+LOD 100, is tabulated in plots/TABLE_cross_qtl_full.tsv.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_XX_nil_hatching_full

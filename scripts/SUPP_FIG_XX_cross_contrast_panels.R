@@ -1,8 +1,11 @@
-## Supplement -- the two cross contrasts, panel per cross --------------------
-## Pooled GWAS (mirrored) above, then one panel per cross with the two contrasts
-## overlaid: HT115 vs pos-1 in purple, mig-6 vs pos-1 in blue. Purple high and
-## blue flat marks a general RNAi-response locus, blue high a knockdown-specific
-## one. This is the expanded view behind Figure 2.
+## Supplement -- the three cross contrasts, panel per cross ------------------
+## Pooled GWAS (mirrored) above, then one panel per cross with all three
+## contrasts overlaid: HT115 vs pos-1 in purple, HT115 vs mig-6 in orange, and
+## mig-6 vs pos-1 in blue. The two HT115 contrasts are each knockdown's own
+## response to the control; the third is the difference between them, so a
+## locus with both HT115 traces high and the blue trace flat responds to RNAi
+## generally, while blue high marks a knockdown-specific locus. This is the
+## expanded view behind Figure 2, which draws only the pos-1 contrasts.
 ##
 ##   Rscript scripts/pooled_cross_intersection_prep.R   # once, builds the cache
 ##   Rscript scripts/SUPP_FIG_XX_cross_contrast_panels.R
@@ -34,6 +37,10 @@ COL_EIG    <- "#1A7F5A"
 ## -- colours -----------------------------------------------------------------
 COL_MIG  <- "#2166AC"   # mig-6 trait, and the mig-6 vs pos-1 contrast
 COL_POS  <- "#7C6A9C"   # pos-1 trait, and the HT115 vs pos-1 contrast
+## the HT115 vs mig-6 trace: orange is purple's complement in PuOr, so it
+## stays separable from COL_POS under deuteranopia, and it is not blue, which
+## already means "the difference between the two knockdowns"
+COL_MIGR <- "#E08214"
 COL_PEAK <- "#C4302B"   # the significant pooled GWAS peaks and their window
 
 CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
@@ -41,15 +48,20 @@ CROSS_COL <- c(N2xXZ1516 = "#0B7A75", JU1793xJU2466 = "#D57A00")
 
 ## the two contrasts, given one meaning each regardless of the order the two
 ## exports happen to write them in
-ROLE_OF  <- c(`ht115 vs pos1` = "response",
+ROLE_OF  <- c(`ht115 vs pos1` = "response.pos1",
+              `ht115 vs mig6` = "response.mig6",
               `pos1 vs mig6`  = "specific",
               `mig6 vs pos1`  = "specific")
-ROLE_LAB <- c(response = "HT115 ; *pos-1*",
-              specific = "*mig-6* ; *pos-1*")
-ROLE_COL <- c(response = COL_POS, specific = COL_MIG)
+ROLE_LAB <- c(response.pos1 = "HT115 ; *pos-1*",
+              response.mig6 = "HT115 ; *mig-6*",
+              specific      = "*mig-6* ; *pos-1*")
+ROLE_COL <- c(response.pos1 = COL_POS, response.mig6 = COL_MIGR,
+              specific      = COL_MIG)
 
-KEYS <- c("N2xXZ1516 | ht115 vs pos1", "N2xXZ1516 | pos1 vs mig6",
-          "JU1793xJU2466 | ht115 vs pos1", "JU1793xJU2466 | mig6 vs pos1")
+KEYS <- c("N2xXZ1516 | ht115 vs pos1", "N2xXZ1516 | ht115 vs mig6",
+          "N2xXZ1516 | pos1 vs mig6",
+          "JU1793xJU2466 | ht115 vs pos1", "JU1793xJU2466 | ht115 vs mig6",
+          "JU1793xJU2466 | mig6 vs pos1")
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,

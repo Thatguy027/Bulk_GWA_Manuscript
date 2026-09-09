@@ -10,6 +10,7 @@
 ## BUILD ORDER for a deposit from scratch
 ##   1  Rscript scripts/make_supplemental_data.R     (this script)
 ##   2  Rscript scripts/make_thinned_bundle.R        (needs the full bundle)
+##   2b Rscript scripts/make_cross_af_tables.R       (needs the cross exports)
 ##   3  python3  scripts/sid2_ribbon_render.py       (writes sid2_per_residue.tsv)
 ##   4  Rscript scripts/sid2_variant_table.R         (writes the variant tables)
 ##   5  python3  scripts/sid2_zoom_render.py         (structure renders)
@@ -37,6 +38,12 @@
 ## NOT copied here, because they have their own builders:
 ##   supplemental_data/mapping/pooled_cross_bundle_thinned.rds
 ##     <- scripts/make_thinned_bundle.R
+##   supplemental_data/mapping/cross_af_N2xXZ1516.tsv.gz,
+##   supplemental_data/mapping/cross_af_JU1793xJU2466.tsv.gz,
+##   supplemental_data/mapping/cross_af_samples.tsv
+##     <- scripts/make_cross_af_tables.R, which reduces the exports' 938 MB of
+##        per-contrast allele counts to 11.2 MB by keeping one copy of each
+##        sample instead of one per contrast it appears in
 ##   supplemental_data/genotypes/sid2_region.{bed,bim,fam}
 ##     <- built below with plink2, subset to chrIII:13,679,000-13,682,000
 ##

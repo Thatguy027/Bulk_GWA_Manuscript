@@ -1361,23 +1361,37 @@ of the 93 panel strains have no vst value, so `n = 84` and ranks are out of 84.
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_cross_contrast_panels.R`<br>
 **Supports** Figure 2's compressed tracks<br>
-**Contrasts** HT115-vs-*pos-1* · *mig-6*-vs-*pos-1*
+**Contrasts** HT115-vs-*pos-1* · HT115-vs-*mig-6* · *mig-6*-vs-*pos-1*
 :::
 
 ::: plate
-```{r fig-9, fig.alt="Mirrored pooled GWAS above, then one panel per cross with the HT115-vs-pos-1 and mig-6-vs-pos-1 LOD contrasts overlaid."}
+```{r fig-9, fig.alt="Mirrored pooled GWAS above, then one panel per cross with three LOD contrasts overlaid: HT115-vs-pos-1, HT115-vs-mig-6, and mig-6-vs-pos-1."}
 include_graphics("plots/SUPP_FIG_XX_cross_contrast_panels.png")
 ```
 <p class="filecap">SUPP_FIG_XX_cross_contrast_panels</p>
 :::
 
-Mirrored pooled GWAS on top, then one panel per cross with both contrasts
-overlaid: HT115 vs *pos-1* in purple and *mig-6* vs *pos-1* in blue.
+Mirrored pooled GWAS on top, then one panel per cross with all three contrasts
+overlaid: each knockdown against the HT115 control — *pos-1* in purple, *mig-6*
+in orange — and the difference between the two knockdowns in blue.
 
-Purple high with blue flat marks a **general** RNAi-response locus — the
-machinery is affected whatever the target — and blue high marks a
-**knockdown-specific** one. This is the panel that justifies calling the
-chromosome III locus general and the chromosome V, I and X loci specific.
+Both HT115 traces high with the blue difference flat marks a **general**
+RNAi-response locus — the machinery is affected whatever the target — while one
+HT115 trace high with blue tracking it marks a **knockdown-specific** one. This
+is the panel that justifies calling the chromosome III locus general and the
+chromosome V, I and X loci specific: at chromosome III both knockdowns respond,
+while chromosome V and X move under *mig-6* with *pos-1* flat. Drawing the
+*mig-6* response directly, rather than inferring it from the difference trace,
+is what separates those two readings.
+
+Figure 2 draws only the peaks above LOD 100, and only the tallest peak per
+chromosome per contrast. `scripts/cross_qtl_full_summary.R` drops both cutoffs
+and tabulates every peak above the genome-wide threshold of LOD 3.57 into
+`plots/TABLE_cross_qtl_full.tsv`, with the model effect at the peak, the
+parental allele frequency of each pool in a ±50 kb window, and — for the three
+contrasts run in both crosses — whether the QTL is shared. That table also
+flags which secondary peaks are separated from a taller peak by a sub-threshold
+LOD trough and which are merely shoulders of one sweep.
 
 # III. The interval
 
