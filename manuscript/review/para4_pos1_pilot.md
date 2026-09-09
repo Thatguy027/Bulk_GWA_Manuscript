@@ -108,15 +108,15 @@ as the earlier `2.85`.
 RESOLVED by computing what the data actually support. `scripts/pos1_repeatability.R` ->
 `plots/diagnostics/TABLE_pos1_repeatability.tsv`:
 
-| scale | R | what it measures |
+| scale | R | |
 |---|---|---|
-| `delta_ctrl` (raw) | 0.95 | mostly abundance -- do not quote |
-| `log2fc_ctrl` (normalised) | **0.52** [0.43, 0.60] | **quote this** |
-| within-replicate rank | 0.84 | ordering only |
+| `delta_ctrl` (raw) | 0.95 | variance still scales with abundance |
+| **VST (isotonic reconstruction)** | **0.91** [0.85, 0.95] | **the mapped trait -- quote this** |
+| within-replicate rank | 0.85 | ordering only; a lower bound |
+| `log2fc_ctrl` | 0.44 | abundance divided out entirely |
 
-Stable across all three read-depth cutoffs (0.52 / 0.44 / 0.51 on the log2 scale). See "The two
-slots" below for why the scale is the whole story and why this is repeatability rather than
-heritability.
+Depth cutoff 5, which `METHODS.txt` records as the one used throughout. See "The two slots"
+below for the reconstruction and why this is repeatability rather than heritability.
 
 ## 6. Numbers that are right but unattested
 
@@ -154,7 +154,7 @@ now closed -- 224 resolves to 231, and the heritability sentence becomes a repea
 > RNAi, as indicated by these strains having a lower frequency in pos-1 RNAi conditions than
 > they did in the control condition (Figure 1B). We observed substantial variation within
 > RNAi-responsive and -insensitive strain groups. The response is repeatable across the four
-> pos-1 replicate pools (repeatability R = 0.52, 95% CI 0.43-0.60, n = 231 strains), indicating
+> pos-1 replicate pools (repeatability R = 0.91, 95% CI 0.85-0.95, n = 231 strains), indicating
 > that a substantial and consistent fraction of the variation is attributable to the strains
 > themselves rather than to measurement noise.
 > These results motivated us to construct a pooled population of RNAi-responsive strains that we
@@ -176,7 +176,7 @@ now closed -- 224 resolves to 231, and the heritability sentence becomes a repea
 | 146 of 224 (65%), SUPP FIG | 183 of 231 (79%), Figure 1B | the 224/146 figure is not in the repository; Figure 1B is the curated panel that shows this distribution |
 | rho = 0.42, p = 6e-6, n = 106 | rho = 0.41, p = 7.8e-06, n = 111 | panel A was rebuilt on the VST scale |
 | "224 pooled wild isolates" | 231 | the pool size is the number with a pos-1 VST measurement, which is 231; no cutoff yields 224 |
-| broad-sense heritability 0.32 | repeatability R = 0.52 [0.43, 0.60] | 0.32 exists nowhere in the repository; R is what four replicate pools support |
+| broad-sense heritability 0.32 | repeatability R = 0.91 [0.85, 0.95] | 0.32 exists nowhere in the repository; R is what four replicate pools support, on the VST scale that was mapped |
 | Paaby cited to panel A | panel B | it is panel B of that supplement |
 | "a previously published evaluation of wild isolate RNAi responses" | "a previously published measurement of pos-1 embryonic lethality" | that is what the Paaby data are |
 | "good agreement" for Paaby | "consistent with" | the caption asks for this given 19 shared strains |
@@ -185,8 +185,16 @@ now closed -- 224 resolves to 231, and the heritability sentence becomes a repea
 
 1. **Heritability -> repeatability.** 0.32 is not computed anywhere in this repository and is
    not recoverable. What these data support is a repeatability across the four *pos-1* replicate
-   pools, now computed by `scripts/pos1_repeatability.R`:
-   **R = 0.52, 95% bootstrap CI [0.43, 0.60], n = 231 strains x 4 replicates.**
+   pools, now computed by `scripts/pos1_repeatability.R`, **on the VST scale that was
+   actually mapped**: **R = 0.91, 95% bootstrap CI [0.85, 0.95], n = 231 strains x 4
+   replicates, depth cutoff 5.**
+
+   The VST is shipped per strain, not per replicate, and the transform itself is not
+   reproducible from this repository (`METHODS.txt` [TO FILL]). But the shipped VST is nearly
+   monotone in the shipped delta (Spearman 0.957), so an isotonic regression of one on the
+   other recovers the map to R2 = 0.969, and applying it to each replicate's delta puts every
+   replicate on the VST scale. If the real definition is recovered from the 2023 analysis
+   outside this repository, recompute and close that [TO FILL].
 
    This is an upper bound on broad-sense heritability, not an estimate of it, and the draft
    sentence above says "repeatable" rather than "heritable" for that reason. Two structural
@@ -195,12 +203,16 @@ now closed -- 224 resolves to 231, and the heritability sentence becomes a repea
    four share one control baseline (`ctrl_frq` is verified identical across all four replicates
    for all 231 strains), so baseline error is counted as among-strain signal.
 
-   **The scale matters more than anything else here.** On the raw `delta_ctrl` the estimate is
-   0.95 -- but that is mostly abundance, not response: |delta| tracks control frequency at
-   Spearman 0.90, and median |delta| rises 46-fold from the lowest to the highest abundance
-   quartile. Normalising by the control (log2 fold change) halves it to 0.52. Do not quote the
-   0.95. The mapped trait is variance-stabilised for exactly this reason, but the VST exists per
-   strain rather than per replicate, so it cannot be used for this.
+   **Is 0.91 just the repeatability of abundance?** No -- checked with the control-vs-control
+   null, since both control replicates exist for the same strains and their difference contains
+   no response. Noise does scale with abundance (|null delta| vs abundance, Spearman +0.59),
+   which is precisely what a variance-stabilising transform exists to fix. But the null carries
+   **no signed abundance trend at all** (-0.01), and the response is **~18x** the null's
+   standard deviation on the same scale. So the shipped VST's -0.56 correlation with abundance
+   is not measurement noise: it is a real relationship in which rarer strains show weaker
+   apparent response, which is what a floor on dynamic range looks like -- a strain at 1e-4
+   cannot drop far. Worth one clause in the text as a limit on what the rare end of the panel
+   can show; it does not undermine the estimate.
 2. **224 -> 231.** Closed; see section 2 above.
 
 ## 7. Replacing the heritability sentence with the QTL

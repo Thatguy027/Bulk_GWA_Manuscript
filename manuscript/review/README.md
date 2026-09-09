@@ -58,9 +58,9 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
   (128 at exactly zero mean control frequency). No read-depth cutoff yields 224.
 - **Broad-sense heritability.** ~~No estimate exists anywhere in this repository~~ —
   **replaced.** `scripts/pos1_repeatability.R` computes what four replicate pools support:
-  repeatability **R = 0.52** [0.43, 0.60] on the abundance-normalised scale, an upper bound on
-  H² rather than an estimate of it. The raw-delta figure of 0.95 is an abundance artefact and
-  should not be quoted.
+  repeatability **R = 0.91** [0.85, 0.95] on the VST scale that was actually mapped, an upper
+  bound on H² rather than an estimate of it. The VST ships per strain, so it is reconstructed
+  from the shipped (delta, vst) pairs by isotonic regression, R² = 0.969.
 - **QTL intervals.** ~~No linkage-disequilibrium interval can be computed here~~ — **partly
   settled.** `TABLE_gwas_qtl_intervals_eigen.tsv` now carries r² intervals at four cutoffs for
   all eleven eigen-significant loci. What still needs Tier 1 of `SYNC_MANIFEST.md` is an
