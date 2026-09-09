@@ -1458,6 +1458,91 @@ other, so the sign of `Δfreq` is not comparable between crosses without saying
 which parent is which. One QTL has no frequency: its peak falls in a
 single-marker gap with no coverage in either pool.
 
+### General RNAi-response loci against target-specific ones
+
+`scripts/cross_qtl_condition_sharing.R` uses a feature of the cross design
+that Figure 2 does not: N2 × XZ1516 ran five knockdown pools against one HT115
+control — *pos-1*, *mig-6*, *par-1*, *rpn-12*, *vha-5* — so "general" can be
+counted over targets rather than inferred from a flat difference trace. The JU
+cross ran two, which is its ceiling.
+
+::: derived
+The classification is made on **effect size**, not significance. Pooled depths
+here put LOD in the hundreds, so at the genome-wide threshold nearly every
+target is significant at nearly every locus: doing it that way called 55 of 61
+N2 × XZ1516 loci general, 19 in all five targets, which is not credible. Two
+further facts fix the approach. Every contrast in a cross shares one HT115
+pool, so drift in that pool imitates a general locus. And the timepoint-1
+replicate — its own HT115, *mig-6*, *par-1* and *rpn-12* pools — shows that
+replicate agreement of the frequency shift depends sharply on the target:
+*mig-6* r = 0.975, *rpn-12* r = 0.683, *par-1* r = 0.125. A *par-1* "response"
+largely does not reproduce.
+
+A target counts as responding when its pool differs from HT115 by
+|Δfreq| ≥ 0.10 with LOD above threshold. A locus is general when ≥ 3 targets
+respond **in the same direction**. Requiring equal magnitude instead is the
+wrong test — *mig-6* shifts about three times as far as *par-1* at the
+chromosome V loci — and it called nothing general at all, chromosome III
+included.
+:::
+
+```{r cross-cond-load}
+CLS <- "plots/TABLE_cross_qtl_locus_classification.tsv"
+have_cls <- file.exists(CLS)
+if (have_cls) cls <- read_tsv(CLS, show_col_types = FALSE)
+```
+
+```{r cross-cond-general, eval=have_cls}
+kb(cls %>% filter(general) %>%
+     transmute(Locus = locus,
+               Interval = sprintf("%.2f–%.2f", lcon.Mb, rcon.Mb),
+               `Targets responding` = gsub(",", ", ", targets.resp),
+               Direction = resp.dir,
+               `mig-6 fold` = fnum(mig6.fold, 2),
+               `mig-6 dominant` = mig6.dominant,
+               `Top LOD` = fnum(max.LOD, 1),
+               `Shared across crosses` = shared.across.cross),
+   align = c("l", "r", "l", "l", "r", "l", "r", "l"))
+```
+
+Six loci are general, and they split into two kinds. **Chromosome III at
+13.31 Mb** — the *sid-2* interval — responds in four of five targets with
+*mig-6* only 1.11× the next target, so every knockdown moves the locus by a
+comparable amount. That is what a general RNAi-response locus should look like,
+and it is matched in the JU cross, where both targets tested respond
+(Δfreq 0.616 for *mig-6*, 0.452 for *pos-1*). The five chromosome V loci are
+also concordant across three to five targets, but *mig-6* runs 1.4–2.5× the
+next target and four of them are flagged `mig6.dominant`: general in direction,
+carried mostly by *mig-6*.
+
+```{r cross-cond-mig6, eval=have_cls}
+kb(cls %>% filter(mig6.only) %>%
+     transmute(Locus = locus,
+               Interval = sprintf("%.2f–%.2f", lcon.Mb, rcon.Mb),
+               `Δfreq mig-6` = fnum(dfreq.mig6, 3),
+               `Δfreq replicate 1` = fnum(dfreq.mig6.rep1, 3),
+               `Distinct from every other target` = mig6.distinct,
+               `Top LOD` = fnum(max.LOD, 1),
+               `Shared across crosses` = shared.across.cross),
+   align = c("l", "r", "r", "r", "l", "r", "l"))
+```
+
+Seventeen loci are *mig-6*-specific — the only target that responds. Four are
+in N2 × XZ1516, and three of those four reproduce in the timepoint-1 replicate
+by sign and rough magnitude (I:0.80, −0.232 against −0.215; II:13.47, −0.140
+against −0.170; IV:17.49, −0.131 against −0.097); IV:12.54 does not
+(+0.104 against +0.015) and should be treated as unsupported. The thirteen in
+the JU cross carry weaker evidence by construction: with only *pos-1* and
+*mig-6* run, "specific" there means "not *pos-1*", not "not any other target".
+
+::: derived
+The two classifications are not equally robust. Sweeping the response
+threshold, *mig-6*-specific calls are stable — 13, 17, 18, 16 loci at
+|Δfreq| ≥ 0.05, 0.10, 0.15, 0.20 — while general calls fall away as the
+threshold rises: 29, 7, 2, 1. The general set therefore depends on where the
+response cut is placed, and only chromosome III survives to |Δfreq| ≥ 0.20.
+:::
+
 <div style="max-height:560px;overflow:auto">
 
 ```{r cross-qtl-full, eval=have_cqf}

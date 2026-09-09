@@ -2644,6 +2644,677 @@ comparable between crosses without saying which parent is which. One QTL
 has no frequency: its peak falls in a single-marker gap with no coverage
 in either pool.
 
+### General RNAi-response loci against target-specific ones
+
+`scripts/cross_qtl_condition_sharing.R` uses a feature of the cross
+design that Figure 2 does not: N2 × XZ1516 ran five knockdown pools
+against one HT115 control — *pos-1*, *mig-6*, *par-1*, *rpn-12*, *vha-5*
+— so “general” can be counted over targets rather than inferred from a
+flat difference trace. The JU cross ran two, which is its ceiling.
+
+<div class="derived">
+
+The classification is made on **effect size**, not significance. Pooled
+depths here put LOD in the hundreds, so at the genome-wide threshold
+nearly every target is significant at nearly every locus: doing it that
+way called 55 of 61 N2 × XZ1516 loci general, 19 in all five targets,
+which is not credible. Two further facts fix the approach. Every
+contrast in a cross shares one HT115 pool, so drift in that pool
+imitates a general locus. And the timepoint-1 replicate — its own HT115,
+*mig-6*, *par-1* and *rpn-12* pools — shows that replicate agreement of
+the frequency shift depends sharply on the target: *mig-6* r = 0.975,
+*rpn-12* r = 0.683, *par-1* r = 0.125. A *par-1* “response” largely does
+not reproduce.
+
+A target counts as responding when its pool differs from HT115 by
+\|Δfreq\| ≥ 0.10 with LOD above threshold. A locus is general when ≥ 3
+targets respond **in the same direction**. Requiring equal magnitude
+instead is the wrong test — *mig-6* shifts about three times as far as
+*par-1* at the chromosome V loci — and it called nothing general at all,
+chromosome III included.
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Locus
+</th>
+<th style="text-align:right;">
+Interval
+</th>
+<th style="text-align:left;">
+Targets responding
+</th>
+<th style="text-align:left;">
+Direction
+</th>
+<th style="text-align:right;">
+mig-6 fold
+</th>
+<th style="text-align:left;">
+mig-6 dominant
+</th>
+<th style="text-align:right;">
+Top LOD
+</th>
+<th style="text-align:left;">
+Shared across crosses
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:right;">
+13.03–13.54
+</td>
+<td style="text-align:left;">
+mig6, pos1, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+1.11
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+939.5
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:9.28
+</td>
+<td style="text-align:right;">
+9.23–9.28
+</td>
+<td style="text-align:left;">
+mig6, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+1.43
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+327.7
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:right;">
+10.28–11.08
+</td>
+<td style="text-align:left;">
+mig6, par1, pos1, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+1.67
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+806.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:12.21
+</td>
+<td style="text-align:right;">
+11.65–12.60
+</td>
+<td style="text-align:left;">
+mig6, par1, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+1.68
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+725.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:13.81
+</td>
+<td style="text-align:right;">
+12.98–15.26
+</td>
+<td style="text-align:left;">
+mig6, par1, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+1.87
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+611.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:16.26
+</td>
+<td style="text-align:right;">
+15.60–16.44
+</td>
+<td style="text-align:left;">
+mig6, par1, rpn12, vha5
+</td>
+<td style="text-align:left;">
+parent1
+</td>
+<td style="text-align:right;">
+2.46
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+398.9
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+
+Six loci are general, and they split into two kinds. **Chromosome III at
+13.31 Mb** — the *sid-2* interval — responds in four of five targets
+with *mig-6* only 1.11× the next target, so every knockdown moves the
+locus by a comparable amount. That is what a general RNAi-response locus
+should look like, and it is matched in the JU cross, where both targets
+tested respond (Δfreq 0.616 for *mig-6*, 0.452 for *pos-1*). The five
+chromosome V loci are also concordant across three to five targets, but
+*mig-6* runs 1.4–2.5× the next target and four of them are flagged
+`mig6.dominant`: general in direction, carried mostly by *mig-6*.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Locus
+</th>
+<th style="text-align:right;">
+Interval
+</th>
+<th style="text-align:right;">
+Δfreq mig-6
+</th>
+<th style="text-align:right;">
+Δfreq replicate 1
+</th>
+<th style="text-align:left;">
+Distinct from every other target
+</th>
+<th style="text-align:right;">
+Top LOD
+</th>
+<th style="text-align:left;">
+Shared across crosses
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 I:11.30
+</td>
+<td style="text-align:right;">
+11.30–11.37
+</td>
+<td style="text-align:right;">
+-0.301
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 II:0.02
+</td>
+<td style="text-align:right;">
+0.02–0.51
+</td>
+<td style="text-align:right;">
+0.289
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+20.4
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 II:2.02
+</td>
+<td style="text-align:right;">
+2.02–2.02
+</td>
+<td style="text-align:right;">
+0.143
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+17.4
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 II:10.68
+</td>
+<td style="text-align:right;">
+10.12–10.68
+</td>
+<td style="text-align:right;">
+0.177
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 II:12.25
+</td>
+<td style="text-align:right;">
+11.69–12.25
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 III:0.68
+</td>
+<td style="text-align:right;">
+0.45–0.90
+</td>
+<td style="text-align:right;">
+0.449
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+71.7
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 III:9.36
+</td>
+<td style="text-align:right;">
+9.26–9.48
+</td>
+<td style="text-align:right;">
+0.311
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+54.1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 V:0.28
+</td>
+<td style="text-align:right;">
+0.16–0.37
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+30.7
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 V:1.64
+</td>
+<td style="text-align:right;">
+1.47–1.73
+</td>
+<td style="text-align:right;">
+0.255
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+28.7
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 V:2.94
+</td>
+<td style="text-align:right;">
+2.90–2.98
+</td>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+29.8
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 V:3.98
+</td>
+<td style="text-align:right;">
+3.98–4.01
+</td>
+<td style="text-align:right;">
+0.221
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+19.6
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:5.86
+</td>
+<td style="text-align:right;">
+5.64–5.86
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+663.2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:8.45
+</td>
+<td style="text-align:right;">
+8.15–8.68
+</td>
+<td style="text-align:right;">
+0.742
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+569.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:0.80
+</td>
+<td style="text-align:right;">
+0.01–0.80
+</td>
+<td style="text-align:right;">
+-0.232
+</td>
+<td style="text-align:right;">
+-0.215
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+249.2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 II:13.47
+</td>
+<td style="text-align:right;">
+12.66–13.53
+</td>
+<td style="text-align:right;">
+-0.140
+</td>
+<td style="text-align:right;">
+-0.170
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 IV:12.54
+</td>
+<td style="text-align:right;">
+12.39–12.72
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+80.5
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 IV:17.49
+</td>
+<td style="text-align:right;">
+16.85–17.49
+</td>
+<td style="text-align:right;">
+-0.131
+</td>
+<td style="text-align:right;">
+-0.097
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+
+Seventeen loci are *mig-6*-specific — the only target that responds.
+Four are in N2 × XZ1516, and three of those four reproduce in the
+timepoint-1 replicate by sign and rough magnitude (I:0.80, −0.232
+against −0.215; II:13.47, −0.140 against −0.170; IV:17.49, −0.131
+against −0.097); IV:12.54 does not (+0.104 against +0.015) and should be
+treated as unsupported. The thirteen in the JU cross carry weaker
+evidence by construction: with only *pos-1* and *mig-6* run, “specific”
+there means “not *pos-1*”, not “not any other target”.
+
+<div class="derived">
+
+The two classifications are not equally robust. Sweeping the response
+threshold, *mig-6*-specific calls are stable — 13, 17, 18, 16 loci at
+\|Δfreq\| ≥ 0.05, 0.10, 0.15, 0.20 — while general calls fall away as
+the threshold rises: 29, 7, 2, 1. The general set therefore depends on
+where the response cut is placed, and only chromosome III survives to
+\|Δfreq\| ≥ 0.20.
+
+</div>
+
 <div style="max-height:560px;overflow:auto">
 
 <table>
@@ -30295,7 +30966,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30309,7 +30980,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30323,7 +30994,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30337,7 +31008,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30351,7 +31022,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30365,7 +31036,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30379,7 +31050,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30393,7 +31064,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30407,7 +31078,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30421,7 +31092,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30435,7 +31106,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30449,7 +31120,7 @@ Figure3_quad
 172
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30463,7 +31134,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30477,7 +31148,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30491,7 +31162,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30505,7 +31176,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30519,7 +31190,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30533,7 +31204,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30547,7 +31218,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30561,7 +31232,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 <tr>
@@ -30575,7 +31246,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 12:51
+2026-09-09 13:06
 </td>
 </tr>
 </tbody>
