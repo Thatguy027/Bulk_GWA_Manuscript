@@ -189,9 +189,18 @@ frequency for the pair, that estimate is attributable to either set; it is
 counted in set B throughout, which is both what the original analysis did and
 what the estimate's behaviour across the titration indicates.
 
-Accuracy was assessed against published multiplexed inverse PCR sequencing
-(MIP-seq) frequencies for the Baugh L1 starvation time course, the one dataset
-in which both measurements exist for the same samples (102 strains, 23 samples).
+Accuracy was assessed against published molecular inversion probe sequencing
+(MIP-seq) frequencies for the Baugh L1 starvation time course (Webster et al.
+2022, eLife 11:e80204), the one dataset in which both measurements exist for
+the same samples (23 samples).
+
+Three strain counts appear in this comparison and they are not interchangeable.
+The deconvolution reference carries 102 strains; MIP-seq frequencies were
+published for 100; 99 are common to both. Excluding N2, for the reason given
+below, leaves the n = 98 on which the correlations in this section are
+computed. The three reference strains with no MIP-seq measurement are CX11262,
+ECA348 and NIC260, and PB306 has a MIP-seq measurement but is absent from the
+reference.
 
 For each strain and replicate arm, the rate of change in pool frequency was
 taken as the slope of the regression of frequency change on day, with day 1 as
