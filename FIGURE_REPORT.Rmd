@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the eighteen manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-one manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -78,7 +78,8 @@ FIGS <- c(
   "SUPP_FIG_XX_sid2_allele_in_panel",
   "SUPP_FIG_XX_sid2_electrostatics",
   "SUPP_FIG_XX_sid2_local_charge",
-  "SUPP_FIG_XX_sid2_model_confidence")
+  "SUPP_FIG_XX_sid2_model_confidence",
+  "Figure2_no_cross_qtl")
 
 ## Fail loudly and usefully rather than knitting a report full of broken images.
 png_paths <- file.path("plots", paste0(FIGS, ".png"))
@@ -88,7 +89,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 20, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 21, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -120,16 +121,17 @@ LABELS <- c(
   ## appended rather than slotted next to Figure 4: inserting mid-list would
   ## renumber S1-S14 and silently invalidate figure references already written
   SUPP_FIG_XX_sid2_local_charge                  = "Figure S15",
-  SUPP_FIG_XX_sid2_model_confidence              = "Figure S16")
+  SUPP_FIG_XX_sid2_model_confidence              = "Figure S16",
+  Figure2_no_cross_qtl                           = "Figure S17")
 stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 
 HA  <- "supplemental_data/hatching_assays"
 ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 
-## Diagnostics are NOT part of the curated eighteen. They live in
+## Diagnostics are NOT part of the curated twenty-one. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the eighteen, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-one, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -305,7 +307,7 @@ will not carry a sentence, the sentence is not made — the closing box lists th
 claims to avoid.
 
 Figure numbers follow the curated set: four main figures and fourteen
-supplements, `S1`–`S14`, in the order the argument uses them.
+supplements, `S1`–`S17`, in the order the argument uses them.
 
 ::: ms
 
@@ -1300,9 +1302,9 @@ the padding*, not the interval, and the figure implied a precision the data do
 not have. Widths and peak LODs are in the table below, where a number needing
 three significant figures belongs.
 
-`plots/Figure2_no_cross_qtl.png` is the same figure with the cross QTL removed
-altogether — the mirrored Manhattan alone, tracks, labels and cross legend
-dropped — written by the same script for comparison.
+Figure S17 is the same figure with the cross QTL removed altogether — the
+mirrored Manhattan alone, tracks, labels and cross legend dropped — written by
+the same script, so the arrows can be judged against the panel without them.
 :::
 
 | Track | Cross | Chr | Peak Mb | Interval | kb | LOD |
@@ -2001,7 +2003,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the eighteen they need the
+tracked so this report reads from a clone, but unlike the twenty-one they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -2480,6 +2482,41 @@ distinction the released panel collapsed. `METHODS.txt` states that no proximity
 claim is made; this figure is why that can be stated rather than asserted.
 :::
 
+## Figure S17 — Figure 2 without the cross QTL
+
+::: meta
+**Script** `scripts/Figure2.R`<br>
+**Supports** Figure 2, as its control<br>
+**Scope** the same two pooled GWAS scans · cross QTL tracks removed
+:::
+
+::: plate
+```{r fig-s17, fig.alt="The same mirrored Manhattan as Figure 2 - mig-6 above the axis, pos-1 below - with the cross QTL arrow tracks, their labels and the cross legend removed."}
+include_graphics("plots/Figure2_no_cross_qtl.png")
+```
+<p class="filecap">Figure2_no_cross_qtl</p>
+:::
+
+Figure 2 draws nine cross QTL as arrows over a mirrored Manhattan, which asks
+the reader to judge two sources of evidence at once. This is the same panel with
+the arrows, their labels and the cross legend removed, written by the same
+script from the same data in the same call — `build(LOD_MIN, "Figure2_no_cross_qtl",
+arrows = FALSE)` — so nothing but the QTL layer differs.
+
+::: aside
+[What it is for]{.ch}
+
+**It separates the claim from the annotation.** The arrows carry position only,
+and the association peaks beneath them are the independent measurement. Seeing
+the Manhattan alone is how a reader checks that a peak is present where an arrow
+points, rather than reading the arrow as the evidence.
+
+**It is a control, not an alternative.** Figure 2 is the figure the argument
+uses. This one exists so the overlay can be removed and the underlying scan
+inspected, which is a question a reviewer is entitled to ask and which no
+amount of caption prose answers as directly.
+:::
+
 ## The panel split at two loci
 
 **Script** `scripts/diagnostic_genotype_splits.R`<br>
@@ -2602,7 +2639,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All eighteen figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-one figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is

@@ -14,7 +14,7 @@ Everything here runs from the repository root with no arguments.
 | `scripts/` | 18 figure scripts, one per figure and named for it, plus 17 shared, data-prep, deposit-building and rendering scripts |
 | `scripts/legacy/` | 32 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all eighteen figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
+| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all twenty-one figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
 | `DATA_AVAILABILITY.md` | what is archived externally |
@@ -50,7 +50,7 @@ history quickly, so `main_displays.pdf` is tracked instead.
 
 ## The figure report
 
-[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all eighteen figures with their
+[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all twenty-one figures with their
 captions, ordered by the argument the manuscript makes rather than by build
 order: the assay, the map, the interval, the residue. It renders inline on
 GitHub — click the link above.
@@ -97,7 +97,7 @@ them now write there too, so re-running anything will not put them back in
 
 Each is present as both `.pdf` and `.png`, and each script is named for the
 figure it produces. Verified by deleting every file in `plots/` and rebuilding:
-all eighteen regenerate, with nothing extra.
+all twenty-one regenerate, with nothing extra.
 
 `FIGURE_CAPTIONS.txt` still carries captions for the superseded variants,
 marked where they are; they describe the same measurements in a different

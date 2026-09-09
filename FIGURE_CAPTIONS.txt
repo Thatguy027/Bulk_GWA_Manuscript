@@ -205,9 +205,8 @@ a 15-20 Mb axis, so every bar had to be padded to a 0.09 Mb minimum to be
 visible at all -- the drawn width was the padding, not the interval. Widths and
 peak LODs are in the table below and in the cross-QTL supplement.
 
-A variant with the cross QTL removed entirely, plots/Figure2_no_cross_qtl.png,
-is written by the same script for comparison: the mirrored Manhattan alone,
-with the QTL tracks, their labels and the cross legend dropped.
+A variant with the cross QTL removed entirely is written by the same script for
+comparison; it is captioned below as FIGURE 2, VARIANT.
 SUPP_FIG_XX_cross_qtl_all. Shaded vertical bands mark +/- 1 Mb around the
 pooled GWAS peaks.
 
@@ -230,6 +229,27 @@ III:12.35 Mb against the N2 x XZ1516 chromosome III interval at 13.31 Mb
 (0.96 Mb) and the JU1793 x JU2466 interval at 13.78 Mb (1.43 Mb). A GWAS on 84
 strains is not expected to localise to a cross interval; the claim is
 concordance of locus, not of marker.
+
+--------------------------------------------------------------------------------
+FIGURE 2, VARIANT  (plots/Figure2_no_cross_qtl.pdf, .png -- scripts/Figure2.R)
+--------------------------------------------------------------------------------
+
+Figure S17. Figure 2 without the cross QTL. The same mirrored Manhattan as
+Figure 2 -- the mig-6 pooled GWAS above the axis, the pos-1 pooled GWAS below,
+sharing one genomic axis -- with the cross QTL arrow tracks, their labels and
+the cross legend removed. Written by the same script in the same call
+(build(LOD_MIN, "Figure2_no_cross_qtl", arrows = FALSE)) from the same data, so
+the QTL layer is the only difference between the two panels.
+
+This is the control for Figure 2 rather than an alternative to it. Figure 2
+overlays nine cross QTL on the association scans, which asks the reader to weigh
+two independent sources of evidence in one panel; the arrows carry position only
+and the peaks beneath them are the separate measurement. Removing the overlay is
+how a reader checks that a peak stands where an arrow points, instead of reading
+the arrow as the evidence for it.
+
+Thresholds, shading and axis are unchanged from Figure 2, so the two are
+directly comparable.
 
 --------------------------------------------------------------------------------
 FIGURE 3  (plots/figure3.pdf, .png -- scripts/Figure3.R)

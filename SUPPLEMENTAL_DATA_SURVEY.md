@@ -11,7 +11,7 @@ Survey only — nothing has been copied or moved.
 > 376 MB raw. The deposit was subsequently built along the lines recommended
 > at the end, and the two deconvolution-validation supplements (Figures S1 and
 > S2) were added afterwards, bringing their own inputs with them. For the
-> deposit as it now stands — **eighteen figures, 46 files, 38.2 MB** — see
+> deposit as it now stands — **twenty-one figures, 46 files, 38.2 MB** — see
 > `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md`. The numbers below are
 > left as they were, because rewriting them piecemeal would make the
 > cost argument they support incoherent.
