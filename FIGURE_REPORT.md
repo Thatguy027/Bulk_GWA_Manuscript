@@ -2042,10 +2042,35 @@ is the column that separates a real secondary QTL from a shoulder, and
 
 </div>
 
-Of the three contrasts run in both crosses, these are the QTL whose
-interval is matched by a call in the other cross. The *sid-2* region on
-chromosome III is shared for HT115 vs *mig-6* in both directions, at LOD
-940 in N2 × XZ1516 and 335 in JU1793 × JU2466.
+Of the three contrasts run in both crosses, these are the QTL the other
+cross also calls. `Match` says how the two calls were matched.
+**interval** is the stricter claim: the crosses’ LOD-drop intervals
+overlap. **position** means they do not overlap, but the other cross’s
+scan still clears the genome-wide threshold at this peak’s own position
+— the `Other LOD here` column.
+
+<div class="derived">
+
+Both kinds have to be shown, because interval overlap alone is too
+strict here. These intervals are LOD-drop intervals, and pooled depths
+put LOD in the hundreds, which collapses them: JU1793 × JU2466’s *pos-1*
+peak on chromosome III has an interval 50 kb wide. A peak offset of a
+few hundred kb then defeats the overlap test even when both crosses are
+unambiguous at each other’s peak. On interval overlap alone the table
+holds 19 QTL; adding position matches brings it to 45.
+
+Chromosome III is the case that matters. The *sid-2* region is matched
+by interval for HT115 vs *mig-6* in both directions, at LOD 940 in N2 ×
+XZ1516 and 335 in JU1793 × JU2466. For HT115 vs *pos-1* it is matched
+only by position: the two peaks sit at 13.31 Mb and 13.78 Mb, 469 kb
+apart, so their 0.39 Mb and 0.05 Mb intervals miss each other by 234 kb
+— but N2 × XZ1516 reaches LOD 710 at its peak with JU1793 × JU2466 at
+LOD 88 there, and JU1793 × JU2466 reaches LOD 140 at its peak with N2 ×
+XZ1516 at LOD 522 there. Requiring overlap would report the *sid-2*
+locus as shared for *mig-6* and not for *pos-1*, which the scans do not
+support.
+
+</div>
 
 <table>
 <thead>
@@ -2071,15 +2096,126 @@ Interval
 <th style="text-align:right;">
 Δfreq
 </th>
+<th style="text-align:left;">
+Match
+</th>
 <th style="text-align:right;">
 Other cross peak (Mb)
 </th>
 <th style="text-align:right;">
 Other LOD
 </th>
+<th style="text-align:right;">
+Other LOD here
+</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.88
+</td>
+<td style="text-align:right;">
+728.2
+</td>
+<td style="text-align:right;">
+1.80–1.98
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+5.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+1.19
+</td>
+<td style="text-align:right;">
+10.8
+</td>
+<td style="text-align:right;">
+1.10–1.26
+</td>
+<td style="text-align:right;">
+-0.154
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+318.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+3.65
+</td>
+<td style="text-align:right;">
+100.8
+</td>
+<td style="text-align:right;">
+3.57–3.80
+</td>
+<td style="text-align:right;">
+0.148
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+16.1
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 N2xXZ1516
@@ -2102,11 +2238,52 @@ II
 <td style="text-align:right;">
 0.140
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 13.72
 </td>
 <td style="text-align:right;">
 27.0
+</td>
+<td style="text-align:right;">
+26.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+14.77–15.24
+</td>
+<td style="text-align:right;">
+-0.472
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+18.6
 </td>
 </tr>
 <tr>
@@ -2131,11 +2308,17 @@ III
 <td style="text-align:right;">
 -0.320
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 13.45
 </td>
 <td style="text-align:right;">
 334.7
+</td>
+<td style="text-align:right;">
+328.3
 </td>
 </tr>
 <tr>
@@ -2160,11 +2343,17 @@ III
 <td style="text-align:right;">
 -0.616
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 13.31
 </td>
 <td style="text-align:right;">
 939.5
+</td>
+<td style="text-align:right;">
+921.3
 </td>
 </tr>
 <tr>
@@ -2189,11 +2378,17 @@ III
 <td style="text-align:right;">
 -0.161
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 0.68
 </td>
 <td style="text-align:right;">
 71.7
+</td>
+<td style="text-align:right;">
+69.5
 </td>
 </tr>
 <tr>
@@ -2218,11 +2413,52 @@ III
 <td style="text-align:right;">
 -0.449
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 0.50
 </td>
 <td style="text-align:right;">
 109.2
+</td>
+<td style="text-align:right;">
+102.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+5.75
+</td>
+<td style="text-align:right;">
+168.5
+</td>
+<td style="text-align:right;">
+5.41–6.16
+</td>
+<td style="text-align:right;">
+-0.538
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+47.3
 </td>
 </tr>
 <tr>
@@ -2247,11 +2483,157 @@ IV
 <td style="text-align:right;">
 -0.153
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 8.40
 </td>
 <td style="text-align:right;">
 87.8
+</td>
+<td style="text-align:right;">
+72.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+17.49
+</td>
+<td style="text-align:right;">
+93.6
+</td>
+<td style="text-align:right;">
+17.44–17.49
+</td>
+<td style="text-align:right;">
+0.131
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+27.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+30.7
+</td>
+<td style="text-align:right;">
+0.16–0.37
+</td>
+<td style="text-align:right;">
+-0.249
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.98
+</td>
+<td style="text-align:right;">
+19.6
+</td>
+<td style="text-align:right;">
+3.98–4.01
+</td>
+<td style="text-align:right;">
+-0.221
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+26.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs mig6
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+6.36
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+6.31–6.42
+</td>
+<td style="text-align:right;">
+-0.047
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+91.7
 </td>
 </tr>
 <tr>
@@ -2276,11 +2658,17 @@ X
 <td style="text-align:right;">
 -0.836
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 7.05
 </td>
 <td style="text-align:right;">
 39.5
+</td>
+<td style="text-align:right;">
+51.3
 </td>
 </tr>
 <tr>
@@ -2305,11 +2693,52 @@ X
 <td style="text-align:right;">
 0.139
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 9.70
 </td>
 <td style="text-align:right;">
 469.9
+</td>
+<td style="text-align:right;">
+469.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+0.01–0.04
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+8.6
 </td>
 </tr>
 <tr>
@@ -2334,11 +2763,17 @@ I
 <td style="text-align:right;">
 -0.158
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 15.07
 </td>
 <td style="text-align:right;">
 15.5
+</td>
+<td style="text-align:right;">
+15.4
 </td>
 </tr>
 <tr>
@@ -2363,8 +2798,49 @@ II
 <td style="text-align:right;">
 0.239
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 3.52
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+6.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+15.24–15.24
+</td>
+<td style="text-align:right;">
+-0.252
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
 </td>
 <td style="text-align:right;">
 6.1
@@ -2392,11 +2868,122 @@ II
 <td style="text-align:right;">
 -0.114
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 3.71
 </td>
 <td style="text-align:right;">
 148.4
+</td>
+<td style="text-align:right;">
+125.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.31
+</td>
+<td style="text-align:right;">
+709.9
+</td>
+<td style="text-align:right;">
+13.11–13.50
+</td>
+<td style="text-align:right;">
+-0.287
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+88.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+13.78
+</td>
+<td style="text-align:right;">
+139.7
+</td>
+<td style="text-align:right;">
+13.73–13.78
+</td>
+<td style="text-align:right;">
+-0.416
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+521.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+12.56
+</td>
+<td style="text-align:right;">
+75.4
+</td>
+<td style="text-align:right;">
+12.39–12.72
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+17.5
 </td>
 </tr>
 <tr>
@@ -2421,11 +3008,122 @@ V
 <td style="text-align:right;">
 -0.128
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 10.23
 </td>
 <td style="text-align:right;">
 4.7
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+ht115 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+<td style="text-align:right;">
+9.4
+</td>
+<td style="text-align:right;">
+6.67–7.14
+</td>
+<td style="text-align:right;">
+-0.112
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+12.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+2.55
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+2.52–2.59
+</td>
+<td style="text-align:right;">
+-0.094
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+319.9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+<td style="text-align:right;">
+0.02–0.09
+</td>
+<td style="text-align:right;">
+0.195
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+31.7
 </td>
 </tr>
 <tr>
@@ -2450,11 +3148,17 @@ III
 <td style="text-align:right;">
 0.416
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 0.43
 </td>
 <td style="text-align:right;">
 165.3
+</td>
+<td style="text-align:right;">
+149.4
 </td>
 </tr>
 <tr>
@@ -2479,11 +3183,262 @@ III
 <td style="text-align:right;">
 0.173
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 13.40
 </td>
 <td style="text-align:right;">
 51.3
+</td>
+<td style="text-align:right;">
+48.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+IV
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+0.37–0.82
+</td>
+<td style="text-align:right;">
+0.178
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+16.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+1.67
+</td>
+<td style="text-align:right;">
+39.6
+</td>
+<td style="text-align:right;">
+1.51–1.75
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+33.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+3.76
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+<td style="text-align:right;">
+3.73–3.81
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+112.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+V
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+<td style="text-align:right;">
+9.93–10.09
+</td>
+<td style="text-align:right;">
+0.212
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+234.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466
+</td>
+<td style="text-align:left;">
+mig6 vs pos1
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+5.96
+</td>
+<td style="text-align:right;">
+361.4
+</td>
+<td style="text-align:right;">
+5.66–6.24
+</td>
+<td style="text-align:right;">
+0.736
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+10.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+43.7
+</td>
+<td style="text-align:right;">
+0.79–0.98
+</td>
+<td style="text-align:right;">
+-0.108
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+13.62
+</td>
+<td style="text-align:right;">
+36.6
+</td>
+<td style="text-align:right;">
+13.56–13.69
+</td>
+<td style="text-align:right;">
+0.121
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+11.6
 </td>
 </tr>
 <tr>
@@ -2508,11 +3463,17 @@ II
 <td style="text-align:right;">
 -0.055
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 9.83
 </td>
 <td style="text-align:right;">
 11.1
+</td>
+<td style="text-align:right;">
+10.7
 </td>
 </tr>
 <tr>
@@ -2537,11 +3498,17 @@ III
 <td style="text-align:right;">
 -0.162
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 0.64
 </td>
 <td style="text-align:right;">
 70.2
+</td>
+<td style="text-align:right;">
+67.3
 </td>
 </tr>
 <tr>
@@ -2566,11 +3533,17 @@ III
 <td style="text-align:right;">
 -0.016
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 13.16
 </td>
 <td style="text-align:right;">
 35.5
+</td>
+<td style="text-align:right;">
+31.0
 </td>
 </tr>
 <tr>
@@ -2595,8 +3568,14 @@ III
 <td style="text-align:right;">
 0.057
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 9.35
+</td>
+<td style="text-align:right;">
+31.7
 </td>
 <td style="text-align:right;">
 31.7
@@ -2624,11 +3603,87 @@ IV
 <td style="text-align:right;">
 -0.117
 </td>
+<td style="text-align:left;">
+interval
+</td>
 <td style="text-align:right;">
 6.94
 </td>
 <td style="text-align:right;">
 11.2
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+13.58
+</td>
+<td style="text-align:right;">
+84.6
+</td>
+<td style="text-align:right;">
+13.36–13.69
+</td>
+<td style="text-align:right;">
+-0.093
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+166.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516
+</td>
+<td style="text-align:left;">
+pos1 vs mig6
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:right;">
+2.93
+</td>
+<td style="text-align:right;">
+63.8
+</td>
+<td style="text-align:right;">
+2.76–3.13
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:left;">
+position
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+30.1
 </td>
 </tr>
 </tbody>
@@ -30966,7 +32021,7 @@ SUPP_FIG_XX_simulation_depth
 390
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -30980,7 +32035,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -30994,7 +32049,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31008,7 +32063,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31022,7 +32077,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31036,7 +32091,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31050,7 +32105,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31064,7 +32119,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31078,7 +32133,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31092,7 +32147,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31106,7 +32161,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31120,7 +32175,7 @@ Figure3_quad
 172
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31134,7 +32189,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31148,7 +32203,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31162,7 +32217,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31176,7 +32231,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31190,7 +32245,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31204,7 +32259,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31218,7 +32273,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31232,7 +32287,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 <tr>
@@ -31246,7 +32301,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 13:06
+2026-09-09 16:01
 </td>
 </tr>
 </tbody>

@@ -1431,22 +1431,46 @@ separates a real secondary QTL from a shoulder, and `separated` is that test
 applied.
 :::
 
-Of the three contrasts run in both crosses, these are the QTL whose interval is
-matched by a call in the other cross. The *sid-2* region on chromosome III is
-shared for HT115 vs *mig-6* in both directions, at LOD 940 in N2 × XZ1516 and
-335 in JU1793 × JU2466.
+Of the three contrasts run in both crosses, these are the QTL the other cross
+also calls. `Match` says how the two calls were matched. **interval** is the
+stricter claim: the crosses' LOD-drop intervals overlap. **position** means they
+do not overlap, but the other cross's scan still clears the genome-wide
+threshold at this peak's own position — the `Other LOD here` column.
+
+::: derived
+Both kinds have to be shown, because interval overlap alone is too strict here.
+These intervals are LOD-drop intervals, and pooled depths put LOD in the
+hundreds, which collapses them: JU1793 × JU2466's *pos-1* peak on chromosome III
+has an interval 50 kb wide. A peak offset of a few hundred kb then defeats
+the overlap test even when both crosses are unambiguous at each other's peak. On
+interval overlap alone the table holds 19 QTL; adding position matches brings it
+to 45.
+
+Chromosome III is the case that matters. The *sid-2* region is matched by
+interval for HT115 vs *mig-6* in both directions, at LOD 940 in N2 × XZ1516 and
+335 in JU1793 × JU2466. For HT115 vs *pos-1* it is matched only by position:
+the two peaks sit at 13.31 Mb and 13.78 Mb, 469 kb apart, so their 0.39 Mb and
+0.05 Mb intervals miss each other by 234 kb — but N2 × XZ1516 reaches LOD 710
+at its peak with JU1793 × JU2466 at LOD 88 there, and JU1793 × JU2466 reaches
+LOD 140 at its peak with N2 × XZ1516 at LOD 522 there. Requiring overlap would report the
+*sid-2* locus as shared for *mig-6* and not for *pos-1*, which the scans do not
+support.
+:::
 
 ```{r cross-qtl-shared, eval=have_cqf}
+dash <- function(x, d) ifelse(is.na(x), "—", fnum(x, d))
 kb(cqf %>%
-     filter(shared, separated) %>%
+     filter(shared | shared.suggestive, separated) %>%
      transmute(Cross = cross, Contrast = contrast, Chr = chrom,
                `Peak (Mb)` = fnum(peak.Mb, 2), LOD = fnum(peak.LOD, 1),
                Interval = sprintf("%.2f–%.2f", lcon.Mb, rcon.Mb),
                `Δfreq` = fnum(dfreq, 3),
-               `Other cross peak (Mb)` = fnum(other.peak.Mb, 2),
-               `Other LOD` = fnum(other.peak.LOD, 1)) %>%
+               Match = ifelse(shared, "interval", "position"),
+               `Other cross peak (Mb)` = dash(other.peak.Mb, 2),
+               `Other LOD` = dash(other.peak.LOD, 1),
+               `Other LOD here` = dash(other.LOD.at.peak, 1)) %>%
      arrange(Contrast, Chr, desc(as.numeric(LOD))),
-   align = c("l", "l", "l", rep("r", 6)))
+   align = c("l", "l", "l", "r", "r", "r", "r", "l", "r", "r", "r"))
 ```
 
 The complete table follows: every peak above the genome-wide threshold, in
