@@ -35,7 +35,7 @@ their inputs.
 | `data/pooled_cross_intersection/bundle.rds` | part of 281 MB | Figure 2, `SUPP_FIG_XX_cross_contrast_panels.R`, `compare_full_vs_thinned_bundle.R` |
 | `data/baugh/2024bootstrapINPUT.Rdata` | 31 MB | Figure 1 with `FIG1_REFRESH=1`; `baugh_strain_similarity.R` |
 | `data/genotypes/processed_genotype_matrix.Rda` | part of 7.08 GB | `baugh_leakage_vs_similarity.R` on the right predictor; `make_experiments_deposit.R` |
-| `data/genotypes/CeNDR20210121_Plink/` | ~400 MB (est.) | `eigen_independent_tests.R` (the Bonferroni and eigen thresholds); `SUPP_FIG_XX_sid2_allele_in_panel.R` |
+| `data/genotypes/CeNDR20210121_Plink/` | ~400 MB (est.) | `eigen_independent_tests.R` (the Bonferroni and eigen thresholds); `SUPP_FIG_XX_sid2_allele_in_panel.R`; `simulation_deconvolution.R` (all six chromosomes, via `CENDR_PLINK`) |
 
 Running `scripts/baugh_strain_similarity.R` once against Tier 2 writes a
 102-row table small enough to commit, after which that analysis runs from a

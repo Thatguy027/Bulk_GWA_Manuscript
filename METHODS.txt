@@ -128,13 +128,30 @@ seven traits reach r-squared 1.00 by 500x. At 1x, recovery ranges from 0.91
 seven traits, and 30x is the lowest depth at which all seven sit at or above
 0.95.
 
-[TO FILL: the simulation code and the drawn fitness values were not archived --
-only the NNLS output and the original per-trait figures survive. State the
-inverse chi-squared parameters (degrees of freedom and scale) and how fitness
-was mapped to expected pooled frequency, or archive the script. Until then the
-simulation is described but not reproducible, and the r-squared values above are
-recovered from text embedded in the original figures by
-scripts/extract_sim_reported_r2.py rather than recomputed.]
+The simulation code has since been recovered and is archived as
+scripts/simulation_deconvolution.R, a port of the original working script kept
+verbatim at scripts/legacy/haploReg_original.R. The parameters it pins:
+
+  Fitness was drawn as extraDistr::rinvchisq(n, df = 12, scale = 1). Expected
+  pooled allele frequency was the fitness-weighted mean over the strains
+  carrying each alternate allele -- rowSums(G %*% w) / sum(w), with G the
+  genotype matrix recoded to a 0/1 indicator of the alternate allele. The
+  design matrix passed to NNLS was G stacked on its own complement,
+  rbind(G, 1 - G), so that reference-allele counts entered as their own
+  equations; in simulation this is worth about 0.14 of r-squared at 1x and
+  0.08 at 10x over the unstacked design.
+
+[TO FILL: two things the recovered script does not settle. First, the fitness
+draw was not seeded -- set.seed appears only before the bootstrap -- so the
+particular simulated populations behind the reported r-squared cannot be
+reproduced exactly, only redrawn from the same distribution. Second, the
+inverse chi-squared draw above belongs to the exploratory arm of the original
+script; the seven-trait simulation whose r-squared are quoted above used the
+published trait values THEMSELVES as fitness, not a draw. Confirm which
+description belongs in this paragraph before it goes to the draft, because as
+written it currently asserts both. The r-squared values above remain recovered
+from text embedded in the original figures by scripts/extract_sim_reported_r2.py
+rather than recomputed.]
 
 Designed DNA mixture. 174 wild isolates were divided into four sets of roughly
 equal size (A, B, C, D). Genomic DNA from each set was pooled and sequenced both
@@ -229,11 +246,26 @@ point estimate at the frequency level (r = 0.999984, n = 2,346) and at the slope
 level (r = 0.999994, n = 101); a standardised bias of median -0.029 bootstrap
 SD; and coverage of 101 of 101 intervals containing their own point estimate.
 
-[TO FILL: what the bootstrap resampled -- reads, markers or strains. Only the
-bootstrap outputs were archived, not the resampling scheme or the code that
-produced it, so this cannot be recovered from the repository and no statement
-stronger than "100 bootstrap replicates of the deconvolution" is currently
-supportable.]
+The bootstrap resampled MARKERS with replacement, 100 replicates at seed 100,
+refitting the deconvolution from scratch within each replicate. This is now
+recoverable: the resampling loop is in the working script archived as
+scripts/legacy/haploReg_original.R and ported to
+scripts/simulation_deconvolution.R.
+
+That the unit is markers rather than reads or strains is fixed by the shape of
+the archived output. baugh_bootstrap_array.rda carries objects named ab, blist
+and bootse -- the original script's own variable names -- with ab dimensioned
+102 x 23 x 100, that is strains x samples x replicates. Resampling rows of a
+markers x strains matrix is the only one of the three candidates that yields a
+strains x samples estimate per replicate; resampling strains would change the
+first dimension, and reads do not index the matrix at all.
+
+[TO FILL: the recovered script fits its point estimate on the
+complement-stacked design rbind(G, 1 - G) but its bootstrap on the plain G, so
+as written the published intervals belong to a different estimator from the
+published point estimates. Determine which design the archived Baugh run used
+before this paragraph goes to the draft. The two are not reconciled in the port;
+it takes the design as an argument and records which was used.]
 
 Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5,
 1, 3, 5 and 10x, rerunning the deconvolution and recomputing the slopes

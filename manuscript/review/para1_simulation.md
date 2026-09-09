@@ -52,6 +52,14 @@ S1A specifically.
 
 ## 5. Reproducibility gap behind "(Methods)"
 
+> **UPDATE (2026-09-08).** The script was recovered after this file was written and is now
+> archived at `scripts/simulation_deconvolution.R`, with the original at
+> `scripts/legacy/haploReg_original.R`. The inverse chi-squared parameters are df = 12,
+> scale = 1, and the fitness-to-frequency map is `rowSums(G %*% w) / sum(w)`. The section
+> below is otherwise still accurate: the draw was never seeded, so the r2 values remain
+> reported rather than recomputable, and the seven-trait run used the trait values themselves
+> as fitness rather than a draw.
+
 `METHODS.txt` carries a `[TO FILL]`: the inverse-chi-squared parameters (df, scale) and the
 fitness -> expected-frequency mapping were never recorded, and neither the simulation script nor
 the drawn fitness values were archived. Only the NNLS output survives; panel A's r2 values are

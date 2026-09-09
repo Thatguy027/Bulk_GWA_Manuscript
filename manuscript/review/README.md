@@ -57,6 +57,12 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
 - **Broad-sense heritability.** No estimate exists anywhere in this repository.
 - **QTL intervals.** No linkage-disequilibrium interval can be computed here; see
   `SYNC_MANIFEST.md`, Tier 1.
-- **The simulation's provenance.** Per `METHODS.txt`, the simulation script, drawn fitness
-  values and expected input frequencies were never archived, so panel A of the depth supplement
-  cannot be recomputed.
+- **The simulation's provenance.** ~~Per `METHODS.txt`, the simulation script, drawn fitness
+  values and expected input frequencies were never archived~~ — **partly settled.** The script
+  was recovered and is archived as `scripts/simulation_deconvolution.R`, with the original
+  working file at `scripts/legacy/haploReg_original.R`; it pins the inverse chi-squared
+  parameters, the fitness-to-frequency mapping and the bootstrap unit. Two things remain open
+  and are marked `[TO FILL]` in `METHODS.txt`: the fitness draw was never seeded, so the exact
+  simulated populations cannot be reproduced, and the seven-trait simulation used the trait
+  values themselves as fitness rather than a draw, which is not what that paragraph currently
+  says.
