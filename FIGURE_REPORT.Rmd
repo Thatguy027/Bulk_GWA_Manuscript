@@ -1985,6 +1985,109 @@ changes to two by inspection.
    numbers against UniProt before publication.**
 :::
 
+## Effect sizes across the three chromosome III experiments
+
+**Script** `scripts/effect_size_ladder.R`<br>
+**Table** `plots/diagnostics/TABLE_effect_size_ladder.tsv`
+
+Three experiments interrogate the same locus: the NIL series narrows it to
+37 kb, the allele swaps test one residue inside that interval, and the
+JU1793 × JU2466 cross measures it as a selection response. Do their effect
+sizes agree?
+
+::: caveat
+[The two hatching assays do not share a scale]{.ch}
+
+**JU2466 hatches `0.357` under *pos-1* in the NIL series and `0.045` in the
+allele-swap series — the same strain, the same nominal 50% dose, a 7.9-fold
+difference.** JU1793 is `0.994` against `0.948`. So a raw percentage-point
+effect from one experiment cannot be set beside one from the other, and every
+effect below is therefore given twice: as a raw difference in hatched fraction,
+and normalised to the JU1793–JU2466 span measured **within that same
+experiment**, where 0 is JU2466 and 1 is JU1793.
+
+This is also evidence on an open question: `METHODS.txt` carries a [TO FILL]
+asking that both 50% dose figures be confirmed, and two assays nominally at the
+same dose are not behaving the same way.
+:::
+
+```{r tab-effect-ladder, eval=file.exists(file.path(DIAGDIR, "TABLE_effect_size_ladder.tsv"))}
+el <- read_tsv(file.path(DIAGDIR, "TABLE_effect_size_ladder.tsv"), show_col_types = FALSE)
+kb(el %>% transmute(Experiment = experiment, Contrast = contrast,
+                    `Δ hatched` = sprintf("%+.3f [%+.3f, %+.3f]", raw.diff, raw.lo, raw.hi),
+                    `% of parental span` = sprintf("%.0f%% [%.0f, %.0f]",
+                                                   100*frac.of.span, 100*span.lo, 100*span.hi)),
+   align = c("l", "l", "r", "r"))
+```
+
+::: derived
+**The interval and the residue agree in magnitude.** The 37 kb interval alone
+is **32% [23, 40]** of the parental span. Residue 96 alone costs **46%
+[38, 54]** of the span in the JU1793 background and **15% [10, 22]** in the
+JU2466 background — and 32% sits between them, the mean of the two backgrounds
+being 30.5%. Every row of the table is stated the same way, as the cost of
+carrying the JU2466 allele, so the swap rows and the NIL rows are directly
+comparable. So residue 96 is
+of the right size to account for the *whole* interval effect, with nothing left
+over that requires a second causal variant. That is what Figure S18 independently
+implies: only two missense differences exist in the entire 37 kb and both are in
+*sid-2*.
+
+**But this is a match in magnitude, not a statistical identity.** The swap is
+**3-fold background-dependent**, so it has no single effect size to test
+against, and neither background's interval overlaps the NIL estimate cleanly —
+the JU1793 estimate touches it only at the edge and the JU2466 estimate misses
+it.
+
+**The two chromosome III segments are not additive.** The region distal to the
+interval does nothing measurable alone — `+0.021` [−0.008, 0.049], 3% of span,
+an interval spanning zero — yet it more than doubles the interval's effect when
+combined: additivity predicts `0.772` hatched for wSZ176 and the observed value
+is `0.585`, an excess of `0.188`. So the interval's 32% is itself contingent on
+the chromosome III background it sits in.
+:::
+
+::: aside
+[The cross QTL agrees on direction and rank, and its magnitude is not
+convertible]{.ch}
+
+**Direction.** Δfreq = `−0.416` at III:13.78 in the HT115-vs-*pos-1* contrast.
+By the sign convention — parent 1 (JU1793) frequency in the first pool minus the
+second — a negative value means the JU1793 allele is **enriched in the
+*pos-1*-selected pool**, i.e. JU1793 confers resistance. That is the same
+direction as both hatching experiments.
+
+**Rank.** III:13.78 carries LOD `140`, against `57` for the next separated
+locus in that contrast. By Δfreq alone chrIV:6.42 is marginally larger
+(`0.428` against `0.416`).
+
+**Magnitude, not attempted.** An allele-frequency shift in a selected pool is a
+selection response. Converting it to a difference in hatched fraction requires
+the selection intensity and the number of generations, and `METHODS.txt` carries
+both as [TO FILL]. No conversion is made here rather than a fabricated one.
+
+**One coherence worth noting.** The chromosome III right arm accounts for
+**64% [55, 74]** of the parental span in the NIL series, leaving roughly a third
+elsewhere — and the cross independently finds a second large locus at
+**chrIV:6.42 Mb, Δfreq `0.428`**, which the NIL series could not have detected,
+because every introgression it tests lies on chromosome III.
+:::
+
+::: caveat
+[An asymmetry in the 94 swaps]{.ch}
+
+In the **JU2466** background the N94A swap gives `0.425` hatched against
+JU2466's `0.045` — **+0.38, or 42% of the span, nearly three times the 15% that
+residue 96 accounts for in the same background.** In the **JU1793** background it
+does nothing at all (`0.993` against `0.948`).
+
+This does not revive the glycosylation hypothesis, and the Figure 4 caveats are
+right that the N94A test of it fails: if the sequon mattered, removing it should
+have made JU1793 sensitive, and it did not. But the effect-size asymmetry is
+real and is not otherwise recorded — the largest single-residue effect measured
+in the JU2466 background is at 94, not at 96.
+:::
+
 ## Figure S11 — the full N2 dose series
 
 ::: meta

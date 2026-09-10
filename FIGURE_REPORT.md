@@ -41,6 +41,8 @@ Assembled 2026-09-09
     -   [Figure 4 — editing *sid-2* residue 96 moves sensitivity in
         three
         backgrounds](#figure-4--editing-sid-2-residue-96-moves-sensitivity-in-three-backgrounds)
+    -   [Effect sizes across the three chromosome III
+        experiments](#effect-sizes-across-the-three-chromosome-iii-experiments)
     -   [Figure S11 — the full N2 dose
         series](#figure-s11--the-full-n2-dose-series)
     -   [Figure S12 — everything held back from Figure
@@ -29964,6 +29966,232 @@ changes to two by inspection.
 
 </div>
 
+## Effect sizes across the three chromosome III experiments
+
+**Script** `scripts/effect_size_ladder.R`<br> **Table**
+`plots/diagnostics/TABLE_effect_size_ladder.tsv`
+
+Three experiments interrogate the same locus: the NIL series narrows it
+to 37 kb, the allele swaps test one residue inside that interval, and
+the JU1793 × JU2466 cross measures it as a selection response. Do their
+effect sizes agree?
+
+<div class="caveat">
+
+<span class="ch">The two hatching assays do not share a scale</span>
+
+**JU2466 hatches `0.357` under *pos-1* in the NIL series and `0.045` in
+the allele-swap series — the same strain, the same nominal 50% dose, a
+7.9-fold difference.** JU1793 is `0.994` against `0.948`. So a raw
+percentage-point effect from one experiment cannot be set beside one
+from the other, and every effect below is therefore given twice: as a
+raw difference in hatched fraction, and normalised to the JU1793–JU2466
+span measured **within that same experiment**, where 0 is JU2466 and 1
+is JU1793.
+
+This is also evidence on an open question: `METHODS.txt` carries a \[TO
+FILL\] asking that both 50% dose figures be confirmed, and two assays
+nominally at the same dose are not behaving the same way.
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Experiment
+</th>
+<th style="text-align:left;">
+Contrast
+</th>
+<th style="text-align:right;">
+Δ hatched
+</th>
+<th style="text-align:right;">
+% of parental span
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NIL series
+</td>
+<td style="text-align:left;">
+JU1793 -> wSZ191 (JU2466 alleles at the 37 kb interval only)
+</td>
+<td style="text-align:right;">
++0.201 \[+0.149, +0.255\]
+</td>
+<td style="text-align:right;">
+32% \[23, 40\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIL series
+</td>
+<td style="text-align:left;">
+JU1793 -> wSZ196 (JU2466 alleles distal to the interval only)
+</td>
+<td style="text-align:right;">
++0.021 \[-0.008, +0.049\]
+</td>
+<td style="text-align:right;">
+3% \[-1, 8\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIL series
+</td>
+<td style="text-align:left;">
+JU1793 -> wSZ176 (JU2466 alleles across interval + distal)
+</td>
+<td style="text-align:right;">
++0.410 \[+0.347, +0.469\]
+</td>
+<td style="text-align:right;">
+64% \[55, 74\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIL series
+</td>
+<td style="text-align:left;">
+JU1793 -> JU2466 (whole genome)
+</td>
+<td style="text-align:right;">
++0.638 \[+0.569, +0.697\]
+</td>
+<td style="text-align:right;">
+100% \[89, 109\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU allele swap
+</td>
+<td style="text-align:left;">
+96T vs 96K in the JU1793 background (cost of the JU2466 residue)
+</td>
+<td style="text-align:right;">
++0.417 \[+0.340, +0.489\]
+</td>
+<td style="text-align:right;">
+46% \[38, 54\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU allele swap
+</td>
+<td style="text-align:left;">
+96T vs 96K in the JU2466 background (cost of the JU2466 residue)
+</td>
+<td style="text-align:right;">
++0.139 \[+0.087, +0.198\]
+</td>
+<td style="text-align:right;">
+15% \[10, 22\]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU allele swap
+</td>
+<td style="text-align:left;">
+JU1793 -> JU2466 (whole genome)
+</td>
+<td style="text-align:right;">
++0.903 \[+0.857, +0.931\]
+</td>
+<td style="text-align:right;">
+100% \[95, 103\]
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**The interval and the residue agree in magnitude.** The 37 kb interval
+alone is **32% \[23, 40\]** of the parental span. Residue 96 alone costs
+**46% \[38, 54\]** of the span in the JU1793 background and **15% \[10,
+22\]** in the JU2466 background — and 32% sits between them, the mean of
+the two backgrounds being 30.5%. Every row of the table is stated the
+same way, as the cost of carrying the JU2466 allele, so the swap rows
+and the NIL rows are directly comparable. So residue 96 is of the right
+size to account for the *whole* interval effect, with nothing left over
+that requires a second causal variant. That is what Figure S18
+independently implies: only two missense differences exist in the entire
+37 kb and both are in *sid-2*.
+
+**But this is a match in magnitude, not a statistical identity.** The
+swap is **3-fold background-dependent**, so it has no single effect size
+to test against, and neither background’s interval overlaps the NIL
+estimate cleanly — the JU1793 estimate touches it only at the edge and
+the JU2466 estimate misses it.
+
+**The two chromosome III segments are not additive.** The region distal
+to the interval does nothing measurable alone — `+0.021` \[−0.008,
+0.049\], 3% of span, an interval spanning zero — yet it more than
+doubles the interval’s effect when combined: additivity predicts `0.772`
+hatched for wSZ176 and the observed value is `0.585`, an excess of
+`0.188`. So the interval’s 32% is itself contingent on the chromosome
+III background it sits in.
+
+</div>
+
+<div class="aside">
+
+<span class="ch">The cross QTL agrees on direction and rank, and its
+magnitude is not convertible</span>
+
+**Direction.** Δfreq = `−0.416` at III:13.78 in the HT115-vs-*pos-1*
+contrast. By the sign convention — parent 1 (JU1793) frequency in the
+first pool minus the second — a negative value means the JU1793 allele
+is **enriched in the *pos-1*-selected pool**, i.e. JU1793 confers
+resistance. That is the same direction as both hatching experiments.
+
+**Rank.** III:13.78 carries LOD `140`, against `57` for the next
+separated locus in that contrast. By Δfreq alone chrIV:6.42 is
+marginally larger (`0.428` against `0.416`).
+
+**Magnitude, not attempted.** An allele-frequency shift in a selected
+pool is a selection response. Converting it to a difference in hatched
+fraction requires the selection intensity and the number of generations,
+and `METHODS.txt` carries both as \[TO FILL\]. No conversion is made
+here rather than a fabricated one.
+
+**One coherence worth noting.** The chromosome III right arm accounts
+for **64% \[55, 74\]** of the parental span in the NIL series, leaving
+roughly a third elsewhere — and the cross independently finds a second
+large locus at **chrIV:6.42 Mb, Δfreq `0.428`**, which the NIL series
+could not have detected, because every introgression it tests lies on
+chromosome III.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">An asymmetry in the 94 swaps</span>
+
+In the **JU2466** background the N94A swap gives `0.425` hatched against
+JU2466’s `0.045` — **+0.38, or 42% of the span, nearly three times the
+15% that residue 96 accounts for in the same background.** In the
+**JU1793** background it does nothing at all (`0.993` against `0.948`).
+
+This does not revive the glycosylation hypothesis, and the Figure 4
+caveats are right that the N94A test of it fails: if the sequon
+mattered, removing it should have made JU1793 sensitive, and it did not.
+But the effect-size asymmetry is real and is not otherwise recorded —
+the largest single-residue effect measured in the JU2466 background is
+at 94, not at 96.
+
+</div>
+
 ## Figure S11 — the full N2 dose series
 
 <div class="meta">
@@ -32384,7 +32612,7 @@ SUPP_FIG_XX_simulation_depth
 398
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32398,7 +32626,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32412,7 +32640,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32426,7 +32654,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32440,7 +32668,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32454,7 +32682,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32468,7 +32696,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32482,7 +32710,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32496,7 +32724,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32510,7 +32738,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32524,7 +32752,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32538,7 +32766,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32552,7 +32780,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32566,7 +32794,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32580,7 +32808,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32594,7 +32822,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32608,7 +32836,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32622,7 +32850,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32636,7 +32864,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32650,7 +32878,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32664,7 +32892,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 <tr>
@@ -32678,7 +32906,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 20:02
+2026-09-09 20:29
 </td>
 </tr>
 </tbody>

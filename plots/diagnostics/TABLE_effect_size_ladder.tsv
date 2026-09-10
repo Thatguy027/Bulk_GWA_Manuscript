@@ -1,0 +1,8 @@
+experiment	contrast	raw.diff	raw.lo	raw.hi	frac.of.span	span.lo	span.hi	note
+NIL series	JU1793 -> wSZ191 (JU2466 alleles at the 37 kb interval only)	0.201	0.149	0.255	0.315	0.233	0.4	the interval's own effect, on an otherwise JU1793 genome
+NIL series	JU1793 -> wSZ196 (JU2466 alleles distal to the interval only)	0.021	-0.008	0.049	0.033	-0.012	0.077	the distal region alone, as the control on the contrast above
+NIL series	JU1793 -> wSZ176 (JU2466 alleles across interval + distal)	0.41	0.347	0.469	0.643	0.545	0.736	the union of the two segments above
+NIL series	JU1793 -> JU2466 (whole genome)	0.638	0.569	0.697	1	0.892	1.093	the full parental difference
+JU allele swap	96T vs 96K in the JU1793 background (cost of the JU2466 residue)	0.417	0.34	0.489	0.462	0.376	0.541	residue 96 alone, JU1793 background
+JU allele swap	96T vs 96K in the JU2466 background (cost of the JU2466 residue)	0.139	0.087	0.198	0.154	0.096	0.219	residue 96 alone, JU2466 background
+JU allele swap	JU1793 -> JU2466 (whole genome)	0.903	0.857	0.931	1	0.95	1.031	the full parental difference
