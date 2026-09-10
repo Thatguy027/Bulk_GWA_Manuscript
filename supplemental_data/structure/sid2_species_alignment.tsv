@@ -1,0 +1,312 @@
+ce_pos	ce_aa	cb_pos	cb_aa	state	topology	n2_aa	xz1516_aa	ju1793_aa	ju2466_aa	xz1516_differs_from_n2
+1	M	1	M	identical	signal peptide					
+2	P	2	I	different	signal peptide					
+3	R	3	R	identical	signal peptide					
+4	F	4	N	different	signal peptide					
+5	V	5	Q	different	signal peptide	V	V	L	V	
+6	Y	6	I	different	signal peptide					
+7	F	7	L	different	signal peptide					
+8	C	8	I	different	signal peptide					
+9	F	9	I	different	signal peptide					
+10	A	10	A	identical	signal peptide					
+11	L	11	L	identical	signal peptide					
+12	I	12	F	different	signal peptide					
+13	A		-	gap	signal peptide					
+14	L	13	L	identical	signal peptide					
+15	L	14	I	different	signal peptide					
+16	P	15	P	identical	signal peptide					
+17	I	16	V	different	signal peptide					
+18	S	17	Y	different	signal peptide					
+19	W	18	W	identical	signal peptide					
+20	T	19	C	different	signal peptide					
+21	M	20	I	different	extracellular					
+22	D	21	D	identical	extracellular					
+23	G	22	V	different	extracellular					
+24	I	23	I	identical	extracellular					
+25	L	24	L	identical	extracellular					
+26	I	25	I	identical	extracellular					
+27	T	26	S	different	extracellular					
+28	D	27	S	different	extracellular					
+29	V	28	I	different	extracellular					
+30	E	29	E	identical	extracellular					
+31	I	30	V	different	extracellular					
+32	H	31	R	different	extracellular					
+33	V	32	N	different	extracellular					
+34	D	33	D	identical	extracellular					
+35	V	34	V	identical	extracellular					
+36	C	35	G	different	extracellular					
+37	Q	36	S	different	extracellular					
+38	I	37	I	identical	extracellular					
+39	S	38	D	different	extracellular					
+40	C	39	C	identical	extracellular					
+41	K		-	gap	extracellular					
+42	A		-	gap	extracellular					
+43	S		-	gap	extracellular					
+44	N	40	T	different	extracellular					
+45	T	41	N	different	extracellular					
+46	A	42	S	different	extracellular					
+47	S	43	K	different	extracellular					
+48	L	44	L	identical	extracellular					
+49	L	45	M	different	extracellular					
+50	I	46	I	identical	extracellular					
+51	N	47	N	identical	extracellular					
+52	D	48	N	different	extracellular					
+53	A	49	Q	different	extracellular					
+54	P	50	N	different	extracellular					
+55	F	51	F	identical	extracellular					
+56	T	52	T	identical	extracellular					
+57	P	53	P	identical	extracellular					
+58	M	54	I	different	extracellular					
+59	C	55	C	identical	extracellular					
+60	N	56	E	different	extracellular					
+61	S	57	V	different	extracellular					
+62	A	58	G	different	extracellular					
+63	G	59	Y	different	extracellular					
+64	D	60	D	identical	extracellular					
+65	Q	61	N	different	extracellular					
+66	I	68	I	identical	extracellular					
+67	F	69	T	different	extracellular					
+68	F	70	L	different	extracellular					
+69	T	71	A	different	extracellular					
+70	Y	72	Y	identical	extracellular					
+71	N	73	N	identical	extracellular					
+72	G	74	A	different	extracellular					
+73	T	75	S	different	extracellular					
+74	A	76	N	different	extracellular					
+75	A	77	S	different	extracellular					
+76	I	78	V	different	extracellular					
+77	S	79	Q	different	extracellular					
+78	D	80	E	different	extracellular	D	A	D	D	TRUE
+79	L		-	gap	extracellular					
+80	K	81	G	different	extracellular					
+81	N	82	N	identical	extracellular					
+82	V	83	T	different	extracellular					
+83	T	84	T	identical	extracellular					
+84	F	85	Y	different	extracellular					
+85	I	86	H	different	extracellular					
+86	L	87	L	identical	extracellular					
+87	E	88	D	different	extracellular					
+88	V	91	V	identical	extracellular					
+89	T	92	T	identical	extracellular					
+90	T	93	V	different	extracellular					
+91	D	94	P	different	extracellular					
+92	T	95	N	different	extracellular					
+93	K	96	G	different	extracellular					
+94	N	97	N	identical	extracellular					
+95	C	98	K	different	extracellular					
+96	T	99	T	identical	extracellular	T	K	T	K	TRUE
+97	F	100	K	different	extracellular					
+98	T	101	T	identical	extracellular					
+99	A	102	D	different	extracellular					
+100	N	103	D	different	extracellular					
+101	Y	106	Y	identical	extracellular					
+102	T	107	T	identical	extracellular					
+103	G	108	G	identical	extracellular					
+104	Y	109	V	different	extracellular					
+105	F	110	F	identical	extracellular					
+106	T	111	V	different	extracellular					
+107	P	112	V	different	extracellular					
+108	D	113	D	identical	extracellular					
+109	P	114	K	different	extracellular					
+110	K	115	T	different	extracellular					
+111	S	116	V	different	extracellular					
+112	K	117	Q	different	extracellular					
+113	P	118	P	identical	extracellular					
+114	F	119	N	different	extracellular					
+115	Q	120	T	different	extracellular					
+116	L	121	V	different	extracellular					
+117	G	122	A	different	extracellular					
+118	F	123	V	different	extracellular					
+119	A	124	G	different	extracellular					
+120	S	125	Y	different	extracellular					
+121	A	126	L	different	extracellular					
+122	T	127	T	identical	extracellular					
+123	L	128	L	identical	extracellular					
+124	N	129	E	different	extracellular					
+125	R	130	K	different	extracellular					
+126	D	131	F	different	extracellular					
+127	M	132	I	different	extracellular					
+128	G	133	P	different	extracellular					
+129	K	134	A	different	extracellular					
+130	V	135	T	different	extracellular					
+131	T	136	T	identical	extracellular					
+132	K	137	A	different	extracellular					
+133	T	138	A	different	extracellular					
+134	I	139	P	different	extracellular					
+135	M	140	P	different	extracellular					
+136	E	141	T	different	extracellular					
+137	D	142	T	different	extracellular					
+138	S	143	K	different	extracellular					
+139	G	144	P	different	extracellular					
+140	E	145	K	different	extracellular					
+141	M	146	K	different	extracellular	M	V	M	M	TRUE
+142	V	147	R	different	extracellular					
+143	E	148	E	identical	extracellular					
+144	Q	149	A	different	extracellular	Q	P	Q	Q	TRUE
+145	D	150	G	different	extracellular					
+146	F	151	F	identical	extracellular					
+147	S	152	P	different	extracellular					
+148	N	153	Q	different	extracellular					
+149	S	154	E	different	extracellular					
+150	S	155	Q	different	extracellular					
+151	A	156	L	different	extracellular	A	I/T	A	A	TRUE
+152	V	157	D	different	extracellular					
+153	P	158	A	different	extracellular	P	T	T	T	TRUE
+154	T	159	E	different	extracellular					
+155	P	160	P	identical	extracellular					
+156	A	161	T	different	extracellular					
+157	S	162	A	different	extracellular					
+158	T		-	gap	extracellular					
+159	T		-	gap	extracellular					
+160	P		-	gap	extracellular					
+161	L		-	gap	extracellular					
+162	P	163	P	identical	extracellular					
+163	Q	164	V	different	extracellular					
+164	S	165	S	identical	extracellular					
+165	T	166	N	different	extracellular					
+166	V	167	K	different	extracellular					
+167	A	168	T	different	extracellular					
+168	H	169	S	different	extracellular					
+169	L	170	L	identical	extracellular					
+170	T	171	T	identical	extracellular					
+171	I	172	I	identical	extracellular					
+172	A	173	N	different	extracellular					
+173	Y	174	Y	identical	extracellular					
+174	V	175	I	different	extracellular					
+175	H	176	R	different	extracellular					
+176	L	177	L	identical	extracellular					
+177	Q	178	K	different	extracellular					
+178	Y	179	Y	identical	extracellular					
+179	E	180	E	identical	extracellular					
+180	E	181	E	identical	extracellular					
+181	T	182	T	identical	extracellular					
+182	K	183	S	different	extracellular					
+183	T	184	K	different	extracellular					
+184	V	185	Q	different	extracellular					
+185	V	186	S	different	extracellular					
+186	N	187	N	identical	extracellular					
+187	K	188	S	different	extracellular					
+188	N	189	N	identical	extracellular					
+189	G	190	G	identical	extracellular					
+190	G	191	G	identical	extracellular					
+191	A	192	A	identical	extracellular					
+192	V	193	V	identical	extracellular					
+193	A	194	A	identical	extracellular					
+194	V	195	V	identical	transmembrane					
+195	A	196	A	identical	transmembrane					
+196	V	197	I	different	transmembrane					
+197	I	198	I	identical	transmembrane					
+198	E	199	E	identical	transmembrane					
+199	G	200	G	identical	transmembrane					
+200	I	201	I	identical	transmembrane					
+201	A	202	A	identical	transmembrane					
+202	L	203	L	identical	transmembrane					
+203	I	204	I	identical	transmembrane					
+204	A	205	A	identical	transmembrane					
+205	I	206	I	identical	transmembrane					
+206	L	207	L	identical	transmembrane					
+207	A	208	A	identical	transmembrane					
+208	F	209	Y	different	transmembrane					
+209	L	210	M	different	transmembrane	L	M	L	L	TRUE
+210	G	211	G	identical	transmembrane					
+211	Y	212	Y	identical	transmembrane					
+212	R	213	R	identical	cytoplasmic					
+213	T	214	T	identical	cytoplasmic					
+214	M	215	M	identical	cytoplasmic					
+215	V	216	V	identical	cytoplasmic					
+216	N	217	K	different	cytoplasmic					
+217	H	218	H	identical	cytoplasmic					
+218	K	219	R	different	cytoplasmic					
+219	L	220	M	different	cytoplasmic					
+220	Q	221	K	different	cytoplasmic					
+221	N	222	E	different	cytoplasmic					
+222	S	223	S	identical	cytoplasmic					
+223	T	224	S	different	cytoplasmic					
+224	R	225	V	different	cytoplasmic					
+225	T	226	N	different	cytoplasmic					
+226	N	227	A	different	cytoplasmic					
+227	G	228	A	different	cytoplasmic					
+228	L	229	M	different	cytoplasmic					
+229	Y	230	Y	identical	cytoplasmic					
+230	G	231	G	identical	cytoplasmic					
+231	Y	232	F	different	cytoplasmic					
+232	D	233	D	identical	cytoplasmic					
+233	N	234	N	identical	cytoplasmic					
+234	N	235	N	identical	cytoplasmic					
+235	N	236	S	different	cytoplasmic					
+236	S	237	R	different	cytoplasmic					
+237	S	238	N	different	cytoplasmic					
+238	R	239	S	different	cytoplasmic					
+239	I	240	I	identical	cytoplasmic					
+240	T		-	gap	cytoplasmic					
+241	V		-	gap	cytoplasmic					
+242	P		-	gap	cytoplasmic					
+243	D		-	gap	cytoplasmic					
+244	A		-	gap	cytoplasmic					
+245	M		-	gap	cytoplasmic					
+246	R	241	R	identical	cytoplasmic					
+247	M	242	M	identical	cytoplasmic					
+248	S	243	N	different	cytoplasmic					
+249	D	244	D	identical	cytoplasmic					
+250	I	245	I	identical	cytoplasmic					
+251	P	246	P	identical	cytoplasmic					
+252	P	247	P	identical	cytoplasmic					
+253	P	248	P	identical	cytoplasmic					
+254	R	249	R	identical	cytoplasmic					
+255	D	250	D	identical	cytoplasmic					
+256	P	251	P	identical	cytoplasmic					
+257	M	252	T	different	cytoplasmic					
+258	Y	253	Y	identical	cytoplasmic					
+259	A	254	A	identical	cytoplasmic					
+260	S	255	T	different	cytoplasmic					
+261	P	257	P	identical	cytoplasmic					
+262	P	258	P	identical	cytoplasmic					
+263	T	259	A	different	cytoplasmic					
+264	P	260	P	identical	cytoplasmic					
+265	L	261	F	different	cytoplasmic					
+266	S	262	S	identical	cytoplasmic					
+267	Q	263	Q	identical	cytoplasmic					
+268	P	264	Q	different	cytoplasmic					
+269	T	265	P	different	cytoplasmic					
+270	P	266	P	identical	cytoplasmic					
+271	A	267	A	identical	cytoplasmic					
+272	R	268	R	identical	cytoplasmic					
+273	N	269	N	identical	cytoplasmic					
+274	T	270	T	identical	cytoplasmic					
+275	V	271	V	identical	cytoplasmic					
+276	M	272	M	identical	cytoplasmic					
+277	T	273	T	identical	cytoplasmic					
+278	T	274	T	identical	cytoplasmic					
+279	Q	275	Q	identical	cytoplasmic					
+280	E	276	E	identical	cytoplasmic					
+281	L	277	L	identical	cytoplasmic					
+282	V	278	V	identical	cytoplasmic					
+283	V	279	V	identical	cytoplasmic					
+284	P	280	P	identical	cytoplasmic					
+285	T	281	Q	different	cytoplasmic					
+286	A	282	T	different	cytoplasmic					
+287	N	283	S	different	cytoplasmic					
+288	S	284	A	different	cytoplasmic					
+289	S	285	S	identical	cytoplasmic					
+290	A	286	V	different	cytoplasmic					
+291	A	287	T	different	cytoplasmic					
+292	Q	288	R	different	cytoplasmic					
+293	P	289	P	identical	cytoplasmic					
+294	S	290	T	different	cytoplasmic					
+295	T	291	T	identical	cytoplasmic					
+296	T	292	T	identical	cytoplasmic					
+297	S	293	S	identical	cytoplasmic					
+298	N	301	N	identical	cytoplasmic					
+299	G	302	G	identical	cytoplasmic					
+300	Q	303	Q	identical	cytoplasmic					
+301	F	304	F	identical	cytoplasmic					
+302	N	305	N	identical	cytoplasmic					
+303	D	306	D	identical	cytoplasmic					
+304	P	307	P	identical	cytoplasmic					
+305	F	308	F	identical	cytoplasmic					
+306	A	309	D	different	cytoplasmic					
+307	T	310	S	different	cytoplasmic					
+308	L	311	L	identical	cytoplasmic					
+309	E	312	D	different	cytoplasmic					
+310	S	313	S	identical	cytoplasmic					
+311	W	314	W	identical	cytoplasmic					

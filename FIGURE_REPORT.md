@@ -61,6 +61,9 @@ Assembled 2026-09-09
         coverage](#off-pool-leakage-against-coverage)
     -   [Gene content at the four strongest mig-6
         QTL](#gene-content-at-the-four-strongest-mig-6-qtl)
+    -   [Figure S19 — SID-2 across two species, with elegans variation
+        on
+        top](#figure-s19--sid-2-across-two-species-with-elegans-variation-on-top)
     -   [eQTL and parental expression at the censused
         loci](#eqtl-and-parental-expression-at-the-censused-loci)
     -   [Figure S15 — where T96’s pocket sits in the charge
@@ -32275,6 +32278,89 @@ and five are JU2466.
 
 <img src="plots/diagnostics/DIAG_mig6_locus_I_1-88.png" alt="" width="100%" />
 
+## Figure S19 — SID-2 across two species, with elegans variation on top
+
+<div class="meta">
+
+**Scripts** `scripts/make_sid2_alignment_tables.py`,
+`scripts/SUPP_FIG_XX_sid2_briggsae_alignment.R`<br> **Supports** Figure
+4, by asking which SID-2 residues a second species conserves<br>
+**Scope** *C. elegans* SID-2 (311 aa) against *C. briggsae* CBR-SID-2
+(314 aa) · 17 population missense variants
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_sid2_briggsae_alignment.png" alt="Two panels: a per-residue conservation strip comparing C. elegans and C. briggsae SID-2 with the membrane topology beneath and annotated residues marked above, and a lollipop plot of the 17 missense variants segregating in the C. elegans population by allele frequency." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_sid2_briggsae_alignment
+</p>
+
+</div>
+
+*C. briggsae* is insensitive to environmental RNAi, and a *C. elegans*
+*sid-2* transgene confers sensitivity on it (Winston et al. 2007). The
+two species therefore bracket a functional difference that *sid-2* alone
+is sufficient to explain, which makes their SID-2 proteins the natural
+comparison for asking which residues the protein needs.
+
+<div class="derived">
+
+**The two proteins are only 47.3% identical** — 140 identical, 156
+different and 15 gapped over 311 *C. elegans* positions — so
+conservation here is informative precisely because it is rare.
+
+**All three histidines implicated in dsRNA uptake differ in *C.
+briggsae*: H32→R, H168→S, H175→R.** Two of the three go to **arginine**,
+which is exactly the substitution McEwan et al. 2012 made. That is why
+the panel labels them *implicated* rather than critical: **their triple
+His→Arg mutant internalised more dsRNA than wild type, not less**, so
+the *briggsae* state at these positions cannot by itself explain why
+*briggsae* fails to take dsRNA up. The observation is striking and it
+cuts against the simple reading.
+
+**N94 and T96 are both identical in *C. briggsae*.** The focal residue
+of Figure 4 is the one thing in this neighbourhood that a species 47%
+identical still conserves — and T96 is the conserved state, while the
+*C. elegans* population carries 96K at **46%** allele frequency. So K is
+the derived, common variant and T is the ancestral one, which is the
+opposite of how a rare loss-of-function allele would look.
+
+**Of the 17 missense variants segregating in the population, only 2 sit
+at a position *C. briggsae* conserves** — and T96K is one of them. The
+other 15 fall at positions already divergent between the species.
+
+**XZ1516 differs from N2 at 7 of the 8 curated sites** (78, 96, 141,
+144, 151, 153, 209; only residue 5 is shared), so it carries a strongly
+diverged *sid-2* haplotype rather than a single variant of interest.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">What the alignment cannot carry</span>
+
+**At 47% identity the alignment has real uncertainty**, particularly
+across the low-complexity stretches, and a single global
+Needleman–Wunsch alignment (BLOSUM62, gap −11/−1) is one hypothesis
+about correspondence rather than a fact. The staged table records the
+aligned *briggsae* residue and a gap flag per position so a reader can
+see where the comparison is weak instead of trusting it uniformly.
+Positions 32, 34, 94, 96, 168 and 175 all sit in well-aligned blocks, so
+the conclusions above do not rest on the ambiguous regions.
+
+**Two species is not a conservation analysis.** Identity or difference
+against one outgroup says nothing about the rate at a site. A proper
+test would need an alignment across the *Caenorhabditis* genus, which
+this figure does not attempt.
+
+**Sequences are UniProt G5EEV9 and A8XSB8**, fetched rather than derived
+here, and the *briggsae* entry is unreviewed (PE=4, predicted). Its gene
+model has not been checked against *briggsae* RNA-seq.
+
+</div>
+
 ## eQTL and parental expression at the censused loci
 
 **Script** `scripts/candidate_eqtl_expression.R`<br> **Table**
@@ -33407,7 +33493,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33421,7 +33507,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33435,7 +33521,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33449,7 +33535,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33463,7 +33549,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33477,7 +33563,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33491,7 +33577,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33505,7 +33591,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33519,7 +33605,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33533,7 +33619,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33547,7 +33633,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33561,7 +33647,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33575,7 +33661,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33589,7 +33675,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33603,7 +33689,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33617,7 +33703,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33631,7 +33717,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33645,7 +33731,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33659,7 +33745,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33673,7 +33759,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33687,7 +33773,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
 </td>
 </tr>
 <tr>
@@ -33701,7 +33787,21 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 21:18
+2026-09-09 21:44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S19
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_sid2_briggsae_alignment
+</td>
+<td style="text-align:right;">
+202
+</td>
+<td style="text-align:right;">
+2026-09-09 21:44
 </td>
 </tr>
 </tbody>

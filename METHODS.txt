@@ -544,6 +544,38 @@ The T96K site is chromosome III 13,680,248 C>A, with REF C encoding 96T and ALT
 A encoding 96K. Allele assignment was verified against four strains whose allele
 is known independently: JU1793 and N2 carry 96T, JU2466 and XZ1516 carry 96K.
 
+SID-2 ACROSS SPECIES. C. briggsae is insensitive to environmental RNAi and a
+C. elegans sid-2 transgene confers sensitivity on it (Winston et al. 2007), so
+the two species' SID-2 proteins were aligned to ask which residues a second
+species conserves (scripts/make_sid2_alignment_tables.py, drawn as
+SUPP_FIG_XX_sid2_briggsae_alignment). Sequences are UniProt G5EEV9
+(C. elegans SID-2, 311 aa) and A8XSB8 (C. briggsae CBR-SID-2, CBG18280,
+314 aa); the C. briggsae entry is unreviewed and its gene model was not checked
+against C. briggsae RNA-seq. Alignment is global Needleman-Wunsch with BLOSUM62
+and gap penalties -11 open, -1 extend. The two proteins are 47.3% identical
+over 296 aligned pairs (140 identical, 156 different, 15 gapped), so the
+alignment is a hypothesis about residue correspondence rather than a fact, and
+the staged per-position table records the aligned C. briggsae residue and a gap
+flag so that the weak regions are visible. Residues 32, 34, 94, 96, 168 and 175
+all fall in well-aligned blocks. Two species do not support a conservation
+analysis and no per-residue conservation score is computed.
+
+All three histidines implicated in dsRNA uptake differ in C. briggsae -- H32 to
+arginine, H168 to serine, H175 to arginine -- while N94, T96 and D34 are
+identical. Those histidines are described as implicated and not as critical:
+they are the residues McEwan et al. 2012 mutated, and that paper's triple
+His-to-Arg mutant internalised MORE dsRNA than wild type, so the C. briggsae
+state at two of them, which is that same arginine, cannot by itself explain why
+C. briggsae does not take dsRNA up.
+
+Population missense variation in sid-2 was taken from the BCSQ-annotated CeNDR
+release across the 540 isotypes: 17 missense variants in the 3.0 kb span, of
+which only two fall at a position C. briggsae conserves, T96K being one. T96 is
+the conserved state and 96K is the common derived variant at 46% allele
+frequency. XZ1516 differs from N2 at seven of the eight curated sites (78, 96,
+141, 144, 151, 153 and 209), so it carries a diverged sid-2 haplotype rather
+than a single variant of interest.
+
 INTERVAL CENSUSES. Two intervals were censused completely rather than searched:
 the 37 kb the NIL series resolves (chromosome III 13,657,700-13,695,000;
 scripts/make_nil_interval_tables.R, drawn as SUPP_FIG_XX_nil_interval_genes)

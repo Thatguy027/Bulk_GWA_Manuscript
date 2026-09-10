@@ -1337,3 +1337,75 @@ supplemental_data/mapping/nil_interval_{genes,exons,parent_variants}.tsv -- so
 it builds from a clone. They are extracted from the BCSQ-annotated CeNDR
 release (20231213) and the WormBase WS283 csq GFF3, neither of which is in the
 repository, by scripts/make_nil_interval_tables.R.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_sid2_briggsae_alignment
+(scripts/make_sid2_alignment_tables.py,
+ scripts/SUPP_FIG_XX_sid2_briggsae_alignment.R)
+--------------------------------------------------------------------------------
+
+Figure S19. SID-2 across two species, with C. elegans variation on top.
+C. briggsae is insensitive to environmental RNAi and a C. elegans sid-2
+transgene confers sensitivity on it (Winston et al. 2007), so the two species
+bracket a functional difference that sid-2 alone is sufficient to explain. That
+makes their SID-2 proteins the natural comparison for asking which residues the
+protein needs.
+
+(A) Per-residue comparison of C. elegans SID-2 (UniProt G5EEV9, 311 aa) against
+C. briggsae CBR-SID-2 (UniProt A8XSB8, CBG18280, 314 aa), on C. elegans
+numbering: grey where the aligned residues are identical, orange where they
+differ, pale where the alignment gaps. 140 positions are identical, 156 differ
+and 15 gap -- 47.3% identity over the 296 aligned pairs. Beneath is the
+DeepTMHMM topology: signal peptide 1-20, extracellular 21-193, transmembrane
+194-211, cytoplasmic 212-311. Purple ticks below that mark the seven positions
+at which XZ1516 differs from N2 (78, 96, 141, 144, 151, 153 and 209 -- seven of
+the eight curated sites, residue 5 being the only shared one), so XZ1516 carries
+a strongly diverged sid-2 haplotype rather than one variant of interest.
+
+Marked above the strip are the residues this manuscript and the prior literature
+single out, each with its C. elegans and C. briggsae identity. ALL THREE
+HISTIDINES IMPLICATED IN dsRNA UPTAKE DIFFER IN C. BRIGGSAE: H32 to arginine,
+H168 to serine, H175 to arginine. N94 AND T96 DO NOT DIFFER; both are identical
+in C. briggsae. D34, the qt13 allele position, is also identical.
+
+(B) All 17 missense variants segregating in the sid-2 span across the 540 CeNDR
+isotypes, by allele frequency, coloured by whether C. briggsae conserves the
+C. elegans reference residue at that position. Only two of the seventeen sit at
+a position C. briggsae conserves, and T96K is one of them; the other fifteen
+fall where the two species already differ. Variants at 5% frequency or above are
+labelled: T96K (46%), P153T (48%), A151I (21%), L209M (21%) and V152A (8%).
+Dotted lines mark the panel A residues. Note that T96 is the conserved state and
+96K is the common derived variant at 46% -- the opposite of how a rare
+loss-of-function allele would present.
+
+CAVEAT 1, and it is why the histidines are labelled "implicated" and not
+"critical". H32, H168 and H175 are the residues McEwan et al. 2012 mutated, and
+that paper's triple His-to-Arg mutant internalised MORE dsRNA than wild type,
+not less. Two of the three C. briggsae differences are to arginine, which is
+that same substitution. The coincidence is striking and it cuts AGAINST the
+simple reading rather than for it: if His-to-Arg increases uptake, the
+C. briggsae state at these positions cannot by itself explain why C. briggsae
+does not take dsRNA up. The panel reports the observation; it does not resolve
+the mechanism.
+
+CAVEAT 2, on the alignment. At 47% identity a single global Needleman-Wunsch
+alignment (BLOSUM62, gap open -11, extend -1) is one hypothesis about residue
+correspondence, not a fact, and it is least reliable across the low-complexity
+stretches. The staged per-position table records the aligned C. briggsae residue
+and a gap flag so a reader can see where the comparison is weak. Positions 32,
+34, 94, 96, 168 and 175 all fall in well-aligned blocks, so the statements above
+do not depend on the ambiguous regions.
+
+CAVEAT 3, on what two species can support. Identity or difference against one
+outgroup says nothing about the substitution rate at a site, so this is not a
+conservation analysis and no per-residue conservation score is quoted. A proper
+test needs an alignment across the Caenorhabditis genus, which this figure does
+not attempt.
+
+SOURCES. Both sequences are fetched from UniProt rather than derived here, and
+the C. briggsae entry is unreviewed (PE=4, predicted) with a gene model that has
+not been checked against C. briggsae RNA-seq. Population missense variants come
+from the BCSQ-annotated CeNDR release (20231213); per-parent residues from
+supplemental_data/structure/sid2_variants_cendr.tsv; topology from
+sid2_deeptmhmm_topology.3line. The staged tables the figure reads are
+supplemental_data/structure/sid2_{sequences.fa,species_alignment.tsv,population_missense.tsv}.

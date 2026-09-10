@@ -34,6 +34,13 @@
 ##                                   <- extract_sim_reported_r2.py  (the record
 ##                                      of the values as originally reported;
 ##                                      no longer the only route to them)
+##   structure/sid2_sequences.fa,
+##   structure/sid2_species_alignment.tsv,
+##   structure/sid2_population_missense.tsv
+##                                   <- make_sid2_alignment_tables.py  (the
+##                                      C. elegans / C. briggsae SID-2
+##                                      alignment and the population missense
+##                                      overlay; sequences from UniProt)
 ##   mapping/nil_interval_genes.tsv,
 ##   mapping/nil_interval_exons.tsv,
 ##   mapping/nil_interval_parent_variants.tsv
