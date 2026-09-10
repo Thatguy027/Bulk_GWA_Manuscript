@@ -48,6 +48,17 @@
 ## and the two are not silently reconciled here because which one the archived
 ## Baugh run used is a question about that run, not about this code.
 ##
+## THE SOLVER HERE IS NOT THE ONE THE ARCHIVED SEVEN-TRAIT RUN USED. That run
+## called mdatools::mcrals.fcnnls on the plain G (original line 358), not
+## RcppML::nnls on the stacked design, which is what this port does and what the
+## original's own exploratory arm does at its line 51. That is the explanation
+## for the 139 of 18,312 negative coefficients (0.8%) in
+## simulation_nnls_frequencies.tsv.gz, which a strict non-negative solver cannot
+## produce. The reported r-squared are unaffected -- they are recomputed from
+## those archived estimates by scripts/simulation_recompute_r2.R and reproduce
+## exactly -- but a re-run through this port is a different estimator, so its
+## r-squared are not expected to match to the digit.
+##
 ## REQUIRES THE GENOTYPE PANEL, so this does not run from a clone. See
 ## SYNC_MANIFEST.md Tier 1; set CENDR_PLINK to override the default location.
 ## ---------------------------------------------------------------------------

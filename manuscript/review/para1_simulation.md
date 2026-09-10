@@ -1,6 +1,7 @@
 # Review of manuscript paragraph 1 — NNLS simulation
 
 Source of truth: `supplemental_data/deconvolution/simulation_reported_r2.tsv`,
+`simulation_fitness_traits.tsv`,
 `FIGURE_CAPTIONS.txt` (SUPP_FIG_XX_simulation_depth section), `METHODS.txt` (Simulation).
 All values below recomputed from the TSV, not transcribed.
 
@@ -12,7 +13,9 @@ At 1x, **no trait reaches r2 >= 0.95 (0 of 7)**. Spread: 0.52 (mtDNA_ratio) to
 verbatim as CAVEAT 2.
 
 Traits with r2 >= 0.95 by depth: 1x: 0/7, 3x: 2/7, 5x: 3/7, 10x: 5/7, 30x: 7/7, 50x: 7/7, 100x: 7/7, 500x: 7/7.
-30x is the lowest depth at which all seven sit at or above 0.95.
+50x is the lowest depth at which all seven sit at or above 0.95 on the
+unrounded values (30x if the two-decimal record is taken at face value: mtDNA_ratio at 30x is
+0.9477, which displays as 0.95).
 All seven reach r2 = 1.00 at 500x.
 
 ### Attested r2, estimated vs known input (panel A)
@@ -28,7 +31,8 @@ All seven reach r2 = 1.00 at 500x.
 | value | 0.86 | 0.96 | 0.98 | 0.99 | 0.99 | 1.00 | 1.00 | 1.00 |
 
 Lowest depth from which each trait stays >= 0.95: PC1 3x, value 3x, amsacrine_f.L1 5x,
-assay_norm 10x, etoposide_median.TOF 10x, Albendazole_q75.TOF 30x, mtDNA_ratio 30x.
+assay_norm 10x, etoposide_median.TOF 10x, Albendazole_q75.TOF 30x, mtDNA_ratio **50x** (30x on
+the rounded record, 0.9477 unrounded).
 
 ## 2. Depths are eight discrete values, not a range
 
@@ -59,6 +63,31 @@ S1A specifically.
 > below is otherwise still accurate: the draw was never seeded, so the r2 values remain
 > reported rather than recomputable, and the seven-trait run used the trait values themselves
 > as fitness rather than a draw.
+>
+> **UPDATE (2026-09-09) — CLOSED.** The section below is now wrong, and the r2 are
+> recomputable. The fitness input was never a draw, so nothing needed redrawing: the
+> seven-trait arm reads a directory of published traits with validated QTL
+> (`haploReg_original.R:309-334`) and uses the trait values themselves. Those files survived
+> outside the repository and are now deposited as
+> `supplemental_data/deconvolution/simulation_fitness_traits.tsv` by
+> `scripts/make_simulation_fitness_table.R`. The seven traits arrive in six files, which is why
+> the source directory looks like it holds five — `TableS4_GWAS-phenotypes.csv` carries both
+> `amsacrine_f.L1` and `etoposide_median.TOF`.
+>
+> Given them, **all 56 reported r2 recompute from the archived NNLS estimates exactly at two
+> decimals** (`scripts/simulation_recompute_r2.R`, wired into `check_repo_invariants.sh`
+> section 5). The two transforms are `x - min(x, na.rm=TRUE)` then `NA -> 0`. Only the binomial
+> draw remains unseeded, and it no longer matters for these numbers: they come from the
+> archived estimates, not from a re-run.
+>
+> Two things the recomputation shows that the 2-dp figure text hid. **No trait reaches
+> r2 = 1.000 at 500x** — the values reported as 1.00 run 0.9964 (mtDNA_ratio) to 0.9998 (PC1),
+> so "every trait reached r2 = 1.00 by 500x" in the suggested revision below overstates it. And
+> the r2 are computed over all 327 strains with the unmeasured ones held at exactly zero.
+>
+> The 0.8% negative coefficients noted at the end of this section are explained too: the
+> archived run used `mdatools::mcrals.fcnnls` on the plain G (`haploReg_original.R:358`), not
+> `RcppML::nnls` on the stacked design, which is what the port uses.
 
 `METHODS.txt` carries a `[TO FILL]`: the inverse-chi-squared parameters (df, scale) and the
 fitness -> expected-frequency mapping were never recorded, and neither the simulation script nor
@@ -82,15 +111,16 @@ drift in quoted values, not overstated claims.
 
 To determine whether non-negative least squares (NNLS) regression can infer strain frequencies
 from pooled populations, we established a simulation framework (Methods). Briefly, each wild
-isolate was assigned a fitness value drawn from an inverse-chi-squared distribution, with the
-fitness structure taken from seven published C. elegans traits with validated QTL, giving seven
-independent simulated populations of 327 strains. For each, we computed the expected pooled
+isolate was assigned a fitness value taken from one of seven published C. elegans traits with
+validated QTL, giving seven independent simulated populations of 327 strains; a strain with no
+published value for a trait was absent from that population. For each, we computed the expected
+pooled
 allele frequencies such a population would produce and simulated observed alt-allele counts by
 binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500x. We then deconvolved these counts back to
 per-strain frequencies by NNLS and compared the estimates with the known input as a function of
-depth. Recovery was near-perfect at high depth -- every trait reached r2 = 1.00 by 500x -- and
+depth. Recovery was near-perfect at high depth -- every trait reached r2 >= 0.996 by 500x -- and
 degraded gracefully as depth fell: 10x was sufficient for five of the seven traits (r2 >= 0.95),
-30x was the lowest depth at which all seven met that bar, and even 1x recovered most of the
+50x was the lowest depth at which all seven met that bar, and even 1x recovered most of the
 signal for most traits (median r2 0.79, range 0.52-0.91) (Figure S1A).
 
 ## 7. Per-trait strain counts: the GWAS trait file is not 327 for six of seven traits
@@ -120,10 +150,17 @@ is accurate for the deconvolution and wrong for anything describing the simulate
 
 The NA set is NOT a magnitude filter: within a trait it is identical at every depth, and absent
 strains routinely carry larger coefficients than present ones (e.g. assay_norm at 500x, max
-absent coefficient 0.231 vs min present 0.000). It behaves like a fixed per-trait strain set --
-most likely the isotype set of the original published trait -- but the upstream
-`processed_simFreq_traits.tsv` is in the unarchived simulation directory, so the filter cannot
-be confirmed from this clone.
+absent coefficient 0.231 vs min present 0.000). It behaves like a fixed per-trait strain set.
+
+**SETTLED (2026-09-09).** It is the set of strains carrying a published value for that trait.
+`haploReg_original.R:328` is `phenop[is.na(phenop)] <- 0`: a strain with no value for a trait
+was assigned fitness exactly zero, i.e. absent from that trait's simulated pool. The counts in
+the table above reproduce exactly from the deposited trait table
+(`scripts/simulation_recompute_r2.R`), so the unarchived `processed_simFreq_traits.tsv` is no
+longer needed to confirm the filter. One caveat on reading that file's NA count as the absent
+count: the shift by the trait minimum sends the single lowest-scoring measured strain to fitness
+zero as well, so the strains truly absent from each pool number one more than the NAs — 129
+rather than 128 for Albendazole_q75.TOF, 244 rather than 243 for PC1, and so on.
 
 CONSEQUENCE FOR PANEL B. See section 8 -- the pad does inflate the pooled r2, but not by the
 zero-against-zero mechanism first suspected here.

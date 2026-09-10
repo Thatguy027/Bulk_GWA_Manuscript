@@ -112,21 +112,26 @@ where neither is controlled. They are reported in that order.
 
 Simulation. To determine whether non-negative least squares (NNLS) regression
 can infer strain frequencies from pooled populations, we established a
-simulation framework. Each wild isolate was assigned a fitness value drawn from
-an inverse chi-squared distribution; the expected pooled allele frequencies such
-a population would produce were computed from the CeNDR genotype matrix; and
-observed alt-allele counts were simulated by binomial sampling at 1, 3, 5, 10,
-30, 50, 100 and 500x. Those counts were deconvolved back to per-strain
-frequencies by NNLS and compared with the known input. Seven published
-C. elegans traits with validated QTL supplied the fitness structure
+simulation framework. Each wild isolate was assigned a fitness value taken from
+one of seven published C. elegans traits with validated QTL
 (Albendazole_q75.TOF, PC1, assay_norm, mtDNA_ratio, value, amsacrine_f.L1 and
 etoposide_median.TOF), giving seven independent simulated populations of 327
-strains. Recovery was quantified as the r-squared of estimated against known
-input frequency at each depth (scripts/SUPP_FIG_XX_simulation_depth.R). All
-seven traits reach r-squared 1.00 by 500x. At 1x, recovery ranges from 0.91
+strains. The trait value itself was the fitness, shifted by the trait's own
+minimum so that fitness is non-negative; a strain with no published value for a
+trait was assigned fitness zero and so was absent from that trait's pool. The
+expected pooled allele frequencies such a population would produce were
+computed from the CeNDR genotype matrix, and observed alt-allele counts were
+simulated by binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500x. Those
+counts were deconvolved back to per-strain frequencies by NNLS and compared
+with the known input. Recovery was quantified as the r-squared of estimated
+against known input frequency at each depth
+(scripts/SUPP_FIG_XX_simulation_depth.R). At 1x, recovery ranges from 0.91
 (PC1) to 0.52 (mtDNA_ratio), median 0.79; 10x is sufficient for five of the
-seven traits, and 30x is the lowest depth at which all seven sit at or above
-0.95.
+seven traits, and 50x is the lowest depth at which all seven sit at or above
+0.95. No trait reaches r-squared of 1.000 even at 500x, where the range is
+0.9964 (mtDNA_ratio) to 0.9998 (PC1); earlier drafts said all seven reached
+1.00 by 500x, and gave 30x for the 0.95 bar, both of which came from applying
+those thresholds to values rounded to two decimals.
 
 The simulation code has since been recovered and is archived as
 scripts/simulation_deconvolution.R, a port of the original working script kept
@@ -141,17 +146,36 @@ verbatim at scripts/legacy/haploReg_original.R. The parameters it pins:
   equations; in simulation this is worth about 0.14 of r-squared at 1x and
   0.08 at 10x over the unstacked design.
 
-[TO FILL: two things the recovered script does not settle. First, the fitness
-draw was not seeded -- set.seed appears only before the bootstrap -- so the
-particular simulated populations behind the reported r-squared cannot be
-reproduced exactly, only redrawn from the same distribution. Second, the
-inverse chi-squared draw above belongs to the exploratory arm of the original
-script; the seven-trait simulation whose r-squared are quoted above used the
-published trait values THEMSELVES as fitness, not a draw. Confirm which
-description belongs in this paragraph before it goes to the draft, because as
-written it currently asserts both. The r-squared values above remain recovered
-from text embedded in the original figures by scripts/extract_sim_reported_r2.py
-rather than recomputed.]
+The inverse chi-squared draw pinned above belongs to the exploratory arm of the
+original script, not to the seven-trait simulation whose r-squared are quoted
+here. The seven traits, and the strains carrying each, are deposited as
+supplemental_data/deconvolution/simulation_fitness_traits.tsv.
+
+This is established by reproduction rather than by reading the code. Given
+those trait values, all 56 r-squared -- seven traits at eight depths --
+recompute from the archived NNLS estimates and reproduce the values previously
+transcribed from text embedded in the original per-trait figures exactly at the
+two decimals those figures carry (scripts/simulation_recompute_r2.R, checked on
+every push; the figure script asserts the same thing). The r-squared are
+therefore computed rather than transcribed, and both panels of
+SUPP_FIG_XX_simulation_depth are now against the known input;
+scripts/extract_sim_reported_r2.py remains only as the record of where the
+values were read from before the inputs were recovered.
+
+One caveat the recomputation makes explicit: the r-squared are computed over
+all 327 strains with the unmeasured ones held at exactly zero, which flatters
+the correlation. The number of strains actually carrying a published value
+ranges from 327 for mtDNA_ratio down to 84 for PC1, and restricted to those
+strains the pooled r-squared falls from 0.79 to 0.70 at 1x and from 0.97 to
+0.95 at 10x.
+
+[TO FILL: the binomial draw over expected frequencies was not seeded -- the
+three set.seed calls in the original belong to its bootstrap, panel-size and
+dropout arms -- so the particular simulated counts behind the archived
+estimates cannot be regenerated. This does not affect the r-squared above,
+which are computed from the archived estimates themselves, but a fresh run of
+the simulation would redraw rather than reproduce. Decide whether the paragraph
+should say so.]
 
 Designed DNA mixture. 174 wild isolates were divided into four sets of roughly
 equal size (A, B, C, D). Genomic DNA from each set was pooled and sequenced both

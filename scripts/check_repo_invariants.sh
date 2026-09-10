@@ -43,12 +43,16 @@ if Rscript scripts/check_figure_lists.R; then :; else
 echo "== 5. scripts that self-assert their pinned numbers still pass =="
 # These scripts assert their pinned literals AND write their figures, so running
 # them dirties plots/ with a fresh cairo_pdf timestamp even when nothing changed.
+# simulation_recompute_r2.R asserts against a deposited table rather than a
+# literal -- it fails if the 56 reported r-squared stop reproducing -- and writes
+# only to plots/diagnostics/, which the snapshot below does not cover and does
+# not need to, because that table is regenerated deterministically.
 # A check must not have side effects on tracked files -- the hook would leave the
 # tree dirty on every push -- so plots/ is snapshotted and restored around it.
 # Only the exit status matters here; output determinism is check 6.
 SNAP="$(mktemp -d)"
 cp plots/*.pdf plots/*.png "$SNAP"/ 2>/dev/null || true
-for s in scripts/SUPP_FIG_XX_dilution_validation.R; do
+for s in scripts/SUPP_FIG_XX_dilution_validation.R scripts/simulation_recompute_r2.R; do
   if Rscript "$s" >"/tmp/pin_$(basename "$s").log" 2>&1; then ok "$(basename "$s") pins agree"
   else bad "$(basename "$s") failed — pins stale or a real error"
        tail -4 "/tmp/pin_$(basename "$s").log" | sed 's/^/        /'; fi

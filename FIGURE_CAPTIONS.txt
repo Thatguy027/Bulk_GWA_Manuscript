@@ -507,49 +507,63 @@ NNLS deconvolution recovers simulated strain frequencies, and the depth it
 needs depends on the trait.
 
 This is the simulation the project started from. Each wild isolate was assigned
-a fitness value drawn from an inverse chi-squared distribution; the expected
-pooled allele frequencies such a population would produce were computed;
-observed alt-allele counts were simulated by binomial sampling at 1, 3, 5, 10,
-30, 50, 100 and 500x; and those counts were deconvolved back to per-strain
-frequencies by NNLS and compared with the known input. Seven published
-C. elegans traits with validated QTL supplied the fitness structure, giving
-seven independent simulated populations of 327 strains.
+a fitness value taken from one of seven published C. elegans traits with
+validated QTL -- the trait value itself, shifted by the trait's own minimum so
+fitness is non-negative -- giving seven independent simulated populations of
+327 strains. A strain with no published value for a trait was set to fitness
+zero, i.e. absent from that trait's pool. The expected pooled allele
+frequencies such a population would produce were computed; observed alt-allele
+counts were simulated by binomial sampling at 1, 3, 5, 10, 30, 50, 100 and
+500x; and those counts were deconvolved back to per-strain frequencies by NNLS
+and compared with the known input.
 
 (A) r-squared of estimated against known input frequency, against simulated
-sequencing depth, one line per trait. At 500x every trait reaches r-squared
-1.00. At 1x the spread is wide: PC1 0.91, value 0.86, assay_norm 0.81,
-amsacrine_f.L1 0.79, etoposide_median.TOF 0.72, Albendazole_q75.TOF 0.56,
-mtDNA_ratio 0.52 -- median 0.79. The lowest depth from which a trait stays at
-or above r-squared 0.95 is 3x for PC1 and value, 5x for amsacrine_f.L1, 10x for
-assay_norm and etoposide_median.TOF, and 30x for Albendazole_q75.TOF and
-mtDNA_ratio.
+sequencing depth, one line per trait. At 1x the spread is wide: PC1 0.91,
+value 0.86, assay_norm 0.81, amsacrine_f.L1 0.79, etoposide_median.TOF 0.72,
+Albendazole_q75.TOF 0.56, mtDNA_ratio 0.52 -- median 0.79. The lowest depth
+from which a trait stays at or above r-squared 0.95 is 3x for PC1 and value,
+5x for amsacrine_f.L1, 10x for assay_norm and etoposide_median.TOF, 30x for
+Albendazole_q75.TOF and 50x for mtDNA_ratio. No trait reaches r-squared 1.000
+at 500x; the range there is 0.9964 for mtDNA_ratio to 0.9998 for PC1.
 
-(B) The archived estimates against the 500x estimate, faceted by depth, all
-seven traits pooled (2,289 points per facet). Axes share limits so the dashed
-y = x line means the same thing in every facet. Pooled r-squared against 500x:
-0.79 at 1x, 0.91 at 3x, 0.94 at 5x, 0.97 at 10x, 0.99 at 30x and 50x, 1.00 at
-100x. This is a CONVERGENCE panel, not an accuracy panel -- see caveat 1.
+(B) The archived estimates against the known input, faceted by depth, all seven
+traits pooled (2,289 points per facet). Axes share limits so the dashed y = x
+line means the same thing in every facet. Pooled r-squared: 0.79 at 1x, 0.91 at
+3x, 0.94 at 5x, 0.97 at 10x, 0.99 at 30x and 50x, 1.00 at 100x and 500x. The
+band of points along y = 0 is the strains with no published value for that
+trait, which were absent from the pool; NNLS nonetheless assigns them
+frequency, and because pool mass is conserved the strains that were present are
+underestimated by the same amount. That is why the cloud sits below y = x at
+low depth. The leaked share of each pool's mass runs 6.7% at 1x, 4.2% at 3x,
+2.5% at 5x, 2.1% at 10x, 1.1% at 30x, 0.7% at 50x and 100x, and 0.3% at 500x,
+with the slope of input on estimate rising from 0.868 at 1x to 1.004 at 500x.
+Restricted to the strains actually in the pool, r-squared is 0.70 at 1x, 0.86
+at 3x, 0.90 at 5x, 0.95 at 10x, 0.98 at 30x, 0.99 at 50x and 100x, and 1.00 at
+500x.
 
-CAVEAT 1, and it decides what this figure can be used for. Only the NNLS OUTPUT
-is archived. The simulation script, the drawn fitness values and the expected
-input frequencies are all absent, as is the trait directory the original
-processing script reads. Panel A therefore cannot be recomputed: its values are
-read back out of the text embedded in the original per-trait PDFs by
-scripts/extract_sim_reported_r2.py, which is the only surviving record of the
-comparison against the known input. Panel B IS recomputed, but against the 500x
-estimate standing in for the truth. That stand-in is defensible because panel A
-puts 500x at r-squared 1.00 for all seven traits, and because the two agree
-where they can be compared -- pooled convergence at 1x is 0.79 against a median
-reported accuracy at 1x of 0.79 -- but it is a stand-in, and the figure says so.
-To restore panel A as a recomputed figure, what is needed is the expected input
-frequencies (327 strains x 7 traits) and the simulation script.
+PROVENANCE, which used to be caveat 1. Both panels are now computed against the
+known input. The simulation's fitness input was long thought lost, and panel A
+was for that reason transcribed rather than computed -- its values read out of
+text embedded in the original per-trait PDFs by
+scripts/extract_sim_reported_r2.py -- while panel B substituted the 500x
+estimate for the truth. Neither is necessary. The seven-trait arm of
+scripts/legacy/haploReg_original.R uses published trait values as fitness, and
+those files are deposited as
+supplemental_data/deconvolution/simulation_fitness_traits.tsv. The transcribed
+record is kept as a check rather than a source: all 56 computed r-squared
+reproduce simulation_reported_r2.tsv at the two decimals those PDFs carry, and
+the figure script asserts it. 500x is now an ordinary depth in panel B rather
+than its reference, which is why panel B has eight facets and not seven.
 
 CAVEAT 2, on the wording of the claim. "NNLS can accurately infer strain
 frequencies with as little as 1X sequencing depth" holds for the best-behaved
 traits and not for the worst: at 1x, r-squared runs from 0.91 down to 0.52. A
 statement the whole figure supports is that 1x recovers most of the signal for
 most traits (median r-squared 0.79), that 10x is enough for five traits of
-seven, and that 30x is needed before all seven sit at or above 0.95.
+seven, and that 50x is needed before all seven sit at or above 0.95. The 30x
+earlier drafts gave for that last figure came from applying the 0.95 bar to the
+transcribed two-decimal values: mtDNA_ratio at 30x is 0.9477, which displays as
+0.95 but is below the bar.
 
 CAVEAT 3. 139 of 18,312 archived coefficients (0.8%) are negative, at depths 5
 through 100. A strict non-negative solver cannot return a negative coefficient,

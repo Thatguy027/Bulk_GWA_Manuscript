@@ -3,41 +3,44 @@
 ##   Rscript scripts/SUPP_FIG_XX_simulation_depth.R
 ##     -> plots/SUPP_FIG_XX_simulation_depth.{pdf,png}
 ##
-##   A  reported r-squared of NNLS-estimated against known input frequency,
-##      against simulated sequencing depth, one line per simulated trait
-##   B  the same estimates plotted against the 500x estimate, faceted by depth
+##   A  r-squared of NNLS-estimated against KNOWN INPUT frequency, against
+##      simulated sequencing depth, one line per simulated trait
+##   B  the same estimates plotted against the known input, faceted by depth
 ##
-## THE SIMULATION. Each wild isolate was assigned a fitness value drawn from an
-## inverse chi-squared distribution; the expected pooled allele frequencies such
-## a population would produce were computed; observed alt-allele counts were
+## THE SIMULATION. Each wild isolate was assigned a fitness value taken from one
+## of seven published C. elegans traits with validated QTL -- the trait value
+## itself, not a draw -- shifted by the trait's own minimum so fitness is
+## non-negative, with strains carrying no value for a trait set to zero and so
+## absent from that trait's pool. The expected pooled allele frequencies such a
+## population would produce were computed; observed alt-allele counts were
 ## simulated by binomial sampling at depths 1, 3, 5, 10, 30, 50, 100 and 500x;
-## and those counts were deconvolved back to per-strain frequencies by NNLS.
-## Seven published C. elegans traits with validated QTL supplied the fitness
-## structure: Albendazole_q75.TOF, PC1, assay_norm, mtDNA_ratio, value,
+## and those counts were deconvolved back to per-strain frequencies by NNLS. The
+## seven traits are Albendazole_q75.TOF, PC1, assay_norm, mtDNA_ratio, value,
 ## amsacrine_f.L1 and etoposide_median.TOF.
 ##
-## WHAT IS ARCHIVED AND WHAT IS NOT -- read before quoting anything here
-## ---------------------------------------------------------------------
-## Only the NNLS OUTPUT survives. data/experiments/initial_sims holds the
-## estimated coefficients (nnls_estFreqs.RDS) and the original per-trait plots.
-## The simulation script itself, the drawn fitness values and the "expected"
-## input frequencies are NOT in the archive, and the trait directory the
-## original script reads (../traits_with_validated_qtl/) is not either.
+## BOTH PANELS ARE COMPUTED AGAINST THE KNOWN INPUT (2026-09-09)
+## -------------------------------------------------------------
+## This figure used to report panel A rather than compute it, and to substitute
+## the 500x estimate for the truth in panel B, because the simulation's fitness
+## input was thought lost. It was not: the seven-trait arm of
+## scripts/legacy/haploReg_original.R uses published trait values as fitness,
+## and those files are now deposited as
+## supplemental_data/deconvolution/simulation_fitness_traits.tsv by
+## scripts/make_simulation_fitness_table.R.
 ##
-## Consequently:
-##   - Panel A CANNOT be recomputed. Its r-squared values are transcribed from
-##     the text embedded in the original per-trait PDFs, which is the only
-##     surviving record of the comparison against the known input. They are in
-##     supplemental_data/deconvolution/simulation_reported_r2.tsv, and that file
-##     names its own provenance.
-##   - Panel B IS recomputed here, but against the 500x estimate rather than
-##     against the truth, because the truth is not archived. It is a convergence
-##     panel, not an accuracy panel, and is labelled as such. At 500x the
-##     reported r-squared is 1.00 for all seven traits, which is what makes the
-##     500x estimate a usable stand-in -- but it is a stand-in.
+## So the known input is available and both panels use it. The old record is not
+## discarded -- it is asserted against. Every one of the 56 r-squared computed
+## here reproduces simulation_reported_r2.tsv, the values transcribed from text
+## embedded in the original per-trait PDFs, at the two decimals those PDFs
+## carry; the stopifnot below fails if that ever stops being true. See
+## scripts/simulation_recompute_r2.R, which is the standalone check.
 ##
-## To restore panel A as a recomputed figure, the expected input frequencies
-## (327 strains x 7 traits) and the simulation script are what is needed.
+## Two consequences for reading the panels. Panel B now covers all eight depths
+## rather than seven: 500x was previously excluded because it WAS the reference,
+## and is now just another depth. And the truth has many exact zeros -- the
+## strains carrying no published value for a trait -- so the pile of points on
+## y = 0 is real, and is where NNLS assigns frequency to a strain that was not
+## in the pool at all.
 ##
 ## SCALE. The stored coefficients are not frequencies: each depth's row sums to
 ## the depth itself (500x sums to 500.03, 1x to 1.00), so they are on an
@@ -55,8 +58,9 @@ OUT <- "plots"
 DEC <- "supplemental_data/deconvolution"
 R2  <- file.path(DEC, "simulation_reported_r2.tsv")
 FRQ <- file.path(DEC, "simulation_nnls_frequencies.tsv.gz")
+FIT <- file.path(DEC, "simulation_fitness_traits.tsv")
 
-stopifnot(file.exists(R2), file.exists(FRQ))
+stopifnot(file.exists(R2), file.exists(FRQ), file.exists(FIT))
 
 ## a muted qualitative set; seven traits need seven distinguishable hues
 TRAIT_COL <- c(
@@ -87,17 +91,62 @@ theme_pub <- function(base_size = 11) {
 DEPTHS <- c(1, 3, 5, 10, 30, 50, 100, 500)
 
 ## ===========================================================================
-## A -- reported accuracy against the known input
+## the known input: fitness, then the pool frequency it implies
 ## ===========================================================================
-r2 <- read_tsv(R2, show_col_types = FALSE) %>%
-  mutate(trait = factor(trait, levels = names(TRAIT_COL)))
-stopifnot(nrow(r2) == 56, !anyNA(r2$trait))
+## The original's two transforms (haploReg_original.R lines 327-328): shift each
+## trait by its own minimum so fitness is non-negative, then send NA to 0 so a
+## strain with no published value is absent from that trait's pool. Dividing by
+## the column total puts it on the same frequency scale as the estimates, which
+## is what lets panel B draw a y = x line.
+frq <- read_tsv(FRQ, show_col_types = FALSE)
+stopifnot(nrow(frq) == 7 * 8 * 327)
+
+panel_strains <- sort(unique(frq$strain))
+truth <- read_tsv(FIT, show_col_types = FALSE) %>%
+  filter(strain %in% panel_strains) %>%
+  pivot_longer(-strain, names_to = "trait", values_to = "published") %>%
+  group_by(trait) %>%
+  mutate(fitness = published - min(published, na.rm = TRUE),
+         fitness = replace_na(fitness, 0),
+         input   = fitness / sum(fitness)) %>%
+  ungroup() %>%
+  select(trait, strain, published, fitness, input)
+stopifnot(nrow(truth) == 7 * 327, !anyNA(truth$input))
+
+acc <- frq %>%
+  inner_join(truth, by = c("trait", "strain")) %>%
+  group_by(trait, depth) %>%
+  summarise(r2 = cor(frequency, input)^2, .groups = "drop")
+stopifnot(nrow(acc) == 56)
+
+## ===========================================================================
+## A -- accuracy against the known input, computed
+## ===========================================================================
+## The transcribed record is the check on this, not the source of it: if the
+## recomputation ever stops reproducing the 2-dp values read out of the 2021
+## PDFs, that is a real regression and this figure must not build.
+rep <- read_tsv(R2, show_col_types = FALSE)
+chk <- acc %>% inner_join(rep, by = c("trait", "depth"),
+                          suffix = c(".computed", ".reported"))
+stopifnot(nrow(chk) == 56,
+          all(round(chk$r2.computed, 2) == chk$r2.reported))
+cat("== all 56 computed r-squared reproduce simulation_reported_r2.tsv at 2 dp ==\n\n")
+
+r2 <- acc %>% mutate(trait = factor(trait, levels = names(TRAIT_COL)))
+stopifnot(!anyNA(r2$trait))
 
 at1 <- r2 %>% filter(depth == 1) %>% arrange(desc(r2))
-cat("== reported r-squared at 1x, the depth the text claims ==\n")
-print(as.data.frame(at1 %>% transmute(trait, r2)), row.names = FALSE)
+cat("== accuracy at 1x, the depth the text claims ==\n")
+print(as.data.frame(at1 %>% transmute(trait, r2 = round(r2, 4))), row.names = FALSE)
 cat(sprintf("  range %.2f-%.2f, median %.2f\n\n",
             min(at1$r2), max(at1$r2), median(at1$r2)))
+
+## the 1.00s in the transcribed record are rounding, and the figure should not
+## imply otherwise -- state the true ceiling
+at500 <- r2 %>% filter(depth == 500)
+cat(sprintf("== at 500x no trait reaches 1.000: %.4f (%s) to %.4f (%s) ==\n\n",
+            min(at500$r2), at500$trait[which.min(at500$r2)],
+            max(at500$r2), at500$trait[which.max(at500$r2)]))
 
 ## the depth at which every trait first reaches 0.95 and stays there
 reach <- r2 %>% arrange(trait, depth) %>% group_by(trait) %>%
@@ -122,7 +171,9 @@ pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
   scale_y_continuous(limits = c(0.5, 1.005), breaks = seq(0.5, 1, 0.1)) +
   scale_colour_manual(values = TRAIT_COL, name = NULL) +
   labs(x = "Simulated sequencing depth", y = "r² vs known input frequency",
-       title = panel_title("A")) +
+       title = panel_title("A"),
+       subtitle = paste("Accuracy against the simulated input, computed;",
+                        "dashed line r² = 0.95")) +
   theme_pub() +
   theme(legend.position = c(0.985, 0.02), legend.justification = c(1, 0),
         legend.text = element_text(size = 7.6),
@@ -131,43 +182,71 @@ pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
         panel.grid.major.y = element_line(linewidth = 0.2, colour = "grey92"))
 
 ## ===========================================================================
-## B -- convergence on the 500x estimate
+## B -- the estimates against the known input, every depth
 ## ===========================================================================
-frq <- read_tsv(FRQ, show_col_types = FALSE)
-stopifnot(nrow(frq) == 7 * 8 * 327)
-
-ref <- frq %>% filter(depth == 500) %>% select(trait, strain, ref = frequency)
-cmp <- frq %>% filter(depth != 500) %>%
-  inner_join(ref, by = c("trait", "strain")) %>%
+## All eight depths appear here now. 500x used to be excluded because it was
+## itself the reference; against the true input it is simply the deepest point.
+cmp <- frq %>%
+  inner_join(truth, by = c("trait", "strain")) %>%
   mutate(depth_lab = factor(paste0(depth, "×"),
-                            levels = paste0(setdiff(DEPTHS, 500), "×")))
+                            levels = paste0(DEPTHS, "×")))
+stopifnot(nrow(cmp) == 7 * 8 * 327)
 
-conv <- cmp %>% group_by(depth) %>%
-  summarise(r2 = cor(frequency, ref)^2, .groups = "drop") %>% arrange(depth)
-cat("== convergence on the 500x estimate (derived, all traits pooled) ==\n")
-print(as.data.frame(conv %>% mutate(r2 = round(r2, 3))), row.names = FALSE)
+pooled <- cmp %>% group_by(depth) %>%
+  summarise(r2 = cor(frequency, input)^2, .groups = "drop") %>% arrange(depth)
+cat("== accuracy against the known input, all seven traits pooled ==\n")
+print(as.data.frame(pooled %>% mutate(r2 = round(r2, 3))), row.names = FALSE)
 cat("\n")
 
-ann <- conv %>% mutate(depth_lab = factor(paste0(depth, "×"),
-                                          levels = levels(cmp$depth_lab)),
-                       lab = sprintf("r² = %.2f", r2))
+## how much of the pooled fit is carried by strains that were not in the pool
+zero <- cmp %>% group_by(depth) %>%
+  summarise(absent = sum(input == 0),
+            absent.nonzero.est = sum(input == 0 & frequency > 0),
+            r2.present.only = cor(frequency[input > 0], input[input > 0])^2,
+            .groups = "drop") %>% arrange(depth)
+cat("== the same, restricted to strains actually in the pool ==\n")
+print(as.data.frame(zero %>% mutate(r2.present.only = round(r2.present.only, 3))),
+      row.names = FALSE)
+cat("\n")
 
-pB <- ggplot(cmp, aes(frequency, ref)) +
+## Why panel B's cloud sits off the y = x line at low depth: NNLS puts weight on
+## strains that were not in the pool, so the strains that WERE are
+## underestimated by the same amount. Quantified as the share of each pool's
+## mass landing on absent strains, and as the slope of input on estimate.
+leak <- cmp %>% group_by(depth) %>%
+  summarise(pct.mass.on.absent = 100 * sum(frequency[input == 0]) / 7,
+            slope.input.on.est = coef(lm(input ~ frequency))[2],
+            .groups = "drop") %>% arrange(depth)
+cat("== frequency leaked onto strains that were not in the pool ==\n")
+print(as.data.frame(leak %>% mutate(pct.mass.on.absent = round(pct.mass.on.absent, 1),
+                                    slope.input.on.est = round(slope.input.on.est, 3))),
+      row.names = FALSE)
+cat("\n")
+
+ann <- pooled %>% mutate(depth_lab = factor(paste0(depth, "×"),
+                                            levels = levels(cmp$depth_lab)),
+                         lab = sprintf("r² = %.2f", r2))
+
+pB <- ggplot(cmp, aes(frequency, input)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed",
               linewidth = 0.35, colour = "grey60") +
   geom_point(shape = 16, size = 0.5, alpha = 0.25, colour = "grey20") +
   geom_text(data = ann, aes(x = -Inf, y = Inf, label = lab), inherit.aes = FALSE,
             hjust = -0.12, vjust = 1.5, size = 2.7, colour = "grey20") +
-  ## Both axes are the same quantity, so they must share limits: with
-  ## scales = "free_x" the y = x line lands somewhere different in every facet
-  ## and the comparison it is there to support becomes unreadable.
+  ## Both axes are the same quantity -- an estimated and a true frequency on the
+  ## same scale -- so they must share limits: with scales = "free_x" the y = x
+  ## line lands somewhere different in every facet and the comparison it is
+  ## there to support becomes unreadable.
   facet_wrap(~ depth_lab, nrow = 1) +
   scale_x_continuous(breaks = c(0, 0.01, 0.02, 0.03),
                      labels = c("0", ".01", ".02", ".03")) +
-  scale_y_continuous(breaks = scales::pretty_breaks(4)) +
+  scale_y_continuous(breaks = c(0, 0.01, 0.02, 0.03),
+                     labels = c("0", ".01", ".02", ".03")) +
   labs(x = "Estimated strain frequency at the stated depth",
-       y = "Estimate at 500×",
-       title = panel_title("B")) +
+       y = "Known input frequency",
+       title = panel_title("B"),
+       subtitle = paste("Points on y = 0 are strains with no published value",
+                        "for that trait, absent from the simulated pool")) +
   theme_pub() +
   theme(panel.spacing.x = grid::unit(7, "pt"),
         axis.text.x = element_text(size = 7.2))

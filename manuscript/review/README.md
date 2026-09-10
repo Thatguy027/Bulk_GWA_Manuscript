@@ -69,11 +69,16 @@ onto the leakage Spearman rho of 0.326. It checks drift, not meaning.
 - **The crossing scheme.** Ten rounds of intercrossing plus two rounds of selection on *pos-1*
   and *mig-6* RNAi is not recorded anywhere here; `METHODS.txt` carries a [TO FILL] for it.
 - **The simulation's provenance.** ~~Per `METHODS.txt`, the simulation script, drawn fitness
-  values and expected input frequencies were never archived~~ — **partly settled.** The script
-  was recovered and is archived as `scripts/simulation_deconvolution.R`, with the original
-  working file at `scripts/legacy/haploReg_original.R`; it pins the inverse chi-squared
-  parameters, the fitness-to-frequency mapping and the bootstrap unit. Two things remain open
-  and are marked `[TO FILL]` in `METHODS.txt`: the fitness draw was never seeded, so the exact
-  simulated populations cannot be reproduced, and the seven-trait simulation used the trait
-  values themselves as fitness rather than a draw, which is not what that paragraph currently
-  says.
+  values and expected input frequencies were never archived~~ — **settled.** The script was
+  recovered as `scripts/simulation_deconvolution.R` (original at
+  `scripts/legacy/haploReg_original.R`), and the fitness input turned out not to be a draw at
+  all: the seven-trait arm uses published trait values themselves. Those files are now
+  deposited as `supplemental_data/deconvolution/simulation_fitness_traits.tsv`, and all 56
+  reported r² recompute from the archived NNLS estimates exactly at two decimals
+  (`scripts/simulation_recompute_r2.R`, run by `check_repo_invariants.sh` section 5). What
+  remains is narrower and stays `[TO FILL]`: the binomial draw was never seeded, so a fresh
+  run redraws rather than reproduces — which does not affect the r², since those come from the
+  archived estimates. Also settled in passing: the per-trait strain subsets are the strains
+  carrying a published value (`phenop[is.na(phenop)] <- 0`), and the 0.8% negative
+  coefficients come from the archived run using `mdatools::mcrals.fcnnls` rather than
+  `RcppML::nnls`.

@@ -562,48 +562,62 @@ independent published measurement. No one of them carries the claim alone.
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_simulation_depth.R`<br>
 **Validates** NNLS against a known input, with synthetic counts<br>
-**Scope** 7 seeded traits × 8 depths (1–500×) × 327 strains<br>
-**Depth for r² ≥ 0.95 in all seven** 30×
+**Scope** 7 traits × 8 depths (1–500×) × 327 strains<br>
+**Depth for r² ≥ 0.95 in all seven** 50×
 :::
 
 ::: plate
-```{r fig-s1, fig.alt="Two panels: reported r-squared against simulated sequencing depth for seven traits, and estimated frequencies against the 500x estimate faceted by depth."}
+```{r fig-s1, fig.alt="Two panels: r-squared against the known input frequency by simulated sequencing depth for seven traits, and estimated frequencies against the known input faceted by depth."}
 include_graphics("plots/SUPP_FIG_XX_simulation_depth.png")
 ```
 <p class="filecap">SUPP_FIG_XX_simulation_depth</p>
 :::
 
-Each wild isolate was assigned a fitness value drawn from an inverse
-&chi;&sup2; distribution; the expected pooled allele frequencies such a
-population would produce were computed; alt-allele counts were simulated by
-binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500&times;; and those counts
-were deconvolved back to per-strain frequencies by NNLS and compared with the
-known input. Seven published traits with validated QTL seeded seven independent
-populations of 327 strains.
+Each wild isolate was assigned a fitness value taken from one of seven
+published traits with validated QTL — the trait value itself, not a draw,
+shifted by the trait's own minimum so fitness is non-negative — giving seven
+independent populations of 327 strains. A strain with no published value for a
+trait was set to fitness zero, so it was absent from that trait's pool. The
+expected pooled allele frequencies such a population would produce were
+computed; alt-allele counts were simulated by binomial sampling at 1, 3, 5, 10,
+30, 50, 100 and 500&times;; and those counts were deconvolved back to
+per-strain frequencies by NNLS and compared with the known input.
 
 ::: panel
 [A]{.pl} r² of estimated against known input frequency, against simulated
-depth, one line per trait. Every trait reaches 1.00 by 500&times;. At
+depth, one line per trait — computed, not transcribed. At
 1&times; the spread is wide — PC1 `0.91`, value `0.86`, assay_norm `0.81`,
 amsacrine_f.L1 `0.79`, etoposide_median.TOF `0.72`, Albendazole_q75.TOF `0.56`,
 mtDNA_ratio `0.52`; median `0.79`. The lowest depth from which a trait stays at
 or above 0.95 is 3&times; for PC1 and value, 5&times; for amsacrine_f.L1,
-10&times; for assay_norm and etoposide_median.TOF, and 30&times; for
-Albendazole_q75.TOF and mtDNA_ratio.
+10&times; for assay_norm and etoposide_median.TOF, 30&times; for
+Albendazole_q75.TOF and 50&times; for mtDNA_ratio. **No trait reaches r² of
+1.000 at 500&times;** — the range there is `0.9964` (mtDNA_ratio) to `0.9998`
+(PC1), which is why the transcribed two-decimal record shows 1.00 for all
+seven.
 :::
 
 ::: panel
-[B]{.pl} The archived estimates against the 500&times; estimate, faceted by
-depth, all seven traits pooled. Axes share limits so the dashed
-<span class="m">y = x</span> line means the same thing in every facet. Pooled r²
-against 500&times;: `0.79` at 1&times;, `0.91` at 3&times;, `0.94` at
-5&times;, `0.97` at 10&times;, `0.99` at 30&times; and 50&times;, `1.00` at
-100&times;.
+[B]{.pl} The archived estimates against the **known input**, faceted by depth,
+all seven traits pooled — eight facets now, because 500&times; is an ordinary
+depth rather than the reference it used to be. Axes share limits so the dashed
+<span class="m">y = x</span> line means the same thing in every facet. Pooled
+r²: `0.79` at 1&times;, `0.91` at 3&times;, `0.94` at 5&times;, `0.97` at
+10&times;, `0.99` at 30&times; and 50&times;, `1.00` at 100&times; and
+500&times;. The band along <span class="m">y = 0</span> is the strains with no
+published value for that trait, absent from the pool; NNLS assigns them
+frequency anyway, and since pool mass is conserved the strains that were
+present are underestimated by the same amount — which is why the cloud sits
+below <span class="m">y = x</span> at low depth. Leaked mass runs `6.7%` at
+1&times; down to `0.3%` at 500&times;, and the slope of input on estimate rises
+from `0.868` to `1.004`.
 :::
 
 ```{r tab-sim}
-sim <- read_tsv(file.path(DEC, "simulation_reported_r2.tsv"), show_col_types = FALSE)
-kb(sim %>% mutate(depth = paste0(depth, "×")) %>%
+sim <- read_tsv(file.path(DIAGDIR, "TABLE_simulation_recomputed_r2.tsv"),
+                show_col_types = FALSE)
+kb(sim %>% transmute(trait, depth = paste0(depth, "×"),
+                     r2 = fnum(r2.recomputed, 4)) %>%
      pivot_wider(names_from = depth, values_from = r2) %>%
      rename(Trait = trait) %>%
      arrange(desc(`1×`)),
@@ -611,22 +625,33 @@ kb(sim %>% mutate(depth = paste0(depth, "×")) %>%
 ```
 
 ::: derived
-Derived from supplemental_data/deconvolution/simulation_reported_r2.tsv
+Computed by scripts/simulation_recompute_r2.R from the deposited fitness traits
+and the archived NNLS estimates, at full precision. Every value reproduces
+supplemental_data/deconvolution/simulation_reported_r2.tsv — the two-decimal
+record transcribed from the original figures — at those two decimals; the
+script fails if it ever stops doing so.
 :::
 
-::: caveat
-[This decides what the figure can be used for]{.ch}
+::: derived
+[Provenance — this used to be the figure's governing caveat]{.ch}
 
-**Only the NNLS output is archived.** The simulation script, the drawn fitness
-values and the expected input frequencies are all absent, as is the trait
-directory the original processing script reads. Panel A therefore **cannot be
-recomputed**: its values are read back out of text embedded in the original
-per-trait PDFs by `scripts/extract_sim_reported_r2.py`, the only surviving
-record of the comparison against the known input. Panel B *is* recomputed, but
-against the 500&times; estimate standing in for the truth — defensible, because
-panel A puts 500&times; at r² = 1.00 for all seven traits and the two agree
-where they can be compared (pooled convergence at 1&times; is 0.79 against a
-median reported accuracy of 0.79), but a stand-in all the same.
+**Both panels are now computed against the known input.** They were not. The
+simulation's fitness input was thought lost, so panel A was transcribed rather
+than computed — read out of text embedded in the original per-trait PDFs by
+`scripts/extract_sim_reported_r2.py` — and panel B substituted the 500&times;
+estimate for the truth. Neither is necessary: the seven-trait arm of
+`scripts/legacy/haploReg_original.R` uses published trait values as fitness, and
+those files are deposited as
+`supplemental_data/deconvolution/simulation_fitness_traits.tsv`. The transcribed
+record is now a check rather than a source — all 56 computed values reproduce it
+at two decimals, asserted in the figure script and in
+`scripts/simulation_recompute_r2.R`.
+
+One caveat survives the change: the r² are computed over all 327 strains with
+the unmeasured ones held at exactly zero, which flatters the correlation. The
+strains actually carrying a published value run from 327 (mtDNA_ratio) down to
+84 (PC1), and restricted to those the pooled r² falls from `0.79` to `0.70` at
+1&times; and from `0.97` to `0.95` at 10&times;.
 :::
 
 ::: caveat
@@ -636,8 +661,11 @@ median reported accuracy of 0.79), but a stand-in all the same.
 depth" holds for the best-behaved traits and not for the worst: at 1&times;, r²
 runs from **0.91 down to 0.52**. What the whole figure supports is that
 1&times; recovers most of the signal for most traits (median r² 0.79), that
-10&times; suffices for five traits of seven, and that **30&times;** is the
-lowest depth at which all seven sit at or above 0.95.
+10&times; suffices for five traits of seven, and that **50&times;** is the
+lowest depth at which all seven sit at or above 0.95. Earlier drafts said
+30&times;, which came from applying the 0.95 bar to the transcribed two-decimal
+values: mtDNA_ratio at 30&times; is `0.9477`, which displays as 0.95 but is
+below the bar.
 
 Separately, 139 of 18,312 archived coefficients (0.8%) are negative, at depths
 5 through 100. A strict non-negative solver cannot return those, so the archive

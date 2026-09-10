@@ -401,49 +401,63 @@ claim alone.
 <div class="meta">
 
 **Script** `scripts/SUPP_FIG_XX_simulation_depth.R`<br> **Validates**
-NNLS against a known input, with synthetic counts<br> **Scope** 7 seeded
-traits × 8 depths (1–500×) × 327 strains<br> **Depth for r² ≥ 0.95 in
-all seven** 30×
+NNLS against a known input, with synthetic counts<br> **Scope** 7 traits
+× 8 depths (1–500×) × 327 strains<br> **Depth for r² ≥ 0.95 in all
+seven** 50×
 
 </div>
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_simulation_depth.png" alt="Two panels: reported r-squared against simulated sequencing depth for seven traits, and estimated frequencies against the 500x estimate faceted by depth." width="100%" />
+<img src="plots/SUPP_FIG_XX_simulation_depth.png" alt="Two panels: r-squared against the known input frequency by simulated sequencing depth for seven traits, and estimated frequencies against the known input faceted by depth." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_simulation_depth
 </p>
 
 </div>
 
-Each wild isolate was assigned a fitness value drawn from an inverse χ²
-distribution; the expected pooled allele frequencies such a population
-would produce were computed; alt-allele counts were simulated by
-binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500×; and those counts
-were deconvolved back to per-strain frequencies by NNLS and compared
-with the known input. Seven published traits with validated QTL seeded
-seven independent populations of 327 strains.
+Each wild isolate was assigned a fitness value taken from one of seven
+published traits with validated QTL — the trait value itself, not a
+draw, shifted by the trait’s own minimum so fitness is non-negative —
+giving seven independent populations of 327 strains. A strain with no
+published value for a trait was set to fitness zero, so it was absent
+from that trait’s pool. The expected pooled allele frequencies such a
+population would produce were computed; alt-allele counts were simulated
+by binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500×; and those
+counts were deconvolved back to per-strain frequencies by NNLS and
+compared with the known input.
 
 <div class="panel">
 
 <span class="pl">A</span> r² of estimated against known input frequency,
-against simulated depth, one line per trait. Every trait reaches 1.00 by
-500×. At 1× the spread is wide — PC1 `0.91`, value `0.86`, assay_norm
-`0.81`, amsacrine_f.L1 `0.79`, etoposide_median.TOF `0.72`,
-Albendazole_q75.TOF `0.56`, mtDNA_ratio `0.52`; median `0.79`. The
-lowest depth from which a trait stays at or above 0.95 is 3× for PC1 and
-value, 5× for amsacrine_f.L1, 10× for assay_norm and
-etoposide_median.TOF, and 30× for Albendazole_q75.TOF and mtDNA_ratio.
+against simulated depth, one line per trait — computed, not transcribed.
+At 1× the spread is wide — PC1 `0.91`, value `0.86`, assay_norm `0.81`,
+amsacrine_f.L1 `0.79`, etoposide_median.TOF `0.72`, Albendazole_q75.TOF
+`0.56`, mtDNA_ratio `0.52`; median `0.79`. The lowest depth from which a
+trait stays at or above 0.95 is 3× for PC1 and value, 5× for
+amsacrine_f.L1, 10× for assay_norm and etoposide_median.TOF, 30× for
+Albendazole_q75.TOF and 50× for mtDNA_ratio. **No trait reaches r² of
+1.000 at 500×** — the range there is `0.9964` (mtDNA_ratio) to `0.9998`
+(PC1), which is why the transcribed two-decimal record shows 1.00 for
+all seven.
 
 </div>
 
 <div class="panel">
 
-<span class="pl">B</span> The archived estimates against the 500×
-estimate, faceted by depth, all seven traits pooled. Axes share limits
-so the dashed <span class="m">y = x</span> line means the same thing in
-every facet. Pooled r² against 500×: `0.79` at 1×, `0.91` at 3×, `0.94`
-at 5×, `0.97` at 10×, `0.99` at 30× and 50×, `1.00` at 100×.
+<span class="pl">B</span> The archived estimates against the **known
+input**, faceted by depth, all seven traits pooled — eight facets now,
+because 500× is an ordinary depth rather than the reference it used to
+be. Axes share limits so the dashed <span class="m">y = x</span> line
+means the same thing in every facet. Pooled r²: `0.79` at 1×, `0.91` at
+3×, `0.94` at 5×, `0.97` at 10×, `0.99` at 30× and 50×, `1.00` at 100×
+and 500×. The band along <span class="m">y = 0</span> is the strains
+with no published value for that trait, absent from the pool; NNLS
+assigns them frequency anyway, and since pool mass is conserved the
+strains that were present are underestimated by the same amount — which
+is why the cloud sits below <span class="m">y = x</span> at low depth.
+Leaked mass runs `6.7%` at 1× down to `0.3%` at 500×, and the slope of
+input on estimate rises from `0.868` to `1.004`.
 
 </div>
 
@@ -485,28 +499,28 @@ Trait
 PC1
 </td>
 <td style="text-align:right;">
-1
+0.9998
 </td>
 <td style="text-align:right;">
-1.00
+0.9992
 </td>
 <td style="text-align:right;">
-1.00
+0.9982
 </td>
 <td style="text-align:right;">
-1.00
+0.9965
 </td>
 <td style="text-align:right;">
-0.99
+0.9862
 </td>
 <td style="text-align:right;">
-0.98
+0.9804
 </td>
 <td style="text-align:right;">
-0.98
+0.9792
 </td>
 <td style="text-align:right;">
-0.91
+0.9135
 </td>
 </tr>
 <tr>
@@ -514,28 +528,28 @@ PC1
 value
 </td>
 <td style="text-align:right;">
-1
+0.9997
 </td>
 <td style="text-align:right;">
-1.00
+0.9985
 </td>
 <td style="text-align:right;">
-1.00
+0.9971
 </td>
 <td style="text-align:right;">
-0.99
+0.9930
 </td>
 <td style="text-align:right;">
-0.99
+0.9859
 </td>
 <td style="text-align:right;">
-0.98
+0.9791
 </td>
 <td style="text-align:right;">
-0.96
+0.9594
 </td>
 <td style="text-align:right;">
-0.86
+0.8584
 </td>
 </tr>
 <tr>
@@ -543,28 +557,28 @@ value
 assay_norm
 </td>
 <td style="text-align:right;">
-1
+0.9994
 </td>
 <td style="text-align:right;">
-1.00
+0.9965
 </td>
 <td style="text-align:right;">
-1.00
+0.9951
 </td>
 <td style="text-align:right;">
-0.99
+0.9895
 </td>
 <td style="text-align:right;">
-0.96
+0.9626
 </td>
 <td style="text-align:right;">
-0.93
+0.9347
 </td>
 <td style="text-align:right;">
-0.89
+0.8937
 </td>
 <td style="text-align:right;">
-0.81
+0.8128
 </td>
 </tr>
 <tr>
@@ -572,28 +586,28 @@ assay_norm
 amsacrine_f.L1
 </td>
 <td style="text-align:right;">
-1
+0.9995
 </td>
 <td style="text-align:right;">
-1.00
+0.9973
 </td>
 <td style="text-align:right;">
-1.00
+0.9952
 </td>
 <td style="text-align:right;">
-0.99
+0.9906
 </td>
 <td style="text-align:right;">
-0.97
+0.9723
 </td>
 <td style="text-align:right;">
-0.95
+0.9505
 </td>
 <td style="text-align:right;">
-0.93
+0.9278
 </td>
 <td style="text-align:right;">
-0.79
+0.7856
 </td>
 </tr>
 <tr>
@@ -601,28 +615,28 @@ amsacrine_f.L1
 etoposide_median.TOF
 </td>
 <td style="text-align:right;">
-1
+0.9995
 </td>
 <td style="text-align:right;">
-1.00
+0.9966
 </td>
 <td style="text-align:right;">
-1.00
+0.9956
 </td>
 <td style="text-align:right;">
-0.99
+0.9905
 </td>
 <td style="text-align:right;">
-0.97
+0.9665
 </td>
 <td style="text-align:right;">
-0.93
+0.9322
 </td>
 <td style="text-align:right;">
-0.89
+0.8902
 </td>
 <td style="text-align:right;">
-0.72
+0.7171
 </td>
 </tr>
 <tr>
@@ -630,28 +644,28 @@ etoposide_median.TOF
 Albendazole_q75.TOF
 </td>
 <td style="text-align:right;">
-1
+0.9983
 </td>
 <td style="text-align:right;">
-0.97
+0.9709
 </td>
 <td style="text-align:right;">
-0.97
+0.9665
 </td>
 <td style="text-align:right;">
-0.95
+0.9516
 </td>
 <td style="text-align:right;">
-0.90
+0.9039
 </td>
 <td style="text-align:right;">
-0.84
+0.8360
 </td>
 <td style="text-align:right;">
-0.77
+0.7687
 </td>
 <td style="text-align:right;">
-0.56
+0.5633
 </td>
 </tr>
 <tr>
@@ -659,28 +673,28 @@ Albendazole_q75.TOF
 mtDNA_ratio
 </td>
 <td style="text-align:right;">
-1
+0.9964
 </td>
 <td style="text-align:right;">
-0.99
+0.9869
 </td>
 <td style="text-align:right;">
-0.96
+0.9644
 </td>
 <td style="text-align:right;">
-0.95
+0.9477
 </td>
 <td style="text-align:right;">
-0.89
+0.8851
 </td>
 <td style="text-align:right;">
-0.78
+0.7798
 </td>
 <td style="text-align:right;">
-0.69
+0.6904
 </td>
 <td style="text-align:right;">
-0.52
+0.5210
 </td>
 </tr>
 </tbody>
@@ -688,25 +702,36 @@ mtDNA_ratio
 
 <div class="derived">
 
-Derived from supplemental_data/deconvolution/simulation_reported_r2.tsv
+Computed by scripts/simulation_recompute_r2.R from the deposited fitness
+traits and the archived NNLS estimates, at full precision. Every value
+reproduces supplemental_data/deconvolution/simulation_reported_r2.tsv —
+the two-decimal record transcribed from the original figures — at those
+two decimals; the script fails if it ever stops doing so.
 
 </div>
 
-<div class="caveat">
+<div class="derived">
 
-<span class="ch">This decides what the figure can be used for</span>
+<span class="ch">Provenance — this used to be the figure’s governing
+caveat</span>
 
-**Only the NNLS output is archived.** The simulation script, the drawn
-fitness values and the expected input frequencies are all absent, as is
-the trait directory the original processing script reads. Panel A
-therefore **cannot be recomputed**: its values are read back out of text
-embedded in the original per-trait PDFs by
-`scripts/extract_sim_reported_r2.py`, the only surviving record of the
-comparison against the known input. Panel B *is* recomputed, but against
-the 500× estimate standing in for the truth — defensible, because panel
-A puts 500× at r² = 1.00 for all seven traits and the two agree where
-they can be compared (pooled convergence at 1× is 0.79 against a median
-reported accuracy of 0.79), but a stand-in all the same.
+**Both panels are now computed against the known input.** They were not.
+The simulation’s fitness input was thought lost, so panel A was
+transcribed rather than computed — read out of text embedded in the
+original per-trait PDFs by `scripts/extract_sim_reported_r2.py` — and
+panel B substituted the 500× estimate for the truth. Neither is
+necessary: the seven-trait arm of `scripts/legacy/haploReg_original.R`
+uses published trait values as fitness, and those files are deposited as
+`supplemental_data/deconvolution/simulation_fitness_traits.tsv`. The
+transcribed record is now a check rather than a source — all 56 computed
+values reproduce it at two decimals, asserted in the figure script and
+in `scripts/simulation_recompute_r2.R`.
+
+One caveat survives the change: the r² are computed over all 327 strains
+with the unmeasured ones held at exactly zero, which flatters the
+correlation. The strains actually carrying a published value run from
+327 (mtDNA_ratio) down to 84 (PC1), and restricted to those the pooled
+r² falls from `0.79` to `0.70` at 1× and from `0.97` to `0.95` at 10×.
 
 </div>
 
@@ -718,8 +743,11 @@ reported accuracy of 0.79), but a stand-in all the same.
 sequencing depth” holds for the best-behaved traits and not for the
 worst: at 1×, r² runs from **0.91 down to 0.52**. What the whole figure
 supports is that 1× recovers most of the signal for most traits (median
-r² 0.79), that 10× suffices for five traits of seven, and that **30×**
-is the lowest depth at which all seven sit at or above 0.95.
+r² 0.79), that 10× suffices for five traits of seven, and that **50×**
+is the lowest depth at which all seven sit at or above 0.95. Earlier
+drafts said 30×, which came from applying the 0.95 bar to the
+transcribed two-decimal values: mtDNA_ratio at 30× is `0.9477`, which
+displays as 0.95 but is below the bar.
 
 Separately, 139 of 18,312 archived coefficients (0.8%) are negative, at
 depths 5 through 100. A strict non-negative solver cannot return those,
@@ -32018,10 +32046,10 @@ Figure S1
 SUPP_FIG_XX_simulation_depth
 </td>
 <td style="text-align:right;">
-390
+398
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:59
 </td>
 </tr>
 <tr>
@@ -32035,7 +32063,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32049,7 +32077,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32063,7 +32091,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32077,7 +32105,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32091,7 +32119,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32105,7 +32133,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32119,7 +32147,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32133,7 +32161,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32147,7 +32175,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32161,7 +32189,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32175,7 +32203,7 @@ Figure3_quad
 172
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32189,7 +32217,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32203,7 +32231,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32217,7 +32245,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32231,7 +32259,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32245,7 +32273,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32259,7 +32287,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32273,7 +32301,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32287,7 +32315,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 <tr>
@@ -32301,7 +32329,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 16:01
+2026-09-09 16:46
 </td>
 </tr>
 </tbody>

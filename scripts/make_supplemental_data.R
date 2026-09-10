@@ -31,8 +31,16 @@
 ##   deconvolution/simulation_gwas_traits.tsv.gz
 ##                                   <- make_experiments_deposit.R
 ##   deconvolution/simulation_reported_r2.tsv
-##                                   <- extract_sim_reported_r2.py  (the only
-##                                      route to those values; see that script)
+##                                   <- extract_sim_reported_r2.py  (the record
+##                                      of the values as originally reported;
+##                                      no longer the only route to them)
+##   deconvolution/simulation_fitness_traits.tsv
+##                                   <- make_simulation_fitness_table.R  (the
+##                                      seven published traits the simulation
+##                                      used as fitness, recovered from outside
+##                                      the repository; with these the reported
+##                                      r-squared recompute, which is what
+##                                      simulation_recompute_r2.R asserts)
 ##   structure/sid2_parental_variants.tsv   <- pooled_cross_candidate_variation.R
 ##
 ## NOT copied here, because they have their own builders:
