@@ -442,6 +442,54 @@ SUPP_FIG_XX_cross_qtl_all. Secondary peaks on the same chromosome were masked
 with a 1 Mb buffer either side of a called interval and were required to reach
 30% of the chromosome maximum (scripts/Figure2.R).
 
+Because those display constants do more filtering than the significance
+threshold does, a complete peak table was built separately
+(scripts/cross_qtl_full_summary.R): every peak above the genome-wide threshold
+in every contrast, with its interval, its parental frequencies and its rank on
+its chromosome. Secondary peaks were admitted as independent QTL only if the
+LOD trough between them and the taller peak on the same chromosome falls below
+the genome-wide threshold; a secondary peak with no such trough is a shoulder of
+one sweep rather than a separate locus, and is reported but flagged. Of 495
+peaks above threshold, 46 are drawn in Figure 2 and 387 are secondary peaks that
+Figure 2's one-peak-per-chromosome constant cannot call.
+
+Three contrasts were run in both crosses, so a QTL can be asked whether the
+other cross calls it too. Two criteria are reported rather than one. The
+stricter is interval overlap: the two crosses' LOD-drop intervals intersect.
+The weaker is positional, that the other cross's scan clears the genome-wide
+threshold at this peak's own position. Overlap alone is too strict at these
+depths, because pooled LOD runs into the hundreds and collapses the drop
+intervals -- JU1793 x JU2466's pos-1 peak on chromosome III has one 50 kb wide
+-- so a peak offset of a few hundred kb defeats it even where both crosses are
+unambiguous at each other's peak. On interval overlap alone 19 QTL are shared;
+adding positional matches brings it to 45. The sid-2 region is the case that
+decides it: matched by interval for HT115 vs mig-6 in both directions, and only
+positionally for HT115 vs pos-1, where the two peaks sit 469 kb apart with
+0.39 Mb and 0.05 Mb intervals that miss by 234 kb while the two crosses reach
+LOD 710 and 140 at their own peaks and LOD 88 and 522 at each other's.
+
+GENERAL AGAINST TARGET-SPECIFIC RESPONSE LOCI. N2 x XZ1516 ran five knockdown
+pools against one shared HT115 control, so a locus can be classified by how
+many targets respond at it rather than inferred from a flat difference trace;
+the JU cross ran two, which is its ceiling and is marked as such
+(scripts/cross_qtl_condition_sharing.R). Classification is on effect size with
+significance necessary only, because at these depths nearly every target is
+significant nearly everywhere: on significance alone 55 of 61 N2 x XZ1516 loci
+came out general, 19 of them in all five targets, which is not credible. A
+target counts as responding at a locus when its pool differs from HT115 by
+|dfreq| >= 0.10 with LOD above the genome-wide threshold (3.57), and a locus is
+general when at least three targets respond IN THE SAME DIRECTION. Requiring
+comparable magnitude instead is the wrong test -- mig-6 shifts about three
+times as far as par-1 at the chromosome V loci -- and called nothing general at
+all. Two facts constrain the interpretation and are reported with the counts:
+every contrast within a cross shares one HT115 pool, so drift in that pool
+imitates a general locus, and the timepoint-1 replicate shows that replicate
+agreement of the frequency shift depends sharply on the target (mig-6 r = 0.975,
+rpn-12 r = 0.683, par-1 r = 0.125), so par-1 significance is not by itself
+evidence of a response. The general set is sensitive to where the response cut
+is placed (29, 7, 2 and 1 loci at |dfreq| >= 0.05, 0.10, 0.15 and 0.20) while
+mig-6-specific calls are stable (13, 17, 18, 16); both sweeps are reported.
+
 --------------------------------------------------------------------------------
 NEAR-ISOGENIC LINES AND FINE-MAPPING
 --------------------------------------------------------------------------------
@@ -469,6 +517,44 @@ in the predicted signal peptide, and T96K.
 The T96K site is chromosome III 13,680,248 C>A, with REF C encoding 96T and ALT
 A encoding 96K. Allele assignment was verified against four strains whose allele
 is known independently: JU1793 and N2 carry 96T, JU2466 and XZ1516 carry 96K.
+
+INTERVAL CENSUSES. Two intervals were censused completely rather than searched:
+the 37 kb the NIL series resolves (chromosome III 13,657,700-13,695,000;
+scripts/make_nil_interval_tables.R, drawn as SUPP_FIG_XX_nil_interval_genes)
+and a 100 kb window on each independent HT115-vs-mig-6 cross QTL above LOD 500
+(scripts/make_mig6_locus_tables.R, four loci). Gene models come from the
+WormBase WS283 csq GFF3; parental genotypes and consequences from the
+BCSQ-annotated CeNDR release (20231213). Every site at which the two parents of
+the relevant cross differ is kept, not only the protein-altering ones, because
+the denominator is what makes the count interpretable.
+
+bcftools csq emits consequence terms rather than the HIGH/MODERATE/LOW/MODIFIER
+impact ladder that snpEff and VEP report, so the mapping is stated rather than
+assumed: HIGH is stop_gained, stop_lost, start_lost, frameshift,
+splice_acceptor and splice_donor; MODERATE is missense and inframe indels; LOW
+is synonymous, splice_region, start_retained and stop_retained; everything else
+is MODIFIER. Where a site carries several comma-separated consequences the most
+severe entry is taken and its own gene, transcript and residue fields are read
+from that entry, so the reported consequence always belongs to the impact class
+reported beside it.
+
+Two things bound what a census can conclude, and both are reported per interval.
+Per-parent no-call counts, because a site uncalled in either parent cannot be
+compared: 1 of 959 sites in the NIL interval, but 985 of 4,464 in N2 at the
+chromosome I mig-6 locus against 133 in XZ1516, so the same claim is far
+stronger at some loci than others. And overlap with the CeNDR per-strain
+divergent regions, which mark where a wild isolate's reads stop aligning well
+enough to call; none of the five windows overlaps one for the relevant parents,
+so the divergent-region track does not explain the missingness above. What
+these call sets cannot see at all is structural variation, since they are
+short-read SNVs and small indels.
+
+In the NIL interval this gives 27 parental differences across twelve genes, of
+which two alter a protein and both are missense in sid-2 (V5L and T96K), with no
+HIGH-impact difference anywhere. Across the four mig-6 windows -- 86
+protein-coding genes in 400 kb -- there is likewise no HIGH-impact difference,
+and 7 to 21 protein-altering differences per window spread across many genes,
+which is what an unfine-mapped peak looks like beside a fine-mapped one.
 
 --------------------------------------------------------------------------------
 EMBRYO HATCHING ASSAYS
@@ -669,8 +755,10 @@ neutral, like the wild type.
 STATISTICS
 --------------------------------------------------------------------------------
 Binomial proportions are reported with Wilson score 95% intervals, which behave
-correctly near 0 and 1 where the Wald interval does not. Counts were compared
-with Fisher's exact test. Rank correlations are Spearman's rho; the plate
+correctly near 0 and 1 where the Wald interval does not. Differences of two
+proportions are reported with Newcombe's hybrid-score interval, which is built
+from the two Wilson intervals and inherits their behaviour at the boundaries.
+Counts were compared with Fisher's exact test. Rank correlations are Spearman's rho; the plate
 phenotype score is a six-level ordinal scale, so rank correlation is used for
 every comparison involving it. Two-group comparisons of continuous phenotypes
 use the Wilcoxon rank-sum test, with Welch's t test reported alongside where the
@@ -678,6 +766,24 @@ two disagree, and both are reported rather than the more favourable one.
 Permutation tests are stated with their number of draws. No correction for
 multiple comparisons was applied within the small hatching experiments; the
 genome-wide thresholds are given above.
+
+EFFECT SIZES ACROSS EXPERIMENTS. The NIL series and the allele swaps do not
+share a scale: JU2466 hatches 0.357 under pos-1 in the first and 0.045 in the
+second, the same strain at the same nominal dose, a 7.9-fold difference, while
+JU1793 gives 0.994 against 0.948. Raw percentage-point effects are therefore not
+comparable between the two experiments, and every cross-experiment effect is
+reported both raw and normalised to the JU1793-JU2466 span measured within its
+own experiment, on which 0 is JU2466 and 1 is JU1793 and all contrasts are
+signed as the cost of carrying the JU2466 allele
+(scripts/effect_size_ladder.R). Additivity of two introgressed segments is
+tested by comparing the doubly-introgressed line against the hatching predicted
+from each segment's own single-segment effect.
+
+Allele-frequency shifts from the bulk-segregant crosses are NOT converted onto
+the hatching scale. A shift in a selected pool is a selection response, and
+converting it requires the selection intensity and the number of generations,
+which are not recorded; cross QTL are therefore compared with the hatching
+experiments on direction and rank only.
 
 --------------------------------------------------------------------------------
 SOFTWARE
