@@ -440,7 +440,19 @@ charge-matched controls (T96R, T96Q) rather than a result.
 (D) sid-2 coding variation in the wild population. The protein runs vertically
 with residue 1 at the top and its DeepTMHMM topology as a filled bar; each
 protein-altering variant is called out to the right with its CeNDR allele
-frequency, then two columns give the JU1793 and JU2466 allele state. Eight
+frequency, then two columns give the JU1793 and JU2466 allele state.
+
+Immediately left of the topology bar is a strip giving the LOCAL NET CHARGE at
+each residue, on exactly the ramp and the limits panel C uses -- red negative,
+blue positive, saturating at +/-2 e, net charge within 12 A at pH 4.4 -- so the
+two panels can be read against one another. It carries no key of its own
+because panel C's key serves both; duplicating it would let the two drift
+apart. The strip therefore puts panel C's charge argument on a linear axis: the
+domain is acidic through roughly residues 40-85, turns positive through 90-130
+where T96 sits, and is strongly acidic again at 135-150. The strip spans
+residues 21-188 ONLY, which is the extent of the AlphaFold ectodomain model
+there is a structure to measure charge in; the remainder of the protein is left
+blank rather than filled with a zero that would read as neutral. Eight
 protein-altering variants are annotated, at frequencies from 0.009 to 0.470:
 V5L 0.015, D78A 0.009, T96K 0.453, M141V 0.009, Q144P 0.009, A151I/T 0.195,
 P153T 0.470, L209M 0.195. Callout rows are evenly spaced and joined to the

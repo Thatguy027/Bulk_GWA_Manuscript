@@ -11,8 +11,9 @@
 ##   C  the SID-2 ectodomain with the lumenal face up, and a zoom on T96
 ##      against the residues already known to be required for dsRNA uptake
 ##   D  sid-2 coding variation in the wild population: the protein drawn
-##      vertically with its topology, and every annotated protein-altering
-##      variant listed with its CeNDR allele frequency
+##      vertically with its topology, a local-net-charge strip on panel C's
+##      scale to its left, and every annotated protein-altering variant listed
+##      with its CeNDR allele frequency
 ##
 ## RNAI DOSE DIFFERS BETWEEN THE TWO EXPERIMENTS
 ## Panel A is 50% pos-1 RNAi bacteria and panel B is 25%. Neither dose is
@@ -83,6 +84,7 @@ OUT  <- "plots"
 SWAP <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
 VAR  <- "supplemental_data/structure/sid2_variants_cendr.tsv"
 PERRES2 <- "supplemental_data/structure/sid2_per_residue.tsv"
+LOCALQ  <- "supplemental_data/structure/sid2_local_charge.tsv"
 ## Panel C is coloured by LOCAL NET CHARGE, not by secondary structure.
 ##
 ## The claim the panel makes is a charge claim: in a pathway where dsRNA
@@ -382,6 +384,26 @@ dom2 <- (function(v) { r <- rle(as.character(v))
 ## x geometry, in arbitrary units: the topology bar, then the labels, then the
 ## frequency bars. Residue is on y, reversed so residue 1 is at the top.
 X_BAR <- c(0, 0.5); X_LAB <- 0.78; X_FRQ <- c(1.36, 2.55)
+## A local-net-charge strip immediately left of the topology bar, on the SAME
+## ramp and the SAME limits as panel C, so the two panels can be read against
+## each other -- that is the entire point of putting it here. It therefore
+## needs no key of its own; panel C's key serves both, and duplicating it would
+## invite the two from drifting apart.
+X_CHG <- c(-0.60, -0.12)
+## Colours are precomputed to hex rather than mapped through a second fill
+## scale: the panel already uses fill for the topology, and ggnewscale is not a
+## dependency of this repository. The key in panel C does exactly the same.
+chg <- read_tsv(LOCALQ, show_col_types = FALSE) %>%
+  transmute(resid, q = q_local_pH44,
+            col = ramp[pmax(1, pmin(length(ramp),
+                     round((pmin(pmax(q, -QLIM), QLIM) + QLIM) /
+                           (2 * QLIM) * (length(ramp) - 1)) + 1))])
+## The charge is defined only where there is a model to measure it in: the
+## AlphaFold ectodomain, residues 21-188. Panel D draws all 311 residues, so
+## the strip covers a little over half the protein and the rest is left blank
+## rather than filled with a zero that would read as "neutral here".
+CHG_RANGE <- range(chg$resid)
+stopifnot(nrow(chg) == 168, CHG_RANGE[1] == 21, CHG_RANGE[2] == 188)
 X_P1 <- 3.16; X_P2 <- 3.62      # the two cross-parent columns
 ## Callout rows are evenly spaced down the panel and joined to the residue
 ## by a leader, rather than sitting at the residue's own height: four of the
@@ -392,6 +414,19 @@ vr <- vr %>% arrange(residue) %>%
          xend = X_FRQ[1] + af * diff(X_FRQ))
 
 pD <- ggplot() +
+  ## the charge strip, and an outline showing how far the model reaches
+  ## height slightly over 1 so adjacent residues abut with no hairline seam:
+  ## at this scale a seam is a white line, and white is also the middle of a
+  ## diverging ramp, so seams would read as neutral charge or as missing data
+  geom_tile(data = chg, aes(x = mean(X_CHG), y = resid),
+            fill = chg$col, width = diff(X_CHG), height = 1.02) +
+  annotate("rect", xmin = X_CHG[1], xmax = X_CHG[2],
+           ymin = CHG_RANGE[1] - 0.5, ymax = CHG_RANGE[2] + 0.5,
+           fill = NA, colour = "grey45", linewidth = 0.25) +
+  annotate("richtext", x = mean(X_CHG), y = CHG_RANGE[1] - 5,
+           label = "charge", size = 2.1, colour = "grey35", angle = 90,
+           hjust = 0, vjust = 0.5, fill = NA, label.color = NA,
+           label.padding = grid::unit(rep(0,4),"pt")) +
   geom_rect(data = dom2,
             aes(xmin = X_BAR[1], xmax = X_BAR[2],
                 ymin = start - 0.5, ymax = end + 0.5, fill = value),
@@ -454,12 +489,14 @@ pD <- ggplot() +
       size = 2.6, hjust = 0.5, vjust = 0.5, fill = NA, label.color = NA,
       label.padding = grid::unit(rep(0, 4), "pt")) +
   scale_fill_manual(values = TOPO_COL2, name = NULL) +
-  scale_x_continuous(limits = c(X_BAR[1] - 0.04, X_P2 + 0.30),
+  scale_x_continuous(limits = c(X_CHG[1] - 0.04, X_P2 + 0.30),
                      expand = expansion(0)) +
   ## 311 dropped from the breaks: it collided with the 300 tick
   scale_y_reverse(breaks = c(1, seq(50, 300, 50)),
                   limits = c(LEN + 6, -16), expand = expansion(0)) +
-  labs(x = NULL, y = "SID-2 residue", title = panel_title("D")) +
+  labs(x = NULL, y = "SID-2 residue", title = panel_title("D"),
+       subtitle = paste("Left strip: local net charge on panel C's scale,",
+                        "over the modelled ectodomain (21&ndash;188) only")) +
   guides(fill = guide_legend(ncol = 2, byrow = TRUE)) +
   theme_pub() +
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
