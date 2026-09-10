@@ -169,13 +169,49 @@ ranges from 327 for mtDNA_ratio down to 84 for PC1, and restricted to those
 strains the pooled r-squared falls from 0.79 to 0.70 at 1x and from 0.97 to
 0.95 at 10x.
 
-[TO FILL: the binomial draw over expected frequencies was not seeded -- the
-three set.seed calls in the original belong to its bootstrap, panel-size and
-dropout arms -- so the particular simulated counts behind the archived
-estimates cannot be regenerated. This does not affect the r-squared above,
-which are computed from the archived estimates themselves, but a fresh run of
-the simulation would redraw rather than reproduce. Decide whether the paragraph
-should say so.]
+The binomial draw over expected frequencies was not seeded -- the three
+set.seed calls in the original belong to its bootstrap, panel-size and dropout
+arms -- so the particular simulated counts behind the archived estimates cannot
+be regenerated. This does not affect the r-squared above, which are computed
+from the archived estimates themselves, but it does mean a fresh run redraws
+rather than reproduces. How much that costs was measured rather than assumed.
+
+The seven-trait simulation was re-run from the CeNDR 20210121 panel
+(2,917,997 markers x 327 strains), three independent replicates at all eight
+depths, with three estimators applied to identical simulated counts so that
+redraw noise and estimator choice could be separated: mcrals.fcnnls on the raw
+design, which is the archived run's own call; mcrals.fcnnls on the normal
+equations; and RcppML::nnls on the normal equations, which is what
+scripts/simulation_deconvolution.R does.
+
+  The estimator is immaterial. The archived call and the port agree to a median
+  of 4e-06 and a maximum of 1.1e-03 in r-squared. The formulation is what
+  matters: mcrals.fcnnls given the normal equations rather than the raw design
+  disagrees by up to 6.2e-02 and reports hitting its iteration cap, because
+  forming the cross-product matrix squares the condition number.
+
+  The unseeded draw costs about 0.01 of r-squared at 10x and less at greater
+  depth. The archived values deviate from the redraw mean by a median of
+  -0.0002, over a range of -0.0245 to +0.0808, and fall inside the range of
+  three replicates in 32 of 56 trait-depth cells. At 50x and 100x they usually
+  fall outside it -- not because the deviation is large, but because the redraw
+  scatter there is only 0.001 to 0.002 and a systematic offset of about 0.0004
+  survives.
+
+The reported r-squared are therefore reproducible in substance: a fresh
+simulation returns the same recovery curves to within about 0.01, and every
+value in the archive is recomputable exactly from the archived estimates. They
+are not demonstrably drawn from the same distribution as a redraw, because a
+small residual offset persists at high depth that three replicates cannot
+attribute.
+
+[TO FILL: whether the paragraph should state the redraw at all. The r-squared
+it quotes are computed from the archived estimates and are exact, so the redraw
+is a robustness result rather than a correction, and it may belong in a
+supplement rather than in Methods. The residual offset at 50x and 100x is also
+unattributed -- candidates are the mdatools version, which is not the 2021 one,
+and the vendored .fcnnls in the original script -- and more replicates would
+settle whether it is real.]
 
 Designed DNA mixture. 174 wild isolates were divided into four sets of roughly
 equal size (A, B, C, D). Genomic DNA from each set was pooled and sequenced both

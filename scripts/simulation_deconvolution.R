@@ -48,16 +48,26 @@
 ## and the two are not silently reconciled here because which one the archived
 ## Baugh run used is a question about that run, not about this code.
 ##
-## THE SOLVER HERE IS NOT THE ONE THE ARCHIVED SEVEN-TRAIT RUN USED. That run
-## called mdatools::mcrals.fcnnls on the plain G (original line 358), not
-## RcppML::nnls on the stacked design, which is what this port does and what the
-## original's own exploratory arm does at its line 51. That is the explanation
-## for the 139 of 18,312 negative coefficients (0.8%) in
-## simulation_nnls_frequencies.tsv.gz, which a strict non-negative solver cannot
-## produce. The reported r-squared are unaffected -- they are recomputed from
-## those archived estimates by scripts/simulation_recompute_r2.R and reproduce
-## exactly -- but a re-run through this port is a different estimator, so its
-## r-squared are not expected to match to the digit.
+## THE SOLVER HERE IS NOT THE ONE THE ARCHIVED SEVEN-TRAIT RUN USED, BUT IT IS
+## NOT A DIFFERENT ESTIMATOR EITHER. That run called mdatools::mcrals.fcnnls on
+## the plain G (original line 358); this port uses RcppML::nnls on the normal
+## equations. Run against identical simulated counts on the full 2.92M-marker
+## panel the two agree to a median of 4e-06 and a maximum of 1.1e-03 in
+## r-squared, so the solver choice is immaterial. What is NOT immaterial is the
+## formulation: mcrals.fcnnls given the normal equations rather than the raw
+## design disagrees by up to 6.2e-02 and warns that it hit its iteration cap,
+## because forming GGp squares the condition number.
+##
+## The 139 of 18,312 negative coefficients (0.8%) in
+## simulation_nnls_frequencies.tsv.gz are only partly explained by the solver.
+## mcrals.fcnnls on the raw design does emit occasional small negatives -- 2 of
+## 18,312 (0.011%), most negative -0.0021, in the redraw -- so it is the right
+## family of explanation, but that is roughly a seventieth of the archive's rate
+## and an order of magnitude smaller in size, so the solver alone does not
+## account for them. Two unknowns remain: mdatools 0.16.0 is not the version
+## used in 2021, and haploReg_original.R also carries a vendored .fcnnls at its
+## line 577 alongside NMF::.fcnnls calls, so which implementation actually ran
+## is not settled.
 ##
 ## REQUIRES THE GENOTYPE PANEL, so this does not run from a clone. See
 ## SYNC_MANIFEST.md Tier 1; set CENDR_PLINK to override the default location.

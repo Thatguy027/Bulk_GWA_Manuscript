@@ -85,9 +85,26 @@ S1A specifically.
 > so "every trait reached r2 = 1.00 by 500x" in the suggested revision below overstates it. And
 > the r2 are computed over all 327 strains with the unmeasured ones held at exactly zero.
 >
-> The 0.8% negative coefficients noted at the end of this section are explained too: the
+> The 0.8% negative coefficients noted at the end of this section are PARTLY explained: the
 > archived run used `mdatools::mcrals.fcnnls` on the plain G (`haploReg_original.R:358`), not
-> `RcppML::nnls` on the stacked design, which is what the port uses.
+> `RcppML::nnls`, and fcnnls on the raw design does emit occasional small negatives. But a
+> full-scale redraw (2026-09-09) put that at **2 of 18,312 (0.011%), most negative −0.0021**,
+> against the archive's **139 (0.76%)** at roughly ten times the magnitude — a seventieth of
+> the rate. So the solver is implicated and does not account for it. mdatools 0.16.0 is not
+> the 2021 version, and `haploReg_original.R` also carries a vendored `.fcnnls` (line 577)
+> plus `NMF::.fcnnls` calls, so which implementation ran is unsettled.
+>
+> **UPDATE (2026-09-09, the redraw).** The seven-trait simulation was re-run from the genotype
+> panel, three replicates at all eight depths, with three estimators on identical drawn counts.
+> Two results. The solver is immaterial — the archive's `mcrals.fcnnls(counts, G)` and the
+> port's `RcppML::nnls(GGp, Gy)` agree to a median 4e-06, max 1.1e-03 in r²; what matters is
+> the formulation, since fcnnls fed the normal equations diverges by up to 6.2e-02 and hits its
+> iteration cap. And the unseeded draw costs little: a fresh run reproduces the reported r² to
+> about ±0.01 at 10× and better at depth (median deviation from the redraw mean −0.0002, range
+> −0.0245 to +0.0808). The archived value falls inside the 3-replicate min–max in 32 of 56
+> cells; at 50–100× it often does not, because the redraw scatter there is 0.001–0.002 and a
+> ~0.0004 systematic offset survives. So the r² are reproducible in substance but not drawn
+> demonstrably from the same distribution, and the `[TO FILL]` in `METHODS.txt` stays open.
 
 `METHODS.txt` carries a `[TO FILL]`: the inverse-chi-squared parameters (df, scale) and the
 fitness -> expected-frequency mapping were never recorded, and neither the simulation script nor

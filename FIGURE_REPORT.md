@@ -32384,7 +32384,7 @@ SUPP_FIG_XX_simulation_depth
 398
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32398,7 +32398,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32412,7 +32412,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32426,7 +32426,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32440,7 +32440,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32454,7 +32454,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32468,7 +32468,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32482,7 +32482,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32496,7 +32496,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32510,7 +32510,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32524,7 +32524,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32538,7 +32538,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32552,7 +32552,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32566,7 +32566,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32580,7 +32580,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32594,7 +32594,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32608,7 +32608,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32622,7 +32622,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32636,7 +32636,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32650,7 +32650,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32664,7 +32664,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 <tr>
@@ -32678,7 +32678,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 19:05
+2026-09-09 20:02
 </td>
 </tr>
 </tbody>
