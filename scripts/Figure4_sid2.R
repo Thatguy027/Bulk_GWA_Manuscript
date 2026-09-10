@@ -389,7 +389,7 @@ X_BAR <- c(0, 0.5); X_LAB <- 0.78; X_FRQ <- c(1.36, 2.55)
 ## each other -- that is the entire point of putting it here. It therefore
 ## needs no key of its own; panel C's key serves both, and duplicating it would
 ## invite the two from drifting apart.
-X_CHG <- c(-0.60, -0.12)
+X_CHG <- c(-0.86, -0.16)
 ## Colours are precomputed to hex rather than mapped through a second fill
 ## scale: the panel already uses fill for the topology, and ggnewscale is not a
 ## dependency of this repository. The key in panel C does exactly the same.
@@ -423,10 +423,7 @@ pD <- ggplot() +
   annotate("rect", xmin = X_CHG[1], xmax = X_CHG[2],
            ymin = CHG_RANGE[1] - 0.5, ymax = CHG_RANGE[2] + 0.5,
            fill = NA, colour = "grey45", linewidth = 0.25) +
-  annotate("richtext", x = mean(X_CHG), y = CHG_RANGE[1] - 5,
-           label = "charge", size = 2.1, colour = "grey35", angle = 90,
-           hjust = 0, vjust = 0.5, fill = NA, label.color = NA,
-           label.padding = grid::unit(rep(0,4),"pt")) +
+
   geom_rect(data = dom2,
             aes(xmin = X_BAR[1], xmax = X_BAR[2],
                 ymin = start - 0.5, ymax = end + 0.5, fill = value),
@@ -482,12 +479,21 @@ pD <- ggplot() +
                 label.padding = grid::unit(rep(0, 4), "pt")) +
   ## column headers, in the margin reserved above residue 1
   geom_richtext(data = tibble(
-      x = c(mean(X_FRQ), X_P1, X_P2), y = -7,
-      lab = c("CeNDR frequency", "JU1793", "JU2466"),
-      col = c("grey30", COL_JU1793, COL_JU2466)),
-      aes(x, y, label = lab), colour = c("grey30", COL_JU1793, COL_JU2466),
+      x = c(mean(X_CHG), mean(X_FRQ), X_P1, X_P2), y = -7,
+      lab = c("Net charge", "CeNDR frequency", "JU1793", "JU2466"),
+      col = c("grey30", "grey30", COL_JU1793, COL_JU2466)),
+      aes(x, y, label = lab),
+      colour = c("grey30", "grey30", COL_JU1793, COL_JU2466),
       size = 2.6, hjust = 0.5, vjust = 0.5, fill = NA, label.color = NA,
       label.padding = grid::unit(rep(0, 4), "pt")) +
+  ## The ends of the charge column, so it reads as a scaled quantity rather than
+  ## as decoration; the ramp itself is keyed in panel C. geom_text, NOT
+  ## geom_richtext: gridtext parses its label as markdown and a bare "+" becomes
+  ## a list item, which fails at tag dispatch.
+  geom_text(data = tibble(x = X_CHG, y = c(-2.5, -2.5),
+                          lab = c("\u2212", "+")),
+            aes(x, y, label = lab), size = 2.6, colour = "grey45",
+            hjust = 0.5, vjust = 0.5) +
   scale_fill_manual(values = TOPO_COL2, name = NULL) +
   scale_x_continuous(limits = c(X_CHG[1] - 0.04, X_P2 + 0.30),
                      expand = expansion(0)) +

@@ -442,8 +442,9 @@ with residue 1 at the top and its DeepTMHMM topology as a filled bar; each
 protein-altering variant is called out to the right with its CeNDR allele
 frequency, then two columns give the JU1793 and JU2466 allele state.
 
-Immediately left of the topology bar is a strip giving the LOCAL NET CHARGE at
-each residue, on exactly the ramp and the limits panel C uses -- red negative,
+Immediately left of the topology bar is a column headed "Net charge", with a
+minus and a plus marking its ends, giving the LOCAL NET CHARGE at each residue
+on exactly the ramp and the limits panel C uses -- red negative,
 blue positive, saturating at +/-2 e, net charge within 12 A at pH 4.4 -- so the
 two panels can be read against one another. It carries no key of its own
 because panel C's key serves both; duplicating it would let the two drift
