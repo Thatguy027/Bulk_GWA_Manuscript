@@ -600,9 +600,19 @@ across them:
 The 25% dilution used for the N2 edits is the only one with dynamic range in
 that background: across a 0, 25, 50, 75 and 100% series, every genotype hatches
 at 0% and every genotype is dead from 50% upward, so no other dose can report a
-difference (SUPP_FIG_XX_n2_swap_dose). Pooling the two edited lines against N2,
-the difference in hatching is +0.282 at 25% (Fisher p = 8e-25) and between
--0.007 and +0.026 at every other dose (p >= 0.11).
+difference (SUPP_FIG_XX_n2_swap_dose). At 25% pos-1 food, unedited N2 carrying
+96T hatches 32.3% of plated embryos (71 of 220; Wilson 95% CI 26.4-38.7%) and
+the two 96K lines pooled hatch 4.0% (23 of 568; 2.7-6.0%) -- a difference of
+28.2 percentage points, Fisher p = 8e-25. The two edited lines agree closely,
+which matters because they are independent edits: wSZ203 4.4% (12 of 273,
+2.5-7.5%) and wSZ204 3.7% (11 of 295, 2.1-6.6%).
+
+Every other dose is uninformative rather than negative. Unedited N2 hatches
+98.5% at 0%, 6.0% at 50%, 3.4% at 75% and 0.0% at 100%, so from 50% upward it
+is already at the floor and the swap has no room to show; the pooled differences
+there run -0.007 to +0.026 (p >= 0.11), and the two that carry a positive sign
+-- +0.6 points at 0% and +0.7 points at 100% -- are counting noise on 0 of 236
+against 3 of 450, not the edit helping.
 
 IMPORTANT: the dilution is not recorded in the source data files for the NIL
 series or the JU1793/JU2466 edits -- their condition column carries only
@@ -811,7 +821,8 @@ against two independently edited 96K lines, pooled -- across 0, 25, 50, 75 and
 100% pos-1 food, and it has no second parental genotype, so there is no span of
 the kind used above and filling that column would put a different quantity
 beside the ones already in it. At 25% food the effect is +0.282 [0.221, 0.348]
-in hatched fraction, which falls between the two JU backgrounds' raw effects of
+in hatched fraction -- 32.3% hatching for unedited N2 against 4.0% for the two
+96K lines pooled -- which falls between the two JU backgrounds' raw effects of
 +0.139 and +0.417. The effect exists only at that dose: it is -0.007 at 0%,
 +0.283 at 25%, +0.026 at 50%, +0.007 at 75% and -0.007 at 100%, because N2
 carrying 96T is already down to 0.060 hatching by 50% food and there is no room
