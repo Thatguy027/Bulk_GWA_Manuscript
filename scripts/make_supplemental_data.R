@@ -41,6 +41,12 @@
 ##                                      content and parental variation of the
 ##                                      37 kb NIL interval, extracted from the
 ##                                      BCSQ CeNDR VCF and a WormBase GFF3)
+##   deconvolution/simulation_seeded_frequencies.tsv.gz,
+##   deconvolution/simulation_seeded_r2.tsv
+##                                   <- make_simulation_seeded.R  (the seeded,
+##                                      ten-replicate regeneration of the
+##                                      seven-trait simulation; what
+##                                      SUPP_FIG_XX_simulation_depth now plots)
 ##   deconvolution/simulation_fitness_traits.tsv
 ##                                   <- make_simulation_fitness_table.R  (the
 ##                                      seven published traits the simulation

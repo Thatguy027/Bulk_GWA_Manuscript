@@ -6,3 +6,6 @@ NIL series	JU1793 -> JU2466 (whole genome)	0.638	0.569	0.697	1	0.892	1.093	the f
 JU allele swap	96T vs 96K in the JU1793 background (cost of the JU2466 residue)	0.417	0.34	0.489	0.462	0.376	0.541	residue 96 alone, JU1793 background
 JU allele swap	96T vs 96K in the JU2466 background (cost of the JU2466 residue)	0.139	0.087	0.198	0.154	0.096	0.219	residue 96 alone, JU2466 background
 JU allele swap	JU1793 -> JU2466 (whole genome)	0.903	0.857	0.931	1	0.95	1.031	the full parental difference
+N2 allele swap	96T vs 96K in the N2 background, 25% pos-1 food	0.282	0.221	0.348	NA	NA	NA	two independently edited 96K lines pooled; no second parent, so no span
+N2 allele swap	96T vs 96K in the N2 background, 50% pos-1 food	0.026	-0.004	0.068	NA	NA	NA	N2 is already near-fully sensitive at this dose, so the window has closed
+N2 allele swap	96T vs 96K in the N2 background, no pos-1 food	-0.006	-0.034	0.009	NA	NA	NA	the negative control: no RNAi, so no effect expected

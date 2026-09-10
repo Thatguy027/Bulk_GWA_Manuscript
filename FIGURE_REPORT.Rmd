@@ -565,7 +565,7 @@ independent published measurement. No one of them carries the claim alone.
 **Script** `scripts/SUPP_FIG_XX_simulation_depth.R`<br>
 **Validates** NNLS against a known input, with synthetic counts<br>
 **Scope** 7 traits × 8 depths (1–500×) × 327 strains<br>
-**Depth for r² ≥ 0.95 in all seven** 50×
+**Depth for r² ≥ 0.95** six of seven by 30×, all seven by 50×
 :::
 
 ::: plate
@@ -587,67 +587,82 @@ per-strain frequencies by NNLS and compared with the known input.
 
 ::: panel
 [A]{.pl} r² of estimated against known input frequency, against simulated
-depth, one line per trait — computed, not transcribed. At
-1&times; the spread is wide — PC1 `0.91`, value `0.86`, assay_norm `0.81`,
-amsacrine_f.L1 `0.79`, etoposide_median.TOF `0.72`, Albendazole_q75.TOF `0.56`,
-mtDNA_ratio `0.52`; median `0.79`. The lowest depth from which a trait stays at
-or above 0.95 is 3&times; for PC1 and value, 5&times; for amsacrine_f.L1,
-10&times; for assay_norm and etoposide_median.TOF, 30&times; for
-Albendazole_q75.TOF and 50&times; for mtDNA_ratio. **No trait reaches r² of
-1.000 at 500&times;** — the range there is `0.9964` (mtDNA_ratio) to `0.9998`
-(PC1), which is why the transcribed two-decimal record shows 1.00 for all
-seven.
+depth, one line per trait — the **mean of ten seeded replicates, with the band
+spanning them**, so the band's width is the sampling variability of one
+experiment at that depth. At 1&times; the spread across traits is wide — PC1
+`0.91`, value `0.88`, amsacrine_f.L1 `0.81`, assay_norm `0.76`,
+etoposide_median.TOF `0.75`, Albendazole_q75.TOF `0.56`, mtDNA_ratio `0.51`;
+median `0.76` — and the bands are widest there too, up to `0.149` for
+assay_norm.
+
+**Six of seven traits reach 0.95 by 30&times;, and 50&times; clears all
+seven.** Counting a trait only where it clears the bar in *every* replicate:
+0 traits at 1&times;, 1 at 3&times;, 2 at 5&times;, **5 at 10&times;**, **6 at
+30&times;**, **7 at 50&times;** and above. The exception at 30&times; is
+mtDNA_ratio, which sits *on* the line — mean `0.9504`, span
+`0.9443`–`0.9610`, clearing 0.95 in four of the ten. At 50&times; the lowest r²
+anywhere in the ten replicates is `0.9639`. **No trait reaches r² of 1.000 at
+500&times;** — the range there is `0.9966` (mtDNA_ratio) to `0.9998` (PC1).
 :::
 
 ::: panel
-[B]{.pl} The archived estimates against the **known input**, faceted by depth,
-all seven traits pooled — eight facets now, because 500&times; is an ordinary
-depth rather than the reference it used to be. Axes share limits so the dashed
+[B]{.pl} The estimates against the **known input**, faceted by depth, all
+seven traits pooled — eight facets, because 500&times; is an ordinary depth
+rather than the reference it used to be. **One replicate is drawn, not an
+average of the ten**: averaging point clouds would narrow the scatter and
+misrepresent a single experiment. Axes share limits so the dashed
 <span class="m">y = x</span> line means the same thing in every facet. Pooled
-r²: `0.79` at 1&times;, `0.91` at 3&times;, `0.94` at 5&times;, `0.97` at
+r²: `0.80` at 1&times;, `0.91` at 3&times;, `0.95` at 5&times;, `0.97` at
 10&times;, `0.99` at 30&times; and 50&times;, `1.00` at 100&times; and
 500&times;. The band along <span class="m">y = 0</span> is the strains with no
 published value for that trait, absent from the pool; NNLS assigns them
 frequency anyway, and since pool mass is conserved the strains that were
 present are underestimated by the same amount — which is why the cloud sits
-below <span class="m">y = x</span> at low depth. Leaked mass runs `6.7%` at
+below <span class="m">y = x</span> at low depth. Leaked mass runs `7.3%` at
 1&times; down to `0.3%` at 500&times;, and the slope of input on estimate rises
-from `0.868` to `1.004`.
+from `0.883` to `1.004`.
 :::
 
 ```{r tab-sim}
-sim <- read_tsv(file.path(DIAGDIR, "TABLE_simulation_recomputed_r2.tsv"),
-                show_col_types = FALSE)
+sim <- read_tsv(file.path(DEC, "simulation_seeded_r2.tsv"), show_col_types = FALSE) %>%
+  group_by(trait, depth) %>%
+  summarise(lo = min(r2), hi = max(r2), m = mean(r2), .groups = "drop")
 kb(sim %>% transmute(trait, depth = paste0(depth, "×"),
-                     r2 = fnum(r2.recomputed, 4)) %>%
-     pivot_wider(names_from = depth, values_from = r2) %>%
+                     v = sprintf("%.3f<br><span style='font-size:80%%;color:#5A6664'>%.3f–%.3f</span>",
+                                 m, lo, hi)) %>%
+     pivot_wider(names_from = depth, values_from = v) %>%
      rename(Trait = trait) %>%
      arrange(desc(`1×`)),
    align = c("l", rep("r", 8)))
 ```
 
 ::: derived
-Computed by scripts/simulation_recompute_r2.R from the deposited fitness traits
-and the archived NNLS estimates, at full precision. Every value reproduces
-supplemental_data/deconvolution/simulation_reported_r2.tsv — the two-decimal
-record transcribed from the original figures — at those two decimals; the
-script fails if it ever stops doing so.
+Mean over ten seeded replicates, with the replicate range beneath each value,
+from supplemental_data/deconvolution/simulation_seeded_r2.tsv
+(scripts/make_simulation_seeded.R, seed 20260909).
+
+The 2021 run is kept as a comparison, not discarded: its estimates are still
+deposited, all 56 of its r² recompute exactly from them
+(scripts/simulation_recompute_r2.R, run on every push), and its values fall
+inside the ten-replicate band in **43 of 56** trait-depth cells — consistent
+with the replicated run rather than anomalous.
 :::
 
 ::: derived
 [Provenance — this used to be the figure's governing caveat]{.ch}
 
-**Both panels are now computed against the known input.** They were not. The
-simulation's fitness input was thought lost, so panel A was transcribed rather
-than computed — read out of text embedded in the original per-trait PDFs by
+**The figure is generated from source rather than recovered.** The simulation's
+fitness input was thought lost, so panel A was transcribed — read out of text
+embedded in the original per-trait PDFs by
 `scripts/extract_sim_reported_r2.py` — and panel B substituted the 500&times;
 estimate for the truth. Neither is necessary: the seven-trait arm of
-`scripts/legacy/haploReg_original.R` uses published trait values as fitness, and
+`scripts/legacy/haploReg_original.R` uses published trait values as fitness,
 those files are deposited as
-`supplemental_data/deconvolution/simulation_fitness_traits.tsv`. The transcribed
-record is now a check rather than a source — all 56 computed values reproduce it
-at two decimals, asserted in the figure script and in
-`scripts/simulation_recompute_r2.R`.
+`supplemental_data/deconvolution/simulation_fitness_traits.tsv`, and the whole
+simulation now runs from the genotype panel **with a seed** — ten replicates,
+`scripts/make_simulation_seeded.R`. That closes the reproducibility gap the
+missing seed left, and the seeded run carries **no negative coefficients**
+against the archive's 139 of 18,312.
 
 One caveat survives the change: the r² are computed over all 327 strains with
 the unmeasured ones held at exactly zero, which flatters the correlation. The
@@ -2015,8 +2030,9 @@ same dose are not behaving the same way.
 el <- read_tsv(file.path(DIAGDIR, "TABLE_effect_size_ladder.tsv"), show_col_types = FALSE)
 kb(el %>% transmute(Experiment = experiment, Contrast = contrast,
                     `Δ hatched` = sprintf("%+.3f [%+.3f, %+.3f]", raw.diff, raw.lo, raw.hi),
-                    `% of parental span` = sprintf("%.0f%% [%.0f, %.0f]",
-                                                   100*frac.of.span, 100*span.lo, 100*span.hi)),
+                    `% of parental span` = ifelse(is.na(frac.of.span), "—",
+                      sprintf("%.0f%% [%.0f, %.0f]",
+                              100*frac.of.span, 100*span.lo, 100*span.hi))),
    align = c("l", "l", "r", "r"))
 ```
 
@@ -2038,6 +2054,23 @@ implies: only two missense differences exist in the entire 37 kb and both are in
 against, and neither background's interval overlaps the NIL estimate cleanly —
 the JU1793 estimate touches it only at the edge and the JU2466 estimate misses
 it.
+
+**Residue 96 matters in the N2 background too, and by a comparable amount.**
+The N2 swap has no normalised column because that experiment has no second
+parental genotype — one background, two alleles, across a dose series — so only
+its raw effect is quotable. At **25% *pos-1* food it is +0.282 [0.221, 0.348]**,
+which sits between the two JU backgrounds' raw effects (`+0.139` and `+0.417`).
+That is the third background of Figure 4's claim, and it lands mid-range rather
+than at either extreme.
+
+**The N2 window is open only at 25%.** Across the dose series the effect is
+`−0.007` at 0%, **`+0.283` at 25%**, `+0.026` at 50%, `+0.007` at 75% and
+`−0.007` at 100%: N2 carrying 96T is already at `0.060` hatching by 50% food, so
+above 25% there is no room left for the allele to matter and the contrast
+collapses into the floor. The 0% row is the negative control and behaves —
+no RNAi, no effect. Note this also means the N2 comparison is at a **different
+dose** from the JU experiments' nominal 50%, so even its raw effect is not
+strictly beside theirs.
 
 **The two chromosome III segments are not additive.** The region distal to the
 interval does nothing measurable alone — `+0.021` [−0.008, 0.049], 3% of span,

@@ -24,6 +24,7 @@
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({library(tidyverse)})
+
 HA <- "supplemental_data/hatching_assays"
 OUT <- "plots/diagnostics"; dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
@@ -52,6 +53,16 @@ nil <- read_tsv(file.path(HA, "nil_series_hatching.tsv"), show_col_types = FALSE
             p = hatched/n)
 bed <- read_tsv(file.path(HA, "nil_introgression_ranges.bed"), col_names =
                   c("chrom","start","end","strain","introgression"), show_col_types = FALSE)
+
+## ---- the N2 allele swaps, a dose series -----------------------------------
+## N2 carries 96T and two independently edited lines carry 96K, across
+## 0/25/50/75/100% pos-1 food. There is no second parental genotype here, so
+## this experiment has no JU1793-JU2466-style span and its effects are reported
+## raw only -- the normalised column is left empty rather than filled with a
+## quantity that means something different from the one above it.
+n2 <- read_tsv(file.path(HA, "n2_allele_swaps_hatching.tsv"), show_col_types = FALSE) %>%
+  transmute(experiment = "N2 allele swap", strain, genotype, dose = condition,
+            n = n_plated, hatched = n_plated - n_unhatched, p = hatched/n)
 
 ## ---- the JU allele swaps --------------------------------------------------
 swap <- read_csv(file.path(HA, "ju_allele_swaps_hatching.csv"), show_col_types = FALSE) %>%
@@ -93,11 +104,15 @@ get <- function(d, s) d %>% filter(strain %in% s) %>%
   summarise(x = sum(hatched), n = sum(n)) %>% as.list()
 mk <- function(label, exper, a, b, A, note) {
   d <- diff_ci(a$x, a$n, b$x, b$n)
+  span <- if (is.null(A)) NA_real_ else A[["span"]]
   tibble(experiment = exper, contrast = label,
          raw.diff = d[["diff"]], raw.lo = d[["lo"]], raw.hi = d[["hi"]],
-         frac.of.span = d[["diff"]]/A[["span"]],
-         span.lo = d[["lo"]]/A[["span"]], span.hi = d[["hi"]]/A[["span"]], note = note)
+         frac.of.span = d[["diff"]]/span,
+         span.lo = d[["lo"]]/span, span.hi = d[["hi"]]/span, note = note)
 }
+## the N2 series: 96T minus 96K at each dose, the two 96K lines pooled
+gn2 <- function(gt, dose) n2 %>% filter(genotype == gt, dose == !!dose) %>%
+  summarise(x = sum(hatched), n = sum(n)) %>% as.list()
 res <- bind_rows(
   mk("JU1793 -> wSZ191 (JU2466 alleles at the 37 kb interval only)", "NIL series",
      get(nil,"JU1793"), get(nil,"wSZ191"), A_nil,
@@ -123,15 +138,33 @@ res <- bind_rows(
      "residue 96 alone, JU2466 background"),
   mk("JU1793 -> JU2466 (whole genome)", "JU allele swap",
      get(swap,"JU1793"), get(swap,c("JU2466_A","JU2466_B")), A_swap,
-     "the full parental difference"))
+     "the full parental difference"),
+  mk("96T vs 96K in the N2 background, 25% pos-1 food", "N2 allele swap",
+     gn2("N2[96T]", 25), gn2("N2[96K]", 25), NULL,
+     "two independently edited 96K lines pooled; no second parent, so no span"),
+  mk("96T vs 96K in the N2 background, 50% pos-1 food", "N2 allele swap",
+     gn2("N2[96T]", 50), gn2("N2[96K]", 50), NULL,
+     "N2 is already near-fully sensitive at this dose, so the window has closed"),
+  mk("96T vs 96K in the N2 background, no pos-1 food", "N2 allele swap",
+     gn2("N2[96T]", 0), gn2("N2[96K]", 0), NULL,
+     "the negative control: no RNAi, so no effect expected"))
 res <- res %>% mutate(across(where(is.numeric), ~ round(.x, 3)))
 write_tsv(res, file.path(OUT, "TABLE_effect_size_ladder.tsv"))
 
 cat("\n== effect sizes, raw and as a fraction of that experiment's parental span ==\n")
 print(as.data.frame(res %>% transmute(experiment, contrast,
         raw = sprintf("%+.3f [%+.3f, %+.3f]", raw.diff, raw.lo, raw.hi),
-        `of span` = sprintf("%.0f%% [%.0f, %.0f]", 100*frac.of.span, 100*span.lo, 100*span.hi))),
+        `of span` = ifelse(is.na(frac.of.span), "-",
+                           sprintf("%.0f%% [%.0f, %.0f]",
+                                   100*frac.of.span, 100*span.lo, 100*span.hi)))),
       row.names = FALSE)
+
+cat("\n== the N2 swap across the whole dose series ==\n")
+print(as.data.frame(n2 %>% group_by(genotype, dose) %>%
+  summarise(n = sum(n), hatched = round(sum(hatched)/sum(n), 3), .groups = "drop") %>%
+  pivot_wider(names_from = genotype, values_from = c(n, hatched)) %>%
+  mutate(effect = round(`hatched_N2[96T]` - `hatched_N2[96K]`, 3)) %>%
+  arrange(dose)), row.names = FALSE)
 
 ## ---- additivity check on the NIL series ----------------------------------
 pI <- nil$p[nil$strain=="wSZ191"]; pD <- nil$p[nil$strain=="wSZ196"]

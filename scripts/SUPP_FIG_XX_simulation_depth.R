@@ -56,11 +56,14 @@ suppressPackageStartupMessages({
 
 OUT <- "plots"
 DEC <- "supplemental_data/deconvolution"
-R2  <- file.path(DEC, "simulation_reported_r2.tsv")
-FRQ <- file.path(DEC, "simulation_nnls_frequencies.tsv.gz")
+R2  <- file.path(DEC, "simulation_reported_r2.tsv")            # the 2021 record
+FRQ <- file.path(DEC, "simulation_nnls_frequencies.tsv.gz")   # the 2021 estimates
 FIT <- file.path(DEC, "simulation_fitness_traits.tsv")
+SR2 <- file.path(DEC, "simulation_seeded_r2.tsv")             # this figure's source
+SFQ <- file.path(DEC, "simulation_seeded_frequencies.tsv.gz")
 
-stopifnot(file.exists(R2), file.exists(FRQ), file.exists(FIT))
+stopifnot(file.exists(R2), file.exists(FRQ), file.exists(FIT),
+          file.exists(SR2), file.exists(SFQ))
 
 ## a muted qualitative set; seven traits need seven distinguishable hues
 TRAIT_COL <- c(
@@ -98,6 +101,18 @@ DEPTHS <- c(1, 3, 5, 10, 30, 50, 100, 500)
 ## strain with no published value is absent from that trait's pool. Dividing by
 ## the column total puts it on the same frequency scale as the estimates, which
 ## is what lets panel B draw a y = x line.
+## The seeded, replicated run is what both panels plot. It is generated from
+## the genotype panel and the recovered fitness input by
+## scripts/make_simulation_seeded.R, so it is reproducible from a seed rather
+## than recovered from a 2021 RDS whose draw was never seeded.
+sr2 <- read_tsv(SR2, show_col_types = FALSE)
+sfq <- read_tsv(SFQ, show_col_types = FALSE)
+NREP <- dplyr::n_distinct(sr2$replicate)
+stopifnot(nrow(sr2) == NREP * 7 * 8, nrow(sfq) == NREP * 7 * 8 * 327)
+## the estimator emits no negative coefficients; the old archive carried 139
+stopifnot(all(sfq$frequency >= 0))
+msg <- function(...) cat(...) # local, for the notes below
+
 frq <- read_tsv(FRQ, show_col_types = FALSE)
 stopifnot(nrow(frq) == 7 * 8 * 327)
 
@@ -132,8 +147,26 @@ stopifnot(nrow(chk) == 56,
           all(round(chk$r2.computed, 2) == chk$r2.reported))
 cat("== all 56 computed r-squared reproduce simulation_reported_r2.tsv at 2 dp ==\n\n")
 
-r2 <- acc %>% mutate(trait = factor(trait, levels = names(TRAIT_COL)))
+## Panel A is now the mean over replicates with a min-max ribbon. The single
+## 2021 draw reported each recovery as one exact number; the ribbon is the
+## sampling variability that number could only conceal, and it matters -- at
+## 30x mtDNA_ratio straddles the 0.95 line, so "the lowest depth at which all
+## seven reach 0.95" is 30x in some draws and 50x in others and cannot honestly
+## be quoted as a single depth.
+## lo and hi BEFORE r2: summarise() evaluates in order, so naming the mean `r2`
+## first would shadow the replicate column and collapse the band to zero width.
+r2 <- sr2 %>% group_by(trait, depth) %>%
+  summarise(lo = min(r2), hi = max(r2), r2 = mean(r2), .groups = "drop") %>%
+  mutate(trait = factor(trait, levels = names(TRAIT_COL)))
+stopifnot(any(r2$hi > r2$lo))   # a zero-width band means the bug is back
 stopifnot(!anyNA(r2$trait))
+
+## the archived run, kept as a comparison rather than as the source
+arch <- acc %>% rename(archive = r2)
+chk2 <- r2 %>% inner_join(arch, by = c("trait","depth")) %>%
+  mutate(inside = archive >= lo & archive <= hi)
+cat(sprintf("== the 2021 draw falls inside the %d-replicate range in %d of %d cells ==\n\n",
+            NREP, sum(chk2$inside), nrow(chk2)))
 
 at1 <- r2 %>% filter(depth == 1) %>% arrange(desc(r2))
 cat("== accuracy at 1x, the depth the text claims ==\n")
@@ -155,25 +188,48 @@ reach <- r2 %>% arrange(trait, depth) %>% group_by(trait) %>%
     idx <- which(ok & rev(cumprod(rev(ok))) == 1)[1]   # first depth from which it never drops
     if (is.na(idx)) NA_integer_ else depth[idx]
   }, .groups = "drop")
-cat("== lowest depth from which r-squared stays >= 0.95 ==\n")
+cat("== lowest depth from which the MEAN stays >= 0.95 ==\n")
 print(as.data.frame(reach), row.names = FALSE)
-cat("  worst trait needs ", max(reach$first95, na.rm = TRUE), "x\n\n", sep = "")
+
+## The mean crossing 0.95 is not the claim worth making, because a trait can sit
+## on the line: at 30x mtDNA_ratio averages 0.9504 but clears 0.95 in only 4 of
+## the 10 replicates. Robustness -- clearing in EVERY replicate -- is what the
+## caption states, so it is what gets asserted here.
+rob <- sr2 %>% group_by(trait, depth) %>%
+  summarise(all_reps = all(r2 >= 0.95), n_of = sum(r2 >= 0.95),
+            reps = dplyr::n(), .groups = "drop")
+by_depth <- rob %>% group_by(depth) %>%
+  summarise(robust = sum(all_reps), .groups = "drop") %>% arrange(depth)
+cat("\n== traits clearing 0.95 in EVERY replicate, by depth ==\n")
+print(as.data.frame(by_depth), row.names = FALSE)
+borderline <- rob %>% filter(depth == 30, !all_reps)
+if (nrow(borderline))
+  cat(sprintf("  at 30x %s clears 0.95 in only %d of %d replicates\n",
+              borderline$trait[1], borderline$n_of[1], borderline$reps[1]))
+cat(sprintf("  six of seven clear 0.95 by 30x; 50x clears all seven (minimum %.4f)\n\n",
+            min(sr2$r2[sr2$depth == 50])))
+stopifnot(by_depth$robust[by_depth$depth == 30] == 6,
+          by_depth$robust[by_depth$depth == 50] == 7,
+          by_depth$robust[by_depth$depth == 10] == 5)
 
 lab <- r2 %>% filter(depth == 1)
 pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
   geom_hline(yintercept = 0.95, linetype = "dashed", linewidth = 0.35,
              colour = "grey55") +
+  geom_ribbon(aes(ymin = lo, ymax = hi, fill = trait), alpha = 0.18,
+              colour = NA, show.legend = FALSE) +
   geom_line(linewidth = 0.55) +
-  geom_point(size = 1.5) +
+  geom_point(size = 1.3) +
   annotate("text", x = 1.05, y = 0.958, label = "r² = 0.95", hjust = 0,
            size = 2.7, colour = "grey40") +
   scale_x_log10(breaks = DEPTHS, labels = paste0(DEPTHS, "×")) +
   scale_y_continuous(limits = c(0.5, 1.005), breaks = seq(0.5, 1, 0.1)) +
   scale_colour_manual(values = TRAIT_COL, name = NULL) +
+  scale_fill_manual(values = TRAIT_COL, guide = "none") +
   labs(x = "Simulated sequencing depth", y = "r² vs known input frequency",
        title = panel_title("A"),
-       subtitle = paste("Accuracy against the simulated input, computed;",
-                        "dashed line r² = 0.95")) +
+       subtitle = sprintf(paste("Accuracy against the simulated input. Mean of %d seeded",
+                                "replicates, band spans them; dashed line r² = 0.95"), NREP)) +
   theme_pub() +
   theme(legend.position = c(0.985, 0.02), legend.justification = c(1, 0),
         legend.text = element_text(size = 7.6),
@@ -186,10 +242,10 @@ pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
 ## ===========================================================================
 ## All eight depths appear here now. 500x used to be excluded because it was
 ## itself the reference; against the true input it is simply the deepest point.
-cmp <- frq %>%
-  inner_join(truth, by = c("trait", "strain")) %>%
-  mutate(depth_lab = factor(paste0(depth, "×"),
-                            levels = paste0(DEPTHS, "×")))
+## One replicate, not an average: averaging point clouds would narrow the
+## scatter and misrepresent what a single experiment at that depth looks like.
+cmp <- sfq %>% filter(replicate == 1) %>%
+  mutate(depth_lab = factor(paste0(depth, "×"), levels = paste0(DEPTHS, "×")))
 stopifnot(nrow(cmp) == 7 * 8 * 327)
 
 pooled <- cmp %>% group_by(depth) %>%
@@ -261,8 +317,10 @@ cat("wrote SUPP_FIG_XX_simulation_depth.{pdf,png}\n")
 
 ## the caveat, printed so it cannot be missed by anyone re-running this
 neg <- frq %>% filter(coefficient < 0)
-cat(sprintf("\nNOTE: %d of %d coefficients (%.1f%%) are negative, at depths %s.\n",
+cat(sprintf("\nNOTE: this figure's own estimates carry %d negative coefficients.\n",
+            sum(sfq$frequency < 0)))
+cat(sprintf("The 2021 archive, no longer plotted here, carried %d of %d (%.1f%%) at depths %s;\n",
             nrow(neg), nrow(frq), 100 * nrow(neg) / nrow(frq),
             paste(sort(unique(neg$depth)), collapse = ", ")))
-cat("A strict non-negative solver cannot return these, so the archived values\n")
-cat("carry solver or post-processing noise at the 1e-2 level. See the caption.\n")
+cat("a strict non-negative solver cannot return those, and they are one reason\n")
+cat("the figure is built from the seeded run instead. See the caption.\n")
