@@ -61,6 +61,8 @@ Assembled 2026-09-09
         coverage](#off-pool-leakage-against-coverage)
     -   [Gene content at the four strongest mig-6
         QTL](#gene-content-at-the-four-strongest-mig-6-qtl)
+    -   [eQTL and parental expression at the censused
+        loci](#eqtl-and-parental-expression-at-the-censused-loci)
     -   [Figure S15 — where T96’s pocket sits in the charge
         distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
     -   [Figure S16 — model confidence, and the proximity
@@ -32273,6 +32275,726 @@ and five are JU2466.
 
 <img src="plots/diagnostics/DIAG_mig6_locus_I_1-88.png" alt="" width="100%" />
 
+## eQTL and parental expression at the censused loci
+
+**Script** `scripts/candidate_eqtl_expression.R`<br> **Table**
+`plots/diagnostics/TABLE_candidate_eqtl.tsv`<br> **Source** the
+207-isolate expression matrix, its eQTL table and feature table (outside
+the repository)
+
+The coding-variant censuses above ask whether a gene’s protein differs
+between the parents. This asks the complementary question — whether its
+*expression* does, and whether it has a mapped eQTL in the 207-isolate
+study. All four parents of the two crosses (N2, XZ1516, JU1793, JU2466)
+are among the 207, so the comparison is direct rather than inferred.
+
+Of **75 coding genes** across the five censused windows, **9 carry a
+mapped eQTL** and **5 of those are local**. Expression differences are
+reported as a z-score against the 207-strain distribution: how unusual
+the parental gap is, not whether it is significant.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Locus
+</th>
+<th style="text-align:left;">
+Gene
+</th>
+<th style="text-align:right;">
+p1
+</th>
+<th style="text-align:right;">
+p2
+</th>
+<th style="text-align:right;">
+z
+</th>
+<th style="text-align:right;">
+H²
+</th>
+<th style="text-align:right;">
+eQTL
+</th>
+<th style="text-align:right;">
+var. exp.
+</th>
+<th style="text-align:right;">
+coding Δ
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15
+</td>
+<td style="text-align:left;">
+ist-1
+</td>
+<td style="text-align:right;">
+-0.64
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+-3.45
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15
+</td>
+<td style="text-align:left;">
+C55B6.1
+</td>
+<td style="text-align:right;">
+2.40
+</td>
+<td style="text-align:right;">
+-0.40
+</td>
+<td style="text-align:right;">
+3.19
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15
+</td>
+<td style="text-align:left;">
+C54D1.7
+</td>
+<td style="text-align:right;">
+-1.00
+</td>
+<td style="text-align:right;">
+1.77
+</td>
+<td style="text-align:right;">
+-2.86
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15
+</td>
+<td style="text-align:left;">
+alh-10
+</td>
+<td style="text-align:right;">
+2.76
+</td>
+<td style="text-align:right;">
+3.72
+</td>
+<td style="text-align:right;">
+-2.69
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15
+</td>
+<td style="text-align:left;">
+clec-86
+</td>
+<td style="text-align:right;">
+1.55
+</td>
+<td style="text-align:right;">
+3.02
+</td>
+<td style="text-align:right;">
+-2.07
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:1.88
+</td>
+<td style="text-align:left;">
+tub-2
+</td>
+<td style="text-align:right;">
+3.16
+</td>
+<td style="text-align:right;">
+4.19
+</td>
+<td style="text-align:right;">
+-3.35
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+Distant eQTL
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:1.88
+</td>
+<td style="text-align:left;">
+egl-30
+</td>
+<td style="text-align:right;">
+3.61
+</td>
+<td style="text-align:right;">
+4.79
+</td>
+<td style="text-align:right;">
+-2.16
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+Distant eQTL/Local eQTL
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:1.88
+</td>
+<td style="text-align:left;">
+scm-1
+</td>
+<td style="text-align:right;">
+5.51
+</td>
+<td style="text-align:right;">
+5.78
+</td>
+<td style="text-align:right;">
+-2.06
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+Local eQTL
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:1.88
+</td>
+<td style="text-align:left;">
+tag-96
+</td>
+<td style="text-align:right;">
+-0.58
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+-1.92
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+Local eQTL
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:left;">
+Y43F4B.10
+</td>
+<td style="text-align:right;">
+-0.90
+</td>
+<td style="text-align:right;">
+4.30
+</td>
+<td style="text-align:right;">
+-4.13
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:left;">
+cpf-2
+</td>
+<td style="text-align:right;">
+5.81
+</td>
+<td style="text-align:right;">
+4.62
+</td>
+<td style="text-align:right;">
+3.75
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:left;">
+dph-7
+</td>
+<td style="text-align:right;">
+-1.00
+</td>
+<td style="text-align:right;">
+1.74
+</td>
+<td style="text-align:right;">
+-2.95
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+Local eQTL
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:left;">
+dro-1
+</td>
+<td style="text-align:right;">
+6.26
+</td>
+<td style="text-align:right;">
+5.22
+</td>
+<td style="text-align:right;">
+2.48
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31
+</td>
+<td style="text-align:left;">
+F56A8.3
+</td>
+<td style="text-align:right;">
+2.87
+</td>
+<td style="text-align:right;">
+3.38
+</td>
+<td style="text-align:right;">
+-2.04
+</td>
+<td style="text-align:right;">
+0.24
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+pas-2
+</td>
+<td style="text-align:right;">
+6.91
+</td>
+<td style="text-align:right;">
+6.20
+</td>
+<td style="text-align:right;">
+3.62
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+Distant eQTL
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+secs-1
+</td>
+<td style="text-align:right;">
+-1.00
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+<td style="text-align:right;">
+-3.30
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+F28H7.2
+</td>
+<td style="text-align:right;">
+-0.56
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+-2.46
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+D1054.8
+</td>
+<td style="text-align:right;">
+3.76
+</td>
+<td style="text-align:right;">
+5.07
+</td>
+<td style="text-align:right;">
+-2.17
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+D1054.1
+</td>
+<td style="text-align:right;">
+3.20
+</td>
+<td style="text-align:right;">
+2.37
+</td>
+<td style="text-align:right;">
+2.01
+</td>
+<td style="text-align:right;">
+0.72
+</td>
+<td style="text-align:right;">
+Local eQTL
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76
+</td>
+<td style="text-align:left;">
+D1054.9
+</td>
+<td style="text-align:right;">
+-0.81
+</td>
+<td style="text-align:right;">
+-0.43
+</td>
+<td style="text-align:right;">
+-0.50
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+Distant eQTL
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NIL interval III:13.66-13.70
+</td>
+<td style="text-align:left;">
+dyf-2
+</td>
+<td style="text-align:right;">
+-0.53
+</td>
+<td style="text-align:right;">
+-0.32
+</td>
+<td style="text-align:right;">
+-1.27
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+Distant eQTL
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**This kills the two candidates that needed expression to work.**
+`set-25` (H3K9 methyltransferase, nuclear RNAi) and `lam-2` (laminin γ,
+and it sits on the JU chromosome X peak) were nominated on position and
+function precisely because neither carries a protein-altering difference
+— so expression was the only mechanism left. Neither differs between the
+parents (`z` = +0.29 and −0.71) and neither has an eQTL. That was the
+testable form of the hypothesis and it fails.
+
+**`ist-1` becomes the strongest single candidate at X:7.15.** It is the
+only gene in the set with both a coding difference and a large
+expression difference — `z` = **−3.45**, JU1793 more than three
+population SDs below JU2466 — and it lies 11–24 kb from the peak.
+
+**`sid-2` is a positive control for the method, and it behaves.** `z` =
++0.36 with no eQTL: no expression difference between JU1793 and JU2466
+at all. That is what it should look like, because the *sid-2* effect is
+coding — T96K, confirmed by the allele swap — so this analysis is not
+manufacturing signal where the answer is already known.
+
+**`mtm-6` and `wdr-5.3` keep their coding evidence and lose their
+regulatory story.** `wdr-5.3` matters here: its expression is highly
+heritable across the 207 (H² = 0.70) and the parents still do not
+differ, which makes that a meaningful null rather than a noisy one.
+
+**Genes the coding census had not nominated** now come forward on
+expression: `Y43F4B.10` (`z` = −4.13, the largest in any window),
+`cpf-2` (+3.75) and `dph-7` (−2.95, local eQTL) at III:13.31; `pas-2`
+(+3.62), `secs-1` (−3.30) and `D1054.1` — whose local eQTL explains
+**69%** of expression variance, the strongest cis-eQTL in any window —
+at V:10.76; `tub-2` (−3.35), `egl-30` and `scm-1` at I:1.88.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">What this comparison cannot say</span>
+
+**One expression value per strain**, so there is no within-strain
+replication and no p-value on a parental difference. The z-score
+describes how unusual the gap is against the 207-strain spread, nothing
+more.
+
+**The expression study is whole-animal, one stage, one condition.** A
+gene whose parental difference exists only in the relevant tissue, or
+only on RNAi food, would appear null here. The absence of a difference
+is therefore weak evidence against a regulatory mechanism, not proof of
+its absence.
+
+**An eQTL in the 207 panel is a statement about wild variation in
+general**, not about these two strains. A gene can differ between the
+parents without having a mappable eQTL, and can have a strong eQTL while
+these two parents happen to share an allele.
+
+</div>
+
 ## Figure S15 — where T96’s pocket sits in the charge distribution
 
 <div class="meta">
@@ -32685,7 +33407,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32699,7 +33421,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32713,7 +33435,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32727,7 +33449,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32741,7 +33463,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32755,7 +33477,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32769,7 +33491,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32783,7 +33505,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32797,7 +33519,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32811,7 +33533,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32825,7 +33547,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32839,7 +33561,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32853,7 +33575,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32867,7 +33589,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32881,7 +33603,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32895,7 +33617,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32909,7 +33631,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32923,7 +33645,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32937,7 +33659,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32951,7 +33673,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32965,7 +33687,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 <tr>
@@ -32979,7 +33701,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 21:03
+2026-09-09 21:18
 </td>
 </tr>
 </tbody>

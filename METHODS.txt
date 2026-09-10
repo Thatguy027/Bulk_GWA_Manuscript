@@ -830,6 +830,24 @@ left above 25% for the allele to matter. The 0% row is the negative control.
 That dose difference also means the N2 effect is not strictly comparable even
 raw with the JU experiments, which were run at a nominal 50%.
 
+EXPRESSION AND eQTL AT THE CENSUSED LOCI. The coding-variant censuses were
+complemented by asking, for every protein-coding gene in the five windows,
+whether the two parents of the relevant cross differ in its expression and
+whether it carries a mapped eQTL in the 207-isolate expression study
+(scripts/candidate_eqtl_expression.R). All four parents are among the 207, so
+the comparison is direct. Of 75 coding genes, 9 carry a mapped eQTL and 5 of
+those are local. Because the study provides one value per strain, a parental
+difference has no within-strain replication and no p-value; it is reported as a
+z-score against the 207-strain distribution, describing how unusual the gap is
+rather than whether it is significant. Two further limits are stated with the
+result: the expression data are whole-animal at one stage under one condition,
+so a difference confined to the relevant tissue or to RNAi food would appear
+null; and an eQTL in that panel describes wild variation in general, not these
+two strains, so a gene may differ between the parents without a mappable eQTL
+and vice versa. sid-2 serves as the positive control and behaves as it should --
+z = 0.36 with no eQTL, i.e. no parental expression difference, consistent with
+its effect being the T96K coding change confirmed by allele swap.
+
 Allele-frequency shifts from the bulk-segregant crosses are NOT converted onto
 the hatching scale. A shift in a selected pool is a selection response, and
 converting it requires the selection intensity and the number of generations,
