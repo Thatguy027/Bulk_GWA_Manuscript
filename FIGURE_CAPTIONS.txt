@@ -317,8 +317,12 @@ whether there is a QTL, which Figure 2 already answers, and says nothing about
 which parent's allele the selection favoured -- which is the point being made
 here, since sid-2 sits at 13.68 Mb.
 
-(C) The NIL series: genotype and phenotype in one panel, one row per strain,
-JU1793 at the bottom to JU2466 at the top.
+(C) The NIL series: genotype and phenotype in one panel, one row per strain.
+The rows carry no strain names; from the bottom up they are JU1793, wSZ196,
+wSZ191, wSZ176, JU2466. The two parents are the two rows of a single colour,
+and the per-strain values are listed below, so each row is identifiable from
+its genotype and its hatching together. Figure S10 draws the same series with
+the names on the rows.
 
 Left, the introgressions on the right arm of chromosome III, 13.635 Mb to the
 telomere, JU1793 genotype in orange and JU2466 in teal. The track is

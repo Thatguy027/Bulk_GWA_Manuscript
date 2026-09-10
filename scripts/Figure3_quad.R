@@ -55,7 +55,11 @@ msg("panel C: NIL genotypes and hatching, merged")
 ## no longer has to be carried across a panel boundary. panel_C() and panel_B()
 ## are left in Figure3_common.R: Figure3_chrIII.R and the supplements still use
 ## them, and they are what the two-panel version was.
-pC <- panel_nil_geno_hatch(letter = "C")
+## labels = FALSE: no strain names on the rows. The row order is fixed and
+## stated in the caption -- JU1793 at the bottom, then wSZ196, wSZ191,
+## wSZ176, JU2466 at the top -- and Figure S10 shows the same series with
+## the names on, so nothing is only knowable from this panel.
+pC <- panel_nil_geno_hatch(letter = "C", labels = FALSE)
 
 ## C is now as wide as A and B together, so it takes the whole bottom row
 fig <- (pA + pB) / pC + plot_layout(heights = c(1, 1.08))

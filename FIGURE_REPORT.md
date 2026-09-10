@@ -29237,7 +29237,7 @@ JU1793 × JU2466, HT115 vs *pos-1*<br> **chrIII peak** 13.784 Mb, LOD
 
 <div class="plate">
 
-<img src="plots/Figure3_quad.png" alt="Four panels: pooled phenotype histogram with both cross parents marked, the chromosome III LOD scan, embryo hatching by strain, and the NIL introgression genotypes." width="100%" />
+<img src="plots/Figure3_quad.png" alt="Three panels: pooled phenotype histogram with both cross parents marked, parental allele frequency along chromosome III, and the NIL series with introgression genotypes beside embryo hatching, rows unlabelled." width="100%" />
 <p class="filecap">
 plots/Figure3_quad.pdf · .png
 </p>
@@ -29301,15 +29301,18 @@ JU1793 than the control at the right end and stops if it does not.
 <div class="panel">
 
 <span class="pl">C</span> The NIL series with **genotype and phenotype
-in one panel**, one row per strain, JU1793 at the bottom to JU2466 at
-the top. Left, the introgressions on the right arm of chromosome III,
-13.635 Mb to the telomere, JU1793 genotype in orange and JU2466 in teal
-— the smaller half of the panel, on thin bars, because it carries two
-breakpoints where the hatching carries a five-level series with
-intervals. Right, embryos hatched under 50% *pos-1* RNAi on the same
-rows, one plate per strain with Wilson 95% binomial intervals. The two
-halves share the row axis and carry separate x scales, labelled beneath
-each.
+in one panel**, one row per strain. The rows carry **no strain names**;
+from the bottom up they are JU1793, wSZ196, wSZ191, wSZ176, JU2466 — the
+two parents being the two single-colour rows, and the per-strain values
+listed below, so each row is identifiable from its genotype and hatching
+together. Figure S10 draws the same series with the names on. Left, the
+introgressions on the right arm of chromosome III, 13.635 Mb to the
+telomere, JU1793 genotype in orange and JU2466 in teal — the smaller
+half of the panel, on thin bars, because it carries two breakpoints
+where the hatching carries a five-level series with intervals. Right,
+embryos hatched under 50% *pos-1* RNAi on the same rows, one plate per
+strain with Wilson 95% binomial intervals. The two halves share the row
+axis and carry separate x scales, labelled beneath each.
 
 </div>
 
@@ -32049,7 +32052,7 @@ SUPP_FIG_XX_simulation_depth
 398
 </td>
 <td style="text-align:right;">
-2026-09-09 16:59
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32063,7 +32066,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32077,7 +32080,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32091,7 +32094,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32105,7 +32108,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32119,7 +32122,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32133,7 +32136,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32147,7 +32150,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32161,7 +32164,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32175,7 +32178,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32189,7 +32192,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32200,10 +32203,10 @@ Figure 3
 Figure3_quad
 </td>
 <td style="text-align:right;">
-172
+157
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:59
 </td>
 </tr>
 <tr>
@@ -32217,7 +32220,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32231,7 +32234,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32245,7 +32248,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32259,7 +32262,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32273,7 +32276,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32287,7 +32290,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32301,7 +32304,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32315,7 +32318,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 <tr>
@@ -32329,7 +32332,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 16:46
+2026-09-09 17:04
 </td>
 </tr>
 </tbody>

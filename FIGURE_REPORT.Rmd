@@ -1634,7 +1634,7 @@ general RNAi-response QTL to 37 kb, and gives an allelic series in hatching.
 :::
 
 ::: plate
-```{r fig-10, fig.alt="Four panels: pooled phenotype histogram with both cross parents marked, the chromosome III LOD scan, embryo hatching by strain, and the NIL introgression genotypes."}
+```{r fig-10, fig.alt="Three panels: pooled phenotype histogram with both cross parents marked, parental allele frequency along chromosome III, and the NIL series with introgression genotypes beside embryo hatching, rows unlabelled."}
 include_graphics("plots/Figure3_quad.png")
 ```
 <p class="filecap">plots/Figure3_quad.pdf · .png</p>
@@ -1687,7 +1687,11 @@ JU1793 than the control at the right end and stops if it does not.
 
 ::: panel
 [C]{.pl} The NIL series with **genotype and phenotype in one panel**, one row
-per strain, JU1793 at the bottom to JU2466 at the top. Left, the introgressions
+per strain. The rows carry **no strain names**; from the bottom up they are
+JU1793, wSZ196, wSZ191, wSZ176, JU2466 — the two parents being the two
+single-colour rows, and the per-strain values listed below, so each row is
+identifiable from its genotype and hatching together. Figure S10 draws the same
+series with the names on. Left, the introgressions
 on the right arm of chromosome III, 13.635 Mb to the telomere, JU1793 genotype
 in orange and JU2466 in teal — the smaller half of the panel, on thin bars,
 because it carries two breakpoints where the hatching carries a five-level
