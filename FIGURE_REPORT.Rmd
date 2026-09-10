@@ -132,6 +132,7 @@ stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 HA  <- "supplemental_data/hatching_assays"
 ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
+MAP <- "supplemental_data/mapping"
 
 ## Diagnostics are NOT part of the curated twenty-one. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
@@ -3324,6 +3325,140 @@ the cutoff. Every other marker beyond 13.6 Mb, *sid-2*'s own included, sits at
 r² = `0.5275`. At r² ≥ 0.71 the interval collapses to 14 kb. So "the LD interval
 contains *sid-2*" is a convex-hull effect at 0.7 and only a genuine statement at
 0.5, and the causal argument does not need it either way.
+:::
+
+## The JU2466 × XZ1516 cross, where T96K cannot segregate
+
+**Scripts** `scripts/make_jx_cross_chr3_tables.R`, `scripts/diagnostic_xz1516_sid2.R`<br>
+**Tables** `plots/diagnostics/TABLE_xz1516_sid2_variants.tsv`, `TABLE_jx_chr3_coincidence.tsv`<br>
+**Source** `bulkGWAS/xqtl_analysis/NJX_rnai` (outside this repository)
+
+A third, incomplete cross exists: **JU2466 × XZ1516**. Both parents carry
+*sid-2* **96K**, so T96K cannot segregate between them — and yet the cross has
+a chromosome III right-arm QTL. It is therefore the one cross that can separate
+the T96K story from anything else on that arm.
+
+::: caveat
+[What makes this cross weaker than the other two]{.ch}
+
+**There is no HT115 control pool.** Every contrast is one RNAi condition against
+another, so a peak can be driven by either side and no contrast measures a
+response against an unselected baseline. Only three timepoint-2 pools exist
+(*pos-1*, *mig-6*, *par-1*); the timepoint-1 samples have no contrast files.
+Every effect below is measured against *par-1* as the least-selected pool, not
+against zero.
+:::
+
+```{r tab-jx-window, eval=file.exists(file.path(MAP, "jx_cross_sid2_window.tsv"))}
+jw <- read_tsv(file.path(MAP, "jx_cross_sid2_window.tsv"), show_col_types = FALSE)
+kb(jw %>% transmute(Pool = condition, `JU2466 allele` = fnum(frac.JU2466, 3),
+                    `reads` = round(n)),
+   align = c("l", "r", "r"))
+```
+
+::: derived
+**The direction says XZ1516's chromosome III haplotype is the more
+*pos-1*-sensitive one.** From raw counts at *sid-2* ±25 kb the JU2466 allele
+runs `0.844` in the *pos-1* pool, `0.775` in *mig-6* and `0.573` in *par-1* — so
+wherever RNAi selects hard, the JU2466 allele is enriched and the XZ1516 allele
+is removed. That is the direction the hypothesis predicts.
+
+**It is not a *par-1* artefact.** *mig-6* at 0.775 sits close to *pos-1* and far
+from *par-1*, so two independent RNAi conditions push the same allele the same
+way; *par-1* is simply the least-selected pool, which is why contrasts against
+it give the largest LOD. But *par-1* is at 0.573 rather than 0.50, and with no
+HT115 pool there is no way to tell whether that 7 points is *par-1* selecting
+too, segregation distortion, or a mapping bias toward JU2466.
+:::
+
+### Can XZ1516's extra *sid-2* variants explain it?
+
+XZ1516 carries **five missense variants JU2466 does not** — D78A, M141V, Q144P,
+A151I, L209M — plus a **splice-region** variant at 13,680,474. The two share
+only 96K and P153T. So an allelic series at *sid-2* is available in principle.
+
+```{r tab-xz-charge, eval=file.exists(file.path(DIAGDIR, "TABLE_xz1516_sid2_variants.tsv"))}
+xv <- read_tsv(file.path(DIAGDIR, "TABLE_xz1516_sid2_variants.tsv"), show_col_types = FALSE)
+kb(xv %>% transmute(Substitution = substitution, Carrier = carrier,
+                    `Δ formal charge` = formal.charge.change,
+                    `Local net charge` = ifelse(is.na(local.charge), "—",
+                                                fnum(local.charge, 2)),
+                    `Å to T96` = ifelse(is.na(dist.to.T96), "—", fnum(dist.to.T96, 1)),
+                    `In model` = modelled),
+   align = c("l", "l", rep("r", 3), "l"))
+```
+
+::: derived
+**Charge is not the route.** Figure 4's mechanism for T96K is electrostatic —
+96K adds a positive charge in a positive, solvent-exposed pocket of an
+otherwise acidic domain. Of XZ1516's five extra variants, **only D78A can change
+formal charge at all**; M141V, Q144P, A151I and L209M are neutral-to-neutral and
+cannot act on that mechanism wherever they sit.
+
+**And D78A is in the wrong place.** It lies **35.1 Å from T96**, the furthest of
+any of them, in a locally *negative* environment (local net charge −1.28).
+Removing a negative charge 35 Å away in an acidic patch is a different
+proposition from adding a positive one in the pocket. For reference, T96's own
+local charge is `1.24`, the 82nd percentile of the ectodomain, and the two
+XZ1516 variants deepest in the acidic region — M141V at `−2.69`, the most
+negative position in the whole model, and Q144P at `−1.93` — are both
+charge-neutral substitutions.
+
+So the electrostatic hypothesis does not carry XZ1516's extra sensitivity. What
+remains open is the **splice-region variant**, which would act by a different
+route entirely and is untested, or a non-charge protein effect, or the locus not
+being *sid-2*.
+:::
+
+### Or is it the other chromosome III locus?
+
+```{r tab-jx-coincide, eval=file.exists(file.path(DIAGDIR, "TABLE_jx_chr3_coincidence.tsv"))}
+jc <- read_tsv(file.path(DIAGDIR, "TABLE_jx_chr3_coincidence.tsv"), show_col_types = FALSE)
+kb(jc %>% transmute(Contrast = contrast,
+                    `Peak (Mb)` = fnum(right.peak/1e6, 3),
+                    `Peak LOD` = fnum(right.LOD, 1),
+                    `LOD at 13.31` = fnum(LOD.at.general, 1),
+                    `LOD at sid-2` = fnum(LOD.at.sid2, 1),
+                    `Closer to` = closer.to),
+   align = c("l", rep("r", 4), "l"))
+```
+
+::: derived
+**Two of the three contrasts put the peak on the general locus, not on
+*sid-2*.** The mig-6 census found an independent general-response locus at
+III:**13.31 Mb**, interval 13.090–13.526, classified `general:4` in N2 × XZ1516
+— **375 kb proximal to *sid-2***. In this cross, *pos-1* − *par-1* peaks at
+13.365 Mb with LOD 145.5, and its LOD **at** 13.31 is 145.1 — essentially at the
+peak. *pos-1* − *mig-6* peaks at 13.286 Mb. Both fall inside the general
+locus's interval and both are closer to it than to *sid-2*.
+
+**The third contrast points the other way.** *mig-6* − *par-1* peaks at 13.784
+Mb, outside that interval, and its LOD is higher at *sid-2* (63.9) than at 13.31
+(50.5). So there may be two signals on this arm rather than one.
+
+**The reading I would take.** The strongest interpretation is not an allelic
+series at *sid-2* but **two independent crosses converging on the same
+non-*sid-2* locus at 13.31 Mb** — which is a stronger claim than either cross
+makes alone, and it explains why a chromosome III QTL survives in a cross where
+T96K cannot segregate. It does not *exclude* *sid-2*: the *pos-1* − *par-1*
+interval spans both positions and its LOD at *sid-2* is 134.8, so the locus is
+broad enough to contain both.
+:::
+
+::: aside
+[What would settle it]{.ch}
+
+**An HT115 pool for this cross**, which turns every contrast into a response
+measurement instead of a difference between two responses, and gives the
+unselected baseline that par-1 is currently standing in for.
+
+**Fine-mapping 13.31 Mb**, which the mig-6 census already flags as the priority:
+it is a general-response locus in one cross, and now a peak position in a
+second, and no NIL series has ever tested it — every introgression in Figure 3
+lies distal, from 13.6577 Mb.
+
+**Testing the splice-region variant**, the one *sid-2* difference between these
+two parents that the charge analysis cannot rule out.
 :::
 
 # Open before submission

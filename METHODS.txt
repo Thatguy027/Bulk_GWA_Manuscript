@@ -544,6 +544,44 @@ The T96K site is chromosome III 13,680,248 C>A, with REF C encoding 96T and ALT
 A encoding 96K. Allele assignment was verified against four strains whose allele
 is known independently: JU1793 and N2 carry 96T, JU2466 and XZ1516 carry 96K.
 
+A THIRD, INCOMPLETE CROSS: JU2466 x XZ1516. Both parents carry sid-2 96K, so
+T96K cannot segregate between them, which makes this the only cross that can
+separate the T96K story from anything else on the chromosome III right arm. It
+is reported as a diagnostic rather than a result because it is incomplete:
+there is no HT115 control pool, so every contrast is one RNAi condition against
+another and no contrast measures a response against an unselected baseline;
+only three timepoint-2 pools exist (pos-1, mig-6, par-1). Data are staged from
+the external analysis directory by scripts/make_jx_cross_chr3_tables.R and
+analysed by scripts/diagnostic_xz1516_sid2.R.
+
+The cross does carry a chromosome III right-arm QTL. From raw counts in a
+50 kb window on sid-2 the JU2466 allele runs 0.844 in the pos-1 pool, 0.775 in
+mig-6 and 0.573 in par-1, so the XZ1516 haplotype is the one removed wherever
+RNAi selects; two independent RNAi conditions agree, which argues against a
+par-1 artefact, but par-1 at 0.573 rather than 0.50 cannot be interpreted
+without the missing control.
+
+Two explanations were tested. First, an allelic series at sid-2: XZ1516 carries
+five missense variants JU2466 does not (D78A, M141V, Q144P, A151I, L209M) plus
+a splice-region variant, against only 96K and P153T shared. Figure 4's
+mechanism for T96K is electrostatic, and on that mechanism the series does not
+work: only D78A can change formal charge at all, the other four being
+neutral-to-neutral substitutions, and D78A lies 35.1 A from T96 -- the furthest
+of the five -- in a locally negative environment (local net charge -1.28)
+rather than in T96's positive pocket. The splice-region variant is untested and
+remains the one sid-2 difference this analysis cannot exclude.
+
+Second, the other chromosome III locus. The mig-6 census identified an
+independent general-response locus at III:13.31 Mb (interval 13.090-13.526,
+general:4 in N2 x XZ1516), 375 kb proximal to sid-2. Two of the three contrasts
+in this cross peak inside that interval and closer to it than to sid-2 --
+pos-1 minus par-1 at 13.365 Mb with LOD 145.5 and LOD 145.1 at 13.31, and
+pos-1 minus mig-6 at 13.286 Mb -- while the third, mig-6 minus par-1, peaks at
+13.784 Mb with a higher LOD at sid-2 than at 13.31. The reading taken is
+therefore that two independent crosses converge on the same non-sid-2 locus at
+13.31 Mb rather than that sid-2 carries an allelic series, without excluding
+sid-2, whose position falls inside the broad pos-1 interval at LOD 134.8.
+
 SID-2 ACROSS SPECIES. C. briggsae is insensitive to environmental RNAi and a
 C. elegans sid-2 transgene confers sensitivity on it (Winston et al. 2007), so
 the two species' SID-2 proteins were aligned to ask which residues a second

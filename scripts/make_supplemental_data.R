@@ -41,6 +41,12 @@
 ##                                      C. elegans / C. briggsae SID-2
 ##                                      alignment and the population missense
 ##                                      overlay; sequences from UniProt)
+##   mapping/jx_cross_chr3_profile.tsv.gz,
+##   mapping/jx_cross_chr3_peaks.tsv,
+##   mapping/jx_cross_sid2_window.tsv
+##                                   <- make_jx_cross_chr3_tables.R  (the
+##                                      incomplete JU2466 x XZ1516 cross, in
+##                                      which sid-2 96K cannot segregate)
 ##   mapping/nil_interval_genes.tsv,
 ##   mapping/nil_interval_exons.tsv,
 ##   mapping/nil_interval_parent_variants.tsv

@@ -75,6 +75,8 @@ Assembled 2026-09-09
     -   [Figure S18 — what the 37 kb interval
         contains](#figure-s18--what-the-37-kb-interval-contains)
     -   [The panel split at two loci](#the-panel-split-at-two-loci)
+    -   [The JU2466 × XZ1516 cross, where T96K cannot
+        segregate](#the-ju2466--xz1516-cross-where-t96k-cannot-segregate)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
 
@@ -33440,6 +33442,454 @@ causal argument does not need it either way.
 
 </div>
 
+## The JU2466 × XZ1516 cross, where T96K cannot segregate
+
+**Scripts** `scripts/make_jx_cross_chr3_tables.R`,
+`scripts/diagnostic_xz1516_sid2.R`<br> **Tables**
+`plots/diagnostics/TABLE_xz1516_sid2_variants.tsv`,
+`TABLE_jx_chr3_coincidence.tsv`<br> **Source**
+`bulkGWAS/xqtl_analysis/NJX_rnai` (outside this repository)
+
+A third, incomplete cross exists: **JU2466 × XZ1516**. Both parents
+carry *sid-2* **96K**, so T96K cannot segregate between them — and yet
+the cross has a chromosome III right-arm QTL. It is therefore the one
+cross that can separate the T96K story from anything else on that arm.
+
+<div class="caveat">
+
+<span class="ch">What makes this cross weaker than the other two</span>
+
+**There is no HT115 control pool.** Every contrast is one RNAi condition
+against another, so a peak can be driven by either side and no contrast
+measures a response against an unselected baseline. Only three
+timepoint-2 pools exist (*pos-1*, *mig-6*, *par-1*); the timepoint-1
+samples have no contrast files. Every effect below is measured against
+*par-1* as the least-selected pool, not against zero.
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Pool
+</th>
+<th style="text-align:right;">
+JU2466 allele
+</th>
+<th style="text-align:right;">
+reads
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+pos1
+</td>
+<td style="text-align:right;">
+0.844
+</td>
+<td style="text-align:right;">
+3523
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mig6
+</td>
+<td style="text-align:right;">
+0.775
+</td>
+<td style="text-align:right;">
+3061
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+par1
+</td>
+<td style="text-align:right;">
+0.573
+</td>
+<td style="text-align:right;">
+1577
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**The direction says XZ1516’s chromosome III haplotype is the more
+*pos-1*-sensitive one.** From raw counts at *sid-2* ±25 kb the JU2466
+allele runs `0.844` in the *pos-1* pool, `0.775` in *mig-6* and `0.573`
+in *par-1* — so wherever RNAi selects hard, the JU2466 allele is
+enriched and the XZ1516 allele is removed. That is the direction the
+hypothesis predicts.
+
+**It is not a *par-1* artefact.** *mig-6* at 0.775 sits close to *pos-1*
+and far from *par-1*, so two independent RNAi conditions push the same
+allele the same way; *par-1* is simply the least-selected pool, which is
+why contrasts against it give the largest LOD. But *par-1* is at 0.573
+rather than 0.50, and with no HT115 pool there is no way to tell whether
+that 7 points is *par-1* selecting too, segregation distortion, or a
+mapping bias toward JU2466.
+
+</div>
+
+### Can XZ1516’s extra *sid-2* variants explain it?
+
+XZ1516 carries **five missense variants JU2466 does not** — D78A, M141V,
+Q144P, A151I, L209M — plus a **splice-region** variant at 13,680,474.
+The two share only 96K and P153T. So an allelic series at *sid-2* is
+available in principle.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Substitution
+</th>
+<th style="text-align:left;">
+Carrier
+</th>
+<th style="text-align:right;">
+Δ formal charge
+</th>
+<th style="text-align:right;">
+Local net charge
+</th>
+<th style="text-align:right;">
+Å to T96
+</th>
+<th style="text-align:left;">
+In model
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+V5L
+</td>
+<td style="text-align:left;">
+JU1793 only
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D78A
+</td>
+<td style="text-align:left;">
+XZ1516 only
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1.28
+</td>
+<td style="text-align:right;">
+35.1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M141V
+</td>
+<td style="text-align:left;">
+XZ1516 only
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+-2.69
+</td>
+<td style="text-align:right;">
+22.2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Q144P
+</td>
+<td style="text-align:left;">
+XZ1516 only
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+-1.93
+</td>
+<td style="text-align:right;">
+28.9
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A151I
+</td>
+<td style="text-align:left;">
+XZ1516 only
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+29.8
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+L209M
+</td>
+<td style="text-align:left;">
+XZ1516 only
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:right;">
+—
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P153T
+</td>
+<td style="text-align:left;">
+shared
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+24.6
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T96K
+</td>
+<td style="text-align:left;">
+shared 96K
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.24
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**Charge is not the route.** Figure 4’s mechanism for T96K is
+electrostatic — 96K adds a positive charge in a positive,
+solvent-exposed pocket of an otherwise acidic domain. Of XZ1516’s five
+extra variants, **only D78A can change formal charge at all**; M141V,
+Q144P, A151I and L209M are neutral-to-neutral and cannot act on that
+mechanism wherever they sit.
+
+**And D78A is in the wrong place.** It lies **35.1 Å from T96**, the
+furthest of any of them, in a locally *negative* environment (local net
+charge −1.28). Removing a negative charge 35 Å away in an acidic patch
+is a different proposition from adding a positive one in the pocket. For
+reference, T96’s own local charge is `1.24`, the 82nd percentile of the
+ectodomain, and the two XZ1516 variants deepest in the acidic region —
+M141V at `−2.69`, the most negative position in the whole model, and
+Q144P at `−1.93` — are both charge-neutral substitutions.
+
+So the electrostatic hypothesis does not carry XZ1516’s extra
+sensitivity. What remains open is the **splice-region variant**, which
+would act by a different route entirely and is untested, or a non-charge
+protein effect, or the locus not being *sid-2*.
+
+</div>
+
+### Or is it the other chromosome III locus?
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Contrast
+</th>
+<th style="text-align:right;">
+Peak (Mb)
+</th>
+<th style="text-align:right;">
+Peak LOD
+</th>
+<th style="text-align:right;">
+LOD at 13.31
+</th>
+<th style="text-align:right;">
+LOD at sid-2
+</th>
+<th style="text-align:left;">
+Closer to
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+pos1-par1
+</td>
+<td style="text-align:right;">
+13.365
+</td>
+<td style="text-align:right;">
+145.5
+</td>
+<td style="text-align:right;">
+145.1
+</td>
+<td style="text-align:right;">
+134.8
+</td>
+<td style="text-align:left;">
+general locus 13.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pos1-mig6
+</td>
+<td style="text-align:right;">
+13.286
+</td>
+<td style="text-align:right;">
+38.2
+</td>
+<td style="text-align:right;">
+38.1
+</td>
+<td style="text-align:right;">
+19.9
+</td>
+<td style="text-align:left;">
+general locus 13.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mig6-par1
+</td>
+<td style="text-align:right;">
+13.784
+</td>
+<td style="text-align:right;">
+71.9
+</td>
+<td style="text-align:right;">
+50.5
+</td>
+<td style="text-align:right;">
+63.9
+</td>
+<td style="text-align:left;">
+sid-2 13.68
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**Two of the three contrasts put the peak on the general locus, not on
+*sid-2*.** The mig-6 census found an independent general-response locus
+at III:**13.31 Mb**, interval 13.090–13.526, classified `general:4` in
+N2 × XZ1516 — **375 kb proximal to *sid-2***. In this cross, *pos-1* −
+*par-1* peaks at 13.365 Mb with LOD 145.5, and its LOD **at** 13.31 is
+145.1 — essentially at the peak. *pos-1* − *mig-6* peaks at 13.286 Mb.
+Both fall inside the general locus’s interval and both are closer to it
+than to *sid-2*.
+
+**The third contrast points the other way.** *mig-6* − *par-1* peaks at
+13.784 Mb, outside that interval, and its LOD is higher at *sid-2*
+(63.9) than at 13.31 (50.5). So there may be two signals on this arm
+rather than one.
+
+**The reading I would take.** The strongest interpretation is not an
+allelic series at *sid-2* but **two independent crosses converging on
+the same non-*sid-2* locus at 13.31 Mb** — which is a stronger claim
+than either cross makes alone, and it explains why a chromosome III QTL
+survives in a cross where T96K cannot segregate. It does not *exclude*
+*sid-2*: the *pos-1* − *par-1* interval spans both positions and its LOD
+at *sid-2* is 134.8, so the locus is broad enough to contain both.
+
+</div>
+
+<div class="aside">
+
+<span class="ch">What would settle it</span>
+
+**An HT115 pool for this cross**, which turns every contrast into a
+response measurement instead of a difference between two responses, and
+gives the unselected baseline that par-1 is currently standing in for.
+
+**Fine-mapping 13.31 Mb**, which the mig-6 census already flags as the
+priority: it is a general-response locus in one cross, and now a peak
+position in a second, and no NIL series has ever tested it — every
+introgression in Figure 3 lies distal, from 13.6577 Mb.
+
+**Testing the splice-region variant**, the one *sid-2* difference
+between these two parents that the charge analysis cannot rule out.
+
+</div>
+
 # Open before submission
 
 Everything above is generated and verified. These are the items that
@@ -33504,7 +33954,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33518,7 +33968,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33532,7 +33982,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33546,7 +33996,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33560,7 +34010,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33574,7 +34024,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33588,7 +34038,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33602,7 +34052,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33616,7 +34066,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33630,7 +34080,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33644,7 +34094,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33658,7 +34108,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33672,7 +34122,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33686,7 +34136,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-09 21:56
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33700,7 +34150,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33714,7 +34164,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33728,7 +34178,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33742,7 +34192,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33756,7 +34206,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33770,7 +34220,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33784,7 +34234,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33798,7 +34248,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 <tr>
@@ -33812,7 +34262,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-09 21:50
+2026-09-09 22:15
 </td>
 </tr>
 </tbody>
