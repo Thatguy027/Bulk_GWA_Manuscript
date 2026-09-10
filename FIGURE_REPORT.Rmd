@@ -1080,7 +1080,7 @@ a cross parent in Figures 2 and 3.
 :::
 
 ::: plate
-```{r fig-s20, fig.alt="Four panels of boxplots with jittered points: the pooled pos-1 response of each homozygous genotype group at the four peak markers, with the admission status of each marker."}
+```{r fig-s20, fig.alt="Four panels of boxplots with jittered points showing the pooled pos-1 response of each homozygous genotype group at the four peak markers, and below them a lower-triangle heatmap of the r-squared between all six pairs of those markers."}
 include_graphics("plots/SUPP_FIG_XX_gwas_peak_genotype_splits.png")
 ```
 <p class="filecap">SUPP_FIG_XX_gwas_peak_genotype_splits</p>
@@ -1132,6 +1132,31 @@ chromosome III signal the report keeps, and panels C and D together are the
 interval-admission rule doing its job.
 :::
 
+::: panel
+[E]{.pl} `r²` between all six pairs of those markers, in the same 231 strains.
+**Every pair is low.** The strongest is IV:15.32 Mb against III:12.72 Mb at
+`0.112`; then X:4.88 Mb against IV:15.32 Mb at `0.067`, X against III:12.72 Mb
+at `0.032`, and the remaining three at `0.004` or below. Against the `r² ≥ 0.7`
+the interval work uses to call two markers one signal, the strongest pair here
+is more than sixfold short — so these are four separate signals, not one
+haplotype tagged four times.
+
+Two details worth reading off it. The **two chromosome III markers are the
+least correlated pair of the six** (`r² = 9.5e-05`, 6.75 Mb apart), so panels C
+and D are not two views of one locus. And an `r²` of `0.112` between markers on
+*different* chromosomes is not nothing — under linkage equilibrium it would be
+near zero — which is the population structure the LOCO kinship correction
+exists to absorb.
+
+`r²` here is the squared correlation of the dosages. For these strains that is
+not an approximation: there are no heterozygous calls at these four markers, so
+the correlation and haplotypic estimators coincide exactly. Checked against
+`plink --r2 inter-chr` on the archive, restricted to the same 231 strains —
+agreement to `3e-08`, plink's own printed precision — and those six values are
+pinned in the script and asserted, so the deposit cannot drift away from the
+panel it was verified against.
+:::
+
 ::: caveat
 [What these panels do not license]{.ch}
 
@@ -1143,11 +1168,16 @@ at III:12.72 and **49%** at III:5.97. So panel C is the most tail-dependent, but
 none of them is tail-free, and no panel here should be read as an effect-size
 estimate.
 
-**The four markers are not independent of one another**, and this figure does
-not test whether they are. `scripts/diagnostic_genotype_splits.R` does that for
-IV:15.32 Mb against *sid-2* and finds them non-independent (Fisher
-`p = 8.1e-05`). Four low-frequency resistant alleles in a panel with strong
-population structure may be reporting overlapping sets of divergent strains.
+**Low pairwise `r²` is not the same as separable effects.** Panel E rules out
+one specific thing — that these four markers tag a single haplotype — and it
+rules it out cleanly. It does not show that the four loci have independent
+effects on the phenotype, which with 20 to 48 strains per minor-allele group
+this design cannot resolve. Nor does low `r²` imply the allele counts are
+statistically independent: `scripts/diagnostic_genotype_splits.R` finds
+IV:15.32 Mb and *sid-2* non-independent at Fisher `p = 8.1e-05` despite little
+LD between them, because a *p* value measures evidence and `r²` measures
+magnitude. Four low-frequency resistant alleles in a structured panel can still
+be reporting overlapping sets of divergent strains.
 
 **S20 sits out of numerical sequence**, below Figure 1 rather than after S19,
 because supplement numbers here are append-only — slotting it in as S3 would

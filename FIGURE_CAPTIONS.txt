@@ -1443,9 +1443,9 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 The 2023 pooled pos-1 RNAi response of the wild panel, split by homozygous
 genotype at the four peak markers of the Figure 1C scan. Boxes are the
 interquartile range with the median; the white diamond is the group mean; every
-strain is drawn. n = 231 phenotyped strains, of which 230 carry a call at
-IV:15,323,414 and all 231 at the other three. There are no heterozygous calls,
-as expected for inbred isotypes.
+strain is drawn; panel E is the LD between the four markers. n = 231 phenotyped
+strains, of which 230 carry a call at IV:15,323,414 and all 231 at the other
+three. There are no heterozygous calls, as expected for inbred isotypes.
 
 GEMMA counted the minor allele at all four markers -- established by checking
 that the genotypes reproduce the scan's own allele frequency, not assumed -- and
@@ -1477,13 +1477,36 @@ Bonferroni at 6.31 but above the eigen threshold, with 14 supporting markers;
 2*beta +0.0616 against an observed gap of +0.0637; Wilcoxon p = 2.3e-04. This is
 the chromosome III signal the report keeps.
 
+(E) r-squared between all six pairs of those markers, lower triangle, in the
+same 231 strains. Every pair is low: IV:15.32 / III:12.72 = 0.112, X:4.88 /
+IV:15.32 = 0.067, X:4.88 / III:12.72 = 0.032, and the other three at 0.004 or
+below. The interval work calls two markers one signal at r-squared 0.7, so the
+strongest pair here is more than sixfold short: these are four separate signals,
+not one haplotype tagged four times. Note also that the two chromosome III
+markers are the LEAST correlated pair of the six (9.5e-05, 6.75 Mb apart), so
+panels C and D are not two views of one locus; and that r-squared 0.112 between
+markers on different chromosomes is not nothing, since under linkage
+equilibrium it would be near zero.
+
+r-squared is the squared Pearson correlation of the dosages. For these strains
+that is exact rather than approximate: there are no heterozygous calls at these
+four markers, so the correlation-based and haplotypic estimators coincide.
+Verified against `plink --r2 inter-chr` on data/genotypes/CeNDR20210121_Plink
+restricted to the same 231 strains, agreeing to 3e-08 (plink's printed
+precision); the six values are pinned in the script and asserted. LD is computed
+in the phenotyped panel rather than in all 540 isotypes, the convention
+scripts/gwas_qtl_intervals.R sets.
+
 CAVEATS. Three of the four minor-allele groups hold about 20 strains, so
 none of these gaps is an effect-size estimate: dropping the two most resistant
 strains from the minor-allele group retains 81% of the gap at IV, 71% at X, 64%
-at III:12.72 and 49% at III:5.97. The four markers are also not independent of
-one another and this figure does not test whether they are;
-scripts/diagnostic_genotype_splits.R does so for IV:15.32 Mb against sid-2 and
-finds them non-independent (Fisher p = 8.1e-05).
+at III:12.72 and 49% at III:5.97. Panel E rules out these four markers tagging
+one haplotype; it does NOT show their effects are separable, which this design
+cannot resolve at 20-48 strains per group, and low r-squared does not imply the
+allele counts are statistically independent -- diagnostic_genotype_splits.R
+finds IV:15.32 Mb and sid-2 non-independent at Fisher p = 8.1e-05 despite
+little LD, because a p value measures evidence and r-squared measures
+magnitude.
 
 Genotypes are supplemental_data/genotypes/gwas_peak_genotypes.tsv, staged by
 make_supplemental_data.R from the CeNDR 20210121 PLINK set as a long dosage

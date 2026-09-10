@@ -15,6 +15,7 @@
 ##                      eigen-passing neighbour within 100 kb
 ##   D  III:12,718,465  the right-arm locus, under Bonferroni and over the
 ##                      eigen threshold, with 14 supporting markers
+##   E  r-squared between all six pairs of those markers, lower triangle
 ##
 ## WHY C AND D ARE BOTH HERE
 ## They are the two chromosome III signals, and the repository admits the
@@ -31,6 +32,21 @@
 ## the kinship correction is applied is the signature of a marker tracking
 ## relatedness rather than a locus, which is the same conclusion the admission
 ## rule reaches from the marker's isolation. The two arguments are independent.
+##
+## PANEL E: LD, AND WHY IT IS COMPUTED HERE RATHER THAN WITH PLINK
+## r-squared is the squared Pearson correlation of the dosages. For these
+## strains that is not an approximation to plink's --r2: there are no
+## heterozygous calls at these four markers, so the correlation-based and
+## haplotypic estimators coincide exactly. Verified against
+## `plink --r2 inter-chr` on data/genotypes/CeNDR20210121_Plink, restricted to
+## the same 231 strains -- agreement to 3e-08, which is plink's own printed
+## precision. Those six values are pinned in R2_PLINK below and asserted, so
+## the deposit cannot drift away from the panel it was checked against.
+##
+## Computing it here means the figure needs neither the archive nor a plink
+## binary. LD is computed IN THE PHENOTYPED PANEL, not in all 540 isotypes,
+## which is the convention scripts/gwas_qtl_intervals.R sets and states: LD is
+## a property of the sample being analysed.
 ##
 ## DIRECTION, CHECKED NOT ASSUMED
 ## The vst trait is positive for strains that GAINED pool frequency under pos-1
@@ -79,6 +95,22 @@ COL_MIN <- "#2E4057"   # the minor allele, which is the resistant one here
 COL_PT  <- "#2E4057"
 COL_OK  <- "#1A7F5A"   # admitted by the interval rule
 COL_NO  <- "#B03A2E"   # discarded by it
+COL_LD_LO <- "#EEF2F5"
+COL_LD_HI <- "#2E4057"
+
+## the interval work's LD criterion, for scale: every pair here is far below it
+LD_INTERVAL_R2 <- 0.7
+
+## plink --r2 inter-chr on the archive, same 231 strains. Pinned so that a
+## change in the deposited dosages cannot silently move panel E.
+R2_PLINK <- tribble(
+  ~a,             ~b,             ~r2,
+  "X:4875969",    "III:5965738",  0.00400474,
+  "X:4875969",    "III:12718465", 0.0320088,
+  "X:4875969",    "IV:15323414",  0.0671796,
+  "III:5965738",  "III:12718465", 0.0000947867,
+  "III:5965738",  "IV:15323414",  0.0026374,
+  "III:12718465", "IV:15323414",  0.112313)
 
 ## the four markers, in the order the panels run
 SITES <- tribble(
@@ -310,11 +342,101 @@ build <- function(i) {
           plot.title = element_markdown(size = 10.5))
 }
 
+## ===========================================================================
+## E -- LD between the four markers
+## ===========================================================================
+msg("panel E: r-squared between the four markers")
+
+## one row per strain, one column per marker, in panel order
+W <- d %>% select(marker, strain, dose) %>%
+  pivot_wider(names_from = marker, values_from = dose) %>%
+  select(strain, all_of(st$marker))
+M <- as.matrix(W[, -1])
+R2 <- cor(M, use = "pairwise.complete.obs")^2
+
+## the pinned plink values, asserted in whichever order they were recorded
+chk <- R2_PLINK %>%
+  mutate(mine = map2_dbl(a, b, ~ R2[.x, .y]), diff = abs(mine - r2))
+cat("\n== r-squared: this script against plink --r2 inter-chr ==\n")
+print(as.data.frame(chk %>% transmute(
+  pair = paste(a, b, sep = " / "),
+  plink = signif(r2, 6), computed = signif(mine, 6),
+  difference = signif(diff, 3))), row.names = FALSE)
+if (max(chk$diff) > 1e-6)
+  stop("r-squared disagrees with the pinned plink values by ",
+       signif(max(chk$diff), 3), " -- the deposited dosages have changed, so ",
+       "panel E is no longer the checked quantity")
+msg("  agrees with plink to ", signif(max(chk$diff), 2),
+    "; pairwise n = ", paste(sort(unique(c(
+      outer(seq_len(ncol(M)), seq_len(ncol(M)),
+            Vectorize(function(i, j) sum(complete.cases(M[, c(i, j)]))))))),
+      collapse = " and "))
+
+## lower triangle only, in panel order, so a cell maps onto a pair of panels.
+## Columns are markers 1..n-1 and rows are markers 2..n: carrying all n levels
+## on both axes leaves an empty top row and an empty right column.
+lv <- sub(" Mb$", "", st$short)
+n <- nrow(st)
+ld <- expand_grid(row = seq_len(n), col = seq_len(n)) %>%
+  filter(row > col) %>%
+  mutate(a = st$marker[row], b = st$marker[col],
+         r2 = map2_dbl(a, b, ~ R2[.x, .y]),
+         rl = factor(lv[row], levels = rev(lv[2:n])),
+         cl = factor(lv[col], levels = lv[1:(n - 1)]),
+         lab = ifelse(r2 < 0.001, format(r2, digits = 2, scientific = TRUE),
+                      sprintf("%.3f", r2)))
+LD_MAX <- max(ld$r2)
+msg("  strongest pair ", ld$a[which.max(ld$r2)], " / ",
+    ld$b[which.max(ld$r2)], " at r2 ", sprintf("%.3f", LD_MAX),
+    " -- ", sprintf("%.0f", LD_INTERVAL_R2 / LD_MAX),
+    "x below the interval criterion of ", LD_INTERVAL_R2)
+
+pE <- ggplot(ld, aes(cl, rl, fill = r2)) +
+  geom_tile(colour = "white", linewidth = 1.1) +
+  geom_text(aes(label = lab, colour = r2 > 0.06), size = 3.1,
+            fontface = "bold", show.legend = FALSE) +
+  scale_fill_gradient(low = COL_LD_LO, high = COL_LD_HI,
+                      limits = c(0, LD_MAX),
+                      breaks = c(0, LD_MAX / 2, LD_MAX),
+                      labels = sprintf("%.3f", c(0, LD_MAX / 2, LD_MAX)),
+                      name = expression(r^2)) +
+  scale_colour_manual(values = c(`FALSE` = "grey25", `TRUE` = "white")) +
+  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE) +
+  coord_fixed() +
+  labs(x = NULL, y = NULL,
+       title = panel_title("E", "**LD between the four markers**"),
+       subtitle = emph(wrap_md(sprintf(paste0(
+         ## the flag is spelled out in the header and the caption; gridtext
+         ## turns a double hyphen into an en dash, so it stays out of here
+         "Squared correlation of the dosages, positions in Mb, same 231 ",
+         "strains; agrees exactly with plink's own estimator. Note the ",
+         "scale: the ",
+         "strongest pair is %.3f and the interval work calls markers linked ",
+         "at r-squared %.1f, so no pair here is close to being one signal. ",
+         "The two chromosome III markers, 6.75 Mb apart, are the least ",
+         "correlated pair of the six."),
+         LD_MAX, LD_INTERVAL_R2), 88))) +
+  theme_pub(10) +
+  theme(axis.line = element_blank(), axis.ticks = element_blank(),
+        axis.text = element_text(size = 8.2, colour = "grey20"),
+        plot.subtitle = element_markdown(size = 6.9, colour = "grey30",
+                                         lineheight = 1.3),
+        plot.title = element_markdown(size = 10.5),
+        legend.position = "right",
+        legend.title = element_text(size = 8.4),
+        legend.text = element_text(size = 7.2),
+        legend.key.height = grid::unit(20, "pt"))
+
+## ===========================================================================
 panels <- map(seq_len(nrow(st)), build)
-fig <- wrap_plots(panels, nrow = 1)
+## the triangle is a small square panel, so it is centred under the four
+## splits rather than stretched across their full width
+fig <- wrap_plots(panels, nrow = 1) /
+  (plot_spacer() | pE | plot_spacer()) +
+  plot_layout(heights = c(1, 0.62))
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_gwas_peak_genotype_splits.pdf"), fig,
-       width = 11.4, height = 4.3, device = cairo_pdf)
+       width = 11.4, height = 6.9, device = cairo_pdf)
 ggsave(file.path(OUT, "SUPP_FIG_XX_gwas_peak_genotype_splits.png"), fig,
-       width = 11.4, height = 4.3, dpi = 300, bg = "white")
+       width = 11.4, height = 6.9, dpi = 300, bg = "white")
 msg("wrote SUPP_FIG_XX_gwas_peak_genotype_splits.{pdf,png}")

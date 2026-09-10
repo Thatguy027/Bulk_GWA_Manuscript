@@ -1565,7 +1565,7 @@ because JU1793 is a cross parent in Figures 2 and 3.
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_gwas_peak_genotype_splits.png" alt="Four panels of boxplots with jittered points: the pooled pos-1 response of each homozygous genotype group at the four peak markers, with the admission status of each marker." width="100%" />
+<img src="plots/SUPP_FIG_XX_gwas_peak_genotype_splits.png" alt="Four panels of boxplots with jittered points showing the pooled pos-1 response of each homozygous genotype group at the four peak markers, and below them a lower-triangle heatmap of the r-squared between all six pairs of those markers." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_gwas_peak_genotype_splits
 </p>
@@ -1630,6 +1630,35 @@ rule doing its job.
 
 </div>
 
+<div class="panel">
+
+<span class="pl">E</span> `r²` between all six pairs of those markers,
+in the same 231 strains. **Every pair is low.** The strongest is
+IV:15.32 Mb against III:12.72 Mb at `0.112`; then X:4.88 Mb against
+IV:15.32 Mb at `0.067`, X against III:12.72 Mb at `0.032`, and the
+remaining three at `0.004` or below. Against the `r² ≥ 0.7` the interval
+work uses to call two markers one signal, the strongest pair here is
+more than sixfold short — so these are four separate signals, not one
+haplotype tagged four times.
+
+Two details worth reading off it. The **two chromosome III markers are
+the least correlated pair of the six** (`r² = 9.5e-05`, 6.75 Mb apart),
+so panels C and D are not two views of one locus. And an `r²` of `0.112`
+between markers on *different* chromosomes is not nothing — under
+linkage equilibrium it would be near zero — which is the population
+structure the LOCO kinship correction exists to absorb.
+
+`r²` here is the squared correlation of the dosages. For these strains
+that is not an approximation: there are no heterozygous calls at these
+four markers, so the correlation and haplotypic estimators coincide
+exactly. Checked against `plink --r2 inter-chr` on the archive,
+restricted to the same 231 strains — agreement to `3e-08`, plink’s own
+printed precision — and those six values are pinned in the script and
+asserted, so the deposit cannot drift away from the panel it was
+verified against.
+
+</div>
+
 <div class="caveat">
 
 <span class="ch">What these panels do not license</span>
@@ -1642,12 +1671,17 @@ IV, 71% at X, 64% at III:12.72 and **49%** at III:5.97. So panel C is
 the most tail-dependent, but none of them is tail-free, and no panel
 here should be read as an effect-size estimate.
 
-**The four markers are not independent of one another**, and this figure
-does not test whether they are. `scripts/diagnostic_genotype_splits.R`
-does that for IV:15.32 Mb against *sid-2* and finds them non-independent
-(Fisher `p = 8.1e-05`). Four low-frequency resistant alleles in a panel
-with strong population structure may be reporting overlapping sets of
-divergent strains.
+**Low pairwise `r²` is not the same as separable effects.** Panel E
+rules out one specific thing — that these four markers tag a single
+haplotype — and it rules it out cleanly. It does not show that the four
+loci have independent effects on the phenotype, which with 20 to 48
+strains per minor-allele group this design cannot resolve. Nor does low
+`r²` imply the allele counts are statistically independent:
+`scripts/diagnostic_genotype_splits.R` finds IV:15.32 Mb and *sid-2*
+non-independent at Fisher `p = 8.1e-05` despite little LD between them,
+because a *p* value measures evidence and `r²` measures magnitude. Four
+low-frequency resistant alleles in a structured panel can still be
+reporting overlapping sets of divergent strains.
 
 **S20 sits out of numerical sequence**, below Figure 1 rather than after
 S19, because supplement numbers here are append-only — slotting it in as
@@ -34064,7 +34098,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34078,7 +34112,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34092,7 +34126,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34103,10 +34137,10 @@ Figure S20
 SUPP_FIG_XX_gwas_peak_genotype_splits
 </td>
 <td style="text-align:right;">
-330
+422
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34120,7 +34154,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34134,7 +34168,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34148,7 +34182,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34162,7 +34196,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34176,7 +34210,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34190,7 +34224,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34204,7 +34238,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34218,7 +34252,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34232,7 +34266,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34246,7 +34280,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34260,7 +34294,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34274,7 +34308,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34288,7 +34322,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34302,7 +34336,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34316,7 +34350,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34330,7 +34364,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34344,7 +34378,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34358,7 +34392,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34372,7 +34406,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 <tr>
@@ -34386,7 +34420,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 09:57
+2026-09-10 10:09
 </td>
 </tr>
 </tbody>
