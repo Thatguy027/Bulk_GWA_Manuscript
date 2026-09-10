@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-one manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-three manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -134,9 +134,9 @@ ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 MAP <- "supplemental_data/mapping"
 
-## Diagnostics are NOT part of the curated twenty-one. They live in
+## Diagnostics are NOT part of the curated twenty-three. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the twenty-one, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-three, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -2340,7 +2340,10 @@ docking result.
 ::: panel
 [A]{.pl} The ectodomain coloured by residue class, with histidine separated
 because it is the class that titrates between neutral pH and the acidic gut
-lumen. T96 in orange, the uptake-critical residues in white.
+lumen. T96 in orange; the three uptake-critical histidines of McEwan et
+al. 2012 — H32, H168 and H175 — labelled in dark blue; **D34, the *qt13*
+allele, in purple**, because it is a separate line of evidence and not one of
+the histidines.
 :::
 
 ::: panel
@@ -2357,10 +2360,12 @@ slightly positive face, and **96K is the allele with efficient uptake**.
 
 ::: panel
 [C]{.pl} Cα distances from residue 96 to every other ectodomain residue, with
-the four published uptake-critical residues marked against the null. Three of
-four are nearer than the median, but 41% of the domain is within 20 Å, so
-binomial `p = 0.19` and a permutation test on their mean distance gives
-`p = 0.30`.
+the three uptake histidines marked in dark blue and D34 shown separately
+(purple, dashed) against the null. The statistic is over the **histidines
+only**: two of the three lie within 20 Å, but 41% of the domain does, so
+binomial `p = 0.37`, and a permutation test on their mean distance against
+20,000 random triples gives `p = 0.47`. Their mean, 24.3 Å, is *farther* from
+residue 96 than this span's median of 23.8 Å.
 :::
 
 ::: caveat
@@ -2393,7 +2398,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the twenty-one they need the
+tracked so this report reads from a clone, but unlike the twenty-three they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -3504,7 +3509,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All twenty-one figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-three figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is

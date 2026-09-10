@@ -75,20 +75,43 @@ CHARGE_NEUTRAL = "#D5DCE1"
 COL_MARK = "#F34C00"   # the JU1793 strain colour: the model is the 96T allele
 ## white fill with a dark ring: a filled dark marker disappeared against the
 ## dark ribbon, and any single colour fails somewhere on a coloured surface
-COL_FUNC = "#FFFFFF"
-COL_FUNC_EDGE = "#16324A"
+COL_FILL = "#FFFFFF"
+COL_HIS = "#16324A"       # the uptake histidines, and the default ring colour
+COL_ALLELE = "#7A4E8C"    # the qt13 allele, D34 -- same purple as Figure 4C
 ## default marks: the variant plus the neighbouring loop residue
-MARK = {94: ("N94", (0, 0, 5.0), "center", "bottom", None),
-        96: ("T96", (0, 0, -5.0), "center", "top", None)}
-## for the main display: the variant against the published uptake-critical
-## residues that share its face
+MARK = {94: ("N94", (0, 0, 5.0), "center", "bottom", None, "o"),
+        96: ("T96", (0, 0, -5.0), "center", "top", None, "o")}
+## ANNOTATED RESIDUES, IN TWO CLASSES
+## McEwan, Weisman & Hunter 2012 (Mol Cell 47:746) report that SID-2 has three
+## extracellular histidines -- H32, H168, H175 -- and test exactly those; the
+## imidazole protonates only in the acidic conditions SID-2 requires, and
+## His->Ala and His->Glu each reduced transport. This model's ectodomain
+## contains exactly three histidines, at those positions, which confirms the
+## numbering with no sequence database involved.
+##
+## D34 is a SEPARATE line of evidence -- the qt13 loss-of-function allele --
+## and residue 34 is an aspartate, so it was never a member of the histidine
+## set. An earlier version of this dict was MARK_FUNC = {96, 32, 34, 168},
+## which both drew D34 in the histidine class and omitted H175; the same error
+## was corrected in scripts/sid2_zoom_render.py in 29c7075 but not here.
+##
+## The class is carried by the LABEL COLOUR -- navy histidines against the
+## purple D34, the same two colours Figure 4C uses. It is not carried by the
+## ring: the ribbon's own histidine class colour in the charge render is
+## #8E6BAF, so a purple ring on D34 would land in exactly the class it has to
+## be told apart from. The marker shape (circle against diamond) agrees with
+## the label, but carries little on its own, because mplot3d depth-sorts the
+## ribbon over the markers and most of them end up occluded -- which is also
+## why every mark has a leader line.
+##
 ## offsets are applied in the ORIENTED frame (x = long axis), so they are
-## reproducible; the four labels overlapped when all were offset the same way
+## reproducible; the labels overlapped when all were offset the same way
 MARK_FUNC = {
-    96:  ("T96",  (7.0, 0, -5.0), "left", "top", None),
-    32:  ("H32",  (0.0, 0, 6.5), "center", "bottom", COL_FUNC),
-    34:  ("D34",  (-7.0, 0, -6.0), "right", "top", COL_FUNC),
-    168: ("H168", (-11.0, 0, 3.0), "right", "bottom", COL_FUNC)}
+    96:  ("T96",  (7.0, 0, -5.0), "left", "top", None, "o"),
+    32:  ("H32",  (0.0, 0, 6.5), "center", "bottom", COL_HIS, "o"),
+    168: ("H168", (-11.0, 0, 3.0), "right", "bottom", COL_HIS, "o"),
+    175: ("H175", (-7.0, 0, 5.5), "center", "bottom", COL_HIS, "o"),
+    34:  ("D34",  (-7.0, 0, -6.0), "right", "top", COL_ALLELE, "D")}
 WIDTH = {"H": 1.90, "E": 1.60, "C": 0.32}
 LIGHT = np.array([0.35, 0.35, 0.87])
 
@@ -286,15 +309,18 @@ def render(ids, ca, plddt, sse, fname, colour="plddt", elev=18, azim=-60,
     ax.add_collection3d(Poly3DCollection(quads, facecolors=cols,
                                          edgecolors="none", shade=False))
 
-    for pos, (lab, off, ha, va, col) in (marks or MARK).items():
+    for pos, (lab, off, ha, va, col, mkr) in (marks or MARK).items():
         wq = np.where(ids == pos)[0]
         if not len(wq):
             continue
         p = ca_o[wq[0]]
         variant = col is None
-        c = COL_MARK if variant else col
-        ax.scatter(*p, s=115 if variant else 90, color=c,
-                   edgecolors="white" if variant else COL_FUNC_EDGE,
+        ## ring and leader are dark for every annotated residue; the class is
+        ## in the shape, and the label colour
+        ring = COL_MARK if variant else COL_HIS
+        ax.scatter(*p, s=115 if variant else (78 if mkr == "D" else 90),
+                   marker=mkr, color=COL_MARK if variant else COL_FILL,
+                   edgecolors="white" if variant else ring,
                    linewidths=1.0 if variant else 1.4, depthshade=False,
                    zorder=10)
         ## leader line from the residue to its label. mplot3d depth-sorts the
@@ -303,14 +329,14 @@ def render(ids, ca, plddt, sse, fname, colour="plddt", elev=18, azim=-60,
         tip = (p[0] + off[0] * 0.82, p[1] + off[1] * 0.82,
                p[2] + off[2] * 0.82)
         ax.plot([p[0], tip[0]], [p[1], tip[1]], [p[2], tip[2]],
-                color=COL_MARK if variant else COL_FUNC_EDGE,
+                color=ring,
                 linewidth=0.9, solid_capstyle="round", zorder=10.5,
                 path_effects=[pe.withStroke(linewidth=2.4,
                                             foreground="white")])
         ## a white stroke round the glyphs, so labels stay legible wherever
         ## they land on the ribbon
         ax.text(p[0] + off[0], p[1] + off[1], p[2] + off[2], lab,
-                color=COL_MARK if variant else COL_FUNC_EDGE,
+                color=COL_MARK if variant else col,
                 fontsize=10.5 if variant else 9.5, fontweight="bold",
                 ha=ha, va=va, zorder=11,
                 path_effects=[pe.withStroke(linewidth=2.6,

@@ -9,6 +9,26 @@ Related: `ENVIRONMENT.md` (how to rebuild figures faithfully on this machine),
 
 ## 1. The sid-2 residue-set correction was applied to one renderer, not both
 
+**RESOLVED 2026-09-10.** `MARK_FUNC` now separates the three uptake
+histidines from the *qt13* allele and includes H175, which the model confirms
+is one of exactly three ectodomain histidines. The class is carried by the
+label colour, navy against purple, matching Figure 4C -- not by the marker
+ring, because the ribbon's own histidine class colour in the charge render is
+`#8E6BAF` and a purple ring would land in the class it has to be told apart
+from. Two assets changed, `sid2_ecd_ribbon_charge.png` and
+`sid2_ecd_ribbon_func.png`; the three unmarked renders and
+`sid2_per_residue.tsv` are byte-identical.
+
+The same correction was owed in three more places in
+`SUPP_FIG_XX_sid2_electrostatics.R`, all now fixed: panel A's subtitle said the
+marked residues were "in white"; panel C's subtitle still said "the four
+published uptake-critical residues" and printed "%d of 4" while the statistic
+had been over three histidines since the residue set was corrected, so it was
+rendering "2 of 4"; and `ad`, the D34 distance the caption says is "marked
+separately", was computed and never drawn. Panel C now draws it dashed in the
+allele purple. `FIGURE_REPORT.Rmd` panel C also still quoted the pre-correction
+`p = 0.19` / `p = 0.30`; it now quotes the script's own 0.37 and 0.47.
+
 Commit `29c7075` ("Correct the Figure 4C residue set: three histidines, not
 four residues") rewrote `scripts/sid2_zoom_render.py` to separate `HIS = {32,
 168, 175}` from the *qt13* allele at D34. The same correction was never applied
@@ -33,6 +53,17 @@ Fix is a one-line change to `MARK_FUNC` plus a rebuild of that script's assets,
 which changes tracked files under `plots/assets/`.
 
 ## 2. Five committed structure assets do not reproduce
+
+**NOT REPRODUCIBLE ON THE SANDBOX ONLY -- 2026-09-10.** All five reproduce
+byte-for-byte on the build machine, whose interpreter and libraries match
+`ENVIRONMENT.md` exactly (Python 3.13.2, NumPy 2.4.3, Matplotlib 3.10.8,
+Biopython 1.86, Pillow 12.1.1). Tested by re-running both producers against
+committed `HEAD` before any edit: `sid2_ribbon_render.py` left all five of its
+outputs and `sid2_per_residue.tsv` unchanged, and `sid2_zoom_render.py` left
+all of its outputs unchanged. The two ribbon PNGs differ from `HEAD` now only
+because of the item 1 fix. So this was an environment difference in the scratch
+copy, not content drift, and the "committed rasters predate their producer"
+reading does not hold.
 
 `sid2_ecd_ribbon_charge.png`, `sid2_ecd_ribbon_func.png`,
 `sid2_overview_oriented.png`, `sid2_overview_oriented_prev.png`,
@@ -65,6 +96,25 @@ Figure 4C", which is no longer true: Figure 4C is the charge panel, and
 at p = 0.38.
 
 ## 4. The curated figure count disagrees three ways
+
+**RESOLVED 2026-09-10.** `FIGS` in `FIGURE_REPORT.Rmd` is the source of
+truth, and its own guard was already at 23 and agreed with `plots/`. README's
+table was rebuilt from it (18 rows -> 23; the five absent were
+`Figure2_no_cross_qtl`, `SUPP_FIG_XX_nil_interval_genes`,
+`SUPP_FIG_XX_sid2_briggsae_alignment`, `SUPP_FIG_XX_sid2_local_charge`,
+`SUPP_FIG_XX_sid2_model_confidence`), and the prose counts are now
+twenty-three in all three documents.
+
+`scripts/check_figure_lists.R` now checks both, so the count cannot drift a
+fourth way: README's table must cover exactly `FIGS`, and each of the three
+documents must spell out the current count and no other. Verified in both
+directions -- it passes as committed, and reintroducing "twenty-one" in
+`DATA_AVAILABILITY.md` makes it fail and name the file and the stale word.
+
+Two further stale claims in README came out with it: "each script is named for
+the figure it produces" (`Figure2.R` writes two figures), and "the other
+seventeen scripts in `scripts/`", where there are 40 non-figure R scripts. The
+second is now a description of the six groups rather than a count.
 
 At `e6b1bbd`, `plots/` holds **23** curated figures. But `README.md` says
 "twenty-one" in three places (lines 17, 53, 100) and its curated table lists

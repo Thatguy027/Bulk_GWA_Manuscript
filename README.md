@@ -14,7 +14,7 @@ Everything here runs from the repository root with no arguments.
 | `scripts/` | 18 figure scripts, one per figure and named for it, plus 17 shared, data-prep, deposit-building and rendering scripts |
 | `scripts/legacy/` | 32 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all twenty-one figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
+| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all twenty-three figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
 | `DATA_AVAILABILITY.md` | what is archived externally |
@@ -50,7 +50,7 @@ history quickly, so `main_displays.pdf` is tracked instead.
 
 ## The figure report
 
-[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all twenty-one figures with their
+[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all twenty-three figures with their
 captions, ordered by the argument the manuscript makes rather than by build
 order: the assay, the map, the interval, the residue. It renders inline on
 GitHub — click the link above.
@@ -79,25 +79,36 @@ them now write there too, so re-running anything will not put them back in
 | `SUPP_FIG_XX_simulation_depth` | `SUPP_FIG_XX_simulation_depth.R` |
 | `SUPP_FIG_XX_dilution_validation` | `SUPP_FIG_XX_dilution_validation.R` |
 | `Figure1_pos1` | `Figure1_pos1.R` |
-| `Figure2` | `Figure2.R` |
-| `Figure3_quad` | `Figure3_quad.R` |
-| `Figure4_sid2` | `Figure4_sid2.R` |
-| `SUPP_FIG_plate_vs_paaby_vs_pos1original` | `SUPP_FIG_plate_vs_paaby_vs_pos1original.R` |
-| `SUPP_FIG_XX_cross_contrast_panels` | `SUPP_FIG_XX_cross_contrast_panels.R` |
-| `SUPP_FIG_XX_pooled_phenotype_ranks` | `SUPP_FIG_XX_pooled_phenotype_ranks.R` |
-| `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation` | `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation.R` |
 | `SUPP_FIG_XX_baugh_per_sample_frequencies` | `SUPP_FIG_XX_baugh_per_sample_frequencies.R` |
 | `SUPP_FIG_XX_bootstrap_propagation_checks` | `SUPP_FIG_XX_bootstrap_propagation_checks.R` |
 | `SUPP_FIG_XX_downsample_per_sample` | `SUPP_FIG_XX_downsample_per_sample.R` |
-| `SUPP_FIG_XX_sid2_electrostatics` | `SUPP_FIG_XX_sid2_electrostatics.R` |
-| `SUPP_FIG_XX_sid2_allele_in_panel` | `SUPP_FIG_XX_sid2_allele_in_panel.R` |
-| `SUPP_FIG_XX_n2_swap_dose` | `SUPP_FIG_XX_n2_swap_dose.R` |
+| `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation` | `SUPP_FIG_XX_original_pos1_dfreq_rep_correlation.R` |
+| `SUPP_FIG_plate_vs_paaby_vs_pos1original` | `SUPP_FIG_plate_vs_paaby_vs_pos1original.R` |
+| `Figure2` | `Figure2.R` |
+| `SUPP_FIG_XX_pooled_phenotype_ranks` | `SUPP_FIG_XX_pooled_phenotype_ranks.R` |
+| `SUPP_FIG_XX_cross_contrast_panels` | `SUPP_FIG_XX_cross_contrast_panels.R` |
+| `Figure3_quad` | `Figure3_quad.R` |
 | `SUPP_FIG_XX_nil_hatching_full` | `SUPP_FIG_XX_nil_hatching_full.R` |
+| `Figure4_sid2` | `Figure4_sid2.R` |
+| `SUPP_FIG_XX_n2_swap_dose` | `SUPP_FIG_XX_n2_swap_dose.R` |
 | `SUPP_FIG_XX_sid2_allele_swaps_full` | `SUPP_FIG_XX_sid2_allele_swaps_full.R` |
+| `SUPP_FIG_XX_sid2_allele_in_panel` | `SUPP_FIG_XX_sid2_allele_in_panel.R` |
+| `SUPP_FIG_XX_sid2_electrostatics` | `SUPP_FIG_XX_sid2_electrostatics.R` |
+| `SUPP_FIG_XX_sid2_local_charge` | `SUPP_FIG_XX_sid2_local_charge.R` |
+| `SUPP_FIG_XX_sid2_model_confidence` | `SUPP_FIG_XX_sid2_model_confidence.R` |
+| `Figure2_no_cross_qtl` | `Figure2.R` |
+| `SUPP_FIG_XX_nil_interval_genes` | `SUPP_FIG_XX_nil_interval_genes.R` |
+| `SUPP_FIG_XX_sid2_briggsae_alignment` | `SUPP_FIG_XX_sid2_briggsae_alignment.R` |
 
-Each is present as both `.pdf` and `.png`, and each script is named for the
-figure it produces. Verified by deleting every file in `plots/` and rebuilding:
-all twenty-one regenerate, with nothing extra.
+Each is present as both `.pdf` and `.png`. Every script but one is named for
+the figure it produces; `Figure2.R` writes both `Figure2` and the cross-QTL-free
+variant `Figure2_no_cross_qtl`. Verified by deleting every file in `plots/` and
+rebuilding: all twenty-three regenerate, with nothing extra.
+
+This table, the counts in this file, and the counts in `DATA_AVAILABILITY.md`
+and `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` are checked against
+`FIGS` in `FIGURE_REPORT.Rmd` by `scripts/check_figure_lists.R`, so they cannot
+drift apart again.
 
 `FIGURE_CAPTIONS.txt` still carries captions for the superseded variants,
 marked where they are; they describe the same measurements in a different
@@ -114,16 +125,20 @@ python3 scripts/sid2_zoom_render.py      # once, Figure4_sid2 structure panel
 Rscript scripts/Figure4_sid2.R
 ```
 
-The other seventeen scripts in `scripts/` are shared panel builders
-(`Figure1_common.R`, `Figure3_common.R`, `n2_swap_panels.R`), the
-multiple-testing machinery (`gwas_thresholds.R`, `eigen_independent_tests.R`),
-data preparation (`pooled_cross_intersection_prep.R`,
-`pooled_cross_candidate_variation.R`, `baugh_L1_DownSample_Counts.R`,
-`sid2_variant_table.R`, `extract_sim_reported_r2.py`), the structure renderers
-and an orientation-picking tool (`sid2_ribbon_render.py`,
-`sid2_zoom_render.py`, `sid2_orientation_sheet.py`), and the deposit builders
-(`make_supplemental_data.R`, `make_thinned_bundle.R`,
-`make_experiments_deposit.R`, `compare_full_vs_thinned_bundle.R`).
+The other scripts in `scripts/` are supporting code rather than figures, in
+six groups: shared panel builders (`Figure1_common.R`, `Figure3_common.R`,
+`n2_swap_panels.R`), the multiple-testing machinery (`gwas_thresholds.R`,
+`eigen_independent_tests.R`, `gwas_qtl_intervals.R`,
+`compare_gwas_thresholds.R`), data preparation and the `make_*` table builders
+(`pooled_cross_intersection_prep.R`, `sid2_variant_table.R`,
+`make_nil_interval_tables.R` and the rest), the structure renderers and an
+orientation-picking tool (`sid2_ribbon_render.py`, `sid2_zoom_render.py`,
+`sid2_charge_render.py`, `sid2_orientation_sheet.py` and the pLDDT pair), the
+deposit builders (`make_supplemental_data.R`, `make_thinned_bundle.R`,
+`make_experiments_deposit.R`, `compare_full_vs_thinned_bundle.R`), and the
+`diagnostic_*.R` analyses, which write to `plots/diagnostics/` and are read by
+`FIGURE_REPORT.Rmd` rather than by the manuscript. The repository checks
+(`check_figure_lists.R`, `check_manuscript_numbers.py`) sit alongside them.
 
 **Three things need the external archive**, because they read the genotype
 panel or the intersection cache:

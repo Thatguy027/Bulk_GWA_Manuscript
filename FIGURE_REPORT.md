@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-09
+Assembled 2026-09-10
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -81,7 +81,7 @@ Assembled 2026-09-09
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-one manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-three manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -30721,8 +30721,10 @@ contains no docking result.
 
 <span class="pl">A</span> The ectodomain coloured by residue class, with
 histidine separated because it is the class that titrates between
-neutral pH and the acidic gut lumen. T96 in orange, the uptake-critical
-residues in white.
+neutral pH and the acidic gut lumen. T96 in orange; the three
+uptake-critical histidines of McEwan et al. 2012 — H32, H168 and H175 —
+labelled in dark blue; **D34, the *qt13* allele, in purple**, because it
+is a separate line of evidence and not one of the histidines.
 
 </div>
 
@@ -30745,10 +30747,13 @@ with efficient uptake**.
 <div class="panel">
 
 <span class="pl">C</span> Cα distances from residue 96 to every other
-ectodomain residue, with the four published uptake-critical residues
-marked against the null. Three of four are nearer than the median, but
-41% of the domain is within 20 Å, so binomial `p = 0.19` and a
-permutation test on their mean distance gives `p = 0.30`.
+ectodomain residue, with the three uptake histidines marked in dark blue
+and D34 shown separately (purple, dashed) against the null. The
+statistic is over the **histidines only**: two of the three lie within
+20 Å, but 41% of the domain does, so binomial `p = 0.37`, and a
+permutation test on their mean distance against 20,000 random triples
+gives `p = 0.47`. Their mean, 24.3 Å, is *farther* from residue 96 than
+this span’s median of 23.8 Å.
 
 </div>
 
@@ -30787,7 +30792,8 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-one they need the Dryad archive to rebuild.
+clone, but unlike the twenty-three they need the Dryad archive to
+rebuild.
 
 ## Leakage in the MIP-seq validation
 
@@ -33954,7 +33960,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -33968,7 +33974,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -33982,7 +33988,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -33996,7 +34002,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34010,7 +34016,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34024,7 +34030,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34038,7 +34044,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34052,7 +34058,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34066,7 +34072,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34080,7 +34086,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34094,7 +34100,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34108,7 +34114,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34122,7 +34128,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34136,7 +34142,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34150,7 +34156,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34164,7 +34170,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34178,7 +34184,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34189,10 +34195,10 @@ Figure S14
 SUPP_FIG_XX_sid2_electrostatics
 </td>
 <td style="text-align:right;">
-794
+807
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34206,7 +34212,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34220,7 +34226,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34234,7 +34240,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34248,7 +34254,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 <tr>
@@ -34262,7 +34268,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-09 22:15
+2026-09-10 09:37
 </td>
 </tr>
 </tbody>
@@ -34270,7 +34276,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 
 <div class="tnote">
 
-All twenty-one figures rebuild from `supplemental_data/` with `data/`
+All twenty-three figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every

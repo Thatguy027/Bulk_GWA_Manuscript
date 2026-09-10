@@ -63,7 +63,8 @@ PH_LUMEN   <- 4.4          # C. elegans intestinal lumen, the pH used by the
                            # earlier stage4 analysis
 
 COL_JU1793 <- "#F34C00"
-COL_FUNC   <- "#16324A"
+COL_FUNC   <- "#16324A"   # the uptake histidines
+COL_ALLELE <- "#7A4E8C"   # the qt13 allele, D34 -- same purple as Figure 4C
 COL_WT     <- "#2E4057"
 COL_MUT    <- "#F34C00"
 
@@ -155,13 +156,17 @@ pA <- (ggplot() +
          "AlphaFold3 model, residues ", ECD[1], "&ndash;", ECD[2],
          " of chain A, coloured by residue class. Histidine is separated ",
          "because it is the class that titrates between neutral pH and the ",
-         "acidic gut lumen. T96 in orange; residues with a published uptake ",
-         "defect in white."), 78)) +
+         "acidic gut lumen. T96 in orange; the three uptake-critical ",
+         "histidines of McEwan et al. 2012 labelled in dark blue; D34, the ",
+         "qt13 loss-of-function allele, in purple, because it is a separate ",
+         "line of evidence and not one of the histidines."), 78)) +
   theme_void(base_size = 11) +
   theme(plot.title = element_markdown(size = 11.5),
         plot.subtitle = element_markdown(size = 8.2, colour = "grey30"),
         plot.title.position = "plot")) +
-  inset_element(p_key, left = 0, bottom = 0.60, right = 0.26, top = 1)
+  ## the key sits bottom-left, not top-left: H175's label occupies the upper
+  ## left of the ribbon box and was covering the end of "Basic (Arg, Lys)"
+  inset_element(p_key, left = 0, bottom = 0, right = 0.26, top = 0.40)
 
 ## ===========================================================================
 ## B -- net charge against pH
@@ -280,6 +285,8 @@ k20 <- sum(fd$dist <= 20)
 p_bin <- sum(dbinom(k20:nrow(fd), nrow(fd), frac20))
 msg("  observed mean ", round(obs_mean, 1), " A vs median ", round(med, 1),
     " A | permutation p = ", sprintf("%.3f", p_perm))
+n_near <- sum(fd$dist < med)
+msg("  ", n_near, " of ", nrow(fd), " histidines nearer than the median")
 msg("  ", k20, " of ", nrow(fd), " within 20 A; ",
     sprintf("%.0f%%", 100 * frac20), " of the ectodomain is | binomial p = ",
     sprintf("%.3f", p_bin))
@@ -295,10 +302,17 @@ pC <- ggplot(d, aes(dist)) +
              colour = "grey35") +
   geom_vline(data = fd, aes(xintercept = dist), linewidth = 0.6,
              colour = COL_FUNC) +
+  geom_vline(data = ad, aes(xintercept = dist), linewidth = 0.6,
+             linetype = "22", colour = COL_ALLELE) +
   geom_richtext(data = fd %>% mutate(y = Inf),
                 aes(x = dist, y = y, label = lab), inherit.aes = FALSE,
                 angle = 90, hjust = 1.05, vjust = -0.2, size = 2.6,
                 colour = COL_FUNC, fill = "white", label.color = NA,
+                label.padding = grid::unit(c(1, 1, 1, 1), "pt")) +
+  geom_richtext(data = ad %>% mutate(y = Inf),
+                aes(x = dist, y = y, label = lab), inherit.aes = FALSE,
+                angle = 90, hjust = 1.05, vjust = -0.2, size = 2.6,
+                colour = COL_ALLELE, fill = "white", label.color = NA,
                 label.padding = grid::unit(c(1, 1, 1, 1), "pt")) +
   annotate("richtext", x = med, y = 0, label = "median", hjust = -0.1,
            vjust = -0.6, angle = 90, size = 2.6, colour = "grey35",
@@ -310,13 +324,16 @@ pC <- ggplot(d, aes(dist)) +
        title = panel_title("C", "**Close, but not more than chance would give**"),
        subtitle = wrap_md(sprintf(paste0(
          "Distances from residue 96 to every other ectodomain residue, with ",
-         "the four published uptake-critical residues marked. Three of the ",
-         "four are nearer than the median (%.1f &Aring;), but %.0f%% of the ",
-         "ectodomain lies within 20 &Aring;, so %d of 4 landing there is not ",
-         "surprising: binomial *p* = %.2f, and a permutation test on their ",
-         "mean distance gives *p* = %.2f. Read this as spatial context for ",
-         "T96, not as evidence of a shared site."),
-         med, 100 * frac20, k20, p_bin, p_perm), 78)) +
+         "the three uptake-critical histidines marked (dark blue) and D34, ",
+         "the qt13 allele, shown separately (purple, dashed) because it is a ",
+         "different experiment and is not in the statistic. %d of the %d ",
+         "histidines are nearer than the median (%.1f &Aring;), but %.0f%% ",
+         "of the ectodomain lies within 20 &Aring;, so %d of %d landing ",
+         "there is not surprising: binomial *p* = %.2f, and a permutation ",
+         "test on their mean distance gives *p* = %.2f. Read this as spatial ",
+         "context for T96, not as evidence of a shared site."),
+         n_near, nrow(fd), med, 100 * frac20, k20, nrow(fd), p_bin,
+         p_perm), 78)) +
   theme_pub() +
   theme(axis.title.x = element_markdown())
 

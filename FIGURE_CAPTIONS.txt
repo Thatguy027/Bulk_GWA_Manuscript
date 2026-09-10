@@ -4,26 +4,35 @@ Bulk GWA manuscript -- RNAi sensitivity in wild Caenorhabditis elegans
 Generated 2026-09-03.
 ================================================================================
 
-CURATED SET, AS OF 2026-09-04
-Twenty figures are the manuscript set and live in plots/:
+CURATED SET, AS OF 2026-09-10
+Twenty-three figures are the manuscript set and live in plots/. Listed in the
+order FIGURE_REPORT.Rmd presents them, which is the manuscript order; the main
+figures first, then the supplements:
 
-  Figure1_pos1   Figure2   Figure3_quad   Figure4_sid2
-  SUPP_FIG_XX_simulation_depth            <- earliest supplement
-  SUPP_FIG_XX_dilution_validation         <- second
-  SUPP_FIG_plate_vs_paaby_vs_pos1original
-  SUPP_FIG_XX_cross_contrast_panels
-  SUPP_FIG_XX_pooled_phenotype_ranks
-  SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
+  Figure1_pos1
+  Figure2
+  Figure3_quad
+  Figure4_sid2
+  Figure2_no_cross_qtl
+
+  SUPP_FIG_XX_simulation_depth
+  SUPP_FIG_XX_dilution_validation
   SUPP_FIG_XX_baugh_per_sample_frequencies
   SUPP_FIG_XX_bootstrap_propagation_checks
   SUPP_FIG_XX_downsample_per_sample
+  SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
+  SUPP_FIG_plate_vs_paaby_vs_pos1original
+  SUPP_FIG_XX_pooled_phenotype_ranks
+  SUPP_FIG_XX_cross_contrast_panels
+  SUPP_FIG_XX_nil_hatching_full
+  SUPP_FIG_XX_n2_swap_dose
+  SUPP_FIG_XX_sid2_allele_swaps_full
+  SUPP_FIG_XX_sid2_allele_in_panel
   SUPP_FIG_XX_sid2_electrostatics
   SUPP_FIG_XX_sid2_local_charge
   SUPP_FIG_XX_sid2_model_confidence
-  SUPP_FIG_XX_sid2_allele_in_panel
-  SUPP_FIG_XX_n2_swap_dose
-  SUPP_FIG_XX_nil_hatching_full
-  SUPP_FIG_XX_sid2_allele_swaps_full
+  SUPP_FIG_XX_nil_interval_genes
+  SUPP_FIG_XX_sid2_briggsae_alignment
 
 Captions below cover those AND the superseded variants, which now live in
 plots/legacy/. Where a caption names a file that is no longer in plots/ -- the
@@ -1123,7 +1132,10 @@ docking result.
 
 (A) The ectodomain coloured by residue class, with histidine separated because
 it is the class that titrates between neutral pH and the acidic gut lumen. T96
-in orange, the uptake-critical residues in white.
+in orange; the three uptake-critical histidines of McEwan et al. 2012 (H32,
+H168, H175) labelled in dark blue; D34, the qt13 loss-of-function allele, in
+purple, because it is a separate line of evidence and not one of the
+histidines.
 
 (B) Net charge against pH, by Henderson-Hasselbalch over the side chains of
 residues 21-193 (11 Asp, 7 Glu, 3 His, 4 Cys, 5 Tyr, 9 Lys, 1 Arg; termini
