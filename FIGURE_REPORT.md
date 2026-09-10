@@ -57,6 +57,8 @@ Assembled 2026-09-09
         size](#coverage-against-reference-size)
     -   [Off-pool leakage against
         coverage](#off-pool-leakage-against-coverage)
+    -   [Gene content at the four strongest mig-6
+        QTL](#gene-content-at-the-four-strongest-mig-6-qtl)
     -   [Figure S15 — where T96’s pocket sits in the charge
         distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
     -   [Figure S16 — model confidence, and the proximity
@@ -31707,6 +31709,269 @@ deconvolution will choose to be wrong about.
 
 </div>
 
+## Gene content at the four strongest mig-6 QTL
+
+**Scripts** `scripts/make_mig6_locus_tables.R`,
+`scripts/diagnostic_mig6_locus_genes.R`<br> **Figures**
+`plots/diagnostics/DIAG_mig6_locus_*.png`<br> **Table**
+`plots/diagnostics/TABLE_mig6_locus_census.tsv`
+
+The census Figure S18 runs on the 37 kb NIL interval, applied to every
+independent HT115-vs-*mig-6* cross QTL above LOD 500, in a 100 kb window
+on each peak. Colour is the parent carrying the alternate allele: parent
+1 (N2, JU1793) pink, parent 2 (XZ1516, JU2466) green, the same p1/p2
+ordering the cross allele-frequency tables use.
+
+Eight peaks clear LOD 500, but four are `peak.rank > 1` with
+`separated = FALSE` — shoulders of one sweep rather than independent
+QTL, by the trough test in `cross_qtl_full_summary.R` — and a window on
+a shoulder is a window on the same locus twice. The four independent
+loci are the ones below.
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Locus
+</th>
+<th style="text-align:right;">
+LOD
+</th>
+<th style="text-align:right;">
+Δfreq
+</th>
+<th style="text-align:right;">
+Coding genes
+</th>
+<th style="text-align:right;">
+Sites
+</th>
+<th style="text-align:right;">
+Differ
+</th>
+<th style="text-align:right;">
+Protein-altering
+</th>
+<th style="text-align:right;">
+HIGH
+</th>
+<th style="text-align:right;">
+No-call p1
+</th>
+<th style="text-align:right;">
+No-call p2
+</th>
+<th style="text-align:right;">
+Divergent bp
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 III:13.31 Mb
+</td>
+<td style="text-align:right;">
+940
+</td>
+<td style="text-align:right;">
+-0.320
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+2664
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+193
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 V:10.76 Mb
+</td>
+<td style="text-align:right;">
+806
+</td>
+<td style="text-align:right;">
+-0.384
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+1876
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JU1793xJU2466 X:7.15 Mb
+</td>
+<td style="text-align:right;">
+798
+</td>
+<td style="text-align:right;">
+-0.836
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+2565
+</td>
+<td style="text-align:right;">
+134
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N2xXZ1516 I:1.88 Mb
+</td>
+<td style="text-align:right;">
+728
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+4464
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+985
+</td>
+<td style="text-align:right;">
+133
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="derived">
+
+**No HIGH-impact difference at any of the four loci.** No stop gained or
+lost, no frameshift, no splice-acceptor or splice-donor change, no start
+lost — across 86 protein-coding genes in 400 kb. The protein-altering
+differences are all missense or inframe indels: 21 at V:10.76, 12 at
+III:13.31, 11 at I:1.88 and 7 at X:7.15.
+
+**None of these windows resolves to a candidate the way the NIL interval
+does.** That interval held 2 protein-altering differences in 37 kb, both
+in one gene. These hold 7–21 spread across many genes, which is what an
+unfine-mapped peak looks like — the contrast is the point, not a defect
+in these panels.
+
+**The chromosome III *mig-6* peak is not the *sid-2* locus.** It sits at
+13.31 Mb, and *sid-2* is at 13.679–13.682 Mb, so a 100 kb window on this
+peak excludes *sid-2* by roughly 270 kb. The genes it does contain are a
+different set.
+
+**Two of the JU X:7.15 hits are worth a second look** on identity rather
+than statistics: *bar-1* (β-catenin, Wnt signalling) at 209A→209T and
+*ist-1* (insulin-receptor substrate) at 339T→339K. Neither is nominated
+here as a candidate — this panel ranks nothing — but they are the two
+whose function would make a reader stop.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">Divergent regions, and what actually limits these
+censuses</span>
+
+**No divergent region overlaps any of the four windows** for either
+parent of the relevant cross. The panels shade them where they occur, so
+the shading is absent here rather than omitted. That was not the
+expected result.
+
+**What limits the census instead is per-parent missingness, and it is
+concentrated in N2.** At I:1.88, 985 of 4,464 sites (22%) are a no-call
+in **N2** against 133 in XZ1516; at III:13.31 it is 193 against 30. At
+X:7.15 both JU parents are called at every one of 2,565 sites. So the
+absence of HIGH-impact differences is near-airtight on chromosome X and
+weakest on chromosome I, and the divergent-region track — the instrument
+that would normally flag this — says nothing about it.
+
+**Colour is near-degenerate for the N2 cross.** N2 is the reference
+genome, so at almost every site where the parents differ it is XZ1516
+that carries the alternate allele, and the pink key is essentially
+unused in those three panels. It is informative in the JU cross, where
+neither parent is the reference: two of the seven X:7.15 hits are JU1793
+and five are JU2466.
+
+</div>
+
+<img src="plots/diagnostics/DIAG_mig6_locus_III_13-31.png" alt="" width="100%" />
+
+<img src="plots/diagnostics/DIAG_mig6_locus_V_10-76.png" alt="" width="100%" />
+
+<img src="plots/diagnostics/DIAG_mig6_locus_X_7-15.png" alt="" width="100%" />
+
+<img src="plots/diagnostics/DIAG_mig6_locus_I_1-88.png" alt="" width="100%" />
+
 ## Figure S15 — where T96’s pocket sits in the charge distribution
 
 <div class="meta">
@@ -32119,7 +32384,7 @@ SUPP_FIG_XX_simulation_depth
 398
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32133,7 +32398,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32147,7 +32412,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32161,7 +32426,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32175,7 +32440,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32189,7 +32454,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32203,7 +32468,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32217,7 +32482,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32231,7 +32496,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32245,7 +32510,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32259,7 +32524,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32273,7 +32538,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32287,7 +32552,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32301,7 +32566,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32315,7 +32580,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32329,7 +32594,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32343,7 +32608,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32357,7 +32622,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32371,7 +32636,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32385,7 +32650,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32399,7 +32664,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 18:00
+2026-09-09 19:05
 </td>
 </tr>
 <tr>
@@ -32413,7 +32678,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-09 19:01
+2026-09-09 19:05
 </td>
 </tr>
 </tbody>
