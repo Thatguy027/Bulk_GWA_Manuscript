@@ -34,6 +34,13 @@
 ##                                   <- extract_sim_reported_r2.py  (the record
 ##                                      of the values as originally reported;
 ##                                      no longer the only route to them)
+##   mapping/nil_interval_genes.tsv,
+##   mapping/nil_interval_exons.tsv,
+##   mapping/nil_interval_parent_variants.tsv
+##                                   <- make_nil_interval_tables.R  (gene
+##                                      content and parental variation of the
+##                                      37 kb NIL interval, extracted from the
+##                                      BCSQ CeNDR VCF and a WormBase GFF3)
 ##   deconvolution/simulation_fitness_traits.tsv
 ##                                   <- make_simulation_fitness_table.R  (the
 ##                                      seven published traits the simulation

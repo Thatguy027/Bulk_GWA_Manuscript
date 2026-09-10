@@ -1252,3 +1252,57 @@ residues marked by class. 41.9% of the ectodomain lies within 20 A of T96, so
 two of the three histidines falling inside it is a binomial p = 0.38. The
 proximity argument is reported as failing; METHODS states that no proximity
 claim is made.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_nil_interval_genes
+(scripts/SUPP_FIG_XX_nil_interval_genes.R)
+--------------------------------------------------------------------------------
+
+Figure S18. What the 37 kb interval contains. Gene models across chromosome III
+13,657,700-13,695,000 bp -- the interval the NIL series of Figure 3 resolves --
+with every site at which the two parents of the cross differ drawn above them.
+Exons are boxes, the gene span a thin line, and the arrow after each name gives
+the strand.
+
+The interval holds six protein-coding genes: flp-15 (4.4 kb), aqp-11 (1.5 kb),
+dyf-2 (11.6 kb), sid-2 (3.0 kb), cul-2 (5.4 kb) and cyn-2 (1.1 kb). sid-2 lies
+inside dyf-2 on the opposite strand, so the two are drawn on separate rows. Six
+non-coding genes of 52-260 bp (mir-46, ZK525.4, ZK525.5, ZK525.6, ZK525.7,
+ZK525.8) are drawn as ticks on their own row and not labelled individually;
+at this scale their names collide and cannot be read.
+
+JU1793 and JU2466 differ at 27 sites across the 37 kb. TWO ALTER A PROTEIN, AND
+BOTH ARE MISSENSE IN sid-2: 5V>5L at 13,679,460, where JU1793 carries the
+alternate allele, and 96T>96K at 13,680,248, where JU2466 carries it -- the
+residue edited in Figure 4. Those two are the lollipops, coloured by which
+parent carries the alternate allele, on Figure 3's palette. The remaining 25
+differences are the rug beneath them: 3 synonymous and 22 intronic, UTR or
+unannotated. NO DIFFERENCE IN THE INTERVAL IS HIGH-IMPACT -- no stop gained or
+lost, no frameshift, no splice-acceptor or splice-donor change and no start
+lost, in any of the twelve genes. That zero is annotated on the panel rather
+than left to be inferred from an empty legend key.
+
+The rug is drawn because the denominator is the argument. Two lollipops on an
+otherwise empty axis would read as a search that returned two hits; with the
+other 25 differences visible the panel reads as a census of the interval in
+which two of 27 differences are protein-altering and both fall in one gene.
+
+CAVEAT 1, on completeness. Of the 959 variant sites in the interval, exactly one
+carries a no-call in either parent, and neither parent has a divergent region
+overlapping the interval, so the absence of further coding differences is not a
+coverage or alignment artefact. What the call set cannot see is structural
+variation: these are short-read SNVs and small indels, so an inversion, a large
+deletion, or anything in a region that failed to align would not appear here.
+
+CAVEAT 2, on the impact classes. bcftools csq emits consequence terms, not the
+HIGH/MODERATE/LOW ladder that snpEff and VEP report, so the mapping is made
+explicit in scripts/make_nil_interval_tables.R rather than assumed: HIGH is
+stop_gained, stop_lost, start_lost, frameshift, splice_acceptor and
+splice_donor; MODERATE is missense and inframe indels; LOW is synonymous and
+splice_region; everything else is MODIFIER.
+
+SOURCES. The figure reads only three staged tables --
+supplemental_data/mapping/nil_interval_{genes,exons,parent_variants}.tsv -- so
+it builds from a clone. They are extracted from the BCSQ-annotated CeNDR
+release (20231213) and the WormBase WS283 csq GFF3, neither of which is in the
+repository, by scripts/make_nil_interval_tables.R.

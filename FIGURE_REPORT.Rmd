@@ -79,7 +79,8 @@ FIGS <- c(
   "SUPP_FIG_XX_sid2_electrostatics",
   "SUPP_FIG_XX_sid2_local_charge",
   "SUPP_FIG_XX_sid2_model_confidence",
-  "Figure2_no_cross_qtl")
+  "Figure2_no_cross_qtl",
+  "SUPP_FIG_XX_nil_interval_genes")
 
 ## Fail loudly and usefully rather than knitting a report full of broken images.
 png_paths <- file.path("plots", paste0(FIGS, ".png"))
@@ -89,7 +90,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 21, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 22, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -122,7 +123,8 @@ LABELS <- c(
   ## renumber S1-S14 and silently invalidate figure references already written
   SUPP_FIG_XX_sid2_local_charge                  = "Figure S15",
   SUPP_FIG_XX_sid2_model_confidence              = "Figure S16",
-  Figure2_no_cross_qtl                           = "Figure S17")
+  Figure2_no_cross_qtl                           = "Figure S17",
+  SUPP_FIG_XX_nil_interval_genes                 = "Figure S18")
 stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 
 HA  <- "supplemental_data/hatching_assays"
@@ -2788,6 +2790,61 @@ points, rather than reading the arrow as the evidence.
 uses. This one exists so the overlay can be removed and the underlying scan
 inspected, which is a question a reviewer is entitled to ask and which no
 amount of caption prose answers as directly.
+:::
+
+## Figure S18 — what the 37 kb interval contains
+
+::: meta
+**Script** `scripts/SUPP_FIG_XX_nil_interval_genes.R`<br>
+**Supports** Figure 3, by saying what is inside the interval it resolves<br>
+**Scope** chromosome III 13.6577–13.6950 Mb · 12 genes · 27 parental differences
+:::
+
+::: plate
+```{r fig-s18, fig.alt="Gene models across the 37 kb interval on chromosome III, with sites where JU1793 and JU2466 differ drawn above them: two lollipops for the protein-altering missense variants in sid-2, and a rug of the remaining differences."}
+include_graphics("plots/SUPP_FIG_XX_nil_interval_genes.png")
+```
+<p class="filecap">SUPP_FIG_XX_nil_interval_genes</p>
+:::
+
+Figure 3 resolves the QTL to 13.6577–13.6950 Mb but does not say what is in
+there. This does. The interval holds **six protein-coding genes** — *flp-15*
+(4.4 kb), *aqp-11* (1.5 kb), *dyf-2* (11.6 kb), *sid-2* (3.0 kb), *cul-2*
+(5.4 kb) and *cyn-2* (1.1 kb) — plus six non-coding genes of 52–260 bp.
+*sid-2* lies **inside** *dyf-2* on the opposite strand, which is why it takes
+its own row.
+
+::: derived
+The two parents of the cross differ at **27 sites** across the 37 kb. **Two of
+them alter a protein, and both are missense in *sid-2***: `5V→5L` at
+13,679,460, where JU1793 carries the alternate allele, and **`96T→96K`** at
+13,680,248, where JU2466 does. The rest are 3 synonymous, and 22 intronic, UTR
+or unannotated. **No difference in the interval is HIGH-impact** — no stop
+gained or lost, no frameshift, no splice-site or start-lost change in any of
+the twelve genes.
+
+The census is close to complete rather than merely suggestive: of the 959
+variant sites in the interval, exactly **one** has a no-call in either parent,
+and **neither parent carries a divergent region** overlapping it, so the
+absence of other coding differences is not an alignment artefact. What this
+call set cannot see is structural variation — it is short-read SNVs and small
+indels, so an inversion, a large deletion or anything in a region that failed
+to align would not appear.
+:::
+
+::: aside
+[Why the rug is drawn]{.ch}
+
+**The denominator is the argument.** Two lollipops on an otherwise empty axis
+would read as a search that found two hits. The rug shows the 25 other places
+the parents differ, so the panel reads as what it is: a census of the interval
+in which two differences out of 27 are protein-altering, and both fall in the
+same gene.
+
+**Impact classes are bcftools csq terms mapped to the snpEff ladder**, and the
+mapping is written out in `scripts/make_nil_interval_tables.R` rather than
+assumed — HIGH is stop gained/lost, start lost, frameshift and splice
+acceptor/donor; MODERATE is missense and inframe indels.
 :::
 
 ## The panel split at two loci

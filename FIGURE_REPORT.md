@@ -63,6 +63,8 @@ Assembled 2026-09-09
         null](#figure-s16--model-confidence-and-the-proximity-null)
     -   [Figure S17 — Figure 2 without the cross
         QTL](#figure-s17--figure-2-without-the-cross-qtl)
+    -   [Figure S18 — what the 37 kb interval
+        contains](#figure-s18--what-the-37-kb-interval-contains)
     -   [The panel split at two loci](#the-panel-split-at-two-loci)
 -   [Open before submission](#open-before-submission)
 -   [Figure manifest](#figure-manifest)
@@ -31835,6 +31837,71 @@ ask and which no amount of caption prose answers as directly.
 
 </div>
 
+## Figure S18 — what the 37 kb interval contains
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_nil_interval_genes.R`<br> **Supports**
+Figure 3, by saying what is inside the interval it resolves<br>
+**Scope** chromosome III 13.6577–13.6950 Mb · 12 genes · 27 parental
+differences
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_nil_interval_genes.png" alt="Gene models across the 37 kb interval on chromosome III, with sites where JU1793 and JU2466 differ drawn above them: two lollipops for the protein-altering missense variants in sid-2, and a rug of the remaining differences." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_nil_interval_genes
+</p>
+
+</div>
+
+Figure 3 resolves the QTL to 13.6577–13.6950 Mb but does not say what is
+in there. This does. The interval holds **six protein-coding genes** —
+*flp-15* (4.4 kb), *aqp-11* (1.5 kb), *dyf-2* (11.6 kb), *sid-2* (3.0
+kb), *cul-2* (5.4 kb) and *cyn-2* (1.1 kb) — plus six non-coding genes
+of 52–260 bp. *sid-2* lies **inside** *dyf-2* on the opposite strand,
+which is why it takes its own row.
+
+<div class="derived">
+
+The two parents of the cross differ at **27 sites** across the 37 kb.
+**Two of them alter a protein, and both are missense in *sid-2***:
+`5V→5L` at 13,679,460, where JU1793 carries the alternate allele, and
+**`96T→96K`** at 13,680,248, where JU2466 does. The rest are 3
+synonymous, and 22 intronic, UTR or unannotated. **No difference in the
+interval is HIGH-impact** — no stop gained or lost, no frameshift, no
+splice-site or start-lost change in any of the twelve genes.
+
+The census is close to complete rather than merely suggestive: of the
+959 variant sites in the interval, exactly **one** has a no-call in
+either parent, and **neither parent carries a divergent region**
+overlapping it, so the absence of other coding differences is not an
+alignment artefact. What this call set cannot see is structural
+variation — it is short-read SNVs and small indels, so an inversion, a
+large deletion or anything in a region that failed to align would not
+appear.
+
+</div>
+
+<div class="aside">
+
+<span class="ch">Why the rug is drawn</span>
+
+**The denominator is the argument.** Two lollipops on an otherwise empty
+axis would read as a search that found two hits. The rug shows the 25
+other places the parents differ, so the panel reads as what it is: a
+census of the interval in which two differences out of 27 are
+protein-altering, and both fall in the same gene.
+
+**Impact classes are bcftools csq terms mapped to the snpEff ladder**,
+and the mapping is written out in `scripts/make_nil_interval_tables.R`
+rather than assumed — HIGH is stop gained/lost, start lost, frameshift
+and splice acceptor/donor; MODERATE is missense and inframe indels.
+
+</div>
+
 ## The panel split at two loci
 
 **Script** `scripts/diagnostic_genotype_splits.R`<br> **Figure**
@@ -32052,7 +32119,7 @@ SUPP_FIG_XX_simulation_depth
 398
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32066,7 +32133,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32080,7 +32147,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32094,7 +32161,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32108,7 +32175,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32122,7 +32189,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32136,7 +32203,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32150,7 +32217,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32164,7 +32231,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32178,7 +32245,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32192,7 +32259,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32206,7 +32273,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-09 17:59
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32220,7 +32287,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32234,7 +32301,7 @@ Figure4_sid2
 552
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32248,7 +32315,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32262,7 +32329,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32276,7 +32343,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32290,7 +32357,7 @@ SUPP_FIG_XX_sid2_electrostatics
 794
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32304,7 +32371,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32318,7 +32385,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
 </td>
 </tr>
 <tr>
@@ -32332,7 +32399,21 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-09 17:04
+2026-09-09 18:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S18
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_nil_interval_genes
+</td>
+<td style="text-align:right;">
+112
+</td>
+<td style="text-align:right;">
+2026-09-09 19:01
 </td>
 </tr>
 </tbody>
