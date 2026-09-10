@@ -2,7 +2,7 @@
 
 This repository holds the analysis code, the figures, and `supplemental_data/`
 — every input the figure scripts read, staged and compressed, 38.2 MB. All
-twenty-three figures rebuild from it alone, verified by deleting `data/` and running
+twenty-four figures rebuild from it alone, verified by deleting `data/` and running
 them. See `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` for a file-by-file,
 column-by-column description, and `SUPPLEMENTAL_DATA_SURVEY.md` for how the
 deposit set was chosen.
@@ -48,7 +48,7 @@ document the command than to archive them:
 
 ## What still works from a clone alone
 
-Since `supplemental_data/` is tracked, **all twenty-three figures now build from a
+Since `supplemental_data/` is tracked, **all twenty-four figures now build from a
 clone**, with no archive needed. The table below is about rebuilding the
 *inputs* rather than the figures.
 
@@ -60,16 +60,20 @@ clone**, with no archive needed. The table below is about rebuilding the
 | Figure 3 and all four variants | yes |
 | Figure 4 and its supplements | yes |
 | 2023 *pos-1* supplements | yes |
-| `SUPP_FIG_XX_sid2_allele_in_panel` | **no** — needs `data/genotypes/CeNDR20210121_Plink/` |
+| `SUPP_FIG_XX_sid2_allele_in_panel` | yes, but needs a **plink2 binary** — it reads the deposited `genotypes/sid2_region` PLINK set through `system2("plink2", ...)`, not the archive |
+| `SUPP_FIG_XX_gwas_peak_genotype_splits` | yes — genotypes are deposited as a dosage TSV, so no plink2 either |
 | `SUPP_FIG_XX_sid2_electrostatics` | yes |
 | `eigen_independent_tests.R` | **no** — needs `data/genotypes/` |
 | `baugh_strain_similarity.R` | **no** — needs `data/baugh/2024bootstrapINPUT.Rdata` (31 MB) |
 | `baugh_leakage_vs_similarity.R` | yes, on a borrowed predictor — see below |
 | plate-phenotype comparisons | yes |
 
-So Figure 2, the eigen-threshold computation, the allele-frequency supplement
-and the Baugh similarity table are the four things that need the archive.
-Everything else builds from the repository as it stands.
+So Figure 2, the eigen-threshold computation and the Baugh similarity table are
+the three things that need the archive. Everything else builds from the
+repository as it stands. `SUPP_FIG_XX_sid2_allele_in_panel` is a separate case:
+it needs no archive but does need a `plink2` binary on PATH, which is why
+`SUPP_FIG_XX_gwas_peak_genotype_splits` was given a dosage TSV instead of a
+PLINK subset.
 
 `scripts/baugh_leakage_vs_similarity.R` is the one script that runs from a
 clone but runs *better* with the archive. It tests whether the strains the

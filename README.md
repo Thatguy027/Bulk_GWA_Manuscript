@@ -14,7 +14,7 @@ Everything here runs from the repository root with no arguments.
 | `scripts/` | 18 figure scripts, one per figure and named for it, plus 17 shared, data-prep, deposit-building and rendering scripts |
 | `scripts/legacy/` | 32 superseded and orphaned scripts, kept so earlier figures can be reproduced; they write to `plots/legacy/` |
 | `plots/` | every figure as PDF and PNG, plus the structure renders in `plots/assets/` |
-| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all twenty-three figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
+| `supplemental_data/` | **every input the figure scripts read**, 38.2 MB. Self-contained: all twenty-four figures rebuild from this directory alone. Documented file by file, column by column, in `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` |
 | `METHODS.txt` | draft methods text, with every number traceable to the script that produces it |
 | `FIGURE_CAPTIONS.txt` | a caption for every figure and supplement, with the numbers and the caveats |
 | `DATA_AVAILABILITY.md` | what is archived externally |
@@ -50,7 +50,7 @@ history quickly, so `main_displays.pdf` is tracked instead.
 
 ## The figure report
 
-[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all twenty-three figures with their
+[`FIGURE_REPORT.md`](FIGURE_REPORT.md) presents all twenty-four figures with their
 captions, ordered by the argument the manuscript makes rather than by build
 order: the assay, the map, the interval, the residue. It renders inline on
 GitHub — click the link above.
@@ -99,11 +99,12 @@ them now write there too, so re-running anything will not put them back in
 | `Figure2_no_cross_qtl` | `Figure2.R` |
 | `SUPP_FIG_XX_nil_interval_genes` | `SUPP_FIG_XX_nil_interval_genes.R` |
 | `SUPP_FIG_XX_sid2_briggsae_alignment` | `SUPP_FIG_XX_sid2_briggsae_alignment.R` |
+| `SUPP_FIG_XX_gwas_peak_genotype_splits` | `SUPP_FIG_XX_gwas_peak_genotype_splits.R` |
 
 Each is present as both `.pdf` and `.png`. Every script but one is named for
 the figure it produces; `Figure2.R` writes both `Figure2` and the cross-QTL-free
 variant `Figure2_no_cross_qtl`. Verified by deleting every file in `plots/` and
-rebuilding: all twenty-three regenerate, with nothing extra.
+rebuilding: all twenty-four regenerate, with nothing extra.
 
 This table, the counts in this file, and the counts in `DATA_AVAILABILITY.md`
 and `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` are checked against

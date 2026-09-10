@@ -5,7 +5,7 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-10
-Twenty-three figures are the manuscript set and live in plots/. Listed in the
+Twenty-four figures are the manuscript set and live in plots/. Listed in the
 order FIGURE_REPORT.Rmd presents them, which is the manuscript order; the main
 figures first, then the supplements:
 
@@ -33,6 +33,7 @@ figures first, then the supplements:
   SUPP_FIG_XX_sid2_model_confidence
   SUPP_FIG_XX_nil_interval_genes
   SUPP_FIG_XX_sid2_briggsae_alignment
+  SUPP_FIG_XX_gwas_peak_genotype_splits
 
 Captions below cover those AND the superseded variants, which now live in
 plots/legacy/. Where a caption names a file that is no longer in plots/ -- the
@@ -1434,3 +1435,57 @@ from the BCSQ-annotated CeNDR release (20231213); per-parent residues from
 supplemental_data/structure/sid2_variants_cendr.tsv; topology from
 sid2_deeptmhmm_topology.3line. The staged tables the figure reads are
 supplemental_data/structure/sid2_{sequences.fa,species_alignment.tsv,population_missense.tsv}.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_gwas_peak_genotype_splits
+(scripts/SUPP_FIG_XX_gwas_peak_genotype_splits.R)
+--------------------------------------------------------------------------------
+The 2023 pooled pos-1 RNAi response of the wild panel, split by homozygous
+genotype at the four peak markers of the Figure 1C scan. Boxes are the
+interquartile range with the median; the white diamond is the group mean; every
+strain is drawn. n = 231 phenotyped strains, of which 230 carry a call at
+IV:15,323,414 and all 231 at the other three. There are no heterozygous calls,
+as expected for inbred isotypes.
+
+GEMMA counted the minor allele at all four markers -- established by checking
+that the genotypes reproduce the scan's own allele frequency, not assumed -- and
+every beta is positive, so at all four the minor allele is the resistant one.
+Higher vst = gained pool frequency under pos-1 RNAi = more resistant. The
+"admitted"/"discarded" label on each panel is the interval-admission rule of
+FIGURE_REPORT.md: over Bonferroni or the eigen threshold AND at least one
+eigen-passing marker within 100 kb.
+
+(A) IV:15,323,414, the scan's strongest marker at -log10 p 8.84. 48 A/A against
+182 G/G; gap +0.0514 vst, 12.1% of the phenotype range, Wilcoxon p = 1.2e-07.
+Twice the mixed-model effect, +0.0515, equals the observed gap. 95 eigen-passing
+neighbours within 100 kb.
+
+(B) X:4,875,969, the only chromosome X marker over Bonferroni, at 7.83. 20 G/G
+against 211 A/A; gap +0.0738, 17.4% of range, Wilcoxon p = 6.5e-06; 2*beta
++0.0726. Two eigen-passing neighbours. The marker is 28% along a 17.72 Mb
+chromosome, i.e. on the left arm, not the centre.
+
+(C) III:5,965,738, the centre-of-III marker, which the report discards. The
+second strongest association in the scan at 8.68, but the split gives Wilcoxon
+p = 0.011, seven orders of magnitude weaker; 2*beta is +0.1216 against an
+observed gap of +0.0456, so the model's effect is 2.7x the difference in the
+data; and it has zero eigen-passing neighbours within 100 kb. Three independent
+readings that it tracks relatedness rather than a locus.
+
+(D) III:12,718,465, the right-arm locus, 375 kb proximal to sid-2. Below
+Bonferroni at 6.31 but above the eigen threshold, with 14 supporting markers;
+2*beta +0.0616 against an observed gap of +0.0637; Wilcoxon p = 2.3e-04. This is
+the chromosome III signal the report keeps.
+
+CAVEATS. Three of the four minor-allele groups hold about 20 strains, so
+none of these gaps is an effect-size estimate: dropping the two most resistant
+strains from the minor-allele group retains 81% of the gap at IV, 71% at X, 64%
+at III:12.72 and 49% at III:5.97. The four markers are also not independent of
+one another and this figure does not test whether they are;
+scripts/diagnostic_genotype_splits.R does so for IV:15.32 Mb against sid-2 and
+finds them non-independent (Fisher p = 8.1e-05).
+
+Genotypes are supplemental_data/genotypes/gwas_peak_genotypes.tsv, staged by
+make_supplemental_data.R from the CeNDR 20210121 PLINK set as a long dosage
+table -- so this figure, unlike the other genotype-reading ones, needs no plink2
+binary.

@@ -217,6 +217,72 @@ if (file.exists(paste0(PL, ".bed"))) {
   msg("NOTE: ", PL, ".bed absent -- genotype subset not rebuilt")
 }
 
+## --- genotypes at the pos-1 pilot peak markers -----------------------------
+## SUPP_FIG_XX_gwas_peak_genotype_splits.R splits the panel at four markers on
+## three chromosomes, so a per-region PLINK subset would mean three of them.
+## A long-format dosage table is 40 kB, and -- unlike the PLINK trio -- it needs
+## no plink2 binary to read, so that figure builds from a clone with nothing
+## installed. Every strain in the association file is written -- 366, because
+## that file is the one the 2023 scan's PLINK set was built from -- and the
+## figure intersects it with the 231 that carry a vst_ctrl_pos-1_T2 value,
+## reporting how many of those have a call. Dose is the count of
+## allele_counted, NA where the strain has no call.
+PKG <- tibble::tribble(
+  ~chrom, ~pos,
+  "IV",   15323414L,
+  "III",   5965738L,
+  "X",     4875969L,
+  "III",  12718465L)
+PLDIR <- "data/genotypes/CeNDR20210121_Plink"
+PHENO <- file.path(SD, "phenotypes/pos1_2023_association_traits.csv.gz")
+DEST  <- file.path(GT, "gwas_peak_genotypes.tsv")
+
+if (all(file.exists(paste0(file.path(PLDIR, unique(PKG$chrom)), ".bed"))) &&
+    file.exists(PHENO)) {
+  keep <- readr::read_csv(PHENO, show_col_types = FALSE)$strain
+  one <- function(chrom, pos) {
+    scratch <- file.path(tempdir(), paste0("pk_", chrom, "_", pos))
+    dir.create(scratch, showWarnings = FALSE, recursive = TRUE)
+    stem <- file.path(scratch, "site")
+    writeLines(paste0(chrom, ":", pos), paste0(stem, ".snp"))
+    st <- system2("plink2", c("--bfile", file.path(PLDIR, chrom),
+                              "--extract", paste0(stem, ".snp"),
+                              "--export", "A", "--out", stem,
+                              "--allow-extra-chr", "--silent"),
+                  stdout = TRUE, stderr = TRUE)
+    if (!file.exists(paste0(stem, ".raw"))) {
+      cat(st, sep = "\n"); stop("plink2 produced no .raw for ", chrom, ":", pos)
+    }
+    raw <- readr::read_table(paste0(stem, ".raw"), show_col_types = FALSE)
+    col <- grep(paste0("^", chrom, ":", pos, "_"), names(raw), value = TRUE)
+    stopifnot(length(col) == 1)
+    ## plink2 --export A names the column for the allele it counted; the other
+    ## allele comes from the .bim, so the figure can label both homozygotes
+    bim <- readr::read_tsv(file.path(PLDIR, paste0(chrom, ".bim")),
+                           col_names = c("c", "id", "cm", "bp", "a1", "a2"),
+                           show_col_types = FALSE) %>% filter(bp == pos)
+    stopifnot(nrow(bim) == 1)
+    counted <- sub(".*_", "", col)
+    other <- if (counted == bim$a1) bim$a2 else bim$a1
+    stopifnot(counted %in% c(bim$a1, bim$a2))
+    tibble::tibble(chrom = chrom, pos = pos, marker = paste0(chrom, ":", pos),
+                   allele_counted = counted, allele_other = other,
+                   strain = raw$IID, dose = raw[[col]]) %>%
+      filter(strain %in% keep)
+  }
+  gt_pk <- purrr::pmap_dfr(list(PKG$chrom, PKG$pos), one)
+  readr::write_tsv(gt_pk, DEST)
+  msg("peak-marker genotypes: ", nrow(gt_pk), " rows, ",
+      dplyr::n_distinct(gt_pk$marker), " markers x ",
+      dplyr::n_distinct(gt_pk$strain), " strains, ",
+      round(file.size(DEST) / 1e3, 1), " kB")
+  print(gt_pk %>% count(marker, allele_counted, allele_other, dose) %>%
+          as.data.frame())
+} else {
+  msg("NOTE: ", PLDIR, " or the phenotype file absent -- peak-marker ",
+      "genotypes not rebuilt")
+}
+
 tot <- sum(file.size(list.files(SD, recursive = TRUE, full.names = TRUE)))
 msg("supplemental_data total: ", round(tot / 1e6, 2), " MB in ",
     length(list.files(SD, recursive = TRUE)), " files")

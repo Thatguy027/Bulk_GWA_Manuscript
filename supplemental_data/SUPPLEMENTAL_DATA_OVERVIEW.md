@@ -1,8 +1,8 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all twenty-three manuscript figures, and nothing
+Every file needed to regenerate all twenty-four manuscript figures, and nothing
 else. **38.2 MB in 46 files.** Verified by deleting `data/` entirely and
-rebuilding: all twenty-three figures and the three asset builders run from this
+rebuilding: all twenty-four figures and the three asset builders run from this
 directory alone.
 
 Reproduce with the scripts in `scripts/`, from the repository root:
@@ -26,10 +26,12 @@ kilobase with widths from the full bundle. The full bundle is in the Dryad
 archive, and `scripts/compare_full_vs_thinned_bundle.R` rebuilds Figure 2 from
 both and reports the difference.
 
-**The genotypes are a region subset.** `genotypes/sid2_region.*` covers
+**The genotypes are subsets, not the panel.** `genotypes/sid2_region.*` covers
 chromosome III 13,679,000–13,682,000 only — 81 variants of the 341,971 on that
-chromosome — because the two scripts that read genotypes need the *sid-2*
-region. The full CeNDR 20210121 panel is a public release, not our data.
+chromosome — because the two scripts that read a PLINK set need the *sid-2*
+region. `genotypes/gwas_peak_genotypes.tsv` carries four single markers as
+dosages rather than as PLINK binaries, so the figure that reads it needs no
+plink2 binary. The full CeNDR 20210121 panel is a public release, not our data.
 
 ## File index
 
@@ -356,6 +358,19 @@ frequency percentile intervals. Shipped so the figures build quickly; delete
 them and they rebuild from the array.
 
 ### `genotypes/`
+
+`gwas_peak_genotypes.tsv` — 1,464 rows, the four peak markers of the 2023
+*pos-1* scan by the 366 strains in the association-trait file. Long format:
+`chrom`, `pos`, `marker` (`chrom:pos`), `allele_counted`, `allele_other`,
+`strain`, `dose`. `dose` counts copies of `allele_counted` — 0 or 2 for these
+inbred isotypes, `NA` where the strain has no call (one strain, at
+IV:15,323,414). The four markers are IV:15,323,414, X:4,875,969, III:5,965,738
+and III:12,718,465, read by `SUPP_FIG_XX_gwas_peak_genotype_splits.R`, which
+intersects them with the 231 strains carrying a `vst_ctrl_pos-1_T2` value.
+
+GEMMA counted the **minor** allele at all four markers, i.e. the one in
+`allele_other`. The figure asserts this rather than assuming it, by checking
+that the dosages reproduce the scan's own `af`.
 
 `sid2_region.{bed,bim,fam}` — PLINK binary set, chromosome III
 13,679,000–13,682,000, 81 variants across 540 CeNDR isotypes. Standard PLINK

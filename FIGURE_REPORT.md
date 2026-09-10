@@ -15,6 +15,8 @@ Assembled 2026-09-10
     -   [Figure 1 — the validated assay, the phenotype it produces, and
         the
         map](#figure-1--the-validated-assay-the-phenotype-it-produces-and-the-map)
+    -   [Figure S20 — the panel split at each Figure 1C peak
+        marker](#figure-s20--the-panel-split-at-each-figure-1c-peak-marker)
     -   [Figure S3 — the sample-level measurements behind the Figure 1
         slopes](#figure-s3--the-sample-level-measurements-behind-the-figure-1-slopes)
     -   [Figure S4 — the bootstrap propagation
@@ -81,7 +83,7 @@ Assembled 2026-09-10
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-three manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-four manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -1549,6 +1551,108 @@ frequency is not identified on the same footing as the wild isolates’.
 The shipped vst value for JU1793 still carries the duplicate-entry
 averaging documented in `scripts/2023_pos1_analysis.R` — which matters,
 because JU1793 is a cross parent in Figures 2 and 3.
+
+</div>
+
+## Figure S20 — the panel split at each Figure 1C peak marker
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_gwas_peak_genotype_splits.R`<br>
+**Supports** Figure 1C · 4 markers · 231 strains · no heterozygous calls
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_gwas_peak_genotype_splits.png" alt="Four panels of boxplots with jittered points: the pooled pos-1 response of each homozygous genotype group at the four peak markers, with the admission status of each marker." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_gwas_peak_genotype_splits
+</p>
+
+</div>
+
+Figure 1C reports *where* the association is. It does not report how
+large the underlying difference is, how many strains carry it, or — for
+the two chromosome III signals — why the report admits the weaker one.
+This is the same four markers drawn as the comparison actually being
+tested.
+
+Read one fact first, because it holds at all four markers: GEMMA counted
+the **minor** allele, and every `beta` is positive, so at all four the
+minor allele is the *resistant* one. The orientation is asserted, not
+assumed — the script refuses to label a panel unless the deposited
+genotypes reproduce the scan’s own `af`.
+
+<div class="panel">
+
+<span class="pl">A</span> **IV:15.32 Mb**, the scan’s strongest marker.
+48 `A/A` against 182 `G/G`, a gap of `+0.0514` on the vst scale — 12.1%
+of the phenotype range — with Wilcoxon `p = 1.2e-07`. Twice the
+mixed-model effect is `+0.0515`, which is the observed gap to three
+decimal places. 95 eigen-passing neighbours within 100 kb.
+
+</div>
+
+<div class="panel">
+
+<span class="pl">B</span> **X:4.88 Mb**, the only chromosome X marker
+over Bonferroni. 20 `G/G` against 211 `A/A`, gap `+0.0738` (17.4% of
+range), Wilcoxon `p = 6.5e-06`, and `2β = +0.0726`. Two eigen-passing
+neighbours — thin support, but not zero. Note this marker is 28% along a
+17.72 Mb chromosome, so it is on the **left arm**; describing it as the
+centre of X would be wrong.
+
+</div>
+
+<div class="panel">
+
+<span class="pl">C</span> **III:5.97 Mb**, the centre-of-III marker, and
+the one the report discards. Its association is the second strongest in
+the whole scan at `8.68`, yet the split it corresponds to gives Wilcoxon
+`p = 0.011` — seven orders of magnitude weaker. `2β` is `+0.1216`
+against an observed gap of `+0.0456`, so the model’s effect is **2.7
+times** the difference in the data. And it has **zero** eigen-passing
+neighbours within 100 kb. Three independent readings, one conclusion:
+this is a marker tracking relatedness, not a locus.
+
+</div>
+
+<div class="panel">
+
+<span class="pl">D</span> **III:12.72 Mb**, the right-arm locus, 375 kb
+proximal to *sid-2*. It does *not* clear Bonferroni — `6.31` against
+`6.97` — but it clears the eigen threshold with 14 supporting markers,
+its `2β` of `+0.0616` matches its observed gap of `+0.0637`, and its
+split gives Wilcoxon `p = 2.3e-04`. This is the chromosome III signal
+the report keeps, and panels C and D together are the interval-admission
+rule doing its job.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">What these panels do not license</span>
+
+**Three of the four rest on about 20 strains.** The minor-allele groups
+are 48, 20, 21 and 20 strains. At that size a group mean is sensitive to
+its extremes, and all four are to some degree: dropping the two most
+resistant strains from the minor-allele group retains 81% of the gap at
+IV, 71% at X, 64% at III:12.72 and **49%** at III:5.97. So panel C is
+the most tail-dependent, but none of them is tail-free, and no panel
+here should be read as an effect-size estimate.
+
+**The four markers are not independent of one another**, and this figure
+does not test whether they are. `scripts/diagnostic_genotype_splits.R`
+does that for IV:15.32 Mb against *sid-2* and finds them non-independent
+(Fisher `p = 8.1e-05`). Four low-frequency resistant alleles in a panel
+with strong population structure may be reporting overlapping sets of
+divergent strains.
+
+**S20 sits out of numerical sequence**, below Figure 1 rather than after
+S19, because supplement numbers here are append-only — slotting it in as
+S3 would renumber S3 through S19 and invalidate references already
+written. The renumbering pass will place it.
 
 </div>
 
@@ -30792,7 +30896,7 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-three they need the Dryad archive to
+clone, but unlike the twenty-four they need the Dryad archive to
 rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -33960,7 +34064,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -33974,7 +34078,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -33988,7 +34092,21 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S20
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_gwas_peak_genotype_splits
+</td>
+<td style="text-align:right;">
+330
+</td>
+<td style="text-align:right;">
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34002,7 +34120,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34016,7 +34134,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34030,7 +34148,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34044,7 +34162,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34058,7 +34176,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34072,7 +34190,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34086,7 +34204,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34100,7 +34218,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34114,7 +34232,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34128,7 +34246,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34142,7 +34260,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34156,7 +34274,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34170,7 +34288,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34184,7 +34302,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34198,7 +34316,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34212,7 +34330,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34226,7 +34344,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34240,7 +34358,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34254,7 +34372,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 <tr>
@@ -34268,7 +34386,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 09:37
+2026-09-10 09:57
 </td>
 </tr>
 </tbody>
@@ -34276,7 +34394,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 
 <div class="tnote">
 
-All twenty-three figures rebuild from `supplemental_data/` with `data/`
+All twenty-four figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every

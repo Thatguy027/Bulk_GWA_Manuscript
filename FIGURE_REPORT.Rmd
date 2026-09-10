@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-three manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-four manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -62,6 +62,7 @@ FIGS <- c(
   "SUPP_FIG_XX_simulation_depth",
   "SUPP_FIG_XX_dilution_validation",
   "Figure1_pos1",
+  "SUPP_FIG_XX_gwas_peak_genotype_splits",
   "SUPP_FIG_XX_baugh_per_sample_frequencies",
   "SUPP_FIG_XX_bootstrap_propagation_checks",
   "SUPP_FIG_XX_downsample_per_sample",
@@ -91,7 +92,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 23, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 24, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -126,7 +127,8 @@ LABELS <- c(
   SUPP_FIG_XX_sid2_model_confidence              = "Figure S16",
   Figure2_no_cross_qtl                           = "Figure S17",
   SUPP_FIG_XX_nil_interval_genes                 = "Figure S18",
-  SUPP_FIG_XX_sid2_briggsae_alignment            = "Figure S19")
+  SUPP_FIG_XX_sid2_briggsae_alignment            = "Figure S19",
+  SUPP_FIG_XX_gwas_peak_genotype_splits          = "Figure S20")
 stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 
 HA  <- "supplemental_data/hatching_assays"
@@ -134,9 +136,9 @@ ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 MAP <- "supplemental_data/mapping"
 
-## Diagnostics are NOT part of the curated twenty-three. They live in
+## Diagnostics are NOT part of the curated twenty-four. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the twenty-three, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-four, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -1068,6 +1070,89 @@ identified on the same footing as the wild isolates'.
 The shipped vst value for JU1793 still carries the duplicate-entry averaging
 documented in `scripts/2023_pos1_analysis.R` — which matters, because JU1793 is
 a cross parent in Figures 2 and 3.
+:::
+
+## Figure S20 — the panel split at each Figure 1C peak marker
+
+::: meta
+**Script** `scripts/SUPP_FIG_XX_gwas_peak_genotype_splits.R`<br>
+**Supports** Figure 1C · 4 markers · 231 strains · no heterozygous calls
+:::
+
+::: plate
+```{r fig-s20, fig.alt="Four panels of boxplots with jittered points: the pooled pos-1 response of each homozygous genotype group at the four peak markers, with the admission status of each marker."}
+include_graphics("plots/SUPP_FIG_XX_gwas_peak_genotype_splits.png")
+```
+<p class="filecap">SUPP_FIG_XX_gwas_peak_genotype_splits</p>
+:::
+
+Figure 1C reports *where* the association is. It does not report how large the
+underlying difference is, how many strains carry it, or — for the two
+chromosome III signals — why the report admits the weaker one. This is the same
+four markers drawn as the comparison actually being tested.
+
+Read one fact first, because it holds at all four markers: GEMMA counted the
+**minor** allele, and every `beta` is positive, so at all four the minor allele
+is the *resistant* one. The orientation is asserted, not assumed — the script
+refuses to label a panel unless the deposited genotypes reproduce the scan's own
+`af`.
+
+::: panel
+[A]{.pl} **IV:15.32 Mb**, the scan's strongest marker. 48 `A/A` against 182
+`G/G`, a gap of `+0.0514` on the vst scale — 12.1% of the phenotype range —
+with Wilcoxon `p = 1.2e-07`. Twice the mixed-model effect is `+0.0515`, which is
+the observed gap to three decimal places. 95 eigen-passing neighbours within
+100 kb.
+:::
+
+::: panel
+[B]{.pl} **X:4.88 Mb**, the only chromosome X marker over Bonferroni. 20 `G/G`
+against 211 `A/A`, gap `+0.0738` (17.4% of range), Wilcoxon `p = 6.5e-06`, and
+`2β = +0.0726`. Two eigen-passing neighbours — thin support, but not zero. Note
+this marker is 28% along a 17.72 Mb chromosome, so it is on the **left arm**;
+describing it as the centre of X would be wrong.
+:::
+
+::: panel
+[C]{.pl} **III:5.97 Mb**, the centre-of-III marker, and the one the report
+discards. Its association is the second strongest in the whole scan at `8.68`,
+yet the split it corresponds to gives Wilcoxon `p = 0.011` — seven orders of
+magnitude weaker. `2β` is `+0.1216` against an observed gap of `+0.0456`, so the
+model's effect is **2.7 times** the difference in the data. And it has **zero**
+eigen-passing neighbours within 100 kb. Three independent readings, one
+conclusion: this is a marker tracking relatedness, not a locus.
+:::
+
+::: panel
+[D]{.pl} **III:12.72 Mb**, the right-arm locus, 375 kb proximal to *sid-2*. It
+does *not* clear Bonferroni — `6.31` against `6.97` — but it clears the eigen
+threshold with 14 supporting markers, its `2β` of `+0.0616` matches its observed
+gap of `+0.0637`, and its split gives Wilcoxon `p = 2.3e-04`. This is the
+chromosome III signal the report keeps, and panels C and D together are the
+interval-admission rule doing its job.
+:::
+
+::: caveat
+[What these panels do not license]{.ch}
+
+**Three of the four rest on about 20 strains.** The minor-allele groups are
+48, 20, 21 and 20 strains. At that size a group mean is sensitive to its
+extremes, and all four are to some degree: dropping the two most resistant
+strains from the minor-allele group retains 81% of the gap at IV, 71% at X, 64%
+at III:12.72 and **49%** at III:5.97. So panel C is the most tail-dependent, but
+none of them is tail-free, and no panel here should be read as an effect-size
+estimate.
+
+**The four markers are not independent of one another**, and this figure does
+not test whether they are. `scripts/diagnostic_genotype_splits.R` does that for
+IV:15.32 Mb against *sid-2* and finds them non-independent (Fisher
+`p = 8.1e-05`). Four low-frequency resistant alleles in a panel with strong
+population structure may be reporting overlapping sets of divergent strains.
+
+**S20 sits out of numerical sequence**, below Figure 1 rather than after S19,
+because supplement numbers here are append-only — slotting it in as S3 would
+renumber S3 through S19 and invalidate references already written. The
+renumbering pass will place it.
 :::
 
 ## Figure S3 — the sample-level measurements behind the Figure 1 slopes
@@ -2398,7 +2483,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the twenty-three they need the
+tracked so this report reads from a clone, but unlike the twenty-four they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -3509,7 +3594,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All twenty-three figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-four figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is
