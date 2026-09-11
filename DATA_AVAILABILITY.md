@@ -64,6 +64,7 @@ clone**, with no archive needed. The table below is about rebuilding the
 | `SUPP_FIG_XX_gwas_peak_genotype_splits` | yes — genotypes are deposited as a dosage TSV, so no plink2 either |
 | `SUPP_FIG_XX_sid2_ortholog_conservation`, `SUPP_FIG_XX_sid2_ortholog_search` | yes — both read only staged tables. Re-running their **search** needs 52 nematode proteomes (~290 MB, public UniProt and Caenorhabditis Genomes Project releases) and a `blastp` binary; the search result is pinned in `make_sid2_ortholog_tables.py` |
 | `SUPP_FIG_XX_sid2_electrostatics` | yes |
+| `query_sid2_psms_pride.py` | not a figure — a verification script for a METHODS claim. Needs **network**, not the archive: it reads the PSM table out of a 9.53 GB Proteome Discoverer file in PRIDE (`PXD047792`) over HTTP range requests, 538 requests and 2.20 MB, and asserts what it finds |
 | `eigen_independent_tests.R` | **no** — needs `data/genotypes/` |
 | `baugh_strain_similarity.R` | **no** — needs `data/baugh/2024bootstrapINPUT.Rdata` (31 MB) |
 | `baugh_leakage_vs_similarity.R` | yes, on a borrowed predictor — see below |

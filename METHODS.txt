@@ -834,20 +834,41 @@ detectability. Its coverage there is only 7% from two peptides, however, so
 these data are evidence that the protein is present, not that any particular
 peptide of it was observable.
 
-WHY THE RAW DATA WERE NOT RE-SEARCHED. Recovering a SID-2 glycopeptide from the
-deposited raw files was considered and not attempted. The unenriched proteome
-runs are the wrong substrate: a glycopeptide's signal splits across many
-glycoforms, each far below the unmodified peptide, and in Tan et al. the whole
-protein is carried by two peptides at 7% coverage from single dissected
-tissues. Their MS2 mass tolerance of 0.3 Da indicates low-resolution product
-ion detection, and single-energy HCD rather than stepped-energy HCD or EThcD is
-poorly suited to glycopeptide identification and site localisation. The
-informative target would be the ZIC-HILIC-enriched raw data of Hu et al., where
-a targeted extraction of the four SID-2 peptides spanning N94-C95-T96 against
-their reported glycan compositions could be attempted; that is recorded here as
-the open experiment rather than done, because a negative result would add
-nothing to the sampling argument already made and a positive one would require
-manual validation beyond what this paper rests on.
+THE DEPOSITED SPECTRA WERE INTERROGATED, AND THE SEQUON PEPTIDE WAS NEVER
+OBSERVED. Rather than infer observability from a coverage percentage, the
+Proteome Discoverer result database for Tan et al.'s gonad-against-intestine
+analysis was queried directly (PXD047792,
+James_20220518-G-I_chimerys20230616.msf, 9.53 GB). That file is a SQLite
+database and PRIDE serves HTTP range requests, so it was read in place rather
+than downloaded: the schema first, then the TargetProteins row for G5EEV9, then
+that protein's 21 protein-to-PSM links by descent through the index on
+TargetProteinsTargetPsms, then each PSM row by rowid through the index on
+TargetPsms(WorkflowID, PeptideID). The query cost 538 range requests and
+2.20 MB, 0.023% of the file. scripts/query_sid2_psms_pride.py is that reader
+and asserts every number below, so a change in the deposit fails loudly.
+
+Of the 21 SID-2 PSMs, five clear a 1% Percolator q value; all five are from
+intestine runs and none from gonad runs, which reproduces the tissue assignment
+at the level of individual spectra. Those five are two peptides, ITVPDAMR
+(residues 239-246) and TNGLYGYDNNNSSR (225-238), both in the cytoplasmic tail.
+They give 22 residues, 7.1% coverage, matching the 2 peptides, 5 PSMs and 7%
+coverage in the deposited report exactly. The ectodomain is unsampled: the only
+ectodomain peptides appearing at all are SKPFQLGFASATLNR (111-125, q = 0.21)
+and NVTFILEVTTDTK (81-93, q = 0.61), both from gonad runs and both far above
+threshold. NCTFTANYTGYFTPDPK, the tryptic peptide spanning N94-C95-T96, does
+not appear in the table in any form.
+
+SID-2's detection in the intestine therefore rests entirely on its cytoplasmic
+tail, and no search setting could have reported a glycan at N94 because the
+peptide carrying N94 was never identified. The one study that enriched
+glycopeptides cannot be interrogated the same way: the ProteomeXchange
+accession cited by Hu et al. is reserved but not yet released (PXD067150
+returns "has been reserved but it not yet accessible", and the record is absent
+from PRIDE, iProX and MassIVE), so their spectra are unavailable. Settling N94
+occupancy needs a targeted experiment rather than reanalysis of public data --
+glyco-enriched MS of SID-2 with stepped-energy HCD or EThcD, or PNGase F
+sensitivity of a tagged protein -- and the genetic test that matters has
+already been done with N94A.
 
 Hu et al.'s seven supplemental tables were searched for SID-2 three ways, each
 returning nothing: by accession (G5EEV9), by gene and sequence name (sid-2,
