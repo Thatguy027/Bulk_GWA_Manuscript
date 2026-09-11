@@ -6,6 +6,9 @@
        supplemental_data/structure/sid2_ortholog_alignment.tsv
        supplemental_data/structure/sid2_ortholog_conservation.tsv
        supplemental_data/structure/sid2_ortholog_window_survey.tsv
+       supplemental_data/structure/sid2_env_rnai_sensitivity.tsv
+       supplemental_data/structure/sid2_species_name_map.tsv
+       supplemental_data/structure/sid2_species_tree.nwk
        supplemental_data/structure/sid2_ortholog_sequences.fa
 
 WHY THIS EXISTS
@@ -78,6 +81,35 @@ trustworthy and are reported as unreliable rather than used or hidden.
 ACKNOWLEDGEMENT REQUESTED BY THE RESOURCE: we thank members of the
 Caenorhabditis Genomes Project for prepublication access to genome and
 transcriptome data.
+
+ENVIRONMENTAL RNAi COMPETENCE, LAYERED ON FROM THE LITERATURE
+Nuez & Felix 2012 (PLoS ONE 7:e29811) scored Caenorhabditis species for the
+response to ingested dsRNA. Their species are provisional numbers, and many
+have since been named -- C. sp. 11 is C. tropicalis and C. sp. 10 is
+C. doughertyi -- so every call here is mapped through Felix, Braendle & Cutter
+2014 (PLoS ONE 9:e94723), whose type strains are the same isolates Nuez & Felix
+tested. RNAI below records the provisional designation alongside the formal
+name so the mapping can be checked rather than trusted.
+
+ONLY CALLS THE PAPER STATES IN PROSE ARE USED. Its Table S1 is a workbook of
+per-species Wilcoxon tests rather than a table of calls, and reading calls out
+of it would mean deciding which p-value belongs to the strain and which to the
+N2 control on each sheet. The prose is unambiguous, so that is the source, with
+C. tropicalis added because Table S2 exists to rescue it and its own sheet
+gives p = 0.93. Species the paper tested but does not call in prose are absent
+from RNAI rather than guessed at: C. doughertyi and C. nigoni among them.
+
+THE ISOLATE USUALLY DIFFERS FROM THE SEQUENCED ONE, which matters more here
+than it normally would, because the same paper reports intraspecific variation
+in C. elegans. Each row carries the tested strain so the mismatch is visible.
+
+WHAT THE OVERLAY SHOWS: residue 96 does not predict the phenotype. Of the
+species with an intact sequon and a published call, four are sensitive or
+weakly so and four are insensitive. And C. afra, which has lost Asn94 and is a
+natural AxT, IS sensitive -- the comparative mirror of the AxT construct being
+fully resistant. That agrees with the paper's own conclusion that environmental
+RNAi was gained or lost repeatedly in the genus, and with the N94A result: the
+sequon is not the mechanism.
 
 SO THE ANCESTRAL-STATE CLAIM HAS A DEPTH, AND IT IS THE GENUS.
 Residue 96 is Ser or Thr across Caenorhabditis and Lys in none of the species
@@ -181,6 +213,83 @@ CGP = [
  ("monodelphis", "JU1667", None, None, None, None, None, None),
 ]
 CGP_FLOOR = 37.0   # block identity below which a window call is not counted
+
+# Response to ingested dsRNA, from Nuez & Felix 2012 (PLoS ONE 7:e29811).
+# formal species, tested strain, provisional designation, call, evidence.
+# "" for a strain the cited sentence does not name. Formal names follow Felix,
+# Braendle & Cutter 2014 (PLoS ONE 9:e94723).
+# Provisional-to-formal name mapping, so a reader can check the correspondence
+# rather than trust it. Names from Felix, Braendle & Cutter 2014 (PLoS ONE
+# 9:e94723); the provisional numbering is Kiontke et al. 2011 (BMC Evol Biol
+# 11:339). "type strain" is that paper's type/reference strain, which for these
+# species is the isolate Nuez & Felix 2012 tested.
+NAME_MAP = [
+ ("C. sp. 6",  "portoensis",     "EG4788", "Felix et al. 2014"),
+ ("C. sp. 7",  "afra",           "JU1199", "Felix et al. 2014"),
+ ("C. sp. 9",  "nigoni",         "JU1325", "Felix et al. 2014"),
+ ("C. sp. 10", "doughertyi",     "JU1133", "Felix et al. 2014"),
+ ("C. sp. 11", "tropicalis",     "JU1373", "Felix et al. 2014"),
+ ("C. sp. 12", "castelli",       "JU1426", "Felix et al. 2014"),
+ ("C. sp. 13", "virilis",        "JU1528", "Felix et al. 2014"),
+ ("C. sp. 14", "imperialis",     "EG5716", "Felix et al. 2014"),
+ ("C. sp. 15", "kamaaina",       "QG122",  "Felix et al. 2014"),
+ ("C. sp. 16", "wallacei",       "JU1873", "Felix et al. 2014"),
+ ("C. sp. 17", "nouraguensis",   "JU1825", "Felix et al. 2014"),
+ ("C. sp. 18", "macrosperma",    "JU1857", "Felix et al. 2014"),
+ ("C. sp. 19", "yunquensis",     "EG6142", "Felix et al. 2014"),
+ ("C. sp. 20", "guadeloupensis", "NIC113", "Felix et al. 2014"),
+ ("C. sp. 23", "latens",         "VX88",   "Felix et al. 2014"),
+]
+
+# Reference topology: the Open Tree of Life induced subtree for these species,
+# synthetic tree opentree16.1 (2025-12-20), taxonomy 3.7draft3, retrieved from
+# api.opentreeoflife.org/v3/tree_of_life/induced_subtree. Topology only, no
+# branch lengths, so the figure draws it as a cladogram. Used ONLY to order and
+# group rows; nothing here re-estimates a phylogeny, and a SID-2 gene tree would
+# be the wrong thing to draw at 42-48% identity.
+SPECIES_TREE = (
+    "((((((((((((Caenorhabditis_brenneri_ott90647,(Caenorhabditis_dougherty"
+    "i_ott624496,(Caenorhabditis_wallacei_ott624497,Caenorhabditis_tropical"
+    "is_ott5701053)mrcaott624497ott5701053)mrcaott624496ott624497)mrcaott90"
+    "647ott624496,(((Caenorhabditis_briggsae_ott395053,Caenorhabditis_nigon"
+    "i_ott5701061)mrcaott395053ott5701061,(Caenorhabditis_sinica_ott571283)"
+    "mrcaott571283ott7073354)mrcaott395053ott571283,(Caenorhabditis_remanei"
+    "_ott396902,Caenorhabditis_latens_ott5490377)mrcaott396902ott5490377)mr"
+    "caott395053ott396902)mrcaott90647ott395053,(Caenorhabditis_elegans_ott"
+    "395048,Caenorhabditis_inopinata_ott7073336)mrcaott395048ott7073336)mrc"
+    "aott90647ott395048,Caenorhabditis_kamaaina_ott624499)mrcaott90647ott62"
+    "4499,(((Caenorhabditis_afra_ott102813)mrcaott102813ott7073353,((((Caen"
+    "orhabditis_nouraguensis_ott454025)mrcaott454025ott7073333,Caenorhabdit"
+    "is_yunquensis_ott624492)mrcaott454025ott624492,(Caenorhabditis_panamen"
+    "sis_ott7073338)mrcaott7073338ott7073357)mrcaott454025ott7073338,Caenor"
+    "habditis_macrosperma_ott624491)mrcaott454025ott624491)mrcaott102813ott"
+    "454025,(Caenorhabditis_japonica_ott215930,Caenorhabditis_imperialis_ot"
+    "t624498)mrcaott215930ott624498)mrcaott102813ott215930)mrcaott90647ott1"
+    "02813)mrcaott90647ott7073355,Caenorhabditis_astrocarya_ott7073332)mrca"
+    "ott90647ott7073332,((Caenorhabditis_angaria_ott94476,Caenorhabditis_ca"
+    "stelli_ott5701050)mrcaott94476ott5701050,(Caenorhabditis_dolens_ott707"
+    "3335)mrcaott7073335ott7073340)mrcaott94476ott7073335)mrcaott90647ott94"
+    "476,Caenorhabditis_portoensis_ott102814,(Caenorhabditis_drosophilae_ot"
+    "t362927,Caenorhabditis_virilis_ott624494)mrcaott215931ott362927)mrcaot"
+    "t90647ott102814,Caenorhabditis_plicata_ott215924)mrcaott90647ott215924"
+    ")mrcaott90647ott7073339,Caenorhabditis_guadeloupensis_ott102817,Caenor"
+    "habditis_monodelphis_ott624495)Caenorhabditis_ott395055;"
+)
+
+RNAI = [
+ ("elegans",     "N2",     "",          "sensitive",        "prose"),
+ ("portoensis",  "EG4788", "C. sp. 6",  "sensitive",        "prose"),
+ ("afra",        "JU1199", "C. sp. 7",  "sensitive",        "prose"),
+ ("virilis",     "JU1528", "C. sp. 13", "sensitive",        "prose"),
+ ("imperialis",  "EG5716", "C. sp. 14", "sensitive",        "prose"),
+ ("kamaaina",    "QG122",  "C. sp. 15", "sensitive",        "prose"),
+ ("wallacei",    "JU1873", "C. sp. 16", "weakly sensitive", "prose"),
+ ("briggsae",    "AF16",   "",          "insensitive",      "prose"),
+ ("remanei",     "",       "",          "insensitive",      "prose"),
+ ("brenneri",    "",       "",          "insensitive",      "prose"),
+ ("drosophilae", "DF5077", "",          "insensitive",      "prose"),
+ ("tropicalis",  "JU1373", "C. sp. 11", "insensitive",      "Table S1 and S2"),
+]
 
 # The ortholog set the per-position tables are built from: one protein per
 # species, covering Ce 96. C. japonica needs its N-terminal fragment, not its
@@ -339,6 +448,57 @@ def main():
     assert nK == 0, "a confidently aligned Caenorhabditis now carries Lys96"
     assert n96 >= len(combined) - 2, "residue 96 is no longer Ser/Thr in nearly all"
     assert nseq >= 11, "the sequon count has dropped"
+
+    # ---- the environmental-RNAi layer -----------------------------------
+    ## the sequenced isolate per species, so the mismatch can be shown
+    ## the isolate each proteome was sequenced from. The UniProt records carry
+    ## no strain field, so these were resolved through the assembly accession
+    ## in each proteome record and the NCBI dataset report for it.
+    seqd = {sp.replace("Caenorhabditis ", ""): "" for sp, *_ in ALIGN_SET}
+    seqd.update({"elegans": "N2", "briggsae": "AF16", "remanei": "PB4641",
+                 "brenneri": "PB2801", "nigoni": "JU1422",
+                 "tropicalis": "JU1373"})
+    for (sp, strain, acc, pid, cov, ev, w, blk) in CGP:
+        seqd.setdefault(sp, strain)
+    with open(f"{OUT}/sid2_env_rnai_sensitivity.tsv", "w") as fh:
+        fh.write("species\tprovisional_name\ttested_strain\tsequenced_strain"
+                 "\tsame_isolate\tresponse\tevidence\tsource\n")
+        for sp, strain, prov, call, ev in RNAI:
+            sq = seqd.get(sp, "")
+            same = "TRUE" if (sq and strain and sq == strain) else \
+                   ("FALSE" if (sq and strain) else "")
+            fh.write(f"{sp}\t{prov}\t{strain}\t{sq}\t{same}\t{call}\t{ev}\t"
+                     f"Nuez & Felix 2012 PLoS ONE 7:e29811\n")
+    print(f"  environmental-RNAi layer: {len(RNAI)} species with a published "
+          f"call")
+
+    with open(f"{OUT}/sid2_species_name_map.tsv", "w") as fh:
+        fh.write("provisional_name\tformal_name\ttype_strain\tsource\n")
+        for prov, formal, strain, src in NAME_MAP:
+            fh.write(f"{prov}\t{formal}\t{strain}\t{src}\n")
+    print(f"  name map: {len(NAME_MAP)} provisional designations")
+
+    with open(f"{OUT}/sid2_species_tree.nwk", "w") as fh:
+        fh.write(SPECIES_TREE + "\n")
+    n_tip = SPECIES_TREE.count("Caenorhabditis_")
+    print(f"  reference topology: {n_tip} tips (Open Tree opentree16.1)")
+
+    ## the overlay: species that are BOTH confidently aligned and called
+    called = {sp: call for sp, _st, _p, call, _e in RNAI}
+    conf_sp = [sp for sp in CONS_GROUP] + \
+              [r[0] for r in CGP if r[7] is not None and r[7] >= CGP_FLOOR]
+    conf_sp = [s2.replace("Caenorhabditis ", "") for s2 in conf_sp] + ["elegans"]
+    overlay = [(sp, called[sp]) for sp in conf_sp if sp in called]
+    ## "insensitive".endswith("sensitive") is True -- match the calls exactly
+    sens = sum(1 for _s, c in overlay if c in ("sensitive", "weakly sensitive"))
+    insens = sum(1 for _s, c in overlay if c == "insensitive")
+    print(f"  overlay: {len(overlay)} confidently aligned species have a call; "
+          f"{sens} sensitive or weakly so, {insens} insensitive")
+    assert sens >= 3 and insens >= 3, \
+        "the overlay no longer shows sensitive and insensitive species sharing " \
+        "the same residue-96 state, which is the point it makes"
+    assert called.get("afra") == "sensitive", \
+        "C. afra is the natural AxT that is sensitive; the figure says so"
 
     # ---- the assertions that keep the figure honest ----------------------
     mean_cons = statistics.mean(cons[i] for i in ecd_i)

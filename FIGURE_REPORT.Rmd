@@ -3135,11 +3135,13 @@ been checked against *briggsae* RNA-seq.
 ::: meta
 **Scripts** `scripts/make_sid2_ortholog_tables.py`, `scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R`<br>
 **Species** 52 proteomes searched · 31 windows readable · 14 above the confidence floor<br>
-**Phenotypes** 7 constructs · 1,530 embryos · 50% *pos-1* RNAi
+**Phenotype layer** 12 species with a published response to ingested dsRNA (Nuez & Félix 2012)<br>
+**Topology** Open Tree of Life `opentree16.1`, induced subtree, cladogram<br>
+**Constructs** 7 · 1,530 embryos · 50% *pos-1* RNAi
 :::
 
 ::: plate
-```{r fig-s21, fig.alt="Two panels: a residue grid of the aligned residues around the N94-x-T96 sequon in 31 Caenorhabditis species split into confident and below-floor facets, and a dot plot with Wilson intervals of hatching for the seven editing constructs."}
+```{r fig-s21, fig.alt="Two panels: a residue grid of the aligned residues around the N94-x-T96 sequon in 31 Caenorhabditis species, ordered on a cladogram with a column showing each species' published response to ingested dsRNA, and a dot plot with Wilson intervals and Fisher p values of hatching for the seven editing constructs."}
 include_graphics("plots/SUPP_FIG_XX_sid2_ortholog_conservation.png")
 ```
 <p class="filecap">SUPP_FIG_XX_sid2_ortholog_conservation</p>
@@ -3151,21 +3153,29 @@ that says what the conservation does and does not mean.
 
 ::: panel
 [A]{.pl} The residues aligned to *C. elegans* 88–104 in every *Caenorhabditis*
-species whose ortholog has an HSP spanning the window, ordered by identity.
-Among the 14 species at or above the confidence floor, **residue 96 is Thr in
-11, Ser in 1, and Lys in none.** The N94-x-[ST] sequon is intact in 11 of 14.
+species whose ortholog has an HSP spanning the window, **ordered on a reference
+phylogeny** (Open Tree of Life `opentree16.1`, topology only, drawn as a
+cladogram). Among the 14 species at or above the confidence floor, **residue 96
+is Thr in 11, Ser in 1, and Lys in none.** The N94-x-[ST] sequon is intact in 11
+of 14. Of the three losses, **only *C. doughertyi* changes residue 96 itself**,
+to Ala; *C. afra* keeps Thr96 and loses Asn94, and *C. sp54* changes both.
 
-Of the three losses, **only *C. doughertyi* changes residue 96 itself**, to Ala.
-*C. afra* keeps Thr96 and loses Asn94 — so *C. afra* is a **natural AxT**, the
-same construct panel B shows to be fully resistant — and *C. sp54* changes both.
-So the constraint sits on residue 96 being small and hydroxylated rather than on
-the sequon as a unit.
+**The rightmost column is the published response to ingested dsRNA**, and it is
+the reason this figure does not stop at conservation. Of the nine species with
+both a readable window and a published call, **five respond and four do not —
+and the sequon does not separate them.** *C. briggsae*, *C. remanei*,
+*C. brenneri* and *C. tropicalis* all carry the intact motif and are
+insensitive; *C. elegans*, *C. kamaaina*, *C. portoensis* and *C. wallacei*
+carry it and respond. And ***C. afra*, which has lost Asn94 and is a natural
+AxT, responds** — the comparative mirror of panel B. Nuez & Félix reached the
+same conclusion from the phenotype alone: a minimum of four gains or losses of
+environmental RNAi inside the genus.
 
-Every row carries its own confidence: the local identity of the ±10 block around
-the window. The floor is 37% because that is where the six full-length
-Elegans-group orthologs already sat, not a threshold chosen to get an answer.
-Rows below it are drawn in the lower facet and counted neither way — including
-the two species that appear to carry Lys96, at 32% and 21% block identity.
+Dimmed names are below the block-identity floor and counted neither way. An
+asterisk marks a phenotype scored on a **different isolate** from the sequenced
+one, which is most of them. Species with no position in the reference tree —
+the unnamed CGP `sp. NN` isolates and *C. oiwi* — are listed below the tree
+rather than slotted in somewhere convenient.
 :::
 
 ::: panel
@@ -3182,6 +3192,12 @@ restoring Thr96 does (`+13`, to 18.4%), so the two positions interact rather
 than acting through one shared modification. Wilson 95% intervals; one plate per
 genotype at 50% *pos-1* RNAi, **a different dose from Figure 4B**, so these
 percentages are not comparable with that figure's.
+
+Significance is Fisher's exact test on the hatched/unhatched counts against the
+wild type of the same background, with an arrow for the direction. `AxT` is
+`p = 0.004` **higher** than its wild type, not lower — the arrow is there so a
+bare p value cannot be read as impairment. `NxK` is `p = 2e-24` lower. Each test
+is one plate against one plate.
 :::
 
 ::: caveat
@@ -3204,6 +3220,34 @@ history. Panel B is the mechanism test, and it fails for the glycan.
 *Caenorhabditis*; one genus out the protein is not alignable at all, which
 Figure S22 shows.
 :::
+
+## Species names: the provisional-to-formal mapping
+
+::: meta
+**Table** `supplemental_data/structure/sid2_species_name_map.tsv`<br>
+**Sources** Kiontke et al. 2011 (provisional numbering) · Félix, Braendle & Cutter 2014 (formal names)
+:::
+
+The environmental-RNAi calls layered onto Figure S21 come from a 2012 paper
+that scored species under **provisional designations**, most of which have since
+been named. This is a live hazard rather than a formality: ***C.* sp. 11 is
+*C. tropicalis*** and ***C.* sp. 10 is *C. doughertyi***, and both matter to the
+figure. Every call is mapped through Félix, Braendle & Cutter 2014, whose
+type strains are the same isolates that were tested.
+
+```{r name-map}
+nm <- readr::read_tsv(file.path(ST, "sid2_species_name_map.tsv"),
+                      show_col_types = FALSE)
+knitr::kable(nm, col.names = c("tested as", "now called", "type strain", "source"))
+```
+
+Two consequences worth stating. **Species the paper tested but does not call in
+prose are absent from the layer rather than guessed at** — *C. doughertyi* and
+*C. nigoni* among them, which is why they carry a sequon marker in Figure S21
+but no phenotype tile. And **the sequenced isolate is usually not the tested
+one**: only *C. elegans* (N2), *C. tropicalis* (JU1373) and *C. drosophilae*
+(DF5077) match. That matters more than it normally would, because the same paper
+reports intraspecific variation in *C. elegans*.
 
 ## Figure S22 — how far out SID-2 can be compared, and what that is worth
 

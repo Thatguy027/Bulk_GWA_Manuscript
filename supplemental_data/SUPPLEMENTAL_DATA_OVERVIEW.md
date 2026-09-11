@@ -415,6 +415,26 @@ release), `species`, `strain`, `accession`, `percent_identity`,
 only ever TRUE where `confident` is). 31 rows have a readable window and 14 of
 those clear the floor; residue 96 is Ser or Thr in 12 of the 14 and Lys in none.
 
+`sid2_env_rnai_sensitivity.tsv` — 12 rows, the published response to ingested
+dsRNA per species: `species`, `provisional_name` (the designation the source
+used, blank where it used the formal name), `tested_strain`, `sequenced_strain`,
+`same_isolate`, `response` (sensitive / weakly sensitive / insensitive),
+`evidence` (which part of the source states it) and `source`. From Nuez & Félix
+2012, *PLoS ONE* 7:e29811. Only calls that paper states in prose are included;
+species it tested but does not call are absent rather than inferred.
+
+`sid2_species_name_map.tsv` — 15 rows mapping provisional *Caenorhabditis*
+designations to formal names with the type strain: `provisional_name`,
+`formal_name`, `type_strain`, `source`. Names from Félix, Braendle & Cutter
+2014, *PLoS ONE* 9:e94723; the provisional numbering is Kiontke et al. 2011.
+*C.* sp. 11 is *C. tropicalis* and *C.* sp. 10 is *C. doughertyi*, both of which
+matter to Figure S21.
+
+`sid2_species_tree.nwk` — the Open Tree of Life induced subtree for these
+species (synthetic tree `opentree16.1`, 2025-12-20, taxonomy 3.7draft3), 29
+tips, Newick, topology only with no branch lengths. Used to order and group the
+rows of Figure S21; nothing in this repository estimates a phylogeny.
+
 `sid2_ortholog_sequences.fa` — the nine sequences the per-position tables are
 built from, by UniProt accession, with the fetch date.
 

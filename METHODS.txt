@@ -691,6 +691,61 @@ falls in a TTDT repeat offset by two to three residues.
 We thank members of the Caenorhabditis Genomes Project for prepublication
 access to genome and transcriptome data.
 
+ENVIRONMENTAL RNAi COMPETENCE, LAYERED ON FROM THE LITERATURE. Species were
+annotated with their published response to ingested double-stranded RNA from
+Nuez & Felix 2012 (PLoS ONE 7:e29811), which scored Caenorhabditis species for
+the response to ingested Oti-actin dsRNA. That paper designates species by
+provisional numbers, most of which have since been named, so every call was
+mapped through Felix, Braendle & Cutter 2014 (PLoS ONE 9:e94723), whose type
+strains are the isolates Nuez & Felix tested; the provisional numbering is
+Kiontke et al. 2011 (BMC Evol Biol 11:339). The mapping is deposited rather than
+applied silently, because the correspondences are not obvious: C. sp. 11 is
+C. tropicalis and C. sp. 10 is C. doughertyi. Only calls that paper states in
+prose were used. Its Table S1 is a workbook of per-species Wilcoxon tests rather
+than a table of calls, and scoring from it would require deciding which p value
+belongs to the test strain and which to the N2 control on each sheet; species
+the paper tested but does not call in prose are therefore absent from the layer
+rather than inferred, C. doughertyi and C. nigoni among them. C. tropicalis is
+included because its own sheet gives p = 0.93 and the paper's Table S2 exists to
+report the attempt to rescue it.
+
+For most species the isolate scored for RNAi is not the isolate whose genome was
+sequenced. Only C. elegans (N2), C. tropicalis (JU1373) and C. drosophilae
+(DF5077) match; the sequenced strains were resolved through each UniProt
+proteome's assembly accession and the corresponding NCBI dataset report. This is
+recorded per row because the same paper reports intraspecific variation in
+C. elegans, so a species-level phenotype cannot be assumed to hold for a
+different isolate.
+
+Of the nine species with both a readable residue-96 window and a published
+call, five respond to ingested dsRNA and four do not, and the sequon does not
+separate them: C. briggsae, C. remanei, C. brenneri and C. tropicalis carry the
+intact N94-x-[ST] motif and are insensitive, while C. elegans, C. kamaaina,
+C. portoensis and C. wallacei carry it and respond. C. afra, which has lost
+Asn94 and is therefore a naturally occurring equivalent of the N94A construct,
+responds. Residue 96 is conserved across the genus but does not predict
+environmental RNAi competence, which agrees both with the N94A editing result
+and with Nuez & Felix's own inference of at least four independent gains or
+losses of environmental RNAi within Caenorhabditis.
+
+ROW ORDER AND THE REFERENCE TOPOLOGY. Species in the alignment figure are
+ordered on the Open Tree of Life induced subtree for these taxa (synthetic tree
+opentree16.1, 2025-12-20, taxonomy version 3.7draft3), retrieved from the
+tree_of_life/induced_subtree endpoint and deposited as Newick. It is topology
+only, with no branch lengths, and is drawn as a cladogram. Nothing in this
+analysis estimates a phylogeny: a SID-2 gene tree at 42-48% identity would not
+be a species tree and is not presented as one. Species with no position in that
+tree, which are the unnamed Caenorhabditis Genomes Project sp. NN isolates and
+C. oiwi, are listed below the cladogram rather than placed by guesswork.
+
+SIGNIFICANCE FOR THE EDITING SERIES. Each construct was compared with the wild
+type of its own background (JU1793[96T] and JU2466_A[96K]) by Fisher's exact
+test on hatched and unhatched counts. The direction is reported alongside each p
+value because the N94A construct in the JU1793 background hatches HIGHER than
+wild type (99.3% against 94.8%, p = 0.004), which a p value alone would not
+convey. Each genotype is a single plate, so each test compares one plate with
+one plate.
+
 The conclusion this supports is bounded: residue 96 is serine or threonine
 across Caenorhabditis and lysine in none of the species whose window can be
 read, so 96K is derived within C. elegans. It is not conservation across

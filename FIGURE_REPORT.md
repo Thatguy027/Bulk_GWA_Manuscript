@@ -69,6 +69,8 @@ Assembled 2026-09-10
     -   [Figure S21 — residue 96 across *Caenorhabditis*, and what
         removing it
         does](#figure-s21--residue-96-across-caenorhabditis-and-what-removing-it-does)
+    -   [Species names: the provisional-to-formal
+        mapping](#species-names-the-provisional-to-formal-mapping)
     -   [Figure S22 — how far out SID-2 can be compared, and what that
         is
         worth](#figure-s22--how-far-out-sid-2-can-be-compared-and-what-that-is-worth)
@@ -32531,13 +32533,16 @@ model has not been checked against *briggsae* RNA-seq.
 **Scripts** `scripts/make_sid2_ortholog_tables.py`,
 `scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R`<br> **Species** 52
 proteomes searched · 31 windows readable · 14 above the confidence
-floor<br> **Phenotypes** 7 constructs · 1,530 embryos · 50% *pos-1* RNAi
+floor<br> **Phenotype layer** 12 species with a published response to
+ingested dsRNA (Nuez & Félix 2012)<br> **Topology** Open Tree of Life
+`opentree16.1`, induced subtree, cladogram<br> **Constructs** 7 · 1,530
+embryos · 50% *pos-1* RNAi
 
 </div>
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_sid2_ortholog_conservation.png" alt="Two panels: a residue grid of the aligned residues around the N94-x-T96 sequon in 31 Caenorhabditis species split into confident and below-floor facets, and a dot plot with Wilson intervals of hatching for the seven editing constructs." width="100%" />
+<img src="plots/SUPP_FIG_XX_sid2_ortholog_conservation.png" alt="Two panels: a residue grid of the aligned residues around the N94-x-T96 sequon in 31 Caenorhabditis species, ordered on a cladogram with a column showing each species' published response to ingested dsRNA, and a dot plot with Wilson intervals and Fisher p values of hatching for the seven editing constructs." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_sid2_ortholog_conservation
 </p>
@@ -32553,22 +32558,31 @@ mean.
 
 <span class="pl">A</span> The residues aligned to *C. elegans* 88–104 in
 every *Caenorhabditis* species whose ortholog has an HSP spanning the
-window, ordered by identity. Among the 14 species at or above the
-confidence floor, **residue 96 is Thr in 11, Ser in 1, and Lys in
-none.** The N94-x-\[ST\] sequon is intact in 11 of 14.
-
+window, **ordered on a reference phylogeny** (Open Tree of Life
+`opentree16.1`, topology only, drawn as a cladogram). Among the 14
+species at or above the confidence floor, **residue 96 is Thr in 11, Ser
+in 1, and Lys in none.** The N94-x-\[ST\] sequon is intact in 11 of 14.
 Of the three losses, **only *C. doughertyi* changes residue 96 itself**,
-to Ala. *C. afra* keeps Thr96 and loses Asn94 — so *C. afra* is a
-**natural AxT**, the same construct panel B shows to be fully resistant
-— and *C. sp54* changes both. So the constraint sits on residue 96 being
-small and hydroxylated rather than on the sequon as a unit.
+to Ala; *C. afra* keeps Thr96 and loses Asn94, and *C. sp54* changes
+both.
 
-Every row carries its own confidence: the local identity of the ±10
-block around the window. The floor is 37% because that is where the six
-full-length Elegans-group orthologs already sat, not a threshold chosen
-to get an answer. Rows below it are drawn in the lower facet and counted
-neither way — including the two species that appear to carry Lys96, at
-32% and 21% block identity.
+**The rightmost column is the published response to ingested dsRNA**,
+and it is the reason this figure does not stop at conservation. Of the
+nine species with both a readable window and a published call, **five
+respond and four do not — and the sequon does not separate them.** *C.
+briggsae*, *C. remanei*, *C. brenneri* and *C. tropicalis* all carry the
+intact motif and are insensitive; *C. elegans*, *C. kamaaina*, *C.
+portoensis* and *C. wallacei* carry it and respond. And ***C. afra*,
+which has lost Asn94 and is a natural AxT, responds** — the comparative
+mirror of panel B. Nuez & Félix reached the same conclusion from the
+phenotype alone: a minimum of four gains or losses of environmental RNAi
+inside the genus.
+
+Dimmed names are below the block-identity floor and counted neither way.
+An asterisk marks a phenotype scored on a **different isolate** from the
+sequenced one, which is most of them. Species with no position in the
+reference tree — the unnamed CGP `sp. NN` isolates and *C. oiwi* — are
+listed below the tree rather than slotted in somewhere convenient.
 
 </div>
 
@@ -32589,6 +32603,12 @@ interact rather than acting through one shared modification. Wilson 95%
 intervals; one plate per genotype at 50% *pos-1* RNAi, **a different
 dose from Figure 4B**, so these percentages are not comparable with that
 figure’s.
+
+Significance is Fisher’s exact test on the hatched/unhatched counts
+against the wild type of the same background, with an arrow for the
+direction. `AxT` is `p = 0.004` **higher** than its wild type, not lower
+— the arrow is there so a bare p value cannot be read as impairment.
+`NxK` is `p = 2e-24` lower. Each test is one plate against one plate.
 
 </div>
 
@@ -32617,6 +32637,51 @@ across *Caenorhabditis*; one genus out the protein is not alignable at
 all, which Figure S22 shows.
 
 </div>
+
+## Species names: the provisional-to-formal mapping
+
+<div class="meta">
+
+**Table** `supplemental_data/structure/sid2_species_name_map.tsv`<br>
+**Sources** Kiontke et al. 2011 (provisional numbering) · Félix,
+Braendle & Cutter 2014 (formal names)
+
+</div>
+
+The environmental-RNAi calls layered onto Figure S21 come from a 2012
+paper that scored species under **provisional designations**, most of
+which have since been named. This is a live hazard rather than a
+formality: ***C.* sp. 11 is *C. tropicalis*** and ***C.* sp. 10 is *C.
+doughertyi***, and both matter to the figure. Every call is mapped
+through Félix, Braendle & Cutter 2014, whose type strains are the same
+isolates that were tested.
+
+| tested as | now called     | type strain | source            |
+|:----------|:---------------|:------------|:------------------|
+| C. sp. 6  | portoensis     | EG4788      | Felix et al. 2014 |
+| C. sp. 7  | afra           | JU1199      | Felix et al. 2014 |
+| C. sp. 9  | nigoni         | JU1325      | Felix et al. 2014 |
+| C. sp. 10 | doughertyi     | JU1133      | Felix et al. 2014 |
+| C. sp. 11 | tropicalis     | JU1373      | Felix et al. 2014 |
+| C. sp. 12 | castelli       | JU1426      | Felix et al. 2014 |
+| C. sp. 13 | virilis        | JU1528      | Felix et al. 2014 |
+| C. sp. 14 | imperialis     | EG5716      | Felix et al. 2014 |
+| C. sp. 15 | kamaaina       | QG122       | Felix et al. 2014 |
+| C. sp. 16 | wallacei       | JU1873      | Felix et al. 2014 |
+| C. sp. 17 | nouraguensis   | JU1825      | Felix et al. 2014 |
+| C. sp. 18 | macrosperma    | JU1857      | Felix et al. 2014 |
+| C. sp. 19 | yunquensis     | EG6142      | Felix et al. 2014 |
+| C. sp. 20 | guadeloupensis | NIC113      | Felix et al. 2014 |
+| C. sp. 23 | latens         | VX88        | Felix et al. 2014 |
+
+Two consequences worth stating. **Species the paper tested but does not
+call in prose are absent from the layer rather than guessed at** — *C.
+doughertyi* and *C. nigoni* among them, which is why they carry a sequon
+marker in Figure S21 but no phenotype tile. And **the sequenced isolate
+is usually not the tested one**: only *C. elegans* (N2), *C. tropicalis*
+(JU1373) and *C. drosophilae* (DF5077) match. That matters more than it
+normally would, because the same paper reports intraspecific variation
+in *C. elegans*.
 
 ## Figure S22 — how far out SID-2 can be compared, and what that is worth
 
@@ -34283,7 +34348,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34297,7 +34362,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34311,7 +34376,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34325,7 +34390,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 422
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34339,7 +34404,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34353,7 +34418,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34367,7 +34432,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34381,7 +34446,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34395,7 +34460,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34409,7 +34474,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34423,7 +34488,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34437,7 +34502,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34451,7 +34516,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34465,7 +34530,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34479,7 +34544,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34493,7 +34558,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34507,7 +34572,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34521,7 +34586,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34535,7 +34600,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34549,7 +34614,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34563,7 +34628,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34577,7 +34642,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34591,7 +34656,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34605,7 +34670,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34616,10 +34681,10 @@ Figure S21
 SUPP_FIG_XX_sid2_ortholog_conservation
 </td>
 <td style="text-align:right;">
-632
+624
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 <tr>
@@ -34633,7 +34698,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 462
 </td>
 <td style="text-align:right;">
-2026-09-10 20:10
+2026-09-10 20:34
 </td>
 </tr>
 </tbody>

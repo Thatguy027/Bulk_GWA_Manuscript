@@ -1544,6 +1544,37 @@ produce an answer. Rows below the floor are drawn in the lower facet and counted
 neither way, which is where the two species that appear to carry Lys96 sit, at
 32% and 21% block identity.
 
+Rows are ordered on a reference phylogeny -- the Open Tree of Life induced
+subtree, synthetic tree opentree16.1, topology only, drawn as a cladogram at the
+left. Nothing here re-estimates a tree; a SID-2 gene tree at 42-48% identity
+would be the wrong object to draw. Species with no position in that tree, the
+unnamed Caenorhabditis Genomes Project sp. NN isolates and C. oiwi, are listed
+below it rather than placed arbitrarily.
+
+The rightmost column is each species' published response to ingested dsRNA,
+from Nuez & Felix 2012 (PLoS ONE 7:e29811). That paper scored species under
+provisional designations, most since named -- C. sp. 11 is C. tropicalis and
+C. sp. 10 is C. doughertyi -- so every call is mapped through Felix, Braendle &
+Cutter 2014 (PLoS ONE 9:e94723), whose type strains are the isolates tested.
+The mapping is deposited as sid2_species_name_map.tsv. Only calls that paper
+states in prose are used, so species it tested but does not call, including
+C. doughertyi and C. nigoni, carry a sequon marker and no phenotype tile.
+
+THIS IS THE POINT OF THE FIGURE. Of the nine species with both a readable window
+and a published call, five respond to ingested dsRNA and four do not, AND THE
+SEQUON DOES NOT SEPARATE THEM: C. briggsae, C. remanei, C. brenneri and
+C. tropicalis carry the intact motif and are insensitive, while C. elegans,
+C. kamaaina, C. portoensis and C. wallacei carry it and respond. C. afra, which
+has lost Asn94 and is a natural AxT, responds. Residue 96 is conserved; it does
+not predict the phenotype. Nuez & Felix reached the same conclusion from the
+phenotype alone, inferring a minimum of four gains or losses of environmental
+RNAi within the genus.
+
+An asterisk on a phenotype tile marks a call scored on a DIFFERENT ISOLATE from
+the sequenced one, which is most of them: only C. elegans (N2), C. tropicalis
+(JU1373) and C. drosophilae (DF5077) match. That matters more than it normally
+would, because the same paper reports intraspecific variation in C. elegans.
+
 (B) The editing series on pos-1 RNAi, Wilson 95% intervals. N94A removes the
 sequon while leaving residue 96 alone, so it should phenocopy 96K if the glycan
 is what 96K destroys. It does not: JU1793 AxT is 265/267 = 99.3% hatched, fully
@@ -1554,9 +1585,17 @@ residue-96 column independently implies. In the JU2466 background N94A gains
 more (88/207 = 42.5%) than the 96T swap does (40/217 = 18.4%), so the two
 positions interact rather than acting through one shared modification. Wild
 types are JU1793 NxT 202/213 = 94.8% and JU2466 NxK 11/204 = 5.4% and 8/215 =
-3.7%. One plate per genotype at 50% pos-1 RNAi, A DIFFERENT DOSE FROM FIGURE 4B,
-so these percentages are not comparable with that figure's;
-SUPP_FIG_XX_sid2_allele_swaps_full carries the same data with HT115 controls.
+3.7%. Significance is Fisher's exact test on the hatched/unhatched counts against the
+wild type of the same background (JU1793[96T] and JU2466_A[96K]), with an arrow
+for the direction. AxT is p = 0.004 HIGHER than its wild type, not lower; the
+arrow is there so a bare p value cannot be read as impairment. NxK is p = 2e-24
+lower, the 96T swap into JU2466 p = 4e-05 higher, N94A into JU2466 p = 4e-20
+higher, and the second JU2466 line p = 0.49 against the first.
+
+One plate per genotype at 50% pos-1 RNAi, A DIFFERENT DOSE FROM FIGURE 4B,
+so these percentages are not comparable with that figure's, and each p describes
+one plate against one plate; SUPP_FIG_XX_sid2_allele_swaps_full carries the same
+data with HT115 controls.
 
 A CORRECTION THIS FIGURE RECORDS. With only the UniProt proteomes it appeared
 that the sequon was intact through the Elegans group and broken at C. angaria,
