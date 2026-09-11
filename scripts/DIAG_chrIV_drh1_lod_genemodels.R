@@ -72,30 +72,44 @@ COL_LOF  <- "#1F78A8"   # the other loss-of-function genes in the window
 ##     bcftools query ... VCFs/WI.MANTAsv.soft-filter.vcf.gz
 ##     -> 8 PASS discordant SVs in the window, 1 homozygous CDS hit (drh-1)
 ##
-## NOT included: the breakend calls overlapping skn-1. An earlier note here
-## dismissed them as noise because a heterozygous call in an inbred strain is
-## not credible. That was the wrong reason -- the calls are real, and they are
-## paralogy, not loss of function. skn-1 exons carry three dense breakend
-## clusters, each pointing at a different locus:
+## NOT included: skn-1, which has no coding difference between the parents but
+## does carry a real JU1793-specific structural junction. Two earlier notes here
+## were wrong and the BAMs settled it (Manuscript/Bams/JU1793.bam, JU2466.bam).
 ##
-##   IV:5,651,637-5,651,715  ->  V:4,748,473-4,748,515   (unannotated)   8 BNDs
-##   IV:5,653,711-5,653,867  ->  II:15,128,603-15,128,704               9 BNDs
-##                               = Y53F4B.63, a polymorphic pseudogene
-##   IV:5,655,401-5,655,514  ->  V:2,625,420-2,625,573                 35 BNDs
-##                               = sknr-1 (W02H5.7), a skn-1 paralog
+## WHAT THE READS SAY. At two skn-1 exonic windows, 4-5% of JU1793's
+## MAPQ>=30 reads have mates on another chromosome, in tight clusters, and
+## JU2466 has none anywhere in the gene:
 ##
-## Nearly all are ./. in every strain INCLUDING N2, the reference, so they are
-## junctions the genotyper could not resolve rather than strain-specific events.
-## Two are genotyped 0/1 in JU1793 alone, at both ends of the same junction
-## (IV:5,653,829 and its mate II:15,128,704), and JU1793 also carries a 62 bp
-## insertion call at II:15,128,264 that JU1580, its isotype partner, shares.
-## Those chrII records carry the MaxDepth filter -- excess read depth, which is
-## what reads piling in from a paralog look like.
+##   IV:5,653,500-5,653,900  ->  24 mates at II:15,128,485-15,128,560
+##                               (Y53F4B.63, a polymorphic pseudogene)
+##   IV:5,651,039-5,651,840  ->  21 mates at V:4,748,572-4,748,610
+##                               (intergenic, between C18G1.7 and C18G1.6)
 ##
-## Whatever the copy number, skn-1 itself has no coding difference between the
-## parents: JU1793 is homozygous reference at every coding site in the gene and
+## Both match MANTA breakend mates called at the same positions, and JU1580,
+## JU1793's isotype partner, shares the chrII insertion call. A control exon
+## (IV:5,658,000-5,659,000) has 100% same-chromosome mates in both strains.
+##
+## IT IS NOT A DUPLICATION OF skn-1. Normalised MAPQ>=30 depth across
+## IV:5,649,000-5,662,000 runs 0.72-1.70x in JU1793 and 0.50-1.67x in JU2466 --
+## the same fluctuation in both, with no contiguous shelf and no sharp edges.
+## The likeliest reading is an ectopic partial copy of skn-1 sequence inserted
+## at those two loci in JU1793: reads from the extra copy map back to skn-1,
+## which is their best match because the reference lacks the insertion, giving
+## apparent heterozygosity and modest excess depth without a coverage block.
+##
+## AND IT IS NOT THE sknr-1 PARALOG. sknr-1 (W02H5.7, V:2,622,056-2,625,460)
+## has 0.03x coverage in JU1793, but that is a called hyper-divergent region --
+## V:2,592,000-2,659,000 in the 20231213 release, 185 strains share it, JU2466
+## does not -- so the sequence is unmappable rather than absent, and no gene
+## loss can be claimed. The skn-1 exon whose breakends point at sknr-1
+## (IV:5,655,183-5,655,605) has 100% same-chromosome mates, so sknr-1 is not
+## the source of the skn-1 signal.
+##
+## skn-1 stays off the list because the list is loss-of-function and skn-1 has
+## none: JU1793 is homozygous reference at every coding site in the gene, and
 ## its only two alternate calls are intronic variants at 61% frequency in the
-## species. So it is not a loss-of-function candidate here.
+## species. The junction is real and JU1793-specific and sits inside the chrIV
+## support intervals, so it is recorded here rather than dropped.
 LOF <- data.table(
   gene    = c("drh-1", "bec-1", "cpi-1"),
   kind    = c("159 bp deletion (*niDf250*)", "start lost", "stop gained"),
