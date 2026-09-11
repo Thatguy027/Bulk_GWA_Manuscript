@@ -795,19 +795,59 @@ identifying 369 glycoforms at 196 N-glycosites on 161 glycoproteins after
 ZIC-HILIC enrichment. SID-2 is absent from it. That absence is uninformative,
 and the reason is measurable rather than assumed: their deposited unenriched
 proteome matrix carries 3,966 peptides from 870 accessions, and only 53 of
-their own 161 glycoproteins appear in it. Narayan et al. 2016 (Cell Syst
-3:144-159), working on N2 under FUdR at the same three ages, identify 9,398
-proteins and quantify 7,380, and SID-2 is among them, with 6, 5 and 5 peptides
-in the three biological replicates, 20.3% sequence coverage and a mean
-intensity of 2.09e9 -- rank 4,387 of 9,398, just above that proteome's median
-of 1.74e9. In their day-1 subcellular fractionation SID-2 partitions 50.7%
-membrane, 40.0% cytosol and 9.0% nucleus, with four razor-or-unique peptides in
-the membrane fraction in all three replicates, which is consistent with a
-single-pass membrane protein although below the >75% occupancy they required to
-call a compartment. SID-2 is therefore a detectable, median-abundance protein
-in these animals at these ages, and its absence from a survey that sampled
-roughly a twelfth as many proteins carries no information about its
-glycosylation state.
+their own 161 glycoproteins appear in it. This is the only C. elegans
+glycoproteomics dataset we are aware of that overlaps the relevant biology, so
+the question of SID-2 glycan occupancy is at present unaddressed rather than
+answered in the negative.
+
+TWO PROTEOME STUDIES BEAR ON DETECTABILITY, NOT ON GLYCOSYLATION. Neither
+study cited in this paragraph searched for glycan modifications, so neither
+could have identified a glycopeptide even in principle, and neither is evidence
+about occupancy. Narayan et al. 2016 (Cell Syst 3:144-159) set deamidation of
+Asn and Gln, oxidation of Met, pyro-Glu and protein N-terminal acetylation as
+variable modifications with N-ethylmaleimide on Cys fixed, and the
+ProteomeXchange record for the deposit (PXD004584) is flagged as containing no
+PTMs; Tan et al. 2024 (PNAS 121:e2322588121, PXD047792) set oxidation of Met
+dynamic and carbamidomethylation of Cys fixed. They are cited here only to
+establish that SID-2 is an expressed, detectable protein in the tissue and at
+the ages concerned, which is what makes the Hu et al. silence a sampling
+limitation rather than a result.
+
+Narayan et al., working on N2 under FUdR at the same three ages as Hu et al.,
+identify 9,398 proteins and quantify 7,380, and SID-2 is among them with 6, 5
+and 5 peptides across the three biological replicates, 20.3% sequence coverage
+and a mean intensity of 2.09e9 -- rank 4,387 of 9,398, just above that
+proteome's median of 1.74e9. In their day-1 subcellular fractionation SID-2
+partitions 50.7% membrane, 40.0% cytosol and 9.0% nucleus, with four
+razor-or-unique peptides in the membrane fraction in all three replicates,
+consistent with a single-pass membrane protein although below the >75%
+occupancy they required to assign a compartment. Tan et al. dissected single
+intestines and gonads and place SID-2 in the intestine specifically: it is
+detected in all six single-animal intestine samples, is absent from all six
+gonads (intestine over gonad log2 = 6.64, adjusted p = 2.5e-17), appears in
+their intestine-enriched set and in the intersection of that set with the
+Han et al. 2017 intestine-enriched transcriptome, and is unchanged in glo-1(lf)
+intestines (ratio 1.15, p = 0.74), so it is an intestinal protein rather than a
+gut-granule resident. That tissue assignment is independent confirmation of
+where the dsRNA-uptake model places SID-2, and is cited for that as much as for
+detectability. Its coverage there is only 7% from two peptides, however, so
+these data are evidence that the protein is present, not that any particular
+peptide of it was observable.
+
+WHY THE RAW DATA WERE NOT RE-SEARCHED. Recovering a SID-2 glycopeptide from the
+deposited raw files was considered and not attempted. The unenriched proteome
+runs are the wrong substrate: a glycopeptide's signal splits across many
+glycoforms, each far below the unmodified peptide, and in Tan et al. the whole
+protein is carried by two peptides at 7% coverage from single dissected
+tissues. Their MS2 mass tolerance of 0.3 Da indicates low-resolution product
+ion detection, and single-energy HCD rather than stepped-energy HCD or EThcD is
+poorly suited to glycopeptide identification and site localisation. The
+informative target would be the ZIC-HILIC-enriched raw data of Hu et al., where
+a targeted extraction of the four SID-2 peptides spanning N94-C95-T96 against
+their reported glycan compositions could be attempted; that is recorded here as
+the open experiment rather than done, because a negative result would add
+nothing to the sampling argument already made and a positive one would require
+manual validation beyond what this paper rests on.
 
 Hu et al.'s seven supplemental tables were searched for SID-2 three ways, each
 returning nothing: by accession (G5EEV9), by gene and sequence name (sid-2,
