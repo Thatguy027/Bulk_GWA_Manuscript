@@ -67,6 +67,14 @@
 ##                                      the repository; with these the reported
 ##                                      r-squared recompute, which is what
 ##                                      simulation_recompute_r2.R asserts)
+##   structure/sid2_ortholog_search.tsv,
+##   structure/sid2_ortholog_alignment.tsv,
+##   structure/sid2_ortholog_conservation.tsv,
+##   structure/sid2_ortholog_sequences.fa
+##                                   <- make_sid2_ortholog_tables.py  (the
+##                                      SID-2 ortholog survey across 20
+##                                      nematode proteomes; sequences from
+##                                      UniProt by accession)
 ##   structure/sid2_parental_variants.tsv   <- pooled_cross_candidate_variation.R
 ##
 ## NOT copied here, because they have their own builders:

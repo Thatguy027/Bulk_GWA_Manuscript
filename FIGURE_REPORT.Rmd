@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-four manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-five manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -82,7 +82,8 @@ FIGS <- c(
   "SUPP_FIG_XX_sid2_model_confidence",
   "Figure2_no_cross_qtl",
   "SUPP_FIG_XX_nil_interval_genes",
-  "SUPP_FIG_XX_sid2_briggsae_alignment")
+  "SUPP_FIG_XX_sid2_briggsae_alignment",
+  "SUPP_FIG_XX_sid2_ortholog_conservation")
 
 ## Fail loudly and usefully rather than knitting a report full of broken images.
 png_paths <- file.path("plots", paste0(FIGS, ".png"))
@@ -92,7 +93,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 24, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 25, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -128,7 +129,8 @@ LABELS <- c(
   Figure2_no_cross_qtl                           = "Figure S17",
   SUPP_FIG_XX_nil_interval_genes                 = "Figure S18",
   SUPP_FIG_XX_sid2_briggsae_alignment            = "Figure S19",
-  SUPP_FIG_XX_gwas_peak_genotype_splits          = "Figure S20")
+  SUPP_FIG_XX_gwas_peak_genotype_splits          = "Figure S20",
+  SUPP_FIG_XX_sid2_ortholog_conservation         = "Figure S21")
 stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 
 HA  <- "supplemental_data/hatching_assays"
@@ -136,9 +138,9 @@ ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 MAP <- "supplemental_data/mapping"
 
-## Diagnostics are NOT part of the curated twenty-four. They live in
+## Diagnostics are NOT part of the curated twenty-five. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the twenty-four, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-five, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -2513,7 +2515,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the twenty-four they need the
+tracked so this report reads from a clone, but unlike the twenty-five they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -3116,12 +3118,106 @@ it uniformly. Positions 32, 34, 94, 96, 168 and 175 all sit in well-aligned
 blocks, so the conclusions above do not rest on the ambiguous regions.
 
 **Two species is not a conservation analysis.** Identity or difference against
-one outgroup says nothing about the rate at a site. A proper test would need an
-alignment across the *Caenorhabditis* genus, which this figure does not attempt.
+one outgroup says nothing about the rate at a site. A proper test needs an
+alignment across the *Caenorhabditis* genus, which this figure does not attempt
+— **Figure S21 does it**, and finds that the genus is as far as the comparison
+can be taken at all.
 
 **Sequences are UniProt G5EEV9 and A8XSB8**, fetched rather than derived here,
 and the *briggsae* entry is unreviewed (PE=4, predicted). Its gene model has not
 been checked against *briggsae* RNA-seq.
+:::
+
+## Figure S21 — how far out SID-2 can be compared, and what residue 96 does
+
+::: meta
+**Scripts** `scripts/make_sid2_ortholog_tables.py`, `scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R`<br>
+**Search** 20 UniProt reference proteomes · 488,718 proteins · reciprocal-best-hit `blastp`<br>
+**Conservation** 6 Elegans-group orthologs · 173 ectodomain positions
+:::
+
+::: plate
+```{r fig-s21, fig.alt="Three panels: a lollipop chart of reciprocal-best-hit BLAST significance for 20 nematode proteomes grouped by taxonomic depth, a residue grid of the aligned residues around the N94-x-T96 sequon in nine Caenorhabditis species, and a bar chart of per-position conservation across the ectodomain with positions 94, 95 and 96 marked."}
+include_graphics("plots/SUPP_FIG_XX_sid2_ortholog_conservation.png")
+```
+<p class="filecap">SUPP_FIG_XX_sid2_ortholog_conservation</p>
+:::
+
+*sid-2* 96K is a polymorphism inside *C. elegans*, so calling 96T **ancestral**
+needs outgroups, and S19 has one. Asking for more turns into the opposite
+question — how far out does the comparison work at all — and that has a sharper
+answer than expected. **The conservation does not break down gradually. It stops
+at the edge of the genus.**
+
+::: panel
+[A]{.pl} Reciprocal-best-hit `blastp` of *C. elegans* SID-2 against 20
+UniProt reference proteomes, 488,718 proteins, banded by taxonomic depth. Of
+the 19 comparators, **eight clear `E < 1e-5` and every one is a
+*Caenorhabditis*.** Nothing outside the genus comes close — not *Pristionchus*,
+*Heterorhabditis*, *Haemonchus*, *Panagrellus*, *Strongyloides*,
+*Bursaphelenchus*, *Brugia* or *Trichinella*, and **not even *Diploscapter
+pachys*, the sister genus, at `E = 4.1`.** Two independent resources agree:
+`G5EEV9` sits in a UniRef50 cluster of **one**, and NCBI lists no *sid-2*
+ortholog anywhere in Nematoda.
+:::
+
+::: panel
+[B]{.pl} The residues aligned to *C. elegans* 88–104 in all nine species with a
+detectable ortholog. The boxed columns are the N94-x-T96 sequon. **It is intact
+in all six Elegans-group orthologs** — `T` at 96 in five and `S` in
+*C. tropicalis*, both of which satisfy N-x-[ST] — and it is **broken in
+*C. angaria***, the basal Angaria group, which carries `Q-G-F`. *C. japonica*
+sits between them and cannot be read: its ortholog is split across two proteome
+entries and the N-terminal fragment aligns into a `TTDT` repeat offset by two to
+three residues, so the row is drawn as unreadable rather than as substitutions.
+:::
+
+::: panel
+[C]{.pl} Why panel B is more than one conserved letter. A single column in a
+42–48% identity alignment of a Thr-rich region is weak evidence — Thr is 13.3%
+of this ectodomain — but the three-residue window controls for that, because all
+three columns come from the same alignment:
+
+| position | role in the sequon | conserved | ectodomain percentile |
+|---|---|---|---|
+| N94 | the constrained Asn | **6/6** | 92nd |
+| C95 | the unconstrained X | **0/6** | 16th |
+| T96 | the constrained Ser/Thr | **5/6** (6/6 as S or T) | 82nd |
+
+against a background of `2.23/6` (37%), with only 15% of ectodomain positions
+conserved in all six. A misaligned window does not produce 100% / 0% / 83%
+across three adjacent columns.
+:::
+
+::: caveat
+[What this settles, and what it does not]{.ch}
+
+**The claim has a depth, and it is the Elegans group.** 96T is ancestral at
+that depth and 96K is derived within *C. elegans*. This is **not** "conserved
+across nematodes", and the figure is built so it cannot be read that way: at the
+base of its own genus the sequon is already gone, and one genus out the protein
+is not alignable.
+
+**A fully conserved sequon is the norm in this protein, not a distinction.**
+Three of the five ectodomain sequons (at 71, 81 and 94) are intact in all six
+orthologs; two (at 100 and 148) survive in one. So the sequon at 94 belongs to
+the conserved majority rather than standing out from it.
+
+**No functional claim is made here.** The glycosylation hypothesis for this
+sequon was tested with N94A and failed — `SUPP_FIG_XX_sid2_allele_swaps_full.R`
+shows the AxT construct is fully resistant, so the glycan is not required.
+Conservation is evidence about history, not mechanism.
+
+**Two *Caenorhabditis* proteomes fail the search too** (*C. bovis* at `E = 2.2`,
+*C. auriculariae* at `E = 0.15`). Absence of a hit in one proteome is weak
+evidence about the gene and may only say the annotation is incomplete, so no
+claim of gene loss is made.
+
+**The search is pinned, not re-run.** It needed the 20 proteomes (~120 MB),
+which are a public UniProt release rather than our data and are far too large to
+deposit. `make_sid2_ortholog_tables.py` carries the result, the proteome
+accessions and the parameters, and rebuilds every table downstream of it from
+sequences fetched by accession.
 :::
 
 ## eQTL and parental expression at the censused loci
@@ -3624,7 +3720,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All twenty-four figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-five figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is

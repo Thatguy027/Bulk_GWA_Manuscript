@@ -596,7 +596,7 @@ alignment is a hypothesis about residue correspondence rather than a fact, and
 the staged per-position table records the aligned C. briggsae residue and a gap
 flag so that the weak regions are visible. Residues 32, 34, 94, 96, 168 and 175
 all fall in well-aligned blocks. Two species do not support a conservation
-analysis and no per-residue conservation score is computed.
+analysis; the ortholog survey described below supplies one.
 
 All three histidines implicated in dsRNA uptake differ in C. briggsae -- H32 to
 arginine, H168 to serine, H175 to arginine -- while N94, T96 and D34 are
@@ -605,6 +605,69 @@ they are the residues McEwan et al. 2012 mutated, and that paper's triple
 His-to-Arg mutant internalised MORE dsRNA than wild type, so the C. briggsae
 state at two of them, which is that same arginine, cannot by itself explain why
 C. briggsae does not take dsRNA up.
+
+SID-2 ORTHOLOG SURVEY ACROSS NEMATODES. Because sid-2 96K is a polymorphism
+within C. elegans, calling 96T ancestral requires outgroups. C. elegans SID-2
+(UniProt G5EEV9) was searched by reciprocal-best-hit blastp against 20 UniProt
+reference proteomes spanning Caenorhabditis and the major nematode clades,
+488,718 proteins in total: C. briggsae UP000008549, C. nigoni UP000230233,
+C. tropicalis UP000095282, C. remanei UP000008281, C. latens UP000216463,
+C. brenneri UP000008068, C. japonica UP000005237, C. bovis UP000494206,
+C. auriculariae UP000835052, C. angaria UP001152747, Diploscapter pachys
+UP000218231, Pristionchus mayeri UP001328107, Heterorhabditis bacteriophora
+UP000095283, Haemonchus contortus UP000025227, Panagrellus redivivus
+UP000492821, Strongyloides ratti UP000035682, Bursaphelenchus xylophilus
+UP000659654, Brugia malayi UP000006672, Trichinella spiralis UP000054776, and
+C. elegans UP000001940 itself as a control. One BLAST database was built per
+proteome and searched with NCBI blastp, -evalue 10 -seg no -max_target_seqs 5;
+forward best hits were confirmed by searching the hit back against the
+C. elegans proteome. A hit was called an ortholog at E < 1e-5.
+
+Eight of the 19 comparator proteomes yielded an ortholog and every one of them
+is a Caenorhabditis. No proteome outside the genus cleared the threshold,
+including Diploscapter pachys, the sister genus, whose best hit was E = 4.1.
+Two independent resources agree: the UniRef50 cluster containing G5EEV9 has one
+member, and NCBI's ortholog set for sid-2 within Nematoda is empty. Two
+Caenorhabditis proteomes also failed (C. bovis E = 2.2, C. auriculariae
+E = 0.15); absence of a hit in a single proteome is weak evidence about the gene
+and may reflect incomplete annotation, so no gene loss is claimed.
+
+Per-position conservation was computed over the six Elegans-group orthologs by
+global Needleman-Wunsch alignment of each to C. elegans SID-2 with BLOSUM62 and
+gap open -11, extend -1 -- the same settings as the two-species alignment above
+-- and counting, at each C. elegans position, how many orthologs carry the
+C. elegans residue. Across the 173 ectodomain positions the mean is 2.23 of 6
+(37.1%) and 15.0% of positions are conserved in all six. The N94-C95-T96 sequon
+separates sharply against that background: N94 is conserved in 6 of 6 (92nd
+percentile of ectodomain positions), C95 in 0 of 6 (16th), and T96 in 5 of 6 and
+in 6 of 6 as serine or threonine (82nd). The contrast between the sequon's two
+constrained positions and its unconstrained middle comes from the same alignment
+columns, which is why it is reported in preference to the conservation of
+residue 96 alone: threonine is 13.3% of this ectodomain, so a single conserved
+threonine in a 42-48% identity alignment would be weak evidence.
+
+The sequon is intact in all six Elegans-group orthologs and broken in
+C. angaria, the most distant species with a detectable ortholog, which carries
+Q-G-F. C. japonica lies between the two and cannot be scored: its ortholog is
+split across two proteome entries (A0A8R1DPT1 covering C. elegans 167-311 and
+A0A8R1IAX9 covering 21-127) and within the N-terminal fragment the alignment
+falls in a TTDT repeat with a two- to three-residue offset, so that column is
+reported as ambiguous. Three of the five ectodomain sequons (71, 81, 94) are
+intact in all six orthologs and two (100, 148) in one, so a fully conserved
+sequon is the norm in this protein rather than a distinction.
+
+The conclusion this supports is bounded: 96T is ancestral at the depth of the
+Elegans group and 96K is derived within C. elegans. It is not conservation
+across nematodes. No functional claim follows from the conservation, because the
+glycosylation hypothesis for this sequon was tested with N94A and failed (see
+the allele-swap section).
+
+Re-running the search requires the 20 whole proteomes, roughly 120 MB, which are
+a public UniProt release rather than data generated here and are not deposited.
+scripts/make_sid2_ortholog_tables.py records the proteome accessions, the search
+parameters and the resulting per-species best hits, and rebuilds the deposited
+tables from sequences fetched by accession; it asserts the conservation counts
+above so a change in the underlying sequences fails loudly.
 
 Population missense variation in sid-2 was taken from the BCSQ-annotated CeNDR
 release across the 540 isotypes: 17 missense variants in the 3.0 kb span, of

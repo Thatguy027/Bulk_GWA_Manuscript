@@ -2,7 +2,7 @@
 
 This repository holds the analysis code, the figures, and `supplemental_data/`
 — every input the figure scripts read, staged and compressed, 38.2 MB. All
-twenty-four figures rebuild from it alone, verified by deleting `data/` and running
+twenty-five figures rebuild from it alone, verified by deleting `data/` and running
 them. See `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` for a file-by-file,
 column-by-column description, and `SUPPLEMENTAL_DATA_SURVEY.md` for how the
 deposit set was chosen.
@@ -48,7 +48,7 @@ document the command than to archive them:
 
 ## What still works from a clone alone
 
-Since `supplemental_data/` is tracked, **all twenty-four figures now build from a
+Since `supplemental_data/` is tracked, **all twenty-five figures now build from a
 clone**, with no archive needed. The table below is about rebuilding the
 *inputs* rather than the figures.
 

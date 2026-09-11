@@ -1,8 +1,8 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all twenty-four manuscript figures, and nothing
+Every file needed to regenerate all twenty-five manuscript figures, and nothing
 else. **38.2 MB in 46 files.** Verified by deleting `data/` entirely and
-rebuilding: all twenty-four figures and the three asset builders run from this
+rebuilding: all twenty-five figures and the three asset builders run from this
 directory alone.
 
 Reproduce with the scripts in `scripts/`, from the repository root:
@@ -384,6 +384,31 @@ encodes 96K. Orientation was verified against four strains whose allele is
 known independently — JU1793 and N2 are 96T, JU2466 and XZ1516 are 96K.
 
 ### `structure/`
+
+`sid2_ortholog_search.tsv` — 20 rows, one per proteome searched for a SID-2
+ortholog: `proteome` (UniProt proteome accession), `species`, `group` (the
+taxonomic group), `depth_rank` (0 for *C. elegans*, rising with distance),
+`accession` of the reciprocal best hit, `percent_identity`, `query_coverage`,
+`evalue`, `is_ortholog` (TRUE at E < 1e-5). Eight of the 19 comparators are
+orthologs and all eight are *Caenorhabditis*.
+
+`sid2_ortholog_alignment.tsv` — 2,488 rows, 311 *C. elegans* positions by the
+eight species with a detectable ortholog: `ce_pos`, `ce_aa`, `species`, `group`,
+`aligned_aa` (`-` for a gap), `identical`, `ambiguous`. `ambiguous` is TRUE only
+for *C. japonica*, whose ortholog is split across two proteome entries and whose
+N-terminal fragment aligns into a TTDT repeat with a two- to three-residue
+offset; that row should not be read as substitutions.
+
+`sid2_ortholog_conservation.tsv` — 311 rows, one per *C. elegans* position:
+`n_conserved` of `n_orthologs` (6, the Elegans group) sharing the *C. elegans*
+residue, `fraction`, `in_ectodomain`, and `ecd_percentile` (blank outside the
+ectodomain). N94 is 6/6 at the 92nd percentile, C95 0/6 at the 16th, T96 5/6 at
+the 82nd, against an ectodomain mean of 2.23/6.
+
+`sid2_ortholog_sequences.fa` — the nine sequences those tables are built from,
+by UniProt accession, with the fetch date.
+
+
 
 | file | what it is |
 |---|---|
