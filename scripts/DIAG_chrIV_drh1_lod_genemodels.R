@@ -54,7 +54,32 @@ COL_MIGR <- "#E08214"   # mig-6   (same hues as the cross-contrast figure)
 COL_POS  <- "#7C6A9C"   # pos-1
 COL_CTRL <- "#4D4D4D"   # HT115 control
 COL_GENE <- "#5B6B78"
-COL_FOC  <- "#C4302B"
+COL_FOC  <- "#C4302B"   # drh-1
+COL_LOF  <- "#1F78A8"   # the other loss-of-function genes in the window
+
+## ---------------------------------------------------------------------------
+## Loss-of-function variation between the parents inside the window. PINNED,
+## with the queries that produced it, so the figure does not re-scan a 10 GB
+## VCF on every render.
+##
+##   SNV/indel, truncating only (stop gained/lost, frameshift, splice
+##   acceptor/donor, start lost), homozygous-discordant between the parents:
+##     bcftools query -f '%POS\t%INFO/BCSQ[\t%GT]' -s JU1793,JU2466 \
+##       -r IV:5600000-6900000 CeNDR/20231213/bcsq.vcf.gz
+##     -> 163 discordant homozygous sites in the window, 2 of them truncating
+##
+##   structural variants, PASS and discordant, overlapping a CDS:
+##     bcftools query ... VCFs/WI.MANTAsv.soft-filter.vcf.gz
+##     -> 8 PASS discordant SVs in the window, 1 homozygous CDS hit (drh-1)
+##
+## NOT included: a breakend call at IV:5,653,829 overlapping skn-1, genotyped
+## 0/1 in JU1793. A heterozygous breakend in an inbred strain is not a credible
+## loss-of-function call, and no deletion or duplication supports it.
+LOF <- data.table(
+  gene    = c("drh-1", "bec-1", "cpi-1"),
+  kind    = c("159 bp deletion (*niDf250*)", "start lost", "stop gained"),
+  carrier = c("JU1793", "JU1793", "JU2466"),
+  af      = c(NA, 0.4182, 0.0050))
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 stopifnot(file.exists(GFF), dir.exists(XP))
@@ -149,6 +174,15 @@ genes[, y := -lane * STEP]
 exu <- merge(exu, genes[, .(wb, y, label)], by = "wb")
 FOC <- genes[label == FOCUS]
 stopifnot(nrow(FOC) == 1)
+lof <- merge(LOF, genes[, .(gene = label, start, end, y, lane)], by = "gene")
+stopifnot(nrow(lof) == nrow(LOF))
+lof[, txt := paste0("**", gene, "** <span style='font-size:7pt'>", kind,
+                    ", ", carrier,
+                    fifelse(is.na(af), "", sprintf(" &middot; AF %.3f", af)),
+                    "</span>")]
+lof[, col := fifelse(gene == FOCUS, COL_FOC, COL_LOF)]
+msg("loss-of-function genes in the window: ",
+    paste(sprintf("%s (%s, %s)", lof$gene, lof$kind, lof$carrier), collapse = "; "))
 msg(FOCUS, " in lane ", FOC$lane, " at IV:", format(FOC$start, big.mark = ","),
     "-", format(FOC$end, big.mark = ","))
 
@@ -193,16 +227,17 @@ p <- ggplot() +
   geom_rect(data = exu, aes(xmin = mb(start), xmax = mb(end),
                             ymin = y - EXH, ymax = y + EXH),
             fill = COL_GENE, colour = NA) +
-  ## drh-1 on top
-  geom_segment(data = FOC, aes(x = mb(start), xend = mb(end), y = y, yend = y),
-               colour = COL_FOC, linewidth = 0.5) +
-  geom_rect(data = exu[label == FOCUS],
+  ## the loss-of-function genes on top, drh-1 in red and the rest in blue
+  geom_segment(data = lof, aes(x = mb(start), xend = mb(end), y = y, yend = y,
+                               colour = I(col)), linewidth = 0.5) +
+  geom_rect(data = merge(exu, lof[, .(label = gene, col)], by = "label"),
             aes(xmin = mb(start), xmax = mb(end), ymin = y - EXH * 1.9,
-                ymax = y + EXH * 1.9), fill = COL_FOC, colour = NA) +
-  geom_richtext(data = FOC, aes(mb(end) + mb(diff(WIN)) * 0.006, y),
-                label = paste0("**", FOCUS, "**"), hjust = 0, size = 3.6,
-                colour = COL_FOC, fill = NA, label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
+                ymax = y + EXH * 1.9, fill = I(col)), colour = NA) +
+  geom_richtext(data = lof, aes(mb(end) + mb(diff(WIN)) * 0.006, y, label = txt,
+                                colour = I(col)),
+                hjust = 0, size = 3.1, fill = alpha("white", 0.86),
+                label.color = NA,
+                label.padding = grid::unit(c(1.2, 2, 1.2, 2), "pt")) +
   scale_colour_manual(values = COLS, name = NULL) +
   scale_fill_manual(values = COLS, guide = "none") +
   scale_x_continuous(name = "Chromosome IV position (Mb)",
@@ -225,10 +260,14 @@ p <- ggplot() +
          "0.61 under *pos-1* &mdash; enriched under **both** knockdowns. That ",
          "is the general-RNAi-response signature, and unlike the chrX locus.<br>",
          "Below the line, all ", nrow(genes), " protein-coding gene models in ",
-         "the window. <span style='color:", COL_FOC, "'>**drh-1**</span> is ",
-         "red; the red stripe is *niDf250*, the 159&nbsp;bp deletion JU1793 ",
-         "carries and JU2466 does not. The traces are flat across megabases, ",
-         "so position alone does not single it out.")) +
+         "the window. Every gene carrying loss-of-function variation between ",
+         "the parents is marked: ",
+         "<span style='color:", COL_FOC, "'>**drh-1**</span> in red (the red ",
+         "stripe is *niDf250*), the others in ",
+         "<span style='color:", COL_LOF, "'>**blue**</span>. Truncating SNVs ",
+         "and indels plus PASS structural variants overlapping a CDS; ",
+         "missense is not counted.<br>The traces are flat across megabases, ",
+         "so position alone singles out none of them.")) +
   theme_classic(base_size = 11.5) +
   theme(axis.line.y = element_line(linewidth = 0.3),
         axis.line.x = element_blank(),
