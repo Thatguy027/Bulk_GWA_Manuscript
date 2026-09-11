@@ -5,7 +5,7 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-10
-Twenty-five figures are the manuscript set and live in plots/. Listed in the
+Twenty-six figures are the manuscript set and live in plots/. Listed in the
 order FIGURE_REPORT.Rmd presents them, which is the manuscript order; the main
 figures first, then the supplements:
 
@@ -35,6 +35,7 @@ figures first, then the supplements:
   SUPP_FIG_XX_sid2_briggsae_alignment
   SUPP_FIG_XX_gwas_peak_genotype_splits
   SUPP_FIG_XX_sid2_ortholog_conservation
+  SUPP_FIG_XX_sid2_ortholog_search
 
 Captions below cover those AND the superseded variants, which now live in
 plots/legacy/. Where a caption names a file that is no longer in plots/ -- the
@@ -1518,58 +1519,97 @@ binary.
 SUPP_FIG_XX_sid2_ortholog_conservation
 (scripts/make_sid2_ortholog_tables.py, scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R)
 --------------------------------------------------------------------------------
-How far out SID-2 can be compared at all, and what residue 96 does over that
-range. sid-2 96K is a polymorphism inside C. elegans, so calling 96T ancestral
-needs outgroups; widening the search answers the opposite question as well,
-because the comparison stops working at the edge of the genus rather than
-fading gradually.
+Residue 96 of SID-2 across Caenorhabditis, and what removing the sequon it
+belongs to actually does. sid-2 96K is a polymorphism inside C. elegans, so
+calling 96T ancestral needs outgroups; this has 14 of them, paired with the
+editing series that says what the conservation does and does not mean. The
+search behind it and the calibration of its conservation are
+SUPP_FIG_XX_sid2_ortholog_search.
 
-(A) Reciprocal-best-hit blastp of C. elegans SID-2 against 20 UniProt
-reference proteomes, 488,718 proteins, banded by taxonomic depth; the query
-itself is not drawn. Eight of the 19 comparators clear E < 1e-5 and every
-one of them is a Caenorhabditis. Nothing outside the genus clears it, including
-Diploscapter pachys, the sister genus, at E = 4.1. Two independent resources
-agree: the UniRef50 cluster of G5EEV9 has one member, and NCBI lists no sid-2
+(A) Residues aligned to C. elegans 88-104 in every Caenorhabditis species whose
+ortholog has a BLAST HSP spanning the window, ordered by identity to
+C. elegans; the boxed columns are the N94-x-T96 sequon. Species come from 20
+UniProt reference proteomes and the 32 additional species of the Caenorhabditis
+Genomes Project v2 release. Among the 14 species at or above the confidence
+floor, residue 96 is Thr in 11, Ser in 1, and LYSINE IN NONE, and the sequon is
+intact in 11. Of the three losses only C. doughertyi changes residue 96 itself,
+to Ala; C. afra keeps Thr96 and loses Asn94, making it a natural AxT -- the
+construct in panel B -- and C. sp54 changes both. So the constraint sits on
+residue 96 being small and hydroxylated rather than on the sequon as a unit.
+
+Each row carries its own confidence: the local identity of the +/-10 residue
+block around the window. The floor is 37% because that is where the six
+full-length Elegans-group orthologs already sat, not a threshold chosen to
+produce an answer. Rows below the floor are drawn in the lower facet and counted
+neither way, which is where the two species that appear to carry Lys96 sit, at
+32% and 21% block identity.
+
+(B) The editing series on pos-1 RNAi, Wilson 95% intervals. N94A removes the
+sequon while leaving residue 96 alone, so it should phenocopy 96K if the glycan
+is what 96K destroys. It does not: JU1793 AxT is 265/267 = 99.3% hatched, fully
+resistant with no sequon, while JU1793 NxK is 110/207 = 53.1%. Losing the sequon
+by removing Asn94 is harmless; losing it by substituting Lys96 costs 42 points,
+so it is the lysine and not the missing glycan -- which is what panel A's
+residue-96 column independently implies. In the JU2466 background N94A gains
+more (88/207 = 42.5%) than the 96T swap does (40/217 = 18.4%), so the two
+positions interact rather than acting through one shared modification. Wild
+types are JU1793 NxT 202/213 = 94.8% and JU2466 NxK 11/204 = 5.4% and 8/215 =
+3.7%. One plate per genotype at 50% pos-1 RNAi, A DIFFERENT DOSE FROM FIGURE 4B,
+so these percentages are not comparable with that figure's;
+SUPP_FIG_XX_sid2_allele_swaps_full carries the same data with HT115 controls.
+
+A CORRECTION THIS FIGURE RECORDS. With only the UniProt proteomes it appeared
+that the sequon was intact through the Elegans group and broken at C. angaria,
+the most distant species with a detectable ortholog. Two things were wrong: the
+C. angaria call came from a global alignment whose block identity around the
+window is 26%, far too low to read a column from, and the UniProt sample
+contained no Elegans-group species lacking the sequon, which the wider sample
+shows do exist. The window is now read from the spanning HSP and every call
+carries a confidence.
+
+NO FUNCTIONAL CLAIM FOLLOWS FROM PANEL A. Conservation is evidence about
+history; panel B is the mechanism test, and it fails for the glycan.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_sid2_ortholog_search
+(scripts/make_sid2_ortholog_tables.py, scripts/SUPP_FIG_XX_sid2_ortholog_search.R)
+--------------------------------------------------------------------------------
+How far out SID-2 can be compared at all, and what the conservation in
+SUPP_FIG_XX_sid2_ortholog_conservation is worth. The conservation does not fade
+with distance; it stops at the genus.
+
+(A) Reciprocal-best-hit blastp of C. elegans SID-2 against 20 UniProt reference
+proteomes, 488,718 proteins, banded by taxonomic depth; the query itself is not
+drawn. Eight of the 19 comparators clear E < 1e-5 and every one of them is a
+Caenorhabditis. Nothing outside the genus clears it, including Diploscapter
+pachys, the sister genus, at E = 4.1. Two independent resources agree: the
+UniRef50 cluster containing G5EEV9 has one member, and NCBI lists no sid-2
 ortholog within Nematoda. Two Caenorhabditis proteomes also fail (C. bovis
-E = 2.2, C. auriculariae E = 0.15); absence in one proteome is weak evidence
-about the gene and may only mean the annotation is incomplete, so no gene loss
-is claimed.
+E = 2.2, C. auriculariae E = 0.15); absence in a single proteome is weak
+evidence about the gene and may only mean the annotation is incomplete, so no
+gene loss is claimed.
 
-(B) Residues aligned to C. elegans 88-104 in the nine species with a detectable
-ortholog, Needleman-Wunsch with BLOSUM62 and gap open -11 extend -1 -- the same
-settings make_sid2_alignment_tables.py uses. The boxed columns are the
-N94-x-T96 sequon. It is intact in all six Elegans-group orthologs, with T at 96
-in five and S in C. tropicalis, both satisfying N-x-[ST], and it is broken in
-C. angaria (basal Angaria group), which carries Q-G-F. C. japonica cannot be
-read: its ortholog is split across two proteome entries (A0A8R1DPT1 covers Ce
-167-311, A0A8R1IAX9 covers Ce 21-127) and inside the N-terminal fragment the
-alignment sits in a TTDT repeat offset by two to three residues, so that row is
-drawn as unreadable rather than as substitutions.
+(B) All 173 ectodomain positions (21-193) binned by how many of the six
+full-length Elegans-group orthologs share the C. elegans residue, with 94, 95
+and 96 marked at their percentiles. A single conserved column in a 42-48%
+identity alignment of a Thr-rich region is weak on its own, since Thr is 13.3%
+of this ectodomain; the three-residue window controls for it because all three
+columns come from the same alignment. N94, the constrained Asn, is conserved in
+6/6 (92nd percentile); C95, the unconstrained X, in 0/6 (16th); T96, the
+constrained Ser/Thr, in 5/6 and 6/6 as Ser or Thr (82nd). The background is 2.23
+of 6 (37.1%) and only 15.0% of ectodomain positions are conserved in all six.
 
-(C) All 173 ectodomain positions (21-193) binned by how many of the six
-Elegans-group orthologs share the C. elegans residue, with 94, 95 and 96 marked
-at their percentiles. A single conserved column in a 42-48% identity alignment
-of a Thr-rich region is weak on its own, since Thr is 13.3% of this ectodomain;
-the three-residue window controls for it because all three columns come from the
-same alignment. N94, the constrained Asn, is conserved in 6/6 (92nd percentile);
-C95, the unconstrained X, in 0/6 (16th); T96, the constrained Ser/Thr, in 5/6
-and 6/6 as S or T (82nd). The background is 2.23 of 6 (37.1%) and only 15.0% of
-ectodomain positions are conserved in all six.
+CALIBRATION THAT CUTS THE OTHER WAY. Three of the five ectodomain sequons (71,
+81, 94) are intact in all six orthologs and two (100, 148) in one, so a fully
+conserved sequon is the norm in this protein rather than a distinction.
 
-WHAT THIS SETTLES. 96T is ancestral at the depth of the Elegans group and 96K is
-derived within C. elegans.
+THE CONSERVATION STATISTICS ARE OVER SIX SPECIES, NOT FOURTEEN. Only the
+full-length UniProt orthologs support scoring every position; the wider species
+set is scored at the three-residue window only, where a spanning HSP can be
+checked directly.
 
-WHAT IT DOES NOT. It is not conservation across nematodes: the sequon is already
-gone at the base of Caenorhabditis and one genus out the protein is not
-alignable. A fully conserved sequon is also the norm in this protein rather than
-a distinction -- three of the five ectodomain sequons (71, 81, 94) are intact in
-all six orthologs and two (100, 148) in one -- so the sequon at 94 belongs to the
-conserved majority. And no functional claim is made: the glycosylation
-hypothesis for this sequon was tested with N94A and failed, so conservation here
-is evidence about history, not mechanism.
-
-THE SEARCH IS PINNED, NOT RE-RUN. It required the 20 whole proteomes
-(~120 MB), a public UniProt release rather than our data and far too large to
-deposit. make_sid2_ortholog_tables.py carries the result, the proteome
-accessions and the blastp parameters, and rebuilds every downstream table from
-sequences fetched by accession.
+THE SEARCH IS PINNED, NOT RE-RUN. It required 52 whole proteomes, roughly
+290 MB, which are public releases rather than data generated here and far too
+large to deposit. make_sid2_ortholog_tables.py records the proteome accessions,
+the blastp parameters and the per-species results, and rebuilds every downstream
+table from sequences fetched by accession.

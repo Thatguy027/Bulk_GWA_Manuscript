@@ -86,8 +86,9 @@ say(!length(no_cap),
 ## the deposit's self-containment claim is stated AS a verified count, so a
 ## stale number there attests something narrower than what is in the tree.
 WORD <- c("eighteen", "nineteen", "twenty", "twenty-one", "twenty-two",
-          "twenty-three", "twenty-four", "twenty-five")
-names(WORD) <- 18:25
+          "twenty-three", "twenty-four", "twenty-five", "twenty-six",
+          "twenty-seven", "twenty-eight", "twenty-nine", "thirty")
+names(WORD) <- 18:30
 want <- WORD[[as.character(length(figs))]]
 
 ## README's curated table: one row per figure, and no figure missing from it

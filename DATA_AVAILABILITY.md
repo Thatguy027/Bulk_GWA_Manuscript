@@ -2,7 +2,7 @@
 
 This repository holds the analysis code, the figures, and `supplemental_data/`
 — every input the figure scripts read, staged and compressed, 38.2 MB. All
-twenty-five figures rebuild from it alone, verified by deleting `data/` and running
+twenty-six figures rebuild from it alone, verified by deleting `data/` and running
 them. See `supplemental_data/SUPPLEMENTAL_DATA_OVERVIEW.md` for a file-by-file,
 column-by-column description, and `SUPPLEMENTAL_DATA_SURVEY.md` for how the
 deposit set was chosen.
@@ -48,7 +48,7 @@ document the command than to archive them:
 
 ## What still works from a clone alone
 
-Since `supplemental_data/` is tracked, **all twenty-five figures now build from a
+Since `supplemental_data/` is tracked, **all twenty-six figures now build from a
 clone**, with no archive needed. The table below is about rebuilding the
 *inputs* rather than the figures.
 
@@ -62,6 +62,7 @@ clone**, with no archive needed. The table below is about rebuilding the
 | 2023 *pos-1* supplements | yes |
 | `SUPP_FIG_XX_sid2_allele_in_panel` | yes, but needs a **plink2 binary** — it reads the deposited `genotypes/sid2_region` PLINK set through `system2("plink2", ...)`, not the archive |
 | `SUPP_FIG_XX_gwas_peak_genotype_splits` | yes — genotypes are deposited as a dosage TSV, so no plink2 either |
+| `SUPP_FIG_XX_sid2_ortholog_conservation`, `SUPP_FIG_XX_sid2_ortholog_search` | yes — both read only staged tables. Re-running their **search** needs 52 nematode proteomes (~290 MB, public UniProt and Caenorhabditis Genomes Project releases) and a `blastp` binary; the search result is pinned in `make_sid2_ortholog_tables.py` |
 | `SUPP_FIG_XX_sid2_electrostatics` | yes |
 | `eigen_independent_tests.R` | **no** — needs `data/genotypes/` |
 | `baugh_strain_similarity.R` | **no** — needs `data/baugh/2024bootstrapINPUT.Rdata` (31 MB) |

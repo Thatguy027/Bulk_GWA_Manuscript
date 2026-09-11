@@ -1,8 +1,8 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all twenty-five manuscript figures, and nothing
+Every file needed to regenerate all twenty-six manuscript figures, and nothing
 else. **38.2 MB in 46 files.** Verified by deleting `data/` entirely and
-rebuilding: all twenty-five figures and the three asset builders run from this
+rebuilding: all twenty-six figures and the three asset builders run from this
 directory alone.
 
 Reproduce with the scripts in `scripts/`, from the repository root:
@@ -405,8 +405,18 @@ residue, `fraction`, `in_ectodomain`, and `ecd_percentile` (blank outside the
 ectodomain). N94 is 6/6 at the 92nd percentile, C95 0/6 at the 16th, T96 5/6 at
 the 82nd, against an ectodomain mean of 2.23/6.
 
-`sid2_ortholog_sequences.fa` — the nine sequences those tables are built from,
-by UniProt accession, with the fetch date.
+`sid2_ortholog_window_survey.tsv` — 40 rows, one per species with a SID-2
+ortholog: `source` (UniProt or CGP, the Caenorhabditis Genomes Project v2
+release), `species`, `strain`, `accession`, `percent_identity`,
+`query_coverage`, `evalue`, `window_88_104` (the 17 residues aligned to
+*C. elegans* 88–104), `aa94`/`aa95`/`aa96` pulled out of it, `block_identity`
+(local identity of the ±10 block around the window, the confidence measure),
+`confident` (TRUE at or above the 37% floor) and `sequon` (N-x-[ST] intact, and
+only ever TRUE where `confident` is). 31 rows have a readable window and 14 of
+those clear the floor; residue 96 is Ser or Thr in 12 of the 14 and Lys in none.
+
+`sid2_ortholog_sequences.fa` — the nine sequences the per-position tables are
+built from, by UniProt accession, with the fetch date.
 
 
 

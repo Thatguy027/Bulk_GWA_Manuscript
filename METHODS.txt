@@ -646,24 +646,60 @@ columns, which is why it is reported in preference to the conservation of
 residue 96 alone: threonine is 13.3% of this ectodomain, so a single conserved
 threonine in a 42-48% identity alignment would be weak evidence.
 
-The sequon is intact in all six Elegans-group orthologs and broken in
-C. angaria, the most distant species with a detectable ortholog, which carries
-Q-G-F. C. japonica lies between the two and cannot be scored: its ortholog is
-split across two proteome entries (A0A8R1DPT1 covering C. elegans 167-311 and
-A0A8R1IAX9 covering 21-127) and within the N-terminal fragment the alignment
-falls in a TTDT repeat with a two- to three-residue offset, so that column is
-reported as ambiguous. Three of the five ectodomain sequons (71, 81, 94) are
-intact in all six orthologs and two (100, 148) in one, so a fully conserved
-sequon is the norm in this protein rather than a distinction.
+Three of the five ectodomain sequons (71, 81, 94) are intact in all six
+orthologs and two (100, 148) in one, so a fully conserved sequon is the norm in
+this protein rather than a distinction.
 
-The conclusion this supports is bounded: 96T is ancestral at the depth of the
-Elegans group and 96K is derived within C. elegans. It is not conservation
-across nematodes. No functional claim follows from the conservation, because the
+WIDENING THE SPECIES SET WITH THE CAENORHABDITIS GENOMES PROJECT. UniProt
+carries only a handful of Caenorhabditis proteomes, so the survey was extended
+with the v2 release of the Caenorhabditis Genomes Project (caenorhabditis.org,
+archived at doi:10.5281/zenodo.12633738), which adds 32 species and 750,673
+proteins that almost entirely do not overlap the UniProt set. These were
+searched identically. For the wider set the residues aligned to C. elegans
+94-96 were read from the BLAST high-scoring pair that spans those positions
+rather than from a global alignment, because a global alignment of the full
+311-residue query against a partially covered ortholog misplaces the window.
+Each call carries a confidence, the local identity of the +/-10 residue block
+around the window; the floor for counting a call is 37%, which is the level the
+six full-length Elegans-group orthologs already occupied (they span 37-47%)
+rather than a threshold chosen to produce a result. Species whose window falls
+below the floor are reported and counted neither way.
+
+Across the 14 species at or above the floor, residue 96 is serine or threonine
+in 12 -- eleven threonine, one serine -- and lysine in none, and the N94-x-[ST]
+sequon is intact in 11. Of the three losses, only C. doughertyi substitutes
+residue 96 itself, to alanine; C. afra retains Thr96 and loses Asn94, and
+C. sp54 changes both. The constraint therefore sits on residue 96 being small
+and hydroxylated rather than on the sequon as a unit, and C. afra is a naturally
+occurring equivalent of the N94A construct, which the editing series shows to be
+fully resistant. Two species below the floor appear to carry lysine at 96
+(C. sp44, C. sp27) but their block identities are 32% and 21%, so those calls
+are not used.
+
+A FIRST PASS OVERSTATED THE WITHIN-GENUS BREAKDOWN, and the correction is
+recorded here because the earlier reading reached a draft. With the UniProt
+species alone it appeared that the sequon was intact through the Elegans group
+and lost at C. angaria, the most distant species with a detectable ortholog.
+The C. angaria call came from a global alignment whose block identity around
+the window is 26%, too low to read a column from, and the UniProt sample
+contained no Elegans-group species lacking the sequon, which the wider sample
+shows do exist. C. japonica likewise cannot be scored: its ortholog is split
+across two proteome entries (A0A8R1DPT1 covering C. elegans 167-311 and
+A0A8R1IAX9 covering 21-127) and within the N-terminal fragment the alignment
+falls in a TTDT repeat offset by two to three residues.
+
+We thank members of the Caenorhabditis Genomes Project for prepublication
+access to genome and transcriptome data.
+
+The conclusion this supports is bounded: residue 96 is serine or threonine
+across Caenorhabditis and lysine in none of the species whose window can be
+read, so 96K is derived within C. elegans. It is not conservation across
+nematodes -- one genus out, the protein is not alignable at all. No functional claim follows from the conservation, because the
 glycosylation hypothesis for this sequon was tested with N94A and failed (see
 the allele-swap section).
 
-Re-running the search requires the 20 whole proteomes, roughly 120 MB, which are
-a public UniProt release rather than data generated here and are not deposited.
+Re-running the search requires the 52 whole proteomes, roughly 290 MB, which are
+public releases rather than data generated here and are not deposited.
 scripts/make_sid2_ortholog_tables.py records the proteome accessions, the search
 parameters and the resulting per-species best hits, and rebuilds the deposited
 tables from sequences fetched by accession; it asserts the conservation counts

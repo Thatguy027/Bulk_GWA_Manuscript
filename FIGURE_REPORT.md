@@ -66,9 +66,12 @@ Assembled 2026-09-10
     -   [Figure S19 — SID-2 across two species, with elegans variation
         on
         top](#figure-s19--sid-2-across-two-species-with-elegans-variation-on-top)
-    -   [Figure S21 — how far out SID-2 can be compared, and what
-        residue 96
-        does](#figure-s21--how-far-out-sid-2-can-be-compared-and-what-residue-96-does)
+    -   [Figure S21 — residue 96 across *Caenorhabditis*, and what
+        removing it
+        does](#figure-s21--residue-96-across-caenorhabditis-and-what-removing-it-does)
+    -   [Figure S22 — how far out SID-2 can be compared, and what that
+        is
+        worth](#figure-s22--how-far-out-sid-2-can-be-compared-and-what-that-is-worth)
     -   [eQTL and parental expression at the censused
         loci](#eqtl-and-parental-expression-at-the-censused-loci)
     -   [Figure S15 — where T96’s pocket sits in the charge
@@ -86,7 +89,7 @@ Assembled 2026-09-10
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-five manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-six manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -30933,8 +30936,7 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-five they need the Dryad archive to
-rebuild.
+clone, but unlike the twenty-six they need the Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
 
@@ -32522,21 +32524,20 @@ model has not been checked against *briggsae* RNA-seq.
 
 </div>
 
-## Figure S21 — how far out SID-2 can be compared, and what residue 96 does
+## Figure S21 — residue 96 across *Caenorhabditis*, and what removing it does
 
 <div class="meta">
 
 **Scripts** `scripts/make_sid2_ortholog_tables.py`,
-`scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R`<br> **Search** 20
-UniProt reference proteomes · 488,718 proteins · reciprocal-best-hit
-`blastp`<br> **Conservation** 6 Elegans-group orthologs · 173 ectodomain
-positions
+`scripts/SUPP_FIG_XX_sid2_ortholog_conservation.R`<br> **Species** 52
+proteomes searched · 31 windows readable · 14 above the confidence
+floor<br> **Phenotypes** 7 constructs · 1,530 embryos · 50% *pos-1* RNAi
 
 </div>
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_sid2_ortholog_conservation.png" alt="Three panels: a lollipop chart of reciprocal-best-hit BLAST significance for 20 nematode proteomes grouped by taxonomic depth, a residue grid of the aligned residues around the N94-x-T96 sequon in nine Caenorhabditis species, and a bar chart of per-position conservation across the ectodomain with positions 94, 95 and 96 marked." width="100%" />
+<img src="plots/SUPP_FIG_XX_sid2_ortholog_conservation.png" alt="Two panels: a residue grid of the aligned residues around the N94-x-T96 sequon in 31 Caenorhabditis species split into confident and below-floor facets, and a dot plot with Wilson intervals of hatching for the seven editing constructs." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_sid2_ortholog_conservation
 </p>
@@ -32544,10 +32545,103 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 </div>
 
 *sid-2* 96K is a polymorphism inside *C. elegans*, so calling 96T
-**ancestral** needs outgroups, and S19 has one. Asking for more turns
-into the opposite question — how far out does the comparison work at all
-— and that has a sharper answer than expected. **The conservation does
-not break down gradually. It stops at the edge of the genus.**
+**ancestral** needs outgroups. S19 had one. This has 14, and pairs them
+with the experiment that says what the conservation does and does not
+mean.
+
+<div class="panel">
+
+<span class="pl">A</span> The residues aligned to *C. elegans* 88–104 in
+every *Caenorhabditis* species whose ortholog has an HSP spanning the
+window, ordered by identity. Among the 14 species at or above the
+confidence floor, **residue 96 is Thr in 11, Ser in 1, and Lys in
+none.** The N94-x-\[ST\] sequon is intact in 11 of 14.
+
+Of the three losses, **only *C. doughertyi* changes residue 96 itself**,
+to Ala. *C. afra* keeps Thr96 and loses Asn94 — so *C. afra* is a
+**natural AxT**, the same construct panel B shows to be fully resistant
+— and *C. sp54* changes both. So the constraint sits on residue 96 being
+small and hydroxylated rather than on the sequon as a unit.
+
+Every row carries its own confidence: the local identity of the ±10
+block around the window. The floor is 37% because that is where the six
+full-length Elegans-group orthologs already sat, not a threshold chosen
+to get an answer. Rows below it are drawn in the lower facet and counted
+neither way — including the two species that appear to carry Lys96, at
+32% and 21% block identity.
+
+</div>
+
+<div class="panel">
+
+<span class="pl">B</span> The editing series that tests whether the
+conserved sequon matters. N94A removes it while leaving residue 96
+alone, so it should phenocopy 96K if the glycan is what 96K destroys.
+**It does not.** `AxT` has no sequon and is fully resistant (99.3%, n =
+267), while `NxK` in the same background costs 42 points (53.1%, n =
+207). Losing the sequon by removing Asn94 is harmless; losing it by
+substituting Lys96 is not. **It is the lysine, not the missing glycan**
+— which is what panel A’s residue-96 column independently implies.
+
+In the *JU2466* background removing Asn94 gains more (`+37`, to 42.5%)
+than restoring Thr96 does (`+13`, to 18.4%), so the two positions
+interact rather than acting through one shared modification. Wilson 95%
+intervals; one plate per genotype at 50% *pos-1* RNAi, **a different
+dose from Figure 4B**, so these percentages are not comparable with that
+figure’s.
+
+</div>
+
+<div class="caveat">
+
+<span class="ch">A first pass overstated this, and the correction is
+worth stating</span>
+
+With only the UniProt proteomes it looked as though the sequon was
+intact through the Elegans group and broken at *C. angaria*, the most
+distant species with a detectable ortholog. **Two things were wrong with
+that.** The *C. angaria* call came from a global alignment whose local
+block identity around the window is 26%, far too low to read a column
+from; and the UniProt sample happened to contain no Elegans-group
+species lacking the sequon, which the wider sample shows do exist — *C.
+doughertyi* is one. The window is now read from the BLAST HSP that spans
+it, and every call carries a confidence, so neither error can recur
+silently.
+
+**No functional claim follows from panel A.** Conservation is evidence
+about history. Panel B is the mechanism test, and it fails for the
+glycan.
+
+**The claim has a depth, and it is the genus.** Residue 96 is Ser or Thr
+across *Caenorhabditis*; one genus out the protein is not alignable at
+all, which Figure S22 shows.
+
+</div>
+
+## Figure S22 — how far out SID-2 can be compared, and what that is worth
+
+<div class="meta">
+
+**Scripts** `scripts/make_sid2_ortholog_tables.py`,
+`scripts/SUPP_FIG_XX_sid2_ortholog_search.R`<br> **Search** 20 UniProt
+reference proteomes · 488,718 proteins · reciprocal-best-hit
+`blastp`<br> **Calibration** 6 full-length Elegans-group orthologs · 173
+ectodomain positions
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_sid2_ortholog_search.png" alt="Two panels: a lollipop chart of reciprocal-best-hit BLAST significance for 19 nematode proteomes banded by taxonomic depth, and a bar chart of per-position ectodomain conservation with positions 94, 95 and 96 marked at their percentiles." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_sid2_ortholog_search
+</p>
+
+</div>
+
+The search behind Figure S21, and the calibration of what its
+conservation is worth. **The conservation does not fade with distance.
+It stops at the genus.**
 
 <div class="panel">
 
@@ -32565,25 +32659,10 @@ independent resources agree: `G5EEV9` sits in a UniRef50 cluster of
 
 <div class="panel">
 
-<span class="pl">B</span> The residues aligned to *C. elegans* 88–104 in
-all nine species with a detectable ortholog. The boxed columns are the
-N94-x-T96 sequon. **It is intact in all six Elegans-group orthologs** —
-`T` at 96 in five and `S` in *C. tropicalis*, both of which satisfy
-N-x-\[ST\] — and it is **broken in *C. angaria***, the basal Angaria
-group, which carries `Q-G-F`. *C. japonica* sits between them and cannot
-be read: its ortholog is split across two proteome entries and the
-N-terminal fragment aligns into a `TTDT` repeat offset by two to three
-residues, so the row is drawn as unreadable rather than as
-substitutions.
-
-</div>
-
-<div class="panel">
-
-<span class="pl">C</span> Why panel B is more than one conserved letter.
-A single column in a 42–48% identity alignment of a Thr-rich region is
-weak evidence — Thr is 13.3% of this ectodomain — but the three-residue
-window controls for that, because all three columns come from the same
+<span class="pl">B</span> Why one conserved column would not have been
+enough. Thr is 13.3% of this ectodomain, so a single conserved Thr in a
+42–48% identity alignment is weak evidence. The three-residue window
+controls for that, because all three columns come from the same
 alignment:
 
 | position | role in the sequon      | conserved               | ectodomain percentile |
@@ -32600,36 +32679,27 @@ positions conserved in all six. A misaligned window does not produce
 
 <div class="caveat">
 
-<span class="ch">What this settles, and what it does not</span>
-
-**The claim has a depth, and it is the Elegans group.** 96T is ancestral
-at that depth and 96K is derived within *C. elegans*. This is **not**
-“conserved across nematodes”, and the figure is built so it cannot be
-read that way: at the base of its own genus the sequon is already gone,
-and one genus out the protein is not alignable.
+<span class="ch">What these panels do not license</span>
 
 **A fully conserved sequon is the norm in this protein, not a
 distinction.** Three of the five ectodomain sequons (at 71, 81 and 94)
-are intact in all six orthologs; two (at 100 and 148) survive in one. So
-the sequon at 94 belongs to the conserved majority rather than standing
-out from it.
+are intact in all six orthologs; two (at 100 and 148) survive in one.
 
-**No functional claim is made here.** The glycosylation hypothesis for
-this sequon was tested with N94A and failed —
-`SUPP_FIG_XX_sid2_allele_swaps_full.R` shows the AxT construct is fully
-resistant, so the glycan is not required. Conservation is evidence about
-history, not mechanism.
-
-**Two *Caenorhabditis* proteomes fail the search too** (*C. bovis* at
+**Two *Caenorhabditis* proteomes fail the search** (*C. bovis* at
 `E = 2.2`, *C. auriculariae* at `E = 0.15`). Absence of a hit in one
-proteome is weak evidence about the gene and may only say the annotation
-is incomplete, so no claim of gene loss is made.
+proteome is weak evidence about the gene and may only mean its
+annotation is incomplete, so no gene loss is claimed.
 
-**The search is pinned, not re-run.** It needed the 20 proteomes (\~120
-MB), which are a public UniProt release rather than our data and are far
-too large to deposit. `make_sid2_ortholog_tables.py` carries the result,
-the proteome accessions and the parameters, and rebuilds every table
-downstream of it from sequences fetched by accession.
+**The conservation statistics are over six species, not fourteen.** Only
+the full-length UniProt orthologs support scoring every position; the
+wider set in Figure S21 is scored at the three-residue window only,
+where an HSP can be checked directly.
+
+**The search is pinned, not re-run.** It needed 52 whole proteomes
+(\~290 MB), which are public releases rather than our data and far too
+large to deposit. `make_sid2_ortholog_tables.py` carries the result, the
+proteome accessions and the parameters, and rebuilds every table
+downstream from sequences fetched by accession.
 
 </div>
 
@@ -34213,7 +34283,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34227,7 +34297,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34241,7 +34311,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34255,7 +34325,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 422
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34269,7 +34339,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34283,7 +34353,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34297,7 +34367,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34311,7 +34381,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34325,7 +34395,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34339,7 +34409,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34353,7 +34423,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34367,7 +34437,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34381,7 +34451,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34395,7 +34465,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34409,7 +34479,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34423,7 +34493,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34437,7 +34507,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34451,7 +34521,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34465,7 +34535,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34479,7 +34549,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34493,7 +34563,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34507,7 +34577,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34521,7 +34591,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34535,7 +34605,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
 </td>
 </tr>
 <tr>
@@ -34546,10 +34616,24 @@ Figure S21
 SUPP_FIG_XX_sid2_ortholog_conservation
 </td>
 <td style="text-align:right;">
-645
+632
 </td>
 <td style="text-align:right;">
-2026-09-10 17:37
+2026-09-10 20:10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S22
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_sid2_ortholog_search
+</td>
+<td style="text-align:right;">
+462
+</td>
+<td style="text-align:right;">
+2026-09-10 20:10
 </td>
 </tr>
 </tbody>
@@ -34557,7 +34641,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 
 <div class="tnote">
 
-All twenty-five figures rebuild from `supplemental_data/` with `data/`
+All twenty-six figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every
