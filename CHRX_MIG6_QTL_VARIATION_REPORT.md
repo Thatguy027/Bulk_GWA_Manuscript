@@ -258,19 +258,52 @@ different locus.
   chrX total roughly 45 kb (X:1.76, 5.05, 12.61, 14.22, 14.37 Mb) and none
   overlaps the peak or *sid-5*, so the absence of coding variants is real rather
   than an ascertainment artifact.
-- **The known JU1580 RNAi lesion is elsewhere.** The *drh-1* deletion that
-  disables antiviral RNA dicing in JU1580 (Félix et al. 2011; Ashe et al. 2013)
-  is at IV:6,607,376–6,613,353, not on chromosome X.
+- **The known JU1580 RNAi lesion is on chromosome IV, not X — and JU1793
+  carries it.** An earlier draft of this note said the lesion was "elsewhere"
+  and gave IV:6,607,376–6,613,353. Those are the *drh-1* **gene** coordinates
+  from the WS283 annotation, not the deletion's, and the statement was written
+  from background knowledge with only the citations verified. The correction:
+  the deletion is *niDf250*, 159 bp at **IV:6,607,635–6,607,793**, removing most
+  of exon 19 and part of exon 20 and truncating the RIG-I C-terminal domain
+  (Ashe et al. 2013); it is at 22/97 (23%) in wild isolates. In
+  `VCFs/WI.MANTAsv.soft-filter.vcf.gz` it is called at IV:6,607,644–6,607,803
+  (PASS) with **JU1793 1/1 and JU2466 not carrying it** (60 of 328 samples are
+  1/1, 1 is 0/1, 267 are `./.`; 18.6% carries, matching the published 23%).
+  **So *drh-1* segregates in this cross.** It falls inside the HT115g-POS1g
+  chrIV support interval (IV:4,691,159–7,592,922, 189 kb from that peak, LOD
+  56.6 against a chrIV maximum of 56.7) and 63 kb outside the HT115g-MIG6g
+  interval, where the local LOD is still 150.8. The JU1793 allele frequency at
+  *drh-1* runs 0.25 (control) → 0.78 (*mig-6*) → 0.61 (*pos-1*), i.e. enriched
+  under **both** targets — the opposite of the chrX pattern and the signature of
+  a general RNAi-response locus. Of the 7 homozygous JU1793 deletions among 16
+  PASS structural variants differing between the parents in that interval, only
+  two overlap coding sequence: *drh-1* and *srx-50*.
+
+  **A methodological warning this episode earned.** An intermediate draft also
+  claimed, from the SNV VCF, that JU1793 does *not* carry the deletion, on the
+  basis that JU1793 is reference at all 215 variant sites in the gene with zero
+  missing calls. That inference is invalid: **there are zero SNV records inside
+  the 159 bp deletion window**, so call patterns outside it carry no information
+  about the deletion. Deletion status must be read from the structural-variant
+  call set, never inferred from SNV genotypes — which is the same limitation
+  section 10 states and which the SNV-based reasoning ignored.
+
+  **Still open:** DRH-1 is characterised as antiviral, dicing viral RNA. Whether
+  *niDf250* affects the response to *exogenous* dsRNA is a separate question and
+  is not assumed here.
 - **JU1580 and JU1793 are the same isotype**, which this repository already
   documents (`METHODS.txt`, `FIGURE_CAPTIONS.txt`) and which is consistent with
   JU1580 being absent from the 611-isotype CeNDR set while JU1793 is present.
 
 ## 10. Limitations
 
-1. **Structural variants are not ascertained.** This is a short-read SNV and
-   indel call set. Given that JU1580's known RNAi lesion is itself a deletion,
-   a deletion in this region is exactly what this analysis cannot see and
-   exactly what would be worth looking for.
+1. **Structural variants are not ascertained in the chrX analysis.** Sections
+   4-8 rest on a short-read SNV and indel call set. The *drh-1* result in
+   section 9 shows what that misses: a 159 bp deletion with a published
+   loss-of-function phenotype is entirely absent from the SNV VCF and is visible
+   only in `VCFs/WI.MANTAsv.soft-filter.vcf.gz`. **The chrX interval has not
+   been searched that way**, and it should be before the negative in section 5
+   is treated as final.
 2. **ce207 is whole-animal, one value per strain, unchallenged.** A difference
    that is intestine-specific, or that only appears on exposure to dsRNA, is
    invisible. There is no within-strain replication, so no p-value on any
