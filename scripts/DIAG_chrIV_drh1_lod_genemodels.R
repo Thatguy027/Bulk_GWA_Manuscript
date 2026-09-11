@@ -72,9 +72,30 @@ COL_LOF  <- "#1F78A8"   # the other loss-of-function genes in the window
 ##     bcftools query ... VCFs/WI.MANTAsv.soft-filter.vcf.gz
 ##     -> 8 PASS discordant SVs in the window, 1 homozygous CDS hit (drh-1)
 ##
-## NOT included: a breakend call at IV:5,653,829 overlapping skn-1, genotyped
-## 0/1 in JU1793. A heterozygous breakend in an inbred strain is not a credible
-## loss-of-function call, and no deletion or duplication supports it.
+## NOT included: the breakend calls overlapping skn-1. An earlier note here
+## dismissed them as noise because a heterozygous call in an inbred strain is
+## not credible. That was the wrong reason -- the calls are real, and they are
+## paralogy, not loss of function. skn-1 exons carry three dense breakend
+## clusters, each pointing at a different locus:
+##
+##   IV:5,651,637-5,651,715  ->  V:4,748,473-4,748,515   (unannotated)   8 BNDs
+##   IV:5,653,711-5,653,867  ->  II:15,128,603-15,128,704               9 BNDs
+##                               = Y53F4B.63, a polymorphic pseudogene
+##   IV:5,655,401-5,655,514  ->  V:2,625,420-2,625,573                 35 BNDs
+##                               = sknr-1 (W02H5.7), a skn-1 paralog
+##
+## Nearly all are ./. in every strain INCLUDING N2, the reference, so they are
+## junctions the genotyper could not resolve rather than strain-specific events.
+## Two are genotyped 0/1 in JU1793 alone, at both ends of the same junction
+## (IV:5,653,829 and its mate II:15,128,704), and JU1793 also carries a 62 bp
+## insertion call at II:15,128,264 that JU1580, its isotype partner, shares.
+## Those chrII records carry the MaxDepth filter -- excess read depth, which is
+## what reads piling in from a paralog look like.
+##
+## Whatever the copy number, skn-1 itself has no coding difference between the
+## parents: JU1793 is homozygous reference at every coding site in the gene and
+## its only two alternate calls are intronic variants at 61% frequency in the
+## species. So it is not a loss-of-function candidate here.
 LOF <- data.table(
   gene    = c("drh-1", "bec-1", "cpi-1"),
   kind    = c("159 bp deletion (*niDf250*)", "start lost", "stop gained"),
