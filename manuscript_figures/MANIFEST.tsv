@@ -1,0 +1,16 @@
+label	source	png	pdf	cited_as
+Figure 1	Figure1_pos1	Figure_1.png	Figure_1.pdf	Fig 1A MIP-seq vs NNLS; 1B pos-1 response across 231 isolates; 1C pilot GWAS
+Figure 2	Figure2	Figure_2.png	Figure_2.pdf	nine-target pooled GWAS with cross-QTL arrowheads
+Figure 3	Figure3_quad	Figure_3.png	Figure_3.pdf	Fig 3A cross parents in the pooled assay; 3B chrIII allele frequency in the F2 pool; 3C NIL series
+Figure 4	Figure4_sid2	Figure_4.png	Figure_4.pdf	Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge
+Figure S1	SUPP_FIG_XX_simulation_depth	Figure_S1.png	Figure_S1.pdf	NNLS recovery against sequencing depth, seven traits
+Figure S2	SUPP_FIG_XX_dilution_validation	Figure_S2.png	Figure_S2.pdf	inferred against designed pool ratios, r = 0.997
+Figure S3	SUPP_FIG_XX_downsample_per_sample	Figure_S3.png	Figure_S3.pdf	agreement with MIP-seq under read downsampling
+Figure S4	SUPP_FIG_XX_original_pos1_dfreq_rep_correlation	Figure_S4.png	Figure_S4.pdf	replicate agreement of the 2023 pooled pos-1 response
+Figure S5	SUPP_FIG_plate_vs_paaby_vs_pos1original	Figure_S5.png	Figure_S5.pdf	S5A manual plate scores against pooled; S5B manual against Paaby et al. 2015
+Figure S6	SUPP_FIG_XX_pooled_phenotype_ranks	Figure_S6.png	Figure_S6.pdf	ranked pooled mig-6 and pos-1 responses with the cross parents marked
+Figure S7	SUPP_FIG_XX_cross_contrast_panels	Figure_S7.png	Figure_S7.pdf	S7B-C the two cross contrast panels
+Figure S8	SUPP_FIG_XX_n2_swap_dose	Figure_S8.png	Figure_S8.pdf	N2 residue-96 swap across the pos-1 dose series
+Figure S9A	SUPP_FIG_XX_sid2_ortholog_conservation	Figure_S9A.png	Figure_S9A.pdf	the N94-C95-T96 sequon across the Elegans supergroup
+Figure S9B	SUPP_FIG_XX_sid2_allele_swaps_full	Figure_S9B.png	Figure_S9B.pdf	the full residue-96 and N94A allele-swap series
+Figure S10	SUPP_FIG_XX_sid2_local_charge	Figure_S10.png	Figure_S10.pdf	local net charge percentile across the ectodomain
