@@ -33,6 +33,10 @@ responder at every point on chrV, not the only one.
 depleted under every RNAi condition, at both loci.** This is the opposite sign
 from the chrI:1.87 Mb mig-6 locus, where XZ1516 is the enriched parent.
 
+**What that sign means (section 6.0): the enriched allele is the RNAi-RESISTANT
+one.** So the N2 chrV-centre allele confers resistance and the XZ1516 allele is
+the more RNAi-competent one, being purged by the selection.
+
 ---
 
 ## 2. The baseline has to be subtracted before anything else
@@ -198,6 +202,69 @@ Source VCF `/Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213/bcsq.vcf.gz`.
 | V:9.9-11.2 Mb | 23,097 | 3,183 | 2,882 | **10** |
 | V:14.4-15.8 Mb | 92,600 | 22,026 | 20,243 | **21** |
 
+### 6.0 The sign of the shift, calibrated
+
+The selection regime itself is **not recorded** -- `METHODS.txt:430` leaves
+"selection or competition regime" as `[TO FILL]`. The direction is therefore
+established from two anchors that agree:
+
+1. **Allele swap.** On 25% pos-1 RNAi food, unedited N2 (sid-2 96T) hatches
+   **32.3%** of plated embryos; two independent N2 lines edited to 96K hatch
+   **4.0%** pooled (`METHODS.txt:958-962`). Hatching on pos-1 RNAi is escape
+   from the knockdown, so **96K is the RNAi-sensitive allele and 96T the
+   resistant one**.
+2. **The crosses.** N2 and JU1793 carry 96T; XZ1516 and JU2466 carry 96K
+   (`METHODS.txt:545`). At the chromosome III right-arm locus the 96T parent
+   rises to near fixation under RNAi in both crosses -- N2 0.677 -> 0.996
+   (mig-6), JU1793 0.349 -> 0.964. `METHODS.txt:559` states the same reading
+   directly: "the XZ1516 haplotype is the one removed wherever RNAi selects".
+
+**Therefore: allele enriched in an RNAi pool = allele conferring resistance /
+a weaker RNAi response. The pools are survivors; responders are purged.**
+
+Applied to chrV: the N2 allele rises 0.39 -> 0.77 under mig-6, so **the N2
+chromosome V centre allele is the resistant one and the XZ1516 allele is the
+more RNAi-competent one being removed.**
+
+### 6.0.1 This inverts the candidate logic, and rules out the obvious hits
+
+A loss-of-function allele in RNAi machinery carried by **XZ1516** predicts the
+XZ1516 haplotype is **protected and enriched**. It is depleted. So
+XZ1516-private damaging variants in *required* RNAi genes are the **wrong
+sign** and cannot explain either locus. Two candidates are retracted on this
+basis and kept below only as documented exclusions:
+
+- **rde-1 G75E** (V:9,991,336, XZ1516, AF 0.030) -- wrong sign. rde-1 is
+  required for exogenous RNAi; an XZ1516 hypomorph would confer resistance.
+- **set-5 Y221\*** (V:14,701,477, XZ1516-private nonsense) -- wrong sign for
+  the same reason.
+
+The right-sign candidate classes are:
+
+- XZ1516 **loss of a negative regulator** of exogenous RNAi -- ERI pathway,
+  `rrf-3`, `lin-15b`, `adr-1`/`adr-2`, `eri-6`/`eri-7`, `ergo-1`. Losing a
+  repressor raises silencing, which raises sensitivity, which gets the haplotype
+  purged.
+- an XZ1516 **hypermorph**, or *cis*-regulatory variation raising expression of
+  silencing machinery.
+- an **N2 hypomorph**. This class is **structurally invisible** to the census
+  below: N2 is the reference, so N2 is 0/0 at essentially every site in a
+  reference-based VCF. This is a limit on the whole approach, not only on chrV.
+
+Scanning both intervals for right-sign genes: `ergo-1` (V:1.01 Mb) and `tofu-2`
+(V:7.05 Mb) are far outside. The only one inside is **`tofu-1`,
+V:9,981,147-9,982,766** -- 6.8 kb from rde-1, piRNA biogenesis, and loss of the
+piRNA/26G branch can enhance exogenous RNAi. Right sign, weaker mechanistic
+link, and at the same boundary position ~780 kb outside the support region.
+
+**Net: after the sign correction neither chrV interval contains a
+well-directed RNAi-machinery candidate.** That removes the interval-content
+support for an RNAi-pathway explanation and favours the alternatives in
+section 7 -- a general fitness locus visible only under strong selection, or
+*cis* regulatory variation. The mapping result is untouched: the two-locus
+split, the 5.4 cM separation, the disjoint bootstrap CIs and the pos-1 absence
+do not depend on sign interpretation.
+
 ### Left locus
 
 None of the 10 HIGH-impact survivors is in an RNA-silencing gene
@@ -219,20 +286,23 @@ missense changes with N2, JU1793 and JU2466 all reference:
 
 plus a 12 bp XZ1516-private 3'UTR insertion at V:9,987,947.
 
-rde-1 is the Argonaute absolutely required for exogenous RNAi in both soma and
-germline, which fits a locus every one of the five conditions responds to.
-**But rde-1 sits 0.77 Mb (about 0.6 cM) left of the peak marker and just
-outside the left bound of the pos-1 bootstrap CI and 230 kb outside the 20-LOD
-bound.** It is a proximity-and-function argument, not a positional one. There
-is no null allele in it: the only protein changes are missense, and two of the
-three are at 22% species frequency.
+**RETRACTED as a candidate -- wrong sign (section 6.0.1).** rde-1 is the
+Argonaute absolutely required for exogenous RNAi, so an XZ1516 hypomorph
+predicts XZ1516 is *enriched*; it is depleted. Two further problems stand
+independently of sign: rde-1 sits 0.77 Mb (about 0.6 cM) left of the peak
+marker, outside the left bound of the pos-1 bootstrap CI and 230 kb outside the
+20-LOD bound; and there is no null allele in it -- the only protein changes are
+missense and two of the three are at 22% species frequency. Recorded here
+because the variants are real and the exclusion is on direction, not data
+quality.
 
 ### Right locus
 
 21 HIGH-impact survivors. The only one in a chromatin- or silencing-related
 gene is:
 
-**set-5 Y221\*, V:14,701,477, T>G, stop_gained.** N2 = JU1793 = JU2466
+**set-5 Y221\*, V:14,701,477, T>G, stop_gained. RETRACTED as a candidate --
+wrong sign (section 6.0.1).** N2 = JU1793 = JU2466
 reference, XZ1516 homozygous alternate; **CeNDR AF 0.0016 (AC 2/1222), XZ1516 the only carrier in the
 species panel**; gene 0% divergent; 156 kb from the HT115-par1
 peak; truncates a >1200-residue protein at residue 221. A second XZ1516
@@ -278,10 +348,13 @@ prde-1's apparent frameshift and stop_gained at V:15,546,362/15,546,398 are
    into that zone.
 5. **Only mig-6 has a timepoint-1 replicate** (see section 4). The two-locus
    split is a t2-only result.
-6. **Neither locus is resolved to a gene.** 575 genes lie in the left window and
-   601 in the right. rde-1 and set-5 are prioritisations from function and
-   frequency, not positional identifications, and no functional test of either
-   allele has been done here.
+6. **Neither locus is resolved to a gene, and the variant census is
+   sign-blind in one direction.** 575 genes lie in the left window and 601 in
+   the right. Both of the function-based nominations (rde-1, set-5) are
+   retracted on direction (section 6.0.1). Because N2 is the reference, an
+   N2-hypomorph explanation cannot be seen in this VCF at all; testing it needs
+   parental expression data or an XZ1516-anchored assembly, not a
+   reference-based variant call.
 7. **Response versus fitness is not separated.** mig-6 is the strongest-selecting
    condition in this cross at every locus; a fitness locus visible only under
    strong selection would look like a graded RNAi-response locus.
