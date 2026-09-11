@@ -777,6 +777,69 @@ frequency. XZ1516 differs from N2 at seven of the eight curated sites (78, 96,
 141, 144, 151, 153 and 209), so it carries a diverged sid-2 haplotype rather
 than a single variant of interest.
 
+IS THE N94 SEQUON ACTUALLY GLYCOSYLATED? A SEARCH THAT CAME BACK EMPTY. The
+N94-C95-T96 sequon is a sequence prediction. No experimental evidence that
+SID-2 carries a glycan at this or any other position was found. The reviewed
+UniProt entry (G5EEV9) has no CARBOHYD feature, GlyGen returns no record for
+it, and GlycoProtDB, the IGOT-based C. elegans N-glycoproteome resource, has
+been withdrawn from jcggdb.jp. The SID-2 primary literature carries no
+glycosylation terminology: Winston et al. 2007 (PNAS 104:10565-10570), McEwan,
+Weisman & Hunter 2012 (Mol Cell 47:746-754) and Braukmann et al. 2021 (RNA
+Biol 18:888-899) return nothing across eleven search terms, the one "glycan"
+hit in the last being a title in its reference list.
+
+THE ONE DATASET THAT COULD HAVE SPOKEN LACKED THE DEPTH TO. Hu et al. 2026
+(PROTEOMICS 26(9):e70133, doi:10.1002/pmic.70133, PXD067150) reports a temporal
+N-glycoproteome atlas of N2 at days 1, 5 and 10 of adulthood under FUdR,
+identifying 369 glycoforms at 196 N-glycosites on 161 glycoproteins after
+ZIC-HILIC enrichment. SID-2 is absent from it. That absence is uninformative,
+and the reason is measurable rather than assumed: their deposited unenriched
+proteome matrix carries 3,966 peptides from 870 accessions, and only 53 of
+their own 161 glycoproteins appear in it. Narayan et al. 2016 (Cell Syst
+3:144-159), working on N2 under FUdR at the same three ages, identify 9,398
+proteins and quantify 7,380, and SID-2 is among them, with 6, 5 and 5 peptides
+in the three biological replicates, 20.3% sequence coverage and a mean
+intensity of 2.09e9 -- rank 4,387 of 9,398, just above that proteome's median
+of 1.74e9. In their day-1 subcellular fractionation SID-2 partitions 50.7%
+membrane, 40.0% cytosol and 9.0% nucleus, with four razor-or-unique peptides in
+the membrane fraction in all three replicates, which is consistent with a
+single-pass membrane protein although below the >75% occupancy they required to
+call a compartment. SID-2 is therefore a detectable, median-abundance protein
+in these animals at these ages, and its absence from a survey that sampled
+roughly a twelfth as many proteins carries no information about its
+glycosylation state.
+
+Hu et al.'s seven supplemental tables were searched for SID-2 three ways, each
+returning nothing: by accession (G5EEV9), by gene and sequence name (sid-2,
+ZK520.2), and by all 34 tryptic peptides of SID-2 between 6 and 45 residues
+with up to two missed cleavages, which is the digest depth their own
+glycopeptide identifiers use. The peptide search covers the possibility of the
+protein appearing under a different accession, including the four peptides that
+span N94-C95-T96.
+
+CYSTEINE AT THE X POSITION IS NOT DISQUALIFYING. N-x-[ST] with cysteine at x is
+unusual enough to raise the question of whether N94-C95-T96 is a usable sequon
+at all, so the sites identified by Hu et al. were tallied by their x residue,
+reading the modified asparagine's position within the peptide from their
+ID_Comp field rather than from the first sequon match in the sequence. Of the
+196 sites, 182 have a sequon readable inside the peptide; the other 14 place
+the modified asparagine at the penultimate residue, so the +2 position falls
+outside the peptide and those are not canonical N-x-[ST] assignments. Seven of
+the 182 are N-C-[ST], five of them N-C-T: mig-6 (O76840) at sites 445 and 638,
+Y45F10C.4 (O45944) at 62, O01454 at 84 and irg-7 (A0A131MBU3) at 279, plus two
+N-C-S sites (Q22720 at 360, Q09967 at 250). Cysteine at x is mid-frequency in
+that distribution, level with methionine (7) and above arginine (6), tyrosine
+(5), asparagine (3) and lysine (2). N-C-T sequons are therefore occupied in
+vivo in C. elegans, which removes one objection to reading N94-C95-T96 as a
+sequon without establishing anything about SID-2 itself.
+
+NONE OF THIS IS LOAD-BEARING. The glycosylation hypothesis for this sequon was
+tested directly and failed: the N94A construct is fully resistant and hatches
+slightly higher than its wild type (99.3% against 94.8%, p = 0.004), and
+C. afra is a naturally occurring AxT that responds to ingested dsRNA. The
+searches above are recorded so that the sequon is not mistaken for a
+demonstrated glycosite, not because any conclusion here depends on them.
+
 INTERVAL CENSUSES. Two intervals were censused completely rather than searched:
 the 37 kb the NIL series resolves (chromosome III 13,657,700-13,695,000;
 scripts/make_nil_interval_tables.R, drawn as SUPP_FIG_XX_nil_interval_genes)
