@@ -119,6 +119,21 @@ difference. Every gene with a coding difference is positioned where it is not.**
 at X:374 kb where the JU1793 allele frequency is **0.372** — depleted, not
 enriched. It fails the direction test.
 
+**Structural variants were searched too, after the *drh-1* episode in section 9
+showed what an SNV-only search misses.** `VCFs/WI.MANTAsv.soft-filter.vcf.gz`
+carries 25,423 chrX records; 295 are PASS and discordant between the parents,
+133 of them homozygous in JU1793. **In the support interval there are 34 PASS
+discordant SVs, 5 of them homozygous in JU1793, and none overlaps coding
+sequence.** Across the whole chromosome only three homozygous JU1793 SVs hit a
+CDS -- *elc-2* (X:1.78 Mb, 113 bp deletion), *cst-2* (X:4.33 Mb, 8.3 kb) and
+*del-1* (X:14.25 Mb, 15.2 kb) -- and none is in the enriched zone. Checked gene
+by gene, **no PASS structural variant falls within ±3 kb of *sid-5*, *sid-3*,
+*mig-23*, *nrde-3* or R07E4.1**. (*chup-1*, *pgp-4*, *alg-1* and *rsd-3* each
+appear to be hit by one record, but it is the same call in all four: a 9.76 Mb
+"duplication" at X:7,362,799 genotyped 0/2 in JU2466, spanning more than half
+the chromosome, which is not credible.) **The section 5 negative therefore
+survives a structural-variant search; it is not an ascertainment artifact.**
+
 **A structural point that constrains the whole hypothesis:** none of the
 canonical somatic-RNAi genes is on chromosome X. *rde-1* (V), *rde-4* (III),
 *rde-10* (I), *rde-11* (IV), *rde-12* (V), *ppw-1* (I), *rrf-1* (I), *mut-16*
@@ -288,9 +303,37 @@ different locus.
   call set, never inferred from SNV genotypes — which is the same limitation
   section 10 states and which the SNV-based reasoning ignored.
 
-  **Still open:** DRH-1 is characterised as antiviral, dicing viral RNA. Whether
-  *niDf250* affects the response to *exogenous* dsRNA is a separate question and
-  is not assumed here.
+  **Does *drh-1* loss confer exogenous RNAi resistance? The evidence conflicts,
+  and the conflict is structured.** WormBase does record `RNAi resistant`
+  (WBPhenotype:0001208) for *drh-1*, along with `RNAi response variant`,
+  `germline transgene silencing variant` and `somatic transgene silencing
+  variant`. Every one of those positive annotations traces to WBPaper00026593
+  = Tabara et al. 2002, and all are **RNAi-knockdown** evidence: "RNAi targeting
+  *drh-1* results in inhibition of RNAi in both the soma and germline but causes
+  no other phenotypes."
+
+  The same phenotype also carries a **NOT** qualifier from WBPaper00044323, and
+  that annotation is **allele-based** (WBVar00094484, WBVar02125126). Ashe
+  et al. 2013, who characterised *niDf250* itself, report that "*drh-1* and N2
+  worms respond equally to exo-RNAi" and that "DRH-1 is dispensable for
+  exogenous RNAi", concluding DRH-1 acts specifically in the antiviral siRNA
+  pathway.
+
+  So the knockdown evidence says *drh-1* is required for RNAi in both tissues;
+  the later allele evidence, testing the very deletion JU1793 carries, says it
+  is not. **The allele evidence is the more relevant of the two here**, and on
+  it *niDf250* should not produce exogenous RNAi resistance — which is not what
+  the cross appears to show. Two things could reconcile this: the published
+  assays are largely binary (e.g. *unc-22* twitching) and a partial effect
+  invisible there could be detectable in a quantitative bulk-segregant scan; or
+  the causal variant in the chrIV interval is not *drh-1*.
+
+  **What the burden tests say about that.** *drh-1* has **no** protein-altering
+  SNV or indel difference between JU1793 and JU2466 — in an SNV-only census of
+  the interval it scores zero and is invisible, while 46 other genes carry 59
+  protein-altering sites (top: C09B9.7 with 4). Its entire candidacy rests on
+  the structural variant, where it is one of only two genes (with *srx-50*)
+  among 7 homozygous JU1793 deletions to overlap coding sequence.
 - **JU1580 and JU1793 are the same isotype**, which this repository already
   documents (`METHODS.txt`, `FIGURE_CAPTIONS.txt`) and which is consistent with
   JU1580 being absent from the 611-isotype CeNDR set while JU1793 is present.
@@ -301,9 +344,10 @@ different locus.
    4-8 rest on a short-read SNV and indel call set. The *drh-1* result in
    section 9 shows what that misses: a 159 bp deletion with a published
    loss-of-function phenotype is entirely absent from the SNV VCF and is visible
-   only in `VCFs/WI.MANTAsv.soft-filter.vcf.gz`. **The chrX interval has not
-   been searched that way**, and it should be before the negative in section 5
-   is treated as final.
+   only in `VCFs/WI.MANTAsv.soft-filter.vcf.gz`. **The chrX interval has since
+   been searched that way** (section 5) and the negative holds, so this
+   limitation is now closed for chrX. It remains true that MANTA calls from
+   short reads miss variants in repetitive and hyper-divergent sequence.
 2. **ce207 is whole-animal, one value per strain, unchallenged.** A difference
    that is intestine-specific, or that only appears on exposure to dsRNA, is
    invisible. There is no within-strain replication, so no p-value on any
@@ -334,6 +378,7 @@ different locus.
 - **McEwan DL, Weisman AS, Hunter CP** (2012) Uptake of extracellular double-stranded RNA by SID-2. *Mol Cell* 47(5):746–754. doi:10.1016/j.molcel.2012.07.014. PMID 22902558.
 - **Nishiwaki K, Kubota Y, Chigira Y, Roy SK, Suzuki M, Schvarzstein M, Jigami Y, Hisamoto N, Matsumoto K** (2004) An NDPase links ADAM protease glycosylation with organ morphogenesis in *C. elegans*. *Nat Cell Biol* 6(1):31–37. doi:10.1038/ncb1079. PMID 14688791.
 - **Rahman MM, et al.** (2025) Distal tip cell migration mutants of *Caenorhabditis elegans* are rescued by bioequivalent outputs from chondroitin and N-glycosylation pathways. PMID 41197717. *(Author list and journal not verified beyond PubMed metadata — confirm before citing.)*
+- **Tabara H, Yigit E, Siomi H, Mello CC** (2002) The dsRNA binding protein RDE-4 interacts with RDE-1, DCR-1, and a DExH-box helicase to direct RNAi in *C. elegans*. *Cell* 109(7):861–871. doi:10.1016/s0092-8674(02)00793-6. PMID 12110183.
 - **Sundaram P, Echalier B, Han W, Hull D, Timmons L** (2006) ATP-binding cassette transporters are required for efficient RNA interference in *Caenorhabditis elegans*. *Mol Biol Cell* 17(8):3678–3688. doi:10.1091/mbc.e06-03-0192. PMID 16723499.
 - **Sundaram P, Han W, Cohen N, Echalier B, Albin J, Timmons L** (2008) *Caenorhabditis elegans* ABCRNAi transporters interact genetically with *rde-2* and *mut-7*. *Genetics* 178(2):801–814. doi:10.1534/genetics.107.081588. PMID 18245353.
 - **Winston WM, Sutherlin M, Wright AJ, Feinberg EH, Hunter CP** (2007) *Caenorhabditis elegans* SID-2 is required for environmental RNA interference. *PNAS* 104(25):10565–10570. doi:10.1073/pnas.0611282104. PMID 17563372.
