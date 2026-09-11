@@ -1617,16 +1617,21 @@ How far out SID-2 can be compared at all, and what the conservation in
 SUPP_FIG_XX_sid2_ortholog_conservation is worth. The conservation does not fade
 with distance; it stops at the genus.
 
-(A) Reciprocal-best-hit blastp of C. elegans SID-2 against 20 UniProt reference
-proteomes, 488,718 proteins, banded by taxonomic depth; the query itself is not
-drawn. Eight of the 19 comparators clear E < 1e-5 and every one of them is a
-Caenorhabditis. Nothing outside the genus clears it, including Diploscapter
-pachys, the sister genus, at E = 4.1. Two independent resources agree: the
-UniRef50 cluster containing G5EEV9 has one member, and NCBI lists no sid-2
-ortholog within Nematoda. Two Caenorhabditis proteomes also fail (C. bovis
-E = 2.2, C. auriculariae E = 0.15); absence in a single proteome is weak
-evidence about the gene and may only mean the annotation is incomplete, so no
-gene loss is claimed.
+(A) Reciprocal-best-hit blastp of C. elegans SID-2 against 52 nematode
+proteomes, 1,239,391 proteins -- 20 UniProt reference proteomes spanning the
+phylum (circles) and 32 from the Caenorhabditis Genomes Project v2 (triangles)
+-- banded by taxonomic depth. The two sets share one species, C. auriculariae,
+so the 52 proteomes are 51 species; the C. elegans query is not drawn, leaving
+51 comparator proteomes from 50 species. 38 of them clear E < 1e-5 and every
+one is a Caenorhabditis, 30 of the 38 coming from the CGP set. Nothing outside
+the genus clears it, including Diploscapter pachys, the sister genus, at
+E = 4.1. Two independent resources agree: the UniRef50 cluster containing
+G5EEV9 has one member, and NCBI lists no sid-2 ortholog within Nematoda. Four
+Caenorhabditis proteomes also fail -- C. bovis (E = 2.2), C. monodelphis (no
+hit) and C. auriculariae in both of its independent proteomes (UniProt
+E = 0.15, CGP no hit), drawn as crosses on the axis; absence in a single
+proteome is weak evidence about the gene and may only mean the annotation is
+incomplete, so no gene loss is claimed even for the species that fails twice.
 
 (B) All 173 ectodomain positions (21-193) binned by how many of the six
 full-length Elegans-group orthologs share the C. elegans residue, with 94, 95

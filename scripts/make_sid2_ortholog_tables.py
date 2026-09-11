@@ -15,9 +15,10 @@ WHY THIS EXISTS
 sid-2 96K is a polymorphism inside C. elegans. Calling 96T the ancestral state
 needs outgroups, and the existing two-species comparison
 (make_sid2_alignment_tables.py, C. elegans against C. briggsae) is one
-outgroup. This widens it to a ladder of 20 nematode proteomes and asks the
-question the other way round: how far out does the comparison still work at
-all?
+outgroup. This widens it to a ladder of 52 nematode proteomes -- 20 UniProt
+reference proteomes spanning the phylum plus 32 from the Caenorhabditis
+Genomes Project -- and asks the question the other way round: how far out does
+the comparison still work at all?
 
 THE SEARCH, WHICH THIS SCRIPT DOES NOT RE-RUN
 Reciprocal-best-hit blastp of C. elegans SID-2 against twenty UniProt
@@ -51,8 +52,11 @@ BLAST HSP that spans it, and every call carries a confidence.
 THE SURVEY WAS THEN WIDENED WITH THE CAENORHABDITIS GENOMES PROJECT
 UniProt carries only a handful of Caenorhabditis proteomes. The Caenorhabditis
 Genomes Project v2 release (caenorhabditis.org, Zenodo 10.5281/zenodo.12633738)
-adds 32 more species, 750,673 proteins, almost none of which overlap the
-UniProt set. Those were searched the same way, and the residues aligned to
+adds 32 proteomes, 750,673 proteins. Only one of the 32, C. auriculariae, is a
+species the UniProt set already had, so the two sets together cover 51 distinct
+species in 52 proteomes; 38 of the 51 comparators yield an ortholog and every
+one of them is a Caenorhabditis. Those were searched the same way, and the
+residues aligned to
 C. elegans 94-96 were read from the BLAST HSP that spans them rather than from
 a global alignment -- a global alignment of the full 311 aa query against a
 partial ortholog misplaces the window, which is how a first pass produced
@@ -209,10 +213,21 @@ CGP = [
  ("sp30", "DF5174", "CSP30.g337.t1", 31.1, 99, 6.86e-34, "VTS------IETVLTGD", 26.3),
  ("castelli", "JU1956", "CCAST.g7759.t1", 30.4, 87, 7.7e-17, "WDNHYEQGVFVVNETA-", 26.3),
  ("astrocarya", "NIC1040", "CASTR.g11858.t1", 30.3, 99, 4.5e-24, "------NLNNADPFTGF", 21.1),
- ("CAURI", "?", None, None, None, None, None, None),
+ ("auriculariae", "NKZ352", None, None, None, None, None, None),
  ("monodelphis", "JU1667", None, None, None, None, None, None),
 ]
 CGP_FLOOR = 37.0   # block identity below which a window call is not counted
+# CGP genome codes, needed for the two species with no hit at all (the rest are
+# read off the accession prefix). C. auriculariae is the one species present in
+# BOTH sets: UP000835052 and CAURI are independent proteomes of it, and neither
+# yields an ortholog, so the 52 proteomes cover 51 distinct species.
+CGP_CODE = {"auriculariae": "CAURI", "monodelphis": "CMONO"}
+CGP_DUP = {"auriculariae"}          # also present as a UniProt proteome
+
+
+def cgp_species(short):
+    """CGP short name -> the species string used in the deposited tables."""
+    return "Caenorhabditis " + short
 
 # Response to ingested dsRNA, from Nuez & Felix 2012 (PLoS ONE 7:e29811).
 # formal species, tested strain, provisional designation, call, evidence.
@@ -353,16 +368,40 @@ def main():
                 fh.write(s[i:i + 60] + "\n")
 
     # ---- the search table -------------------------------------------------
+    # Both proteome sets, on one scale. The CGP species sit at depth_rank 3
+    # with the other non-Elegans, non-Japonica Caenorhabditis: the CGP release
+    # carries no group assignment we could cite, and the claim this table
+    # supports is about the genus boundary, not about structure inside it.
     with open(f"{OUT}/sid2_ortholog_search.tsv", "w") as fh:
-        fh.write("proteome\tspecies\tgroup\tdepth_rank\taccession\tpercent_identity"
-                 "\tquery_coverage\tevalue\tis_ortholog\n")
+        fh.write("source\tproteome\tspecies\tstrain\tgroup\tdepth_rank"
+                 "\taccession\tpercent_identity\tquery_coverage\tevalue"
+                 "\tis_ortholog\n")
         for upid, sp, grp, rank, acc, pid, cov, ev in SEARCH:
-            fh.write(f"{upid}\t{sp}\t{grp}\t{rank}\t{acc}\t{pid}\t{cov}\t{ev:.3g}"
+            fh.write(f"UniProt\t{upid}\t{sp}\t\t{grp}\t{rank}\t{acc}\t"
+                     f"{pid}\t{cov}\t{ev:.3g}"
                      f"\t{'TRUE' if ev < E_ORTH else 'FALSE'}\n")
-    n_orth = sum(1 for *_, ev in [(r[-1],) for r in SEARCH] if ev < E_ORTH)
-    n_orth = sum(1 for r in SEARCH if r[7] < E_ORTH)
-    print(f"  search table: {len(SEARCH)} proteomes, {n_orth} with an ortholog "
-          f"at E < {E_ORTH:g}")
+        for (sp, strain, acc, pid, cov, ev, w, blk) in CGP:
+            code = CGP_CODE.get(sp) or acc.split(".")[0]
+            fh.write(f"CGP\t{code}\t{cgp_species(sp)}\t{strain}\t"
+                     f"Caenorhabditis (CGP v2)\t3\t{acc or ''}\t"
+                     f"{'' if pid is None else pid}\t"
+                     f"{'' if cov is None else cov}\t"
+                     f"{'' if ev is None else f'{ev:.3g}'}\t"
+                     f"{'TRUE' if ev is not None and ev < E_ORTH else 'FALSE'}\n")
+    n_up = sum(1 for r in SEARCH if r[7] < E_ORTH)
+    n_cgp = sum(1 for r in CGP if r[5] is not None and r[5] < E_ORTH)
+    n_prot = len(SEARCH) + len(CGP)
+    print(f"  search table: {n_prot} proteomes "
+          f"({len(SEARCH)} UniProt + {len(CGP)} CGP, "
+          f"{n_prot - len(CGP_DUP)} distinct species), "
+          f"{n_up + n_cgp} with an ortholog at E < {E_ORTH:g} "
+          f"({n_up} UniProt incl. the query, {n_cgp} CGP)")
+    # the claim the figure makes: every proteome that clears the threshold is a
+    # Caenorhabditis, and no proteome outside the genus does
+    out_genus = [r for r in SEARCH if not r[1].startswith("Caenorhabditis")]
+    assert all(r[7] >= E_ORTH for r in out_genus), \
+        "a proteome outside Caenorhabditis now clears the ortholog threshold"
+    assert len(out_genus) == 9, "the outgroup ladder changed size"
 
     # ---- the per-position alignment --------------------------------------
     mapped = {sp: ce_anchored(ce, seqs[sp][1]) for sp, _, _, _ in ALIGN_SET}

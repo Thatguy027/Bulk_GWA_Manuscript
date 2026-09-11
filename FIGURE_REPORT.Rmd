@@ -3253,12 +3253,12 @@ reports intraspecific variation in *C. elegans*.
 
 ::: meta
 **Scripts** `scripts/make_sid2_ortholog_tables.py`, `scripts/SUPP_FIG_XX_sid2_ortholog_search.R`<br>
-**Search** 20 UniProt reference proteomes · 488,718 proteins · reciprocal-best-hit `blastp`<br>
+**Search** 52 proteomes (20 UniProt + 32 CGP v2) · 1,239,391 proteins · reciprocal-best-hit `blastp`<br>
 **Calibration** 6 full-length Elegans-group orthologs · 173 ectodomain positions
 :::
 
 ::: plate
-```{r fig-s22, fig.alt="Two panels: a lollipop chart of reciprocal-best-hit BLAST significance for 19 nematode proteomes banded by taxonomic depth, and a bar chart of per-position ectodomain conservation with positions 94, 95 and 96 marked at their percentiles."}
+```{r fig-s22, fig.alt="Two panels: a lollipop chart of reciprocal-best-hit BLAST significance for 51 nematode comparator proteomes banded by taxonomic depth, in which every proteome clearing the threshold is a Caenorhabditis and all nine outside the genus fail, and a bar chart of per-position ectodomain conservation with positions 94, 95 and 96 marked at their percentiles."}
 include_graphics("plots/SUPP_FIG_XX_sid2_ortholog_search.png")
 ```
 <p class="filecap">SUPP_FIG_XX_sid2_ortholog_search</p>
@@ -3268,14 +3268,30 @@ The search behind Figure S21, and the calibration of what its conservation is
 worth. **The conservation does not fade with distance. It stops at the genus.**
 
 ::: panel
-[A]{.pl} Reciprocal-best-hit `blastp` of *C. elegans* SID-2 against 20 UniProt
-reference proteomes, 488,718 proteins, banded by taxonomic depth. Of the 19
-comparators, **eight clear `E < 1e-5` and every one is a *Caenorhabditis*.**
-Nothing outside the genus comes close — not *Pristionchus*, *Heterorhabditis*,
-*Haemonchus*, *Panagrellus*, *Strongyloides*, *Bursaphelenchus*, *Brugia* or
-*Trichinella*, and **not even *Diploscapter pachys*, the sister genus, at
-`E = 4.1`.** Two independent resources agree: `G5EEV9` sits in a UniRef50
-cluster of **one**, and NCBI lists no *sid-2* ortholog anywhere in Nematoda.
+[A]{.pl} Reciprocal-best-hit `blastp` of *C. elegans* SID-2 against 52 nematode
+proteomes, 1,239,391 proteins — 20 UniProt reference proteomes spanning the
+phylum (circles) and 32 from the *Caenorhabditis* Genomes Project v2
+(triangles) — banded by taxonomic depth. The sets share one species,
+*C. auriculariae*, so the 52 proteomes are 51 species and the query is not
+drawn: of the 51 comparators, **38 clear `E < 1e-5` and every one is a
+*Caenorhabditis*,** 30 of the 38 from the CGP set. Nothing outside the genus
+comes close — not *Pristionchus*, *Heterorhabditis*, *Haemonchus*,
+*Panagrellus*, *Strongyloides*, *Bursaphelenchus*, *Brugia* or *Trichinella*,
+and **not even *Diploscapter pachys*, the sister genus, at `E = 4.1`.** Two
+independent resources agree: `G5EEV9` sits in a UniRef50 cluster of **one**,
+and NCBI lists no *sid-2* ortholog anywhere in Nematoda.
+
+Four *Caenorhabditis* proteomes fail too — *C. bovis* (`E = 2.2`),
+*C. monodelphis* (no hit) and *C. auriculariae* in **both** of its independent
+proteomes (UniProt `E = 0.15`, CGP no hit), drawn as crosses on the axis. A
+missing hit in one proteome is weak evidence about the gene and may only mean
+the annotation is incomplete, so no gene loss is claimed even where the species
+fails twice.
+
+Widening the search from 20 proteomes to 52 did not move the boundary
+outward — it filled in the inside of it. That is the useful outcome: the genus
+bound now rests on 42 *Caenorhabditis* comparator proteomes rather than 10, and
+the nine outgroups stay empty.
 :::
 
 ::: panel

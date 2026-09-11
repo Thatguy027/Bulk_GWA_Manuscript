@@ -623,14 +623,21 @@ proteome and searched with NCBI blastp, -evalue 10 -seg no -max_target_seqs 5;
 forward best hits were confirmed by searching the hit back against the
 C. elegans proteome. A hit was called an ortholog at E < 1e-5.
 
-Eight of the 19 comparator proteomes yielded an ortholog and every one of them
-is a Caenorhabditis. No proteome outside the genus cleared the threshold,
-including Diploscapter pachys, the sister genus, whose best hit was E = 4.1.
-Two independent resources agree: the UniRef50 cluster containing G5EEV9 has one
-member, and NCBI's ortholog set for sid-2 within Nematoda is empty. Two
-Caenorhabditis proteomes also failed (C. bovis E = 2.2, C. auriculariae
-E = 0.15); absence of a hit in a single proteome is weak evidence about the gene
-and may reflect incomplete annotation, so no gene loss is claimed.
+Eight of the 19 UniProt comparator proteomes yielded an ortholog and every one
+of them is a Caenorhabditis. No proteome outside the genus cleared the
+threshold, including Diploscapter pachys, the sister genus, whose best hit was
+E = 4.1. Two independent resources agree: the UniRef50 cluster containing
+G5EEV9 has one member, and NCBI's ortholog set for sid-2 within Nematoda is
+empty. Adding the Caenorhabditis Genomes Project proteomes below takes the
+survey to 51 comparators, of which 38 yield an ortholog and every one is still
+a Caenorhabditis, so widening the search did not move the genus boundary
+outward; it filled in the inside of it, and the bound now rests on 42
+Caenorhabditis comparator proteomes rather than 10. Four Caenorhabditis
+proteomes fail: C. bovis (E = 2.2), C. monodelphis (no hit) and
+C. auriculariae in both of its independent proteomes (UniProt E = 0.15, CGP no
+hit). Absence of a hit in a single proteome is weak evidence about the gene and
+may reflect incomplete annotation, so no gene loss is claimed even for the
+species that fails twice.
 
 Per-position conservation was computed over the six Elegans-group orthologs by
 global Needleman-Wunsch alignment of each to C. elegans SID-2 with BLOSUM62 and
@@ -653,9 +660,11 @@ this protein rather than a distinction.
 WIDENING THE SPECIES SET WITH THE CAENORHABDITIS GENOMES PROJECT. UniProt
 carries only a handful of Caenorhabditis proteomes, so the survey was extended
 with the v2 release of the Caenorhabditis Genomes Project (caenorhabditis.org,
-archived at doi:10.5281/zenodo.12633738), which adds 32 species and 750,673
-proteins that almost entirely do not overlap the UniProt set. These were
-searched identically. For the wider set the residues aligned to C. elegans
+archived at doi:10.5281/zenodo.12633738), which adds 32 proteomes and 750,673
+proteins. Only one of the 32, C. auriculariae, is a species the UniProt set
+already carried, so the two sets together are 52 proteomes covering 51 species,
+1,239,391 proteins. These were searched identically. For the wider set the
+residues aligned to C. elegans
 94-96 were read from the BLAST high-scoring pair that spans those positions
 rather than from a global alignment, because a global alignment of the full
 311-residue query against a partially covered ortholog misplaces the window.

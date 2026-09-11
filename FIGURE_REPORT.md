@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-10
+Assembled 2026-09-11
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -32688,8 +32688,8 @@ in *C. elegans*.
 <div class="meta">
 
 **Scripts** `scripts/make_sid2_ortholog_tables.py`,
-`scripts/SUPP_FIG_XX_sid2_ortholog_search.R`<br> **Search** 20 UniProt
-reference proteomes · 488,718 proteins · reciprocal-best-hit
+`scripts/SUPP_FIG_XX_sid2_ortholog_search.R`<br> **Search** 52 proteomes
+(20 UniProt + 32 CGP v2) · 1,239,391 proteins · reciprocal-best-hit
 `blastp`<br> **Calibration** 6 full-length Elegans-group orthologs · 173
 ectodomain positions
 
@@ -32697,7 +32697,7 @@ ectodomain positions
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_XX_sid2_ortholog_search.png" alt="Two panels: a lollipop chart of reciprocal-best-hit BLAST significance for 19 nematode proteomes banded by taxonomic depth, and a bar chart of per-position ectodomain conservation with positions 94, 95 and 96 marked at their percentiles." width="100%" />
+<img src="plots/SUPP_FIG_XX_sid2_ortholog_search.png" alt="Two panels: a lollipop chart of reciprocal-best-hit BLAST significance for 51 nematode comparator proteomes banded by taxonomic depth, in which every proteome clearing the threshold is a Caenorhabditis and all nine outside the genus fail, and a bar chart of per-position ectodomain conservation with positions 94, 95 and 96 marked at their percentiles." width="100%" />
 <p class="filecap">
 SUPP_FIG_XX_sid2_ortholog_search
 </p>
@@ -32711,14 +32711,31 @@ It stops at the genus.**
 <div class="panel">
 
 <span class="pl">A</span> Reciprocal-best-hit `blastp` of *C. elegans*
-SID-2 against 20 UniProt reference proteomes, 488,718 proteins, banded
-by taxonomic depth. Of the 19 comparators, **eight clear `E < 1e-5` and
-every one is a *Caenorhabditis*.** Nothing outside the genus comes close
-— not *Pristionchus*, *Heterorhabditis*, *Haemonchus*, *Panagrellus*,
-*Strongyloides*, *Bursaphelenchus*, *Brugia* or *Trichinella*, and **not
-even *Diploscapter pachys*, the sister genus, at `E = 4.1`.** Two
-independent resources agree: `G5EEV9` sits in a UniRef50 cluster of
-**one**, and NCBI lists no *sid-2* ortholog anywhere in Nematoda.
+SID-2 against 52 nematode proteomes, 1,239,391 proteins — 20 UniProt
+reference proteomes spanning the phylum (circles) and 32 from the
+*Caenorhabditis* Genomes Project v2 (triangles) — banded by taxonomic
+depth. The sets share one species, *C. auriculariae*, so the 52
+proteomes are 51 species and the query is not drawn: of the 51
+comparators, **38 clear `E < 1e-5` and every one is a
+*Caenorhabditis*,** 30 of the 38 from the CGP set. Nothing outside the
+genus comes close — not *Pristionchus*, *Heterorhabditis*, *Haemonchus*,
+*Panagrellus*, *Strongyloides*, *Bursaphelenchus*, *Brugia* or
+*Trichinella*, and **not even *Diploscapter pachys*, the sister genus,
+at `E = 4.1`.** Two independent resources agree: `G5EEV9` sits in a
+UniRef50 cluster of **one**, and NCBI lists no *sid-2* ortholog anywhere
+in Nematoda.
+
+Four *Caenorhabditis* proteomes fail too — *C. bovis* (`E = 2.2`), *C.
+monodelphis* (no hit) and *C. auriculariae* in **both** of its
+independent proteomes (UniProt `E = 0.15`, CGP no hit), drawn as crosses
+on the axis. A missing hit in one proteome is weak evidence about the
+gene and may only mean the annotation is incomplete, so no gene loss is
+claimed even where the species fails twice.
+
+Widening the search from 20 proteomes to 52 did not move the boundary
+outward — it filled in the inside of it. That is the useful outcome: the
+genus bound now rests on 42 *Caenorhabditis* comparator proteomes rather
+than 10, and the nine outgroups stay empty.
 
 </div>
 
@@ -34348,7 +34365,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34362,7 +34379,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34376,7 +34393,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34390,7 +34407,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 422
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34404,7 +34421,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34418,7 +34435,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34432,7 +34449,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34446,7 +34463,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34460,7 +34477,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34474,7 +34491,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34488,7 +34505,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34502,7 +34519,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34516,7 +34533,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34530,7 +34547,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34544,7 +34561,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34558,7 +34575,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34572,7 +34589,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34586,7 +34603,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34600,7 +34617,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34614,7 +34631,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34628,7 +34645,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34642,7 +34659,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34656,7 +34673,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34670,7 +34687,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-10 20:35
 </td>
 </tr>
 <tr>
@@ -34684,7 +34701,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 624
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-11 10:05
 </td>
 </tr>
 <tr>
@@ -34695,10 +34712,10 @@ Figure S22
 SUPP_FIG_XX_sid2_ortholog_search
 </td>
 <td style="text-align:right;">
-462
+664
 </td>
 <td style="text-align:right;">
-2026-09-10 20:34
+2026-09-11 10:05
 </td>
 </tr>
 </tbody>

@@ -385,12 +385,19 @@ known independently — JU1793 and N2 are 96T, JU2466 and XZ1516 are 96K.
 
 ### `structure/`
 
-`sid2_ortholog_search.tsv` — 20 rows, one per proteome searched for a SID-2
-ortholog: `proteome` (UniProt proteome accession), `species`, `group` (the
-taxonomic group), `depth_rank` (0 for *C. elegans*, rising with distance),
+`sid2_ortholog_search.tsv` — 52 rows, one per proteome searched for a SID-2
+ortholog: `source` (`UniProt` or `CGP`), `proteome` (UniProt proteome accession,
+or the *Caenorhabditis* Genomes Project genome code), `species`, `strain` (CGP
+rows only), `group` (the taxonomic group; every CGP species is recorded as
+`Caenorhabditis (CGP v2)`, since the release carries no citable group
+assignment), `depth_rank` (0 for *C. elegans*, 1 Elegans group, 2 Japonica
+group, 3 every other *Caenorhabditis*, rising with distance beyond the genus),
 `accession` of the reciprocal best hit, `percent_identity`, `query_coverage`,
-`evalue`, `is_ortholog` (TRUE at E < 1e-5). Eight of the 19 comparators are
-orthologs and all eight are *Caenorhabditis*.
+`evalue`, `is_ortholog` (TRUE at E < 1e-5). `accession`, `percent_identity`,
+`query_coverage` and `evalue` are empty for the two proteomes with no
+significant hit at all. The two sets share one species, *C. auriculariae*, so
+the 52 proteomes are 51 species; 38 of the 51 comparators are orthologs and all
+38 are *Caenorhabditis*.
 
 `sid2_ortholog_alignment.tsv` — 2,488 rows, 311 *C. elegans* positions by the
 eight species with a detectable ortholog: `ce_pos`, `ce_aa`, `species`, `group`,

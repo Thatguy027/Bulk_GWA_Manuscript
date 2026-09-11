@@ -4,8 +4,10 @@
 ##   Rscript scripts/SUPP_FIG_XX_sid2_ortholog_search.R
 ##     -> plots/SUPP_FIG_XX_sid2_ortholog_search.{pdf,png}
 ##
-##   A  reciprocal-best-hit blastp of C. elegans SID-2 against 20 nematode
-##      proteomes spanning the phylum, banded by how far out the species sits
+##   A  reciprocal-best-hit blastp of C. elegans SID-2 against 52 nematode
+##      proteomes -- 20 UniProt reference proteomes spanning the phylum plus 32
+##      from the Caenorhabditis Genomes Project v2 -- banded by how far out the
+##      species sits
 ##   B  per-position conservation over the Elegans group, placing residues 94,
 ##      95 and 96 against the rest of the ectodomain
 ##
@@ -14,8 +16,8 @@
 ## across the species this search finds.
 ##
 ## PANEL A: THE CONSERVATION DOES NOT FADE, IT STOPS AT THE GENUS
-## Eight of the 19 comparator proteomes clear E < 1e-5 and every one of them is
-## a Caenorhabditis. Nothing outside the genus comes close, including
+## 38 of the 51 comparator proteomes clear E < 1e-5 and every one of them is a
+## Caenorhabditis. Nothing outside the genus comes close, including
 ## Diploscapter pachys, the sister genus, at E = 4.1. Two independent resources
 ## agree: the UniRef50 cluster containing G5EEV9 has exactly one member, and
 ## NCBI's ortholog set for sid-2 within Nematoda is empty. So the comparison in
@@ -23,9 +25,18 @@
 ## this figure exists: a reader should not take "conserved" to mean more than
 ## the data can carry.
 ##
-## Two Caenorhabditis proteomes also fail (C. bovis E = 2.2, C. auriculariae
-## E = 0.15). Absence of a hit in one proteome is weak evidence about the gene
-## and may only mean its annotation is incomplete, so no gene loss is claimed.
+## The two proteome sets overlap in exactly one species, C. auriculariae, so the
+## 52 proteomes are 51 species: the C. elegans query is not drawn, leaving 51
+## comparator proteomes from 50 species. Where the panel matters most it is not
+## the UniProt set carrying the argument -- 30 of the 38 orthologs come from the
+## CGP -- and the density of that Caenorhabditis block against nine empty
+## outgroups is the point.
+##
+## Four Caenorhabditis proteomes also fail: C. bovis (E = 2.2), C. monodelphis
+## (no hit) and C. auriculariae in BOTH of its independent proteomes (UniProt
+## E = 0.15, CGP no hit). Absence of a hit in one proteome is weak evidence
+## about the gene and may only mean its annotation is incomplete, so no gene
+## loss is claimed even for the species that fails twice.
 ##
 ## PANEL B: WHY ONE CONSERVED COLUMN WOULD NOT HAVE BEEN ENOUGH
 ## Thr is 13.3% of this ectodomain, so a single conserved Thr in a 42-48%
@@ -47,7 +58,8 @@
 ##
 ## The conservation statistics here are over the six FULL-LENGTH UniProt
 ## Elegans-group orthologs, which are the only ones with an alignment good
-## enough to score every position. The companion figure's wider species set is
+## enough to score every position -- so panel B stays at six orthologs however
+## many proteomes panel A searches. The companion figure's wider species set is
 ## scored only at the three-residue window, where an HSP can be checked
 ## directly.
 ##
@@ -68,6 +80,7 @@ ECD <- c(21, 193)
 COL_ORTH <- "#2E4057"    # cleared the ortholog threshold
 COL_NO   <- "#B8C2CA"    # did not
 COL_FOC  <- "#9E4257"    # the sequon positions
+N_PROTEIN <- 1239391     # 488,718 UniProt + 750,673 CGP v2
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 ## proper ordinals: the same helper SUPP_FIG_XX_sid2_local_charge.R uses, after
@@ -96,14 +109,18 @@ theme_pub <- function(base_size = 11) {
 wrap_md <- function(txt, width = 72)
   paste(strwrap(txt, width = width), collapse = "<br>")
 ital <- function(txt) {
-  for (g in c("Caenorhabditis", "elegans", "Diploscapter", "pachys", "sid-2"))
+  for (g in c("Caenorhabditis", "elegans", "Diploscapter", "pachys", "sid-2",
+              "auriculariae", "monodelphis", "bovis"))
     txt <- gsub(g, paste0("*", g, "*"), txt, fixed = TRUE)
-  gsub("\\*\\*", "", txt)
+  ## adjacent italic words are one binomial: "*Diploscapter* *pachys*" renders
+  ## with a visible double gap, so merge the runs
+  gsub("\\* \\*", " ", gsub("\\*\\*", "", txt))
 }
 
 srch <- read_tsv(file.path(ST, "sid2_ortholog_search.tsv"), show_col_types = FALSE)
 cons <- read_tsv(file.path(ST, "sid2_ortholog_conservation.tsv"), show_col_types = FALSE)
-stopifnot(nrow(srch) == 20, nrow(cons) == 311)
+stopifnot(nrow(srch) == 52, nrow(cons) == 311)
+N_SPP <- n_distinct(srch$species)      # 51: the two sets share C. auriculariae
 N_ORTH <- unique(cons$n_orthologs)
 stopifnot(length(N_ORTH) == 1)
 
@@ -111,52 +128,93 @@ stopifnot(length(N_ORTH) == 1)
 ## A -- how far out a SID-2 ortholog is detectable
 ## ===========================================================================
 ## the query itself is not plotted: its E is 0 and it is the reference
-BANDS <- c("Elegans group", "Japonica group", "basal *Caenorhabditis*",
+## depth_rank 3 is every Caenorhabditis outside the Elegans and Japonica
+## groups, which is where all 32 CGP proteomes sit: the CGP release carries no
+## group assignment to cite, and the claim here is about the genus boundary
+## rather than structure inside it.
+BANDS <- c("Elegans group", "Japonica group", "other *Caenorhabditis*",
            "outside *Caenorhabditis*")
+## 51 rows of full binomials would not fit; the genus is abbreviated and named
+## in the band strip instead. &nbsp; keeps the abbreviation off a line break.
+abbrev <- function(sp) sub("^Caenorhabditis ", "C.&nbsp;", sp)
 sa <- srch %>%
   filter(species != "Caenorhabditis elegans") %>%
-  mutate(nlp = -log10(pmax(evalue, 1e-300)),
+  mutate(no_hit = is.na(evalue),
+         nlp = if_else(no_hit, NA_real_, -log10(pmax(evalue, 1e-300))),
          band = factor(case_when(depth_rank == 1 ~ BANDS[1],
                                  depth_rank == 2 ~ BANDS[2],
                                  depth_rank == 3 ~ BANDS[3],
                                  TRUE            ~ BANDS[4]), levels = BANDS),
-         lab = paste0("*", species, "*  <span style='color:grey45'>",
-                      sprintf("%.0f%% id, %.0f%% cov", percent_identity,
-                              query_coverage), "</span>"),
-         lab = fct_reorder(lab, depth_rank * 1000 - nlp, .desc = TRUE))
+         tag = if_else(no_hit, "no significant hit",
+                       sprintf("%.0f%% id, %.0f%% cov", percent_identity,
+                               query_coverage)),
+         lab = paste0("*", abbrev(species), "*  <span style='color:grey45'>",
+                      tag, "</span>"),
+         ## ascending, so level 1 is the weakest hit and sits at the foot of
+         ## its band; no-hit rows have no E to sort on and take a sentinel
+         ## below every real one rather than dropping out of the factor
+         lab = fct_reorder(lab, -depth_rank * 1e4 + coalesce(nlp, -1e3)))
+stopifnot(!anyDuplicated(sa$lab), nrow(sa) == 51)
 msg("panel A: ", sum(sa$is_ortholog), " of ", nrow(sa),
-    " comparator proteomes yield an ortholog at E < ", E_ORTH)
+    " comparator proteomes yield an ortholog at E < ", E_ORTH,
+    " (", sum(sa$is_ortholog & sa$source == "CGP"), " of them from the CGP)")
+msg("  every ortholog is a Caenorhabditis: ",
+    all(grepl("^Caenorhabditis", sa$species[sa$is_ortholog])))
 
 pA <- ggplot(sa, aes(nlp, lab, colour = is_ortholog)) +
+  ## trains the discrete y on every row in factor order. Without it the scale
+  ## trains layer by layer, and the two no-hit levels -- absent from the first
+  ## drawing layer -- were appended after every real one and drew at the TOP of
+  ## their band. Stating scale_y_discrete(limits=) instead also defeats the
+  ## per-facet dropping that free_y relies on, so all 51 rows land in all four.
+  geom_blank() +
   geom_vline(xintercept = -log10(E_ORTH), linetype = "dashed",
              linewidth = 0.4, colour = "grey45") +
-  geom_segment(aes(x = 0, xend = nlp, yend = lab), linewidth = 0.5) +
-  geom_point(size = 2.1) +
+  geom_segment(data = ~ filter(.x, !no_hit),
+               aes(x = 0, xend = nlp, yend = lab), linewidth = 0.5) +
+  geom_point(data = ~ filter(.x, !no_hit), aes(shape = source), size = 1.9) +
+  ## the two proteomes with no hit at all get a cross on the axis, so they are
+  ## visibly searched-and-empty rather than missing rows
+  geom_point(data = ~ filter(.x, no_hit), aes(x = 0), shape = 4, size = 1.7,
+             stroke = 0.8, show.legend = FALSE) +
   ## the threshold is named in the axis title, not annotated in the panel:
   ## annotate() draws once per facet, so it appeared four times and two of
   ## them landed on the lollipops
   scale_colour_manual(values = c(`TRUE` = COL_ORTH, `FALSE` = COL_NO),
                       guide = "none") +
+  scale_shape_manual(values = c(UniProt = 16, CGP = 17), name = NULL,
+                     breaks = c("UniProt", "CGP"),
+                     labels = c("UniProt reference proteome",
+                                "*Caenorhabditis* Genomes Project v2")) +
   scale_x_continuous(expand = expansion(mult = c(0.01, 0.08))) +
   facet_grid(band ~ ., scales = "free_y", space = "free_y") +
   labs(x = paste0("&minus;log<sub>10</sub> *E* of the reciprocal best hit ",
                   "<span style='color:grey45'>(dashed: *E* = 10<sup>&minus;5</sup>)</span>"),
        y = NULL,
        title = panel_title("A", "**Outside *Caenorhabditis*, SID-2 has no detectable ortholog**"),
-       subtitle = ital(wrap_md(paste0(
-         "Reciprocal-best-hit blastp of C. elegans SID-2 against 20 UniProt ",
-         "reference proteomes, 488,718 proteins. The query itself is not ",
-         "drawn, so 19 comparators are: eight clear E < 1e-5 and every one of ",
-         "them is a Caenorhabditis. Nothing beyond the genus clears it, ",
-         "including Diploscapter pachys, the sister genus, at E = 4.1. Two ",
-         "Caenorhabditis proteomes also fail, which is weak evidence about ",
-         "the gene and may only say their annotation is incomplete."), 96))) +
+       subtitle = ital(wrap_md(sprintf(paste0(
+         "Reciprocal-best-hit blastp of C. elegans SID-2 against %d nematode ",
+         "proteomes, %s proteins: 20 UniProt reference proteomes spanning the ",
+         "phylum and 32 from the Caenorhabditis Genomes Project v2. The two ",
+         "sets share one species, C. auriculariae, so the %d proteomes are %d ",
+         "species, and the query is not drawn -- leaving %d comparators, of ",
+         "which %d clear E < 1e-5 and every one is a Caenorhabditis. Nothing ",
+         "beyond the genus clears it, including Diploscapter pachys, the ",
+         "sister genus, at E = 4.1. Four Caenorhabditis proteomes also fail, ",
+         "C. auriculariae in both of its independent ones; a missing hit in a ",
+         "single proteome is weak evidence about the gene and may only say ",
+         "its annotation is incomplete."),
+         nrow(srch), format(N_PROTEIN, big.mark = ","), nrow(srch), N_SPP,
+         nrow(sa), sum(sa$is_ortholog)), 104))) +
   theme_pub(10) +
-  theme(axis.text.y = element_markdown(size = 7.6),
+  theme(axis.text.y = element_markdown(size = 6.4),
         axis.title.x = element_markdown(size = 9),
         strip.text.y = element_markdown(size = 7, angle = 0, hjust = 0),
         strip.background = element_rect(fill = "grey96", colour = NA),
         panel.spacing.y = grid::unit(3, "pt"),
+        legend.position = "bottom",
+        legend.margin = margin(t = -2, b = 0),
+        legend.text = element_markdown(size = 7.4),
         plot.subtitle = element_markdown(size = 7.2, colour = "grey30",
                                          lineheight = 1.3))
 
@@ -206,10 +264,12 @@ pB <- ggplot(dist, aes(factor(n_conserved), n)) +
                                          lineheight = 1.3))
 
 ## ===========================================================================
-fig <- pA / pB + plot_layout(heights = c(1.5, 1))
+## panel A carries 51 rows now, so it takes most of the height; panel B is a
+## four-bar distribution and does not need more than it gets
+fig <- pA / pB + plot_layout(heights = c(2.9, 1))
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_sid2_ortholog_search.pdf"), fig,
-       width = 9.6, height = 9.4, device = cairo_pdf)
+       width = 9.6, height = 11.2, device = cairo_pdf)
 ggsave(file.path(OUT, "SUPP_FIG_XX_sid2_ortholog_search.png"), fig,
-       width = 9.6, height = 9.4, dpi = 300, bg = "white")
+       width = 9.6, height = 11.2, dpi = 300, bg = "white")
 msg("wrote SUPP_FIG_XX_sid2_ortholog_search.{pdf,png}")
