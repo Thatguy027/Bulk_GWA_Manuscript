@@ -7,7 +7,7 @@
 ## an INDEPENDENT measurement that the fit never sees. But that guard is only
 ## convincing with a negative control, so this script fits four references:
 ##
-##   FULL         all 103 strains, the reference as shipped
+##   FULL         all 103 strains: the deposited 102 plus PB306 grafted back
 ##   RESTRICTED   the 100 strains the MIP panel measured
 ##   SYNTH        the 100, plus 3 SYNTHETIC near-twins built by perturbing an
 ##                existing pool strain to the same IBS the real extras have to
@@ -21,29 +21,30 @@
 ## Each fit is scored against MIP per strain, and the per-strain change is
 ## plotted against IBS to the three extras.
 ##
-## REQUIRES a file outside this repository:
-##   /Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/
-##     20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData
+## Built from the DEPOSITED input, data/baugh/2024bootstrapINPUT.Rdata, which
+## reproduces the shipped cache exactly. PB306 is grafted in from the 2022
+## matrix in the source project (the one file this needs from outside the
+## repository), for the reasons in scripts/make_baugh_deposited_fits.R.
 ##
 ## WHAT IT FINDS
 ##
 ## The sponge hypothesis is refuted, but the effect is far narrower than the
 ## aggregate suggests, and both halves matter.
 ##
-## Refuted: the IBS-matched synthetic twins absorb 0.094% of the pool mass
-## against the real extras' 3.21%, a 34-fold difference, and the SYNTH fit is
-## indistinguishable from RESTRICTED (per-strain RMSD correlation 0.99991, max
-## absolute difference 4.1e-4). NNLS does not hand mass to any near-twin column
-## on offer; matching a strain's IBS is not enough, the column has to match the
-## actual allele counts. So the gain from the real extras is specific to them.
+## Refuted: the IBS-matched synthetic twins absorb a small fraction of the mass
+## the real extras take, and the SYNTH fit is indistinguishable from RESTRICTED
+## (per-strain RMSD correlation 0.9998, max absolute difference 4.9e-4). NNLS
+## does not hand mass to any near-twin column on offer; matching a strain's IBS
+## is not enough, the column has to match the actual allele counts. So the gain
+## from the real extras is specific to them.
 ##
 ## Narrow: the penalty for removing them is not diffuse and is not a function
 ## of relatedness. Spearman rho between a strain's max IBS to an extra and its
-## RMSD penalty is 0.124 (p = 0.22), and 0.043 (p = 0.68) once the three twins
-## are set aside. PS2025 alone carries 41% of the total penalty and the three
-## twins carry 58%. Excluding those three, mean RMSD rises only 2.9% when the
-## extras are dropped, against 6.5% including them, and 45 of 99 strains are
-## actually BETTER without them.
+## RMSD penalty is 0.146 (p = 0.15), and 0.066 (p = 0.52) once the three twins
+## are set aside. PS2025 alone carries 38% of the total penalty and the three
+## twins carry 55%. Excluding those three, mean RMSD rises only 3.4% when the
+## extras are dropped (0.00351 to 0.00363), against 7.0% including them
+## (0.00361 to 0.00386), and 44 of 99 strains are actually BETTER without them.
 ##
 ## So "including the extras improves agreement" is true in aggregate but is
 ## carried by one strain pair (ECA348/PS2025, IBS 0.984) and secondarily by
@@ -57,7 +58,8 @@ suppressPackageStartupMessages({
   library(tidyverse); library(patchwork); library(ggrepel)
 })
 
-GT   <- "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData"
+GT   <- "data/baugh/2024bootstrapINPUT.Rdata"          # the deposited input
+OLD  <- "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData"
 MIPF <- "supplemental_data/deconvolution/mipseq_frequencies.txt.gz"
 DIAG <- "plots/diagnostics"
 EXTRA <- c("CX11262", "ECA348", "NIC260")
@@ -66,10 +68,17 @@ dir.create(DIAG, recursive = TRUE, showWarnings = FALSE)
 
 e <- new.env(); load(GT, e)
 gt <- e$flipped_bootstrap_input[[1]]; ct <- e$flipped_bootstrap_input[[2]]
+rm(e); gc()
 keep <- which(rowSums(is.na(gt)) == 0); gt <- gt[keep, ]; ct <- ct[keep, ]
-strains <- sub("_.*$", "", colnames(gt))
-colnames(gt) <- strains
-message(sprintf("markers %d, strains %d", nrow(gt), ncol(gt)))
+colnames(gt) <- sub("_.*$", "", colnames(gt))
+## graft PB306 back, as scripts/make_baugh_deposited_fits.R explains
+o <- new.env(); load(OLD, o)
+gt <- cbind(gt, PB306 = o$flipped_bootstrap_input[[1]][rownames(gt),
+                          grep("^PB306_", colnames(o$flipped_bootstrap_input[[1]]))])
+rm(o); gc()
+strains <- colnames(gt)
+message(sprintf("markers %d, strains %d (deposited 102 + grafted PB306)",
+                nrow(gt), ncol(gt)))
 
 ## --- MIP reference ---------------------------------------------------------
 ln <- readLines(gzfile(MIPF)); hdr <- strsplit(ln[1], "\t")[[1]]

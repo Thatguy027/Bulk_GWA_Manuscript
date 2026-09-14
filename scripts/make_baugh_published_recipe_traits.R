@@ -74,15 +74,15 @@
 ## traits, because their agreement is limited by NNLS zeros rather than by
 ## anything biological.
 ##
-## Usage:  Rscript scripts/make_baugh_published_recipe_traits.R [--nnls=ref103|ref100]
+## Usage:  Rscript scripts/make_baugh_published_recipe_traits.R [--nnls=dep103|pool100]
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({library(tidyverse)})
 
 args <- commandArgs(trailingOnly = TRUE)
 which_nnls <- sub("^--nnls=", "", grep("^--nnls=", args, value = TRUE))
-if (!length(which_nnls)) which_nnls <- "ref103"
-stopifnot(which_nnls %in% c("ref103", "ref100"))
+if (!length(which_nnls)) which_nnls <- "dep103"
+stopifnot(which_nnls %in% c("dep103", "pool100"))
 
 BAUGH <- "supplemental_data/deconvolution"
 PUB   <- "supplemental_data/phenotypes/baugh_published_traits.txt"

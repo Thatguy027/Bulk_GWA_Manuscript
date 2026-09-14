@@ -36,15 +36,16 @@
 ##   --source=deposited  the shipped cache. 98 strains, NO PB306, because the
 ##                       deposited input dropped it (see below). Kept as the
 ##                       record of what Figure 1 was built on.
-##   --source=ref103     refit from the 2022 matrix, all 103 strains. 99 traits.
-##   --source=ref100     refit from the SAME matrix cut to the 100 MIP pool
-##                       strains. 99 traits.
+##   --source=dep103     the DEPOSITED matrix plus PB306 grafted back, i.e. the
+##                       full 103-strain pool. 99 traits.
+##   --source=pool100    the same matrix cut to the 100 strains MIP measures.
+##                       99 traits.
 ##
-## ref103 and ref100 are the controlled comparison: one source matrix, one
-## marker set, PB306 present in both from the start, and the only difference
-## is whether CX11262, ECA348 and NIC260 are in the reference. Use those two
-## for any statement about what restricting the reference does. The deposited
-## file differs from both in the source matrix as well and is not a control.
+## dep103 and pool100 are the controlled comparison: one matrix, one marker set,
+## PB306 in both, differing only in whether the three unmeasured strains are in
+## the reference. Both are built by scripts/make_baugh_deposited_fits.R, which
+## also verifies that the deposited matrix reproduces the shipped cache exactly
+## (max absolute difference 0).
 ##
 ## TERMINOLOGY, because two different files get called "the reference".
 ##
@@ -99,14 +100,14 @@ source("scripts/Figure1_common.R")
 args <- commandArgs(trailingOnly = TRUE)
 src <- sub("^--source=", "", grep("^--source=", args, value = TRUE))
 if (!length(src)) src <- "deposited"
-stopifnot(src %in% c("deposited", "ref103", "ref100"))
+stopifnot(src %in% c("deposited", "dep103", "pool100"))
 
-STAGED <- c(ref103 = file.path(BAUGH, "baugh_nnls_ref103_with_mipseq.tsv.gz"),
-            ref100 = file.path(BAUGH, "baugh_nnls_ref100_with_mipseq.tsv.gz"))
+STAGED <- c(dep103  = file.path(BAUGH, "baugh_nnls_dep103_with_mipseq.tsv.gz"),
+            pool100 = file.path(BAUGH, "baugh_nnls_pool100_with_mipseq.tsv.gz"))
 OUTFILE <- switch(src,
   deposited = "supplemental_data/phenotypes/baugh_association_traits.csv",
-  ref103    = "supplemental_data/phenotypes/baugh_association_traits_ref103.csv",
-  ref100    = "supplemental_data/phenotypes/baugh_association_traits_ref100.csv")
+  dep103    = "supplemental_data/phenotypes/baugh_association_traits_dep103.csv",
+  pool100   = "supplemental_data/phenotypes/baugh_association_traits_pool100.csv")
 
 message("source: ", src)
 freq <- if (src == "deposited") baugh_frequencies() else {
@@ -176,9 +177,9 @@ message(sprintf("  slope_baugh vs slope_nnls  rho = %+.3f",
 message(sprintf("  PC1_baugh   vs PC1_nnls    rho = %+.3f",
                 cor(out$PC1_baugh, out$PC1_nnls, method = "spearman")))
 ## if both exist, report how far the two references move the traits
-other <- if (src == "ref100")
-  "supplemental_data/phenotypes/baugh_association_traits_ref103.csv" else
-  "supplemental_data/phenotypes/baugh_association_traits_ref100.csv"
+other <- if (src == "pool100")
+  "supplemental_data/phenotypes/baugh_association_traits_dep103.csv" else
+  "supplemental_data/phenotypes/baugh_association_traits_pool100.csv"
 if (file.exists(other)) {
   o <- readr::read_csv(other, show_col_types = FALSE)
   j <- inner_join(out, o, by = "strain", suffix = c("_this", "_other"))
