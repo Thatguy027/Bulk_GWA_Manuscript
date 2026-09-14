@@ -38,12 +38,43 @@
 ##                        99 strains (it gains PB306, which the deposited
 ##                        reference lacks)
 ##
-## The restricted frequencies come from scripts/DIAG_baugh_refit_restricted_
-## reference.R, staged into the repository so this script needs no external
-## file. That refit starts from a near relative of the deposited input -- 103
-## strains including PB306, where the deposit has 102 without it -- so the two
-## outputs are not a controlled A/B on the reference alone. The MIP columns are
-## unaffected and should agree between them; the script checks that.
+## TERMINOLOGY, because two different files get called "the reference".
+##
+##   the CACHE   supplemental_data/deconvolution/baugh_nnls_with_mipseq.RData,
+##               68 KB, in this repository. Already-computed NNLS frequencies
+##               joined to MIP. This is what --source=deposited reads and what
+##               Figure 1 draws.
+##   the INPUT   2024bootstrapINPUT.Rdata, the genotype matrix and counts the
+##               cache was computed FROM. Dryad only (Figure1_common.R:60) --
+##               not in this repository and not anywhere on this machine.
+##
+## The genotype matrix inside that input has never been inspected here. Its
+## strain list is known only indirectly, from baugh_strain_order.txt (shipped
+## precisely because the bootstrap array's dimension is unnamed) and from the
+## cache's own strain set. Both say 102 strains.
+##
+## WHERE PB306 WENT. All seven 2022 input variants in the source project
+## (/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/) carry 103
+## strains and every one of them includes PB306. The deposited 2024 input
+## carries 102, and the difference is exactly PB306 and nothing else. Why it
+## was dropped cannot be determined from here; the file that would say is the
+## one that is missing.
+##
+## That matters because PB306 IS in the pool -- the MIP panel measures it. So
+## the deposited reference disagrees with the pool definition in BOTH
+## directions: it is missing PB306, a real pool strain it therefore cannot
+## estimate at all, and it carries CX11262, ECA348 and NIC260, which the pool
+## definition does not contain.
+##
+## CONSEQUENCE FOR THESE TWO FILES. The restricted frequencies come from
+## scripts/DIAG_baugh_refit_restricted_reference.R, which starts from the 2022
+## matrix and so HAS PB306, staged into the repository here so this script
+## needs no external file. The restricted output therefore gains PB306 because
+## of which source matrix it was built from, NOT because of the restriction.
+## The two files are not a controlled A/B on the reference alone; that would
+## need the deposited input back, or one source matrix cut both ways. The MIP
+## columns are unaffected by any of this and should agree exactly between the
+## two; the script checks that.
 ##
 ## Usage:  Rscript scripts/make_baugh_association_traits.R [--source=deposited|restricted]
 ## Writes: supplemental_data/phenotypes/baugh_association_traits.csv
