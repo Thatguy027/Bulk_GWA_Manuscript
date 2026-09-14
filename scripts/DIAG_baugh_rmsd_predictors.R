@@ -12,6 +12,14 @@
 ## is proportionally reliable, and the two point in OPPOSITE directions with
 ## abundance.
 ##
+## The strongest predictor turns out to be the one that was not obvious: the
+## number of markers at which a strain is the ONLY carrier of the alternate
+## allele. That is what makes a strain identifiable to a non-negative least
+## squares fit at all -- with no private marker, its column is a combination of
+## others and the solver has nothing to anchor it with. Counts are deposited as
+## baugh_strain_private_markers.tsv (computed from the deposited genotype matrix
+## plus the grafted PB306, 1,237,106 markers, 103 strains).
+##
 ## Reads from supplemental_data, so this one does stay inside the deposit-only
 ## rebuild.
 ##
@@ -34,18 +42,24 @@ d <- nn[!is.na(frq) & !is.na(published_frq) & strain != "N2",
           zero_frac = mean(frq == 0), n = .N), by = strain]
 sim <- fread(file.path(DEC, "baugh_strain_similarity.tsv"))
 d <- merge(d, sim, by = "strain", all.x = TRUE)
+priv <- fread(file.path(DEC, "baugh_strain_private_markers.tsv"))
+d <- merge(d, priv[, .(strain, n_private, n_alt)], by = "strain", all.x = TRUE)
 d[, rel := rmsd / mean_f]
 fwrite(d, file.path(DIAG, "baugh_rmsd_predictors.tsv"), sep = "\t")
 
 VARS <- data.table(
-  v    = c("mean_f", "nn_ibs_wild", "zero_frac"),
-  lab  = c("mean MIP-seq frequency", "identity by state to nearest wild neighbour",
+  v    = c("n_private", "mean_f", "nn_ibs_wild", "zero_frac"),
+  lab  = c("markers where the strain is the only alt carrier (log10)",
+           "mean MIP-seq frequency", "identity by state to nearest wild neighbour",
            "fraction of samples the solver sets to zero"),
-  logx = c(TRUE, FALSE, FALSE))
+  ## private-marker counts span 0 to 154,000, so that one is plotted on a log
+  ## axis; the rest are readable linear
+  logx = c(TRUE, FALSE, FALSE, FALSE))
 
-mk <- function(yv, ylab, logy) rbindlist(lapply(seq_len(nrow(VARS)), function(i)
-  data.table(strain = d$strain, x = d[[VARS$v[i]]], y = d[[yv]],
-             panel = factor(VARS$lab[i], VARS$lab), logx = VARS$logx[i])))
+mk <- function(yv, ylab, logy) rbindlist(lapply(seq_len(nrow(VARS)), function(i) {
+  x <- d[[VARS$v[i]]]
+  data.table(strain = d$strain, x = if (VARS$logx[i]) log10(x + 1) else x,
+             y = d[[yv]], panel = factor(VARS$lab[i], VARS$lab)) }))
 L <- rbind(mk("rmsd", "", FALSE)[, metric := "RMSD (frequency units)"],
            mk("rel",  "", FALSE)[, metric := "RMSD / mean frequency"])
 L[, metric := factor(metric, c("RMSD (frequency units)", "RMSD / mean frequency"))]
@@ -87,8 +101,12 @@ ggsave(file.path(DIAG, "DIAG_baugh_rmsd_predictors.png"), p, width = 10, height 
 cat("Spearman of each predictor against the two error measures\n")
 print(dcast(ANN, panel ~ metric, value.var = "r")[, lapply(.SD, function(x)
   if (is.numeric(x)) round(x, 3) else x)])
-ok <- is.finite(d$nn_ibs_wild)
-m <- lm(rank(rmsd) ~ rank(mean_f) + rank(nn_ibs_wild) + rank(zero_frac), data = d[ok])
-cat(sprintf("\nrank model for absolute RMSD: adj R2 = %.3f\n", summary(m)$adj.r.squared))
-print(round(summary(m)$coefficients[, c(1, 4)], 4))
+ok <- is.finite(d$nn_ibs_wild) & is.finite(d$n_private)
+cat("\nrank models for absolute RMSD\n")
+m0 <- lm(rank(rmsd) ~ rank(mean_f) + rank(nn_ibs_wild) + rank(zero_frac), data = d[ok])
+m1 <- lm(rank(rmsd) ~ rank(mean_f) + rank(nn_ibs_wild) + rank(zero_frac) +
+                      rank(n_private), data = d[ok])
+cat(sprintf("  without private-marker count: adj R2 = %.3f\n", summary(m0)$adj.r.squared))
+cat(sprintf("  with    private-marker count: adj R2 = %.3f\n", summary(m1)$adj.r.squared))
+print(round(summary(m1)$coefficients[, c(1, 4)], 4))
 cat(sprintf("\nwrote %s/DIAG_baugh_rmsd_predictors.{pdf,png}\n", DIAG))
