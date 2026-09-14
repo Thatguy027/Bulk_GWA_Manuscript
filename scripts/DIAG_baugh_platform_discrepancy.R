@@ -4,7 +4,27 @@
 ##
 ## 1  MEMBERSHIP. The joined cache carries 102 strains. They are not the same
 ##    102 on both sides, and N2 is present in both but excluded downstream.
-##    The table is written to plots/diagnostics/baugh_strain_membership.tsv.
+##    Every name on both sides is resolved through the CaeNDR strain table --
+##    the strain name itself AND each of its previous names -- so a rename
+##    cannot masquerade as a missing strain. The table is written to
+##    plots/diagnostics/baugh_strain_membership.tsv.
+##
+##    What that resolution finds: exactly one rename, MIP's PB306 -> isotype
+##    ECA259, and it does not close the gap. At isotype level MIP has 100,
+##    NNLS 102, sharing 99. CX11262, ECA348 and NIC260 are NNLS-only and
+##    ECA259/PB306 is MIP-only; none is an alias of the other.
+##
+##    The three NNLS-only strains each have a near-twin that IS on the panel
+##    (CX11262/CX11264 IBS 0.973, ECA348/PS2025 0.984, NIC260/NIC256 0.960),
+##    which invites the reading that NNLS is splitting one strain across a
+##    pair. That is tested below and REJECTED: summing each pair tracks the
+##    partner's MIP values worse than the partner alone, by 4-10x in RMSD.
+##    They behave instead like ordinary pool members -- mean |slope| 2.2e-4
+##    to 6.9e-4 against a median of 3.4e-4 over the 98, across-arm CV 0.47 to
+##    1.63 inside the 98-strain IQR of 0.84-2.24, and consistent slope sign
+##    across 4 or 5 of the 5 independent replicate arms. The conclusion is
+##    that they were in the physical pool and the MIP probe panel has no
+##    column for them, not that the deconvolution invented them.
 ##
 ## 2  DISAGREEMENT. Three measures, because they do not rank strains the same
 ##    way and each answers a different question:
@@ -39,6 +59,16 @@ freq <- baugh_frequencies()
 mip_raw <- readLines(gzfile(file.path(BAUGH, "mipseq_frequencies.txt.gz")))
 mip_strains <- sub("\t.*$", "", mip_raw[-1])          # line 1 is the header
 
+## resolve every name through the CaeNDR strain table, previous names included
+sd_tab <- suppressWarnings(read_csv("data/20250625_c_elegans_strain_data.csv",
+                                    show_col_types = FALSE))
+resolver <- bind_rows(
+  sd_tab %>% transmute(name = strain, isotype, via = "strain"),
+  sd_tab %>% filter(!is.na(previous_names)) %>%
+    separate_rows(previous_names, sep = "\\|") %>%
+    transmute(name = str_trim(previous_names), isotype, via = "previous_name")
+) %>% filter(name != "") %>% distinct(name, .keep_all = TRUE)
+
 member <- freq %>%
   group_by(strain) %>%
   summarise(nnls_obs = sum(!is.na(frq)),
@@ -53,9 +83,13 @@ member <- freq %>%
     in_nnls & in_mip      ~ "both",
     in_nnls & !in_mip     ~ "NNLS only (not on the MIP panel)",
     !in_nnls & in_mip     ~ "MIP only (not in the NNLS genotype reference)")) %>%
+  left_join(resolver, by = c("strain" = "name")) %>%
   arrange(status != "both", strain)
 
 write_tsv(member, file.path(DIAG, "baugh_strain_membership.tsv"))
+
+renamed <- member %>% filter(via == "previous_name")
+unresolved <- member %>% filter(is.na(isotype))
 
 cat("\n=== STRAIN MEMBERSHIP ===\n")
 cat(sprintf("MIP-seq file            %3d strains\n", length(mip_strains)))
@@ -65,7 +99,19 @@ cat(sprintf("intersection            %3d strains\n",
 cat(sprintf("analysed                %3d strains (intersection minus N2)\n\n",
             sum(member$status == "both")))
 member %>% filter(status != "both") %>%
-  select(strain, status, nnls_obs, mip_obs) %>% print(n = 50)
+  select(strain, isotype, status, nnls_obs, mip_obs) %>% print(n = 50)
+cat("\nnames resolving via a PREVIOUS name (a rename, not a missing strain):\n")
+if (nrow(renamed)) print(renamed %>% select(strain, isotype, status)) else
+  cat("  none\n")
+cat("\nnames that resolve to no isotype at all:\n")
+if (nrow(unresolved)) print(unresolved %>% select(strain, status)) else
+  cat("  none\n")
+mi <- member %>% filter(in_mip)  %>% pull(isotype) %>% na.omit() %>% unique()
+ni <- member %>% filter(in_nnls) %>% pull(isotype) %>% na.omit() %>% unique()
+cat(sprintf("\nAT ISOTYPE LEVEL: MIP %d, NNLS %d, shared %d\n",
+            length(mi), length(ni), length(intersect(mi, ni))))
+cat("  NNLS-only:", paste(setdiff(ni, mi), collapse = " "), "\n")
+cat("  MIP-only :", paste(setdiff(mi, ni), collapse = " "), "\n")
 
 ## --- 2. disagreement -------------------------------------------------------
 slopes <- platform_slopes(freq) %>%
