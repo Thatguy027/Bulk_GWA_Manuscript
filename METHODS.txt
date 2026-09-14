@@ -439,7 +439,30 @@ against itself on the fifteen replicate-by-day columns the pooled samples also
 cover reaches 0.961 for PC1 and 0.983 for Slope, and that is the ceiling any
 pooled trait could attain given the two samples absent from the pooled set
 (rep2's baseline and rep5 day 17). Mapping inputs are assembled by
-scripts/make_baugh_mapping_traits.R.
+scripts/make_baugh_mapping_traits.R, which emits both constructions for both
+platforms.
+
+THE REFERENCE SAMPLE MATTERS MORE THAN THE TRANSFORM. Holding the transform at
+identity and switching only the reference moves the MIP-seq PC1 from 0.903
+against a baseline reference to 0.686 against a day-1 reference, and the pooled
+WGS PC1 from 0.815 to 0.697, against a spread of 0.814 to 0.826 across every
+transform tried at a fixed baseline reference. Slope is nearly indifferent
+(0.889 either way for MIP-seq). Both constructions therefore reference the
+baseline sample, which makes them an experiment on the transform alone: they
+then agree to within 0.001 on pooled WGS (0.815 against 0.814 for PC1), and the
+difference-based one reaches that without a floor or any tuning parameter,
+which is the reason to prefer it. That the MIP-seq difference PC1 reaches 0.903
+where the pooled one reaches 0.815 places the residual shortfall in the
+deconvolution rather than in the trait definition.
+
+Variance-stabilising transforms were tested and are not used. asinh(f/c), which
+is linear near zero and logarithmic above it and so requires no floor, peaks at
+c = 0.01, approximately one equal share, giving Slope 0.901 against 0.884 and
+PC1 0.826 against 0.814; a paired bootstrap over strains puts those gains at
++0.017 (95% CI -0.002 to +0.038) and +0.012 (-0.020 to +0.044), neither
+distinguishable at n = 99, and c was selected against the quantity it is scored
+on. Square-root and arcsine-square-root transforms are marginally worse than
+the identity.
 
 Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5,
 1, 3, 5 and 10x, rerunning the deconvolution and recomputing the traits
