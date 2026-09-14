@@ -5,6 +5,24 @@
 ## share, and how close the pooled-WGS traits get to a scan on the published
 ## phenotypes.
 ##
+## THE PUBLISHED QTL. Webster et al. report a chromosome IV QTL for Slope at
+## IV:15,939,340-16,613,710. Every one of the eight scans peaks inside it, on
+## the same marker, IV:16,218,716 at allele frequency 0.071.
+##
+## A NOTE ON WHAT THAT MARKER IS. Its seven carriers are CB4856, DL238, EG4724,
+## JU2519, JU2526, NIC252 and NIC258, and all four Slope traits place those
+## seven in the top nine ranks of 99 with near-identical Wilcoxon p-values
+## (2.1e-5 to 2.9e-5). The traits therefore carry the SAME evidence for this
+## locus. What differs enormously is the GEMMA p-value -- 14.32 for delta Slope
+## (MIP), 11.29 for delta Slope (WGS), 5.52 for published Slope, 3.88 for
+## log-ratio Slope -- which tracks the effect expressed in standard deviations
+## (3.92, 3.11, 2.24, 2.09) rather than any change in which strains rank where.
+## That spread is a property of the traits distributions under a linear mixed
+## model, not a difference in signal, so the 14.32 should not be read as
+## stronger evidence than the 5.52. With seven carriers, all of them strains
+## that sit in hyper-divergent haplotypes, shared ancestry is also a live
+## alternative to a local causal variant.
+##
 ## Reads from data/, not supplemental_data/, so this is a diagnostic and is not
 ## part of the deposit-only rebuild.
 ##
@@ -68,7 +86,7 @@ fwrite(LT, file.path(DIAG, "baugh_reanalysis_locus_table.tsv"), sep = "\t")
 ## --- anchors: the two published peaks, and the delta-slope chrIV peak -------
 anch <- data.table(
   label = c("published Slope peak\nV:15.92 Mb", "published PC1 peak\nV:15.93 Mb",
-            "delta-Slope peak\nIV:16.22 Mb"),
+            "published chrIV QTL\nIV:16.22 Mb"),
   chr = c("V", "V", "IV"), ps = c(15917359, 15933722, 16218716))
 AN <- A[anch, on = .(chr, ps)][, .(trait, label, lp)]
 
@@ -91,13 +109,14 @@ pA <- ggplot(A[lp > 1], aes(ps / 1e6, lp)) +
   geom_hline(yintercept = BF, linetype = 2, colour = "grey45", linewidth = 0.3) +
   geom_vline(data = data.table(chrf = factor("V", CHR), x = 15.93),
              aes(xintercept = x), colour = "#C4302B", linewidth = 0.3, alpha = 0.7) +
-  geom_vline(data = data.table(chrf = factor("IV", CHR), x = 16.22),
-             aes(xintercept = x), colour = "#1A7F5A", linewidth = 0.3, alpha = 0.7) +
+  geom_rect(data = data.table(chrf = factor("IV", CHR)),
+            aes(xmin = 15.93934, xmax = 16.61371, ymin = -Inf, ymax = Inf),
+            inherit.aes = FALSE, fill = "#1A7F5A", alpha = 0.16) +
   facet_grid(trait ~ chrf, scales = "free_x", space = "free_x",
              labeller = labeller(trait = SHORT)) +
   scale_colour_manual(values = c(`FALSE` = "grey65", `TRUE` = "#2E4057"), guide = "none") +
   labs(title = "A  All eight scans, with the two anchor loci marked",
-       subtitle = "Red line V:15.93 Mb (where the published traits peak); green line IV:16.22 Mb (where the delta-Slope traits peak). Dashed = Bonferroni.",
+       subtitle = "Red line V:15.93 Mb, where the published traits peak. Green band IV:15.94-16.61 Mb, the published chrIV Slope QTL. Dashed = Bonferroni.",
        x = "Position (Mb)", y = "-log10 p") +
   theme(panel.spacing.x = unit(1.5, "pt"), axis.text.x = element_text(size = 5.5),
         strip.text.y = element_text(size = 6, angle = 0, lineheight = 0.95))
