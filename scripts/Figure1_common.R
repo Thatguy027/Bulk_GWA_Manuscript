@@ -57,14 +57,29 @@ BAUGH <- "supplemental_data/deconvolution"
 POS1  <- "supplemental_data/phenotypes"
 
 CACHE <- file.path(BAUGH, "baugh_nnls_with_mipseq.RData")
-BOOT  <- file.path(BAUGH, "2024bootstrapINPUT.Rdata")   # Dryad only
+
+## Resolve a file that may sit under its deposit name in supplemental_data or
+## under its original name in data/baugh. The deposit name is listed first and
+## is what the error message names, so the deposit-only build is unaffected;
+## the fallback only makes the refresh path work on a full working copy.
+first_of <- function(...) { cand <- c(...); hit <- cand[file.exists(cand)]
+  if (length(hit)) hit[1] else cand[1] }
+
+## The genotype matrix and counts behind the cache. 1,237,106 markers x 102
+## strains; refitting from it reproduces the cache with max absolute difference
+## 0 (scripts/make_baugh_deposited_fits.R). It is NOT under supplemental_data
+## -- only data/baugh carries it -- so the deposit alone cannot run
+## baugh_frequencies(refresh = TRUE); it uses the cache, which is deposited.
+BOOT  <- first_of(file.path(BAUGH, "2024bootstrapINPUT.Rdata"),
+                  "data/baugh/2024bootstrapINPUT.Rdata")
 ## The bootstrap array's first dimension is unnamed; its order is the column
 ## order of the genotype matrix. Rather than open that 31 MB matrix just to
 ## recover 102 strain names, the order is shipped as a one-column file.
 SORDER <- file.path(BAUGH, "baugh_strain_order.txt")
 MIP   <- file.path(BAUGH, "mipseq_frequencies.txt.gz")
 DS    <- file.path(BAUGH, "baugh_downsampled_slopes.rda")
-BPRED <- file.path(BAUGH, "baugh_bootstrap_array.rda")
+BPRED <- first_of(file.path(BAUGH, "baugh_bootstrap_array.rda"),
+                  "data/baugh/2024baugh_bootstrap_prediction.rda")
 BCACHE<- file.path(BAUGH, "cache_boot_slopes.rds")
 FCACHE<- file.path(BAUGH, "cache_boot_freq.rds")
 
@@ -143,8 +158,11 @@ baugh_frequencies <- function(refresh = FALSE) {
 
   msg("  recomputing NNLS from ", BOOT, " -- this is the slow path")
   stopifnot(requireNamespace("RcppML", quietly = TRUE))
-  e <- new.env(); load(BOOT, e); load(file.path(BAUGH,
-        "2024baugh_bootstrap_prediction.rda"), e)
+  ## BPRED holds ab/blist/bootse. It is deposited as baugh_bootstrap_array.rda
+  ## and is byte-identical to data/baugh/2024baugh_bootstrap_prediction.rda,
+  ## which is the name this line used to ask for and which does not exist under
+  ## BAUGH -- so the refresh path could not run even with the input in place.
+  e <- new.env(); load(BOOT, e); load(BPRED, e)
 
   ## markers with any missing genotype are dropped rather than zero-filled: a
   ## zero here is a real homozygous-reference call, so imputing one would
