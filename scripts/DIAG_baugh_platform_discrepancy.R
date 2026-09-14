@@ -116,6 +116,42 @@
 ##    platform reads it consistently high, so a low rho and a large RMSD are
 ##    different failures.
 ##
+## WHERE THE AGREEMENT COMES FROM, AND WHAT THE FLOOR IS ACTUALLY FOR
+##
+## Per-sample agreement (one Spearman per sample across strains, MIP against
+## NNLS, N2 excluded) has median 0.828 at full depth. Building a trait out of
+## the fifteen non-baseline measurements buys more than a few points, and how
+## much depends entirely on the transform:
+##
+##   per-sample median                       0.828
+##   log-ratio slope, floored                0.911     +0.083
+##   delta slope, unfloored                  0.976     +0.148
+##
+## Both are NNLS against MIP with the SAME transform on each side, so this is
+## the gain from averaging rather than a comparison of methods. (The 0.884
+## quoted elsewhere is the NNLS recipe against the PUBLISHED Slope and carries
+## the reconstruction gap as well.)
+##
+## THE FLOOR BARELY TOUCHES PER-SAMPLE AGREEMENT. Flooring NNLS moves the
+## per-sample median from 0.828 to 0.829, range -0.011 to +0.081. What it does
+## is compress the bottom tail: rep5_d13, the worst sample, goes 0.482 -> 0.563,
+## and 0.651 if MIP is floored too. That sample has 63 of 99 strains below the
+## floor against a median of 31, so it is mostly sub-resolution and flooring
+## replaces a noisy ordering with an honest tie.
+##
+## So the floor is not a per-sample fix. It is required by the log-ratio
+## construction -- unfloored, that slope is undefined, because log2(0) is -- and
+## it is irrelevant to the delta construction (0.976 unfloored against 0.975
+## floored). That asymmetry is the practical case for the delta parameterisation:
+## it needs no tuning parameter at all.
+##
+## ONE MORE THING THE BAD SAMPLE SHOWS. Dropping rep5_d13 moves the two traits
+## in OPPOSITE directions -- the log-ratio slope improves, 0.911 to 0.921, while
+## the delta slope degrades, 0.975 to 0.964. The log-ratio trait is hurt by that
+## sample because it amplifies sub-floor noise; the delta trait still extracts
+## usable signal from it. Censoring samples on their per-sample correlation would
+## therefore help one trait and harm the other, so it is not a general remedy.
+##
 ## Usage:  Rscript scripts/DIAG_baugh_platform_discrepancy.R
 ## ---------------------------------------------------------------------------
 
