@@ -53,8 +53,32 @@
 ##    restricted reference they read above. Forcing the extras mass onto the
 ##    nearest genetic neighbour overshoots what MIP actually measured, so the
 ##    extras are not holding their twins signal -- they are holding material
-##    the twin does not account for. Overall agreement barely moves either
-##    (RMSD 0.05361 -> 0.05346, rho 0.829 -> 0.800, 46 of 100 strains improve).
+##    the twin does not account for. And restricting the reference is worse on
+##    every properly computed statistic, not neutral:
+##
+##                        slope rho     cell rho    cell RMSD (N2 excluded)
+##       full (103)         0.9745       0.8243          0.00473
+##       restricted (100)   0.9500       0.7945          0.00510
+##
+##    The full-reference slope rho of 0.9745 reproduces the shipped cache's
+##    0.974, so the re-fit is scoring the same thing Figure 1A does.
+##
+##    TWO STATISTICS, DO NOT CONFUSE THEM. The slope rho of 0.974 is one value
+##    per strain -- the slope of frequency change across days, averaged over
+##    five replicate arms -- which is Figure 1A and the trait that gets mapped.
+##    The cell rho of 0.824 is every strain x sample cell scored raw, and it
+##    matches the median per-sample agreement of 0.84 that Figure 1B already
+##    reports. The gap is averaging: a slope pools fifteen measurements, which
+##    removes most of the per-sample noise, exactly as the depth supplement
+##    states. Both numbers are real and they describe different things.
+##
+##    ALSO SUPERSEDED: an earlier version of this header quoted RMSD
+##    0.05361 -> 0.05346 and called the change negligible. That RMSD was 99.2%
+##    N2 and carried no information about the question. MIP puts N2 at mean
+##    frequency 0.5726 against NNLS's 0.0389, so N2's 23 cells dominated the
+##    squared error entirely. N2 is excluded from every downstream analysis for
+##    the identifiability reason already documented, and excluding it here gives
+##    the 0.00473 above.
 ##
 ##    CONCLUSION: the reference is not pool-restricted, which is worth fixing
 ##    upstream, but restricting it is not the fix -- by the independent MIP
