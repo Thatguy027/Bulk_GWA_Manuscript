@@ -12,8 +12,19 @@
 ## because subsampling produces more exact zeros: 1,897 of 14,076 cells are zero
 ## across the six depths, against 339 at full depth.
 ##
-## The difference-based slope is drawn alongside, because it behaves differently
-## with depth and the contrast is the point: it is robust where the log-ratio
+## Three lines are drawn, and all three are pooled-WGS traits scored against the
+## PUBLISHED eLife phenotypes -- they differ in how the trait is built, not in
+## what they are compared to:
+##
+##   PC1           published recipe, scored against the published PC1
+##   Slope         published recipe -- the slope of log2(f/baseline) on day --
+##                 scored against the published Slope
+##   Slope, delta  the difference-based slope, f minus its day-1 value regressed
+##                 on day, on RAW frequencies with no floor, scored against the
+##                 same published Slope
+##
+## The last exists because it takes no logarithm and so cannot be broken by a
+## zero, which is what the depth axis stresses. It is robust where the log-ratio
 ## traits are not.
 ##
 ## Uses the deposited downsampling output, supplemental_data/deconvolution/
@@ -46,8 +57,8 @@ ols <- function(x, y) {
 traits <- function(d, col) {
   n_str <- n_distinct(d$strain)
   fl <- 1 / (4 * n_str)
-  l <- d %>% rename(f = all_of(col)) %>%
-    mutate(f = pmax(f, fl)) %>%
+  l <- d %>% rename(f_raw = all_of(col)) %>%
+    mutate(f = pmax(f_raw, fl)) %>%
     separate(sample, into = c("rep", "day"), sep = "_", remove = FALSE, extra = "merge") %>%
     mutate(is_bl = grepl("baseline", sample),
            dnum = as.numeric(gsub("d", "", sub("_baseline", "", day))),
@@ -62,10 +73,16 @@ traits <- function(d, col) {
   m <- m[, colSums(is.na(m)) < 0.1 * nrow(m), drop = FALSE]
   m <- m[complete.cases(m), , drop = FALSE]
   p <- prcomp(m, scale. = TRUE, center = TRUE)
-  ## delta-based slope on the same data, for contrast
-  d1 <- l %>% filter(!is_bl, dnum == 1) %>% select(strain, rep, first = f)
+  ## The difference-based slope, for contrast. Computed on the RAW frequencies:
+  ## it takes no logarithm, so the floor is neither needed nor appropriate, and
+  ## applying it would clip real low-frequency variation. (Flooring it anyway
+  ## moves the result by 0.001 to 0.017, so this is a correctness point rather
+  ## than a material one.) Fitted pooled across replicate arms, which for this
+  ## balanced design with a common set of days is identical to fitting each arm
+  ## and averaging, as platform_slopes() does.
+  d1 <- l %>% filter(!is_bl, dnum == 1) %>% select(strain, rep, first = f_raw)
   dl <- l %>% filter(!is_bl, dnum != 17) %>% left_join(d1, by = c("strain", "rep")) %>%
-    mutate(dv = f - first) %>% group_by(strain) %>%
+    mutate(dv = f_raw - first) %>% group_by(strain) %>%
     summarise(delta_slope = ols(dnum, dv), .groups = "drop")
   tibble(strain = rownames(m), pc1 = p$x[, 1]) %>%
     left_join(w %>% filter(day2 != "d17") %>% group_by(strain) %>%

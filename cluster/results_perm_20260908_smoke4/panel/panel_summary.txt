@@ -1,0 +1,6 @@
+traits: vst_ctrl_pos-1_T2
+strains in the scan's order: 366
+strains in the phenotype file: 366
+
+per trait, strains with a value:
+  vst_ctrl_pos-1_T2                  231

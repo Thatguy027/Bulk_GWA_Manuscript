@@ -449,8 +449,9 @@ against the published PC1, against 0.890 and 0.822 at full depth -- a larger
 gap between 10x and full depth than across the whole subsampled range.
 Subsampling drives the share of cells set to exactly zero from 11.2% to 17.1%,
 which a log ratio cannot use; the difference-based slope, which takes no
-logarithm, runs 0.715 to 0.803 and sits above the log-ratio slope at every
-subsampled depth while converging with it at full depth
+logarithm and is therefore computed on unfloored frequencies, runs 0.713 to
+0.801 and sits above the log-ratio slope at every subsampled depth while
+converging with it at full depth (0.888 against 0.890)
 (scripts/SUPP_FIG_XX_baugh_downsample_traits.R).
 
 --------------------------------------------------------------------------------

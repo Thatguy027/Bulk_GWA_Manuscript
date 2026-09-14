@@ -241,10 +241,11 @@ published PC1 at 0.549 to 0.720, against 0.890 and 0.822 at full depth —
 a wider gap between 10× and full depth than across the entire subsampled
 range <span class="cite">(Figure S6)</span>. Subsampling drives the
 share of cells set to exactly zero from 11.2% to 17.1%, and the
-difference-based slope, which takes no logarithm, stays above the
-log-ratio slope at every subsampled depth while converging with it at
-full depth. Where depth is limited, the difference parameterisation is
-the more robust choice.
+difference-based slope — frequency minus its day-1 value regressed on
+day, taking no logarithm and so needing no floor — stays above the
+log-ratio slope at every subsampled depth (0.713 to 0.801) while
+converging with it at full depth (0.888 against 0.890). Where depth is
+limited, the difference parameterisation is the more robust choice.
 
 Applying the assay to 231 wild isotypes exposed to *pos-1* RNAi produced
 a continuously distributed response phenotype on a variance-stabilised
@@ -34540,10 +34541,10 @@ Figure S6
 SUPP_FIG_XX_baugh_downsample_traits
 </td>
 <td style="text-align:right;">
-110
+109
 </td>
 <td style="text-align:right;">
-2026-09-14 12:07
+2026-09-14 12:29
 </td>
 </tr>
 <tr>

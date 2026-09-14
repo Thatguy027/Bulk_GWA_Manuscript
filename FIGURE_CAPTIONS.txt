@@ -1005,13 +1005,18 @@ regression of that ratio on day excluding day 17 for Slope -- with the
 low-frequency floor at 1/(4n). Agreement is Spearman against the published
 eLife Slope and PC1 (Webster et al. 2022). N2 excluded, n = 98.
 
-(A) Recovery against depth, one line per trait, dashed lines at full depth.
-Against the published Slope the log-ratio trait runs 0.688, 0.749, 0.729,
-0.760, 0.749 and 0.741 across 0.25x, 0.5x, 1x, 3x, 5x and 10x, against 0.890 at
-full depth. PC1 runs 0.549, 0.582, 0.663, 0.678, 0.720 and 0.711 against 0.822.
-The difference-based slope, which takes no logarithm, is drawn for contrast and
-runs 0.715 to 0.803, above the log-ratio slope at every subsampled depth while
-converging with it at full depth.
+(A) Recovery against depth, one line per trait, dashed lines at full depth. All
+three lines are pooled-WGS traits scored against the PUBLISHED eLife
+phenotypes; they differ in how the trait is built, not in what it is compared
+to. "Slope" is the published recipe, the slope of log2(f/baseline) on day, and
+runs 0.688, 0.749, 0.729, 0.760, 0.749 and 0.741 across 0.25x, 0.5x, 1x, 3x, 5x
+and 10x against 0.890 at full depth. "PC1" is the published recipe likewise and
+runs 0.549, 0.582, 0.663, 0.678, 0.720 and 0.711 against 0.822. "Slope, delta"
+is the difference-based trait -- frequency minus its day-1 value regressed on
+day, on raw frequencies with no floor, since it takes no logarithm and so needs
+none -- scored against the same published Slope; it runs 0.713 to 0.801, above
+the log-ratio slope at every subsampled depth while converging with it at full
+depth (0.888 against 0.890).
 
 (B) The share of strain-by-sample cells the deconvolution sets to exactly zero,
 against depth: 17.1% at 0.25x falling to 11.2% at 10x, against 11.2% of 2,346
