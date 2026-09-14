@@ -33,10 +33,18 @@
 ## the MIP panel measured: it carries three extra strains (CX11262, ECA348,
 ## NIC260). Both versions are produced so a scan can be run either way.
 ##
-##   --source=deposited   the shipped cache, full reference, 98 strains
-##   --source=restricted  refit with the reference cut to the MIP pool,
-##                        99 strains (it gains PB306, which the deposited
-##                        reference lacks)
+##   --source=deposited  the shipped cache. 98 strains, NO PB306, because the
+##                       deposited input dropped it (see below). Kept as the
+##                       record of what Figure 1 was built on.
+##   --source=ref103     refit from the 2022 matrix, all 103 strains. 99 traits.
+##   --source=ref100     refit from the SAME matrix cut to the 100 MIP pool
+##                       strains. 99 traits.
+##
+## ref103 and ref100 are the controlled comparison: one source matrix, one
+## marker set, PB306 present in both from the start, and the only difference
+## is whether CX11262, ECA348 and NIC260 are in the reference. Use those two
+## for any statement about what restricting the reference does. The deposited
+## file differs from both in the source matrix as well and is not a control.
 ##
 ## TERMINOLOGY, because two different files get called "the reference".
 ##
@@ -91,18 +99,20 @@ source("scripts/Figure1_common.R")
 args <- commandArgs(trailingOnly = TRUE)
 src <- sub("^--source=", "", grep("^--source=", args, value = TRUE))
 if (!length(src)) src <- "deposited"
-stopifnot(src %in% c("deposited", "restricted"))
+stopifnot(src %in% c("deposited", "ref103", "ref100"))
 
-RESTRICTED_FREQ <- file.path(BAUGH, "baugh_nnls_restricted_with_mipseq.tsv.gz")
-OUTFILE <- if (src == "restricted")
-  "supplemental_data/phenotypes/baugh_association_traits_restricted.csv" else
-  "supplemental_data/phenotypes/baugh_association_traits.csv"
+STAGED <- c(ref103 = file.path(BAUGH, "baugh_nnls_ref103_with_mipseq.tsv.gz"),
+            ref100 = file.path(BAUGH, "baugh_nnls_ref100_with_mipseq.tsv.gz"))
+OUTFILE <- switch(src,
+  deposited = "supplemental_data/phenotypes/baugh_association_traits.csv",
+  ref103    = "supplemental_data/phenotypes/baugh_association_traits_ref103.csv",
+  ref100    = "supplemental_data/phenotypes/baugh_association_traits_ref100.csv")
 
 message("source: ", src)
-freq <- if (src == "restricted") {
-  stopifnot(file.exists(RESTRICTED_FREQ))
-  readr::read_tsv(RESTRICTED_FREQ, show_col_types = FALSE)
-} else baugh_frequencies()
+freq <- if (src == "deposited") baugh_frequencies() else {
+  stopifnot(file.exists(STAGED[[src]]))
+  readr::read_tsv(STAGED[[src]], show_col_types = FALSE)
+}
 
 ## --- slopes, averaged over replicate arms ----------------------------------
 slopes <- platform_slopes(freq) %>%
@@ -166,9 +176,9 @@ message(sprintf("  slope_baugh vs slope_nnls  rho = %+.3f",
 message(sprintf("  PC1_baugh   vs PC1_nnls    rho = %+.3f",
                 cor(out$PC1_baugh, out$PC1_nnls, method = "spearman")))
 ## if both exist, report how far the two references move the traits
-other <- if (src == "restricted")
-  "supplemental_data/phenotypes/baugh_association_traits.csv" else
-  "supplemental_data/phenotypes/baugh_association_traits_restricted.csv"
+other <- if (src == "ref100")
+  "supplemental_data/phenotypes/baugh_association_traits_ref103.csv" else
+  "supplemental_data/phenotypes/baugh_association_traits_ref100.csv"
 if (file.exists(other)) {
   o <- readr::read_csv(other, show_col_types = FALSE)
   j <- inner_join(out, o, by = "strain", suffix = c("_this", "_other"))
