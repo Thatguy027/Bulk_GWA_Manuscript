@@ -1,25 +1,25 @@
 interval	cmp	fam	r	detects
-Slope  IV:15.94-16.61	delta Slope (MIP)	Slope traits	0.54992147121349	TRUE
-Slope  IV:15.94-16.61	log-ratio Slope (WGS)	Slope traits	0.645334876187019	FALSE
-Slope  IV:15.94-16.61	delta Slope (WGS)	Slope traits	0.592424580118403	TRUE
-Slope  IV:15.94-16.61	delta PC1 (MIP)	PC1 traits	0.431576896504243	TRUE
-Slope  IV:15.94-16.61	log-ratio PC1 (WGS)	PC1 traits	0.412171182110585	FALSE
-Slope  IV:15.94-16.61	delta PC1 (WGS)	PC1 traits	0.376223242026737	FALSE
-Slope  V:15.66-17.62	delta Slope (MIP)	Slope traits	0.696148943689075	TRUE
-Slope  V:15.66-17.62	log-ratio Slope (WGS)	Slope traits	0.751056128235354	TRUE
-Slope  V:15.66-17.62	delta Slope (WGS)	Slope traits	0.691821663953144	TRUE
-Slope  V:15.66-17.62	delta PC1 (MIP)	PC1 traits	0.757907270874324	TRUE
-Slope  V:15.66-17.62	log-ratio PC1 (WGS)	PC1 traits	0.795598293242791	FALSE
-Slope  V:15.66-17.62	delta PC1 (WGS)	PC1 traits	0.634489254159525	TRUE
-PC1  V:1.35-2.76	delta Slope (MIP)	Slope traits	0.782303573791612	FALSE
-PC1  V:1.35-2.76	log-ratio Slope (WGS)	Slope traits	0.766199407823839	FALSE
-PC1  V:1.35-2.76	delta Slope (WGS)	Slope traits	0.564745601722867	FALSE
-PC1  V:1.35-2.76	delta PC1 (MIP)	PC1 traits	0.884096652724946	FALSE
-PC1  V:1.35-2.76	log-ratio PC1 (WGS)	PC1 traits	0.79529158538228	FALSE
-PC1  V:1.35-2.76	delta PC1 (WGS)	PC1 traits	0.79041052485427	FALSE
-PC1  V:15.78-18.07	delta Slope (MIP)	Slope traits	0.698935070804796	TRUE
-PC1  V:15.78-18.07	log-ratio Slope (WGS)	Slope traits	0.788682818217275	TRUE
-PC1  V:15.78-18.07	delta Slope (WGS)	Slope traits	0.701617894144639	TRUE
-PC1  V:15.78-18.07	delta PC1 (MIP)	PC1 traits	0.756128685280396	TRUE
-PC1  V:15.78-18.07	log-ratio PC1 (WGS)	PC1 traits	0.81310076284876	FALSE
-PC1  V:15.78-18.07	delta PC1 (WGS)	PC1 traits	0.668625444497583	TRUE
+Slope  IV:15.94-16.61  (irld-39)	delta Slope (MIP)	Slope traits	0.54992147121349	TRUE
+Slope  IV:15.94-16.61  (irld-39)	log-ratio Slope (WGS)	Slope traits	0.645334876187019	FALSE
+Slope  IV:15.94-16.61  (irld-39)	delta Slope (WGS)	Slope traits	0.592424580118403	TRUE
+Slope  IV:15.94-16.61  (irld-39)	delta PC1 (MIP)	PC1 traits	0.431576896504243	TRUE
+Slope  IV:15.94-16.61  (irld-39)	log-ratio PC1 (WGS)	PC1 traits	0.412171182110585	FALSE
+Slope  IV:15.94-16.61  (irld-39)	delta PC1 (WGS)	PC1 traits	0.376223242026737	FALSE
+Slope  V:15.66-17.62  (irld-57, -52)	delta Slope (MIP)	Slope traits	0.696148943689075	TRUE
+Slope  V:15.66-17.62  (irld-57, -52)	log-ratio Slope (WGS)	Slope traits	0.751056128235354	TRUE
+Slope  V:15.66-17.62  (irld-57, -52)	delta Slope (WGS)	Slope traits	0.691821663953144	TRUE
+Slope  V:15.66-17.62  (irld-57, -52)	delta PC1 (MIP)	PC1 traits	0.757907270874324	TRUE
+Slope  V:15.66-17.62  (irld-57, -52)	log-ratio PC1 (WGS)	PC1 traits	0.795598293242791	FALSE
+Slope  V:15.66-17.62  (irld-57, -52)	delta PC1 (WGS)	PC1 traits	0.634489254159525	TRUE
+PC1  V:1.35-2.76  (irld-11)	delta Slope (MIP)	Slope traits	0.782303573791612	FALSE
+PC1  V:1.35-2.76  (irld-11)	log-ratio Slope (WGS)	Slope traits	0.766199407823839	FALSE
+PC1  V:1.35-2.76  (irld-11)	delta Slope (WGS)	Slope traits	0.564745601722867	FALSE
+PC1  V:1.35-2.76  (irld-11)	delta PC1 (MIP)	PC1 traits	0.884096652724946	FALSE
+PC1  V:1.35-2.76  (irld-11)	log-ratio PC1 (WGS)	PC1 traits	0.79529158538228	FALSE
+PC1  V:1.35-2.76  (irld-11)	delta PC1 (WGS)	PC1 traits	0.79041052485427	FALSE
+PC1  V:15.78-18.07  (irld-52)	delta Slope (MIP)	Slope traits	0.698935070804796	TRUE
+PC1  V:15.78-18.07  (irld-52)	log-ratio Slope (WGS)	Slope traits	0.788682818217275	TRUE
+PC1  V:15.78-18.07  (irld-52)	delta Slope (WGS)	Slope traits	0.701617894144639	TRUE
+PC1  V:15.78-18.07  (irld-52)	delta PC1 (MIP)	PC1 traits	0.756128685280396	TRUE
+PC1  V:15.78-18.07  (irld-52)	log-ratio PC1 (WGS)	PC1 traits	0.81310076284876	FALSE
+PC1  V:15.78-18.07  (irld-52)	delta PC1 (WGS)	PC1 traits	0.668625444497583	TRUE

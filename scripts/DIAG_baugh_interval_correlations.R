@@ -24,8 +24,10 @@ suppressPackageStartupMessages({library(data.table); library(ggplot2)})
 D <- "data/baugh/reanalysis_mappings"; DIAG <- "plots/diagnostics"
 dir.create(DIAG, recursive = TRUE, showWarnings = FALSE)
 
-IVL <- c("Slope  IV:15.94-16.61", "Slope  V:15.66-17.62",
-         "PC1  V:1.35-2.76", "PC1  V:15.78-18.07")
+## each published interval carries one of the candidate irld genes, named in
+## the strip so the panels can be read against the zoom figure
+IVL <- c("Slope  IV:15.94-16.61  (irld-39)", "Slope  V:15.66-17.62  (irld-57, -52)",
+         "PC1  V:1.35-2.76  (irld-11)", "PC1  V:15.78-18.07  (irld-52)")
 IV <- data.table(id = factor(IVL, levels = IVL), chr = c("IV", "V", "V", "V"),
                  lo = c(15939340, 15660911, 1345848, 15775895),
                  hi = c(16613710, 17615557, 2764788, 18065050))

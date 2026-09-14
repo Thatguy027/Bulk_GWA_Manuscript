@@ -14,6 +14,11 @@
 ## PC1 comparators against published PC1. Lines are the strongest marker per
 ## 10 kb, which keeps the shape without drawing 26,000 points.
 ##
+## The four irld genes the source study nominates are marked: irld-39 on
+## chromosome IV, and irld-11, irld-57 and irld-52 on chromosome V. Each
+## published interval contains exactly one, and irld-39 lies 16.5 kb from the
+## chromosome IV peak marker.
+##
 ## Within-interval correlations are a separate figure,
 ## scripts/DIAG_baugh_interval_correlations.R.
 ##
@@ -40,6 +45,23 @@ CMP <- data.table(
             "delta_pc1_baugh","pc1_nnls","delta_pc1_nnls"),
   cmp   = factor(CMPL, levels = CMPL),
   ref   = rep(c("published_slope_baugh", "published_pc1_baugh"), each = 3))
+
+## --- the candidate irld genes named in the source study ---------------------
+## Coordinates from WS283. Each published interval contains one, and irld-39
+## sits 16.5 kb from the chromosome IV peak marker IV:16,218,716.
+IRLD <- data.table(
+  gene = c("irld-39", "irld-11", "irld-57", "irld-52"),
+  chr  = c("IV", "V", "V", "V"),
+  mid  = c((16233148 + 16236555) / 2, (1655145 + 1657403) / 2,
+           (15724810 + 15726710) / 2, (15779679 + 15781247) / 2))
+## a gene is drawn in every interval panel whose drawn window contains it
+IRLD <- IRLD[IV, on = .(chr), allow.cartesian = TRUE
+  ][, pad := (hi - lo) * 0.25
+  ][mid >= lo - pad & mid <= hi + pad
+  ][, .(gene, interval = id, mid)
+  ][order(interval, mid)
+  ## two of them are 55 kb apart, so labels alternate height within a panel
+  ][, ylab := c(14.3, 12.3)[seq_len(.N) %% 2 + 1], by = interval][]
 
 A <- rbindlist(lapply(list.files(D, full.names = TRUE), function(f) {
   d <- fread(cmd = paste("gzcat", shQuote(f)))
@@ -79,6 +101,11 @@ p <- ggplot(Z, aes(bin / 1e6, lp, colour = role, linewidth = role)) +
   geom_rect(data = BND, aes(xmin = lo / 1e6, xmax = hi / 1e6, ymin = -Inf, ymax = Inf),
             inherit.aes = FALSE, fill = "grey70", alpha = 0.22) +
   geom_hline(yintercept = BF, linetype = 2, colour = "grey40", linewidth = 0.3) +
+  geom_vline(data = IRLD, aes(xintercept = mid / 1e6), inherit.aes = FALSE,
+             colour = "#1A7F5A", linewidth = 0.4, linetype = 5) +
+  geom_text(data = copy(IRLD)[, cmp := factor(CMPL[1], levels = CMPL)],
+            aes(x = mid / 1e6, y = ylab, label = gene), inherit.aes = FALSE,
+            colour = "#1A7F5A", size = 2.3, hjust = -0.12, fontface = "italic") +
   geom_line(alpha = 0.92) +
   scale_colour_manual(values = c(published = "#1A1A1A", reconstruction = "#C4302B")) +
   scale_linewidth_manual(values = c(published = 0.32, reconstruction = 0.5), guide = "none") +
@@ -86,7 +113,7 @@ p <- ggplot(Z, aes(bin / 1e6, lp, colour = role, linewidth = role)) +
   labs(title = "The four published Baugh intervals, one comparison per panel",
        subtitle = paste("Black is the matching published trait, red the reconstruction.",
                         "Strongest marker per 10 kb; grey band is the published interval with 25% flanking;",
-                        "dashed line Bonferroni."),
+                        "dashed line Bonferroni. Green dashed lines are the candidate irld genes."),
        x = "Position (Mb)", y = "-log10 p")
 ggsave(file.path(DIAG, "DIAG_baugh_published_intervals.pdf"), p, width = 11, height = 10)
 ggsave(file.path(DIAG, "DIAG_baugh_published_intervals.png"), p, width = 11, height = 10, dpi = 200)
