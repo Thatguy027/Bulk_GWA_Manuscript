@@ -992,6 +992,40 @@ No error bars: the bootstrap array holds replicates of the full-depth
 deconvolution only, so there is nothing to resample at a reduced depth.
 
 --------------------------------------------------------------------------------
+SUPP_FIG_XX_baugh_downsample_traits
+(scripts/SUPP_FIG_XX_baugh_downsample_traits.R)
+--------------------------------------------------------------------------------
+What sequencing depth costs the traits that get mapped, as opposed to the
+frequencies they are built from.
+
+Traits are rebuilt from scratch at every depth on the published recipe --
+log2(f_day / f_baseline), prcomp with scale and center for PC1, and the
+regression of that ratio on day excluding day 17 for Slope -- with the
+low-frequency floor at 1/(4n). Agreement is Spearman against the published
+eLife Slope and PC1 (Webster et al. 2022). N2 excluded, n = 98.
+
+(A) Recovery against depth, one line per trait, dashed lines at full depth.
+Against the published Slope the log-ratio trait runs 0.688, 0.749, 0.729,
+0.760, 0.749 and 0.741 across 0.25x, 0.5x, 1x, 3x, 5x and 10x, against 0.890 at
+full depth. PC1 runs 0.549, 0.582, 0.663, 0.678, 0.720 and 0.711 against 0.822.
+The difference-based slope, which takes no logarithm, is drawn for contrast and
+runs 0.715 to 0.803, above the log-ratio slope at every subsampled depth while
+converging with it at full depth.
+
+(B) The share of strain-by-sample cells the deconvolution sets to exactly zero,
+against depth: 17.1% at 0.25x falling to 11.2% at 10x, against 11.2% of 2,346
+cells at full depth. A log ratio cannot use a zero, which is why the log-ratio
+traits lose more to depth than the difference-based one does.
+
+THE DEPTH REQUIREMENT DOES NOT TRANSFER FROM FREQUENCIES TO TRAITS. Frequency
+agreement saturates by 3x. Trait recovery does not: the gap between 10x and full
+depth is larger than the whole range from 0.25x to 10x. A depth chosen on
+frequency agreement alone will under-serve the mapping.
+
+The downsampling output predates the PB306 graft, so it carries the 102-strain
+deposited reference rather than the 103-strain pool.
+
+--------------------------------------------------------------------------------
 SUPP_FIG_XX_bootstrap_propagation_checks
 (scripts/SUPP_FIG_XX_bootstrap_propagation_checks.R)
 --------------------------------------------------------------------------------

@@ -298,12 +298,42 @@ Accuracy was assessed against published molecular inversion probe sequencing
 the same samples (23 samples).
 
 Three strain counts appear in this comparison and they are not interchangeable.
-The deconvolution reference carries 102 strains; MIP-seq frequencies were
-published for 100; 99 are common to both. Excluding N2, for the reason given
-below, leaves the n = 98 on which the correlations in this section are
-computed. The three reference strains with no MIP-seq measurement are CX11262,
-ECA348 and NIC260, and PB306 has a MIP-seq measurement but is absent from the
-reference.
+The deposited deconvolution reference carries 102 strains; MIP-seq frequencies
+were published for 100; 99 are common to both. Excluding N2, for the reason
+given below, leaves the n = 98 on which the correlations computed from the
+deposited reference rest. The three reference strains with no MIP-seq
+measurement are CX11262, ECA348 and NIC260, and PB306 has a MIP-seq measurement
+but is absent from the reference.
+
+Correspondence with the authors of the source study establishes that the pool
+contained all 103 strains and that all 412 probes were used for library prep
+(A. Webster, relayed by R. Baugh, 8 September 2022). CX11262, ECA348 and NIC260
+were therefore present in the material and were excluded from the MIP-seq
+ANALYSIS rather than from the experiment, and PB306 -- a previous name for
+isotype ECA259, and still the sample name carried by the CaeNDR 20231213
+release -- is a pool member the deposited reference cannot estimate. The
+reference is one strain short of the pool rather than three strains too many.
+PB306 is restored by grafting its column from the 2022 genotype matrix in the
+source project; every one of the 1,237,106 deposited markers is present there
+and calls for shared strains disagree at 0.04%, so the two are a revision of
+one another rather than independent processing. The grafted 103-strain
+reference is used for the traits, and the untouched 102-strain fit is retained
+alongside it (scripts/make_baugh_deposited_fits.R). Refitting from the
+deposited input reproduces the archived frequencies with a maximum absolute
+difference of 0.
+
+Whether the three unmeasured strains should be dropped was tested by refitting
+with the reference cut to the 100 strains MIP-seq measures. They should not:
+mean per-strain RMSD against MIP-seq rises from 0.00361 to 0.00386, and the
+three strains most similar to them -- PS2025, CX11264 and NIC256, at 0.984,
+0.973 and 0.960 identity by state -- all move from reading slightly below their
+MIP-seq values to reading above them, so the freed mass is pushed onto
+neighbours that do not account for it. Three synthetic near-twins matched to
+the same identity by state, which carry no information by construction, absorb
+0.09% of the pool against the real strains' 3.2% and leave the fit
+indistinguishable from the restricted one, so the benefit is specific to the
+real genotypes rather than a property of adding columns
+(scripts/DIAG_baugh_reference_ablation.R).
 
 For each strain and replicate arm, the rate of change in pool frequency was
 taken as the slope of the regression of frequency change on day, with day 1 as
@@ -370,14 +400,58 @@ published point estimates. Determine which design the archived Baugh run used
 before this paragraph goes to the draft. The two are not reconciled in the port;
 it takes the design as an argument and records which was used.]
 
+TWO TRAIT DEFINITIONS ARE IN USE AND THEY ARE NOT INTERCHANGEABLE. The
+published phenotypes are log ratios against the baseline sample: PC1 is the
+first component of prcomp with scale and center applied to
+log2(f_day / f_baseline) over the twenty replicate-by-day columns, and Slope is
+the regression of that ratio on day with day 17 excluded. That recipe is stated
+in the correspondence above and reproduces the deposited eLife trait values at
+Spearman 1.0000 for PC1 and 0.9958 for Slope
+(scripts/make_baugh_published_recipe_traits.R). The difference-based
+alternative used for Figure 1 -- frequency minus its day-1 value, regressed on
+day -- agrees with the published Slope at 0.889 but with the published PC1 at
+only 0.331, so the two parameterisations of PC1 are different phenotypes and a
+scan on one is not a scan on the other.
+
+Applying the published recipe to deconvolved frequencies requires a rule for
+zeros, because non-negative least squares returns exact zeros where MIP-seq
+read-count ratios do not: 339 of 2,369 cells at full depth. The conventional
+floor, half the smallest positive value, is about 5e-6 here -- some 2,000-fold
+below a typical strain frequency -- and the resulting log ratios dominate the
+decomposition. Frequencies are therefore floored at 1/(4n), a quarter of an
+equal share, which states the resolution the deconvolution is assumed to have
+rather than deriving one from the smallest observed value. This raises
+agreement with the published traits from 0.673 to 0.814 for PC1 and 0.690 to
+0.884 for Slope. A pseudocount behaves equivalently and peaks in the same
+place, and substituting the bootstrap mean for the point estimate changes
+nothing, so the limitation is resolution at low frequency rather than the
+zeros as such. The residual gap is not a transform artefact: MIP-seq scored
+against itself on the fifteen replicate-by-day columns the pooled samples also
+cover reaches 0.961 for PC1 and 0.983 for Slope, and that is the ceiling any
+pooled trait could attain given the two samples absent from the pooled set
+(rep2's baseline and rep5 day 17). Mapping inputs are assembled by
+scripts/make_baugh_mapping_traits.R.
+
 Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5,
-1, 3, 5 and 10x, rerunning the deconvolution and recomputing the slopes
-(scripts/baugh_L1_DownSample_Counts.R). Agreement with the MIP-seq slopes
-saturates by 3x (Spearman rho 0.833, 0.870, 0.851, 0.903, 0.906 and 0.904 across
-the six depths). At the level of individual samples rather than slopes the
-median rises from 0.724 to 0.827 over the same range, and the spread between
-samples (roughly 0.43 to 0.88 at any fixed depth) exceeds the effect of depth
-(scripts/SUPP_FIG_XX_downsample_per_sample.R).
+1, 3, 5 and 10x, rerunning the deconvolution and recomputing the traits
+(scripts/baugh_L1_DownSample_Counts.R). Agreement between downsampled and
+full-depth frequencies saturates by 3x (Spearman rho 0.833, 0.870, 0.851,
+0.903, 0.906 and 0.904 across the six depths). At the level of individual
+samples the median rises from 0.724 to 0.827 over the same range, and the
+spread between samples (roughly 0.43 to 0.88 at any fixed depth) exceeds the
+effect of depth (scripts/SUPP_FIG_XX_downsample_per_sample.R).
+
+RECOVERY OF THE PUBLISHED TRAITS DOES NOT SATURATE THE SAME WAY, and the depth
+requirement should not be quoted from frequency agreement alone. Rebuilding the
+traits at each depth gives Spearman 0.688, 0.749, 0.729, 0.760, 0.749 and 0.741
+against the published Slope and 0.549, 0.582, 0.663, 0.678, 0.720 and 0.711
+against the published PC1, against 0.890 and 0.822 at full depth -- a larger
+gap between 10x and full depth than across the whole subsampled range.
+Subsampling drives the share of cells set to exactly zero from 11.2% to 17.1%,
+which a log ratio cannot use; the difference-based slope, which takes no
+logarithm, runs 0.715 to 0.803 and sits above the log-ratio slope at every
+subsampled depth while converging with it at full depth
+(scripts/SUPP_FIG_XX_baugh_downsample_traits.R).
 
 --------------------------------------------------------------------------------
 GENOME-WIDE ASSOCIATION MAPPING
