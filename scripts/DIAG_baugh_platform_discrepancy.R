@@ -80,6 +80,17 @@
 ##    the identifiability reason already documented, and excluding it here gives
 ##    the 0.00473 above.
 ##
+##    WHY N2's MIP VALUE IS ON A DIFFERENT SCALE. The MIP table is not a simplex
+##    over its 100 strains. Per-sample sums run 1.558 to 1.686 (mean 1.610),
+##    with N2 alone at 0.540 to 0.631 in every sample. Drop N2 and the 99 wild
+##    isolates sum to 0.982 to 1.069, mean 1.036 -- a near-simplex. So the N2
+##    column is an extra ~0.57 layered on top rather than a pool share on the
+##    same scale as the others, which is what produced its RMSD of 0.534 against
+##    an NNLS value of 0.039. Excluding N2 is therefore right for a second,
+##    concrete reason beyond the identifiability argument. The residual 3.6%
+##    excess over 1 in the remaining 99 is unexplained and worth a look before
+##    the MIP frequencies are used on their own scale anywhere.
+##
 ##    CONCLUSION: the reference is not pool-restricted, which is worth fixing
 ##    upstream, but restricting it is not the fix -- by the independent MIP
 ##    yardstick it makes the three affected strains substantially worse. The
