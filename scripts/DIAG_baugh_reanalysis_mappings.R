@@ -83,11 +83,18 @@ LT <- rbindlist(lapply(ORD, function(t) { L <- loci(A[trait == t])
   if (is.null(L)) NULL else cbind(trait = t, L) }))
 fwrite(LT, file.path(DIAG, "baugh_reanalysis_locus_table.tsv"), sep = "\t")
 
-## --- anchors: the two published peaks, and the delta-slope chrIV peak -------
+## --- anchors: the published peaks in each reported region ------------------
 anch <- data.table(
   label = c("published Slope peak\nV:15.92 Mb", "published PC1 peak\nV:15.93 Mb",
-            "published chrIV QTL\nIV:16.22 Mb"),
-  chr = c("V", "V", "IV"), ps = c(15917359, 15933722, 16218716))
+            "published chrIV QTL\nIV:16.22 Mb", "published PC1 peak\nV:2.07 Mb (left arm)"),
+  chr = c("V", "V", "IV", "V"), ps = c(15917359, 15933722, 16218716, 2069474))
+
+## the reported intervals. The two right-arm chromosome V intervals overlap, so
+## they are shaded as their union rather than twice.
+PUB <- data.table(
+  chrf = factor(c("IV", "V", "V"), CHR_LEV <- c("I","II","III","IV","V","X")),
+  lo = c(15939340, 1345848, 15660911) / 1e6,
+  hi = c(16613710, 2764788, 18065050) / 1e6)
 AN <- A[anch, on = .(chr, ps)][, .(trait, label, lp)]
 
 ## --- genome-wide sharing, max per 100 kb bin -------------------------------
@@ -107,16 +114,17 @@ A[, chrf := factor(chr, CHR)]
 pA <- ggplot(A[lp > 1], aes(ps / 1e6, lp)) +
   geom_point(aes(colour = lp > BF), size = 0.22, alpha = 0.55) +
   geom_hline(yintercept = BF, linetype = 2, colour = "grey45", linewidth = 0.3) +
-  geom_vline(data = data.table(chrf = factor("V", CHR), x = 15.93),
-             aes(xintercept = x), colour = "#C4302B", linewidth = 0.3, alpha = 0.7) +
-  geom_rect(data = data.table(chrf = factor("IV", CHR)),
-            aes(xmin = 15.93934, xmax = 16.61371, ymin = -Inf, ymax = Inf),
-            inherit.aes = FALSE, fill = "#1A7F5A", alpha = 0.16) +
+  geom_vline(data = data.table(chrf = factor(c("V", "V"), CHR), x = c(15.93, 2.069)),
+             aes(xintercept = x), colour = "#C4302B", linewidth = 0.3, alpha = 0.75) +
+  geom_rect(data = PUB, aes(xmin = lo, xmax = hi, ymin = -Inf, ymax = Inf),
+            inherit.aes = FALSE, fill = "#1A7F5A", alpha = 0.15) +
   facet_grid(trait ~ chrf, scales = "free_x", space = "free_x",
              labeller = labeller(trait = SHORT)) +
   scale_colour_manual(values = c(`FALSE` = "grey65", `TRUE` = "#2E4057"), guide = "none") +
-  labs(title = "A  All eight scans, with the two anchor loci marked",
-       subtitle = "Red line V:15.93 Mb, where the published traits peak. Green band IV:15.94-16.61 Mb, the published chrIV Slope QTL. Dashed = Bonferroni.",
+  labs(title = "A  All eight scans, with every reported interval and peak marked",
+       subtitle = paste("Green bands are the reported intervals -- IV:15.94-16.61 for Slope,",
+                        "V:1.35-2.76 for PC1, and V:15.66-18.07, the union of the two overlapping right-arm intervals.",
+                        "\nRed lines are the published peaks at V:2.07 and V:15.93 Mb. Dashed = Bonferroni."),
        x = "Position (Mb)", y = "-log10 p") +
   theme(panel.spacing.x = unit(1.5, "pt"), axis.text.x = element_text(size = 5.5),
         strip.text.y = element_text(size = 6, angle = 0, lineheight = 0.95))
