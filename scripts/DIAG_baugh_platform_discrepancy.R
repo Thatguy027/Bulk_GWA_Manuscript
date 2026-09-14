@@ -14,17 +14,60 @@
 ##    NNLS 102, sharing 99. CX11262, ECA348 and NIC260 are NNLS-only and
 ##    ECA259/PB306 is MIP-only; none is an alias of the other.
 ##
-##    The three NNLS-only strains each have a near-twin that IS on the panel
-##    (CX11262/CX11264 IBS 0.973, ECA348/PS2025 0.984, NIC260/NIC256 0.960),
-##    which invites the reading that NNLS is splitting one strain across a
-##    pair. That is tested below and REJECTED: summing each pair tracks the
-##    partner's MIP values worse than the partner alone, by 4-10x in RMSD.
-##    They behave instead like ordinary pool members -- mean |slope| 2.2e-4
-##    to 6.9e-4 against a median of 3.4e-4 over the 98, across-arm CV 0.47 to
-##    1.63 inside the 98-strain IQR of 0.84-2.24, and consistent slope sign
-##    across 4 or 5 of the 5 independent replicate arms. The conclusion is
-##    that they were in the physical pool and the MIP probe panel has no
-##    column for them, not that the deconvolution invented them.
+##    WHY ARE THEY IN THE REFERENCE AT ALL? They should not be, on the face of
+##    it: the pool is defined by what MIP measured, so the deconvolution should
+##    solve only for pool strains. The reference is indeed NOT pool-restricted.
+##    The source genotype matrix
+##      /Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/
+##        20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData
+##    is 1,240,618 markers x 103 strains, and exactly 100 of those 103 are in
+##    the MIP pool definition. The 3 extras are CX11262, ECA348 and NIC260.
+##    (That file also contains PB306, which the shipped cache does not, so it
+##    is a near relative of the deposited input rather than the same file --
+##    the repo loads 2024bootstrapINPUT.Rdata, which is Dryad-only and carries
+##    102 strains. The source project holds several variants: flippedCommon,
+##    dupNswitch and cleanGenotypes, each with and without an NA fix.)
+##
+##    WHETHER THE EXTRAS SHOULD BE DROPPED was settled by re-fitting NNLS twice
+##    from that matrix, once with all 103 strains and once restricted to the
+##    100 the MIP panel measured, and scoring both against MIP.
+##
+##    The 3 extras hold 3.21% of the pool mass. Freeing it does NOT spread it
+##    evenly -- an even split over 100 strains would be +0.00032 each, while
+##    PS2025 gains +0.0095 (30x), CX11264 +0.0033 and NIC256 +0.0023. All three
+##    near-twins (ECA348/PS2025 IBS 0.984, CX11262/CX11264 0.973,
+##    NIC260/NIC256 0.960) land in the top five gainers and together absorb 52%
+##    of the freed mass. Taken alone that looks like the extras had been
+##    splitting their twins abundance.
+##
+##    MIP says otherwise, and unanimously. Every one of the three twins gets
+##    WORSE on every measure when its extra is removed:
+##
+##       twin     extra      RMSD full -> restricted   bias full -> restricted
+##       PS2025   ECA348     0.00271 -> 0.01210        -0.00164 -> +0.00787
+##       CX11264  CX11262    0.00138 -> 0.00288        -0.00096 -> +0.00237
+##       NIC256   NIC260     0.01690 -> 0.01950        +0.01560 -> +0.01790
+##
+##    The bias sign flip is the point: under the full reference the twins read
+##    slightly BELOW their independently measured MIP values, and under the
+##    restricted reference they read above. Forcing the extras mass onto the
+##    nearest genetic neighbour overshoots what MIP actually measured, so the
+##    extras are not holding their twins signal -- they are holding material
+##    the twin does not account for. Overall agreement barely moves either
+##    (RMSD 0.05361 -> 0.05346, rho 0.829 -> 0.800, 46 of 100 strains improve).
+##
+##    CONCLUSION: the reference is not pool-restricted, which is worth fixing
+##    upstream, but restricting it is not the fix -- by the independent MIP
+##    yardstick it makes the three affected strains substantially worse. The
+##    reading is that the three correspond to real material in the pool that
+##    the MIP panel has no column for.
+##
+##    SUPERSEDED: an earlier version of this header rejected the splitting
+##    hypothesis by summing each pair and comparing against the partner alone.
+##    That test was mis-specified -- it scored against the shipped cache rather
+##    than re-fitting, and assumed the mass was conserved within the pair when
+##    NNLS renormalises across all strains. The re-fit above is the right test
+##    and reaches the same conclusion on much better evidence.
 ##
 ## 2  DISAGREEMENT. Three measures, because they do not rank strains the same
 ##    way and each answers a different question:
