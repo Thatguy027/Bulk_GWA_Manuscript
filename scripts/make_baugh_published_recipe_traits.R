@@ -43,11 +43,35 @@
 ## probably why the original comparison used a difference-based slope for WGS
 ## rather than this recipe.
 ##
-## The rule applied here: zeros are floored at half the smallest positive
-## frequency in the table, which is the usual convention for log-transforming
-## count-derived compositions. The floor value and the number of cells it
-## touches are reported on every run. Change FLOOR_RULE if you want a different
-## convention -- this is a judgement call, not a derived quantity.
+## THE FLOOR IS A TUNING PARAMETER AND IT MATTERS A LOT. Half the smallest
+## positive frequency -- the usual convention -- is about 5e-6 here, roughly
+## 2,000-fold below a typical strain frequency, so a floored cell produces an
+## enormous log ratio that dominates the PCA. Sweeping the floor against the
+## published traits:
+##
+##     floor      PC1     slope
+##     5e-6      0.673    0.690     half the smallest positive
+##     1e-4      0.718    0.782
+##     1e-3      0.802    0.873
+##     3e-3      0.817    0.885
+##     1e-2      0.743    0.795     over-censored
+##
+## A pseudocount, log2((f+c)/(base+c)), behaves the same way and peaks at about
+## the same place (c = 1e-2 gives PC1 0.827, slope 0.878), and the bootstrap
+## mean in place of the point estimate changes nothing (0.820 / 0.890 against
+## 0.820 / 0.889), so this is not really about zeros -- it is about how much
+## resolution the deconvolution has at low frequency.
+##
+## The rule used: floor at 1/(4n) where n is the number of strains in the
+## reference, i.e. a quarter of an equal share. For 103 strains that is 2.4e-3,
+## inside the optimum. It states the assumption plainly -- the deconvolution
+## cannot resolve differences below a quarter of an equal share, so do not let
+## the log pretend it can. Override with --floor=<value>.
+##
+## WHAT REMAINS. At the optimum PC1 reaches 0.82 and slope 0.89, against a
+## ceiling of 0.961 and 0.983 set by MIP scored against itself on the same 15
+## columns. That residual gap is NNLS estimation error at low frequency, not a
+## transform choice; no floor, pseudocount or bootstrap variant closes it.
 ##
 ## WHAT THE RESULT SAYS. On the published log-ratio recipe the two platforms
 ## agree far less well than on the difference-based slope the repository
@@ -74,7 +98,7 @@
 ## traits, because their agreement is limited by NNLS zeros rather than by
 ## anything biological.
 ##
-## Usage:  Rscript scripts/make_baugh_published_recipe_traits.R [--nnls=dep103|pool100]
+## Usage:  Rscript scripts/make_baugh_published_recipe_traits.R [--nnls=dep103|pool100] [--floor=<value>]
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({library(tidyverse)})
@@ -83,6 +107,8 @@ args <- commandArgs(trailingOnly = TRUE)
 which_nnls <- sub("^--nnls=", "", grep("^--nnls=", args, value = TRUE))
 if (!length(which_nnls)) which_nnls <- "dep103"
 stopifnot(which_nnls %in% c("dep103", "pool100"))
+fl <- sub("^--floor=", "", grep("^--floor=", args, value = TRUE))
+FLOOR <- if (length(fl)) as.numeric(fl) else NA_real_
 
 BAUGH <- "supplemental_data/deconvolution"
 PUB   <- "supplemental_data/phenotypes/baugh_published_traits.txt"
@@ -102,13 +128,15 @@ as_long <- function(d, value) {
 }
 
 ## the published recipe, given a long frame and the columns to keep
-recipe <- function(long, cols = NULL, label = "") {
-  nz <- sum(long$f == 0, na.rm = TRUE)
-  if (nz > 0) {
-    floor_v <- min(long$f[long$f > 0], na.rm = TRUE) / 2
-    message(sprintf("  %s: flooring %d zero cells at %.3g (half the smallest positive)",
-                    label, nz, floor_v))
-    long <- long %>% mutate(f = ifelse(!is.na(f) & f == 0, floor_v, f))
+recipe <- function(long, cols = NULL, label = "", do_floor = FALSE) {
+  ## MIP frequencies are never floored: the published traits were computed from
+  ## them untouched, and flooring would break the validation below.
+  floor_v <- if (!is.na(FLOOR)) FLOOR else 1 / (4 * n_distinct(long$strain))
+  nbelow <- if (do_floor) sum(long$f < floor_v, na.rm = TRUE) else 0
+  if (nbelow > 0) {
+    message(sprintf("  %s: flooring %d cells (%d exact zeros) at %.3g = 1/(4n)",
+                    label, nbelow, sum(long$f == 0, na.rm = TRUE), floor_v))
+    long <- long %>% mutate(f = pmax(f, floor_v))
   }
   bl <- long %>% filter(day == "BL") %>% select(strain, rep, base = f)
   w  <- long %>% filter(day != "BL") %>%
@@ -156,7 +184,7 @@ stopifnot(cor(chk$PC1, chk$pc1, method = "spearman") > 0.999)
 nn <- read_tsv(file.path(BAUGH, sprintf("baugh_nnls_%s_with_mipseq.tsv.gz", which_nnls)),
                show_col_types = FALSE)
 nn_long <- as_long(nn, "frq")
-r_nnls <- recipe(nn_long, label = paste("NNLS", which_nnls))
+r_nnls <- recipe(nn_long, label = paste("NNLS", which_nnls), do_floor = TRUE)
 message(sprintf("\nNNLS (%s): %d columns usable of 20 -- %s",
   which_nnls, length(r_nnls$cols),
   paste(setdiff(r_full$cols, r_nnls$cols), collapse = ", ")))
