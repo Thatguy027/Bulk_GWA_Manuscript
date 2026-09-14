@@ -5,7 +5,7 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-10
-Twenty-six figures are the manuscript set and live in plots/. Listed in the
+Twenty-seven figures are the manuscript set and live in plots/. Listed in the
 order FIGURE_REPORT.Rmd presents them, which is the manuscript order; the main
 figures first, then the supplements:
 
@@ -20,6 +20,7 @@ figures first, then the supplements:
   SUPP_FIG_XX_baugh_per_sample_frequencies
   SUPP_FIG_XX_bootstrap_propagation_checks
   SUPP_FIG_XX_downsample_per_sample
+  SUPP_FIG_XX_baugh_downsample_traits
   SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
   SUPP_FIG_plate_vs_paaby_vs_pos1original
   SUPP_FIG_XX_pooled_phenotype_ranks

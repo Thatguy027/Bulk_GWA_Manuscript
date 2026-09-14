@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-11
+Assembled 2026-09-14
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -15,44 +15,46 @@ Assembled 2026-09-11
     -   [Figure 1 — the validated assay, the phenotype it produces, and
         the
         map](#figure-1--the-validated-assay-the-phenotype-it-produces-and-the-map)
-    -   [Figure S20 — the panel split at each Figure 1C peak
-        marker](#figure-s20--the-panel-split-at-each-figure-1c-peak-marker)
+    -   [Figure S21 — the panel split at each Figure 1C peak
+        marker](#figure-s21--the-panel-split-at-each-figure-1c-peak-marker)
     -   [Figure S3 — the sample-level measurements behind the Figure 1
         slopes](#figure-s3--the-sample-level-measurements-behind-the-figure-1-slopes)
     -   [Figure S4 — the bootstrap propagation
         checks](#figure-s4--the-bootstrap-propagation-checks)
     -   [Figure S5 — the sequencing-depth
         requirement](#figure-s5--the-sequencing-depth-requirement)
-    -   [Figure S6 — replicate reproducibility of the
-        phenotype](#figure-s6--replicate-reproducibility-of-the-phenotype)
-    -   [Figure S7 — the plate assay, validated
-        externally](#figure-s7--the-plate-assay-validated-externally)
+    -   [Figure S6 — what depth costs the traits that get
+        mapped](#figure-s6--what-depth-costs-the-traits-that-get-mapped)
+    -   [Figure S7 — replicate reproducibility of the
+        phenotype](#figure-s7--replicate-reproducibility-of-the-phenotype)
+    -   [Figure S8 — the plate assay, validated
+        externally](#figure-s8--the-plate-assay-validated-externally)
 -   [II. The map](#ii-the-map)
     -   [Figure 2 — pooled GWAS and cross mapping identify overlapping
         loci](#figure-2--pooled-gwas-and-cross-mapping-identify-overlapping-loci)
-    -   [Figure S8 — why these cross
-        parents](#figure-s8--why-these-cross-parents)
-    -   [Figure S9 — the expanded view behind Figure 2’s
-        tracks](#figure-s9--the-expanded-view-behind-figure-2s-tracks)
+    -   [Figure S9 — why these cross
+        parents](#figure-s9--why-these-cross-parents)
+    -   [Figure S10 — the expanded view behind Figure 2’s
+        tracks](#figure-s10--the-expanded-view-behind-figure-2s-tracks)
 -   [III. The interval](#iii-the-interval)
     -   [Figure 3 — NILs fine-map the chromosome III QTL to 37
         kb](#figure-3--nils-fine-map-the-chromosome-iii-qtl-to-37-kb)
-    -   [Figure S10 — the complete NIL hatching
-        experiment](#figure-s10--the-complete-nil-hatching-experiment)
+    -   [Figure S11 — the complete NIL hatching
+        experiment](#figure-s11--the-complete-nil-hatching-experiment)
 -   [IV. The residue](#iv-the-residue)
     -   [Figure 4 — editing *sid-2* residue 96 moves sensitivity in
         three
         backgrounds](#figure-4--editing-sid-2-residue-96-moves-sensitivity-in-three-backgrounds)
     -   [Effect sizes across the three chromosome III
         experiments](#effect-sizes-across-the-three-chromosome-iii-experiments)
-    -   [Figure S11 — the full N2 dose
-        series](#figure-s11--the-full-n2-dose-series)
-    -   [Figure S12 — everything held back from Figure
-        4A](#figure-s12--everything-held-back-from-figure-4a)
-    -   [Figure S13 — the honest negative
-        check](#figure-s13--the-honest-negative-check)
-    -   [Figure S14 — surface charge of the
-        ectodomain](#figure-s14--surface-charge-of-the-ectodomain)
+    -   [Figure S12 — the full N2 dose
+        series](#figure-s12--the-full-n2-dose-series)
+    -   [Figure S13 — everything held back from Figure
+        4A](#figure-s13--everything-held-back-from-figure-4a)
+    -   [Figure S14 — the honest negative
+        check](#figure-s14--the-honest-negative-check)
+    -   [Figure S15 — surface charge of the
+        ectodomain](#figure-s15--surface-charge-of-the-ectodomain)
 -   [Diagnostics](#diagnostics)
     -   [Leakage in the MIP-seq
         validation](#leakage-in-the-mip-seq-validation)
@@ -63,27 +65,27 @@ Assembled 2026-09-11
         coverage](#off-pool-leakage-against-coverage)
     -   [Gene content at the four strongest mig-6
         QTL](#gene-content-at-the-four-strongest-mig-6-qtl)
-    -   [Figure S19 — SID-2 across two species, with elegans variation
+    -   [Figure S20 — SID-2 across two species, with elegans variation
         on
-        top](#figure-s19--sid-2-across-two-species-with-elegans-variation-on-top)
-    -   [Figure S21 — residue 96 across *Caenorhabditis*, and what
+        top](#figure-s20--sid-2-across-two-species-with-elegans-variation-on-top)
+    -   [Figure S22 — residue 96 across *Caenorhabditis*, and what
         removing it
-        does](#figure-s21--residue-96-across-caenorhabditis-and-what-removing-it-does)
+        does](#figure-s22--residue-96-across-caenorhabditis-and-what-removing-it-does)
     -   [Species names: the provisional-to-formal
         mapping](#species-names-the-provisional-to-formal-mapping)
-    -   [Figure S22 — how far out SID-2 can be compared, and what that
+    -   [Figure S23 — how far out SID-2 can be compared, and what that
         is
-        worth](#figure-s22--how-far-out-sid-2-can-be-compared-and-what-that-is-worth)
+        worth](#figure-s23--how-far-out-sid-2-can-be-compared-and-what-that-is-worth)
     -   [eQTL and parental expression at the censused
         loci](#eqtl-and-parental-expression-at-the-censused-loci)
-    -   [Figure S15 — where T96’s pocket sits in the charge
-        distribution](#figure-s15--where-t96s-pocket-sits-in-the-charge-distribution)
-    -   [Figure S16 — model confidence, and the proximity
-        null](#figure-s16--model-confidence-and-the-proximity-null)
-    -   [Figure S17 — Figure 2 without the cross
-        QTL](#figure-s17--figure-2-without-the-cross-qtl)
-    -   [Figure S18 — what the 37 kb interval
-        contains](#figure-s18--what-the-37-kb-interval-contains)
+    -   [Figure S16 — where T96’s pocket sits in the charge
+        distribution](#figure-s16--where-t96s-pocket-sits-in-the-charge-distribution)
+    -   [Figure S17 — model confidence, and the proximity
+        null](#figure-s17--model-confidence-and-the-proximity-null)
+    -   [Figure S18 — Figure 2 without the cross
+        QTL](#figure-s18--figure-2-without-the-cross-qtl)
+    -   [Figure S19 — what the 37 kb interval
+        contains](#figure-s19--what-the-37-kb-interval-contains)
     -   [The panel split at two loci](#the-panel-split-at-two-loci)
     -   [The JU2466 × XZ1516 cross, where T96K cannot
         segregate](#the-ju2466--xz1516-cross-where-t96k-cannot-segregate)
@@ -91,7 +93,7 @@ Assembled 2026-09-11
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-six manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-seven manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -212,14 +214,46 @@ more variable at the level of individual samples than of fitted slopes
 S5)</span>, and saturated by 3× coverage, consistent with the
 simulation.
 
+Two things emerged once the comparison was taken through to the
+phenotypes themselves rather than stopping at frequencies. First, the
+published eLife traits use a log-ratio recipe —
+`log2(f_day / f_baseline)`, with PC1 from `prcomp(scale, center)` across
+the 20 replicate-by-day columns — which reproduces the deposited trait
+values at ρ = 1.0000 for PC1 and 0.9958 for Slope. The difference-based
+parameterisation used for Figure 1A agrees with the published Slope at
+0.889 but with the published PC1 at only 0.331, so those two PC1s are
+different phenotypes and only one of them is the published one. Second,
+applying the log-ratio recipe to deconvolved frequencies needs a rule
+for the exact zeros that non-negative least squares produces and
+read-count ratios do not. Flooring at a quarter of an equal share rather
+than at half the smallest observed value raises agreement with the
+published traits from 0.673 to 0.814 for PC1 and from 0.690 to 0.884 for
+Slope. The remaining shortfall is resolution at low frequency, not the
+transform: a pseudocount peaks in the same place, the bootstrap mean
+changes nothing, and MIP-seq scored against itself on the fifteen
+columns the pooled samples cover reaches 0.961 and 0.983, which is the
+ceiling.
+
+Depth interacts with this, and the requirement quoted from frequency
+agreement does not transfer. Rebuilding the traits at each subsampled
+depth recovers the published Slope at ρ = 0.688 to 0.760 and the
+published PC1 at 0.549 to 0.720, against 0.890 and 0.822 at full depth —
+a wider gap between 10× and full depth than across the entire subsampled
+range <span class="cite">(Figure S6)</span>. Subsampling drives the
+share of cells set to exactly zero from 11.2% to 17.1%, and the
+difference-based slope, which takes no logarithm, stays above the
+log-ratio slope at every subsampled depth while converging with it at
+full depth. Where depth is limited, the difference parameterisation is
+the more robust choice.
+
 Applying the assay to 231 wild isotypes exposed to *pos-1* RNAi produced
 a continuously distributed response phenotype on a variance-stabilised
 scale <span class="cite">(Figure 1B)</span>, reproducible across
-replicate pools <span class="cite">(Figure S6)</span> and correlated in
+replicate pools <span class="cite">(Figure S7)</span> and correlated in
 the expected direction with manual plate scoring of the same strains
 (Spearman ρ = 0.41, n = 111, p = 7.8 × 10⁻⁶) and with published
 embryonic-lethality measurements (ρ = −0.55, n = 19, p = 0.014) <span
-class="cite">(Figure S7)</span>.
+class="cite">(Figure S8)</span>.
 
 ### Pooled association and cross mapping converge on overlapping loci
 
@@ -237,11 +271,11 @@ specific to one target, we measured the pooled response to several RNAi
 targets across 84 isotypes and mapped the same responses in F2
 bulk-segregant crosses <span class="cite">(Figure 2)</span>. Cross
 parents were drawn from opposite extremes of the pooled assay rather
-than for convenience <span class="cite">(Figure S8)</span>. Nine cross
+than for convenience <span class="cite">(Figure S9)</span>. Nine cross
 QTL exceeded LOD 100 across the two crosses, on chromosomes I, II, III,
 IV, V and X. Contrasting the response to *pos-1* knockdown against the
 response to knockdown of an unrelated target distinguished the two
-classes <span class="cite">(Figure S9)</span>: a locus on the right arm
+classes <span class="cite">(Figure S10)</span>: a locus on the right arm
 of chromosome III behaved as a general RNAi-response locus, while loci
 on chromosomes I, V and X were target-specific.
 
@@ -263,7 +297,7 @@ in the resistant parent, 97.3%, 79.4% and 58.5% in successive lines, and
 35.7% in the sensitive parent — and the smallest interval distinguishing
 a resistant from a sensitive line spanned **37 kb**, from 13.658 to
 13.695 Mb. Control hatching was 97–100% for every line <span
-class="cite">(Figure S10)</span>, so the differences are attributable to
+class="cite">(Figure S11)</span>, so the differences are attributable to
 the RNAi exposure rather than to the introgressions themselves.
 
 ### A missense variant in *sid-2* accounts for part of the response
@@ -293,14 +327,14 @@ direction unchanged throughout: 96K sensitive, 96T resistant. That
 comparison required a sub-maximal RNAi dose: in the reference background
 25% *pos-1* bacteria is the only dilution with dynamic range, since
 every genotype hatches without RNAi and every genotype is inviable from
-50% upward <span class="cite">(Figure S11)</span>. Hatching percentages
+50% upward <span class="cite">(Figure S12)</span>. Hatching percentages
 are therefore not comparable between the two backgrounds.
 
 Two further observations bound the interpretation. First, T96K has no
 marginal effect across the mapping panel: the variant reaches p = 0.24
 in the association scan, ranking 18,662 of 64,423 markers on chromosome
 III, and splitting the pooled phenotype by residue 96 gives no shift
-(Wilcoxon p = 0.99, r² = 0.007) <span class="cite">(Figure S13)</span>.
+(Wilcoxon p = 0.99, r² = 0.007) <span class="cite">(Figure S14)</span>.
 *sid-2* was identified by the crosses and the introgression series, not
 by association, and a variant at 36% frequency whose effect is this
 context-dependent would not be expected to surface in a marginal test.
@@ -308,13 +342,13 @@ Second, residue 96 lies on the lumenal face of the predicted ectodomain,
 on the same face as three residues with published effects on dsRNA
 uptake <span class="cite">(Figure 4C)</span>, and the substitution
 raises the domain’s net charge at gut-lumen pH from −0.2 e to +0.8 e
-<span class="cite">(Figure S14)</span>. Both observations are spatial
+<span class="cite">(Figure S15)</span>. Both observations are spatial
 and electrostatic context; neither is evidence of a shared binding site,
 and 41% of the ectodomain lies within 20 Å of residue 96 (binomial p =
 0.19, permutation p = 0.30). A predicted N-glycosylation sequon is
 removed by T96K, but an edit that removes the same sequon while leaving
 residue 96 intact does not phenocopy it <span class="cite">(Figure
-S12)</span>, so no glycosylation mechanism is proposed.
+S13)</span>, so no glycosylation mechanism is proposed.
 
 </div>
 
@@ -1562,7 +1596,7 @@ because JU1793 is a cross parent in Figures 2 and 3.
 
 </div>
 
-## Figure S20 — the panel split at each Figure 1C peak marker
+## Figure S21 — the panel split at each Figure 1C peak marker
 
 <div class="meta">
 
@@ -1880,7 +1914,52 @@ rather than a property of that depth. No error bars here: the bootstrap
 array holds replicates of the full-depth deconvolution only, so there is
 nothing to resample at a reduced depth.
 
-## Figure S6 — replicate reproducibility of the phenotype
+## Figure S6 — what depth costs the traits that get mapped
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_baugh_downsample_traits.R`<br>
+**Supports** Figure 1A · recovery of the published eLife phenotypes
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_baugh_downsample_traits.png" alt="Two panels: Spearman agreement with the published Slope and PC1 against sequencing depth, and the share of deconvolution cells set to exactly zero against depth." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_baugh_downsample_traits
+</p>
+
+</div>
+
+Figure S5 asks how well downsampled frequencies track full-depth ones.
+This asks the question a mapping depends on: at each depth, how well do
+the traits recover the *published* eLife phenotypes? Traits are rebuilt
+from scratch at every depth on the published recipe — log2(f_day /
+f_baseline), `prcomp(scale, center)` for PC1 and the regression of that
+ratio on day excluding day 17 for Slope — with the low-frequency floor
+at 1/(4n).
+
+**(A)** Recovery does not saturate the way frequency agreement does.
+Against the published Slope the log-ratio trait runs 0.688, 0.749,
+0.729, 0.760, 0.749 and 0.741 across 0.25× to 10×, against 0.890 at full
+depth; PC1 runs 0.549 to 0.711 against 0.822. The gap between 10× and
+full depth is larger than the entire range from 0.25× to 10×, so the
+depth requirement quoted from frequency agreement (saturating by 3×)
+does not transfer to the traits.
+
+**(B)** The reason. Subsampling drives the deconvolution to return exact
+zeros — 17.1% of cells at 0.25× against 11.2% at 10× — and a log ratio
+cannot use a zero. The difference-based slope, which never takes a log,
+is drawn in panel A for contrast and sits above the log-ratio slope at
+every subsampled depth (0.715 to 0.803) while converging with it at full
+depth (0.880 against 0.890). That is the practical argument for the
+difference parameterisation whenever depth is limited.
+
+N2 excluded throughout, n = 98; the downsampling output predates the
+PB306 graft, so it carries the 102-strain deposited reference.
+
+## Figure S7 — replicate reproducibility of the phenotype
 
 <div class="meta">
 
@@ -1923,7 +2002,7 @@ Summing roughly doubles JU1793’s *pos-1* delta, from 0.00857 to about
 
 </div>
 
-## Figure S7 — the plate assay, validated externally
+## Figure S8 — the plate assay, validated externally
 
 <div class="meta">
 
@@ -2048,7 +2127,7 @@ drawn width *was the padding*, not the interval, and the figure implied
 a precision the data do not have. Widths and peak LODs are in the table
 below, where a number needing three significant figures belongs.
 
-Figure S17 is the same figure with the cross QTL removed altogether —
+Figure S18 is the same figure with the cross QTL removed altogether —
 the mirrored Manhattan alone, tracks, labels and cross legend dropped —
 written by the same script, so the arrows can be judged against the
 panel without them.
@@ -2091,7 +2170,7 @@ cross interval; the claim is concordance of *locus*, not of marker.
 
 </div>
 
-## Figure S8 — why these cross parents
+## Figure S9 — why these cross parents
 
 <div class="meta">
 
@@ -2115,7 +2194,7 @@ crosses were built from the extremes of the pooled assay rather than
 from convenience. Nine of the 93 panel strains have no vst value, so
 `n = 84` and ranks are out of 84.
 
-## Figure S9 — the expanded view behind Figure 2’s tracks
+## Figure S10 — the expanded view behind Figure 2’s tracks
 
 <div class="meta">
 
@@ -29477,7 +29556,7 @@ in one panel**, one row per strain. The rows carry **no strain names**;
 from the bottom up they are JU1793, wSZ196, wSZ191, wSZ176, JU2466 — the
 two parents being the two single-colour rows, and the per-strain values
 listed below, so each row is identifiable from its genotype and hatching
-together. Figure S10 draws the same series with the names on. Left, the
+together. Figure S11 draws the same series with the names on. Left, the
 introgressions on the right arm of chromosome III, 13.635 Mb to the
 telomere, JU1793 genotype in orange and JU2466 in teal — the smaller
 half of the panel, on thin bars, because it carries two breakpoints
@@ -29621,7 +29700,7 @@ text</span>
 
 </div>
 
-## Figure S10 — the complete NIL hatching experiment
+## Figure S11 — the complete NIL hatching experiment
 
 <div class="meta">
 
@@ -29783,8 +29862,8 @@ shifts and glycan shielding (three of the nine N-glycosylation sequons
 are in the ectodomain), and the direction is a correlation across three
 backgrounds. The discriminating experiment is charge-matched: T96R
 should behave like T96K if charge is the mechanism, T96Q (isosteric,
-neutral) like the wild type. See Figure S15 for the distribution and
-Figure S16 for model confidence.
+neutral) like the wild type. See Figure S16 for the distribution and
+Figure S17 for model confidence.
 
 </div>
 
@@ -30343,7 +30422,7 @@ the two backgrounds being 30.5%. Every row of the table is stated the
 same way, as the cost of carrying the JU2466 allele, so the swap rows
 and the NIL rows are directly comparable. So residue 96 is of the right
 size to account for the *whole* interval effect, with nothing left over
-that requires a second causal variant. That is what Figure S18
+that requires a second causal variant. That is what Figure S19
 independently implies: only two missense differences exist in the entire
 37 kb and both are in *sid-2*.
 
@@ -30429,7 +30508,7 @@ at 94, not at 96.
 
 </div>
 
-## Figure S11 — the full N2 dose series
+## Figure S12 — the full N2 dose series
 
 <div class="meta">
 
@@ -30585,7 +30664,7 @@ single-dose experiment at full strength would have found nothing** —
 worth stating, because it is also the likely reason a sub-maximal dose
 is needed to see *sid-2* alleles in a resistant background at all.
 
-## Figure S12 — everything held back from Figure 4A
+## Figure S13 — everything held back from Figure 4A
 
 <div class="meta">
 
@@ -30780,7 +30859,7 @@ mechanism, and each genotype is a single plate.**
 
 </div>
 
-## Figure S13 — the honest negative check
+## Figure S14 — the honest negative check
 
 <div class="meta">
 
@@ -30841,7 +30920,7 @@ that *sid-2* was found by the cross and the NILs, not by the GWAS.**
 
 </div>
 
-## Figure S14 — surface charge of the ectodomain
+## Figure S15 — surface charge of the ectodomain
 
 <div class="meta">
 
@@ -30938,7 +31017,8 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-six they need the Dryad archive to rebuild.
+clone, but unlike the twenty-seven they need the Dryad archive to
+rebuild.
 
 ## Leakage in the MIP-seq validation
 
@@ -32186,7 +32266,7 @@ deconvolution will choose to be wrong about.
 `plots/diagnostics/DIAG_mig6_locus_*.png`<br> **Table**
 `plots/diagnostics/TABLE_mig6_locus_census.tsv`
 
-The census Figure S18 runs on the 37 kb NIL interval, applied to every
+The census Figure S19 runs on the 37 kb NIL interval, applied to every
 independent HT115-vs-*mig-6* cross QTL above LOD 500, in a 100 kb window
 on each peak. Colour is the parent carrying the alternate allele: parent
 1 (N2, JU1793) pink, parent 2 (XZ1516, JU2466) green, the same p1/p2
@@ -32442,7 +32522,7 @@ and five are JU2466.
 
 <img src="plots/diagnostics/DIAG_mig6_locus_I_1-88.png" alt="" width="100%" />
 
-## Figure S19 — SID-2 across two species, with elegans variation on top
+## Figure S20 — SID-2 across two species, with elegans variation on top
 
 <div class="meta">
 
@@ -32517,7 +32597,7 @@ the conclusions above do not rest on the ambiguous regions.
 **Two species is not a conservation analysis.** Identity or difference
 against one outgroup says nothing about the rate at a site. A proper
 test needs an alignment across the *Caenorhabditis* genus, which this
-figure does not attempt — **Figure S21 does it**, and finds that the
+figure does not attempt — **Figure S22 does it**, and finds that the
 genus is as far as the comparison can be taken at all.
 
 **Sequences are UniProt G5EEV9 and A8XSB8**, fetched rather than derived
@@ -32526,7 +32606,7 @@ model has not been checked against *briggsae* RNA-seq.
 
 </div>
 
-## Figure S21 — residue 96 across *Caenorhabditis*, and what removing it does
+## Figure S22 — residue 96 across *Caenorhabditis*, and what removing it does
 
 <div class="meta">
 
@@ -32634,7 +32714,7 @@ glycan.
 
 **The claim has a depth, and it is the genus.** Residue 96 is Ser or Thr
 across *Caenorhabditis*; one genus out the protein is not alignable at
-all, which Figure S22 shows.
+all, which Figure S23 shows.
 
 </div>
 
@@ -32648,7 +32728,7 @@ Braendle & Cutter 2014 (formal names)
 
 </div>
 
-The environmental-RNAi calls layered onto Figure S21 come from a 2012
+The environmental-RNAi calls layered onto Figure S22 come from a 2012
 paper that scored species under **provisional designations**, most of
 which have since been named. This is a live hazard rather than a
 formality: ***C.* sp. 11 is *C. tropicalis*** and ***C.* sp. 10 is *C.
@@ -32677,13 +32757,13 @@ isolates that were tested.
 Two consequences worth stating. **Species the paper tested but does not
 call in prose are absent from the layer rather than guessed at** — *C.
 doughertyi* and *C. nigoni* among them, which is why they carry a sequon
-marker in Figure S21 but no phenotype tile. And **the sequenced isolate
+marker in Figure S22 but no phenotype tile. And **the sequenced isolate
 is usually not the tested one**: only *C. elegans* (N2), *C. tropicalis*
 (JU1373) and *C. drosophilae* (DF5077) match. That matters more than it
 normally would, because the same paper reports intraspecific variation
 in *C. elegans*.
 
-## Figure S22 — how far out SID-2 can be compared, and what that is worth
+## Figure S23 — how far out SID-2 can be compared, and what that is worth
 
 <div class="meta">
 
@@ -32704,7 +32784,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 
 </div>
 
-The search behind Figure S21, and the calibration of what its
+The search behind Figure S22, and the calibration of what its
 conservation is worth. **The conservation does not fade with distance.
 It stops at the genus.**
 
@@ -32774,7 +32854,7 @@ annotation is incomplete, so no gene loss is claimed.
 
 **The conservation statistics are over six species, not fourteen.** Only
 the full-length UniProt orthologs support scoring every position; the
-wider set in Figure S21 is scored at the three-residue window only,
+wider set in Figure S22 is scored at the three-residue window only,
 where an HSP can be checked directly.
 
 **The search is pinned, not re-run.** It needed 52 whole proteomes
@@ -33505,7 +33585,7 @@ these two parents happen to share an allele.
 
 </div>
 
-## Figure S15 — where T96’s pocket sits in the charge distribution
+## Figure S16 — where T96’s pocket sits in the charge distribution
 
 <div class="meta">
 
@@ -33549,7 +33629,7 @@ the three.
 
 </div>
 
-## Figure S16 — model confidence, and the proximity null
+## Figure S17 — model confidence, and the proximity null
 
 <div class="meta">
 
@@ -33592,7 +33672,7 @@ that can be stated rather than asserted.
 
 </div>
 
-## Figure S17 — Figure 2 without the cross QTL
+## Figure S18 — Figure 2 without the cross QTL
 
 <div class="meta">
 
@@ -33635,7 +33715,7 @@ ask and which no amount of caption prose answers as directly.
 
 </div>
 
-## Figure S18 — what the 37 kb interval contains
+## Figure S19 — what the 37 kb interval contains
 
 <div class="meta">
 
@@ -34365,7 +34445,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34379,7 +34459,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34393,12 +34473,12 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S20
+Figure S21
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_gwas_peak_genotype_splits
@@ -34407,7 +34487,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 422
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34421,7 +34501,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34435,7 +34515,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34449,12 +34529,26 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Figure S6
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_baugh_downsample_traits
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+2026-09-14 12:07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S7
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
@@ -34463,12 +34557,12 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S7
+Figure S8
 </td>
 <td style="text-align:left;">
 SUPP_FIG_plate_vs_paaby_vs_pos1original
@@ -34477,7 +34571,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 199
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34491,12 +34585,12 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S8
+Figure S9
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_pooled_phenotype_ranks
@@ -34505,12 +34599,12 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S9
+Figure S10
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_cross_contrast_panels
@@ -34519,7 +34613,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34533,12 +34627,12 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S10
+Figure S11
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_nil_hatching_full
@@ -34547,7 +34641,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
@@ -34561,12 +34655,12 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S11
+Figure S12
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_n2_swap_dose
@@ -34575,12 +34669,12 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S12
+Figure S13
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_allele_swaps_full
@@ -34589,12 +34683,12 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S13
+Figure S14
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_allele_in_panel
@@ -34603,12 +34697,12 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S14
+Figure S15
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_electrostatics
@@ -34617,12 +34711,12 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S15
+Figure S16
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_local_charge
@@ -34631,12 +34725,12 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S16
+Figure S17
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_model_confidence
@@ -34645,12 +34739,12 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S17
+Figure S18
 </td>
 <td style="text-align:left;">
 Figure2_no_cross_qtl
@@ -34659,12 +34753,12 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S18
+Figure S19
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_nil_interval_genes
@@ -34673,12 +34767,12 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S19
+Figure S20
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_briggsae_alignment
@@ -34687,12 +34781,12 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-10 20:35
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S21
+Figure S22
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_ortholog_conservation
@@ -34701,12 +34795,12 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 624
 </td>
 <td style="text-align:right;">
-2026-09-11 10:05
+2026-09-14 02:17
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Figure S22
+Figure S23
 </td>
 <td style="text-align:left;">
 SUPP_FIG_XX_sid2_ortholog_search
@@ -34715,7 +34809,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 664
 </td>
 <td style="text-align:right;">
-2026-09-11 10:05
+2026-09-14 02:17
 </td>
 </tr>
 </tbody>
@@ -34723,7 +34817,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 
 <div class="tnote">
 
-All twenty-six figures rebuild from `supplemental_data/` with `data/`
+All twenty-seven figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every

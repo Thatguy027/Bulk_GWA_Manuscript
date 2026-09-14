@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-six manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-seven manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -95,7 +95,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 26, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 27, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -142,9 +142,9 @@ ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 MAP <- "supplemental_data/mapping"
 
-## Diagnostics are NOT part of the curated twenty-six. They live in
+## Diagnostics are NOT part of the curated twenty-seven. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the twenty-six, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-seven, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -388,7 +388,7 @@ and saturated by 3× coverage, consistent with the simulation.
 Two things emerged once the comparison was taken through to the phenotypes
 themselves rather than stopping at frequencies. First, the published eLife
 traits use a log-ratio recipe — `log2(f_day / f_baseline)`, with PC1 from
-`prcomp(scale, center)` across the twenty replicate-by-day columns — which
+`prcomp(scale, center)` across the 20 replicate-by-day columns — which
 reproduces the deposited trait values at ρ = 1.0000 for PC1 and 0.9958 for
 Slope. The difference-based parameterisation used for Figure 1A agrees with the
 published Slope at 0.889 but with the published PC1 at only 0.331, so those two
@@ -2588,7 +2588,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the twenty-six they need the
+tracked so this report reads from a clone, but unlike the twenty-seven they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -3906,7 +3906,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All twenty-six figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-seven figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is
