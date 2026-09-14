@@ -8,6 +8,32 @@
 ##   "dividing day 1, 9, 13, and 17 by baseline frequency and log2 transforming
 ##    to put into PCA (the prcomp function with scale and center set to TRUE)"
 ##
+## DAY 17 IS IN PC1 AND OUT OF SLOPE. The two published traits do not use the
+## same days, which is easy to get backwards. Verified by refitting each on
+## every day subset and scoring against the deposited values:
+##
+##   PC1    days 1,9,13,17 (20 cols)  Spearman 1.00000   <- the published trait
+##          days 1,9,13    (15 cols)           0.97492
+##          days 9,13,17   (15 cols)           0.98872
+##   Slope  days 1,9,13               Spearman 0.99585   <- the published trait
+##          days 1,9,13,17                     0.93131
+##          days 9,13,17                       0.19710
+##
+## Two further things fall out of that sweep and are worth not re-deriving.
+## Normalising by the baseline sample or by day 1 gives the SAME slope to
+## machine precision, because a per-strain per-replicate constant moves the
+## intercept and not the gradient -- so the choice matters for PC1 and is
+## irrelevant for Slope. And fitting pooled across replicate arms is identical
+## to fitting each arm and averaging, the design being balanced on a common set
+## of days.
+##
+## Slope reproduces at 0.99585 rather than exactly. The residual is diffuse --
+## 58 of 100 strains within one rank, largest shift 8 -- and is not attributable
+## to any replicate arm, since dropping any one of the five makes agreement
+## worse. Some detail of the original fit is unrecovered; the deposited values
+## are shipped verbatim rather than this reconstruction, so nothing downstream
+## depends on closing that gap.
+##
 ## Implemented here and VALIDATED against data/baugh/eLife_traits.txt:
 ##   PC1    log2(f_day / f_baseline) for d1,d9,d13,d17 x 5 reps -> 100 x 20
 ##          matrix, prcomp(scale.=TRUE, center=TRUE), PC1 = x[,1]

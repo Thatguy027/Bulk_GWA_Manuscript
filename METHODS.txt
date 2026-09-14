@@ -403,8 +403,17 @@ it takes the design as an argument and records which was used.]
 TWO TRAIT DEFINITIONS ARE IN USE AND THEY ARE NOT INTERCHANGEABLE. The
 published phenotypes are log ratios against the baseline sample: PC1 is the
 first component of prcomp with scale and center applied to
-log2(f_day / f_baseline) over the twenty replicate-by-day columns, and Slope is
-the regression of that ratio on day with day 17 excluded. That recipe is stated
+log2(f_day / f_baseline) over the twenty replicate-by-day columns, which are
+days 1, 9, 13 and 17 across the five arms, and Slope is the regression of that
+ratio on day over days 1, 9 and 13 only. DAY 17 IS THEREFORE IN PC1 AND OUT OF
+SLOPE. Refitting on each day subset and scoring against the deposited values
+identifies both unambiguously: PC1 reproduces at Spearman 1.0000 on all four
+days against 0.975 without day 17, and Slope at 0.9959 on days 1, 9 and 13
+against 0.931 with day 17 included. Normalising by the baseline sample or by
+day 1 gives the same Slope to machine precision, a per-strain per-replicate
+constant moving the intercept rather than the gradient, so that choice bears on
+PC1 alone; and fitting pooled across arms is identical to fitting each arm and
+averaging, the design being balanced on a common set of days. That recipe is stated
 in the correspondence above and reproduces the deposited eLife trait values at
 Spearman 1.0000 for PC1 and 0.9958 for Slope
 (scripts/make_baugh_published_recipe_traits.R). The difference-based
