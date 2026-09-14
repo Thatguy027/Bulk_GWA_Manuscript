@@ -8,11 +8,14 @@
 ## Mb is common to both), so they are drawn separately but should be read as one
 ## region seen through two traits rather than two independent findings.
 ##
-## Each panel is the published trait against ONE reconstruction, so the question
-## "does this trait follow the published one here" is answered without reading
-## four overlaid lines. Slope comparators are drawn against published Slope and
-## PC1 comparators against published PC1. Lines are the strongest marker per
-## 10 kb, which keeps the shape without drawing 26,000 points.
+## Each panel is the published trait against ONE reconstruction, MIRRORED about
+## zero: published above the axis, reconstruction below. Two traces overlaid on
+## a shared axis obscure each other at this marker density, and the question
+## here is whether peaks COINCIDE, which a mirror answers by eye -- a shared
+## peak is a vertical spike through the axis, an unshared one is a spike on one
+## side only. Slope comparators are drawn against published Slope and PC1
+## comparators against published PC1. Areas are the strongest marker per 10 kb,
+## which keeps the shape without drawing 26,000 points.
 ##
 ## The four irld genes the source study nominates are marked: irld-39 on
 ## chromosome IV, and irld-11, irld-57 and irld-52 on chromosome V. Each
@@ -61,7 +64,7 @@ IRLD <- IRLD[IV, on = .(chr), allow.cartesian = TRUE
   ][, .(gene, interval = id, mid)
   ][order(interval, mid)
   ## two of them are 55 kb apart, so labels alternate height within a panel
-  ][, ylab := c(14.3, 12.3)[seq_len(.N) %% 2 + 1], by = interval][]
+  ][, ylab := c(13.6, 11.2)[seq_len(.N) %% 2 + 1], by = interval][]
 
 A <- rbindlist(lapply(list.files(D, full.names = TRUE), function(f) {
   d <- fread(cmd = paste("gzcat", shQuote(f)))
@@ -86,6 +89,9 @@ Z <- rbindlist(lapply(seq_len(nrow(IV)), function(i) {
           R[trait == CMP$trait[k]][, role := "reconstruction"]
     )[, `:=`(cmp = CMP$cmp[k], interval = IV$id[i])][] })) }))
 Z[, role := factor(role, c("published", "reconstruction"))]
+## mirror: published up, reconstruction down
+Z[, y := fifelse(role == "published", lp, -lp)]
+YMAX <- ceiling(max(Z$lp))
 BND <- IV[, .(interval = id, lo, hi)][rep(1:4, each = length(CMPL))][
   , cmp := factor(rep(CMPL, 4), levels = CMPL)][]
 
@@ -97,24 +103,30 @@ theme_set(theme_bw(8.5) + theme(
   strip.background = element_rect(fill = "grey93"),
   strip.text = element_text(size = 7.2, face = "bold")))
 
-p <- ggplot(Z, aes(bin / 1e6, lp, colour = role, linewidth = role)) +
+p <- ggplot(Z, aes(bin / 1e6, y, fill = role, colour = role)) +
   geom_rect(data = BND, aes(xmin = lo / 1e6, xmax = hi / 1e6, ymin = -Inf, ymax = Inf),
-            inherit.aes = FALSE, fill = "grey70", alpha = 0.22) +
-  geom_hline(yintercept = BF, linetype = 2, colour = "grey40", linewidth = 0.3) +
+            inherit.aes = FALSE, fill = "grey70", alpha = 0.2) +
+  geom_hline(yintercept = c(BF, -BF), linetype = 2, colour = "grey45", linewidth = 0.28) +
+  geom_area(position = "identity", alpha = 0.55, linewidth = 0.2) +
+  geom_hline(yintercept = 0, colour = "grey25", linewidth = 0.3) +
   geom_vline(data = IRLD, aes(xintercept = mid / 1e6), inherit.aes = FALSE,
              colour = "#1A7F5A", linewidth = 0.4, linetype = 5) +
   geom_text(data = copy(IRLD)[, cmp := factor(CMPL[1], levels = CMPL)],
             aes(x = mid / 1e6, y = ylab, label = gene), inherit.aes = FALSE,
-            colour = "#1A7F5A", size = 2.3, hjust = -0.12, fontface = "italic") +
-  geom_line(alpha = 0.92) +
-  scale_colour_manual(values = c(published = "#1A1A1A", reconstruction = "#C4302B")) +
-  scale_linewidth_manual(values = c(published = 0.32, reconstruction = 0.5), guide = "none") +
+            colour = "#1A7F5A", size = 2.2, hjust = -0.12, fontface = "italic") +
+  scale_fill_manual(values = c(published = "#4D4D4D", reconstruction = "#C4302B")) +
+  scale_colour_manual(values = c(published = "#2B2B2B", reconstruction = "#8E211D"),
+                      guide = "none") +
+  scale_y_continuous(limits = c(-YMAX, YMAX),
+                     breaks = c(-10, -BF, 0, BF, 10),
+                     labels = c("10", sprintf("%.1f", BF), "0", sprintf("%.1f", BF), "10")) +
   facet_grid(cmp ~ interval, scales = "free_x") +
   labs(title = "The four published Baugh intervals, one comparison per panel",
-       subtitle = paste("Black is the matching published trait, red the reconstruction.",
-                        "Strongest marker per 10 kb; grey band is the published interval with 25% flanking;",
-                        "dashed line Bonferroni. Green dashed lines are the candidate irld genes."),
-       x = "Position (Mb)", y = "-log10 p")
+       subtitle = paste("Published trait above the axis, reconstruction below.",
+                        "A peak both find is a spike through the axis; a peak only one finds is one-sided.",
+                        "\nStrongest marker per 10 kb; grey band is the published interval with 25% flanking;",
+                        "dashed lines Bonferroni; green dashed lines the candidate irld genes."),
+       x = "Position (Mb)", y = "-log10 p        (published up, reconstruction down)")
 ggsave(file.path(DIAG, "DIAG_baugh_published_intervals.pdf"), p, width = 11, height = 10)
 ggsave(file.path(DIAG, "DIAG_baugh_published_intervals.png"), p, width = 11, height = 10, dpi = 200)
 cat(sprintf("wrote %s/DIAG_baugh_published_intervals.{pdf,png}\n", DIAG))
