@@ -65,60 +65,11 @@ set.seed(1)
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 
 P <- readRDS(".pool_opt_cache/precomputed.rds")
-U <- P$strains; NU <- length(U); NR <- P$n_rare
-## carrier pairs sorted by strain, with per-strain offsets. Selecting the pairs
-## belonging to a panel is then |S| contiguous reads instead of a logical pass
-## over all 10.9 M rows, which is the whole cost of the inner loop.
-setorder(P$car, s)
-cm <- P$car$m; cs <- P$car$s; cd <- P$car$in_div
-off <- c(0L, cumsum(tabulate(cs, nbins = length(P$strains))))
-CSTART <- off[-length(off)] + 1L; CLEN <- diff(off)
-gp <- P$gp; G <- P$G; M <- ncol(gp)
+U <- P$strains
+source("scripts/pool_optimizer_core.R")
+pool_opt_attach(P)
 msg(sprintf("universe %d strains, %s rare markers, %d pruned markers",
-            NU, format(NR, big.mark = ","), M))
-
-## --- scoring ---------------------------------------------------------------
-## privateness: one pass over the carrier list. A marker is private to the panel
-## when exactly one of its carriers is in it.
-priv_counts <- function(S) {
-  k <- sequence(CLEN[S], CSTART[S])
-  ms <- cm[k]; ss <- cs[k]; ds <- cd[k]
-  cnt <- tabulate(ms, nbins = NR)
-  p <- cnt[ms] == 1L
-  list(nondiv = tabulate(ss[p & !ds], nbins = NU),
-       div    = tabulate(ss[p &  ds], nbins = NU))
-}
-
-## mapping: the panel kinship is a double-centred submatrix of the one
-## precomputed cross-product, and the top eigenvectors are already orthogonal to
-## the intercept, so markers never have to be re-centred to be projected onto
-## them.
-map_score <- function(S) {
-  n <- length(S)
-  Gs <- G[S, S, drop = FALSE]
-  rm_ <- rowMeans(Gs); K <- Gs - rm_ - rep(rm_, each = n) + mean(Gs)
-  ev <- eigen(K, symmetric = TRUE)
-  lam <- pmax(ev$values, 0)
-  Qm <- ev$vectors[, seq_len(Q), drop = FALSE]
-  A <- gp[S, , drop = FALSE]
-  s1 <- colSums(A); s2 <- colSums(A * A)
-  tot <- s2 - s1 * s1 / n                       # centred sum of squares
-  expl <- colSums(crossprod(Qm, A)^2)           # Q is orthogonal to 1
-  r2 <- ifelse(tot > 1e-9, expl / tot, 1)
-  mac <- pmin(s1, n - s1)
-  list(n_mappable = sum(mac >= MAC_MIN & r2 <= R2_MAX),
-       n_mac      = sum(mac >= MAC_MIN),
-       pc1_share  = lam[1] / sum(lam),
-       eff_dim    = sum(lam)^2 / sum(lam^2))
-}
-
-score <- function(S) {
-  pc <- priv_counts(S); ms <- map_score(S)
-  nd <- pc$nondiv[S]
-  c(ms, list(min_nondiv = min(nd), med_nondiv = median(nd),
-             n_below = sum(nd < KSTAR), med_div = median(pc$div[S])))
-}
-feasible <- function(S) min(priv_counts(S)$nondiv[S]) >= KSTAR
+            N_UNIV, format(N_RARE, big.mark = ","), N_MARK))
 
 ## --- baselines --------------------------------------------------------------
 rnai  <- match(unique(fread(cmd = "gzcat supplemental_data/phenotypes/pooled_vst_traits.csv.gz")$strain), U)
@@ -127,7 +78,7 @@ baugh <- baugh[!is.na(baugh)]
 
 ## "maximise private alleles" -- privateness scored in the FULL universe, which
 ## is how anyone would rank strains before having a panel to score against
-uni <- priv_counts(seq_len(NU))
+uni <- priv_counts(seq_len(N_UNIV))
 naive <- order(uni$nondiv + uni$div, decreasing = TRUE)[seq_len(N)]
 
 ## Nulls are drawn AT EACH PANEL'S OWN SIZE. n_mappable grows with panel size,
@@ -136,7 +87,7 @@ naive <- order(uni$nondiv + uni$div, decreasing = TRUE)[seq_len(N)]
 msg("random nulls ...")
 SIZES <- sort(unique(c(N, length(rnai), length(baugh))))
 rand_by_n <- setNames(lapply(SIZES, function(k)
-  replicate(NRAND, score(sample.int(NU, k))$n_mappable)), as.character(SIZES))
+  replicate(NRAND, score(sample.int(N_UNIV, k))$n_mappable)), as.character(SIZES))
 rand <- rand_by_n[[as.character(N)]]
 
 ## --- the annealed panel is cached, so the reporting half is cheap to re-run --
@@ -147,57 +98,17 @@ if (file.exists(FIT) && !nzchar(Sys.getenv("POOL_OPT_REFIT"))) {
               score(S)$n_mappable))
 } else {
 
-## --- seed: farthest-point sampling on the genotype distance -----------------
-d2 <- outer(diag(G), diag(G), "+") - 2 * G
-S <- integer(N); S[1] <- which.max(rowSums(d2))
-dmin <- d2[S[1], ]
-for (i in 2:N) { S[i] <- which.max(dmin); dmin <- pmin(dmin, d2[S[i], ]) }
-msg(sprintf("farthest-point seed: %d mappable, min non-divergent private %d",
-            score(S)$n_mappable, score(S)$min_nondiv))
-
-## --- repair the seed into the feasible set, then anneal ---------------------
-## A strain below K* is swapped out for the candidate that best relieves the
-## binding constraint. Privateness is NOT monotone in the panel -- adding a
-## strain can destroy another's privateness -- so this is re-checked each pass.
-for (pass in 1:40) {
-  pc <- priv_counts(S)$nondiv
-  bad <- S[pc[S] < KSTAR]
-  if (!length(bad)) break
-  out <- bad[which.min(pc[bad])]
-  cand <- setdiff(seq_len(NU), S)
-  cand <- cand[order(uni$nondiv[cand], decreasing = TRUE)][1:min(25, length(cand))]
-  best <- NULL; bestmin <- -1
-  for (cc in cand) {
-    T_ <- c(setdiff(S, out), cc); mn <- min(priv_counts(T_)$nondiv[T_])
-    if (mn > bestmin) { bestmin <- mn; best <- T_ }
-  }
-  S <- best
-  if (bestmin >= KSTAR) break
-}
-msg(sprintf("after repair: min non-divergent private %d (target %d)",
-            score(S)$min_nondiv, KSTAR))
-
-## --- simulated annealing over swaps ----------------------------------------
-cur <- score(S); best <- cur; bestS <- S
-T0 <- 40; trace <- numeric(ITERS)
-for (it in seq_len(ITERS)) {
-  Temp <- T0 * (1 - it / ITERS) + 1e-6
-  out <- S[sample.int(N, 1)]
-  ins <- sample(setdiff(seq_len(NU), S), 1)
-  T_ <- c(setdiff(S, out), ins)
-  st <- score(T_)
-  if (st$min_nondiv >= KSTAR &&
-      (st$n_mappable > cur$n_mappable ||
-       runif(1) < exp((st$n_mappable - cur$n_mappable) / Temp))) {
-    S <- T_; cur <- st
-    if (cur$n_mappable > best$n_mappable) { best <- cur; bestS <- S }
-  }
-  trace[it] <- best$n_mappable
-  if (it %% 500 == 0) msg(sprintf("  iter %5d  best %d mappable", it, best$n_mappable))
-}
-S <- bestS
-saveRDS(list(S = S, trace = trace), FIT)
-msg(sprintf("optimised: %d mappable markers", best$n_mappable))
+## --- seed, repair, anneal (all in scripts/pool_optimizer_core.R) ------------
+  S <- pool_opt_seed(N)
+  msg(sprintf("farthest-point seed: %d mappable, min non-divergent private %d",
+              score(S)$n_mappable, score(S)$min_nondiv))
+  S <- pool_opt_repair(S, uni$nondiv)
+  msg(sprintf("after repair: min non-divergent private %d (target %d)",
+              score(S)$min_nondiv, KSTAR))
+  z <- pool_opt_anneal(S, ITERS, report = 500)
+  S <- z$S; trace <- z$trace
+  saveRDS(list(S = S, trace = trace), FIT)
+  msg(sprintf("optimised: %d mappable markers", z$best$n_mappable))
 }
 
 ## --- report -----------------------------------------------------------------
