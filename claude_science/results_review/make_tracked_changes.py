@@ -72,7 +72,7 @@ EDITS = [
 
     ("PB1", "JUDGE",
      "We also found good agreement between our manual phenotypes and a previously published evaluation of wild isolate RNAi responses (Spearman\u2019s rho = \u22120.55, p = 0.014; n=19;  Figure S5B) (Paaby et al. 2015).",
-     "We also found good agreement between our manual phenotypes and a previously published evaluation of wild isolate RNAi responses, scored as embryonic hatching so that both measures increase with resistance (Spearman\u2019s rho = 0.55, p = 0.014; n = 19; Figure S5B) (Paaby et al. 2015).",
+     "We also found good agreement between our manual phenotypes and a previously published evaluation of wild isolate RNAi responses, scored as embryonic hatching so that both measures increase with resistance (Spearman\u2019s rho = +0.55, p = 0.014; n = 19; Figure S5B) (Paaby et al. 2015).",
      "The Paaby panel plotted embryonic lethality, so the correlation came out negative while every other measure in the manuscript increases with resistance. Hatching is the exact per-well complement, larvae over eggs plus larvae, so the rank correlation keeps its magnitude and only flips sign: rho = -0.551 becomes +0.551 at the identical p = 0.0145 over the same 19 strains. scripts/SUPP_FIG_plate_vs_paaby_vs_pos1original.R and Figure S7 panel B were changed to match; the script's DIRECTIONS block now states the expected sign as positive for both panels."),
 
     ("T1", "STYLE",
