@@ -4,7 +4,7 @@
 ##     -> plots/SUPP_FIG_plate_vs_paaby_vs_pos1original.{pdf,png}
 ##
 ##   A  manual plate score against the pooled 2023 pos-1 phenotype, VST scale
-##   B  manual plate score against Paaby et al. 2015 embryonic lethality
+##   B  manual plate score against Paaby et al. 2015 embryonic hatching
 ##
 ## Replaces the panel A that scripts/plate_pheno_comparisons.R produced. Two
 ## changes:
@@ -24,9 +24,18 @@
 ## 5 = no response (resistant).
 ##   - VST is positive for strains that GAINED pool frequency under pos-1 RNAi,
 ##     i.e. resistant, so the correlation with plate score should be POSITIVE.
-##   - Paaby lethality is high for sensitive strains, so the correlation with
-##     plate score should be NEGATIVE.
+##   - Paaby HATCHING is high for strains whose embryos survive pos-1 RNAi,
+##     i.e. resistant, so the correlation with plate score should be POSITIVE
+##     as well. Both panels therefore run in the same direction: every measure
+##     on this figure increases with resistance.
 ## Both hold; the console prints the values.
+##
+## Panel B was previously plotted as embryonic LETHALITY, unhatched eggs over
+## eggs plus larvae, which made the expected sign negative and put the two
+## panels in opposite directions for no reason other than how the source table
+## is written. Hatching is the exact complement per well, so the rank
+## correlation is unchanged in magnitude and only flips sign: rho = -0.551
+## becomes +0.551 at the identical p = 0.0145 over the same 19 strains.
 ##
 ## Spearman throughout: the plate score is a six-level ordinal scale, so a rank
 ## correlation is the only defensible choice -- it needs a monotonic
@@ -74,26 +83,28 @@ ct_a <- suppressWarnings(cor.test(a$plate_score, a$vst, method = "spearman"))
 msg("panel A: ", nrow(a), " strains | rho = ", sprintf("%+.3f", ct_a$estimate),
     " p = ", signif(ct_a$p.value, 3))
 
-## --- B: Paaby et al. 2015 embryonic lethality ----------------------------
-## lethality per well as unhatched eggs over eggs plus larvae, averaged over
-## wells within a strain, for the pos-1 clone only
+## --- B: Paaby et al. 2015 embryonic hatching -----------------------------
+## hatching per well as larvae over eggs plus larvae, averaged over wells
+## within a strain, for the pos-1 clone only. This is one minus the lethality
+## the source table is usually quoted as, taken so that the panel runs in the
+## same direction as panel A.
 paaby <- fread(PAABY) %>% as_tibble() %>%
   filter(vector == "pos-1", !is.na(eggs), !is.na(larvae), (eggs + larvae) > 0) %>%
-  mutate(leth = eggs / (eggs + larvae)) %>%
+  mutate(hatch = larvae / (eggs + larvae)) %>%
   group_by(strain) %>%
-  summarise(mean_leth = mean(leth), n_wells = n(), .groups = "drop")
+  summarise(mean_hatch = mean(hatch), n_wells = n(), .groups = "drop")
 b <- inner_join(plate, paaby, by = "strain")
-ct_b <- suppressWarnings(cor.test(b$plate_score, b$mean_leth, method = "spearman"))
+ct_b <- suppressWarnings(cor.test(b$plate_score, b$mean_hatch, method = "spearman"))
 msg("panel B: ", nrow(b), " strains | rho = ", sprintf("%+.3f", ct_b$estimate),
     " p = ", signif(ct_b$p.value, 3))
 
 cat("\n== plate score vs each measurement (Spearman) ==\n")
 print(data.frame(
-  comparison = c("pooled pos-1 response (VST)", "Paaby 2015 embryonic lethality"),
+  comparison = c("pooled pos-1 response (VST)", "Paaby 2015 embryonic hatching"),
   n_strains = c(nrow(a), nrow(b)),
   rho = round(c(ct_a$estimate, ct_b$estimate), 3),
   p_value = signif(c(ct_a$p.value, ct_b$p.value), 3),
-  expected_sign = c("positive", "negative")), row.names = FALSE)
+  expected_sign = c("positive", "positive")), row.names = FALSE)
 cat("\n== strains per plate score, panel A ==\n")
 print(as.data.frame(a %>% count(plate_score)), row.names = FALSE)
 
@@ -125,19 +136,19 @@ pA <- ggplot(a, aes(factor(plate_score), vst)) +
         axis.text.x = element_blank(), axis.ticks.x = element_blank(),
         plot.margin = margin(t = 8, r = 12, b = 4, l = 10))
 
-pB <- ggplot(b, aes(factor(plate_score), mean_leth)) +
+pB <- ggplot(b, aes(factor(plate_score), mean_hatch)) +
   geom_boxplot(outlier.shape = NA, fill = "grey95", width = 0.6,
                linewidth = 0.35) +
   ## seeded, so the figure is reproducible from the deposit
   geom_point(position = position_jitter(width = 0.15, height = 0, seed = 1),
              size = 1.5, alpha = 0.5, colour = COL_PT) +
-  geom_richtext(data = tibble(x = Inf, y = Inf, l = lab(ct_b, nrow(b))),
-                aes(x, y, label = l), inherit.aes = FALSE, hjust = 1.08,
+  geom_richtext(data = tibble(x = -Inf, y = Inf, l = lab(ct_b, nrow(b))),
+                aes(x, y, label = l), inherit.aes = FALSE, hjust = -0.08,
                 vjust = 1.15, size = 3.2, fill = NA, label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
   scale_x_discrete(limits = as.character(0:5)) +
   labs(x = "Plate score (0 = complete response, 5 = no response)",
-       y = "Paaby et al. 2015 mean<br>embryonic lethality",
+       y = "Paaby et al. 2015 mean<br>embryonic hatching",
        title = panel_title("B")) +
   theme_pub() +
   theme(axis.title.y = element_markdown(lineheight = 1.1),

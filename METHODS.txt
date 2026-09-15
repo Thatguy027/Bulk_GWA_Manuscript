@@ -88,6 +88,46 @@ The shipped vst values and the association scan were used as distributed and
 still carry the averaged JU1793 value.
 
 --------------------------------------------------------------------------------
+MANUAL PLATE PHENOTYPING, AND THE TWO COMPARISONS AGAINST IT
+--------------------------------------------------------------------------------
+pos-1 RNAi responses were scored by eye on agar plates for 191 wild isolates on
+a six-level ordinal scale, 0 = complete RNAi response (sensitive) through
+5 = no response (resistant). The scores are deposited at
+supplemental_data/phenotypes/plate_scores_pos1.tsv. [TO FILL: plate preparation,
+bacterial dose, developmental stage at scoring, number of animals or plates per
+strain, and whether scoring was blinded.] The 93 strains carried forward into
+the pooled panel were chosen from these scores as the ones with robust
+responses.
+
+The plate score was compared against two independent measurements
+(scripts/SUPP_FIG_plate_vs_paaby_vs_pos1original.R). Both comparisons use
+Spearman's rho: the plate score is ordinal over six levels, so a rank
+correlation is the only defensible choice, requiring a monotonic relationship
+rather than shared units or linearity.
+
+The first comparison is against the pooled 2023 pos-1 response on the
+variance-stabilised scale (vst_ctrl_pos-1_T2), the same trait the association
+mapping was run on, over the 111 strains the two share: rho = 0.41,
+p = 7.8e-06.
+
+The second is against Paaby et al. 2015, over the 19 strains shared with that
+study. That study's well-level counts are deposited at
+supplemental_data/phenotypes/paaby2015_embryonic_lethality.txt.gz; wells were
+restricted to the pos-1 clone and to those with at least one egg or larva, and
+the image-derived egg and larva counts were used rather than the manual ones.
+Embryonic HATCHING was taken per well as larvae over eggs plus larvae, and
+averaged over the 15 to 30 wells each strain contributes: rho = 0.55,
+p = 0.014.
+
+Hatching, rather than the lethality the source table is usually quoted as, is
+used so that both measures on this comparison increase with resistance and both
+expected signs are positive. Hatching is the exact per-well complement of
+lethality, so this changes the sign of the rank correlation and nothing else:
+rho = -0.55 on lethality is rho = +0.55 on hatching, at the identical p = 0.014
+over the same 19 strains. With 19 shared strains this comparison is reported as
+consistent with the plate assay rather than as independent confirmation of it.
+
+--------------------------------------------------------------------------------
 STRAIN-FREQUENCY DECONVOLUTION FROM POOLED SEQUENCE
 --------------------------------------------------------------------------------
 Strain frequencies were recovered from pooled sequence by non-negative least

@@ -190,11 +190,12 @@ n = 111 strains, p = 7.8e-06. The dashed line marks zero. Positive is the
 expected direction, since resistant strains gain pool frequency and also score
 high on the plate.
 
-(B) Plate score against mean embryonic lethality for the pos-1 clone from
-Paaby et al. 2015, computed per well as unhatched eggs over eggs plus larvae
-and averaged within a strain: Spearman rho = -0.55, n = 19 strains, p = 0.014.
-Negative is the expected direction, since a low plate score means sensitive and
-sensitive means high lethality.
+(B) Plate score against mean embryonic hatching for the pos-1 clone from
+Paaby et al. 2015, computed per well as larvae over eggs plus larvae and
+averaged within a strain: Spearman rho = 0.55, n = 19 strains, p = 0.014.
+Positive is the expected direction, since a high plate score means resistant
+and resistant means high hatching. Both panels are therefore scored so that
+the measure increases with resistance.
 
 ## Figure S6
 Per-strain pooled RNAi response for mig-6 and pos-1 on the variance-stabilised

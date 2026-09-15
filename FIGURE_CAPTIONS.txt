@@ -917,15 +917,23 @@ direction -- VST is positive for strains that gained pool frequency under
 pos-1 RNAi, i.e. resistant, and resistant strains score high on the plate.
 Dashed line marks zero.
 
-(B) Plate score against Paaby et al. 2015 mean embryonic lethality for the
-pos-1 clone, computed per well as unhatched eggs over eggs plus larvae and
-averaged within a strain: Spearman rho = -0.55, n = 19 strains, p = 0.014.
-Negative is the expected direction -- a low plate score means sensitive, and
-sensitive means high lethality.
+(B) Plate score against Paaby et al. 2015 mean embryonic hatching for the
+pos-1 clone, computed per well as larvae over eggs plus larvae and averaged
+within a strain: Spearman rho = 0.55, n = 19 strains, p = 0.014. Positive is
+the expected direction -- a high plate score means resistant, and resistant
+means high hatching.
 
-Both agree with the plate assay in the predicted direction. The Paaby
-comparison rests on 19 shared strains and should be described as consistent
-rather than as independent confirmation.
+Both agree with the plate assay in the predicted direction, and both run in the
+same direction: every measure on this figure increases with resistance. The
+Paaby comparison rests on 19 shared strains and should be described as
+consistent rather than as independent confirmation.
+
+SCORED AS HATCHING, NOT LETHALITY. Panel B previously plotted embryonic
+lethality, unhatched eggs over eggs plus larvae, which made the expected sign
+negative and put the two panels in opposite directions for no reason other than
+how the source table is written. Hatching is the exact per-well complement, so
+the rank correlation keeps its magnitude and only flips sign: rho = -0.55
+becomes +0.55 at the identical p = 0.014 over the same 19 strains.
 
 REBUILT on the VST trait. The earlier version of panel A used a bootstrap
 frequency change from a different export (rho = 0.42, n = 106), which was on no

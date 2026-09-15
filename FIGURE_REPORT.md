@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-14
+Assembled 2026-09-15
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -253,7 +253,7 @@ scale <span class="cite">(Figure 1B)</span>, reproducible across
 replicate pools <span class="cite">(Figure S7)</span> and correlated in
 the expected direction with manual plate scoring of the same strains
 (Spearman ρ = 0.41, n = 111, p = 7.8 × 10⁻⁶) and with published
-embryonic-lethality measurements (ρ = −0.55, n = 19, p = 0.014) <span
+embryonic-hatching measurements (ρ = 0.55, n = 19, p = 0.014) <span
 class="cite">(Figure S8)</span>.
 
 ### Pooled association and cross mapping converge on overlapping loci
@@ -2015,7 +2015,7 @@ measurements<br> **n** 111 strains (A) · 19 strains (B)
 
 <div class="plate">
 
-<img src="plots/SUPP_FIG_plate_vs_paaby_vs_pos1original.png" alt="Two scatter panels: manual plate score against the pooled VST phenotype, and against Paaby 2015 embryonic lethality." width="100%" />
+<img src="plots/SUPP_FIG_plate_vs_paaby_vs_pos1original.png" alt="Two scatter panels: manual plate score against the pooled VST phenotype, and against Paaby 2015 embryonic hatching." width="100%" />
 <p class="filecap">
 SUPP_FIG_plate_vs_paaby_vs_pos1original
 </p>
@@ -2041,16 +2041,30 @@ high on the plate. Dashed line marks zero.
 <div class="panel">
 
 <span class="pl">B</span> Plate score against Paaby et al. 2015 mean
-embryonic lethality for the *pos-1* clone, computed per well as
-unhatched eggs over eggs plus larvae and averaged within a strain:
-`ρ = −0.55`, `n = 19`, `p = 0.014`. Negative is the expected direction —
-a low plate score means sensitive, and sensitive means high lethality.
+embryonic hatching for the *pos-1* clone, computed per well as larvae
+over eggs plus larvae and averaged within a strain: `ρ = 0.55`,
+`n = 19`, `p = 0.014`. Positive is the expected direction — a high plate
+score means resistant, and resistant means high hatching.
 
 </div>
 
-Both agree with the plate assay in the predicted direction. **The Paaby
-comparison rests on 19 shared strains and should be described as
-consistent rather than as independent confirmation.**
+Both agree with the plate assay in the predicted direction, and both now
+run in the same direction: every measure on this figure increases with
+resistance. **The Paaby comparison rests on 19 shared strains and should
+be described as consistent rather than as independent confirmation.**
+
+<div class="caveat">
+
+<span class="ch">Scored as hatching, not lethality</span>
+
+Panel B previously plotted embryonic lethality, unhatched eggs over eggs
+plus larvae, which made the expected sign negative and put the two
+panels in opposite directions for no reason other than how the source
+table is written. Hatching is the exact per-well complement, so the rank
+correlation keeps its magnitude and only flips sign: `ρ = −0.55` becomes
+`ρ = 0.55` at the identical `p = 0.014` over the same 19 strains.
+
+</div>
 
 <div class="caveat">
 
@@ -34446,7 +34460,7 @@ SUPP_FIG_XX_simulation_depth
 448
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34460,7 +34474,7 @@ SUPP_FIG_XX_dilution_validation
 463
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34474,7 +34488,7 @@ Figure1_pos1
 811
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34488,7 +34502,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 422
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34502,7 +34516,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 396
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34516,7 +34530,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 448
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34530,7 +34544,7 @@ SUPP_FIG_XX_downsample_per_sample
 269
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34544,7 +34558,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 109
 </td>
 <td style="text-align:right;">
-2026-09-14 12:29
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34558,7 +34572,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 341
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34569,10 +34583,10 @@ Figure S8
 SUPP_FIG_plate_vs_paaby_vs_pos1original
 </td>
 <td style="text-align:right;">
-199
+200
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34586,7 +34600,7 @@ Figure2
 1335
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34600,7 +34614,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34614,7 +34628,7 @@ SUPP_FIG_XX_cross_contrast_panels
 1011
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34628,7 +34642,7 @@ Figure3_quad
 157
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34642,7 +34656,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34656,7 +34670,7 @@ Figure4_sid2
 557
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34670,7 +34684,7 @@ SUPP_FIG_XX_n2_swap_dose
 240
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34684,7 +34698,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 562
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34698,7 +34712,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 486
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34712,7 +34726,7 @@ SUPP_FIG_XX_sid2_electrostatics
 807
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34726,7 +34740,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34740,7 +34754,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34754,7 +34768,7 @@ Figure2_no_cross_qtl
 1515
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34768,7 +34782,7 @@ SUPP_FIG_XX_nil_interval_genes
 112
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34782,7 +34796,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34796,7 +34810,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 624
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 <tr>
@@ -34810,7 +34824,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 664
 </td>
 <td style="text-align:right;">
-2026-09-14 02:17
+2026-09-15 11:05
 </td>
 </tr>
 </tbody>

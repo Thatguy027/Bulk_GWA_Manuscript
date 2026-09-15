@@ -3,8 +3,10 @@
 Every checkable claim in the drafted Results section, recomputed from
 `supplemental_data/`. Written 2026-09-10 against repository HEAD `8c140d8`.
 
-**42 claims checked: 34 verified, 5 wrong, 3 needing an author decision.**
-Nothing at the repository root was modified.
+**42 claims checked: 34 verified, 5 wrong, 4 needing an author decision.**
+The fourth, `PB1`, was added on 2026-09-15 and is the only edit in this list
+that has been carried into the repository: the figure, its script, the captions
+and the methods were all changed to match it.
 
 ## Files
 
@@ -53,7 +55,19 @@ on the pos-1 condition: JU2466_A[96K] is 11 hatched of 204 = 5.4%, and
 `Figure4_sid2.R` prints 0.054. The 18.4% for the 96T swap is correct. The two
 digits appear to be transposed.
 
-## The three author decisions
+## The four author decisions
+
+**The Paaby comparison is scored as hatching, not lethality (`PB1`).** Panel B
+of the plate-assay supplement plotted embryonic lethality, unhatched eggs over
+eggs plus larvae, so the correlation with the plate score came out negative
+while every other measure in the manuscript increases with resistance. Hatching
+is the exact per-well complement, so taking it keeps the magnitude and flips the
+sign only: `rho = -0.551` becomes `+0.551` at the identical `p = 0.0145` over
+the same 19 strains. `scripts/SUPP_FIG_plate_vs_paaby_vs_pos1original.R` now
+computes `larvae / (eggs + larvae)`, its DIRECTIONS block states the expected
+sign as positive for both panels, and `FIGURE_CAPTIONS.txt`,
+`MANUSCRIPT_CAPTIONS.txt`, `FIGURE_REPORT.Rmd` and `METHODS.txt` were updated
+with it.
 
 **Chromosome X is the left arm, not the centre (`P4b`).** The single chromosome
 X marker clearing Bonferroni is at 4,875,969 — 28% along a 17.72 Mb chromosome.
@@ -73,6 +87,12 @@ the 25% dose the 4.0% pools wSZ203 (4.4%, n=273) and wSZ204 (3.7%, n=295),
 which sum to the pooled n=568. Naming both is the
 stronger claim and matches the caption. Separately, the draft's "no difference"
 at the 50:50 dose is supported: 6.0% vs 3.4%, Fisher p = 0.108.
+
+One typo reported against the live document has no edit here: **"We also good
+agreement"** is already **"We also found good agreement"** in
+`results_draft_v1.txt`, so the snapshot this review was written against does not
+carry it. It still needs fixing wherever the draft diverged. `pos-1-specifc` is
+covered by `T1`.
 
 One further wording note (`M1`): the draft quotes the MIP-seq agreement as
 "ρ = 0.97 … p < 1e-4". Recomputed ρ is 0.974 over 98 strains, but Figure 1A

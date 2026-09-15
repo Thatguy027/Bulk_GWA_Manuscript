@@ -70,6 +70,11 @@ EDITS = [
      "(Spearman\u2019s \u03c1 = 0.974, n = 98 strains)",
      "Recomputed rho is 0.974 over 98 strains. Figure 1A deliberately reports a bootstrap interval rather than a p value - Figure1_common.R notes that a p value against rho = 0 is not the question. Quoting p < 1e-4 in the text reintroduces what the figure dropped."),
 
+    ("PB1", "JUDGE",
+     "We also found good agreement between our manual phenotypes and a previously published evaluation of wild isolate RNAi responses (Spearman\u2019s rho = \u22120.55, p = 0.014; n=19;  Figure S5B) (Paaby et al. 2015).",
+     "We also found good agreement between our manual phenotypes and a previously published evaluation of wild isolate RNAi responses, scored as embryonic hatching so that both measures increase with resistance (Spearman\u2019s rho = 0.55, p = 0.014; n = 19; Figure S5B) (Paaby et al. 2015).",
+     "The Paaby panel plotted embryonic lethality, so the correlation came out negative while every other measure in the manuscript increases with resistance. Hatching is the exact per-well complement, larvae over eggs plus larvae, so the rank correlation keeps its magnitude and only flips sign: rho = -0.551 becomes +0.551 at the identical p = 0.0145 over the same 19 strains. scripts/SUPP_FIG_plate_vs_paaby_vs_pos1original.R and Figure S7 panel B were changed to match; the script's DIRECTIONS block now states the expected sign as positive for both panels."),
+
     ("T1", "STYLE",
      "it is unclear that these QTL are pos-1-specifc QTL",
      "it is unclear whether these QTL are pos-1-specific QTL",

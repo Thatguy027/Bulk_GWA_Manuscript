@@ -230,11 +230,12 @@ n = 111 strains, p = 7.8e-06. The dashed line marks zero. Positive is the
 expected direction, since resistant strains gain pool frequency and also score
 high on the plate.
 
-(B) Plate score against mean embryonic lethality for the pos-1 clone from
-Paaby et al. 2015, computed per well as unhatched eggs over eggs plus larvae
-and averaged within a strain: Spearman rho = -0.55, n = 19 strains, p = 0.014.
-Negative is the expected direction, since a low plate score means sensitive and
-sensitive means high lethality.
+(B) Plate score against mean embryonic hatching for the pos-1 clone from
+Paaby et al. 2015, computed per well as larvae over eggs plus larvae and
+averaged within a strain: Spearman rho = 0.55, n = 19 strains, p = 0.014.
+Positive is the expected direction, since a high plate score means resistant
+and resistant means high hatching. Both panels are therefore scored so that
+the measure increases with resistance.
 
 ---
 
@@ -342,6 +343,7 @@ at pH 7.4 and +0.47 e at pH 4.4 across residues 21-188.
 These figures exist in `plots/` but the current draft does not cite them, so they are not packaged here:
 
 - `Figure2_no_cross_qtl`
+- `SUPP_FIG_XX_baugh_downsample_traits`
 - `SUPP_FIG_XX_baugh_per_sample_frequencies`
 - `SUPP_FIG_XX_bootstrap_propagation_checks`
 - `SUPP_FIG_XX_gwas_peak_genotype_splits`

@@ -88,6 +88,14 @@ p = 2.6e-04, which is neither the old value nor the new one.
 
 ## 4. The Paaby comparison is correct, but it is panel B
 
+> **Superseded on 2026-09-15 for the direction only.** Panel B is now scored as
+> embryonic *hatching*, larvae over eggs plus larvae, so that every measure in
+> the figure increases with resistance. The magnitude is unchanged and the sign
+> flips: `rho = -0.55` becomes `+0.55` at the identical `p = 0.014`, n = 19. The
+> panel-B identification below still stands; the wording suggestion naming the
+> external measurement as "embryonic lethality" does not. See `PB1` in
+> `claude_science/results_review/`.
+
 rho = -0.55, n = 19, p = 0.014 reproduces exactly (recomputed as unhatched eggs over eggs plus
 larvae per well from the machine-scored counts, averaged within strain, pos-1 clone only; the
 manual count columns give -0.592, p = 0.008, so use the machine columns to match the figure).
