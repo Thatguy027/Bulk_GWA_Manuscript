@@ -284,7 +284,9 @@ pB <- ggplot(nullspread, aes(r)) +
        y = "random panels",
        title = sprintf("Each panel against %d random panels of its own size", NRAND),
        subtitle = paste("Panel size is divided out, so the three sizes share one axis. The naive panel sits on the null:",
-                        "\nranking strains by private-allele count buys nothing at all for mapping."))
+                        "\nranking strains by private-allele count buys nothing at all for mapping. Note the optimised",
+                        "\npanel is not the least structured one -- its PC1 share is 0.137 against 0.076-0.083 for the two",
+                        "\nreal panels. It tolerates structure wherever the markers survive the filter anyway."))
 
 ## C  per-strain identifiability, the constraint the real panels violate
 mb <- copy(memb); mb[, panel := factor(panel, names(COL))]
