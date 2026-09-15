@@ -299,9 +299,12 @@ pC <- ggplot(mb, aes(panel, private_nondiv + 1, colour = panel)) +
   annotate("text", x = 0.6, y = KSTAR * 1.35, label = sprintf("K* = %d", KSTAR),
            size = 2.4, colour = "grey30", hjust = 0) +
   labs(x = NULL, y = "private markers outside\ndivergent regions (log10, +1)",
-       title = "The constraint the panels in use do not meet",
-       subtitle = paste("Dashed line is the identifiability floor the optimiser enforces. 54 of 93 strains in the RNAi panel",
-                        "\nand 40 of 102 in the Baugh panel fall below it; the lowest carries 10 private markers.")) +
+       title = "The CONSTRAINT -- not the objective, and not what separates the top two",
+       subtitle = paste("Dashed line is the identifiability floor. 54 of 93 strains in the RNAi panel and 40 of 102 in the",
+                        "\nBaugh panel fall below it; the lowest carries 10 private markers. The optimised and naive panels",
+                        "\nboth clear it, and the NAIVE one clears it by more -- median 5,156 against 3,101, minimum 1,976",
+                        "\nagainst 1,018. It wins this panel and still lands on the null in the one above. Identifiability and",
+                        "\nmappability are close to independent; panel A is where the two part company.")) +
   theme(axis.text.x = element_text(size = 6.6))
 
 ## D  the search
