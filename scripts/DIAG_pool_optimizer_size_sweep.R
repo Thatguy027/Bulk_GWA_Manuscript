@@ -66,37 +66,65 @@ DIVBED <- Sys.getenv("CENDR_DIVERGENT",
 db <- fread(DIVBED, col.names = c("chrom", "start", "end", "strain"))[
   , .(div_mb = sum(end - start) / 1e6), by = strain]
 
+CACHE <- ".pool_opt_cache/sweep_panels.rds"
+cached <- if (file.exists(CACHE) && !nzchar(Sys.getenv("POOL_OPT_REFIT"))) readRDS(CACHE) else list()
 out <- list(); prev <- integer(0); panels <- list()
 for (k in SIZES) {
   msg(sprintf("=== n = %d ===", k))
-  nullk <- replicate(NRAND, score(sample.int(N_UNIV, k))$n_mappable)
+  ## The null records the floor as well as the objective, because it turns out
+  ## NO random panel meets the floor at any size -- at n = 96 the median random
+  ## panel's worst strain carries 180 private markers against K* = 1000, and at
+  ## n = 250 it carries 32. So vs_null is not "optimised against unoptimised",
+  ## it is "constrained optimum against UNCONSTRAINED random". The null panels
+  ## are buying their markers with an identifiability they do not have, which is
+  ## why the ratio can fall below 1 at sizes where the floor binds hard.
+  nulls <- replicate(NRAND, { Sr <- sample.int(N_UNIV, k)
+    c(score(Sr)$n_mappable, min(priv_counts(Sr)$nondiv[Sr])) })
+  nullk <- nulls[1, ]; null_floor <- nulls[2, ]
   S <- pool_opt_seed(k, fixed = prev)          # nested in the previous solution
   S <- pool_opt_repair(S, uni$nondiv)
   reached <- score(S)$min_nondiv
   ok <- reached >= KSTAR
   if (!ok) msg(sprintf("  INFEASIBLE at K* = %d: best achievable floor is %d", KSTAR, reached))
-  ## anneal only inside the feasible set; if the floor cannot be met there is
-  ## nothing to search over, so the seed is reported as-is
-  z <- if (ok) pool_opt_anneal(S, ITERS) else list(S = S, best = score(S))
+  ## Anneal at EVERY size. An earlier version skipped the search wherever K*
+  ## could not be met, which made those sizes report a bare farthest-point seed
+  ## and put them below the random mean -- an artefact of the code path, not a
+  ## statement about optimisation. Where the floor is unreachable the search
+  ## runs against the best floor that IS reachable, so vs_null stays a measure
+  ## of the search at every size; `floor_used` records which floor applied.
+  floor_used <- if (ok) KSTAR else reached
+  KSTAR_SAVE <- KSTAR; KSTAR <<- floor_used
+  key <- sprintf("n%d_i%d", k, ITERS)
+  z <- if (!is.null(cached[[key]])) {
+         msg("  reusing cached panel; POOL_OPT_REFIT=1 to refit")
+         list(S = cached[[key]], best = score(cached[[key]]))
+       } else pool_opt_anneal(S, ITERS)
+  KSTAR <<- KSTAR_SAVE
+  cached[[key]] <- z$S
   S <- z$S; s <- z$best
   prev <- S; panels[[as.character(k)]] <- U[S]
   out[[length(out) + 1]] <- data.table(
-    n = k, feasible = ok, n_mappable = s$n_mappable, n_mac = s$n_mac,
+    n = k, feasible = ok, floor_used = floor_used,
+    n_mappable = s$n_mappable, n_mac = s$n_mac,
     frac_mappable = s$n_mappable / s$n_mac,
     null_mean = mean(nullk), vs_null = s$n_mappable / mean(nullk),
+    null_med_floor = median(null_floor), null_frac_feasible = mean(null_floor >= KSTAR),
     min_nondiv = s$min_nondiv, med_nondiv = s$med_nondiv,
     pc1_share = s$pc1_share, eff_dim = s$eff_dim,
     med_div_mb = median(db[match(U[S], strain), div_mb], na.rm = TRUE))
   msg(sprintf("  %d mappable (%.3fx null), floor %d, PC1 %.3f",
               s$n_mappable, s$n_mappable / mean(nullk), s$min_nondiv, s$pc1_share))
 }
+saveRDS(cached, CACHE)
 R <- rbindlist(out)
 R[, per_strain := n_mappable / n]
 R[, marginal := c(NA_real_, diff(n_mappable) / diff(n))]
 fwrite(R, file.path(DIAG, "pool_optimizer_size_sweep.tsv"), sep = "\t")
 saveRDS(list(R = R, panels = panels), file.path(DIAG, "pool_optimizer_size_sweep.rds"))
 cat("\n== size sweep ==\n")
-print(R[, .(n, feasible, n_mappable, vs_null = round(vs_null, 3),
+cat(sprintf("random panels meeting K* = %d: %s (out of %d draws at each size)\n", KSTAR,
+    paste(unique(sprintf("%.0f%%", 100 * R$null_frac_feasible)), collapse = ", "), NRAND))
+print(R[, .(n, feasible, n_mappable, vs_null = round(vs_null, 3), null_med_floor,
             min_nondiv, med_nondiv, pc1_share = round(pc1_share, 3),
             eff_dim = round(eff_dim, 1), med_div_mb = round(med_div_mb, 2),
             per_strain = round(per_strain, 1), marginal = round(marginal, 1))])
@@ -125,8 +153,16 @@ p2 <- mark(ggplot(R, aes(n, vs_null)) +
   geom_point(aes(shape = feasible), colour = GRN, size = 1.8) +
   scale_shape_manual(values = c(`TRUE` = 16, `FALSE` = 1))) +
   labs(x = "panel size", y = "mappable markers / random panel of same size",
-       title = "What the optimisation is worth, size divided out",
-       subtitle = "Open circles are sizes where the identifiability floor could not be met, so no search was run.")
+       title = "Constrained optimum against UNCONSTRAINED random",
+       subtitle = paste(sprintf(
+         "Not a like-for-like ratio: almost no random panel meets the identifiability floor -- %s of %d draws at n = %d and %s everywhere",
+         scales::percent(R$null_frac_feasible[1], accuracy = 1), NRAND, R$n[1],
+         if (all(R$null_frac_feasible[-1] == 0)) "none" else "almost none"),
+         sprintf("\nlarger, where the median random panel's worst strain carries %.0f private markers at n = %d and %.0f at n = %d.",
+                 R$null_med_floor[R$n == 96], 96,
+                 R$null_med_floor[nrow(R)], R$n[nrow(R)]),
+         "\nThe null buys its markers with an identifiability it does not have, so a ratio below 1 means the constraint costs more",
+         "\nthan the search gains -- not that the search failed. Open circles are sizes where even the constrained optimum misses K*."))
 
 p3 <- mark(ggplot(R, aes(n, min_nondiv)) +
   geom_hline(yintercept = KSTAR, linetype = "dashed", linewidth = 0.4, colour = RED) +
