@@ -119,3 +119,4 @@ plots/diagnostics/reference_size_predictions.rds
 .nextflow/
 .nextflow.log*
 work/
+.pool_opt_cache/
