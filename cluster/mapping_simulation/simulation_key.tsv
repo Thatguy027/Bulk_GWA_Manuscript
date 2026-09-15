@@ -1,0 +1,1357 @@
+panel	trait	kind	causal_id	chrom	pos	maf_in_panel	h2	beta	rep
+Baugh panel (102)	sim_0001	causal	I:2417713	I	2417713	0.1078	0.05	0.736	1
+Baugh panel (102)	sim_0002	causal	I:2417713	I	2417713	0.1078	0.05	0.736	2
+Baugh panel (102)	sim_0003	causal	I:2417713	I	2417713	0.1078	0.05	0.736	3
+Baugh panel (102)	sim_0004	causal	I:2417713	I	2417713	0.1078	0.15	1.3477	1
+Baugh panel (102)	sim_0005	causal	I:2417713	I	2417713	0.1078	0.15	1.3477	2
+Baugh panel (102)	sim_0006	causal	I:2417713	I	2417713	0.1078	0.15	1.3477	3
+Baugh panel (102)	sim_0007	causal	I:2417713	I	2417713	0.1078	0.35	2.3541	1
+Baugh panel (102)	sim_0008	causal	I:2417713	I	2417713	0.1078	0.35	2.3541	2
+Baugh panel (102)	sim_0009	causal	I:2417713	I	2417713	0.1078	0.35	2.3541	3
+Baugh panel (102)	sim_0010	causal	V:2696353	V	2696353	0.0588	0.05	0.9702	1
+Baugh panel (102)	sim_0011	causal	V:2696353	V	2696353	0.0588	0.05	0.9702	2
+Baugh panel (102)	sim_0012	causal	V:2696353	V	2696353	0.0588	0.05	0.9702	3
+Baugh panel (102)	sim_0013	causal	V:2696353	V	2696353	0.0588	0.15	1.7766	1
+Baugh panel (102)	sim_0014	causal	V:2696353	V	2696353	0.0588	0.15	1.7766	2
+Baugh panel (102)	sim_0015	causal	V:2696353	V	2696353	0.0588	0.15	1.7766	3
+Baugh panel (102)	sim_0016	causal	V:2696353	V	2696353	0.0588	0.35	3.1033	1
+Baugh panel (102)	sim_0017	causal	V:2696353	V	2696353	0.0588	0.35	3.1033	2
+Baugh panel (102)	sim_0018	causal	V:2696353	V	2696353	0.0588	0.35	3.1033	3
+Baugh panel (102)	sim_0019	causal	II:10812172	II	10812172	0.1176	0.05	0.7086	1
+Baugh panel (102)	sim_0020	causal	II:10812172	II	10812172	0.1176	0.05	0.7086	2
+Baugh panel (102)	sim_0021	causal	II:10812172	II	10812172	0.1176	0.05	0.7086	3
+Baugh panel (102)	sim_0022	causal	II:10812172	II	10812172	0.1176	0.15	1.2974	1
+Baugh panel (102)	sim_0023	causal	II:10812172	II	10812172	0.1176	0.15	1.2974	2
+Baugh panel (102)	sim_0024	causal	II:10812172	II	10812172	0.1176	0.15	1.2974	3
+Baugh panel (102)	sim_0025	causal	II:10812172	II	10812172	0.1176	0.35	2.2663	1
+Baugh panel (102)	sim_0026	causal	II:10812172	II	10812172	0.1176	0.35	2.2663	2
+Baugh panel (102)	sim_0027	causal	II:10812172	II	10812172	0.1176	0.35	2.2663	3
+Baugh panel (102)	sim_0028	causal	V:11925787	V	11925787	0.1471	0.05	0.6446	1
+Baugh panel (102)	sim_0029	causal	V:11925787	V	11925787	0.1471	0.05	0.6446	2
+Baugh panel (102)	sim_0030	causal	V:11925787	V	11925787	0.1471	0.05	0.6446	3
+Baugh panel (102)	sim_0031	causal	V:11925787	V	11925787	0.1471	0.15	1.1803	1
+Baugh panel (102)	sim_0032	causal	V:11925787	V	11925787	0.1471	0.15	1.1803	2
+Baugh panel (102)	sim_0033	causal	V:11925787	V	11925787	0.1471	0.15	1.1803	3
+Baugh panel (102)	sim_0034	causal	V:11925787	V	11925787	0.1471	0.35	2.0617	1
+Baugh panel (102)	sim_0035	causal	V:11925787	V	11925787	0.1471	0.35	2.0617	2
+Baugh panel (102)	sim_0036	causal	V:11925787	V	11925787	0.1471	0.35	2.0617	3
+Baugh panel (102)	sim_0037	causal	I:14669846	I	14669846	0.0686	0.05	0.903	1
+Baugh panel (102)	sim_0038	causal	I:14669846	I	14669846	0.0686	0.05	0.903	2
+Baugh panel (102)	sim_0039	causal	I:14669846	I	14669846	0.0686	0.05	0.903	3
+Baugh panel (102)	sim_0040	causal	I:14669846	I	14669846	0.0686	0.15	1.6534	1
+Baugh panel (102)	sim_0041	causal	I:14669846	I	14669846	0.0686	0.15	1.6534	2
+Baugh panel (102)	sim_0042	causal	I:14669846	I	14669846	0.0686	0.15	1.6534	3
+Baugh panel (102)	sim_0043	causal	I:14669846	I	14669846	0.0686	0.35	2.8882	1
+Baugh panel (102)	sim_0044	causal	I:14669846	I	14669846	0.0686	0.35	2.8882	2
+Baugh panel (102)	sim_0045	causal	I:14669846	I	14669846	0.0686	0.35	2.8882	3
+Baugh panel (102)	sim_0046	causal	IV:16602132	IV	16602132	0.098	0.05	0.7677	1
+Baugh panel (102)	sim_0047	causal	IV:16602132	IV	16602132	0.098	0.05	0.7677	2
+Baugh panel (102)	sim_0048	causal	IV:16602132	IV	16602132	0.098	0.05	0.7677	3
+Baugh panel (102)	sim_0049	causal	IV:16602132	IV	16602132	0.098	0.15	1.4057	1
+Baugh panel (102)	sim_0050	causal	IV:16602132	IV	16602132	0.098	0.15	1.4057	2
+Baugh panel (102)	sim_0051	causal	IV:16602132	IV	16602132	0.098	0.15	1.4057	3
+Baugh panel (102)	sim_0052	causal	IV:16602132	IV	16602132	0.098	0.35	2.4555	1
+Baugh panel (102)	sim_0053	causal	IV:16602132	IV	16602132	0.098	0.35	2.4555	2
+Baugh panel (102)	sim_0054	causal	IV:16602132	IV	16602132	0.098	0.35	2.4555	3
+Baugh panel (102)	sim_0055	causal	II:12808081	II	12808081	0.2059	0.05	0.5646	1
+Baugh panel (102)	sim_0056	causal	II:12808081	II	12808081	0.2059	0.05	0.5646	2
+Baugh panel (102)	sim_0057	causal	II:12808081	II	12808081	0.2059	0.05	0.5646	3
+Baugh panel (102)	sim_0058	causal	II:12808081	II	12808081	0.2059	0.15	1.0338	1
+Baugh panel (102)	sim_0059	causal	II:12808081	II	12808081	0.2059	0.15	1.0338	2
+Baugh panel (102)	sim_0060	causal	II:12808081	II	12808081	0.2059	0.15	1.0338	3
+Baugh panel (102)	sim_0061	causal	II:12808081	II	12808081	0.2059	0.35	1.8059	1
+Baugh panel (102)	sim_0062	causal	II:12808081	II	12808081	0.2059	0.35	1.8059	2
+Baugh panel (102)	sim_0063	causal	II:12808081	II	12808081	0.2059	0.35	1.8059	3
+Baugh panel (102)	sim_0064	causal	X:6234955	X	6234955	0.1373	0.05	0.6634	1
+Baugh panel (102)	sim_0065	causal	X:6234955	X	6234955	0.1373	0.05	0.6634	2
+Baugh panel (102)	sim_0066	causal	X:6234955	X	6234955	0.1373	0.05	0.6634	3
+Baugh panel (102)	sim_0067	causal	X:6234955	X	6234955	0.1373	0.15	1.2148	1
+Baugh panel (102)	sim_0068	causal	X:6234955	X	6234955	0.1373	0.15	1.2148	2
+Baugh panel (102)	sim_0069	causal	X:6234955	X	6234955	0.1373	0.15	1.2148	3
+Baugh panel (102)	sim_0070	causal	X:6234955	X	6234955	0.1373	0.35	2.1219	1
+Baugh panel (102)	sim_0071	causal	X:6234955	X	6234955	0.1373	0.35	2.1219	2
+Baugh panel (102)	sim_0072	causal	X:6234955	X	6234955	0.1373	0.35	2.1219	3
+Baugh panel (102)	sim_0073	causal	IV:6526248	IV	6526248	0.0686	0.05	0.903	1
+Baugh panel (102)	sim_0074	causal	IV:6526248	IV	6526248	0.0686	0.05	0.903	2
+Baugh panel (102)	sim_0075	causal	IV:6526248	IV	6526248	0.0686	0.05	0.903	3
+Baugh panel (102)	sim_0076	causal	IV:6526248	IV	6526248	0.0686	0.15	1.6534	1
+Baugh panel (102)	sim_0077	causal	IV:6526248	IV	6526248	0.0686	0.15	1.6534	2
+Baugh panel (102)	sim_0078	causal	IV:6526248	IV	6526248	0.0686	0.15	1.6534	3
+Baugh panel (102)	sim_0079	causal	IV:6526248	IV	6526248	0.0686	0.35	2.8882	1
+Baugh panel (102)	sim_0080	causal	IV:6526248	IV	6526248	0.0686	0.35	2.8882	2
+Baugh panel (102)	sim_0081	causal	IV:6526248	IV	6526248	0.0686	0.35	2.8882	3
+Baugh panel (102)	sim_0082	causal	V:17204407	V	17204407	0.1471	0.05	0.6446	1
+Baugh panel (102)	sim_0083	causal	V:17204407	V	17204407	0.1471	0.05	0.6446	2
+Baugh panel (102)	sim_0084	causal	V:17204407	V	17204407	0.1471	0.05	0.6446	3
+Baugh panel (102)	sim_0085	causal	V:17204407	V	17204407	0.1471	0.15	1.1803	1
+Baugh panel (102)	sim_0086	causal	V:17204407	V	17204407	0.1471	0.15	1.1803	2
+Baugh panel (102)	sim_0087	causal	V:17204407	V	17204407	0.1471	0.15	1.1803	3
+Baugh panel (102)	sim_0088	causal	V:17204407	V	17204407	0.1471	0.35	2.0617	1
+Baugh panel (102)	sim_0089	causal	V:17204407	V	17204407	0.1471	0.35	2.0617	2
+Baugh panel (102)	sim_0090	causal	V:17204407	V	17204407	0.1471	0.35	2.0617	3
+Baugh panel (102)	sim_0091	causal	III:11780987	III	11780987	0.0882	0.05	0.8049	1
+Baugh panel (102)	sim_0092	causal	III:11780987	III	11780987	0.0882	0.05	0.8049	2
+Baugh panel (102)	sim_0093	causal	III:11780987	III	11780987	0.0882	0.05	0.8049	3
+Baugh panel (102)	sim_0094	causal	III:11780987	III	11780987	0.0882	0.15	1.4738	1
+Baugh panel (102)	sim_0095	causal	III:11780987	III	11780987	0.0882	0.15	1.4738	2
+Baugh panel (102)	sim_0096	causal	III:11780987	III	11780987	0.0882	0.15	1.4738	3
+Baugh panel (102)	sim_0097	causal	III:11780987	III	11780987	0.0882	0.35	2.5744	1
+Baugh panel (102)	sim_0098	causal	III:11780987	III	11780987	0.0882	0.35	2.5744	2
+Baugh panel (102)	sim_0099	causal	III:11780987	III	11780987	0.0882	0.35	2.5744	3
+Baugh panel (102)	sim_0100	causal	IV:7602408	IV	7602408	0.0686	0.05	0.903	1
+Baugh panel (102)	sim_0101	causal	IV:7602408	IV	7602408	0.0686	0.05	0.903	2
+Baugh panel (102)	sim_0102	causal	IV:7602408	IV	7602408	0.0686	0.05	0.903	3
+Baugh panel (102)	sim_0103	causal	IV:7602408	IV	7602408	0.0686	0.15	1.6534	1
+Baugh panel (102)	sim_0104	causal	IV:7602408	IV	7602408	0.0686	0.15	1.6534	2
+Baugh panel (102)	sim_0105	causal	IV:7602408	IV	7602408	0.0686	0.15	1.6534	3
+Baugh panel (102)	sim_0106	causal	IV:7602408	IV	7602408	0.0686	0.35	2.8882	1
+Baugh panel (102)	sim_0107	causal	IV:7602408	IV	7602408	0.0686	0.35	2.8882	2
+Baugh panel (102)	sim_0108	causal	IV:7602408	IV	7602408	0.0686	0.35	2.8882	3
+Baugh panel (102)	sim_0109	causal	X:15018764	X	15018764	0.2059	0.05	0.5646	1
+Baugh panel (102)	sim_0110	causal	X:15018764	X	15018764	0.2059	0.05	0.5646	2
+Baugh panel (102)	sim_0111	causal	X:15018764	X	15018764	0.2059	0.05	0.5646	3
+Baugh panel (102)	sim_0112	causal	X:15018764	X	15018764	0.2059	0.15	1.0338	1
+Baugh panel (102)	sim_0113	causal	X:15018764	X	15018764	0.2059	0.15	1.0338	2
+Baugh panel (102)	sim_0114	causal	X:15018764	X	15018764	0.2059	0.15	1.0338	3
+Baugh panel (102)	sim_0115	causal	X:15018764	X	15018764	0.2059	0.35	1.8059	1
+Baugh panel (102)	sim_0116	causal	X:15018764	X	15018764	0.2059	0.35	1.8059	2
+Baugh panel (102)	sim_0117	causal	X:15018764	X	15018764	0.2059	0.35	1.8059	3
+Baugh panel (102)	sim_0118	causal	I:13363482	I	13363482	0.2157	0.05	0.555	1
+Baugh panel (102)	sim_0119	causal	I:13363482	I	13363482	0.2157	0.05	0.555	2
+Baugh panel (102)	sim_0120	causal	I:13363482	I	13363482	0.2157	0.05	0.555	3
+Baugh panel (102)	sim_0121	causal	I:13363482	I	13363482	0.2157	0.15	1.0163	1
+Baugh panel (102)	sim_0122	causal	I:13363482	I	13363482	0.2157	0.15	1.0163	2
+Baugh panel (102)	sim_0123	causal	I:13363482	I	13363482	0.2157	0.15	1.0163	3
+Baugh panel (102)	sim_0124	causal	I:13363482	I	13363482	0.2157	0.35	1.7753	1
+Baugh panel (102)	sim_0125	causal	I:13363482	I	13363482	0.2157	0.35	1.7753	2
+Baugh panel (102)	sim_0126	causal	I:13363482	I	13363482	0.2157	0.35	1.7753	3
+Baugh panel (102)	sim_0127	causal	X:10052467	X	10052467	0.3333	0.05	0.4843	1
+Baugh panel (102)	sim_0128	causal	X:10052467	X	10052467	0.3333	0.05	0.4843	2
+Baugh panel (102)	sim_0129	causal	X:10052467	X	10052467	0.3333	0.05	0.4843	3
+Baugh panel (102)	sim_0130	causal	X:10052467	X	10052467	0.3333	0.15	0.8868	1
+Baugh panel (102)	sim_0131	causal	X:10052467	X	10052467	0.3333	0.15	0.8868	2
+Baugh panel (102)	sim_0132	causal	X:10052467	X	10052467	0.3333	0.15	0.8868	3
+Baugh panel (102)	sim_0133	causal	X:10052467	X	10052467	0.3333	0.35	1.549	1
+Baugh panel (102)	sim_0134	causal	X:10052467	X	10052467	0.3333	0.35	1.549	2
+Baugh panel (102)	sim_0135	causal	X:10052467	X	10052467	0.3333	0.35	1.549	3
+Baugh panel (102)	sim_0136	causal	II:3929026	II	3929026	0.5	0.05	0.4566	1
+Baugh panel (102)	sim_0137	causal	II:3929026	II	3929026	0.5	0.05	0.4566	2
+Baugh panel (102)	sim_0138	causal	II:3929026	II	3929026	0.5	0.05	0.4566	3
+Baugh panel (102)	sim_0139	causal	II:3929026	II	3929026	0.5	0.15	0.836	1
+Baugh panel (102)	sim_0140	causal	II:3929026	II	3929026	0.5	0.15	0.836	2
+Baugh panel (102)	sim_0141	causal	II:3929026	II	3929026	0.5	0.15	0.836	3
+Baugh panel (102)	sim_0142	causal	II:3929026	II	3929026	0.5	0.35	1.4604	1
+Baugh panel (102)	sim_0143	causal	II:3929026	II	3929026	0.5	0.35	1.4604	2
+Baugh panel (102)	sim_0144	causal	II:3929026	II	3929026	0.5	0.35	1.4604	3
+Baugh panel (102)	sim_0145	causal	IV:1599607	IV	1599607	0.3922	0.05	0.4676	1
+Baugh panel (102)	sim_0146	causal	IV:1599607	IV	1599607	0.3922	0.05	0.4676	2
+Baugh panel (102)	sim_0147	causal	IV:1599607	IV	1599607	0.3922	0.05	0.4676	3
+Baugh panel (102)	sim_0148	causal	IV:1599607	IV	1599607	0.3922	0.15	0.8562	1
+Baugh panel (102)	sim_0149	causal	IV:1599607	IV	1599607	0.3922	0.15	0.8562	2
+Baugh panel (102)	sim_0150	causal	IV:1599607	IV	1599607	0.3922	0.15	0.8562	3
+Baugh panel (102)	sim_0151	causal	IV:1599607	IV	1599607	0.3922	0.35	1.4956	1
+Baugh panel (102)	sim_0152	causal	IV:1599607	IV	1599607	0.3922	0.35	1.4956	2
+Baugh panel (102)	sim_0153	causal	IV:1599607	IV	1599607	0.3922	0.35	1.4956	3
+Baugh panel (102)	sim_0154	causal	II:3507098	II	3507098	0.2353	0.05	0.5382	1
+Baugh panel (102)	sim_0155	causal	II:3507098	II	3507098	0.2353	0.05	0.5382	2
+Baugh panel (102)	sim_0156	causal	II:3507098	II	3507098	0.2353	0.05	0.5382	3
+Baugh panel (102)	sim_0157	causal	II:3507098	II	3507098	0.2353	0.15	0.9855	1
+Baugh panel (102)	sim_0158	causal	II:3507098	II	3507098	0.2353	0.15	0.9855	2
+Baugh panel (102)	sim_0159	causal	II:3507098	II	3507098	0.2353	0.15	0.9855	3
+Baugh panel (102)	sim_0160	causal	II:3507098	II	3507098	0.2353	0.35	1.7214	1
+Baugh panel (102)	sim_0161	causal	II:3507098	II	3507098	0.2353	0.35	1.7214	2
+Baugh panel (102)	sim_0162	causal	II:3507098	II	3507098	0.2353	0.35	1.7214	3
+Baugh panel (102)	sim_0163	causal	X:1263612	X	1263612	0.402	0.05	0.4656	1
+Baugh panel (102)	sim_0164	causal	X:1263612	X	1263612	0.402	0.05	0.4656	2
+Baugh panel (102)	sim_0165	causal	X:1263612	X	1263612	0.402	0.05	0.4656	3
+Baugh panel (102)	sim_0166	causal	X:1263612	X	1263612	0.402	0.15	0.8526	1
+Baugh panel (102)	sim_0167	causal	X:1263612	X	1263612	0.402	0.15	0.8526	2
+Baugh panel (102)	sim_0168	causal	X:1263612	X	1263612	0.402	0.15	0.8526	3
+Baugh panel (102)	sim_0169	causal	X:1263612	X	1263612	0.402	0.35	1.4893	1
+Baugh panel (102)	sim_0170	causal	X:1263612	X	1263612	0.402	0.35	1.4893	2
+Baugh panel (102)	sim_0171	causal	X:1263612	X	1263612	0.402	0.35	1.4893	3
+Baugh panel (102)	sim_0172	causal	I:4673303	I	4673303	0.2157	0.05	0.555	1
+Baugh panel (102)	sim_0173	causal	I:4673303	I	4673303	0.2157	0.05	0.555	2
+Baugh panel (102)	sim_0174	causal	I:4673303	I	4673303	0.2157	0.05	0.555	3
+Baugh panel (102)	sim_0175	causal	I:4673303	I	4673303	0.2157	0.15	1.0163	1
+Baugh panel (102)	sim_0176	causal	I:4673303	I	4673303	0.2157	0.15	1.0163	2
+Baugh panel (102)	sim_0177	causal	I:4673303	I	4673303	0.2157	0.15	1.0163	3
+Baugh panel (102)	sim_0178	causal	I:4673303	I	4673303	0.2157	0.35	1.7753	1
+Baugh panel (102)	sim_0179	causal	I:4673303	I	4673303	0.2157	0.35	1.7753	2
+Baugh panel (102)	sim_0180	causal	I:4673303	I	4673303	0.2157	0.35	1.7753	3
+Baugh panel (102)	sim_0181	causal	X:16899421	X	16899421	0.3137	0.05	0.492	1
+Baugh panel (102)	sim_0182	causal	X:16899421	X	16899421	0.3137	0.05	0.492	2
+Baugh panel (102)	sim_0183	causal	X:16899421	X	16899421	0.3137	0.05	0.492	3
+Baugh panel (102)	sim_0184	causal	X:16899421	X	16899421	0.3137	0.15	0.9009	1
+Baugh panel (102)	sim_0185	causal	X:16899421	X	16899421	0.3137	0.15	0.9009	2
+Baugh panel (102)	sim_0186	causal	X:16899421	X	16899421	0.3137	0.15	0.9009	3
+Baugh panel (102)	sim_0187	causal	X:16899421	X	16899421	0.3137	0.35	1.5737	1
+Baugh panel (102)	sim_0188	causal	X:16899421	X	16899421	0.3137	0.35	1.5737	2
+Baugh panel (102)	sim_0189	causal	X:16899421	X	16899421	0.3137	0.35	1.5737	3
+Baugh panel (102)	sim_0190	causal	I:1697502	I	1697502	0.2451	0.05	0.5307	1
+Baugh panel (102)	sim_0191	causal	I:1697502	I	1697502	0.2451	0.05	0.5307	2
+Baugh panel (102)	sim_0192	causal	I:1697502	I	1697502	0.2451	0.05	0.5307	3
+Baugh panel (102)	sim_0193	causal	I:1697502	I	1697502	0.2451	0.15	0.9718	1
+Baugh panel (102)	sim_0194	causal	I:1697502	I	1697502	0.2451	0.15	0.9718	2
+Baugh panel (102)	sim_0195	causal	I:1697502	I	1697502	0.2451	0.15	0.9718	3
+Baugh panel (102)	sim_0196	causal	I:1697502	I	1697502	0.2451	0.35	1.6976	1
+Baugh panel (102)	sim_0197	causal	I:1697502	I	1697502	0.2451	0.35	1.6976	2
+Baugh panel (102)	sim_0198	causal	I:1697502	I	1697502	0.2451	0.35	1.6976	3
+Baugh panel (102)	sim_0199	causal	X:13699978	X	13699978	0.2941	0.05	0.501	1
+Baugh panel (102)	sim_0200	causal	X:13699978	X	13699978	0.2941	0.05	0.501	2
+Baugh panel (102)	sim_0201	causal	X:13699978	X	13699978	0.2941	0.05	0.501	3
+Baugh panel (102)	sim_0202	causal	X:13699978	X	13699978	0.2941	0.15	0.9174	1
+Baugh panel (102)	sim_0203	causal	X:13699978	X	13699978	0.2941	0.15	0.9174	2
+Baugh panel (102)	sim_0204	causal	X:13699978	X	13699978	0.2941	0.15	0.9174	3
+Baugh panel (102)	sim_0205	causal	X:13699978	X	13699978	0.2941	0.35	1.6025	1
+Baugh panel (102)	sim_0206	causal	X:13699978	X	13699978	0.2941	0.35	1.6025	2
+Baugh panel (102)	sim_0207	causal	X:13699978	X	13699978	0.2941	0.35	1.6025	3
+Baugh panel (102)	sim_0208	causal	IV:2234592	IV	2234592	0.2255	0.05	0.5463	1
+Baugh panel (102)	sim_0209	causal	IV:2234592	IV	2234592	0.2255	0.05	0.5463	2
+Baugh panel (102)	sim_0210	causal	IV:2234592	IV	2234592	0.2255	0.05	0.5463	3
+Baugh panel (102)	sim_0211	causal	IV:2234592	IV	2234592	0.2255	0.15	1.0003	1
+Baugh panel (102)	sim_0212	causal	IV:2234592	IV	2234592	0.2255	0.15	1.0003	2
+Baugh panel (102)	sim_0213	causal	IV:2234592	IV	2234592	0.2255	0.15	1.0003	3
+Baugh panel (102)	sim_0214	causal	IV:2234592	IV	2234592	0.2255	0.35	1.7473	1
+Baugh panel (102)	sim_0215	causal	IV:2234592	IV	2234592	0.2255	0.35	1.7473	2
+Baugh panel (102)	sim_0216	causal	IV:2234592	IV	2234592	0.2255	0.35	1.7473	3
+Baugh panel (102)	sim_0217	causal	IV:1017374	IV	1017374	0.3922	0.05	0.4676	1
+Baugh panel (102)	sim_0218	causal	IV:1017374	IV	1017374	0.3922	0.05	0.4676	2
+Baugh panel (102)	sim_0219	causal	IV:1017374	IV	1017374	0.3922	0.05	0.4676	3
+Baugh panel (102)	sim_0220	causal	IV:1017374	IV	1017374	0.3922	0.15	0.8562	1
+Baugh panel (102)	sim_0221	causal	IV:1017374	IV	1017374	0.3922	0.15	0.8562	2
+Baugh panel (102)	sim_0222	causal	IV:1017374	IV	1017374	0.3922	0.15	0.8562	3
+Baugh panel (102)	sim_0223	causal	IV:1017374	IV	1017374	0.3922	0.35	1.4956	1
+Baugh panel (102)	sim_0224	causal	IV:1017374	IV	1017374	0.3922	0.35	1.4956	2
+Baugh panel (102)	sim_0225	causal	IV:1017374	IV	1017374	0.3922	0.35	1.4956	3
+Baugh panel (102)	sim_0226	causal	III:3148892	III	3148892	0.3922	0.05	0.4676	1
+Baugh panel (102)	sim_0227	causal	III:3148892	III	3148892	0.3922	0.05	0.4676	2
+Baugh panel (102)	sim_0228	causal	III:3148892	III	3148892	0.3922	0.05	0.4676	3
+Baugh panel (102)	sim_0229	causal	III:3148892	III	3148892	0.3922	0.15	0.8562	1
+Baugh panel (102)	sim_0230	causal	III:3148892	III	3148892	0.3922	0.15	0.8562	2
+Baugh panel (102)	sim_0231	causal	III:3148892	III	3148892	0.3922	0.15	0.8562	3
+Baugh panel (102)	sim_0232	causal	III:3148892	III	3148892	0.3922	0.35	1.4956	1
+Baugh panel (102)	sim_0233	causal	III:3148892	III	3148892	0.3922	0.35	1.4956	2
+Baugh panel (102)	sim_0234	causal	III:3148892	III	3148892	0.3922	0.35	1.4956	3
+Baugh panel (102)	sim_0235	causal	III:8495431	III	8495431	0.2941	0.05	0.501	1
+Baugh panel (102)	sim_0236	causal	III:8495431	III	8495431	0.2941	0.05	0.501	2
+Baugh panel (102)	sim_0237	causal	III:8495431	III	8495431	0.2941	0.05	0.501	3
+Baugh panel (102)	sim_0238	causal	III:8495431	III	8495431	0.2941	0.15	0.9174	1
+Baugh panel (102)	sim_0239	causal	III:8495431	III	8495431	0.2941	0.15	0.9174	2
+Baugh panel (102)	sim_0240	causal	III:8495431	III	8495431	0.2941	0.15	0.9174	3
+Baugh panel (102)	sim_0241	causal	III:8495431	III	8495431	0.2941	0.35	1.6025	1
+Baugh panel (102)	sim_0242	causal	III:8495431	III	8495431	0.2941	0.35	1.6025	2
+Baugh panel (102)	sim_0243	causal	III:8495431	III	8495431	0.2941	0.35	1.6025	3
+Baugh panel (102)	sim_0244	causal	III:12269618	III	12269618	0.3922	0.05	0.4676	1
+Baugh panel (102)	sim_0245	causal	III:12269618	III	12269618	0.3922	0.05	0.4676	2
+Baugh panel (102)	sim_0246	causal	III:12269618	III	12269618	0.3922	0.05	0.4676	3
+Baugh panel (102)	sim_0247	causal	III:12269618	III	12269618	0.3922	0.15	0.8562	1
+Baugh panel (102)	sim_0248	causal	III:12269618	III	12269618	0.3922	0.15	0.8562	2
+Baugh panel (102)	sim_0249	causal	III:12269618	III	12269618	0.3922	0.15	0.8562	3
+Baugh panel (102)	sim_0250	causal	III:12269618	III	12269618	0.3922	0.35	1.4956	1
+Baugh panel (102)	sim_0251	causal	III:12269618	III	12269618	0.3922	0.35	1.4956	2
+Baugh panel (102)	sim_0252	causal	III:12269618	III	12269618	0.3922	0.35	1.4956	3
+Baugh panel (102)	sim_0253	causal	II:2669884	II	2669884	0.2843	0.05	0.5061	1
+Baugh panel (102)	sim_0254	causal	II:2669884	II	2669884	0.2843	0.05	0.5061	2
+Baugh panel (102)	sim_0255	causal	II:2669884	II	2669884	0.2843	0.05	0.5061	3
+Baugh panel (102)	sim_0256	causal	II:2669884	II	2669884	0.2843	0.15	0.9267	1
+Baugh panel (102)	sim_0257	causal	II:2669884	II	2669884	0.2843	0.15	0.9267	2
+Baugh panel (102)	sim_0258	causal	II:2669884	II	2669884	0.2843	0.15	0.9267	3
+Baugh panel (102)	sim_0259	causal	II:2669884	II	2669884	0.2843	0.35	1.6187	1
+Baugh panel (102)	sim_0260	causal	II:2669884	II	2669884	0.2843	0.35	1.6187	2
+Baugh panel (102)	sim_0261	causal	II:2669884	II	2669884	0.2843	0.35	1.6187	3
+Baugh panel (102)	sim_0262	causal	II:2687337	II	2687337	0.4608	0.05	0.458	1
+Baugh panel (102)	sim_0263	causal	II:2687337	II	2687337	0.4608	0.05	0.458	2
+Baugh panel (102)	sim_0264	causal	II:2687337	II	2687337	0.4608	0.05	0.458	3
+Baugh panel (102)	sim_0265	causal	II:2687337	II	2687337	0.4608	0.15	0.8386	1
+Baugh panel (102)	sim_0266	causal	II:2687337	II	2687337	0.4608	0.15	0.8386	2
+Baugh panel (102)	sim_0267	causal	II:2687337	II	2687337	0.4608	0.15	0.8386	3
+Baugh panel (102)	sim_0268	causal	II:2687337	II	2687337	0.4608	0.35	1.4649	1
+Baugh panel (102)	sim_0269	causal	II:2687337	II	2687337	0.4608	0.35	1.4649	2
+Baugh panel (102)	sim_0270	causal	II:2687337	II	2687337	0.4608	0.35	1.4649	3
+Baugh panel (102)	sim_0271	causal	II:13040075	II	13040075	0.3137	0.05	0.492	1
+Baugh panel (102)	sim_0272	causal	II:13040075	II	13040075	0.3137	0.05	0.492	2
+Baugh panel (102)	sim_0273	causal	II:13040075	II	13040075	0.3137	0.05	0.492	3
+Baugh panel (102)	sim_0274	causal	II:13040075	II	13040075	0.3137	0.15	0.9009	1
+Baugh panel (102)	sim_0275	causal	II:13040075	II	13040075	0.3137	0.15	0.9009	2
+Baugh panel (102)	sim_0276	causal	II:13040075	II	13040075	0.3137	0.15	0.9009	3
+Baugh panel (102)	sim_0277	causal	II:13040075	II	13040075	0.3137	0.35	1.5737	1
+Baugh panel (102)	sim_0278	causal	II:13040075	II	13040075	0.3137	0.35	1.5737	2
+Baugh panel (102)	sim_0279	causal	II:13040075	II	13040075	0.3137	0.35	1.5737	3
+Baugh panel (102)	sim_0280	causal	I:1437632	I	1437632	0.5	0.05	0.4566	1
+Baugh panel (102)	sim_0281	causal	I:1437632	I	1437632	0.5	0.05	0.4566	2
+Baugh panel (102)	sim_0282	causal	I:1437632	I	1437632	0.5	0.05	0.4566	3
+Baugh panel (102)	sim_0283	causal	I:1437632	I	1437632	0.5	0.15	0.836	1
+Baugh panel (102)	sim_0284	causal	I:1437632	I	1437632	0.5	0.15	0.836	2
+Baugh panel (102)	sim_0285	causal	I:1437632	I	1437632	0.5	0.15	0.836	3
+Baugh panel (102)	sim_0286	causal	I:1437632	I	1437632	0.5	0.35	1.4604	1
+Baugh panel (102)	sim_0287	causal	I:1437632	I	1437632	0.5	0.35	1.4604	2
+Baugh panel (102)	sim_0288	causal	I:1437632	I	1437632	0.5	0.35	1.4604	3
+Baugh panel (102)	sim_0289	causal	II:12800550	II	12800550	0.3824	0.05	0.4698	1
+Baugh panel (102)	sim_0290	causal	II:12800550	II	12800550	0.3824	0.05	0.4698	2
+Baugh panel (102)	sim_0291	causal	II:12800550	II	12800550	0.3824	0.05	0.4698	3
+Baugh panel (102)	sim_0292	causal	II:12800550	II	12800550	0.3824	0.15	0.8602	1
+Baugh panel (102)	sim_0293	causal	II:12800550	II	12800550	0.3824	0.15	0.8602	2
+Baugh panel (102)	sim_0294	causal	II:12800550	II	12800550	0.3824	0.15	0.8602	3
+Baugh panel (102)	sim_0295	causal	II:12800550	II	12800550	0.3824	0.35	1.5026	1
+Baugh panel (102)	sim_0296	causal	II:12800550	II	12800550	0.3824	0.35	1.5026	2
+Baugh panel (102)	sim_0297	causal	II:12800550	II	12800550	0.3824	0.35	1.5026	3
+Baugh panel (102)	sim_0298	causal	II:13090557	II	13090557	0.2941	0.05	0.501	1
+Baugh panel (102)	sim_0299	causal	II:13090557	II	13090557	0.2941	0.05	0.501	2
+Baugh panel (102)	sim_0300	causal	II:13090557	II	13090557	0.2941	0.05	0.501	3
+Baugh panel (102)	sim_0301	causal	II:13090557	II	13090557	0.2941	0.15	0.9174	1
+Baugh panel (102)	sim_0302	causal	II:13090557	II	13090557	0.2941	0.15	0.9174	2
+Baugh panel (102)	sim_0303	causal	II:13090557	II	13090557	0.2941	0.15	0.9174	3
+Baugh panel (102)	sim_0304	causal	II:13090557	II	13090557	0.2941	0.35	1.6025	1
+Baugh panel (102)	sim_0305	causal	II:13090557	II	13090557	0.2941	0.35	1.6025	2
+Baugh panel (102)	sim_0306	causal	II:13090557	II	13090557	0.2941	0.35	1.6025	3
+Baugh panel (102)	sim_0307	causal	III:11424827	III	11424827	0.3922	0.05	0.4676	1
+Baugh panel (102)	sim_0308	causal	III:11424827	III	11424827	0.3922	0.05	0.4676	2
+Baugh panel (102)	sim_0309	causal	III:11424827	III	11424827	0.3922	0.05	0.4676	3
+Baugh panel (102)	sim_0310	causal	III:11424827	III	11424827	0.3922	0.15	0.8562	1
+Baugh panel (102)	sim_0311	causal	III:11424827	III	11424827	0.3922	0.15	0.8562	2
+Baugh panel (102)	sim_0312	causal	III:11424827	III	11424827	0.3922	0.15	0.8562	3
+Baugh panel (102)	sim_0313	causal	III:11424827	III	11424827	0.3922	0.35	1.4956	1
+Baugh panel (102)	sim_0314	causal	III:11424827	III	11424827	0.3922	0.35	1.4956	2
+Baugh panel (102)	sim_0315	causal	III:11424827	III	11424827	0.3922	0.35	1.4956	3
+Baugh panel (102)	sim_0316	causal	II:2828383	II	2828383	0.3333	0.05	0.4843	1
+Baugh panel (102)	sim_0317	causal	II:2828383	II	2828383	0.3333	0.05	0.4843	2
+Baugh panel (102)	sim_0318	causal	II:2828383	II	2828383	0.3333	0.05	0.4843	3
+Baugh panel (102)	sim_0319	causal	II:2828383	II	2828383	0.3333	0.15	0.8868	1
+Baugh panel (102)	sim_0320	causal	II:2828383	II	2828383	0.3333	0.15	0.8868	2
+Baugh panel (102)	sim_0321	causal	II:2828383	II	2828383	0.3333	0.15	0.8868	3
+Baugh panel (102)	sim_0322	causal	II:2828383	II	2828383	0.3333	0.35	1.549	1
+Baugh panel (102)	sim_0323	causal	II:2828383	II	2828383	0.3333	0.35	1.549	2
+Baugh panel (102)	sim_0324	causal	II:2828383	II	2828383	0.3333	0.35	1.549	3
+Baugh panel (102)	sim_0325	null					0	0	1
+Baugh panel (102)	sim_0326	null					0	0	2
+Baugh panel (102)	sim_0327	null					0	0	3
+Baugh panel (102)	sim_0328	null					0	0	4
+Baugh panel (102)	sim_0329	null					0	0	5
+Baugh panel (102)	sim_0330	null					0	0	6
+Baugh panel (102)	sim_0331	null					0	0	7
+Baugh panel (102)	sim_0332	null					0	0	8
+Baugh panel (102)	sim_0333	null					0	0	9
+Baugh panel (102)	sim_0334	null					0	0	10
+Baugh panel (102)	sim_0335	null					0	0	11
+Baugh panel (102)	sim_0336	null					0	0	12
+Baugh panel (102)	sim_0337	null					0	0	13
+Baugh panel (102)	sim_0338	null					0	0	14
+Baugh panel (102)	sim_0339	null					0	0	15
+naive: most private	sim_0001	causal	I:2417713	I	2417713	0.3646	0.05	0.4742	1
+naive: most private	sim_0002	causal	I:2417713	I	2417713	0.3646	0.05	0.4742	2
+naive: most private	sim_0003	causal	I:2417713	I	2417713	0.3646	0.05	0.4742	3
+naive: most private	sim_0004	causal	I:2417713	I	2417713	0.3646	0.15	0.8682	1
+naive: most private	sim_0005	causal	I:2417713	I	2417713	0.3646	0.15	0.8682	2
+naive: most private	sim_0006	causal	I:2417713	I	2417713	0.3646	0.15	0.8682	3
+naive: most private	sim_0007	causal	I:2417713	I	2417713	0.3646	0.35	1.5166	1
+naive: most private	sim_0008	causal	I:2417713	I	2417713	0.3646	0.35	1.5166	2
+naive: most private	sim_0009	causal	I:2417713	I	2417713	0.3646	0.35	1.5166	3
+naive: most private	sim_0010	causal	V:2696353	V	2696353	0.2292	0.05	0.543	1
+naive: most private	sim_0011	causal	V:2696353	V	2696353	0.2292	0.05	0.543	2
+naive: most private	sim_0012	causal	V:2696353	V	2696353	0.2292	0.05	0.543	3
+naive: most private	sim_0013	causal	V:2696353	V	2696353	0.2292	0.15	0.9943	1
+naive: most private	sim_0014	causal	V:2696353	V	2696353	0.2292	0.15	0.9943	2
+naive: most private	sim_0015	causal	V:2696353	V	2696353	0.2292	0.15	0.9943	3
+naive: most private	sim_0016	causal	V:2696353	V	2696353	0.2292	0.35	1.7368	1
+naive: most private	sim_0017	causal	V:2696353	V	2696353	0.2292	0.35	1.7368	2
+naive: most private	sim_0018	causal	V:2696353	V	2696353	0.2292	0.35	1.7368	3
+naive: most private	sim_0019	causal	II:10812172	II	10812172	0.0938	0.05	0.783	1
+naive: most private	sim_0020	causal	II:10812172	II	10812172	0.0938	0.05	0.783	2
+naive: most private	sim_0021	causal	II:10812172	II	10812172	0.0938	0.05	0.783	3
+naive: most private	sim_0022	causal	II:10812172	II	10812172	0.0938	0.15	1.4337	1
+naive: most private	sim_0023	causal	II:10812172	II	10812172	0.0938	0.15	1.4337	2
+naive: most private	sim_0024	causal	II:10812172	II	10812172	0.0938	0.15	1.4337	3
+naive: most private	sim_0025	causal	II:10812172	II	10812172	0.0938	0.35	2.5043	1
+naive: most private	sim_0026	causal	II:10812172	II	10812172	0.0938	0.35	2.5043	2
+naive: most private	sim_0027	causal	II:10812172	II	10812172	0.0938	0.35	2.5043	3
+naive: most private	sim_0028	causal	V:11925787	V	11925787	0.0938	0.05	0.783	1
+naive: most private	sim_0029	causal	V:11925787	V	11925787	0.0938	0.05	0.783	2
+naive: most private	sim_0030	causal	V:11925787	V	11925787	0.0938	0.05	0.783	3
+naive: most private	sim_0031	causal	V:11925787	V	11925787	0.0938	0.15	1.4337	1
+naive: most private	sim_0032	causal	V:11925787	V	11925787	0.0938	0.15	1.4337	2
+naive: most private	sim_0033	causal	V:11925787	V	11925787	0.0938	0.15	1.4337	3
+naive: most private	sim_0034	causal	V:11925787	V	11925787	0.0938	0.35	2.5043	1
+naive: most private	sim_0035	causal	V:11925787	V	11925787	0.0938	0.35	2.5043	2
+naive: most private	sim_0036	causal	V:11925787	V	11925787	0.0938	0.35	2.5043	3
+naive: most private	sim_0037	causal	I:14669846	I	14669846	0.2083	0.05	0.562	1
+naive: most private	sim_0038	causal	I:14669846	I	14669846	0.2083	0.05	0.562	2
+naive: most private	sim_0039	causal	I:14669846	I	14669846	0.2083	0.05	0.562	3
+naive: most private	sim_0040	causal	I:14669846	I	14669846	0.2083	0.15	1.029	1
+naive: most private	sim_0041	causal	I:14669846	I	14669846	0.2083	0.15	1.029	2
+naive: most private	sim_0042	causal	I:14669846	I	14669846	0.2083	0.15	1.029	3
+naive: most private	sim_0043	causal	I:14669846	I	14669846	0.2083	0.35	1.7974	1
+naive: most private	sim_0044	causal	I:14669846	I	14669846	0.2083	0.35	1.7974	2
+naive: most private	sim_0045	causal	I:14669846	I	14669846	0.2083	0.35	1.7974	3
+naive: most private	sim_0046	causal	IV:16602132	IV	16602132	0.4062	0.05	0.4647	1
+naive: most private	sim_0047	causal	IV:16602132	IV	16602132	0.4062	0.05	0.4647	2
+naive: most private	sim_0048	causal	IV:16602132	IV	16602132	0.4062	0.05	0.4647	3
+naive: most private	sim_0049	causal	IV:16602132	IV	16602132	0.4062	0.15	0.8509	1
+naive: most private	sim_0050	causal	IV:16602132	IV	16602132	0.4062	0.15	0.8509	2
+naive: most private	sim_0051	causal	IV:16602132	IV	16602132	0.4062	0.15	0.8509	3
+naive: most private	sim_0052	causal	IV:16602132	IV	16602132	0.4062	0.35	1.4863	1
+naive: most private	sim_0053	causal	IV:16602132	IV	16602132	0.4062	0.35	1.4863	2
+naive: most private	sim_0054	causal	IV:16602132	IV	16602132	0.4062	0.35	1.4863	3
+naive: most private	sim_0055	causal	II:12808081	II	12808081	0.0625	0.05	0.9428	1
+naive: most private	sim_0056	causal	II:12808081	II	12808081	0.0625	0.05	0.9428	2
+naive: most private	sim_0057	causal	II:12808081	II	12808081	0.0625	0.05	0.9428	3
+naive: most private	sim_0058	causal	II:12808081	II	12808081	0.0625	0.15	1.7264	1
+naive: most private	sim_0059	causal	II:12808081	II	12808081	0.0625	0.15	1.7264	2
+naive: most private	sim_0060	causal	II:12808081	II	12808081	0.0625	0.15	1.7264	3
+naive: most private	sim_0061	causal	II:12808081	II	12808081	0.0625	0.35	3.0156	1
+naive: most private	sim_0062	causal	II:12808081	II	12808081	0.0625	0.35	3.0156	2
+naive: most private	sim_0063	causal	II:12808081	II	12808081	0.0625	0.35	3.0156	3
+naive: most private	sim_0064	causal	X:6234955	X	6234955	0.3333	0.05	0.4841	1
+naive: most private	sim_0065	causal	X:6234955	X	6234955	0.3333	0.05	0.4841	2
+naive: most private	sim_0066	causal	X:6234955	X	6234955	0.3333	0.05	0.4841	3
+naive: most private	sim_0067	causal	X:6234955	X	6234955	0.3333	0.15	0.8865	1
+naive: most private	sim_0068	causal	X:6234955	X	6234955	0.3333	0.15	0.8865	2
+naive: most private	sim_0069	causal	X:6234955	X	6234955	0.3333	0.15	0.8865	3
+naive: most private	sim_0070	causal	X:6234955	X	6234955	0.3333	0.35	1.5485	1
+naive: most private	sim_0071	causal	X:6234955	X	6234955	0.3333	0.35	1.5485	2
+naive: most private	sim_0072	causal	X:6234955	X	6234955	0.3333	0.35	1.5485	3
+naive: most private	sim_0073	causal	IV:6526248	IV	6526248	0.3646	0.05	0.4742	1
+naive: most private	sim_0074	causal	IV:6526248	IV	6526248	0.3646	0.05	0.4742	2
+naive: most private	sim_0075	causal	IV:6526248	IV	6526248	0.3646	0.05	0.4742	3
+naive: most private	sim_0076	causal	IV:6526248	IV	6526248	0.3646	0.15	0.8682	1
+naive: most private	sim_0077	causal	IV:6526248	IV	6526248	0.3646	0.15	0.8682	2
+naive: most private	sim_0078	causal	IV:6526248	IV	6526248	0.3646	0.15	0.8682	3
+naive: most private	sim_0079	causal	IV:6526248	IV	6526248	0.3646	0.35	1.5166	1
+naive: most private	sim_0080	causal	IV:6526248	IV	6526248	0.3646	0.35	1.5166	2
+naive: most private	sim_0081	causal	IV:6526248	IV	6526248	0.3646	0.35	1.5166	3
+naive: most private	sim_0082	causal	V:17204407	V	17204407	0.1771	0.05	0.5978	1
+naive: most private	sim_0083	causal	V:17204407	V	17204407	0.1771	0.05	0.5978	2
+naive: most private	sim_0084	causal	V:17204407	V	17204407	0.1771	0.05	0.5978	3
+naive: most private	sim_0085	causal	V:17204407	V	17204407	0.1771	0.15	1.0947	1
+naive: most private	sim_0086	causal	V:17204407	V	17204407	0.1771	0.15	1.0947	2
+naive: most private	sim_0087	causal	V:17204407	V	17204407	0.1771	0.15	1.0947	3
+naive: most private	sim_0088	causal	V:17204407	V	17204407	0.1771	0.35	1.9122	1
+naive: most private	sim_0089	causal	V:17204407	V	17204407	0.1771	0.35	1.9122	2
+naive: most private	sim_0090	causal	V:17204407	V	17204407	0.1771	0.35	1.9122	3
+naive: most private	sim_0091	causal	III:11780987	III	11780987	0.125	0.05	0.6901	1
+naive: most private	sim_0092	causal	III:11780987	III	11780987	0.125	0.05	0.6901	2
+naive: most private	sim_0093	causal	III:11780987	III	11780987	0.125	0.05	0.6901	3
+naive: most private	sim_0094	causal	III:11780987	III	11780987	0.125	0.15	1.2636	1
+naive: most private	sim_0095	causal	III:11780987	III	11780987	0.125	0.15	1.2636	2
+naive: most private	sim_0096	causal	III:11780987	III	11780987	0.125	0.15	1.2636	3
+naive: most private	sim_0097	causal	III:11780987	III	11780987	0.125	0.35	2.2072	1
+naive: most private	sim_0098	causal	III:11780987	III	11780987	0.125	0.35	2.2072	2
+naive: most private	sim_0099	causal	III:11780987	III	11780987	0.125	0.35	2.2072	3
+naive: most private	sim_0100	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	1
+naive: most private	sim_0101	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	2
+naive: most private	sim_0102	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	3
+naive: most private	sim_0103	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	1
+naive: most private	sim_0104	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	2
+naive: most private	sim_0105	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	3
+naive: most private	sim_0106	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	1
+naive: most private	sim_0107	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	2
+naive: most private	sim_0108	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	3
+naive: most private	sim_0109	causal	X:15018764	X	15018764	0.3333	0.05	0.4841	1
+naive: most private	sim_0110	causal	X:15018764	X	15018764	0.3333	0.05	0.4841	2
+naive: most private	sim_0111	causal	X:15018764	X	15018764	0.3333	0.05	0.4841	3
+naive: most private	sim_0112	causal	X:15018764	X	15018764	0.3333	0.15	0.8865	1
+naive: most private	sim_0113	causal	X:15018764	X	15018764	0.3333	0.15	0.8865	2
+naive: most private	sim_0114	causal	X:15018764	X	15018764	0.3333	0.15	0.8865	3
+naive: most private	sim_0115	causal	X:15018764	X	15018764	0.3333	0.35	1.5485	1
+naive: most private	sim_0116	causal	X:15018764	X	15018764	0.3333	0.35	1.5485	2
+naive: most private	sim_0117	causal	X:15018764	X	15018764	0.3333	0.35	1.5485	3
+naive: most private	sim_0118	causal	I:13363482	I	13363482	0.25	0.05	0.527	1
+naive: most private	sim_0119	causal	I:13363482	I	13363482	0.25	0.05	0.527	2
+naive: most private	sim_0120	causal	I:13363482	I	13363482	0.25	0.05	0.527	3
+naive: most private	sim_0121	causal	I:13363482	I	13363482	0.25	0.15	0.9651	1
+naive: most private	sim_0122	causal	I:13363482	I	13363482	0.25	0.15	0.9651	2
+naive: most private	sim_0123	causal	I:13363482	I	13363482	0.25	0.15	0.9651	3
+naive: most private	sim_0124	causal	I:13363482	I	13363482	0.25	0.35	1.6858	1
+naive: most private	sim_0125	causal	I:13363482	I	13363482	0.25	0.35	1.6858	2
+naive: most private	sim_0126	causal	I:13363482	I	13363482	0.25	0.35	1.6858	3
+naive: most private	sim_0127	causal	X:10052467	X	10052467	0.1458	0.05	0.6466	1
+naive: most private	sim_0128	causal	X:10052467	X	10052467	0.1458	0.05	0.6466	2
+naive: most private	sim_0129	causal	X:10052467	X	10052467	0.1458	0.05	0.6466	3
+naive: most private	sim_0130	causal	X:10052467	X	10052467	0.1458	0.15	1.184	1
+naive: most private	sim_0131	causal	X:10052467	X	10052467	0.1458	0.15	1.184	2
+naive: most private	sim_0132	causal	X:10052467	X	10052467	0.1458	0.15	1.184	3
+naive: most private	sim_0133	causal	X:10052467	X	10052467	0.1458	0.35	2.0683	1
+naive: most private	sim_0134	causal	X:10052467	X	10052467	0.1458	0.35	2.0683	2
+naive: most private	sim_0135	causal	X:10052467	X	10052467	0.1458	0.35	2.0683	3
+naive: most private	sim_0136	causal	II:3929026	II	3929026	0.1354	0.05	0.667	1
+naive: most private	sim_0137	causal	II:3929026	II	3929026	0.1354	0.05	0.667	2
+naive: most private	sim_0138	causal	II:3929026	II	3929026	0.1354	0.05	0.667	3
+naive: most private	sim_0139	causal	II:3929026	II	3929026	0.1354	0.15	1.2213	1
+naive: most private	sim_0140	causal	II:3929026	II	3929026	0.1354	0.15	1.2213	2
+naive: most private	sim_0141	causal	II:3929026	II	3929026	0.1354	0.15	1.2213	3
+naive: most private	sim_0142	causal	II:3929026	II	3929026	0.1354	0.35	2.1334	1
+naive: most private	sim_0143	causal	II:3929026	II	3929026	0.1354	0.35	2.1334	2
+naive: most private	sim_0144	causal	II:3929026	II	3929026	0.1354	0.35	2.1334	3
+naive: most private	sim_0145	causal	IV:1599607	IV	1599607	0.1354	0.05	0.667	1
+naive: most private	sim_0146	causal	IV:1599607	IV	1599607	0.1354	0.05	0.667	2
+naive: most private	sim_0147	causal	IV:1599607	IV	1599607	0.1354	0.05	0.667	3
+naive: most private	sim_0148	causal	IV:1599607	IV	1599607	0.1354	0.15	1.2213	1
+naive: most private	sim_0149	causal	IV:1599607	IV	1599607	0.1354	0.15	1.2213	2
+naive: most private	sim_0150	causal	IV:1599607	IV	1599607	0.1354	0.15	1.2213	3
+naive: most private	sim_0151	causal	IV:1599607	IV	1599607	0.1354	0.35	2.1334	1
+naive: most private	sim_0152	causal	IV:1599607	IV	1599607	0.1354	0.35	2.1334	2
+naive: most private	sim_0153	causal	IV:1599607	IV	1599607	0.1354	0.35	2.1334	3
+naive: most private	sim_0154	causal	II:3507098	II	3507098	0.3125	0.05	0.4924	1
+naive: most private	sim_0155	causal	II:3507098	II	3507098	0.3125	0.05	0.4924	2
+naive: most private	sim_0156	causal	II:3507098	II	3507098	0.3125	0.05	0.4924	3
+naive: most private	sim_0157	causal	II:3507098	II	3507098	0.3125	0.15	0.9016	1
+naive: most private	sim_0158	causal	II:3507098	II	3507098	0.3125	0.15	0.9016	2
+naive: most private	sim_0159	causal	II:3507098	II	3507098	0.3125	0.15	0.9016	3
+naive: most private	sim_0160	causal	II:3507098	II	3507098	0.3125	0.35	1.5749	1
+naive: most private	sim_0161	causal	II:3507098	II	3507098	0.3125	0.35	1.5749	2
+naive: most private	sim_0162	causal	II:3507098	II	3507098	0.3125	0.35	1.5749	3
+naive: most private	sim_0163	causal	X:1263612	X	1263612	0.1771	0.05	0.5978	1
+naive: most private	sim_0164	causal	X:1263612	X	1263612	0.1771	0.05	0.5978	2
+naive: most private	sim_0165	causal	X:1263612	X	1263612	0.1771	0.05	0.5978	3
+naive: most private	sim_0166	causal	X:1263612	X	1263612	0.1771	0.15	1.0947	1
+naive: most private	sim_0167	causal	X:1263612	X	1263612	0.1771	0.15	1.0947	2
+naive: most private	sim_0168	causal	X:1263612	X	1263612	0.1771	0.15	1.0947	3
+naive: most private	sim_0169	causal	X:1263612	X	1263612	0.1771	0.35	1.9122	1
+naive: most private	sim_0170	causal	X:1263612	X	1263612	0.1771	0.35	1.9122	2
+naive: most private	sim_0171	causal	X:1263612	X	1263612	0.1771	0.35	1.9122	3
+naive: most private	sim_0172	causal	I:4673303	I	4673303	0.1771	0.05	0.5978	1
+naive: most private	sim_0173	causal	I:4673303	I	4673303	0.1771	0.05	0.5978	2
+naive: most private	sim_0174	causal	I:4673303	I	4673303	0.1771	0.05	0.5978	3
+naive: most private	sim_0175	causal	I:4673303	I	4673303	0.1771	0.15	1.0947	1
+naive: most private	sim_0176	causal	I:4673303	I	4673303	0.1771	0.15	1.0947	2
+naive: most private	sim_0177	causal	I:4673303	I	4673303	0.1771	0.15	1.0947	3
+naive: most private	sim_0178	causal	I:4673303	I	4673303	0.1771	0.35	1.9122	1
+naive: most private	sim_0179	causal	I:4673303	I	4673303	0.1771	0.35	1.9122	2
+naive: most private	sim_0180	causal	I:4673303	I	4673303	0.1771	0.35	1.9122	3
+naive: most private	sim_0181	causal	X:16899421	X	16899421	0.1771	0.05	0.5978	1
+naive: most private	sim_0182	causal	X:16899421	X	16899421	0.1771	0.05	0.5978	2
+naive: most private	sim_0183	causal	X:16899421	X	16899421	0.1771	0.05	0.5978	3
+naive: most private	sim_0184	causal	X:16899421	X	16899421	0.1771	0.15	1.0947	1
+naive: most private	sim_0185	causal	X:16899421	X	16899421	0.1771	0.15	1.0947	2
+naive: most private	sim_0186	causal	X:16899421	X	16899421	0.1771	0.15	1.0947	3
+naive: most private	sim_0187	causal	X:16899421	X	16899421	0.1771	0.35	1.9122	1
+naive: most private	sim_0188	causal	X:16899421	X	16899421	0.1771	0.35	1.9122	2
+naive: most private	sim_0189	causal	X:16899421	X	16899421	0.1771	0.35	1.9122	3
+naive: most private	sim_0190	causal	I:1697502	I	1697502	0.3021	0.05	0.497	1
+naive: most private	sim_0191	causal	I:1697502	I	1697502	0.3021	0.05	0.497	2
+naive: most private	sim_0192	causal	I:1697502	I	1697502	0.3021	0.05	0.497	3
+naive: most private	sim_0193	causal	I:1697502	I	1697502	0.3021	0.15	0.9101	1
+naive: most private	sim_0194	causal	I:1697502	I	1697502	0.3021	0.15	0.9101	2
+naive: most private	sim_0195	causal	I:1697502	I	1697502	0.3021	0.15	0.9101	3
+naive: most private	sim_0196	causal	I:1697502	I	1697502	0.3021	0.35	1.5898	1
+naive: most private	sim_0197	causal	I:1697502	I	1697502	0.3021	0.35	1.5898	2
+naive: most private	sim_0198	causal	I:1697502	I	1697502	0.3021	0.35	1.5898	3
+naive: most private	sim_0199	causal	X:13699978	X	13699978	0.1979	0.05	0.5728	1
+naive: most private	sim_0200	causal	X:13699978	X	13699978	0.1979	0.05	0.5728	2
+naive: most private	sim_0201	causal	X:13699978	X	13699978	0.1979	0.05	0.5728	3
+naive: most private	sim_0202	causal	X:13699978	X	13699978	0.1979	0.15	1.0488	1
+naive: most private	sim_0203	causal	X:13699978	X	13699978	0.1979	0.15	1.0488	2
+naive: most private	sim_0204	causal	X:13699978	X	13699978	0.1979	0.15	1.0488	3
+naive: most private	sim_0205	causal	X:13699978	X	13699978	0.1979	0.35	1.8321	1
+naive: most private	sim_0206	causal	X:13699978	X	13699978	0.1979	0.35	1.8321	2
+naive: most private	sim_0207	causal	X:13699978	X	13699978	0.1979	0.35	1.8321	3
+naive: most private	sim_0208	causal	IV:2234592	IV	2234592	0.1562	0.05	0.6285	1
+naive: most private	sim_0209	causal	IV:2234592	IV	2234592	0.1562	0.05	0.6285	2
+naive: most private	sim_0210	causal	IV:2234592	IV	2234592	0.1562	0.05	0.6285	3
+naive: most private	sim_0211	causal	IV:2234592	IV	2234592	0.1562	0.15	1.1509	1
+naive: most private	sim_0212	causal	IV:2234592	IV	2234592	0.1562	0.15	1.1509	2
+naive: most private	sim_0213	causal	IV:2234592	IV	2234592	0.1562	0.15	1.1509	3
+naive: most private	sim_0214	causal	IV:2234592	IV	2234592	0.1562	0.35	2.0104	1
+naive: most private	sim_0215	causal	IV:2234592	IV	2234592	0.1562	0.35	2.0104	2
+naive: most private	sim_0216	causal	IV:2234592	IV	2234592	0.1562	0.35	2.0104	3
+naive: most private	sim_0217	causal	IV:1017374	IV	1017374	0.3438	0.05	0.4805	1
+naive: most private	sim_0218	causal	IV:1017374	IV	1017374	0.3438	0.05	0.4805	2
+naive: most private	sim_0219	causal	IV:1017374	IV	1017374	0.3438	0.05	0.4805	3
+naive: most private	sim_0220	causal	IV:1017374	IV	1017374	0.3438	0.15	0.8798	1
+naive: most private	sim_0221	causal	IV:1017374	IV	1017374	0.3438	0.15	0.8798	2
+naive: most private	sim_0222	causal	IV:1017374	IV	1017374	0.3438	0.15	0.8798	3
+naive: most private	sim_0223	causal	IV:1017374	IV	1017374	0.3438	0.35	1.5369	1
+naive: most private	sim_0224	causal	IV:1017374	IV	1017374	0.3438	0.35	1.5369	2
+naive: most private	sim_0225	causal	IV:1017374	IV	1017374	0.3438	0.35	1.5369	3
+naive: most private	sim_0226	causal	III:3148892	III	3148892	0.2604	0.05	0.52	1
+naive: most private	sim_0227	causal	III:3148892	III	3148892	0.2604	0.05	0.52	2
+naive: most private	sim_0228	causal	III:3148892	III	3148892	0.2604	0.05	0.52	3
+naive: most private	sim_0229	causal	III:3148892	III	3148892	0.2604	0.15	0.9522	1
+naive: most private	sim_0230	causal	III:3148892	III	3148892	0.2604	0.15	0.9522	2
+naive: most private	sim_0231	causal	III:3148892	III	3148892	0.2604	0.15	0.9522	3
+naive: most private	sim_0232	causal	III:3148892	III	3148892	0.2604	0.35	1.6633	1
+naive: most private	sim_0233	causal	III:3148892	III	3148892	0.2604	0.35	1.6633	2
+naive: most private	sim_0234	causal	III:3148892	III	3148892	0.2604	0.35	1.6633	3
+naive: most private	sim_0235	causal	III:8495431	III	8495431	0.4688	0.05	0.4573	1
+naive: most private	sim_0236	causal	III:8495431	III	8495431	0.4688	0.05	0.4573	2
+naive: most private	sim_0237	causal	III:8495431	III	8495431	0.4688	0.05	0.4573	3
+naive: most private	sim_0238	causal	III:8495431	III	8495431	0.4688	0.15	0.8374	1
+naive: most private	sim_0239	causal	III:8495431	III	8495431	0.4688	0.15	0.8374	2
+naive: most private	sim_0240	causal	III:8495431	III	8495431	0.4688	0.15	0.8374	3
+naive: most private	sim_0241	causal	III:8495431	III	8495431	0.4688	0.35	1.4628	1
+naive: most private	sim_0242	causal	III:8495431	III	8495431	0.4688	0.35	1.4628	2
+naive: most private	sim_0243	causal	III:8495431	III	8495431	0.4688	0.35	1.4628	3
+naive: most private	sim_0244	causal	III:12269618	III	12269618	0.2812	0.05	0.5076	1
+naive: most private	sim_0245	causal	III:12269618	III	12269618	0.2812	0.05	0.5076	2
+naive: most private	sim_0246	causal	III:12269618	III	12269618	0.2812	0.05	0.5076	3
+naive: most private	sim_0247	causal	III:12269618	III	12269618	0.2812	0.15	0.9295	1
+naive: most private	sim_0248	causal	III:12269618	III	12269618	0.2812	0.15	0.9295	2
+naive: most private	sim_0249	causal	III:12269618	III	12269618	0.2812	0.15	0.9295	3
+naive: most private	sim_0250	causal	III:12269618	III	12269618	0.2812	0.35	1.6236	1
+naive: most private	sim_0251	causal	III:12269618	III	12269618	0.2812	0.35	1.6236	2
+naive: most private	sim_0252	causal	III:12269618	III	12269618	0.2812	0.35	1.6236	3
+naive: most private	sim_0253	causal	II:2669884	II	2669884	0.4479	0.05	0.4589	1
+naive: most private	sim_0254	causal	II:2669884	II	2669884	0.4479	0.05	0.4589	2
+naive: most private	sim_0255	causal	II:2669884	II	2669884	0.4479	0.05	0.4589	3
+naive: most private	sim_0256	causal	II:2669884	II	2669884	0.4479	0.15	0.8404	1
+naive: most private	sim_0257	causal	II:2669884	II	2669884	0.4479	0.15	0.8404	2
+naive: most private	sim_0258	causal	II:2669884	II	2669884	0.4479	0.15	0.8404	3
+naive: most private	sim_0259	causal	II:2669884	II	2669884	0.4479	0.35	1.4679	1
+naive: most private	sim_0260	causal	II:2669884	II	2669884	0.4479	0.35	1.4679	2
+naive: most private	sim_0261	causal	II:2669884	II	2669884	0.4479	0.35	1.4679	3
+naive: most private	sim_0262	causal	II:2687337	II	2687337	0.3958	0.05	0.4667	1
+naive: most private	sim_0263	causal	II:2687337	II	2687337	0.3958	0.05	0.4667	2
+naive: most private	sim_0264	causal	II:2687337	II	2687337	0.3958	0.05	0.4667	3
+naive: most private	sim_0265	causal	II:2687337	II	2687337	0.3958	0.15	0.8545	1
+naive: most private	sim_0266	causal	II:2687337	II	2687337	0.3958	0.15	0.8545	2
+naive: most private	sim_0267	causal	II:2687337	II	2687337	0.3958	0.15	0.8545	3
+naive: most private	sim_0268	causal	II:2687337	II	2687337	0.3958	0.35	1.4927	1
+naive: most private	sim_0269	causal	II:2687337	II	2687337	0.3958	0.35	1.4927	2
+naive: most private	sim_0270	causal	II:2687337	II	2687337	0.3958	0.35	1.4927	3
+naive: most private	sim_0271	causal	II:13040075	II	13040075	0.4062	0.05	0.4647	1
+naive: most private	sim_0272	causal	II:13040075	II	13040075	0.4062	0.05	0.4647	2
+naive: most private	sim_0273	causal	II:13040075	II	13040075	0.4062	0.05	0.4647	3
+naive: most private	sim_0274	causal	II:13040075	II	13040075	0.4062	0.15	0.8509	1
+naive: most private	sim_0275	causal	II:13040075	II	13040075	0.4062	0.15	0.8509	2
+naive: most private	sim_0276	causal	II:13040075	II	13040075	0.4062	0.15	0.8509	3
+naive: most private	sim_0277	causal	II:13040075	II	13040075	0.4062	0.35	1.4863	1
+naive: most private	sim_0278	causal	II:13040075	II	13040075	0.4062	0.35	1.4863	2
+naive: most private	sim_0279	causal	II:13040075	II	13040075	0.4062	0.35	1.4863	3
+naive: most private	sim_0280	causal	I:1437632	I	1437632	0.4479	0.05	0.4589	1
+naive: most private	sim_0281	causal	I:1437632	I	1437632	0.4479	0.05	0.4589	2
+naive: most private	sim_0282	causal	I:1437632	I	1437632	0.4479	0.05	0.4589	3
+naive: most private	sim_0283	causal	I:1437632	I	1437632	0.4479	0.15	0.8404	1
+naive: most private	sim_0284	causal	I:1437632	I	1437632	0.4479	0.15	0.8404	2
+naive: most private	sim_0285	causal	I:1437632	I	1437632	0.4479	0.15	0.8404	3
+naive: most private	sim_0286	causal	I:1437632	I	1437632	0.4479	0.35	1.4679	1
+naive: most private	sim_0287	causal	I:1437632	I	1437632	0.4479	0.35	1.4679	2
+naive: most private	sim_0288	causal	I:1437632	I	1437632	0.4479	0.35	1.4679	3
+naive: most private	sim_0289	causal	II:12800550	II	12800550	0.3333	0.05	0.4841	1
+naive: most private	sim_0290	causal	II:12800550	II	12800550	0.3333	0.05	0.4841	2
+naive: most private	sim_0291	causal	II:12800550	II	12800550	0.3333	0.05	0.4841	3
+naive: most private	sim_0292	causal	II:12800550	II	12800550	0.3333	0.15	0.8865	1
+naive: most private	sim_0293	causal	II:12800550	II	12800550	0.3333	0.15	0.8865	2
+naive: most private	sim_0294	causal	II:12800550	II	12800550	0.3333	0.15	0.8865	3
+naive: most private	sim_0295	causal	II:12800550	II	12800550	0.3333	0.35	1.5485	1
+naive: most private	sim_0296	causal	II:12800550	II	12800550	0.3333	0.35	1.5485	2
+naive: most private	sim_0297	causal	II:12800550	II	12800550	0.3333	0.35	1.5485	3
+naive: most private	sim_0298	causal	II:13090557	II	13090557	0.2604	0.05	0.52	1
+naive: most private	sim_0299	causal	II:13090557	II	13090557	0.2604	0.05	0.52	2
+naive: most private	sim_0300	causal	II:13090557	II	13090557	0.2604	0.05	0.52	3
+naive: most private	sim_0301	causal	II:13090557	II	13090557	0.2604	0.15	0.9522	1
+naive: most private	sim_0302	causal	II:13090557	II	13090557	0.2604	0.15	0.9522	2
+naive: most private	sim_0303	causal	II:13090557	II	13090557	0.2604	0.15	0.9522	3
+naive: most private	sim_0304	causal	II:13090557	II	13090557	0.2604	0.35	1.6633	1
+naive: most private	sim_0305	causal	II:13090557	II	13090557	0.2604	0.35	1.6633	2
+naive: most private	sim_0306	causal	II:13090557	II	13090557	0.2604	0.35	1.6633	3
+naive: most private	sim_0307	causal	III:11424827	III	11424827	0.3646	0.05	0.4742	1
+naive: most private	sim_0308	causal	III:11424827	III	11424827	0.3646	0.05	0.4742	2
+naive: most private	sim_0309	causal	III:11424827	III	11424827	0.3646	0.05	0.4742	3
+naive: most private	sim_0310	causal	III:11424827	III	11424827	0.3646	0.15	0.8682	1
+naive: most private	sim_0311	causal	III:11424827	III	11424827	0.3646	0.15	0.8682	2
+naive: most private	sim_0312	causal	III:11424827	III	11424827	0.3646	0.15	0.8682	3
+naive: most private	sim_0313	causal	III:11424827	III	11424827	0.3646	0.35	1.5166	1
+naive: most private	sim_0314	causal	III:11424827	III	11424827	0.3646	0.35	1.5166	2
+naive: most private	sim_0315	causal	III:11424827	III	11424827	0.3646	0.35	1.5166	3
+naive: most private	sim_0316	causal	II:2828383	II	2828383	0.2812	0.05	0.5076	1
+naive: most private	sim_0317	causal	II:2828383	II	2828383	0.2812	0.05	0.5076	2
+naive: most private	sim_0318	causal	II:2828383	II	2828383	0.2812	0.05	0.5076	3
+naive: most private	sim_0319	causal	II:2828383	II	2828383	0.2812	0.15	0.9295	1
+naive: most private	sim_0320	causal	II:2828383	II	2828383	0.2812	0.15	0.9295	2
+naive: most private	sim_0321	causal	II:2828383	II	2828383	0.2812	0.15	0.9295	3
+naive: most private	sim_0322	causal	II:2828383	II	2828383	0.2812	0.35	1.6236	1
+naive: most private	sim_0323	causal	II:2828383	II	2828383	0.2812	0.35	1.6236	2
+naive: most private	sim_0324	causal	II:2828383	II	2828383	0.2812	0.35	1.6236	3
+naive: most private	sim_0325	null					0	0	1
+naive: most private	sim_0326	null					0	0	2
+naive: most private	sim_0327	null					0	0	3
+naive: most private	sim_0328	null					0	0	4
+naive: most private	sim_0329	null					0	0	5
+naive: most private	sim_0330	null					0	0	6
+naive: most private	sim_0331	null					0	0	7
+naive: most private	sim_0332	null					0	0	8
+naive: most private	sim_0333	null					0	0	9
+naive: most private	sim_0334	null					0	0	10
+naive: most private	sim_0335	null					0	0	11
+naive: most private	sim_0336	null					0	0	12
+naive: most private	sim_0337	null					0	0	13
+naive: most private	sim_0338	null					0	0	14
+naive: most private	sim_0339	null					0	0	15
+optimised	sim_0001	causal	I:2417713	I	2417713	0.3229	0.05	0.4881	1
+optimised	sim_0002	causal	I:2417713	I	2417713	0.3229	0.05	0.4881	2
+optimised	sim_0003	causal	I:2417713	I	2417713	0.3229	0.05	0.4881	3
+optimised	sim_0004	causal	I:2417713	I	2417713	0.3229	0.15	0.8937	1
+optimised	sim_0005	causal	I:2417713	I	2417713	0.3229	0.15	0.8937	2
+optimised	sim_0006	causal	I:2417713	I	2417713	0.3229	0.15	0.8937	3
+optimised	sim_0007	causal	I:2417713	I	2417713	0.3229	0.35	1.5611	1
+optimised	sim_0008	causal	I:2417713	I	2417713	0.3229	0.35	1.5611	2
+optimised	sim_0009	causal	I:2417713	I	2417713	0.3229	0.35	1.5611	3
+optimised	sim_0010	causal	V:2696353	V	2696353	0.1979	0.05	0.5728	1
+optimised	sim_0011	causal	V:2696353	V	2696353	0.1979	0.05	0.5728	2
+optimised	sim_0012	causal	V:2696353	V	2696353	0.1979	0.05	0.5728	3
+optimised	sim_0013	causal	V:2696353	V	2696353	0.1979	0.15	1.0488	1
+optimised	sim_0014	causal	V:2696353	V	2696353	0.1979	0.15	1.0488	2
+optimised	sim_0015	causal	V:2696353	V	2696353	0.1979	0.15	1.0488	3
+optimised	sim_0016	causal	V:2696353	V	2696353	0.1979	0.35	1.8321	1
+optimised	sim_0017	causal	V:2696353	V	2696353	0.1979	0.35	1.8321	2
+optimised	sim_0018	causal	V:2696353	V	2696353	0.1979	0.35	1.8321	3
+optimised	sim_0019	causal	II:10812172	II	10812172	0.2292	0.05	0.543	1
+optimised	sim_0020	causal	II:10812172	II	10812172	0.2292	0.05	0.543	2
+optimised	sim_0021	causal	II:10812172	II	10812172	0.2292	0.05	0.543	3
+optimised	sim_0022	causal	II:10812172	II	10812172	0.2292	0.15	0.9943	1
+optimised	sim_0023	causal	II:10812172	II	10812172	0.2292	0.15	0.9943	2
+optimised	sim_0024	causal	II:10812172	II	10812172	0.2292	0.15	0.9943	3
+optimised	sim_0025	causal	II:10812172	II	10812172	0.2292	0.35	1.7368	1
+optimised	sim_0026	causal	II:10812172	II	10812172	0.2292	0.35	1.7368	2
+optimised	sim_0027	causal	II:10812172	II	10812172	0.2292	0.35	1.7368	3
+optimised	sim_0028	causal	V:11925787	V	11925787	0.3125	0.05	0.4924	1
+optimised	sim_0029	causal	V:11925787	V	11925787	0.3125	0.05	0.4924	2
+optimised	sim_0030	causal	V:11925787	V	11925787	0.3125	0.05	0.4924	3
+optimised	sim_0031	causal	V:11925787	V	11925787	0.3125	0.15	0.9016	1
+optimised	sim_0032	causal	V:11925787	V	11925787	0.3125	0.15	0.9016	2
+optimised	sim_0033	causal	V:11925787	V	11925787	0.3125	0.15	0.9016	3
+optimised	sim_0034	causal	V:11925787	V	11925787	0.3125	0.35	1.5749	1
+optimised	sim_0035	causal	V:11925787	V	11925787	0.3125	0.35	1.5749	2
+optimised	sim_0036	causal	V:11925787	V	11925787	0.3125	0.35	1.5749	3
+optimised	sim_0037	causal	I:14669846	I	14669846	0.125	0.05	0.6901	1
+optimised	sim_0038	causal	I:14669846	I	14669846	0.125	0.05	0.6901	2
+optimised	sim_0039	causal	I:14669846	I	14669846	0.125	0.05	0.6901	3
+optimised	sim_0040	causal	I:14669846	I	14669846	0.125	0.15	1.2636	1
+optimised	sim_0041	causal	I:14669846	I	14669846	0.125	0.15	1.2636	2
+optimised	sim_0042	causal	I:14669846	I	14669846	0.125	0.15	1.2636	3
+optimised	sim_0043	causal	I:14669846	I	14669846	0.125	0.35	2.2072	1
+optimised	sim_0044	causal	I:14669846	I	14669846	0.125	0.35	2.2072	2
+optimised	sim_0045	causal	I:14669846	I	14669846	0.125	0.35	2.2072	3
+optimised	sim_0046	causal	IV:16602132	IV	16602132	0.1875	0.05	0.5847	1
+optimised	sim_0047	causal	IV:16602132	IV	16602132	0.1875	0.05	0.5847	2
+optimised	sim_0048	causal	IV:16602132	IV	16602132	0.1875	0.05	0.5847	3
+optimised	sim_0049	causal	IV:16602132	IV	16602132	0.1875	0.15	1.0707	1
+optimised	sim_0050	causal	IV:16602132	IV	16602132	0.1875	0.15	1.0707	2
+optimised	sim_0051	causal	IV:16602132	IV	16602132	0.1875	0.15	1.0707	3
+optimised	sim_0052	causal	IV:16602132	IV	16602132	0.1875	0.35	1.8702	1
+optimised	sim_0053	causal	IV:16602132	IV	16602132	0.1875	0.35	1.8702	2
+optimised	sim_0054	causal	IV:16602132	IV	16602132	0.1875	0.35	1.8702	3
+optimised	sim_0055	causal	II:12808081	II	12808081	0.1042	0.05	0.7471	1
+optimised	sim_0056	causal	II:12808081	II	12808081	0.1042	0.05	0.7471	2
+optimised	sim_0057	causal	II:12808081	II	12808081	0.1042	0.05	0.7471	3
+optimised	sim_0058	causal	II:12808081	II	12808081	0.1042	0.15	1.368	1
+optimised	sim_0059	causal	II:12808081	II	12808081	0.1042	0.15	1.368	2
+optimised	sim_0060	causal	II:12808081	II	12808081	0.1042	0.15	1.368	3
+optimised	sim_0061	causal	II:12808081	II	12808081	0.1042	0.35	2.3896	1
+optimised	sim_0062	causal	II:12808081	II	12808081	0.1042	0.35	2.3896	2
+optimised	sim_0063	causal	II:12808081	II	12808081	0.1042	0.35	2.3896	3
+optimised	sim_0064	causal	X:6234955	X	6234955	0.1667	0.05	0.6124	1
+optimised	sim_0065	causal	X:6234955	X	6234955	0.1667	0.05	0.6124	2
+optimised	sim_0066	causal	X:6234955	X	6234955	0.1667	0.05	0.6124	3
+optimised	sim_0067	causal	X:6234955	X	6234955	0.1667	0.15	1.1213	1
+optimised	sim_0068	causal	X:6234955	X	6234955	0.1667	0.15	1.1213	2
+optimised	sim_0069	causal	X:6234955	X	6234955	0.1667	0.15	1.1213	3
+optimised	sim_0070	causal	X:6234955	X	6234955	0.1667	0.35	1.9587	1
+optimised	sim_0071	causal	X:6234955	X	6234955	0.1667	0.35	1.9587	2
+optimised	sim_0072	causal	X:6234955	X	6234955	0.1667	0.35	1.9587	3
+optimised	sim_0073	causal	IV:6526248	IV	6526248	0.1875	0.05	0.5847	1
+optimised	sim_0074	causal	IV:6526248	IV	6526248	0.1875	0.05	0.5847	2
+optimised	sim_0075	causal	IV:6526248	IV	6526248	0.1875	0.05	0.5847	3
+optimised	sim_0076	causal	IV:6526248	IV	6526248	0.1875	0.15	1.0707	1
+optimised	sim_0077	causal	IV:6526248	IV	6526248	0.1875	0.15	1.0707	2
+optimised	sim_0078	causal	IV:6526248	IV	6526248	0.1875	0.15	1.0707	3
+optimised	sim_0079	causal	IV:6526248	IV	6526248	0.1875	0.35	1.8702	1
+optimised	sim_0080	causal	IV:6526248	IV	6526248	0.1875	0.35	1.8702	2
+optimised	sim_0081	causal	IV:6526248	IV	6526248	0.1875	0.35	1.8702	3
+optimised	sim_0082	causal	V:17204407	V	17204407	0.2188	0.05	0.5521	1
+optimised	sim_0083	causal	V:17204407	V	17204407	0.2188	0.05	0.5521	2
+optimised	sim_0084	causal	V:17204407	V	17204407	0.2188	0.05	0.5521	3
+optimised	sim_0085	causal	V:17204407	V	17204407	0.2188	0.15	1.0109	1
+optimised	sim_0086	causal	V:17204407	V	17204407	0.2188	0.15	1.0109	2
+optimised	sim_0087	causal	V:17204407	V	17204407	0.2188	0.15	1.0109	3
+optimised	sim_0088	causal	V:17204407	V	17204407	0.2188	0.35	1.7658	1
+optimised	sim_0089	causal	V:17204407	V	17204407	0.2188	0.35	1.7658	2
+optimised	sim_0090	causal	V:17204407	V	17204407	0.2188	0.35	1.7658	3
+optimised	sim_0091	causal	III:11780987	III	11780987	0.0833	0.05	0.8257	1
+optimised	sim_0092	causal	III:11780987	III	11780987	0.0833	0.05	0.8257	2
+optimised	sim_0093	causal	III:11780987	III	11780987	0.0833	0.05	0.8257	3
+optimised	sim_0094	causal	III:11780987	III	11780987	0.0833	0.15	1.512	1
+optimised	sim_0095	causal	III:11780987	III	11780987	0.0833	0.15	1.512	2
+optimised	sim_0096	causal	III:11780987	III	11780987	0.0833	0.15	1.512	3
+optimised	sim_0097	causal	III:11780987	III	11780987	0.0833	0.35	2.6411	1
+optimised	sim_0098	causal	III:11780987	III	11780987	0.0833	0.35	2.6411	2
+optimised	sim_0099	causal	III:11780987	III	11780987	0.0833	0.35	2.6411	3
+optimised	sim_0100	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	1
+optimised	sim_0101	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	2
+optimised	sim_0102	causal	IV:7602408	IV	7602408	0.0625	0.05	0.9428	3
+optimised	sim_0103	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	1
+optimised	sim_0104	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	2
+optimised	sim_0105	causal	IV:7602408	IV	7602408	0.0625	0.15	1.7264	3
+optimised	sim_0106	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	1
+optimised	sim_0107	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	2
+optimised	sim_0108	causal	IV:7602408	IV	7602408	0.0625	0.35	3.0156	3
+optimised	sim_0109	causal	X:15018764	X	15018764	0.2812	0.05	0.5076	1
+optimised	sim_0110	causal	X:15018764	X	15018764	0.2812	0.05	0.5076	2
+optimised	sim_0111	causal	X:15018764	X	15018764	0.2812	0.05	0.5076	3
+optimised	sim_0112	causal	X:15018764	X	15018764	0.2812	0.15	0.9295	1
+optimised	sim_0113	causal	X:15018764	X	15018764	0.2812	0.15	0.9295	2
+optimised	sim_0114	causal	X:15018764	X	15018764	0.2812	0.15	0.9295	3
+optimised	sim_0115	causal	X:15018764	X	15018764	0.2812	0.35	1.6236	1
+optimised	sim_0116	causal	X:15018764	X	15018764	0.2812	0.35	1.6236	2
+optimised	sim_0117	causal	X:15018764	X	15018764	0.2812	0.35	1.6236	3
+optimised	sim_0118	causal	I:13363482	I	13363482	0.3854	0.05	0.4689	1
+optimised	sim_0119	causal	I:13363482	I	13363482	0.3854	0.05	0.4689	2
+optimised	sim_0120	causal	I:13363482	I	13363482	0.3854	0.05	0.4689	3
+optimised	sim_0121	causal	I:13363482	I	13363482	0.3854	0.15	0.8586	1
+optimised	sim_0122	causal	I:13363482	I	13363482	0.3854	0.15	0.8586	2
+optimised	sim_0123	causal	I:13363482	I	13363482	0.3854	0.15	0.8586	3
+optimised	sim_0124	causal	I:13363482	I	13363482	0.3854	0.35	1.4999	1
+optimised	sim_0125	causal	I:13363482	I	13363482	0.3854	0.35	1.4999	2
+optimised	sim_0126	causal	I:13363482	I	13363482	0.3854	0.35	1.4999	3
+optimised	sim_0127	causal	X:10052467	X	10052467	0.3229	0.05	0.4881	1
+optimised	sim_0128	causal	X:10052467	X	10052467	0.3229	0.05	0.4881	2
+optimised	sim_0129	causal	X:10052467	X	10052467	0.3229	0.05	0.4881	3
+optimised	sim_0130	causal	X:10052467	X	10052467	0.3229	0.15	0.8937	1
+optimised	sim_0131	causal	X:10052467	X	10052467	0.3229	0.15	0.8937	2
+optimised	sim_0132	causal	X:10052467	X	10052467	0.3229	0.15	0.8937	3
+optimised	sim_0133	causal	X:10052467	X	10052467	0.3229	0.35	1.5611	1
+optimised	sim_0134	causal	X:10052467	X	10052467	0.3229	0.35	1.5611	2
+optimised	sim_0135	causal	X:10052467	X	10052467	0.3229	0.35	1.5611	3
+optimised	sim_0136	causal	II:3929026	II	3929026	0.3542	0.05	0.4772	1
+optimised	sim_0137	causal	II:3929026	II	3929026	0.3542	0.05	0.4772	2
+optimised	sim_0138	causal	II:3929026	II	3929026	0.3542	0.05	0.4772	3
+optimised	sim_0139	causal	II:3929026	II	3929026	0.3542	0.15	0.8738	1
+optimised	sim_0140	causal	II:3929026	II	3929026	0.3542	0.15	0.8738	2
+optimised	sim_0141	causal	II:3929026	II	3929026	0.3542	0.15	0.8738	3
+optimised	sim_0142	causal	II:3929026	II	3929026	0.3542	0.35	1.5263	1
+optimised	sim_0143	causal	II:3929026	II	3929026	0.3542	0.35	1.5263	2
+optimised	sim_0144	causal	II:3929026	II	3929026	0.3542	0.35	1.5263	3
+optimised	sim_0145	causal	IV:1599607	IV	1599607	0.3021	0.05	0.497	1
+optimised	sim_0146	causal	IV:1599607	IV	1599607	0.3021	0.05	0.497	2
+optimised	sim_0147	causal	IV:1599607	IV	1599607	0.3021	0.05	0.497	3
+optimised	sim_0148	causal	IV:1599607	IV	1599607	0.3021	0.15	0.9101	1
+optimised	sim_0149	causal	IV:1599607	IV	1599607	0.3021	0.15	0.9101	2
+optimised	sim_0150	causal	IV:1599607	IV	1599607	0.3021	0.15	0.9101	3
+optimised	sim_0151	causal	IV:1599607	IV	1599607	0.3021	0.35	1.5898	1
+optimised	sim_0152	causal	IV:1599607	IV	1599607	0.3021	0.35	1.5898	2
+optimised	sim_0153	causal	IV:1599607	IV	1599607	0.3021	0.35	1.5898	3
+optimised	sim_0154	causal	II:3507098	II	3507098	0.4062	0.05	0.4647	1
+optimised	sim_0155	causal	II:3507098	II	3507098	0.4062	0.05	0.4647	2
+optimised	sim_0156	causal	II:3507098	II	3507098	0.4062	0.05	0.4647	3
+optimised	sim_0157	causal	II:3507098	II	3507098	0.4062	0.15	0.8509	1
+optimised	sim_0158	causal	II:3507098	II	3507098	0.4062	0.15	0.8509	2
+optimised	sim_0159	causal	II:3507098	II	3507098	0.4062	0.15	0.8509	3
+optimised	sim_0160	causal	II:3507098	II	3507098	0.4062	0.35	1.4863	1
+optimised	sim_0161	causal	II:3507098	II	3507098	0.4062	0.35	1.4863	2
+optimised	sim_0162	causal	II:3507098	II	3507098	0.4062	0.35	1.4863	3
+optimised	sim_0163	causal	X:1263612	X	1263612	0.4271	0.05	0.4614	1
+optimised	sim_0164	causal	X:1263612	X	1263612	0.4271	0.05	0.4614	2
+optimised	sim_0165	causal	X:1263612	X	1263612	0.4271	0.05	0.4614	3
+optimised	sim_0166	causal	X:1263612	X	1263612	0.4271	0.15	0.8448	1
+optimised	sim_0167	causal	X:1263612	X	1263612	0.4271	0.15	0.8448	2
+optimised	sim_0168	causal	X:1263612	X	1263612	0.4271	0.15	0.8448	3
+optimised	sim_0169	causal	X:1263612	X	1263612	0.4271	0.35	1.4757	1
+optimised	sim_0170	causal	X:1263612	X	1263612	0.4271	0.35	1.4757	2
+optimised	sim_0171	causal	X:1263612	X	1263612	0.4271	0.35	1.4757	3
+optimised	sim_0172	causal	I:4673303	I	4673303	0.4375	0.05	0.46	1
+optimised	sim_0173	causal	I:4673303	I	4673303	0.4375	0.05	0.46	2
+optimised	sim_0174	causal	I:4673303	I	4673303	0.4375	0.05	0.46	3
+optimised	sim_0175	causal	I:4673303	I	4673303	0.4375	0.15	0.8424	1
+optimised	sim_0176	causal	I:4673303	I	4673303	0.4375	0.15	0.8424	2
+optimised	sim_0177	causal	I:4673303	I	4673303	0.4375	0.15	0.8424	3
+optimised	sim_0178	causal	I:4673303	I	4673303	0.4375	0.35	1.4715	1
+optimised	sim_0179	causal	I:4673303	I	4673303	0.4375	0.35	1.4715	2
+optimised	sim_0180	causal	I:4673303	I	4673303	0.4375	0.35	1.4715	3
+optimised	sim_0181	causal	X:16899421	X	16899421	0.4479	0.05	0.4589	1
+optimised	sim_0182	causal	X:16899421	X	16899421	0.4479	0.05	0.4589	2
+optimised	sim_0183	causal	X:16899421	X	16899421	0.4479	0.05	0.4589	3
+optimised	sim_0184	causal	X:16899421	X	16899421	0.4479	0.15	0.8404	1
+optimised	sim_0185	causal	X:16899421	X	16899421	0.4479	0.15	0.8404	2
+optimised	sim_0186	causal	X:16899421	X	16899421	0.4479	0.15	0.8404	3
+optimised	sim_0187	causal	X:16899421	X	16899421	0.4479	0.35	1.4679	1
+optimised	sim_0188	causal	X:16899421	X	16899421	0.4479	0.35	1.4679	2
+optimised	sim_0189	causal	X:16899421	X	16899421	0.4479	0.35	1.4679	3
+optimised	sim_0190	causal	I:1697502	I	1697502	0.2083	0.05	0.562	1
+optimised	sim_0191	causal	I:1697502	I	1697502	0.2083	0.05	0.562	2
+optimised	sim_0192	causal	I:1697502	I	1697502	0.2083	0.05	0.562	3
+optimised	sim_0193	causal	I:1697502	I	1697502	0.2083	0.15	1.029	1
+optimised	sim_0194	causal	I:1697502	I	1697502	0.2083	0.15	1.029	2
+optimised	sim_0195	causal	I:1697502	I	1697502	0.2083	0.15	1.029	3
+optimised	sim_0196	causal	I:1697502	I	1697502	0.2083	0.35	1.7974	1
+optimised	sim_0197	causal	I:1697502	I	1697502	0.2083	0.35	1.7974	2
+optimised	sim_0198	causal	I:1697502	I	1697502	0.2083	0.35	1.7974	3
+optimised	sim_0199	causal	X:13699978	X	13699978	0.4896	0.05	0.4565	1
+optimised	sim_0200	causal	X:13699978	X	13699978	0.4896	0.05	0.4565	2
+optimised	sim_0201	causal	X:13699978	X	13699978	0.4896	0.05	0.4565	3
+optimised	sim_0202	causal	X:13699978	X	13699978	0.4896	0.15	0.836	1
+optimised	sim_0203	causal	X:13699978	X	13699978	0.4896	0.15	0.836	2
+optimised	sim_0204	causal	X:13699978	X	13699978	0.4896	0.15	0.836	3
+optimised	sim_0205	causal	X:13699978	X	13699978	0.4896	0.35	1.4603	1
+optimised	sim_0206	causal	X:13699978	X	13699978	0.4896	0.35	1.4603	2
+optimised	sim_0207	causal	X:13699978	X	13699978	0.4896	0.35	1.4603	3
+optimised	sim_0208	causal	IV:2234592	IV	2234592	0.2292	0.05	0.543	1
+optimised	sim_0209	causal	IV:2234592	IV	2234592	0.2292	0.05	0.543	2
+optimised	sim_0210	causal	IV:2234592	IV	2234592	0.2292	0.05	0.543	3
+optimised	sim_0211	causal	IV:2234592	IV	2234592	0.2292	0.15	0.9943	1
+optimised	sim_0212	causal	IV:2234592	IV	2234592	0.2292	0.15	0.9943	2
+optimised	sim_0213	causal	IV:2234592	IV	2234592	0.2292	0.15	0.9943	3
+optimised	sim_0214	causal	IV:2234592	IV	2234592	0.2292	0.35	1.7368	1
+optimised	sim_0215	causal	IV:2234592	IV	2234592	0.2292	0.35	1.7368	2
+optimised	sim_0216	causal	IV:2234592	IV	2234592	0.2292	0.35	1.7368	3
+optimised	sim_0217	causal	IV:1017374	IV	1017374	0.4896	0.05	0.4565	1
+optimised	sim_0218	causal	IV:1017374	IV	1017374	0.4896	0.05	0.4565	2
+optimised	sim_0219	causal	IV:1017374	IV	1017374	0.4896	0.05	0.4565	3
+optimised	sim_0220	causal	IV:1017374	IV	1017374	0.4896	0.15	0.836	1
+optimised	sim_0221	causal	IV:1017374	IV	1017374	0.4896	0.15	0.836	2
+optimised	sim_0222	causal	IV:1017374	IV	1017374	0.4896	0.15	0.836	3
+optimised	sim_0223	causal	IV:1017374	IV	1017374	0.4896	0.35	1.4603	1
+optimised	sim_0224	causal	IV:1017374	IV	1017374	0.4896	0.35	1.4603	2
+optimised	sim_0225	causal	IV:1017374	IV	1017374	0.4896	0.35	1.4603	3
+optimised	sim_0226	causal	III:3148892	III	3148892	0.3438	0.05	0.4805	1
+optimised	sim_0227	causal	III:3148892	III	3148892	0.3438	0.05	0.4805	2
+optimised	sim_0228	causal	III:3148892	III	3148892	0.3438	0.05	0.4805	3
+optimised	sim_0229	causal	III:3148892	III	3148892	0.3438	0.15	0.8798	1
+optimised	sim_0230	causal	III:3148892	III	3148892	0.3438	0.15	0.8798	2
+optimised	sim_0231	causal	III:3148892	III	3148892	0.3438	0.15	0.8798	3
+optimised	sim_0232	causal	III:3148892	III	3148892	0.3438	0.35	1.5369	1
+optimised	sim_0233	causal	III:3148892	III	3148892	0.3438	0.35	1.5369	2
+optimised	sim_0234	causal	III:3148892	III	3148892	0.3438	0.35	1.5369	3
+optimised	sim_0235	causal	III:8495431	III	8495431	0.3542	0.05	0.4772	1
+optimised	sim_0236	causal	III:8495431	III	8495431	0.3542	0.05	0.4772	2
+optimised	sim_0237	causal	III:8495431	III	8495431	0.3542	0.05	0.4772	3
+optimised	sim_0238	causal	III:8495431	III	8495431	0.3542	0.15	0.8738	1
+optimised	sim_0239	causal	III:8495431	III	8495431	0.3542	0.15	0.8738	2
+optimised	sim_0240	causal	III:8495431	III	8495431	0.3542	0.15	0.8738	3
+optimised	sim_0241	causal	III:8495431	III	8495431	0.3542	0.35	1.5263	1
+optimised	sim_0242	causal	III:8495431	III	8495431	0.3542	0.35	1.5263	2
+optimised	sim_0243	causal	III:8495431	III	8495431	0.3542	0.35	1.5263	3
+optimised	sim_0244	causal	III:12269618	III	12269618	0.3438	0.05	0.4805	1
+optimised	sim_0245	causal	III:12269618	III	12269618	0.3438	0.05	0.4805	2
+optimised	sim_0246	causal	III:12269618	III	12269618	0.3438	0.05	0.4805	3
+optimised	sim_0247	causal	III:12269618	III	12269618	0.3438	0.15	0.8798	1
+optimised	sim_0248	causal	III:12269618	III	12269618	0.3438	0.15	0.8798	2
+optimised	sim_0249	causal	III:12269618	III	12269618	0.3438	0.15	0.8798	3
+optimised	sim_0250	causal	III:12269618	III	12269618	0.3438	0.35	1.5369	1
+optimised	sim_0251	causal	III:12269618	III	12269618	0.3438	0.35	1.5369	2
+optimised	sim_0252	causal	III:12269618	III	12269618	0.3438	0.35	1.5369	3
+optimised	sim_0253	causal	II:2669884	II	2669884	0.3958	0.05	0.4667	1
+optimised	sim_0254	causal	II:2669884	II	2669884	0.3958	0.05	0.4667	2
+optimised	sim_0255	causal	II:2669884	II	2669884	0.3958	0.05	0.4667	3
+optimised	sim_0256	causal	II:2669884	II	2669884	0.3958	0.15	0.8545	1
+optimised	sim_0257	causal	II:2669884	II	2669884	0.3958	0.15	0.8545	2
+optimised	sim_0258	causal	II:2669884	II	2669884	0.3958	0.15	0.8545	3
+optimised	sim_0259	causal	II:2669884	II	2669884	0.3958	0.35	1.4927	1
+optimised	sim_0260	causal	II:2669884	II	2669884	0.3958	0.35	1.4927	2
+optimised	sim_0261	causal	II:2669884	II	2669884	0.3958	0.35	1.4927	3
+optimised	sim_0262	causal	II:2687337	II	2687337	0.4688	0.05	0.4573	1
+optimised	sim_0263	causal	II:2687337	II	2687337	0.4688	0.05	0.4573	2
+optimised	sim_0264	causal	II:2687337	II	2687337	0.4688	0.05	0.4573	3
+optimised	sim_0265	causal	II:2687337	II	2687337	0.4688	0.15	0.8374	1
+optimised	sim_0266	causal	II:2687337	II	2687337	0.4688	0.15	0.8374	2
+optimised	sim_0267	causal	II:2687337	II	2687337	0.4688	0.15	0.8374	3
+optimised	sim_0268	causal	II:2687337	II	2687337	0.4688	0.35	1.4628	1
+optimised	sim_0269	causal	II:2687337	II	2687337	0.4688	0.35	1.4628	2
+optimised	sim_0270	causal	II:2687337	II	2687337	0.4688	0.35	1.4628	3
+optimised	sim_0271	causal	II:13040075	II	13040075	0.4479	0.05	0.4589	1
+optimised	sim_0272	causal	II:13040075	II	13040075	0.4479	0.05	0.4589	2
+optimised	sim_0273	causal	II:13040075	II	13040075	0.4479	0.05	0.4589	3
+optimised	sim_0274	causal	II:13040075	II	13040075	0.4479	0.15	0.8404	1
+optimised	sim_0275	causal	II:13040075	II	13040075	0.4479	0.15	0.8404	2
+optimised	sim_0276	causal	II:13040075	II	13040075	0.4479	0.15	0.8404	3
+optimised	sim_0277	causal	II:13040075	II	13040075	0.4479	0.35	1.4679	1
+optimised	sim_0278	causal	II:13040075	II	13040075	0.4479	0.35	1.4679	2
+optimised	sim_0279	causal	II:13040075	II	13040075	0.4479	0.35	1.4679	3
+optimised	sim_0280	causal	I:1437632	I	1437632	0.375	0.05	0.4714	1
+optimised	sim_0281	causal	I:1437632	I	1437632	0.375	0.05	0.4714	2
+optimised	sim_0282	causal	I:1437632	I	1437632	0.375	0.05	0.4714	3
+optimised	sim_0283	causal	I:1437632	I	1437632	0.375	0.15	0.8632	1
+optimised	sim_0284	causal	I:1437632	I	1437632	0.375	0.15	0.8632	2
+optimised	sim_0285	causal	I:1437632	I	1437632	0.375	0.15	0.8632	3
+optimised	sim_0286	causal	I:1437632	I	1437632	0.375	0.35	1.5078	1
+optimised	sim_0287	causal	I:1437632	I	1437632	0.375	0.35	1.5078	2
+optimised	sim_0288	causal	I:1437632	I	1437632	0.375	0.35	1.5078	3
+optimised	sim_0289	causal	II:12800550	II	12800550	0.4271	0.05	0.4614	1
+optimised	sim_0290	causal	II:12800550	II	12800550	0.4271	0.05	0.4614	2
+optimised	sim_0291	causal	II:12800550	II	12800550	0.4271	0.05	0.4614	3
+optimised	sim_0292	causal	II:12800550	II	12800550	0.4271	0.15	0.8448	1
+optimised	sim_0293	causal	II:12800550	II	12800550	0.4271	0.15	0.8448	2
+optimised	sim_0294	causal	II:12800550	II	12800550	0.4271	0.15	0.8448	3
+optimised	sim_0295	causal	II:12800550	II	12800550	0.4271	0.35	1.4757	1
+optimised	sim_0296	causal	II:12800550	II	12800550	0.4271	0.35	1.4757	2
+optimised	sim_0297	causal	II:12800550	II	12800550	0.4271	0.35	1.4757	3
+optimised	sim_0298	causal	II:13090557	II	13090557	0.4271	0.05	0.4614	1
+optimised	sim_0299	causal	II:13090557	II	13090557	0.4271	0.05	0.4614	2
+optimised	sim_0300	causal	II:13090557	II	13090557	0.4271	0.05	0.4614	3
+optimised	sim_0301	causal	II:13090557	II	13090557	0.4271	0.15	0.8448	1
+optimised	sim_0302	causal	II:13090557	II	13090557	0.4271	0.15	0.8448	2
+optimised	sim_0303	causal	II:13090557	II	13090557	0.4271	0.15	0.8448	3
+optimised	sim_0304	causal	II:13090557	II	13090557	0.4271	0.35	1.4757	1
+optimised	sim_0305	causal	II:13090557	II	13090557	0.4271	0.35	1.4757	2
+optimised	sim_0306	causal	II:13090557	II	13090557	0.4271	0.35	1.4757	3
+optimised	sim_0307	causal	III:11424827	III	11424827	0.3333	0.05	0.4841	1
+optimised	sim_0308	causal	III:11424827	III	11424827	0.3333	0.05	0.4841	2
+optimised	sim_0309	causal	III:11424827	III	11424827	0.3333	0.05	0.4841	3
+optimised	sim_0310	causal	III:11424827	III	11424827	0.3333	0.15	0.8865	1
+optimised	sim_0311	causal	III:11424827	III	11424827	0.3333	0.15	0.8865	2
+optimised	sim_0312	causal	III:11424827	III	11424827	0.3333	0.15	0.8865	3
+optimised	sim_0313	causal	III:11424827	III	11424827	0.3333	0.35	1.5485	1
+optimised	sim_0314	causal	III:11424827	III	11424827	0.3333	0.35	1.5485	2
+optimised	sim_0315	causal	III:11424827	III	11424827	0.3333	0.35	1.5485	3
+optimised	sim_0316	causal	II:2828383	II	2828383	0.375	0.05	0.4714	1
+optimised	sim_0317	causal	II:2828383	II	2828383	0.375	0.05	0.4714	2
+optimised	sim_0318	causal	II:2828383	II	2828383	0.375	0.05	0.4714	3
+optimised	sim_0319	causal	II:2828383	II	2828383	0.375	0.15	0.8632	1
+optimised	sim_0320	causal	II:2828383	II	2828383	0.375	0.15	0.8632	2
+optimised	sim_0321	causal	II:2828383	II	2828383	0.375	0.15	0.8632	3
+optimised	sim_0322	causal	II:2828383	II	2828383	0.375	0.35	1.5078	1
+optimised	sim_0323	causal	II:2828383	II	2828383	0.375	0.35	1.5078	2
+optimised	sim_0324	causal	II:2828383	II	2828383	0.375	0.35	1.5078	3
+optimised	sim_0325	null					0	0	1
+optimised	sim_0326	null					0	0	2
+optimised	sim_0327	null					0	0	3
+optimised	sim_0328	null					0	0	4
+optimised	sim_0329	null					0	0	5
+optimised	sim_0330	null					0	0	6
+optimised	sim_0331	null					0	0	7
+optimised	sim_0332	null					0	0	8
+optimised	sim_0333	null					0	0	9
+optimised	sim_0334	null					0	0	10
+optimised	sim_0335	null					0	0	11
+optimised	sim_0336	null					0	0	12
+optimised	sim_0337	null					0	0	13
+optimised	sim_0338	null					0	0	14
+optimised	sim_0339	null					0	0	15
+RNAi panel (93)	sim_0001	causal	I:2417713	I	2417713	0.0753	0.05	0.8649	1
+RNAi panel (93)	sim_0002	causal	I:2417713	I	2417713	0.0753	0.05	0.8649	2
+RNAi panel (93)	sim_0003	causal	I:2417713	I	2417713	0.0753	0.05	0.8649	3
+RNAi panel (93)	sim_0004	causal	I:2417713	I	2417713	0.0753	0.15	1.5837	1
+RNAi panel (93)	sim_0005	causal	I:2417713	I	2417713	0.0753	0.15	1.5837	2
+RNAi panel (93)	sim_0006	causal	I:2417713	I	2417713	0.0753	0.15	1.5837	3
+RNAi panel (93)	sim_0007	causal	I:2417713	I	2417713	0.0753	0.35	2.7664	1
+RNAi panel (93)	sim_0008	causal	I:2417713	I	2417713	0.0753	0.35	2.7664	2
+RNAi panel (93)	sim_0009	causal	I:2417713	I	2417713	0.0753	0.35	2.7664	3
+RNAi panel (93)	sim_0010	causal	V:2696353	V	2696353	0.0645	0.05	0.9288	1
+RNAi panel (93)	sim_0011	causal	V:2696353	V	2696353	0.0645	0.05	0.9288	2
+RNAi panel (93)	sim_0012	causal	V:2696353	V	2696353	0.0645	0.05	0.9288	3
+RNAi panel (93)	sim_0013	causal	V:2696353	V	2696353	0.0645	0.15	1.7007	1
+RNAi panel (93)	sim_0014	causal	V:2696353	V	2696353	0.0645	0.15	1.7007	2
+RNAi panel (93)	sim_0015	causal	V:2696353	V	2696353	0.0645	0.15	1.7007	3
+RNAi panel (93)	sim_0016	causal	V:2696353	V	2696353	0.0645	0.35	2.9708	1
+RNAi panel (93)	sim_0017	causal	V:2696353	V	2696353	0.0645	0.35	2.9708	2
+RNAi panel (93)	sim_0018	causal	V:2696353	V	2696353	0.0645	0.35	2.9708	3
+RNAi panel (93)	sim_0019	causal	II:10812172	II	10812172	0.086	0.05	0.8138	1
+RNAi panel (93)	sim_0020	causal	II:10812172	II	10812172	0.086	0.05	0.8138	2
+RNAi panel (93)	sim_0021	causal	II:10812172	II	10812172	0.086	0.05	0.8138	3
+RNAi panel (93)	sim_0022	causal	II:10812172	II	10812172	0.086	0.15	1.4901	1
+RNAi panel (93)	sim_0023	causal	II:10812172	II	10812172	0.086	0.15	1.4901	2
+RNAi panel (93)	sim_0024	causal	II:10812172	II	10812172	0.086	0.15	1.4901	3
+RNAi panel (93)	sim_0025	causal	II:10812172	II	10812172	0.086	0.35	2.6029	1
+RNAi panel (93)	sim_0026	causal	II:10812172	II	10812172	0.086	0.35	2.6029	2
+RNAi panel (93)	sim_0027	causal	II:10812172	II	10812172	0.086	0.35	2.6029	3
+RNAi panel (93)	sim_0028	causal	V:11925787	V	11925787	0.0538	0.05	1.0117	1
+RNAi panel (93)	sim_0029	causal	V:11925787	V	11925787	0.0538	0.05	1.0117	2
+RNAi panel (93)	sim_0030	causal	V:11925787	V	11925787	0.0538	0.05	1.0117	3
+RNAi panel (93)	sim_0031	causal	V:11925787	V	11925787	0.0538	0.15	1.8524	1
+RNAi panel (93)	sim_0032	causal	V:11925787	V	11925787	0.0538	0.15	1.8524	2
+RNAi panel (93)	sim_0033	causal	V:11925787	V	11925787	0.0538	0.15	1.8524	3
+RNAi panel (93)	sim_0034	causal	V:11925787	V	11925787	0.0538	0.35	3.2358	1
+RNAi panel (93)	sim_0035	causal	V:11925787	V	11925787	0.0538	0.35	3.2358	2
+RNAi panel (93)	sim_0036	causal	V:11925787	V	11925787	0.0538	0.35	3.2358	3
+RNAi panel (93)	sim_0037	causal	I:14669846	I	14669846	0.0538	0.05	1.0117	1
+RNAi panel (93)	sim_0038	causal	I:14669846	I	14669846	0.0538	0.05	1.0117	2
+RNAi panel (93)	sim_0039	causal	I:14669846	I	14669846	0.0538	0.05	1.0117	3
+RNAi panel (93)	sim_0040	causal	I:14669846	I	14669846	0.0538	0.15	1.8524	1
+RNAi panel (93)	sim_0041	causal	I:14669846	I	14669846	0.0538	0.15	1.8524	2
+RNAi panel (93)	sim_0042	causal	I:14669846	I	14669846	0.0538	0.15	1.8524	3
+RNAi panel (93)	sim_0043	causal	I:14669846	I	14669846	0.0538	0.35	3.2358	1
+RNAi panel (93)	sim_0044	causal	I:14669846	I	14669846	0.0538	0.35	3.2358	2
+RNAi panel (93)	sim_0045	causal	I:14669846	I	14669846	0.0538	0.35	3.2358	3
+RNAi panel (93)	sim_0046	causal	IV:16602132	IV	16602132	0.0538	0.05	1.0117	1
+RNAi panel (93)	sim_0047	causal	IV:16602132	IV	16602132	0.0538	0.05	1.0117	2
+RNAi panel (93)	sim_0048	causal	IV:16602132	IV	16602132	0.0538	0.05	1.0117	3
+RNAi panel (93)	sim_0049	causal	IV:16602132	IV	16602132	0.0538	0.15	1.8524	1
+RNAi panel (93)	sim_0050	causal	IV:16602132	IV	16602132	0.0538	0.15	1.8524	2
+RNAi panel (93)	sim_0051	causal	IV:16602132	IV	16602132	0.0538	0.15	1.8524	3
+RNAi panel (93)	sim_0052	causal	IV:16602132	IV	16602132	0.0538	0.35	3.2358	1
+RNAi panel (93)	sim_0053	causal	IV:16602132	IV	16602132	0.0538	0.35	3.2358	2
+RNAi panel (93)	sim_0054	causal	IV:16602132	IV	16602132	0.0538	0.35	3.2358	3
+RNAi panel (93)	sim_0055	causal	II:12808081	II	12808081	0.1505	0.05	0.6381	1
+RNAi panel (93)	sim_0056	causal	II:12808081	II	12808081	0.1505	0.05	0.6381	2
+RNAi panel (93)	sim_0057	causal	II:12808081	II	12808081	0.1505	0.05	0.6381	3
+RNAi panel (93)	sim_0058	causal	II:12808081	II	12808081	0.1505	0.15	1.1684	1
+RNAi panel (93)	sim_0059	causal	II:12808081	II	12808081	0.1505	0.15	1.1684	2
+RNAi panel (93)	sim_0060	causal	II:12808081	II	12808081	0.1505	0.15	1.1684	3
+RNAi panel (93)	sim_0061	causal	II:12808081	II	12808081	0.1505	0.35	2.041	1
+RNAi panel (93)	sim_0062	causal	II:12808081	II	12808081	0.1505	0.35	2.041	2
+RNAi panel (93)	sim_0063	causal	II:12808081	II	12808081	0.1505	0.35	2.041	3
+RNAi panel (93)	sim_0064	causal	X:6234955	X	6234955	0.0753	0.05	0.8649	1
+RNAi panel (93)	sim_0065	causal	X:6234955	X	6234955	0.0753	0.05	0.8649	2
+RNAi panel (93)	sim_0066	causal	X:6234955	X	6234955	0.0753	0.05	0.8649	3
+RNAi panel (93)	sim_0067	causal	X:6234955	X	6234955	0.0753	0.15	1.5837	1
+RNAi panel (93)	sim_0068	causal	X:6234955	X	6234955	0.0753	0.15	1.5837	2
+RNAi panel (93)	sim_0069	causal	X:6234955	X	6234955	0.0753	0.15	1.5837	3
+RNAi panel (93)	sim_0070	causal	X:6234955	X	6234955	0.0753	0.35	2.7664	1
+RNAi panel (93)	sim_0071	causal	X:6234955	X	6234955	0.0753	0.35	2.7664	2
+RNAi panel (93)	sim_0072	causal	X:6234955	X	6234955	0.0753	0.35	2.7664	3
+RNAi panel (93)	sim_0073	causal	IV:6526248	IV	6526248	0.0538	0.05	1.0117	1
+RNAi panel (93)	sim_0074	causal	IV:6526248	IV	6526248	0.0538	0.05	1.0117	2
+RNAi panel (93)	sim_0075	causal	IV:6526248	IV	6526248	0.0538	0.05	1.0117	3
+RNAi panel (93)	sim_0076	causal	IV:6526248	IV	6526248	0.0538	0.15	1.8524	1
+RNAi panel (93)	sim_0077	causal	IV:6526248	IV	6526248	0.0538	0.15	1.8524	2
+RNAi panel (93)	sim_0078	causal	IV:6526248	IV	6526248	0.0538	0.15	1.8524	3
+RNAi panel (93)	sim_0079	causal	IV:6526248	IV	6526248	0.0538	0.35	3.2358	1
+RNAi panel (93)	sim_0080	causal	IV:6526248	IV	6526248	0.0538	0.35	3.2358	2
+RNAi panel (93)	sim_0081	causal	IV:6526248	IV	6526248	0.0538	0.35	3.2358	3
+RNAi panel (93)	sim_0082	causal	V:17204407	V	17204407	0.0645	0.05	0.9288	1
+RNAi panel (93)	sim_0083	causal	V:17204407	V	17204407	0.0645	0.05	0.9288	2
+RNAi panel (93)	sim_0084	causal	V:17204407	V	17204407	0.0645	0.05	0.9288	3
+RNAi panel (93)	sim_0085	causal	V:17204407	V	17204407	0.0645	0.15	1.7007	1
+RNAi panel (93)	sim_0086	causal	V:17204407	V	17204407	0.0645	0.15	1.7007	2
+RNAi panel (93)	sim_0087	causal	V:17204407	V	17204407	0.0645	0.15	1.7007	3
+RNAi panel (93)	sim_0088	causal	V:17204407	V	17204407	0.0645	0.35	2.9708	1
+RNAi panel (93)	sim_0089	causal	V:17204407	V	17204407	0.0645	0.35	2.9708	2
+RNAi panel (93)	sim_0090	causal	V:17204407	V	17204407	0.0645	0.35	2.9708	3
+RNAi panel (93)	sim_0091	causal	III:11780987	III	11780987	0.0645	0.05	0.9288	1
+RNAi panel (93)	sim_0092	causal	III:11780987	III	11780987	0.0645	0.05	0.9288	2
+RNAi panel (93)	sim_0093	causal	III:11780987	III	11780987	0.0645	0.05	0.9288	3
+RNAi panel (93)	sim_0094	causal	III:11780987	III	11780987	0.0645	0.15	1.7007	1
+RNAi panel (93)	sim_0095	causal	III:11780987	III	11780987	0.0645	0.15	1.7007	2
+RNAi panel (93)	sim_0096	causal	III:11780987	III	11780987	0.0645	0.15	1.7007	3
+RNAi panel (93)	sim_0097	causal	III:11780987	III	11780987	0.0645	0.35	2.9708	1
+RNAi panel (93)	sim_0098	causal	III:11780987	III	11780987	0.0645	0.35	2.9708	2
+RNAi panel (93)	sim_0099	causal	III:11780987	III	11780987	0.0645	0.35	2.9708	3
+RNAi panel (93)	sim_0100	causal	IV:7602408	IV	7602408	0.086	0.05	0.8138	1
+RNAi panel (93)	sim_0101	causal	IV:7602408	IV	7602408	0.086	0.05	0.8138	2
+RNAi panel (93)	sim_0102	causal	IV:7602408	IV	7602408	0.086	0.05	0.8138	3
+RNAi panel (93)	sim_0103	causal	IV:7602408	IV	7602408	0.086	0.15	1.4901	1
+RNAi panel (93)	sim_0104	causal	IV:7602408	IV	7602408	0.086	0.15	1.4901	2
+RNAi panel (93)	sim_0105	causal	IV:7602408	IV	7602408	0.086	0.15	1.4901	3
+RNAi panel (93)	sim_0106	causal	IV:7602408	IV	7602408	0.086	0.35	2.6029	1
+RNAi panel (93)	sim_0107	causal	IV:7602408	IV	7602408	0.086	0.35	2.6029	2
+RNAi panel (93)	sim_0108	causal	IV:7602408	IV	7602408	0.086	0.35	2.6029	3
+RNAi panel (93)	sim_0109	causal	X:15018764	X	15018764	0.1935	0.05	0.5776	1
+RNAi panel (93)	sim_0110	causal	X:15018764	X	15018764	0.1935	0.05	0.5776	2
+RNAi panel (93)	sim_0111	causal	X:15018764	X	15018764	0.1935	0.05	0.5776	3
+RNAi panel (93)	sim_0112	causal	X:15018764	X	15018764	0.1935	0.15	1.0576	1
+RNAi panel (93)	sim_0113	causal	X:15018764	X	15018764	0.1935	0.15	1.0576	2
+RNAi panel (93)	sim_0114	causal	X:15018764	X	15018764	0.1935	0.15	1.0576	3
+RNAi panel (93)	sim_0115	causal	X:15018764	X	15018764	0.1935	0.35	1.8473	1
+RNAi panel (93)	sim_0116	causal	X:15018764	X	15018764	0.1935	0.35	1.8473	2
+RNAi panel (93)	sim_0117	causal	X:15018764	X	15018764	0.1935	0.35	1.8473	3
+RNAi panel (93)	sim_0118	causal	I:13363482	I	13363482	0.1613	0.05	0.6204	1
+RNAi panel (93)	sim_0119	causal	I:13363482	I	13363482	0.1613	0.05	0.6204	2
+RNAi panel (93)	sim_0120	causal	I:13363482	I	13363482	0.1613	0.05	0.6204	3
+RNAi panel (93)	sim_0121	causal	I:13363482	I	13363482	0.1613	0.15	1.136	1
+RNAi panel (93)	sim_0122	causal	I:13363482	I	13363482	0.1613	0.15	1.136	2
+RNAi panel (93)	sim_0123	causal	I:13363482	I	13363482	0.1613	0.15	1.136	3
+RNAi panel (93)	sim_0124	causal	I:13363482	I	13363482	0.1613	0.35	1.9844	1
+RNAi panel (93)	sim_0125	causal	I:13363482	I	13363482	0.1613	0.35	1.9844	2
+RNAi panel (93)	sim_0126	causal	I:13363482	I	13363482	0.1613	0.35	1.9844	3
+RNAi panel (93)	sim_0127	causal	X:10052467	X	10052467	0.2258	0.05	0.5457	1
+RNAi panel (93)	sim_0128	causal	X:10052467	X	10052467	0.2258	0.05	0.5457	2
+RNAi panel (93)	sim_0129	causal	X:10052467	X	10052467	0.2258	0.05	0.5457	3
+RNAi panel (93)	sim_0130	causal	X:10052467	X	10052467	0.2258	0.15	0.9993	1
+RNAi panel (93)	sim_0131	causal	X:10052467	X	10052467	0.2258	0.15	0.9993	2
+RNAi panel (93)	sim_0132	causal	X:10052467	X	10052467	0.2258	0.15	0.9993	3
+RNAi panel (93)	sim_0133	causal	X:10052467	X	10052467	0.2258	0.35	1.7456	1
+RNAi panel (93)	sim_0134	causal	X:10052467	X	10052467	0.2258	0.35	1.7456	2
+RNAi panel (93)	sim_0135	causal	X:10052467	X	10052467	0.2258	0.35	1.7456	3
+RNAi panel (93)	sim_0136	causal	II:3929026	II	3929026	0.4516	0.05	0.4585	1
+RNAi panel (93)	sim_0137	causal	II:3929026	II	3929026	0.4516	0.05	0.4585	2
+RNAi panel (93)	sim_0138	causal	II:3929026	II	3929026	0.4516	0.05	0.4585	3
+RNAi panel (93)	sim_0139	causal	II:3929026	II	3929026	0.4516	0.15	0.8396	1
+RNAi panel (93)	sim_0140	causal	II:3929026	II	3929026	0.4516	0.15	0.8396	2
+RNAi panel (93)	sim_0141	causal	II:3929026	II	3929026	0.4516	0.15	0.8396	3
+RNAi panel (93)	sim_0142	causal	II:3929026	II	3929026	0.4516	0.35	1.4666	1
+RNAi panel (93)	sim_0143	causal	II:3929026	II	3929026	0.4516	0.35	1.4666	2
+RNAi panel (93)	sim_0144	causal	II:3929026	II	3929026	0.4516	0.35	1.4666	3
+RNAi panel (93)	sim_0145	causal	IV:1599607	IV	1599607	0.4946	0.05	0.4564	1
+RNAi panel (93)	sim_0146	causal	IV:1599607	IV	1599607	0.4946	0.05	0.4564	2
+RNAi panel (93)	sim_0147	causal	IV:1599607	IV	1599607	0.4946	0.05	0.4564	3
+RNAi panel (93)	sim_0148	causal	IV:1599607	IV	1599607	0.4946	0.15	0.8357	1
+RNAi panel (93)	sim_0149	causal	IV:1599607	IV	1599607	0.4946	0.15	0.8357	2
+RNAi panel (93)	sim_0150	causal	IV:1599607	IV	1599607	0.4946	0.15	0.8357	3
+RNAi panel (93)	sim_0151	causal	IV:1599607	IV	1599607	0.4946	0.35	1.4598	1
+RNAi panel (93)	sim_0152	causal	IV:1599607	IV	1599607	0.4946	0.35	1.4598	2
+RNAi panel (93)	sim_0153	causal	IV:1599607	IV	1599607	0.4946	0.35	1.4598	3
+RNAi panel (93)	sim_0154	causal	II:3507098	II	3507098	0.1505	0.05	0.6381	1
+RNAi panel (93)	sim_0155	causal	II:3507098	II	3507098	0.1505	0.05	0.6381	2
+RNAi panel (93)	sim_0156	causal	II:3507098	II	3507098	0.1505	0.05	0.6381	3
+RNAi panel (93)	sim_0157	causal	II:3507098	II	3507098	0.1505	0.15	1.1684	1
+RNAi panel (93)	sim_0158	causal	II:3507098	II	3507098	0.1505	0.15	1.1684	2
+RNAi panel (93)	sim_0159	causal	II:3507098	II	3507098	0.1505	0.15	1.1684	3
+RNAi panel (93)	sim_0160	causal	II:3507098	II	3507098	0.1505	0.35	2.041	1
+RNAi panel (93)	sim_0161	causal	II:3507098	II	3507098	0.1505	0.35	2.041	2
+RNAi panel (93)	sim_0162	causal	II:3507098	II	3507098	0.1505	0.35	2.041	3
+RNAi panel (93)	sim_0163	causal	X:1263612	X	1263612	0.2258	0.05	0.5457	1
+RNAi panel (93)	sim_0164	causal	X:1263612	X	1263612	0.2258	0.05	0.5457	2
+RNAi panel (93)	sim_0165	causal	X:1263612	X	1263612	0.2258	0.05	0.5457	3
+RNAi panel (93)	sim_0166	causal	X:1263612	X	1263612	0.2258	0.15	0.9993	1
+RNAi panel (93)	sim_0167	causal	X:1263612	X	1263612	0.2258	0.15	0.9993	2
+RNAi panel (93)	sim_0168	causal	X:1263612	X	1263612	0.2258	0.15	0.9993	3
+RNAi panel (93)	sim_0169	causal	X:1263612	X	1263612	0.2258	0.35	1.7456	1
+RNAi panel (93)	sim_0170	causal	X:1263612	X	1263612	0.2258	0.35	1.7456	2
+RNAi panel (93)	sim_0171	causal	X:1263612	X	1263612	0.2258	0.35	1.7456	3
+RNAi panel (93)	sim_0172	causal	I:4673303	I	4673303	0.1398	0.05	0.658	1
+RNAi panel (93)	sim_0173	causal	I:4673303	I	4673303	0.1398	0.05	0.658	2
+RNAi panel (93)	sim_0174	causal	I:4673303	I	4673303	0.1398	0.05	0.658	3
+RNAi panel (93)	sim_0175	causal	I:4673303	I	4673303	0.1398	0.15	1.2049	1
+RNAi panel (93)	sim_0176	causal	I:4673303	I	4673303	0.1398	0.15	1.2049	2
+RNAi panel (93)	sim_0177	causal	I:4673303	I	4673303	0.1398	0.15	1.2049	3
+RNAi panel (93)	sim_0178	causal	I:4673303	I	4673303	0.1398	0.35	2.1047	1
+RNAi panel (93)	sim_0179	causal	I:4673303	I	4673303	0.1398	0.35	2.1047	2
+RNAi panel (93)	sim_0180	causal	I:4673303	I	4673303	0.1398	0.35	2.1047	3
+RNAi panel (93)	sim_0181	causal	X:16899421	X	16899421	0.3656	0.05	0.4738	1
+RNAi panel (93)	sim_0182	causal	X:16899421	X	16899421	0.3656	0.05	0.4738	2
+RNAi panel (93)	sim_0183	causal	X:16899421	X	16899421	0.3656	0.05	0.4738	3
+RNAi panel (93)	sim_0184	causal	X:16899421	X	16899421	0.3656	0.15	0.8676	1
+RNAi panel (93)	sim_0185	causal	X:16899421	X	16899421	0.3656	0.15	0.8676	2
+RNAi panel (93)	sim_0186	causal	X:16899421	X	16899421	0.3656	0.15	0.8676	3
+RNAi panel (93)	sim_0187	causal	X:16899421	X	16899421	0.3656	0.35	1.5155	1
+RNAi panel (93)	sim_0188	causal	X:16899421	X	16899421	0.3656	0.35	1.5155	2
+RNAi panel (93)	sim_0189	causal	X:16899421	X	16899421	0.3656	0.35	1.5155	3
+RNAi panel (93)	sim_0190	causal	I:1697502	I	1697502	0.1398	0.05	0.658	1
+RNAi panel (93)	sim_0191	causal	I:1697502	I	1697502	0.1398	0.05	0.658	2
+RNAi panel (93)	sim_0192	causal	I:1697502	I	1697502	0.1398	0.05	0.658	3
+RNAi panel (93)	sim_0193	causal	I:1697502	I	1697502	0.1398	0.15	1.2049	1
+RNAi panel (93)	sim_0194	causal	I:1697502	I	1697502	0.1398	0.15	1.2049	2
+RNAi panel (93)	sim_0195	causal	I:1697502	I	1697502	0.1398	0.15	1.2049	3
+RNAi panel (93)	sim_0196	causal	I:1697502	I	1697502	0.1398	0.35	2.1047	1
+RNAi panel (93)	sim_0197	causal	I:1697502	I	1697502	0.1398	0.35	2.1047	2
+RNAi panel (93)	sim_0198	causal	I:1697502	I	1697502	0.1398	0.35	2.1047	3
+RNAi panel (93)	sim_0199	causal	X:13699978	X	13699978	0.1613	0.05	0.6204	1
+RNAi panel (93)	sim_0200	causal	X:13699978	X	13699978	0.1613	0.05	0.6204	2
+RNAi panel (93)	sim_0201	causal	X:13699978	X	13699978	0.1613	0.05	0.6204	3
+RNAi panel (93)	sim_0202	causal	X:13699978	X	13699978	0.1613	0.15	1.136	1
+RNAi panel (93)	sim_0203	causal	X:13699978	X	13699978	0.1613	0.15	1.136	2
+RNAi panel (93)	sim_0204	causal	X:13699978	X	13699978	0.1613	0.15	1.136	3
+RNAi panel (93)	sim_0205	causal	X:13699978	X	13699978	0.1613	0.35	1.9844	1
+RNAi panel (93)	sim_0206	causal	X:13699978	X	13699978	0.1613	0.35	1.9844	2
+RNAi panel (93)	sim_0207	causal	X:13699978	X	13699978	0.1613	0.35	1.9844	3
+RNAi panel (93)	sim_0208	causal	IV:2234592	IV	2234592	0.1075	0.05	0.7366	1
+RNAi panel (93)	sim_0209	causal	IV:2234592	IV	2234592	0.1075	0.05	0.7366	2
+RNAi panel (93)	sim_0210	causal	IV:2234592	IV	2234592	0.1075	0.05	0.7366	3
+RNAi panel (93)	sim_0211	causal	IV:2234592	IV	2234592	0.1075	0.15	1.3488	1
+RNAi panel (93)	sim_0212	causal	IV:2234592	IV	2234592	0.1075	0.15	1.3488	2
+RNAi panel (93)	sim_0213	causal	IV:2234592	IV	2234592	0.1075	0.15	1.3488	3
+RNAi panel (93)	sim_0214	causal	IV:2234592	IV	2234592	0.1075	0.35	2.356	1
+RNAi panel (93)	sim_0215	causal	IV:2234592	IV	2234592	0.1075	0.35	2.356	2
+RNAi panel (93)	sim_0216	causal	IV:2234592	IV	2234592	0.1075	0.35	2.356	3
+RNAi panel (93)	sim_0217	causal	IV:1017374	IV	1017374	0.2688	0.05	0.5147	1
+RNAi panel (93)	sim_0218	causal	IV:1017374	IV	1017374	0.2688	0.05	0.5147	2
+RNAi panel (93)	sim_0219	causal	IV:1017374	IV	1017374	0.2688	0.05	0.5147	3
+RNAi panel (93)	sim_0220	causal	IV:1017374	IV	1017374	0.2688	0.15	0.9424	1
+RNAi panel (93)	sim_0221	causal	IV:1017374	IV	1017374	0.2688	0.15	0.9424	2
+RNAi panel (93)	sim_0222	causal	IV:1017374	IV	1017374	0.2688	0.15	0.9424	3
+RNAi panel (93)	sim_0223	causal	IV:1017374	IV	1017374	0.2688	0.35	1.6462	1
+RNAi panel (93)	sim_0224	causal	IV:1017374	IV	1017374	0.2688	0.35	1.6462	2
+RNAi panel (93)	sim_0225	causal	IV:1017374	IV	1017374	0.2688	0.35	1.6462	3
+RNAi panel (93)	sim_0226	causal	III:3148892	III	3148892	0.2903	0.05	0.5027	1
+RNAi panel (93)	sim_0227	causal	III:3148892	III	3148892	0.2903	0.05	0.5027	2
+RNAi panel (93)	sim_0228	causal	III:3148892	III	3148892	0.2903	0.05	0.5027	3
+RNAi panel (93)	sim_0229	causal	III:3148892	III	3148892	0.2903	0.15	0.9205	1
+RNAi panel (93)	sim_0230	causal	III:3148892	III	3148892	0.2903	0.15	0.9205	2
+RNAi panel (93)	sim_0231	causal	III:3148892	III	3148892	0.2903	0.15	0.9205	3
+RNAi panel (93)	sim_0232	causal	III:3148892	III	3148892	0.2903	0.35	1.6079	1
+RNAi panel (93)	sim_0233	causal	III:3148892	III	3148892	0.2903	0.35	1.6079	2
+RNAi panel (93)	sim_0234	causal	III:3148892	III	3148892	0.2903	0.35	1.6079	3
+RNAi panel (93)	sim_0235	causal	III:8495431	III	8495431	0.2581	0.05	0.5215	1
+RNAi panel (93)	sim_0236	causal	III:8495431	III	8495431	0.2581	0.05	0.5215	2
+RNAi panel (93)	sim_0237	causal	III:8495431	III	8495431	0.2581	0.05	0.5215	3
+RNAi panel (93)	sim_0238	causal	III:8495431	III	8495431	0.2581	0.15	0.9549	1
+RNAi panel (93)	sim_0239	causal	III:8495431	III	8495431	0.2581	0.15	0.9549	2
+RNAi panel (93)	sim_0240	causal	III:8495431	III	8495431	0.2581	0.15	0.9549	3
+RNAi panel (93)	sim_0241	causal	III:8495431	III	8495431	0.2581	0.35	1.6679	1
+RNAi panel (93)	sim_0242	causal	III:8495431	III	8495431	0.2581	0.35	1.6679	2
+RNAi panel (93)	sim_0243	causal	III:8495431	III	8495431	0.2581	0.35	1.6679	3
+RNAi panel (93)	sim_0244	causal	III:12269618	III	12269618	0.3763	0.05	0.471	1
+RNAi panel (93)	sim_0245	causal	III:12269618	III	12269618	0.3763	0.05	0.471	2
+RNAi panel (93)	sim_0246	causal	III:12269618	III	12269618	0.3763	0.05	0.471	3
+RNAi panel (93)	sim_0247	causal	III:12269618	III	12269618	0.3763	0.15	0.8624	1
+RNAi panel (93)	sim_0248	causal	III:12269618	III	12269618	0.3763	0.15	0.8624	2
+RNAi panel (93)	sim_0249	causal	III:12269618	III	12269618	0.3763	0.15	0.8624	3
+RNAi panel (93)	sim_0250	causal	III:12269618	III	12269618	0.3763	0.35	1.5065	1
+RNAi panel (93)	sim_0251	causal	III:12269618	III	12269618	0.3763	0.35	1.5065	2
+RNAi panel (93)	sim_0252	causal	III:12269618	III	12269618	0.3763	0.35	1.5065	3
+RNAi panel (93)	sim_0253	causal	II:2669884	II	2669884	0.2581	0.05	0.5215	1
+RNAi panel (93)	sim_0254	causal	II:2669884	II	2669884	0.2581	0.05	0.5215	2
+RNAi panel (93)	sim_0255	causal	II:2669884	II	2669884	0.2581	0.05	0.5215	3
+RNAi panel (93)	sim_0256	causal	II:2669884	II	2669884	0.2581	0.15	0.9549	1
+RNAi panel (93)	sim_0257	causal	II:2669884	II	2669884	0.2581	0.15	0.9549	2
+RNAi panel (93)	sim_0258	causal	II:2669884	II	2669884	0.2581	0.15	0.9549	3
+RNAi panel (93)	sim_0259	causal	II:2669884	II	2669884	0.2581	0.35	1.6679	1
+RNAi panel (93)	sim_0260	causal	II:2669884	II	2669884	0.2581	0.35	1.6679	2
+RNAi panel (93)	sim_0261	causal	II:2669884	II	2669884	0.2581	0.35	1.6679	3
+RNAi panel (93)	sim_0262	causal	II:2687337	II	2687337	0.4946	0.05	0.4564	1
+RNAi panel (93)	sim_0263	causal	II:2687337	II	2687337	0.4946	0.05	0.4564	2
+RNAi panel (93)	sim_0264	causal	II:2687337	II	2687337	0.4946	0.05	0.4564	3
+RNAi panel (93)	sim_0265	causal	II:2687337	II	2687337	0.4946	0.15	0.8357	1
+RNAi panel (93)	sim_0266	causal	II:2687337	II	2687337	0.4946	0.15	0.8357	2
+RNAi panel (93)	sim_0267	causal	II:2687337	II	2687337	0.4946	0.15	0.8357	3
+RNAi panel (93)	sim_0268	causal	II:2687337	II	2687337	0.4946	0.35	1.4598	1
+RNAi panel (93)	sim_0269	causal	II:2687337	II	2687337	0.4946	0.35	1.4598	2
+RNAi panel (93)	sim_0270	causal	II:2687337	II	2687337	0.4946	0.35	1.4598	3
+RNAi panel (93)	sim_0271	causal	II:13040075	II	13040075	0.2796	0.05	0.5084	1
+RNAi panel (93)	sim_0272	causal	II:13040075	II	13040075	0.2796	0.05	0.5084	2
+RNAi panel (93)	sim_0273	causal	II:13040075	II	13040075	0.2796	0.05	0.5084	3
+RNAi panel (93)	sim_0274	causal	II:13040075	II	13040075	0.2796	0.15	0.931	1
+RNAi panel (93)	sim_0275	causal	II:13040075	II	13040075	0.2796	0.15	0.931	2
+RNAi panel (93)	sim_0276	causal	II:13040075	II	13040075	0.2796	0.15	0.931	3
+RNAi panel (93)	sim_0277	causal	II:13040075	II	13040075	0.2796	0.35	1.6263	1
+RNAi panel (93)	sim_0278	causal	II:13040075	II	13040075	0.2796	0.35	1.6263	2
+RNAi panel (93)	sim_0279	causal	II:13040075	II	13040075	0.2796	0.35	1.6263	3
+RNAi panel (93)	sim_0280	causal	I:1437632	I	1437632	0.4409	0.05	0.4596	1
+RNAi panel (93)	sim_0281	causal	I:1437632	I	1437632	0.4409	0.05	0.4596	2
+RNAi panel (93)	sim_0282	causal	I:1437632	I	1437632	0.4409	0.05	0.4596	3
+RNAi panel (93)	sim_0283	causal	I:1437632	I	1437632	0.4409	0.15	0.8415	1
+RNAi panel (93)	sim_0284	causal	I:1437632	I	1437632	0.4409	0.15	0.8415	2
+RNAi panel (93)	sim_0285	causal	I:1437632	I	1437632	0.4409	0.15	0.8415	3
+RNAi panel (93)	sim_0286	causal	I:1437632	I	1437632	0.4409	0.35	1.47	1
+RNAi panel (93)	sim_0287	causal	I:1437632	I	1437632	0.4409	0.35	1.47	2
+RNAi panel (93)	sim_0288	causal	I:1437632	I	1437632	0.4409	0.35	1.47	3
+RNAi panel (93)	sim_0289	causal	II:12800550	II	12800550	0.2688	0.05	0.5147	1
+RNAi panel (93)	sim_0290	causal	II:12800550	II	12800550	0.2688	0.05	0.5147	2
+RNAi panel (93)	sim_0291	causal	II:12800550	II	12800550	0.2688	0.05	0.5147	3
+RNAi panel (93)	sim_0292	causal	II:12800550	II	12800550	0.2688	0.15	0.9424	1
+RNAi panel (93)	sim_0293	causal	II:12800550	II	12800550	0.2688	0.15	0.9424	2
+RNAi panel (93)	sim_0294	causal	II:12800550	II	12800550	0.2688	0.15	0.9424	3
+RNAi panel (93)	sim_0295	causal	II:12800550	II	12800550	0.2688	0.35	1.6462	1
+RNAi panel (93)	sim_0296	causal	II:12800550	II	12800550	0.2688	0.35	1.6462	2
+RNAi panel (93)	sim_0297	causal	II:12800550	II	12800550	0.2688	0.35	1.6462	3
+RNAi panel (93)	sim_0298	causal	II:13090557	II	13090557	0.3871	0.05	0.4685	1
+RNAi panel (93)	sim_0299	causal	II:13090557	II	13090557	0.3871	0.05	0.4685	2
+RNAi panel (93)	sim_0300	causal	II:13090557	II	13090557	0.3871	0.05	0.4685	3
+RNAi panel (93)	sim_0301	causal	II:13090557	II	13090557	0.3871	0.15	0.8578	1
+RNAi panel (93)	sim_0302	causal	II:13090557	II	13090557	0.3871	0.15	0.8578	2
+RNAi panel (93)	sim_0303	causal	II:13090557	II	13090557	0.3871	0.15	0.8578	3
+RNAi panel (93)	sim_0304	causal	II:13090557	II	13090557	0.3871	0.35	1.4984	1
+RNAi panel (93)	sim_0305	causal	II:13090557	II	13090557	0.3871	0.35	1.4984	2
+RNAi panel (93)	sim_0306	causal	II:13090557	II	13090557	0.3871	0.35	1.4984	3
+RNAi panel (93)	sim_0307	causal	III:11424827	III	11424827	0.4946	0.05	0.4564	1
+RNAi panel (93)	sim_0308	causal	III:11424827	III	11424827	0.4946	0.05	0.4564	2
+RNAi panel (93)	sim_0309	causal	III:11424827	III	11424827	0.4946	0.05	0.4564	3
+RNAi panel (93)	sim_0310	causal	III:11424827	III	11424827	0.4946	0.15	0.8357	1
+RNAi panel (93)	sim_0311	causal	III:11424827	III	11424827	0.4946	0.15	0.8357	2
+RNAi panel (93)	sim_0312	causal	III:11424827	III	11424827	0.4946	0.15	0.8357	3
+RNAi panel (93)	sim_0313	causal	III:11424827	III	11424827	0.4946	0.35	1.4598	1
+RNAi panel (93)	sim_0314	causal	III:11424827	III	11424827	0.4946	0.35	1.4598	2
+RNAi panel (93)	sim_0315	causal	III:11424827	III	11424827	0.4946	0.35	1.4598	3
+RNAi panel (93)	sim_0316	causal	II:2828383	II	2828383	0.3011	0.05	0.4974	1
+RNAi panel (93)	sim_0317	causal	II:2828383	II	2828383	0.3011	0.05	0.4974	2
+RNAi panel (93)	sim_0318	causal	II:2828383	II	2828383	0.3011	0.05	0.4974	3
+RNAi panel (93)	sim_0319	causal	II:2828383	II	2828383	0.3011	0.15	0.9108	1
+RNAi panel (93)	sim_0320	causal	II:2828383	II	2828383	0.3011	0.15	0.9108	2
+RNAi panel (93)	sim_0321	causal	II:2828383	II	2828383	0.3011	0.15	0.9108	3
+RNAi panel (93)	sim_0322	causal	II:2828383	II	2828383	0.3011	0.35	1.591	1
+RNAi panel (93)	sim_0323	causal	II:2828383	II	2828383	0.3011	0.35	1.591	2
+RNAi panel (93)	sim_0324	causal	II:2828383	II	2828383	0.3011	0.35	1.591	3
+RNAi panel (93)	sim_0325	null					0	0	1
+RNAi panel (93)	sim_0326	null					0	0	2
+RNAi panel (93)	sim_0327	null					0	0	3
+RNAi panel (93)	sim_0328	null					0	0	4
+RNAi panel (93)	sim_0329	null					0	0	5
+RNAi panel (93)	sim_0330	null					0	0	6
+RNAi panel (93)	sim_0331	null					0	0	7
+RNAi panel (93)	sim_0332	null					0	0	8
+RNAi panel (93)	sim_0333	null					0	0	9
+RNAi panel (93)	sim_0334	null					0	0	10
+RNAi panel (93)	sim_0335	null					0	0	11
+RNAi panel (93)	sim_0336	null					0	0	12
+RNAi panel (93)	sim_0337	null					0	0	13
+RNAi panel (93)	sim_0338	null					0	0	14
+RNAi panel (93)	sim_0339	null					0	0	15
