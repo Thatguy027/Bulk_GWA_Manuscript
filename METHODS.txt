@@ -87,6 +87,44 @@ no-op for every other strain. This matters because JU1793 is a cross parent.
 The shipped vst values and the association scan were used as distributed and
 still carry the averaged JU1793 value.
 
+RESPONSIVENESS OF INDIVIDUAL ISOLATES. Two questions were asked of the 231
+isolates carrying a variance-stabilised value: whether the panel as a whole
+responded, and how many isolates can be shown to have responded individually
+(scripts/DIAG_pos1_responsiveness_test.R).
+
+At the level of the panel, 183 of the 231 declined in frequency under pos-1 RNAi
+relative to control, 79.2%, against the even split expected if frequency changes
+were noise (binomial sign test, p < 2.22e-16). The same 183 comes out of the
+delta, variance-stabilised and log2 fold-change columns, so the count does not
+depend on the parameterisation. Pool frequencies are compositional, so this
+proportion measures decline relative to the pool rather than an absolute
+per-strain response: an isolate that resists pos-1 necessarily rises in
+frequency as responsive isolates drop out.
+
+At the level of the individual isolate the experiment is much less powerful,
+because there are only two control pools, and the count is therefore reported as
+a floor rather than as an estimate. It has two parts. First, 81 isolates are
+absent from all four pos-1 pools while present in control; that is the strongest
+response the design can express, and it is also invisible to any t test, because
+four identical values have no variance and the test returns nothing. Second, of
+the 150 isolates whose frequencies do vary across the four pos-1 pools, 60
+decline significantly by a one-sample t test on the four replicate deltas
+against zero, with Benjamini-Hochberg control across the 231 tests at q < 0.05.
+Together, 141 of 231 isolates, 61%, are individually responsive.
+
+Two constructions were rejected and are recorded because either could be
+reported in good faith. A two-sample Welch test of the four pos-1 pools against
+the two control pools is the most literal reading of the design, but with two
+control values it has almost no degrees of freedom and identifies only 6
+isolates; it is not wrong, it is uninformative. Pooling the three read-depth
+cutoffs to give twelve pos-1 and six control observations identifies 74, but the
+three cutoffs are one sequencing library filtered three ways rather than three
+libraries -- the cutoff-3 and cutoff-10 values of a single library correlate at
+a median r of 0.994 -- so this inflates the degrees of freedom roughly
+threefold and is anticonservative. Every construction, including the two
+rejected ones, is tabulated in plots/diagnostics/pos1_responsiveness_variants.tsv
+with a column recording whether its observations are independent.
+
 --------------------------------------------------------------------------------
 MANUAL PLATE PHENOTYPING, AND THE TWO COMPARISONS AGAINST IT
 --------------------------------------------------------------------------------
