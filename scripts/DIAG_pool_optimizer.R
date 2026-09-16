@@ -54,6 +54,16 @@ suppressPackageStartupMessages({
 a <- commandArgs(TRUE)
 N       <- if (length(a) >= 1) as.integer(a[1]) else 96L   # panel size
 ITERS   <- if (length(a) >= 2) as.integer(a[2]) else 4000L
+## Which identifiability constraint binds. "vif" is the variance-inflation
+## diagonal of (G'G)^-1, the measure private-marker count was approximating;
+## "private" is that count, which the first version of this script used.
+## DIAG_pool_simulation_optimism.R is why the default changed: privateness
+## explains about as little of per-strain error in a perfectly specified
+## simulation (adj R2 0.21) as it does against real MIP-seq (0.165), so the
+## variance it leaves is not reference error -- the count is simply a partial
+## measure of identifiability.
+CONSTRAINT <- Sys.getenv("POOL_OPT_CONSTRAINT", "vif")
+TAU     <- as.numeric(Sys.getenv("POOL_OPT_TAU", "120"))  # worst-strain variance inflation allowed
 KSTAR   <- 1000L      # required private markers outside divergent regions
 MAC_MIN <- 10L        # minor-allele carriers for a marker to be testable
 R2_MAX  <- 0.5        # genotype variance a marker may share with the top PCs
@@ -91,7 +101,8 @@ rand_by_n <- setNames(lapply(SIZES, function(k)
 rand <- rand_by_n[[as.character(N)]]
 
 ## --- the annealed panel is cached, so the reporting half is cheap to re-run --
-FIT <- sprintf(".pool_opt_cache/annealed_n%d.rds", N)
+FIT <- sprintf(".pool_opt_cache/annealed_n%d_%s%s.rds", N, CONSTRAINT,
+               if (CONSTRAINT == "vif") sprintf("_tau%g", TAU) else "")
 if (file.exists(FIT) && !nzchar(Sys.getenv("POOL_OPT_REFIT"))) {
   z <- readRDS(FIT); S <- z$S; trace <- z$trace
   msg(sprintf("reusing cached annealed panel (%d mappable); set POOL_OPT_REFIT=1 to refit",
@@ -103,8 +114,9 @@ if (file.exists(FIT) && !nzchar(Sys.getenv("POOL_OPT_REFIT"))) {
   msg(sprintf("farthest-point seed: %d mappable, min non-divergent private %d",
               score(S)$n_mappable, score(S)$min_nondiv))
   S <- pool_opt_repair(S, uni$nondiv)
-  msg(sprintf("after repair: min non-divergent private %d (target %d)",
-              score(S)$min_nondiv, KSTAR))
+  s0 <- score(S)
+  msg(sprintf("after repair: worst-strain VIF %.1f (tau %d) | min non-divergent private %d (K* %d)",
+              s0$vif_max, TAU, s0$min_nondiv, KSTAR))
   z <- pool_opt_anneal(S, ITERS, report = 500)
   S <- z$S; trace <- z$trace
   saveRDS(list(S = S, trace = trace), FIT)
@@ -120,7 +132,8 @@ res <- rbindlist(lapply(names(PAN), function(nm) {
              n_mac = s$n_mac, frac_mappable = s$n_mappable / s$n_mac,
              pc1_share = round(s$pc1_share, 4), eff_dim = round(s$eff_dim, 2),
              min_nondiv = s$min_nondiv, med_nondiv = s$med_nondiv,
-             n_below_Kstar = s$n_below, med_div = s$med_div) }))
+             n_below_Kstar = s$n_below, med_div = s$med_div,
+             vif_max = round(s$vif_max, 1)) }))
 ## each panel against the null at ITS OWN size
 res[, null_mean := round(sapply(n, function(k) mean(rand_by_n[[as.character(k)]])))]
 res[, vs_null := round(n_mappable / null_mean, 3)]

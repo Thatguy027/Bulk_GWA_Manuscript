@@ -144,6 +144,27 @@ msg(sprintf("pruned set: %d markers x %d strains", ncol(gp), nrow(gp)))
 G <- tcrossprod(gp)                  # strains x strains
 msg(sprintf("gram: %d x %d", nrow(G), ncol(G)))
 
+## --- G'G over ALL markers, for the variance-inflation constraint -----------
+## The mapping objective uses the LD-pruned set, but the DECONVOLUTION inverts
+## every marker, so the identifiability constraint has to be built on all of
+## them. For any panel S the design's cross-product is just GRAM_ALL[S, S], so
+## this is accumulated once and the constraint costs one small solve per
+## candidate panel.
+A <- BEDMatrix(PLINK, simple_names = TRUE)
+ka <- match(strains, rownames(A)); stopifnot(!anyNA(ka))
+G_all <- matrix(0, length(ka), length(ka))
+for (s in seq(1L, ncol(A), by = CHUNK)) {
+  e <- min(s + CHUNK - 1L, ncol(A))
+  g <- A[ka, s:e, drop = FALSE]
+  g[is.na(g)] <- 0; g[g == 2] <- 1        # as the deconvolution codes it
+  storage.mode(g) <- "double"
+  G_all <- G_all + tcrossprod(g)
+}
+dimnames(G_all) <- list(strains, strains)
+saveRDS(list(G_all = G_all, n_marker = ncol(A), strains = strains),
+        file.path(CACHE, "gram_all.rds"))
+msg(sprintf("gram over all %s markers -> gram_all.rds", format(ncol(A), big.mark = ",")))
+
 saveRDS(list(strains = strains, car = car, n_rare = ncol(X),
              gp = gp, G = G, pruned_bim = fread(file.path(CACHE, "pruned.bim"),
                header = FALSE, col.names = c("chrom","id","cm","pos","a1","a2"))),

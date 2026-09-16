@@ -27,7 +27,34 @@ pool_opt_attach <- function(P) {
   assign("GENO", P$gp, e)
   assign("GRAM", P$G,  e)
   assign("N_MARK", ncol(P$gp), e)
+  ## G'G over ALL markers -- what the deconvolution actually inverts, as
+  ## opposed to the LD-pruned set the mapping objective uses. Built by the
+  ## precompute; absent only if that was run before this constraint existed.
+  f <- ".pool_opt_cache/gram_all.rds"
+  if (file.exists(f)) {
+    z <- readRDS(f)
+    stopifnot(identical(rownames(z$G_all), P$strains))
+    assign("GRAM_ALL", z$G_all, e)
+    assign("N_MARK_ALL", z$n_marker, e)
+  } else assign("GRAM_ALL", NULL, e)
   invisible(TRUE)
+}
+
+## Worst-strain variance inflation: the largest diagonal of (G'G)^-1 over the
+## panel, scaled by the marker count so the number reflects the panel rather
+## than how many markers went in.
+##
+## This is the identifiability measure private-marker count approximates. It is
+## depth-aware in the sense that var(f_j) is this times the residual variance,
+## it counts near-private markers that a sole-carrier tally throws away, and it
+## sees collinearity between STRAINS rather than only between a strain and the
+## rest. A singular submatrix means two strains the solve cannot separate at
+## all, and is returned as Inf rather than as an error.
+vif_max <- function(S) {
+  if (is.null(GRAM_ALL)) return(NA_real_)
+  d <- tryCatch(diag(solve(GRAM_ALL[S, S, drop = FALSE])),
+                error = function(e) Inf)
+  max(d) * N_MARK_ALL
 }
 
 ## Privateness: one pass over the carrier list. A marker is private to the panel
@@ -71,9 +98,18 @@ score <- function(S) {
   pc <- priv_counts(S); ms <- map_score(S)
   nd <- pc$nondiv[S]
   c(ms, list(min_nondiv = min(nd), med_nondiv = median(nd),
-             n_below = sum(nd < KSTAR), med_div = median(pc$div[S])))
+             n_below = sum(nd < KSTAR), med_div = median(pc$div[S]),
+             vif_max = vif_max(S)))
 }
-feasible <- function(S) min(priv_counts(S)$nondiv[S]) >= KSTAR
+
+## Which identifiability constraint binds. "private" is the sole-carrier count
+## the first version used; "vif" is the variance-inflation diagonal above.
+## CONSTRAINT and the two thresholds are set by the caller.
+is_feasible <- function(st) {
+  if (identical(CONSTRAINT, "vif")) isTRUE(st$vif_max <= TAU)
+  else isTRUE(st$min_nondiv >= KSTAR)
+}
+feasible <- function(S) is_feasible(score(S))
 
 ## Swap-based simulated annealing. Proposals that break the identifiability
 ## floor are rejected outright rather than penalised, so the search never leaves
@@ -87,7 +123,7 @@ pool_opt_anneal <- function(S, iters, T0 = 40, report = NULL) {
     ins <- sample(setdiff(seq_len(N_UNIV), S), 1)
     T_ <- c(setdiff(S, out), ins)
     st <- score(T_)
-    if (st$min_nondiv >= KSTAR &&
+    if (is_feasible(st) &&
         (st$n_mappable > cur$n_mappable ||
          runif(1) < exp((st$n_mappable - cur$n_mappable) / Temp))) {
       S <- T_; cur <- st
@@ -125,21 +161,29 @@ pool_opt_seed <- function(n, fixed = integer(0)) {
 ## panel -- adding a strain can destroy another's -- so this is re-checked each
 ## pass rather than computed once.
 pool_opt_repair <- function(S, uni_nondiv, passes = 40L, ncand = 25L) {
+  vifmode <- identical(CONSTRAINT, "vif")
   for (pass in seq_len(passes)) {
-    pc <- priv_counts(S)$nondiv
-    bad <- S[pc[S] < KSTAR]
-    if (!length(bad)) break
-    out <- bad[which.min(pc[bad])]
+    if (vifmode) {
+      ## drop the strain whose own inverse-diagonal is worst
+      d <- diag(solve(GRAM_ALL[S, S, drop = FALSE])) * N_MARK_ALL
+      if (max(d) <= TAU) break
+      out <- S[which.max(d)]
+    } else {
+      pc <- priv_counts(S)$nondiv
+      bad <- S[pc[S] < KSTAR]
+      if (!length(bad)) break
+      out <- bad[which.min(pc[bad])]
+    }
     cand <- setdiff(seq_len(N_UNIV), S)
     cand <- cand[order(uni_nondiv[cand], decreasing = TRUE)][seq_len(min(ncand, length(cand)))]
-    bestmin <- -1; bestS <- NULL
+    best <- if (vifmode) Inf else -1; bestS <- NULL
     for (cc in cand) {
       T_ <- c(setdiff(S, out), cc)
-      mn <- min(priv_counts(T_)$nondiv[T_])
-      if (mn > bestmin) { bestmin <- mn; bestS <- T_ }
+      v <- if (vifmode) vif_max(T_) else min(priv_counts(T_)$nondiv[T_])
+      if (if (vifmode) v < best else v > best) { best <- v; bestS <- T_ }
     }
     S <- bestS
-    if (bestmin >= KSTAR) break
+    if (if (vifmode) best <= TAU else best >= KSTAR) break
   }
   S
 }
