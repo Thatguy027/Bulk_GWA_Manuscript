@@ -13,20 +13,26 @@
 ##            p, so the result sits ~0.3 LOD below the textbook value.
 ##   chisq    the textbook 1-df LOD, z^2 / (2 ln 10).
 ##
-## This plots the shipped LOD against both recomputations for the HT115-vs-pos-1
-## contrast in each cross. Two things it is meant to show.
+## THE SHIPPED COLUMN IS ALREADY THE LOG-SPACE VALUE. This is the thing to be
+## clear about, because "shipped versus recomputed" invites the wrong reading.
+## The recomputation happened inside the export pipeline BEFORE the files were
+## written, so comparing the shipped LOD to recompute_lod() is a reproducibility
+## check, not a before-and-after. It agrees to 1.8e-12, which is worth knowing
+## but is not the interesting comparison.
 ##
-## FIRST, that the shipped column really is the package convention and really is
-## reproducible -- the shipped-vs-package panel should be the identity line to
-## floating point, and the residual is printed.
+## The real before-and-after is against what the ORIGINAL pipeline produced.
+## xqtl_stats.R used calcContrastStats(), which routes through PvalToLOD() on
+## the LINEAR-scale p. That p underflows to exactly 0 above |z| ~ 38.5, and
+## PvalToLOD(0) is qchisq(0, df = 1, lower.tail = FALSE) = Inf. So the original
+## LOD is INFINITE for every marker above |z| = 38.5 -- 4,765 of them in the
+## N2 x XZ1516 pos-1 contrast, whose log-space LOD runs from 321 to 710. Any
+## shipped LOD above about 322 is therefore proof in itself that the log-space
+## recomputation was applied: it could not have come from the p column.
 ##
-## SECOND, where the offset stops being a constant. The two conventions are
-## asymptotically 0.30103 apart, but PvalToLOD() maps |z| <= qnorm(0.25, lower =
-## FALSE) = 0.6745 to 0 because qchisq's doubled argument exceeds 1 there. Below
-## that threshold the package LOD is pinned at zero while the chisq LOD is not,
-## so the gap closes to 0 rather than holding at 0.3. Everything significant is
-## far from that region, but it is the reason the two curves are not simply
-## shifted copies.
+## The third panel is where the two CONVENTIONS stop being a constant apart.
+## PvalToLOD() maps |z| <= qnorm(0.25, lower = FALSE) = 0.6745 to 0 because
+## qchisq's doubled argument exceeds 1 there, so below that the package LOD is
+## pinned at zero while the chisq LOD is not.
 ##
 ## Reads the cross exports under data/, so it stays a DIAG script.
 ## ---------------------------------------------------------------------------
@@ -67,6 +73,10 @@ D <- rbindlist(lapply(names(SRC), function(nm) {
 }))
 D[, `:=`(lod_package = lod_from_z(z, "package"),
          lod_chisq   = lod_from_z(z, "chisq"))]
+## what PvalToLOD() does to the LINEAR-scale p the exports also ship: the
+## original path, reproduced so the failure can be seen rather than described
+D[, lod_naive := suppressWarnings(
+    qchisq(pmin(2 * p, 1), df = 1, lower.tail = FALSE) / (2 * log(10)))]
 msg(sprintf("markers: %s", paste(D[, .N, by = cross][, sprintf("%s %s", cross,
             format(N, big.mark = ","))], collapse = " | ")))
 
@@ -76,7 +86,16 @@ chk <- D[, .(n = .N,
              max_rel_diff = max(abs(LOD - lod_package) / pmax(LOD, 1e-12)),
              cor = cor(LOD, lod_package)), by = cross]
 cat("\n== shipped LOD against the package-convention recomputation ==\n")
+cat("   (a reproducibility check -- the shipped column is ALREADY log space)\n")
 print(chk)
+cat("\n== the real before-and-after: PvalToLOD() on the linear p ==\n")
+print(D[, .(n = .N,
+            naive_infinite = sum(!is.finite(lod_naive)),
+            pct = round(100 * mean(!is.finite(lod_naive)), 2),
+            logspace_LOD_of_those = if (any(!is.finite(lod_naive)))
+              sprintf("%.0f - %.0f", min(lod_package[!is.finite(lod_naive)]),
+                      max(lod_package[!is.finite(lod_naive)])) else "-",
+            max_finite_naive = round(max(lod_naive[is.finite(lod_naive)]), 1)), by = cross])
 
 cat("\n== the two conventions ==\n")
 print(D[, .(n = .N,
@@ -121,15 +140,33 @@ COL <- c(`N2 x XZ1516` = "#1B7837", `JU1793 x JU2466` = "#C4302B")
 set.seed(1)
 S <- D[, .SD[sample(.N, min(.N, 40000))], by = cross]
 
-pA <- ggplot(S, aes(LOD, lod_package, colour = cross)) +
+## Panel A: the ORIGINAL path against the log-space one. Infinite naive values
+## cannot be drawn, so they are pinned to the top of the panel and marked.
+ZCUT <- 38.5
+CAP <- max(S$lod_package) * 1.06
+A <- copy(S)[, `:=`(naive_plot = fifelse(is.finite(lod_naive), lod_naive, CAP),
+                    blown = !is.finite(lod_naive))]
+nblow <- A[, .(n = sum(blown)), by = cross][n > 0]
+pA <- ggplot(A, aes(lod_package, naive_plot, colour = cross)) +
   geom_abline(slope = 1, intercept = 0, linewidth = 0.4, colour = "grey45") +
-  geom_point(size = 0.35, alpha = 0.35) +
+  geom_hline(yintercept = CAP, linewidth = 0.3, colour = "grey60", linetype = "dotted") +
+  geom_point(aes(shape = blown), size = 0.5, alpha = 0.4) +
+  scale_shape_manual(values = c(`FALSE` = 16, `TRUE` = 4), guide = "none") +
+  ## count from the FULL data, not the thinned scatter -- S is a 40k sample per
+  ## cross, so sum(A$blown) would report the sample's share and not the truth
+  annotate("text", x = 0, y = CAP, hjust = 0, vjust = -0.5, size = 2.5, colour = "grey25",
+           label = sprintf("Inf -- %s of %s markers, pinned here to be visible",
+                           format(D[!is.finite(lod_naive), .N], big.mark = ","),
+                           format(nrow(D), big.mark = ","))) +
   scale_colour_manual(values = COL, name = NULL) +
   guides(colour = guide_legend(override.aes = list(size = 2, alpha = 1))) +
-  labs(x = "LOD as shipped in the export", y = "recomputed, package convention",
-       title = "Shipped against recomputed: the identity line",
-       subtitle = paste("HT115 vs pos-1, every marker. Grey line is y = x. The shipped column IS the package",
-                        "\nconvention, and it regenerates from z alone."))
+  labs(x = "log-space LOD (what the exports ship)",
+       y = "PvalToLOD() on the linear p\n(what the original pipeline gave)",
+       title = "The real before-and-after: where the original LOD died",
+       subtitle = paste(sprintf("HT115 vs pos-1. Above |z| = %.1f the shipped p column is exactly 0 and PvalToLOD(0) is Inf, so the", ZCUT),
+                        "\noriginal LOD is infinite for every marker whose log-space LOD exceeds about 322. The N2 x XZ1516",
+                        "\ncontrast has 4,765 of them, running to LOD 710; the JU cross has none, peaking at |z| = 25.4.",
+                        "\nA shipped LOD above 322 is itself proof the log-space recomputation was applied."))
 
 ## Plotted as a DIFFERENCE. On a 0-700 axis a 0.3 offset is a fraction of a
 ## pixel, so a chisq-against-package scatter is the identity line and shows
