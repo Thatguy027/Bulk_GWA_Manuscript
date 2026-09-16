@@ -1,0 +1,8 @@
+construction	cutoff	independent	q05_down	q05_up	raw05_down
+Welch, 4 pos-1 vs 2 ctrl	3	TRUE	8	9	27
+one-sample t on 4 delta_ctrl vs 0	3	TRUE	57	17	64
+Welch, 4 pos-1 vs 2 ctrl	5	TRUE	6	7	25
+one-sample t on 4 delta_ctrl vs 0	5	TRUE	60	17	64
+Welch, 4 pos-1 vs 2 ctrl	10	TRUE	10	10	25
+one-sample t on 4 delta_ctrl vs 0	10	TRUE	59	16	68
+Welch, 12 vs 6 (cutoffs pooled)	3+5+10	FALSE	74	28	84
