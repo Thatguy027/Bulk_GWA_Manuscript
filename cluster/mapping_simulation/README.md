@@ -38,6 +38,24 @@ the guard rather than on a real problem.
 | `traits_<panel>.csv` | `strain` then one column per simulated trait |
 | `trait_lists/<panel>.txt` | the trait names, comma separated, for `--traits` |
 | `simulation_key.tsv` | what every trait is: causal marker, position, MAF in that panel, h2, beta, replicate |
+| `reduce_scans.R` | run on the CLUSTER; turns each scan into one row |
+
+## Do not transfer the scans
+
+464,045 markers per trait is about 44 MB, so 672 scans are roughly 30 GB raw
+and 7 GB gzipped. Scoring needs about fifteen numbers per trait. Reduce where
+the scans are produced and bring back only the summary:
+
+```sh
+Rscript reduce_scans.R <gemma_out_dir> sim_optimised.tsv simulation_key.tsv \
+        'optimised (VIF constraint)'
+```
+
+The panel argument matters: the key holds one row per (panel, trait), so
+joining on trait alone multiplies every row by the number of panels. The script
+resolves it from the directory name when it can and stops when it cannot.
+`lambda_gc` is the reason this has to run there rather than here -- it is the
+median chi-squared over the whole scan, so it needs every marker.
 
 ## Scoring
 
