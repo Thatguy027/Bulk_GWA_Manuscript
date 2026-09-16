@@ -30,7 +30,7 @@
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({
-  library(tidyverse); library(patchwork); library(ggtext)
+  library(tidyverse); library(patchwork); library(ggtext); library(ggrepel)
 })
 
 DEC  <- "supplemental_data/deconvolution"
@@ -131,9 +131,74 @@ pB <- ggplot(B, aes(input, frequency, colour = trait)) +
                          "(rho = -0.20) and privateness (rho = -0.25).")) +
   theme_pub()
 
-fig <- pA / pB + plot_layout(heights = c(1, 1.25))
+## ===========================================================================
+## panel C: recovery against how many strains were in the pool
+## ===========================================================================
+## Each trait's pool is a different size, from 83 strains for PC1 to 326 for
+## mtDNA_ratio, so the simulation already contains a small pool-size series --
+## it was just never read that way. Recovery falls as the pool grows, at every
+## depth, which is the deconvolution-side version of what the panel-size sweep
+## found from the identifiability constraint: more strains are harder to tell
+## apart.
+##
+## THE OBVIOUS CONFOUND IS ABSENT. Dispersion of the input frequencies also
+## moves r-squared, and the other way (it rises with CV), so the pool-size
+## reading would be worthless if the two travelled together. They do not:
+## across these seven traits Spearman(pool size, dispersion) is exactly 0.000,
+## so the two rank-orderings are independent and the simple correlations are
+## already the separate effects. That is luck rather than design, and it is
+## printed below rather than asserted, but it means the pool-size reading can
+## be taken at face value.
+##
+## Seven traits is still seven traits. This is a series the simulation happened
+## to contain, not one it was built to provide.
+disp <- sfq %>% filter(replicate == 1, depth == 10, input > 0) %>%
+  group_by(trait) %>% summarise(cv = sd(input) / mean(input), .groups = "drop")
+C <- r2 %>% select(trait, depth, r2 = present, n_present) %>% left_join(disp, by = "trait")
+
+rho <- C %>% group_by(depth) %>%
+  summarise(rho_n = cor(n_present, r2, method = "spearman"),
+            p_n = suppressWarnings(cor.test(n_present, r2, method = "spearman")$p.value),
+            rho_cv = cor(cv, r2, method = "spearman"),
+            p_cv = suppressWarnings(cor.test(cv, r2, method = "spearman")$p.value),
+            .groups = "drop")
+nc <- with(distinct(C, trait, n_present, cv),
+           cor(n_present, cv, method = "spearman"))
+cat("\nrecovery against pool size, Spearman over the seven traits:\n")
+print(as.data.frame(rho %>% mutate(across(-depth, ~round(.x, 3)))), row.names = FALSE)
+cat("\nNOT SIGNIFICANT. Seven traits gives seven points, and p is about 0.09 at\n")
+cat("most depths. The one depth that clears 0.05 (30x, p = 0.048) is one of\n")
+cat("eight correlated looks at the same seven traits, so it is not a finding.\n")
+cat(sprintf("\nthe confound: Spearman(pool size, dispersion) = %+.3f over %d traits\n",
+            nc, n_distinct(C$trait)))
+
+## Points, not lines. Connecting the traits in pool-size order draws a series
+## that does not exist -- these are seven independent traits, and the zigzag it
+## produces reads as structure rather than as scatter.
+pC <- ggplot(C, aes(n_present, r2, colour = factor(depth))) +
+  geom_point(size = 1.6) +
+  ggrepel::geom_text_repel(
+    data = C %>% filter(depth == 1), aes(label = trait), size = 2.1,
+    colour = "grey35", seed = 1, min.segment.length = 0, box.padding = 0.45,
+    max.overlaps = Inf, show.legend = FALSE) +
+  scale_x_log10(breaks = c(83, 130, 150, 200, 326)) +
+  scale_colour_viridis_d(option = "mako", end = 0.85, direction = -1, name = "depth") +
+  labs(x = "strains in that trait's pool (log)", y = "r-squared, pool strains only",
+       title = paste0(panel_title("C"), "  Recovery against pool size, suggestive only"),
+       subtitle = paste0("Traits labelled at 1x. Recovery does fall as the pool grows, at every depth ",
+                         sprintf("(Spearman %+.2f to %+.2f),<br>", min(rho$rho_n), max(rho$rho_n)),
+                         sprintf("but with seven traits that is p = %.2f at most depths and NOT significant. ",
+                                 median(rho$p_n)),
+                         "The one depth<br>clearing 0.05 is one of eight correlated looks at the same seven ",
+                         "points. Dispersion of the input<br>frequencies also moves r-squared and the other way ",
+                         sprintf("(rho about %+.2f); the two happen to be rank-independent<br>here ", median(rho$rho_cv)),
+                         sprintf("(rho = %+.3f), so they at least do not have to be disentangled. ", nc),
+                         "A series the simulation<br>happened to contain, not one it was built to provide.")) +
+  theme_pub() + theme(legend.position = "right")
+
+fig <- pA / pB / pC + plot_layout(heights = c(1, 1.25, 0.95))
 ggsave(file.path(DIAG, "DIAG_simulation_depth_present_only.pdf"), fig,
-       width = 9, height = 9.5, device = cairo_pdf)
+       width = 9, height = 13, device = cairo_pdf)
 ggsave(file.path(DIAG, "DIAG_simulation_depth_present_only.png"), fig,
-       width = 9, height = 9.5, dpi = 200, bg = "white")
+       width = 9, height = 13, dpi = 200, bg = "white")
 cat("\nwrote DIAG_simulation_depth_present_only.{pdf,png}\n")
