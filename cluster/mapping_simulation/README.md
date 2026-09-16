@@ -18,8 +18,7 @@ All traits for a panel live in one file, so each panel is one invocation and
 the plink conversion and the kinship matrices are built once and reused.
 
 ```sh
-for p in optimised_vif_constraint optimised_k_constraint \
-         rnai_panel_93 baugh_panel_102 naive_most_private; do
+for p in optimised_vif_constraint naive_most_private rnai_panel_93; do
   nextflow run main.nf -profile hoffman2 \
     --vcf /Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213/bcsq.vcf.gz \
     --pheno traits/traits_${p}.csv \
@@ -47,19 +46,31 @@ a detection is a marker above threshold within some window of `chrom`/`pos`;
 anything above threshold far from it is a false positive. Power is the
 detected fraction per (panel, h2, MAF bin) cell.
 
-Take the threshold from each panel's own `kind == "null"` traits rather than
-from a shared Bonferroni line. The panels differ in structure and so in genomic
-inflation, and a panel can look powerful merely by being inflated. The null
-traits are pure noise on the same genotypes, so the 95th percentile of their
-genome-wide maxima is the honest per-panel cutoff.
+Correct the threshold for each panel's own inflation rather than using one
+shared Bonferroni line. The panels differ in structure -- PC1 explains 12.9% of
+genotype variance in the optimised panel against 8.3% in the RNAi panel -- and a
+panel can look powerful merely by being inflated. Eight nulls is too few to put
+a 5% cutoff on the genome-wide maximum directly, but lambda is the median
+chi-squared over ~450k markers and is well determined from a handful of scans,
+so take lambda from the nulls and correct Bonferroni or eigen with it.
 
-## The two optimiser arms
+## Why these three panels and these three heritabilities
 
-`optimised_vif_constraint` is the current panel; `optimised_k_constraint` is the
-superseded one built on private-marker count. They share 45 of 96 strains. The
-swap bought 15,644 -> 15,969 mappable markers, and mappable markers are the
-surrogate this simulation exists to check, so both are run: the comparison is
-whether that 2% shows up as detected loci or as nothing.
+The panels span the mappable-marker range rather than sampling it: the optimised
+panel at the top, the RNAi panel at the bottom, and `naive: most private`
+between them. That third one is the point -- it carries more private markers
+than any other panel and still sits at the random mean for mappable markers, so
+if it detects as well as the optimised panel the central claim fails.
+
+The Baugh panel is dropped as intermediate, and the superseded K*-constrained
+panel because a 2% marker difference is 0.5 sigma on 216 paired traits and
+cannot resolve. `POOL_SIM_PANELS` brings either back.
+
+Heritabilities are sized by power. At n = 96 the 50% power point is h2 = 0.23
+against Bonferroni (6.94) and 0.16 against the eigen threshold (4.6), so the
+grid straddles both. Panels can only differ where the power curve is steep: a
+level at which nothing detects and one at which everything does would each
+return the same answer for every panel.
 
 ## What is held fixed, and what is not
 
@@ -78,7 +89,7 @@ there is no paired draw to share.
 What is NOT equalised is the allele frequency of a shared locus, which differs
 between panels by construction:
 
-  optimised (VIF constraint) 0.34 | optimised (K* constraint) 0.32 | Baugh panel (102) 0.29 | naive: most private 0.26 | RNAi panel (93) 0.25
+  optimised (VIF constraint) 0.28 | RNAi panel (93) 0.24 | naive: most private 0.20
 
 (median MAF over the causal loci). At fixed h2 the non-centrality barely depends
 on MAF, so this is not much of a power confound, but it is a real difference in
