@@ -1,0 +1,388 @@
+strain	panel	private_nondiv	private_div	div_mb
+AB1	RNAi panel (93)	547	43	1.343
+CB4851	optimised	1658	31	0.665
+CB4854	Baugh panel (102)	1885	117	1.193
+CB4856	optimised	7882	257	3.615
+CB4856	Baugh panel (102)	15527	1084	3.615
+CB4856	naive: most private	9548	316	3.615
+CB4932	RNAi panel (93)	511	6	0.893
+CX11254	Baugh panel (102)	661	20	2.28
+CX11262	RNAi panel (93)	1771	429	2.707
+CX11262	Baugh panel (102)	359	13	2.707
+CX11264	Baugh panel (102)	843	20	2.776
+CX11271	RNAi panel (93)	821	19	1.081
+CX11271	Baugh panel (102)	807	19	1.081
+CX11276	RNAi panel (93)	2104	125	2.139
+CX11276	Baugh panel (102)	1777	102	2.139
+CX11285	RNAi panel (93)	1872	49	2.35
+CX11285	Baugh panel (102)	1195	32	2.35
+CX11292	RNAi panel (93)	320	5	0.984
+CX11307	Baugh panel (102)	692	87	2.391
+DL200	RNAi panel (93)	774	3	1.468
+DL200	Baugh panel (102)	787	5	1.468
+DL226	RNAi panel (93)	2145	154	2.515
+DL226	Baugh panel (102)	1223	23	2.515
+DL238	optimised	9914	411	3.807
+DL238	Baugh panel (102)	19093	4079	3.807
+DL238	naive: most private	12763	500	3.807
+ECA1185	naive: most private	4070	443	7.163
+ECA1187	naive: most private	4462	223	6.391
+ECA1194	optimised	9626	1560	6.869
+ECA1194	naive: most private	2557	798	6.869
+ECA1202	naive: most private	3993	207	5.201
+ECA1206	optimised	14878	2099	6.056
+ECA1206	naive: most private	3630	1337	6.056
+ECA1208	naive: most private	5847	198	5.23
+ECA1212	optimised	15944	1015	5.056
+ECA1212	naive: most private	3492	145	5.056
+ECA1223	naive: most private	2480	115	5.281
+ECA1225	naive: most private	2985	169	5.154
+ECA1229	naive: most private	13705	1170	5.711
+ECA1232	optimised	10817	823	7.076
+ECA1232	naive: most private	2919	123	7.076
+ECA1240	optimised	12901	877	6.826
+ECA1240	naive: most private	6234	333	6.826
+ECA1242	naive: most private	3989	453	6.727
+ECA1247	naive: most private	2770	95	5.563
+ECA1251	naive: most private	2795	251	6.799
+ECA1252	naive: most private	3813	443	6.471
+ECA1260	naive: most private	8045	541	3.986
+ECA1261	naive: most private	6884	397	5.359
+ECA1269	optimised	8285	305	4.03
+ECA1269	naive: most private	8075	214	4.03
+ECA1276	naive: most private	4761	231	5.572
+ECA1278	naive: most private	4080	284	5.424
+ECA1281	naive: most private	6122	271	5.518
+ECA1283	naive: most private	3794	200	5.93
+ECA1284	naive: most private	7083	458	5.112
+ECA1286	naive: most private	4354	309	5.764
+ECA1287	optimised	14740	1025	5.316
+ECA1287	naive: most private	5199	292	5.316
+ECA1289	naive: most private	8870	540	5.585
+ECA1293	naive: most private	3524	141	5.546
+ECA1409	optimised	4329	369	6.761
+ECA1493	naive: most private	26784	9468	14.234
+ECA1693	optimised	6262	754	4.526
+ECA1693	naive: most private	3221	286	4.526
+ECA1713	optimised	16699	9351	14.465
+ECA1713	naive: most private	12854	6020	14.465
+ECA1717	naive: most private	5214	1785	9.308
+ECA1757	optimised	3821	46	3.258
+ECA1761	optimised	4522	2972	9.88
+ECA1761	naive: most private	2112	2588	9.88
+ECA1821	optimised	17223	2595	7.359
+ECA1821	naive: most private	5471	530	7.359
+ECA1825	optimised	834	354	6.111
+ECA1843	naive: most private	4408	815	7.383
+ECA1851	optimised	3065	1614	12.118
+ECA1875	optimised	2036	47	3.287
+ECA189	Baugh panel (102)	6185	1098	3.667
+ECA189	naive: most private	6742	272	3.667
+ECA1891	naive: most private	2143	216	5.551
+ECA191	RNAi panel (93)	27412	2135	5.715
+ECA191	Baugh panel (102)	26469	1717	5.715
+ECA191	naive: most private	6030	397	5.715
+ECA1919	naive: most private	5343	203	5.584
+ECA1943	optimised	3811	144	3.464
+ECA1969	optimised	15332	1396	5.512
+ECA1969	naive: most private	4399	201	5.512
+ECA2041	optimised	4964	144	3.352
+ECA2043	naive: most private	5836	348	7.541
+ECA2073	naive: most private	3970	570	5.364
+ECA2081	naive: most private	5095	172	5.41
+ECA2091	optimised	20476	5293	10.888
+ECA2091	naive: most private	20515	4821	10.888
+ECA2151	optimised	2460	7780	8.832
+ECA2151	naive: most private	7316	8295	8.832
+ECA2159	optimised	3365	795	10.223
+ECA2191	naive: most private	8410	9714	14.179
+ECA2195	optimised	34675	12447	14.357
+ECA2195	naive: most private	6168	6522	14.357
+ECA2199	optimised	73727	27531	12.99
+ECA2199	naive: most private	73159	25884	12.99
+ECA2251	naive: most private	3406	100	5.007
+ECA2291	naive: most private	5548	1596	8.223
+ECA2336	optimised	825	1077	10.647
+ECA2360	naive: most private	4065	312	7.131
+ECA2367	naive: most private	4677	555	7.105
+ECA2417	naive: most private	2818	137	5.259
+ECA2437	optimised	14265	342	3.709
+ECA2437	naive: most private	15747	335	3.709
+ECA2443	naive: most private	3599	137	5.333
+ECA2467	optimised	2826	99	3.623
+ECA2475	naive: most private	8068	309	5.486
+ECA2482	naive: most private	1976	92	5.178
+ECA2581	optimised	4893	1258	6.093
+ECA2595	optimised	4546	597	4.467
+ECA2595	naive: most private	11304	936	4.467
+ECA2601	naive: most private	6119	1696	4.791
+ECA2612	optimised	745	97	3.475
+ECA2861	optimised	1374	21	3.4
+ECA2897	naive: most private	2767	253	5.803
+ECA2970	optimised	137	891	10.262
+ECA3006	optimised	123	1013	10.349
+ECA3077	optimised	1581	126	3.143
+ECA3088	optimised	18389	13956	14.108
+ECA3088	naive: most private	15226	8853	14.108
+ECA3116	optimised	3931	77	3.157
+ECA3117	optimised	5134	374	4.018
+ECA3117	naive: most private	4518	289	4.018
+ECA347	naive: most private	2030	3308	6.692
+ECA348	optimised	1428	118	2.967
+ECA348	RNAi panel (93)	618	267	2.967
+ECA348	Baugh panel (102)	333	223	2.967
+ECA349	RNAi panel (93)	1541	44	2.006
+ECA36	Baugh panel (102)	8474	2910	7.554
+ECA363	RNAi panel (93)	33256	7549	6.749
+ECA363	Baugh panel (102)	17012	3295	6.749
+ECA363	naive: most private	6405	1108	6.749
+ECA369	optimised	26954	19662	8.524
+ECA369	Baugh panel (102)	29446	21538	8.524
+ECA369	naive: most private	27623	11731	8.524
+ECA372	Baugh panel (102)	2841	42	3.606
+ECA396	RNAi panel (93)	26418	2625	5.579
+ECA396	Baugh panel (102)	25274	2232	5.579
+ECA396	naive: most private	8401	696	5.579
+ECA593	optimised	803	57	3.386
+ECA594	optimised	1270	59	3.098
+ECA701	optimised	24893	9303	12.279
+ECA701	naive: most private	24385	8586	12.279
+ECA703	optimised	7540	250	3.641
+ECA703	naive: most private	9107	292	3.641
+ECA705	naive: most private	4932	380	3.938
+ECA706	optimised	8107	330	3.058
+ECA706	naive: most private	12319	317	3.058
+ECA722	naive: most private	8066	486	5.748
+ECA724	naive: most private	4950	794	6.427
+ECA730	optimised	20460	810	4.824
+ECA730	naive: most private	8459	296	4.824
+ECA732	optimised	9394	279	3.752
+ECA733	naive: most private	13463	353	3.689
+ECA738	naive: most private	4928	314	3.298
+ECA740	naive: most private	5926	970	7.29
+ECA741	naive: most private	3906	509	7.313
+ECA742	naive: most private	6911	1171	7.965
+ECA743	optimised	3824	207	3.216
+ECA743	naive: most private	4935	198	3.216
+ECA744	naive: most private	2702	201	5.192
+ECA745	naive: most private	3772	343	5.665
+ECA746	optimised	19861	1053	5.207
+ECA746	naive: most private	5682	402	5.207
+ECA768	optimised	962	49	3.309
+ECA778	optimised	586	26	3.053
+ECA807	optimised	3871	109	3.622
+ECA928	optimised	5077	157	2.845
+ED3005	RNAi panel (93)	396	23	2.319
+ED3011	RNAi panel (93)	427	18	1.929
+ED3012	RNAi panel (93)	392	3	0.964
+ED3017	Baugh panel (102)	465	1	0.819
+ED3048	RNAi panel (93)	511	3	1.018
+ED3049	RNAi panel (93)	1621	124	2.569
+ED3049	Baugh panel (102)	1286	33	2.569
+ED3052	Baugh panel (102)	652	8	1.341
+ED3073	RNAi panel (93)	1047	12	1.443
+ED3077	RNAi panel (93)	700	6	1.995
+ED3077	Baugh panel (102)	732	2	1.995
+EG4724	Baugh panel (102)	838	10	2.587
+EG4725	optimised	2330	557	3.617
+EG4725	Baugh panel (102)	1886	422	3.617
+EG4946	RNAi panel (93)	339	3	1.544
+GXW1	RNAi panel (93)	1326	71	1.335
+GXW1	Baugh panel (102)	952	142	1.335
+JU1088	RNAi panel (93)	1008	58	2.036
+JU1172	RNAi panel (93)	460	7	1.772
+JU1200	RNAi panel (93)	443	1	0.083
+JU1212	Baugh panel (102)	1258	35	1.827
+JU1242	RNAi panel (93)	580	14	1.078
+JU1400	optimised	1927	48	2.895
+JU1400	Baugh panel (102)	1453	22	2.895
+JU1491	RNAi panel (93)	696	90	1.643
+JU1543	RNAi panel (93)	547	3	0.366
+JU1568	RNAi panel (93)	567	3	0.173
+JU1581	Baugh panel (102)	1404	32	1.504
+JU1586	RNAi panel (93)	605	1	0.454
+JU1652	optimised	846	20	1.987
+JU1652	RNAi panel (93)	1159	73	1.987
+JU1652	Baugh panel (102)	990	62	1.987
+JU1666	RNAi panel (93)	1294	48	1.834
+JU1792	RNAi panel (93)	842	14	0.946
+JU1793	RNAi panel (93)	3476	153	3.182
+JU1793	Baugh panel (102)	503	61	3.182
+JU1808	RNAi panel (93)	347	4	1.371
+JU1896	optimised	1857	40	1.613
+JU1896	RNAi panel (93)	1777	32	1.613
+JU1896	Baugh panel (102)	1674	64	1.613
+JU2001	optimised	3060	71	2.678
+JU2001	RNAi panel (93)	5034	220	2.678
+JU2001	Baugh panel (102)	3686	146	2.678
+JU2007	RNAi panel (93)	1387	14	1.347
+JU2007	Baugh panel (102)	1130	12	1.347
+JU2016	RNAi panel (93)	359	2	1.516
+JU2017	Baugh panel (102)	2836	25	2.044
+JU2106	optimised	2070	53	2.329
+JU2106	Baugh panel (102)	586	17	2.329
+JU2234	optimised	1811	59	1.176
+JU2234	Baugh panel (102)	1345	18	1.176
+JU2250	RNAi panel (93)	341	1	1.128
+JU2316	Baugh panel (102)	339	222	4.041
+JU2464	Baugh panel (102)	940	21	1.905
+JU2466	RNAi panel (93)	663	6	0.789
+JU2519	RNAi panel (93)	858	170	3.146
+JU2519	Baugh panel (102)	275	21	3.146
+JU2526	optimised	665	314	4.767
+JU2526	Baugh panel (102)	356	57	4.767
+JU2534	RNAi panel (93)	643	6	0.91
+JU2565	RNAi panel (93)	796	1	0.235
+JU2576	optimised	2783	39	1.605
+JU2576	Baugh panel (102)	2236	37	1.605
+JU2578	RNAi panel (93)	944	13	1.418
+JU258	optimised	1138	121	3.444
+JU258	Baugh panel (102)	1628	204	3.444
+JU2581	optimised	833	21	1.921
+JU2581	RNAi panel (93)	4847	64	1.921
+JU2592	Baugh panel (102)	1090	27	1.66
+JU2593	Baugh panel (102)	1205	38	2.182
+JU2619	Baugh panel (102)	1492	10	2.404
+JU2800	RNAi panel (93)	833	17	1.403
+JU2811	RNAi panel (93)	4986	1905	2.685
+JU2811	Baugh panel (102)	2154	1650	2.685
+JU2811	naive: most private	6075	1743	2.685
+JU2829	Baugh panel (102)	595	7	1.95
+JU2838	Baugh panel (102)	1558	38	2.377
+JU2841	Baugh panel (102)	2054	122	1.988
+JU2878	Baugh panel (102)	2511	545	2.413
+JU2878	naive: most private	3356	274	2.413
+JU2879	Baugh panel (102)	1573	29	2.873
+JU2906	RNAi panel (93)	855	28	0.897
+JU310	RNAi panel (93)	773	5	1.154
+JU311	RNAi panel (93)	232	2	1.335
+JU3125	RNAi panel (93)	565	8	1.795
+JU3127	RNAi panel (93)	1381	11	1.83
+JU3137	RNAi panel (93)	1586	129	1.4
+JU3137	Baugh panel (102)	1370	108	1.4
+JU3167	optimised	1713	213	3.394
+JU3169	optimised	1135	104	2.338
+JU3291	optimised	3099	166	1.91
+JU561	Baugh panel (102)	819	13	1.425
+JU642	RNAi panel (93)	798	5	0.912
+JU774	Baugh panel (102)	959	29	2.507
+JU775	Baugh panel (102)	189	24	3.435
+JU782	optimised	1096	221	3.618
+JU782	Baugh panel (102)	272	75	3.618
+KR314	Baugh panel (102)	1091	14	1.869
+LKC34	Baugh panel (102)	1294	5	1.685
+MY10	Baugh panel (102)	1278	3414	3.078
+MY16	optimised	1712	949	2.879
+MY16	Baugh panel (102)	246	127	2.879
+MY18	Baugh panel (102)	936	17	2.223
+MY2147	Baugh panel (102)	1295	7	1.091
+MY2212	RNAi panel (93)	687	13	1.39
+MY23	Baugh panel (102)	1275	141	3.644
+MY2453	RNAi panel (93)	373	148	1.516
+MY2453	Baugh panel (102)	616	143	1.516
+MY2530	RNAi panel (93)	10	0	0.517
+MY2693	RNAi panel (93)	231	85	1.843
+MY2741	RNAi panel (93)	148	116	2.785
+MY2741	Baugh panel (102)	331	205	2.785
+MY679	RNAi panel (93)	1071	10	1.68
+MY920	RNAi panel (93)	549	7	1.277
+NIC1780	optimised	886	87	3.064
+NIC1785	optimised	446	25	3.059
+NIC1787	optimised	1781	178	3.688
+NIC1790	optimised	628	30	3.601
+NIC1798	optimised	798	134	3.911
+NIC1801	optimised	1925	41	3.46
+NIC195	RNAi panel (93)	1560	236	3.687
+NIC195	Baugh panel (102)	983	126	3.687
+NIC199	Baugh panel (102)	1886	1129	3.325
+NIC2	RNAi panel (93)	451	2	0.317
+NIC207	RNAi panel (93)	1139	27	0.596
+NIC251	optimised	3746	747	4.597
+NIC251	RNAi panel (93)	6514	3479	4.597
+NIC251	Baugh panel (102)	3195	868	4.597
+NIC252	optimised	1607	106	2.761
+NIC252	Baugh panel (102)	1575	124	2.761
+NIC256	Baugh panel (102)	193	33	3.552
+NIC258	optimised	490	29	4.531
+NIC258	Baugh panel (102)	249	15	4.531
+NIC260	RNAi panel (93)	358	60	3.162
+NIC260	Baugh panel (102)	271	15	3.162
+NIC261	RNAi panel (93)	396	62	3.329
+NIC261	Baugh panel (102)	284	33	3.329
+NIC262	RNAi panel (93)	286	80	3.395
+NIC262	Baugh panel (102)	220	45	3.395
+NIC265	optimised	1273	59	3.404
+NIC265	RNAi panel (93)	1896	405	3.404
+NIC265	Baugh panel (102)	970	72	3.404
+NIC266	RNAi panel (93)	1905	55	2.732
+NIC266	Baugh panel (102)	758	16	2.732
+NIC268	optimised	1226	125	2.669
+NIC268	Baugh panel (102)	5663	447	2.669
+NIC271	RNAi panel (93)	327	33	3.568
+NIC271	Baugh panel (102)	130	11	3.568
+NIC276	RNAi panel (93)	999	17	1.433
+NIC3	Baugh panel (102)	1611	25	1.71
+NIC501	Baugh panel (102)	800	49	2.408
+NIC523	optimised	3944	236	1.835
+NIC523	RNAi panel (93)	2717	604	1.835
+NIC523	Baugh panel (102)	1054	36	1.835
+NIC526	RNAi panel (93)	1790	23	1.548
+NIC526	Baugh panel (102)	1625	20	1.548
+NIC527	RNAi panel (93)	1693	12	1.451
+NIC527	Baugh panel (102)	1156	14	1.451
+NIC528	RNAi panel (93)	785	82	2.182
+NIC528	Baugh panel (102)	803	35	2.182
+NIC529	RNAi panel (93)	850	1	1.244
+PB303	RNAi panel (93)	410	24	1.834
+PB306	RNAi panel (93)	5523	865	2.396
+PB306	Baugh panel (102)	3788	251	2.396
+PB306	naive: most private	5312	226	2.396
+PS2025	Baugh panel (102)	191	13	3.154
+PX179	RNAi panel (93)	531	2	0.721
+QG2075	optimised	2567	95	2.544
+QG2075	RNAi panel (93)	3189	138	2.544
+QG2075	Baugh panel (102)	1819	76	2.544
+QG2846	optimised	5360	438	2.703
+QG4080	optimised	1760	130	1.88
+QG4103	optimised	2429	150	2.424
+QG536	RNAi panel (93)	801	87	2.028
+QG556	optimised	1513	114	2.823
+QG556	RNAi panel (93)	2265	277	2.823
+QG556	Baugh panel (102)	1379	179	2.823
+QG557	RNAi panel (93)	827	7	1.903
+QW947	RNAi panel (93)	2163	47	2.31
+QW947	Baugh panel (102)	1167	80	2.31
+QX1211	Baugh panel (102)	11323	2352	7.528
+QX1211	naive: most private	5000	621	7.528
+QX1212	Baugh panel (102)	2505	128	2.556
+QX1791	optimised	10391	4056	4.412
+QX1791	RNAi panel (93)	14257	10255	4.412
+QX1791	Baugh panel (102)	11326	5922	4.412
+QX1791	naive: most private	12861	3116	4.412
+QX1792	optimised	2876	86	2.986
+QX1792	Baugh panel (102)	5428	108	2.986
+QX1792	naive: most private	4424	310	2.986
+QX1793	optimised	3630	97	2.928
+QX1793	Baugh panel (102)	6010	163	2.928
+QX1794	optimised	2542	145	3.45
+QX1794	RNAi panel (93)	6562	687	3.45
+QX1794	Baugh panel (102)	4048	111	3.45
+QX1794	naive: most private	3689	142	3.45
+RC301	RNAi panel (93)	728	56	1.896
+WN2001	optimised	1622	91	3.005
+WN2001	Baugh panel (102)	1563	128	3.005
+WN2002	RNAi panel (93)	873	85	1.731
+XZ1513	RNAi panel (93)	7821	541	3.359
+XZ1513	Baugh panel (102)	2503	195	3.359
+XZ1514	Baugh panel (102)	20833	9749	8.72
+XZ1514	naive: most private	3091	1064	8.72
+XZ1515	optimised	5013	691	3.239
+XZ1515	Baugh panel (102)	15328	1624	3.239
+XZ1515	naive: most private	5113	630	3.239
+XZ1516	RNAi panel (93)	91187	107026	14.242
+XZ1516	Baugh panel (102)	86865	66055	14.242
+XZ1516	naive: most private	11768	8986	14.242
+XZ2019	optimised	5805	183	3.462
+XZ2019	naive: most private	11113	399	3.462
+XZ2211	optimised	3306	69	2.596
+XZ2211	naive: most private	4731	105	2.596
