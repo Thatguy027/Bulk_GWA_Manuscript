@@ -55,15 +55,17 @@ MANIFEST = [
      "S5A manual plate scores against pooled; S5B manual against Paaby et al. 2015"),
     ("Figure S6", "SUPP_FIG_XX_pooled_phenotype_ranks",            "SUPP_FIG_XX_pooled_phenotype_ranks",
      "ranked pooled mig-6 and pos-1 responses with the cross parents marked"),
-    ("Figure S7", "SUPP_FIG_XX_cross_contrast_panels",             "SUPP_FIG_XX_cross_contrast_panels",
-     "S7B-C the two cross contrast panels"),
-    ("Figure S8", "SUPP_FIG_XX_n2_swap_dose",                      "SUPP_FIG_XX_n2_swap_dose",
+    ("Figure S7", "SUPP_FIG_XX_nil_hatching_full",                 "SUPP_FIG_XX_nil_hatching_full",
+     "the full NIL hatching experiment, all ten strains on both food conditions"),
+    ("Figure S8", "SUPP_FIG_XX_cross_contrast_panels",             "SUPP_FIG_XX_cross_contrast_panels",
+     "S8B-C the two cross contrast panels"),
+    ("Figure S9", "SUPP_FIG_XX_n2_swap_dose",                      "SUPP_FIG_XX_n2_swap_dose",
      "N2 residue-96 swap across the pos-1 dose series"),
     # One figure, two panels: (A) the cross-species alignment of the sequon
-    # window, (B) the N94A / 96K editing series. Cited as S9A and S9B.
-    ("Figure S9", "SUPP_FIG_XX_sid2_ortholog_conservation",        "SUPP_FIG_XX_sid2_ortholog_conservation",
-     "S9A the N94-C95-T96 sequon across Caenorhabditis; S9B the N94A editing series on pos-1 RNAi"),
-    ("Figure S10","SUPP_FIG_XX_sid2_local_charge",                 "SUPP_FIG_XX_sid2_local_charge",
+    # window, (B) the N94A / 96K editing series. Cited as S10A and S10B.
+    ("Figure S10","SUPP_FIG_XX_sid2_ortholog_conservation",        "SUPP_FIG_XX_sid2_ortholog_conservation",
+     "S10A the N94-C95-T96 sequon across Caenorhabditis; S10B the N94A editing series on pos-1 RNAi"),
+    ("Figure S11","SUPP_FIG_XX_sid2_local_charge",                 "SUPP_FIG_XX_sid2_local_charge",
      "local net charge percentile across the ectodomain"),
 ]
 

@@ -253,6 +253,35 @@ have no variance-stabilised value, so n = 84 and ranks are out of 84.
 ![Figure S7](Figure_S7.png)
 *[Print-resolution PDF](Figure_S7.pdf)*
 
+The complete near-isogenic line hatching experiment behind Figure 3C: all ten
+strains on both food conditions.
+
+Embryos hatched under 50% pos-1 RNAi bacteria (dark bars) and on HT115 control
+food (light bars), one plate per strain per condition, with the plated embryo
+count on each bar and Wilson 95% binomial intervals on that count. Strains are
+named here and ordered by their pos-1 hatching, most resistant at the top.
+Hatching on control food is 97-100% for every strain, which is what makes the
+pos-1 differences in Figure 3C a property of the knockdown rather than of the
+introgressions themselves.
+
+Figure 3C draws five of these strains under pos-1 RNAi alone. The five added
+here are wSZ192 (99.1% hatching on pos-1, n = 226 embryos), wSZ195 (94.6%,
+n = 261), wSZ194 (74.7%, n = 265), wSZ193 (64.5%, n = 183) and wSZ153 (39.0%,
+n = 218). Introgression breakpoints are available only for wSZ153 of those
+five, which is why the other four carry no genotype in Figure 3C.
+
+No strain is replicated, so the ordering is an allelic series rather than a set
+of tested contrasts, and the intervals describe counting uncertainty on a
+single plate rather than between-plate variability. The 50% pos-1 dose is the
+one used throughout Figure 3; the hatching percentages are therefore not
+comparable with Figure 4B, which uses 25%.
+
+---
+
+## Figure S8
+![Figure S8](Figure_S8.png)
+*[Print-resolution PDF](Figure_S8.pdf)*
+
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
 three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
@@ -265,9 +294,9 @@ cutoff of LOD 100.
 
 ---
 
-## Figure S8
-![Figure S8](Figure_S8.png)
-*[Print-resolution PDF](Figure_S8.pdf)*
+## Figure S9
+![Figure S9](Figure_S9.png)
+*[Print-resolution PDF](Figure_S9.pdf)*
 
 The N2 residue-96 swap across the full pos-1 dilution series.
 
@@ -283,9 +312,9 @@ ceiling or the floor.
 
 ---
 
-## Figure S9
-![Figure S9](Figure_S9.png)
-*[Print-resolution PDF](Figure_S9.pdf)*
+## Figure S10
+![Figure S10](Figure_S10.png)
+*[Print-resolution PDF](Figure_S10.pdf)*
 
 Residue 96 of SID-2 across Caenorhabditis, and the effect of removing the
 sequon it belongs to.
@@ -322,9 +351,9 @@ higher (p = 4e-20).
 
 ---
 
-## Figure S10
-![Figure S10](Figure_S10.png)
-*[Print-resolution PDF](Figure_S10.pdf)*
+## Figure S11
+![Figure S11](Figure_S11.png)
+*[Print-resolution PDF](Figure_S11.pdf)*
 
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
@@ -347,7 +376,6 @@ These figures exist in `plots/` but the current draft does not cite them, so the
 - `SUPP_FIG_XX_baugh_per_sample_frequencies`
 - `SUPP_FIG_XX_bootstrap_propagation_checks`
 - `SUPP_FIG_XX_gwas_peak_genotype_splits`
-- `SUPP_FIG_XX_nil_hatching_full`
 - `SUPP_FIG_XX_nil_interval_genes`
 - `SUPP_FIG_XX_sid2_allele_in_panel`
 - `SUPP_FIG_XX_sid2_allele_swaps_full`

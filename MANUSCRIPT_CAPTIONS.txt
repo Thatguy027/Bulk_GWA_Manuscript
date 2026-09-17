@@ -203,6 +203,30 @@ scale, ranked, with the cross parents highlighted. Nine of the 93 panel strains
 have no variance-stabilised value, so n = 84 and ranks are out of 84.
 
 ## Figure S7
+The complete near-isogenic line hatching experiment behind Figure 3C: all ten
+strains on both food conditions.
+
+Embryos hatched under 50% pos-1 RNAi bacteria (dark bars) and on HT115 control
+food (light bars), one plate per strain per condition, with the plated embryo
+count on each bar and Wilson 95% binomial intervals on that count. Strains are
+named here and ordered by their pos-1 hatching, most resistant at the top.
+Hatching on control food is 97-100% for every strain, which is what makes the
+pos-1 differences in Figure 3C a property of the knockdown rather than of the
+introgressions themselves.
+
+Figure 3C draws five of these strains under pos-1 RNAi alone. The five added
+here are wSZ192 (99.1% hatching on pos-1, n = 226 embryos), wSZ195 (94.6%,
+n = 261), wSZ194 (74.7%, n = 265), wSZ193 (64.5%, n = 183) and wSZ153 (39.0%,
+n = 218). Introgression breakpoints are available only for wSZ153 of those
+five, which is why the other four carry no genotype in Figure 3C.
+
+No strain is replicated, so the ordering is an allelic series rather than a set
+of tested contrasts, and the intervals describe counting uncertainty on a
+single plate rather than between-plate variability. The 50% pos-1 dose is the
+one used throughout Figure 3; the hatching percentages are therefore not
+comparable with Figure 4B, which uses 25%.
+
+## Figure S8
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
 three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
@@ -213,7 +237,7 @@ difference tracking it marks a locus at which only that knockdown responds.
 Peaks are drawn at the genome-wide threshold rather than Figure 2's display
 cutoff of LOD 100.
 
-## Figure S8
+## Figure S9
 The N2 residue-96 swap across the full pos-1 dilution series.
 
 (A) Every genotype at every dose: 0, 25, 50, 75 and 100% pos-1 RNAi bacteria.
@@ -226,7 +250,7 @@ N2 at each dose gives differences of -0.006 at 0% (Fisher p = 0.43), +0.282 at
 at 100% (p = 0.56). At every dose other than 25% all three genotypes sit at the
 ceiling or the floor.
 
-## Figure S9
+## Figure S10
 Residue 96 of SID-2 across Caenorhabditis, and the effect of removing the
 sequon it belongs to.
 
@@ -260,7 +284,7 @@ giving the direction: AxT is higher than its wild type (p = 0.004), NxK lower
 (p = 2e-24), the 96T swap into JU2466 higher (p = 4e-05) and N94A into JU2466
 higher (p = 4e-20).
 
-## Figure S10
+## Figure S11
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a C-alpha within 12 A, at the gut-lumen pH of
