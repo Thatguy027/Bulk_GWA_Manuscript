@@ -57,7 +57,7 @@ msg("panel C: NIL genotypes and hatching, merged")
 ## them, and they are what the two-panel version was.
 ## labels = FALSE: no strain names on the rows. The row order is fixed and
 ## stated in the caption -- JU1793 at the bottom, then wSZ196, wSZ191,
-## wSZ176, JU2466 at the top -- and Figure S10 shows the same series with
+## wSZ176, JU2466 at the top -- and Figure S7 shows the same series with
 ## the names on, so nothing is only knowable from this panel.
 pC <- panel_nil_geno_hatch(letter = "C", labels = FALSE)
 

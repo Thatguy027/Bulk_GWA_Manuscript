@@ -334,7 +334,7 @@ here, since sid-2 sits at 13.68 Mb.
 The rows carry no strain names; from the bottom up they are JU1793, wSZ196,
 wSZ191, wSZ176, JU2466. The two parents are the two rows of a single colour,
 and the per-strain values are listed below, so each row is identifiable from
-its genotype and its hatching together. Figure S10 draws the same series with
+its genotype and its hatching together. Figure S7 draws the same series with
 the names on the rows.
 
 Left, the introgressions on the right arm of chromosome III, 13.635 Mb to the
