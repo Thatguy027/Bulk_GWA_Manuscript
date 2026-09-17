@@ -550,28 +550,57 @@ and compared with the known input.
 (A) r-squared of estimated against known input frequency, against simulated
 sequencing depth, one line per trait. The line is the mean of ten seeded
 replicates and the band spans them, so the width of the band is the sampling
-variability of a single experiment at that depth. At 1x the spread across
-traits is wide: PC1 0.91, value 0.88, amsacrine_f.L1 0.81, assay_norm 0.76,
-etoposide_median.TOF 0.75, Albendazole_q75.TOF 0.56, mtDNA_ratio 0.51 --
-median 0.76 -- and the replicate bands are widest there too, up to 0.149 for
-assay_norm.
+variability of a single experiment at that depth.
 
-SIX OF THE SEVEN TRAITS REACH r-squared 0.95 BY 30x, AND 50x CLEARS ALL SEVEN.
-Counting a trait as clearing the bar only if it does so in every replicate, the
-tally by depth is 0 traits at 1x, 1 at 3x, 2 at 5x, 5 at 10x, 6 at 30x and 7 at
-50x, 100x and 500x. The exception at 30x is mtDNA_ratio, which sits on the line
-rather than below it: it averages 0.9504 over the ten replicates, spans
-0.9443-0.9610, and clears 0.95 in four of them. At 50x the lowest r-squared
-anywhere in the ten replicates is 0.9639. This is why no single depth is quoted
-for "all seven": on the replicate mean mtDNA_ratio would pass at 30x, and a
-figure drawn from one draw would report whichever answer that draw happened to
-give.
+BASIS, CHANGED 2026-09-16. Panel A is now computed over the strains actually IN
+each trait's pool (input > 0), not over all 327. A strain with no published
+value for a trait is absent from that pool, and NNLS returns exactly zero for
+an absent strain because zero is a hard boundary of the feasible set. Those
+strains sit on the origin and inflate r-squared without measuring anything --
+they answer "did it notice the strain was missing", not "how precisely did it
+measure the strains that were there" -- and they are 49.4% of strain-trait
+cells. The two bases are far apart: mean r-squared at 10x is 0.953 over all
+strains against 0.879 over present strains only.
 
-No trait reaches r-squared 1.000 even at 500x; the range there is 0.9966 for
-mtDNA_ratio to 0.9998 for PC1.
+The all-strains series is still computed by the script, as `r2_all`, and
+printed. It is not plotted. It has to stay because the 2021 record is on that
+basis and reproducing all 56 of its values at 2 dp is the regression guard on
+this whole figure; checking the archived draw against the present-only band
+would be a category error rather than a check.
+
+At 1x the spread across traits is wide: value 0.84, PC1 0.72, amsacrine_f.L1
+0.59, assay_norm 0.58, mtDNA_ratio 0.51, Albendazole_q75.TOF 0.31,
+etoposide_median.TOF 0.27 -- median 0.58 -- and the replicate bands are widest
+there too, up to 0.208 for assay_norm.
+
+FIVE OF THE SEVEN TRAITS REACH MEAN r-squared 0.95 BY 30x, AND ALL SEVEN BY
+100x. Counting a trait as clearing the bar only if it does so in every
+replicate, the tally by depth is 0 traits at 1x, 3x and 5x, 2 at 10x, 4 at 30x,
+5 at 50x, 6 at 100x and 7 at 500x. The lowest r-squared anywhere in the ten
+replicates is 0.8820 at 30x, 0.9249 at 50x and 0.9456 at 100x.
+
+The two hold-outs are etoposide_median.TOF and Albendazole_q75.TOF, which are
+also the two that lose most on dropping the absent strains: at 10x they fall
+0.223 and 0.155 against 0.0005 for mtDNA_ratio, which has 326 of 327 strains
+present and so has nothing to drop. That is the pattern established in
+DIAG_pool_simulation_optimism.R on the pool_optimization branch -- the loss is
+uncorrelated with how many strains are absent and strongly correlated with how
+dispersed the present ones are. A trait whose present strains sit in a tight
+cluster was leaning on the distant zeros for its dynamic range.
+
+The depth this figure asks for is therefore materially higher than the
+all-strains version implied: 30x rather than 10x for a majority of traits, and
+the two hardest traits do not clear 0.95 in every replicate below 500x.
+
+No trait reaches r-squared 1.000 even at 500x; the range there is 0.9930 for
+etoposide_median.TOF to 0.9995 for value.
 
 (B) The estimates against the known input, faceted by depth, all seven traits
-pooled (2,289 points per facet). One replicate is drawn, not an average of the
+pooled (2,289 points per facet). Panel B KEEPS the absent strains -- they are
+the band along y = 0 and the point of showing them is that the method puts them
+there -- so its pooled r-squared is on the all-strains basis and is not
+comparable with panel A. The present-only figures for the same points are given
+at the end of this paragraph. One replicate is drawn, not an average of the
 ten: averaging point clouds would narrow the scatter and misrepresent what a
 single experiment at that depth looks like. Axes share limits so the dashed
 y = x line means the same thing in every facet. Pooled r-squared: 0.80 at 1x,
@@ -613,15 +642,16 @@ coefficients (0.8%), which a strict non-negative solver cannot return. The
 seeded run carries none, and the figure script asserts that.
 
 CAVEAT 2, on the wording of the claim. "NNLS can accurately infer strain
-frequencies with as little as 1X sequencing depth" holds for the best-behaved
-traits and not for the worst: at 1x, r-squared runs from 0.91 down to 0.52. A
-statement the whole figure supports is that 1x recovers most of the signal for
-most traits (median r-squared 0.79), that 10x is enough for five traits of
-seven, that six of seven reach 0.95 by 30x, and that 50x clears all seven.
-Earlier drafts quoted a single depth for the last of those -- first 30x, then
-50x -- and neither is stable: mtDNA_ratio sits on the 0.95 line at 30x, so which
-answer a single draw gives is a matter of chance. Ten replicates is what makes
-the honest version of the sentence available.
+frequencies with as little as 1X sequencing depth" does not survive the
+present-strain basis for any trait: at 1x, r-squared runs from 0.84 down to
+0.27, median 0.58. What the figure supports is that 1x is not enough, that 10x
+clears 0.95 in every replicate for two traits of seven, 30x for four, 50x for
+five and 100x for six, and that no single depth below 500x clears all seven.
+Earlier drafts quoted one depth -- first 30x, then 50x -- and neither was
+stable, because they were computed over all 327 strains with the absent ones
+pinned at zero, which raises r-squared without measuring anything. Ten
+replicates and the present-strain basis are together what make the honest
+version of the sentence available.
 
 CAVEAT 3, now historical. The 2021 archive carried 139 of 18,312 negative
 coefficients (0.8%) at depths 5 through 100, which a strict non-negative solver

@@ -164,7 +164,18 @@ computed from the CeNDR genotype matrix, and observed alt-allele counts were
 simulated by binomial sampling at 1, 3, 5, 10, 30, 50, 100 and 500x. Those
 counts were deconvolved back to per-strain frequencies by NNLS and compared
 with the known input. Recovery was quantified as the r-squared of estimated
-against known input frequency at each depth.
+against known input frequency at each depth, over the strains present in each
+trait's pool. A strain with no published value for a trait is set to fitness
+zero and so is absent from that trait's pool, and NNLS returns exactly zero for
+an absent strain because zero is a hard boundary of the feasible set. Such
+strains are 49.4% of strain-trait cells, and including them raises r-squared
+without measuring anything: it scores whether the method noticed a strain was
+missing rather than how precisely it measured the strains that were present.
+Mean r-squared at 10x is 0.953 including them and 0.879 excluding them.
+Recovery is therefore reported on the present-strain basis throughout. The
+all-strains series is still computed, because the 2021 record is on that basis
+and reproducing it is the regression check on the figure, but it is not
+reported as the result.
 
 The simulation is run from source with a seed, in ten independent replicates
 (scripts/make_simulation_seeded.R, seed 20260909; deposited as
@@ -175,19 +186,25 @@ the single 2021 draw reported each recovery as one exact number, and the depth
 at which the worst trait crosses a threshold turns out not to be stable to
 resampling.
 
-At 1x, recovery ranges from 0.91 (PC1) to 0.51 (mtDNA_ratio), median 0.76, and
-the replicate bands are widest at that depth -- up to 0.149 for assay_norm.
-Counting a trait as clearing r-squared 0.95 only where it does so in every
-replicate, 5 of the 7 traits clear it at 10x, SIX OF SEVEN CLEAR IT BY 30x, AND
-50x CLEARS ALL SEVEN, where the lowest r-squared anywhere in the ten replicates
-is 0.9639. The exception at 30x is mtDNA_ratio, which sits on the line rather
-than below it: it averages 0.9504 across the replicates, spans 0.9443 to
-0.9610, and clears the bar in four of the ten. No single depth is therefore
-quoted for all seven traits. Earlier drafts quoted one -- first 30x, then 50x --
-and the difference between those two answers is a draw, not a measurement. No
-trait reaches r-squared of 1.000 even at 500x, where the range is 0.9966
-(mtDNA_ratio) to 0.9998 (PC1); an earlier draft said all seven reached 1.00 by
-500x, which came from reading values rounded to two decimals.
+At 1x, recovery ranges from 0.84 (value) to 0.27 (etoposide_median.TOF),
+median 0.58, and the replicate bands are widest at that depth -- up to 0.208
+for assay_norm. Five of the seven traits reach mean r-squared 0.95 by 30x and
+all seven by 100x. Counting a trait as clearing r-squared 0.95 only where it
+does so in every replicate, 2 of the 7 clear it at 10x, 4 at 30x, 5 at 50x, 6
+at 100x and all seven only at 500x; the lowest r-squared anywhere in the ten
+replicates is 0.8820 at 30x, 0.9249 at 50x and 0.9456 at 100x. The two
+hold-outs, etoposide_median.TOF and Albendazole_q75.TOF, are also the two that
+lose most when the absent strains are excluded -- 0.223 and 0.155 of r-squared
+at 10x, against 0.0005 for mtDNA_ratio, which has 326 of 327 strains present
+and so has nothing to lose. The size of that loss tracks how tightly a trait's
+present strains cluster rather than how many are absent: a trait whose present
+strains sit close together was drawing its dynamic range from the distant
+zeros. No single depth is therefore quoted for all seven traits, and earlier
+drafts that quoted one -- first 30x, then 50x -- were reporting a draw and an
+inflated basis at once. No trait reaches r-squared of 1.000 even at 500x, where
+the range is 0.9930 (etoposide_median.TOF) to 0.9995 (value); an earlier draft
+said all seven reached 1.00 by 500x, which came from reading values rounded to
+two decimals.
 
 The 2021 run is retained rather than discarded. Its estimates remain deposited,
 all 56 of its r-squared are recomputable exactly from them

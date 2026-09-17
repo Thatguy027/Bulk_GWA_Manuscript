@@ -147,26 +147,56 @@ stopifnot(nrow(chk) == 56,
           all(round(chk$r2.computed, 2) == chk$r2.reported))
 cat("== all 56 computed r-squared reproduce simulation_reported_r2.tsv at 2 dp ==\n\n")
 
-## Panel A is now the mean over replicates with a min-max ribbon. The single
+## Panel A is the mean over replicates with a min-max ribbon. The single
 ## 2021 draw reported each recovery as one exact number; the ribbon is the
-## sampling variability that number could only conceal, and it matters -- at
-## 30x mtDNA_ratio straddles the 0.95 line, so "the lowest depth at which all
-## seven reach 0.95" is 30x in some draws and 50x in others and cannot honestly
-## be quoted as a single depth.
+## sampling variability that number could only conceal, and it matters -- a
+## trait can straddle the 0.95 line, so "the lowest depth at which all seven
+## reach 0.95" is one depth in some draws and another in others and cannot
+## honestly be quoted as a single depth.
+##
+## BASIS: panel A is computed over the strains that were actually IN each
+## trait's pool (input > 0). The transform sends a strain with no published
+## value for a trait to fitness exactly 0, so it is absent from that pool, and
+## NNLS returns exactly 0 for an absent strain because zero is a hard boundary
+## of the feasible set. Those strains sit on the origin and inflate r-squared
+## without saying anything about measurement precision: they answer "did it
+## notice the strain was missing", not "how precisely did it measure the
+## strains that were there". Across the seven traits 49.4% of strain-trait
+## cells are absent, so the inflation is large -- the all-strains mean at 10x
+## is 0.95 against 0.88 here.
+##
+## The all-strains series is still computed below as `r2_all`, because the 2021
+## record is on that basis and the check against it is the regression guard on
+## this whole figure. It is printed, not plotted.
 ## lo and hi BEFORE r2: summarise() evaluates in order, so naming the mean `r2`
 ## first would shadow the replicate column and collapse the band to zero width.
-r2 <- sr2 %>% group_by(trait, depth) %>%
+sr2_present <- sfq %>% filter(input > 0) %>%
+  group_by(trait, depth, replicate) %>%
+  summarise(r2 = cor(frequency, input)^2, .groups = "drop")
+stopifnot(nrow(sr2_present) == NREP * 7 * 8)
+
+r2 <- sr2_present %>% group_by(trait, depth) %>%
   summarise(lo = min(r2), hi = max(r2), r2 = mean(r2), .groups = "drop") %>%
   mutate(trait = factor(trait, levels = names(TRAIT_COL)))
 stopifnot(any(r2$hi > r2$lo))   # a zero-width band means the bug is back
 stopifnot(!anyNA(r2$trait))
 
-## the archived run, kept as a comparison rather than as the source
+r2_all <- sr2 %>% group_by(trait, depth) %>%
+  summarise(lo = min(r2), hi = max(r2), r2 = mean(r2), .groups = "drop")
+
+## the archived run is on the all-strains basis, so it is checked against the
+## all-strains band -- comparing it with the present-only band would be a
+## category error, not a regression
 arch <- acc %>% rename(archive = r2)
-chk2 <- r2 %>% inner_join(arch, by = c("trait","depth")) %>%
+chk2 <- r2_all %>% inner_join(arch, by = c("trait","depth")) %>%
   mutate(inside = archive >= lo & archive <= hi)
-cat(sprintf("== the 2021 draw falls inside the %d-replicate range in %d of %d cells ==\n\n",
+cat(sprintf("== the 2021 draw falls inside the %d-replicate all-strains range in %d of %d cells ==\n",
             NREP, sum(chk2$inside), nrow(chk2)))
+cat(sprintf("== basis: absent strains are %.1f%% of strain-trait cells; ",
+            100 * mean(sfq$input == 0)))
+cat(sprintf("mean r2 at 10x is %.3f all-strains vs %.3f present-only ==\n\n",
+            r2_all$r2[r2_all$depth == 10] %>% mean(),
+            r2$r2[r2$depth == 10] %>% mean()))
 
 at1 <- r2 %>% filter(depth == 1) %>% arrange(desc(r2))
 cat("== accuracy at 1x, the depth the text claims ==\n")
@@ -192,10 +222,10 @@ cat("== lowest depth from which the MEAN stays >= 0.95 ==\n")
 print(as.data.frame(reach), row.names = FALSE)
 
 ## The mean crossing 0.95 is not the claim worth making, because a trait can sit
-## on the line: at 30x mtDNA_ratio averages 0.9504 but clears 0.95 in only 4 of
-## the 10 replicates. Robustness -- clearing in EVERY replicate -- is what the
-## caption states, so it is what gets asserted here.
-rob <- sr2 %>% group_by(trait, depth) %>%
+## on the line. Robustness -- clearing in EVERY replicate -- is what the
+## caption states, so it is what gets asserted here. On the present-only basis
+## this is a markedly harder bar than the all-strains basis made it look.
+rob <- sr2_present %>% group_by(trait, depth) %>%
   summarise(all_reps = all(r2 >= 0.95), n_of = sum(r2 >= 0.95),
             reps = dplyr::n(), .groups = "drop")
 by_depth <- rob %>% group_by(depth) %>%
@@ -206,11 +236,17 @@ borderline <- rob %>% filter(depth == 30, !all_reps)
 if (nrow(borderline))
   cat(sprintf("  at 30x %s clears 0.95 in only %d of %d replicates\n",
               borderline$trait[1], borderline$n_of[1], borderline$reps[1]))
-cat(sprintf("  six of seven clear 0.95 by 30x; 50x clears all seven (minimum %.4f)\n\n",
-            min(sr2$r2[sr2$depth == 50])))
-stopifnot(by_depth$robust[by_depth$depth == 30] == 6,
-          by_depth$robust[by_depth$depth == 50] == 7,
-          by_depth$robust[by_depth$depth == 10] == 5)
+cat(sprintf("  four of seven clear 0.95 in every replicate by 30x; %d by 100x; all seven only at 500x\n",
+            by_depth$robust[by_depth$depth == 100]))
+cat(sprintf("  lowest single-replicate r2: %.4f at 30x, %.4f at 50x, %.4f at 100x\n\n",
+            min(sr2_present$r2[sr2_present$depth == 30]),
+            min(sr2_present$r2[sr2_present$depth == 50]),
+            min(sr2_present$r2[sr2_present$depth == 100])))
+stopifnot(by_depth$robust[by_depth$depth == 10] == 2,
+          by_depth$robust[by_depth$depth == 30] == 4,
+          by_depth$robust[by_depth$depth == 50] == 5,
+          by_depth$robust[by_depth$depth == 100] == 6,
+          by_depth$robust[by_depth$depth == 500] == 7)
 
 lab <- r2 %>% filter(depth == 1)
 pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
@@ -220,15 +256,18 @@ pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
               colour = NA, show.legend = FALSE) +
   geom_line(linewidth = 0.55) +
   geom_point(size = 1.3) +
-  annotate("text", x = 1.05, y = 0.958, label = "r² = 0.95", hjust = 0,
+  annotate("text", x = 1.05, y = 0.978, label = "r² = 0.95", hjust = 0,
            size = 2.7, colour = "grey40") +
   scale_x_log10(breaks = DEPTHS, labels = paste0(DEPTHS, "×")) +
-  scale_y_continuous(limits = c(0.5, 1.005), breaks = seq(0.5, 1, 0.1)) +
+  scale_y_continuous(limits = c(0.2, 1.005), breaks = seq(0.2, 1, 0.1)) +
   scale_colour_manual(values = TRAIT_COL, name = NULL) +
   scale_fill_manual(values = TRAIT_COL, guide = "none") +
-  labs(x = "Simulated sequencing depth", y = "r² vs known input frequency",
+  labs(x = "Simulated sequencing depth",
+       y = "r² vs known input frequency,\nstrains present in the pool",
        title = panel_title("A"),
-       subtitle = sprintf(paste("Accuracy against the simulated input. Mean of %d seeded",
+       subtitle = sprintf(paste("Accuracy against the simulated input, over the strains actually IN each",
+                                "trait's pool.<br>Strains absent from a pool are returned as exactly zero and",
+                                "are excluded: they inflate r²<br>without measuring anything. Mean of %d seeded",
                                 "replicates, band spans them; dashed line r² = 0.95"), NREP)) +
   theme_pub() +
   theme(legend.position = c(0.985, 0.02), legend.justification = c(1, 0),

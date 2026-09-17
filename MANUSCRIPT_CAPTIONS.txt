@@ -117,15 +117,26 @@ were deconvolved back to per-strain frequencies and compared with the known
 input.
 
 (A) r-squared of estimated against known input frequency, against simulated
-sequencing depth, one line per trait. The line is the mean of ten seeded
-replicates and the band spans them. At 1x the traits run from 0.51 to 0.91
-(median 0.76). Six of the seven traits reach r-squared 0.95 by 30x and all
-seven by 50x.
+sequencing depth, one line per trait, computed over the strains present in each
+trait's pool. A strain with no published value for a trait is absent from that
+pool and is returned as exactly zero, which raises r-squared without measuring
+anything, and such strains are 49.4% of strain-trait cells; excluding them is
+what makes this panel a statement about measurement precision. The line is the
+mean of ten seeded replicates and the band spans them. At 1x the traits run
+from 0.27 to 0.84 (median 0.58). Five of the seven traits reach mean r-squared
+0.95 by 30x and all seven by 100x; requiring a trait to clear 0.95 in every
+replicate, two do so at 10x, four at 30x, five at 50x, six at 100x and all
+seven at 500x.
 
 (B) Estimated against known input frequency, faceted by depth, with all seven
 traits pooled (2,289 points per facet) and one replicate drawn per facet. Axes
-share limits and the dashed line is y = x. Pooled r-squared is 0.80 at 1x, 0.91
-at 3x, 0.95 at 5x, 0.97 at 10x, 0.99 at 30x and 50x, and 1.00 at 100x and 500x.
+share limits and the dashed line is y = x. The points along y = 0 are the
+strains absent from a pool, retained here because placing them at zero is a
+real thing the method does; pooled r-squared over all points is therefore on
+the all-strains basis and is not comparable with panel A. It is 0.80 at 1x,
+0.91 at 3x, 0.95 at 5x, 0.97 at 10x, 0.99 at 30x and 50x, and 1.00 at 100x and
+500x. Over the present strains alone it is 0.71 at 1x, 0.85 at 3x, 0.91 at 5x,
+0.95 at 10x, 0.98 at 30x, 0.99 at 50x and 100x, and 1.00 at 500x.
 
 ## Figure S2
 NNLS recovers a designed DNA mixture of two strain sets from real pooled
