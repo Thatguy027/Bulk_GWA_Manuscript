@@ -99,7 +99,11 @@ and the residue sits in a basic pocket on the lumenal face of the ectodomain.
 (A) Embryos hatched on 50% pos-1 RNAi for reciprocal edits at residue 96 in the
 two cross parents: JU1793[96T], the resistant parental allele, 94.8%
 (n = 213 embryos); JU1793[96K] 53.1% (n = 207); JU2466[96K], the sensitive
-parental allele, 5.4% (n = 204); JU2466[96T] 18.4% (n = 217). Parental alleles
+parental allele, 5.4% (n = 204); JU2466[96T] 18.4% (n = 217). The JU2466
+parental bar is isolate JU2466_A, the background the 96T edit was made in; a
+second isolate JU2466_B hatches 3.7% (8 of 215) and is not pooled in, because
+pooling would compare the edit against a parent it was not derived from.
+Parental alleles
 are in the strain colours and edited alleles in grey. Fisher's exact test on the
 counts, each edit against the unedited allele in the same background:
 p = 1.7e-24 and p = 3.9e-05. Bars are Wilson 95% binomial intervals.
@@ -264,6 +268,22 @@ have no variance-stabilised value, so n = 84 and ranks are out of 84.
 ![Figure S7](Figure_S7.png)
 *[Print-resolution PDF](Figure_S7.pdf)*
 
+The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
+pooled association scans are on top, followed by one panel per cross with all
+three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
+purple and mig-6 in orange, and the difference between the two knockdowns in
+blue. Both control contrasts high with the blue difference flat marks a locus
+at which both knockdowns respond; one control contrast high with the blue
+difference tracking it marks a locus at which only that knockdown responds.
+Peaks are drawn at the genome-wide threshold rather than Figure 2's display
+cutoff of LOD 100.
+
+---
+
+## Figure S8
+![Figure S8](Figure_S8.png)
+*[Print-resolution PDF](Figure_S8.pdf)*
+
 The complete near-isogenic line hatching experiment behind Figure 3C: all ten
 strains on both food conditions.
 
@@ -286,22 +306,6 @@ of tested contrasts, and the intervals describe counting uncertainty on a
 single plate rather than between-plate variability. The 50% pos-1 dose is the
 one used throughout Figure 3; the hatching percentages are therefore not
 comparable with Figure 4B, which uses 25%.
-
----
-
-## Figure S8
-![Figure S8](Figure_S8.png)
-*[Print-resolution PDF](Figure_S8.pdf)*
-
-The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
-pooled association scans are on top, followed by one panel per cross with all
-three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
-purple and mig-6 in orange, and the difference between the two knockdowns in
-blue. Both control contrasts high with the blue difference flat marks a locus
-at which both knockdowns respond; one control contrast high with the blue
-difference tracking it marks a locus at which only that knockdown responds.
-Peaks are drawn at the genome-wide threshold rather than Figure 2's display
-cutoff of LOD 100.
 
 ---
 

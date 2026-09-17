@@ -1187,6 +1187,38 @@ lines carrying the same edit and are the closest approximation to a biological
 replicate in these assays. Genotypes were compared with Fisher's exact test on
 the hatched/unhatched counts.
 
+WHICH JU2466 ISOLATE THE PARENTAL RATE COMES FROM. The JU2466 parent appears in
+ju_allele_swaps_hatching.csv as two isolates of the same genotype, JU2466_A and
+JU2466_B, and they differ: on pos-1 food A hatches 5.4% (11 of 204, Wilson
+3.0-9.4%) and B hatches 3.7% (8 of 215, 1.9-7.2%). Pooling them gives 4.5%
+(19 of 419, 2.9-7.0%). The reported parental rate is JU2466_A ALONE, 5.4%, for
+two reasons. The 96T edit wSZ206 was made in the A background -- its
+glycosylation-motif field reads JU2466_A[NxT] -- so A is the isogenic
+comparator, and pooling would import a between-isolate difference into a
+within-isolate contrast. And the Fisher test reported for this comparison is
+JU2466_A against wSZ206 (Figure4_sid2.R), so a pooled percentage in the text
+would not be the quantity the p value tests. The pooled 4.5% is arithmetically
+correct and is not a transposition of 5.4%; it is a different denominator, and
+it is the wrong one here.
+
+The same choice propagates to the odds ratios. Odds ratios for these assays are
+the conditional maximum-likelihood estimate from Fisher's exact test with its
+exact conditional interval (R fisher.test), not the sample odds ratio with a
+Woolf interval. Restoring the ancestral 96T residue raises hatching odds
+16.1-fold in JU1793 (95% CI 8.2-34.8, p = 1.7e-24) and 4.0-fold in JU2466_A
+(1.9-8.8, p = 3.9e-05). Against the pooled A+B parent the JU2466 ratio would be
+4.7 (2.6-8.9) at p = 3.3e-08, which is not the p value the Figure 4A caption
+reports -- the caption's 3.9e-05 is the JU2466_A test, so A is the denominator
+the figure already uses.
+
+The two backgrounds differ significantly in how much the residue matters. A
+logistic model of hatching on background, allele and their interaction gives a
+ratio of odds ratios of 4.08 (95% CI 1.56-10.71), Wald p = 0.0042, likelihood-
+ratio p = 0.0049. This is the test that supports calling the effect
+background-dependent; comparing two separately estimated intervals for overlap
+does not, and their intervals do in fact overlap slightly (8.16-34.75 against
+1.92-8.82).
+
 --------------------------------------------------------------------------------
 PROTEIN TOPOLOGY AND STRUCTURE PREDICTION
 --------------------------------------------------------------------------------

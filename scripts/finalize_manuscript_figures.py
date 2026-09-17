@@ -55,10 +55,13 @@ MANIFEST = [
      "S5A manual plate scores against pooled; S5B manual against Paaby et al. 2015"),
     ("Figure S6", "SUPP_FIG_XX_pooled_phenotype_ranks",            "SUPP_FIG_XX_pooled_phenotype_ranks",
      "ranked pooled mig-6 and pos-1 responses with the cross parents marked"),
-    ("Figure S7", "SUPP_FIG_XX_nil_hatching_full",                 "SUPP_FIG_XX_nil_hatching_full",
+    # S7 is the cross contrasts because the draft has cited it as S7 since before
+    # the NIL figure existed, and because Figure 2's section cites it well ahead
+    # of the NIL work in the SID-2 section -- this list is in citation order.
+    ("Figure S7", "SUPP_FIG_XX_cross_contrast_panels",             "SUPP_FIG_XX_cross_contrast_panels",
+     "S7B-C the two cross contrast panels"),
+    ("Figure S8", "SUPP_FIG_XX_nil_hatching_full",                 "SUPP_FIG_XX_nil_hatching_full",
      "the full NIL hatching experiment, all ten strains on both food conditions"),
-    ("Figure S8", "SUPP_FIG_XX_cross_contrast_panels",             "SUPP_FIG_XX_cross_contrast_panels",
-     "S8B-C the two cross contrast panels"),
     ("Figure S9", "SUPP_FIG_XX_n2_swap_dose",                      "SUPP_FIG_XX_n2_swap_dose",
      "N2 residue-96 swap across the pos-1 dose series"),
     # One figure, two panels: (A) the cross-species alignment of the sequon

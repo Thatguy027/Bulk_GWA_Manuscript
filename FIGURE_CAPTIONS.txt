@@ -334,7 +334,7 @@ here, since sid-2 sits at 13.68 Mb.
 The rows carry no strain names; from the bottom up they are JU1793, wSZ196,
 wSZ191, wSZ176, JU2466. The two parents are the two rows of a single colour,
 and the per-strain values are listed below, so each row is identifiable from
-its genotype and its hatching together. Figure S7 draws the same series with
+its genotype and its hatching together. Figure S8 draws the same series with
 the names on the rows.
 
 Left, the introgressions on the right arm of chromosome III, 13.635 Mb to the
@@ -410,7 +410,11 @@ Panels carry letters only; all descriptive text is here.
 (A) Embryos hatched on 50% pos-1 RNAi for reciprocal edits at residue 96 in
 the two cross parents. JU1793[96T], the resistant parental allele, 94.8%
 (n = 213 embryos); JU1793[96K] 53.1% (n = 207); JU2466[96K], the sensitive
-parental allele, 5.4% (n = 204); JU2466[96T] 18.4% (n = 217). Parental alleles
+parental allele, 5.4% (n = 204); JU2466[96T] 18.4% (n = 217). The JU2466
+parental bar is isolate JU2466_A, the background the 96T edit was made in; a
+second isolate JU2466_B hatches 3.7% (8 of 215) and is not pooled in, because
+pooling would compare the edit against a parent it was not derived from.
+Parental alleles
 are in the strain colours and edited alleles in grey. Fisher's exact test on
 the counts, each edit against the unedited allele in the same background:
 p = 1.7e-24 and p = 3.9e-05. Bars are Wilson 95% binomial intervals.
