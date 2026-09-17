@@ -11,32 +11,46 @@
 ##
 ## THE ANSWER: binarising costs the mapping, and it is the binarisation that
 ## does it, not the censoring. Holding the strain set at the 150 testable
-## strains, continuous -> binary drops chromosome III from LOD 5.63 to 0.21.
+## strains, continuous -> binary drops the chromosome III locus from LOD 5.10 to
+## 1.57, chromosome IV from 5.83 to 2.93 and chromosome X from 6.06 to 3.14.
 ## Holding the scale continuous, dropping the 81 censored strains costs about
 ## one LOD. The 81 are INFORMATIVE; collapsing magnitude is what throws the
 ## signal away.
 ##
-## AND THE THREE LOCI DO NOT BEHAVE ALIKE. Chromosome IV and X survive
-## binarisation at reduced power -- they separate on WHETHER a strain responds
-## (responsive rate 0.29 vs 0.69 by genotype at IV, 0.20 vs 0.65 at X).
-## Chromosome III, the SID-2 locus, goes to nothing (0.48 vs 0.62) while
-## separating cleanly on the continuous scale. It modifies DEGREE of response,
-## not presence of it, which is what an uptake-efficiency variant should do.
+## WHICH CHROMOSOME III MARKER. The right-arm cluster near sid-2 is the locus
+## the manuscript carries, top marker III:12718465 (LOD 6.31 in the shipped
+## scan, 14 eigen-passing neighbours in 12.70-12.80 Mb). It is NOT the top
+## chromosome III marker in the scan: III:5965738 scores 8.68 but has no
+## eigen-passing neighbour within 100 kb and the draft deliberately does not
+## carry it forward. An earlier version of this figure used III:5965738 and drew
+## a conclusion about "chromosome III" from it, which was wrong.
 ##
-## A RESULT THAT CONTRADICTS THE OBVIOUS READING. The censored strains are not
-## the most extreme responders. Class means on the vst scale are
-## non-responsive +0.022, censored -0.038, significant decliners -0.051. A
-## strain that vanished has a LESS extreme value than one that fell sharply
-## from a high control frequency, because the delta is bounded by where it
-## started. Coding the censored strains as "most responsive" is mis-ordered,
-## not merely lossy.
+## ALL THREE LOCI SEPARATE IN THE SAME DIRECTION on the binary trait; none
+## reaches significance. Responsive rate by genotype is 0.30 against 0.64 at
+## III:12718465, 0.29 against 0.69 at IV and 0.20 against 0.65 at X, and the
+## binary LOD tracks the size of that gap (1.27, 3.35, 3.70). Chromosome III has
+## both the smallest gap and only 20 reference-allele carriers. An earlier
+## version of this header claimed chromosome III behaved differently in kind;
+## that was an artifact of the spurious marker.
+##
+## THE CENSORED STRAINS CARRY NO INDIVIDUAL INFORMATION. Their pos-1 frequency
+## is identically zero, so their delta is exactly minus their control frequency
+## and Spearman(vst, control frequency) across them is -1.0000. Five hundred
+## within-block shuffles put the observed LOD at the middle of the null at every
+## locus tested, so their values contribute nothing; what they contribute is
+## sample size and mass at the responsive end. On the vst scale they are not the
+## most extreme class (means: not responsive +0.022, censored -0.038,
+## significant decline -0.051), but that is the absolute scale bounding change
+## by starting abundance, not evidence they responded less: on the ratio scale
+## 80 of 81 have a censoring bound below the median observed log2(pos/ctrl).
 ##
 ## CAVEAT ON ABSOLUTE LOD. There is no GEMMA binary here, so the scans are an
 ## EMMAX-style LOCO LMM: one REML delta per chromosome rather than GEMMA's
 ## per-marker lambda, kinship from thinned scan markers. Against the shipped
 ## GEMMA scan this reproduces Spearman 0.969 and the same top marker on five of
-## six chromosomes, but peak LOD runs 1-2 lower (III 6.82 vs 8.68, IV 6.75 vs
-## 8.84, X 7.23 vs 7.83). The four traits are comparable TO EACH OTHER, not to
+## six chromosomes, but peak LOD runs lower (III:12718465 5.80 against the
+## shipped 6.31, IV 6.75 against 8.84, X 7.23 against 7.83). The four traits
+## are comparable TO EACH OTHER, not to
 ## the published numbers. Run the traits in cluster/pos1_binary_mapping_traits.csv
 ## through the GEMMA pipeline for numbers that are.
 ##
@@ -110,7 +124,7 @@ pA <- ggplot(M, aes(ps / 1e6, y, colour = trait_lab)) +
                       panel.spacing = unit(1.5, "pt"))
 
 ## --- B. the 2x2 at the three reported loci ---------------------------------
-FOC <- c("III:5965738" = "III:5.97 Mb", "IV:15323414" = "IV:15.32 Mb", "X:4875969" = "X:4.88 Mb")
+FOC <- c("III:12718465" = "III:12.72 Mb (sid-2 arm)", "IV:15323414" = "IV:15.32 Mb", "X:4875969" = "X:4.88 Mb")
 L <- S[rs %in% names(FOC), .(rs, trait, lod = -log10(p))]
 L[, locus := factor(FOC[rs], levels = FOC)]
 L[, scale_ := factor(fifelse(grepl("^binary", trait), "binary", "continuous"),
@@ -135,7 +149,8 @@ pB <- ggplot(L, aes(scale_, lod, group = set_, colour = set_)) +
        title = "Crossing the scale against the strain set separates the two effects",
        subtitle = paste("Holding the strain set fixed, continuous -> binary is the steep drop. Holding the scale fixed,",
                         "\nremoving the 81 censored strains costs about one LOD -- so those strains are informative, and",
-                        "\ncollapsing magnitude is what loses the signal. Chromosome III loses it completely; IV and X survive weakly.")) +
+                        "\ncollapsing magnitude is what loses the signal. The chromosome III panel is the right-arm sid-2",
+                        "\nlocus III:12718465, not the spurious III:5965738 singleton that tops the scan.")) +
   theme_bw(9) + theme(legend.position = "top", panel.grid.minor = element_blank())
 
 ## --- C. QQ, and what the deflation says ------------------------------------
@@ -169,10 +184,12 @@ pD <- ggplot(cls, aes(class, vst, colour = class)) +
   expand_limits(y = -0.20) +
   scale_colour_manual(values = c("#9A9A9A", "#C4302B", "#1B3A6B"), guide = "none") +
   labs(x = NULL, y = "vst_ctrl_pos-1_T2",
-       title = "The censored strains are not the most extreme, so the binary coding is mis-ordered",
-       subtitle = paste("A strain absent from every pos-1 pool has a LESS extreme continuous value than one that declined",
-                        "\nsignificantly from a high control frequency, because the change is bounded by where it started.",
-                        "\nCalling both of them simply 'responsive' puts them in one class that the genotypes do not predict.")) +
+       title = "On the vst scale the censored strains are not the most extreme -- but that is the scale's doing",
+       subtitle = paste("A strain absent from every pos-1 pool has a LESS extreme vst value than one that declined sharply",
+                        "\nfrom a high control frequency, because absolute change is bounded by where it started. That is a",
+                        "\nproperty of the absolute scale, NOT evidence that the strains responded less: on the ratio scale,",
+                        "\n80 of the 81 have a censoring bound below the median observed log2(pos/ctrl), so they do sit at the",
+                        "\nresponsive end. Binarising still loses the mapping, but because it discards magnitude, not order.")) +
   theme_bw(9) + theme(panel.grid.minor = element_blank())
 
 fig <- pA / pB / pC / pD + plot_annotation(tag_levels = "A")
