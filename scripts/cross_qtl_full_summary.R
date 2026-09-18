@@ -149,7 +149,7 @@ af <- set_names(map(unique(meta$cross), function(cr) {
 
 samp <- read.delim(file.path(SD, "cross_af_samples.tsv"),
                    colClasses = "character") %>% as_tibble() %>%
-  ## every contrast is an F2-2 comparison, so the pools are the timepoint-2
+  ## every contrast is a timepoint-2 comparison (the exports' "F2-2" label),
   ## samples; the timepoint-1 and OP50 samples are in the AF tables but are
   ## not part of any contrast
   filter(timepoint == "2") %>%

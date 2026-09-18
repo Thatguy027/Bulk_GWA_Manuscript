@@ -30,7 +30,7 @@ clearing Bonferroni are red and markers clearing only the eigen-decomposition
 threshold are green.
 
 ## Figure 2
-Pooled association mapping and F2 bulk-segregant crosses identify overlapping
+Pooled association mapping and bulk-segregant crosses identify overlapping
 RNAi-response loci.
 
 Mirrored Manhattan plot of the pooled association scans on the
@@ -40,7 +40,7 @@ Bonferroni threshold over every marker (-log10 p = 6.81) and green dotted lines
 divide alpha by the 732 effective independent tests (4.17). Threshold labels
 are placed in the chromosome I panel.
 
-Arrowheads mark the F2 cross QTL, one per QTL at its peak marker, coloured by
+Arrowheads mark the cross QTL, one per QTL at its peak marker, coloured by
 cross (N2 x XZ1516 teal, JU1793 x JU2466 orange) and placed directionally: the
 mig-6 QTL above the axis and the pos-1 QTL below. The mig-6 arrows are drawn
 from the mig-6-versus-pos-1 contrast and the pos-1 arrows from the
@@ -57,7 +57,7 @@ marked: JU2466 sensitive and JU1793 resistant, at opposite ends of the
 distribution.
 
 (B) Parental allele frequency along the right arm of chromosome III, from 8 Mb
-to the telomere, in the JU1793 x JU2466 F2 pool under pos-1 RNAi. The JU1793
+to the telomere, in the JU1793 x JU2466 intercross pool under pos-1 RNAi. The JU1793
 haplotype frequency is filled from below in orange and the JU2466 haplotype
 above it in teal, so the two sum to one. Frequencies are count-weighted within
 50 kb bins and drawn as a centred 250 kb rolling mean. The JU1793 fraction

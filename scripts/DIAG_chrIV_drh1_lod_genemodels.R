@@ -286,7 +286,7 @@ p <- ggplot() +
   coord_cartesian(xlim = mb(WIN), expand = TRUE) +
   labs(title = "**The chromosome IV locus, and the genes under it**",
        subtitle = paste0(
-         "JU1793 &times; JU2466 F2 pools. The trace is the JU1793 allele ",
+         "JU1793 &times; JU2466 intercross pools. The trace is the JU1793 allele ",
          "frequency with a 95% band, so a rise means selection for the ",
          "JU1793 allele. Shaded bands are the two contrasts' support ",
          "intervals, triangles their chrIV peaks.<br>",

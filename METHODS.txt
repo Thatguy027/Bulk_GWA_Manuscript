@@ -626,18 +626,40 @@ trace(A) = M was asserted at run time as a correctness check
                                           (-log10 p)
 
 --------------------------------------------------------------------------------
-F2 BULK-SEGREGANT (xQTL) CROSSES
+ADVANCED-INTERCROSS BULK-SEGREGANT (xQTL) CROSSES
 --------------------------------------------------------------------------------
 Two crosses were performed between strains at opposite extremes of the pooled
-assay: N2 x XZ1516 and JU1793 x JU2466. [TO FILL: crossing scheme, F2
-population size, selection or competition regime, generations, DNA extraction,
-library preparation and sequencing platform.]
+assay: N2 x XZ1516 and JU1793 x JU2466.
+
+These are advanced intercross lines, not F2 pools. Each cross was intercrossed
+for ten generations, with every generation after the third seeded from 10,000 to
+15,000 worms. Ten to fifteen thousand generation-11 worms were then transferred
+onto the RNAi or empty-vector control bacteria, defining timepoint 1; 10,000 to
+15,000 of their generation-12 progeny seeded timepoint 2; and approximately
+30,000 generation-13 progeny were sequenced. [TO FILL: DNA extraction, library
+preparation and sequencing platform.]
+
+Two consequences of that design are load-bearing and are used below. First,
+TIMEPOINT 2 IS DESCENDED FROM TIMEPOINT 1 rather than being a parallel pool, so
+the two timepoints are serial points on one trajectory and the experiment
+contains one pool per condition per cross. The only independent replication in
+the cross data is one cross against the other. Second, ten generations of
+intercrossing expand the genetic map about fivefold relative to an F2
+(Darvasi and Soller 1995), which is what allows these scans to localise to a few
+hundred kilobases at all; the shipped map spans 1,584 cM and is rescaled by
+map.expansion.factor = 0.2 to the 317 cM per-meiosis map of C. elegans wherever
+a per-meiosis rate is required.
+
+The file names in the distributed exports carry the string "F2-2", which is the
+pipeline's label for the second timepoint and not a statement that the
+population is an F2.
 
 Allele counts at parental marker sites were obtained with GATK ASEReadCounter,
 summed across sequencing runs, and phased onto the two parental haplotypes at
 genetic-map markers. Per-sample allele-frequency deviations and their standard
-errors were computed in 10 kb bins, and each pair of conditions was compared as
-a contrast, yielding a per-marker effect (contrast.beta), z statistic and LOD.
+errors were computed on a 10 kb grid by a moving kernel (see below), and each
+pair of conditions was compared as a contrast, yielding a per-marker effect
+(contrast.beta), z statistic and LOD.
 Deviations are phased to a single parent per cross (N2 in the N2 x XZ1516
 cross), so the sign of contrast.beta is interpretable as which parental allele
 rose in frequency.
@@ -647,10 +669,22 @@ formed on the linear scale and underflows to exactly zero above |z| ~ 38.5,
 which occurs frequently in these data, so LOD (or neglog10p) rather than p was
 used for everything quantitative.
 
-The genome-wide significance threshold for the cross scans is LOD 3.57,
+The genome-wide significance threshold applied to the cross scans is LOD 3.57,
 obtained as qchisq(2 x 0.05 / 2000, df = 1, lower.tail = FALSE) / (2 ln 10) --
 alpha = 0.05 over 2,000 effective tests, in the LOD convention the export
-pipeline uses.
+pipeline uses. The 2,000 is a declared constant over 522,226 correlated markers
+rather than an estimate, and simulation of the cross under the null shows it to
+be liberal: see QTL SUPPORT INTERVALS below, where the simulated threshold is
+LOD 5.35. Peaks between 3.57 and 5.35 should be read as suggestive.
+
+Allele-frequency deviations are estimated by a moving kernel about 100 kb wide,
+not per bin: within a single 10 kb bin afd varies by 0.0001 against a reported
+standard error of 0.0046. The ndepth term the pipeline uses is accordingly the
+read count inside that kernel -- 13,341 against 1,004 to 1,316 reads per 10 kb
+bin -- so min(nindv, ndepth) resolves to the 9,500 pooled individuals and the
+reported standard error prices sampling correctly. It does not price drift after
+the two arms separate, which is why the simulated null below has sd(z) = 1.13
+rather than 1. No feature narrower than the kernel is resolvable.
 
 Regenerating the exports from the archived per-sample counts reproduces every
 peak position and interval bound exactly, with LOD values agreeing to 1e-14
@@ -659,16 +693,68 @@ relative (data/cross_experiments/*/README.md).
 --------------------------------------------------------------------------------
 QTL SUPPORT INTERVALS
 --------------------------------------------------------------------------------
-Support intervals were defined as a fractional LOD drop from each chromosome's
-own peak marker rather than a fixed number of LOD units, because an absolute
-drop wide enough for a strong peak spans an entire chromosome on a weak one.
-The shipped interval tables use a 10% drop, calibrated so that a known causal
-gene falls inside the interval rather than just outside it. The interval tracks
-in Figure 2 use a 5% drop, and are restricted to QTL with a peak LOD above 100
-(nine intervals); the complete significant set is
-SUPP_FIG_XX_cross_qtl_all. Secondary peaks on the same chromosome were masked
-with a 1 Mb buffer either side of a called interval and were required to reach
-30% of the chromosome maximum (scripts/Figure2.R).
+These are SUPPORT REGIONS, not confidence intervals, and are reported as such.
+They were defined as a fractional LOD drop from each chromosome's own peak
+marker rather than a fixed number of LOD units, because an absolute drop wide
+enough for a strong peak spans an entire chromosome on a weak one. The shipped
+interval tables use a 10% drop, calibrated so that a known causal gene falls
+inside the interval rather than just outside it; the interval tracks in Figure 2
+use a 5% drop and are restricted to QTL with a peak LOD above 100 (nine
+intervals), the complete significant set being SUPP_FIG_XX_cross_qtl_all.
+Secondary peaks on the same chromosome were masked with a 1 Mb buffer either
+side of a called interval and were required to reach 30% of the chromosome
+maximum (scripts/Figure2.R).
+
+WHAT THOSE RULES DO AND DO NOT GUARANTEE. The 10% drop was tuned on one locus
+with the answer already known -- the chromosome III QTL of the JU cross, in two
+contrasts, chosen so that sid-2 would fall inside, which required 5.9% and 9.9%
+-- so it contains that gene by construction and carries no coverage statement
+elsewhere. Neither rule can be calibrated against the data, because timepoint 2
+descends from timepoint 1 and the design therefore holds no parallel replicate
+and no clean null.
+
+The null was simulated instead (scripts/DIAG_cross_null_simulation.R), which the
+design permits because every parameter of it is known: two inbred founders, ten
+generations of random intercrossing at N = 12,500, the split into two arms at
+generation 11, two further generations per arm with the last expanded to 30,000,
+and sequencing at the observed per-bin depth, scored through the pipeline's own
+estimator. Loci are a 10 kb grid, which is the analysis resolution. 200 null
+replicates and 200 with a single QTL at the sid-2 position give:
+
+  the shipped threshold is liberal. With no QTL anywhere, 126 of 200 null
+  replicates produce a genome-wide maximum above LOD 3.57; the 95th percentile
+  of that maximum is LOD 5.35.
+
+  the 10% drop has no single coverage. It contains the true QTL position 0%, 6%,
+  38% and 86% of the time at selection coefficients of 0.15, 0.30, 0.60 and
+  1.00, at median widths of 10, 30, 110 and 455 kb. The 5% drop runs 0% to 34%.
+  A fractional drop cannot have one coverage figure, because the physical width
+  it returns is set by how sharp the peak happens to be.
+
+  the classical drops are not an improvement here. A 1.5 or 2 LOD drop covers
+  0% to 6% at every effect size, because the called peak sits a median 127 to
+  362 kb from the true position while those intervals are 0 to 30 kb wide. Peak
+  displacement, not the LOD scale, is what bounds resolution, and no rescaling
+  of LOD alters it.
+
+  the contiguous run clearing the genome-wide threshold is the only rule tested
+  that reaches 95%, and it does so at widths of 1.5 to 2.8 Mb.
+
+The simulated peak LOD under complete selection is 603 against an observed 710
+at the chromosome III pos-1 peak, so the real experiment sits at the strong end
+of that range, which is where the 10% rule performs best and is why it has held
+up on the locus it was set on. The intervals are retained as drawn, with this
+reading attached: a support region of a few hundred kb is consistent with the
+scan, a region narrower than the ~100 kb estimation kernel is not, and any
+statement that requires 95% coverage needs megabases. Caveats carried in the
+script header: one QTL position, near the chromosome III terminus so that
+displacement is biased inward, a single-QTL model, and effective population size
+assumed equal to census.
+
+Fine-mapping below the resolution of the scans is done by recombinant genetics
+rather than by narrowing a drop: the 37 kb chromosome III interval reported
+under NEAR-ISOGENIC LINES AND FINE-MAPPING is the claim there, not any interval
+in this section.
 
 Because those display constants do more filtering than the significance
 threshold does, a complete peak table was built separately
@@ -687,9 +773,13 @@ stricter is interval overlap: the two crosses' LOD-drop intervals intersect.
 The weaker is positional, that the other cross's scan clears the genome-wide
 threshold at this peak's own position. Overlap alone is too strict at these
 depths, because pooled LOD runs into the hundreds and collapses the drop
-intervals -- JU1793 x JU2466's pos-1 peak on chromosome III has one 50 kb wide
--- so a peak offset of a few hundred kb defeats it even where both crosses are
-unambiguous at each other's peak. On interval overlap alone 19 QTL are shared;
+intervals -- JU1793 x JU2466's pos-1 peak on chromosome III has one 50 kb wide,
+which is below the ~100 kb estimation kernel and should not be read as a
+localisation -- so a peak offset of a few hundred kb defeats it even where both
+crosses are unambiguous at each other's peak. The 469 kb between the two
+crosses' peaks at that locus is itself the one independent measure of positional
+uncertainty the design affords, and it is the right order for the simulated peak
+displacement above. On interval overlap alone 19 QTL are shared;
 adding positional matches brings it to 45. The sid-2 region is the case that
 decides it: matched by interval for HT115 vs mig-6 in both directions, and only
 positionally for HT115 vs pos-1, where the two peaks sit 469 kb apart with
@@ -711,12 +801,17 @@ comparable magnitude instead is the wrong test -- mig-6 shifts about three
 times as far as par-1 at the chromosome V loci -- and called nothing general at
 all. Two facts constrain the interpretation and are reported with the counts:
 every contrast within a cross shares one HT115 pool, so drift in that pool
-imitates a general locus, and the timepoint-1 replicate shows that replicate
-agreement of the frequency shift depends sharply on the target (mig-6 r = 0.975,
-rpn-12 r = 0.683, par-1 r = 0.125), so par-1 significance is not by itself
-evidence of a response. The general set is sensitive to where the response cut
-is placed (29, 7, 2 and 1 loci at |dfreq| >= 0.05, 0.10, 0.15 and 0.20) while
-mig-6-specific calls are stable (13, 17, 18, 16); both sweeps are reported.
+imitates a general locus, and the two timepoints show that agreement of the
+frequency shift depends sharply on the target (mig-6 r = 0.975, rpn-12
+r = 0.683, par-1 r = 0.125), so par-1 significance is not by itself evidence of
+a response. Those correlations are between serial timepoints within one
+selection lineage, not between replicate pools -- timepoint 2 descends from
+timepoint 1 -- so they measure whether the shift persisted into the next
+generation and are a weaker statement than replicate reproducibility would be.
+No parallel replicate exists to make the stronger one. The general set is
+sensitive to where the response cut is placed (29, 7, 2 and 1 loci at
+|dfreq| >= 0.05, 0.10, 0.15 and 0.20) while mig-6-specific calls are stable
+(13, 17, 18, 16); both sweeps are reported.
 
 --------------------------------------------------------------------------------
 NEAR-ISOGENIC LINES AND FINE-MAPPING

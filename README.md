@@ -2,7 +2,7 @@
 
 Analysis code and figures for a manuscript on natural variation in RNAi
 sensitivity: pooled competition assays across wild isolates, genome-wide
-association mapping, F2 bulk-segregant crosses, near-isogenic line
+association mapping, advanced-intercross bulk-segregant crosses, near-isogenic line
 fine-mapping, and characterisation of a *sid-2* coding variant.
 
 Everything here runs from the repository root with no arguments.
