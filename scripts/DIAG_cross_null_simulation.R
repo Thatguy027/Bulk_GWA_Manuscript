@@ -66,6 +66,14 @@
 ## reproductive success -- makes it worse, and Ne is the one parameter here that
 ## is not known.
 ##
+## TWO QTL POSITIONS ARE RUN, because the first one chosen was a bad test of
+## itself. sid-2 sits at III:13.68 Mb on a 13.78 Mb chromosome -- grid locus
+## 1369 of 1378 -- so a scan cannot place a peak to the right of it and every
+## error is folded inward. That is the situation METHODS already flags as a
+## boundary artefact for the JU cross's terminal peak. A mid-arm position on the
+## same chromosome is run alongside it so the two can be compared, and the
+## coverage a rule really has is the worse of the two, not the terminal one.
+##
 ## Reads the cross exports under data/ and the external map, so it is a DIAG
 ## script. Nothing in the manuscript reads its output.
 ## ---------------------------------------------------------------------------
@@ -120,19 +128,25 @@ msg(sprintf("grid: %s loci (%s), map %.0f cM per meiosis",
             format(sum(NLOC), big.mark = ","),
             paste(NLOC, collapse = "/"), sum(sapply(genMap, max)) * 100))
 
-## locus index of the simulated QTL: the sid-2 region on chromosome III
+## Simulated QTL positions, both on chromosome III so the scans are comparable.
+## "sid-2" is the real position of the T96K site and sits 9 loci from the
+## chromosome end; "mid-arm" is near the middle of the same chromosome, where a
+## peak can be displaced in either direction.
 QTL_CHR <- which(CHRS == "III")
-QTL_POS <- 13680248L
-QTL_IDX <- which.min(abs(grid[chrom == "III"]$pos - QTL_POS))
-msg(sprintf("QTL placed at III:%s (grid locus %d of %d)",
-            format(grid[chrom == "III"]$pos[QTL_IDX], big.mark = ","),
-            QTL_IDX, NLOC[QTL_CHR]))
+CHR3    <- grid[chrom == "III"]$pos
+POSITIONS <- c("sid-2 (III:13.68 Mb, terminal)" = 13680248L,
+               "mid-arm (III:6.90 Mb)"          =  6900000L)
+qtl_index <- function(bp) which.min(abs(CHR3 - bp))
+for (nm in names(POSITIONS))
+  msg(sprintf("QTL position %-32s -> III:%s, grid locus %d of %d",
+              nm, format(CHR3[qtl_index(POSITIONS[[nm]])], big.mark = ","),
+              qtl_index(POSITIONS[[nm]]), NLOC[QTL_CHR]))
 
 ## --- one experiment ---------------------------------------------------------
 ## Returns per-locus true frequencies in both arms. Selection acts only in the
 ## RNAi arm and only over the two post-split generations, which is where it acts
 ## in the real experiment: the ten AIL generations are shared.
-simulate_one <- function(seed, s = 0) {
+simulate_one <- function(seed, s = 0, qtl_idx = NA_integer_) {
   set.seed(seed)
   haplo <- setNames(lapply(NLOC, function(k)
     rbind(rep(0L, k), rep(0L, k), rep(1L, k), rep(1L, k))), CHRS)
@@ -149,7 +163,7 @@ simulate_one <- function(seed, s = 0) {
     for (g in seq_len(POST_GEN)) {
       n_out <- if (g == POST_GEN) N_SEQ else N_AIL
       if (sel > 0) {
-        g_qtl <- pullSegSiteGeno(p, chr = QTL_CHR, simParam = SPx)[, QTL_IDX]
+        g_qtl <- pullSegSiteGeno(p, chr = QTL_CHR, simParam = SPx)[, qtl_idx]
         w     <- 1 - sel * (1 - g_qtl / 2)        # additive, resistant = allele 1
         par   <- matrix(sample.int(p@nInd, 2L * n_out, replace = TRUE,
                                    prob = w), ncol = 2L)
@@ -225,37 +239,58 @@ run_null <- function(i) {
              max_LOD_chrIII = max(s[chrom == "III"]$LOD),
              sd_beta = sd(s$beta), sd_z = sd(s$z))
 }
-run_qtl <- function(i, s_sel, threshold) {
-  s <- scan_of(simulate_one(50000L + i * 17L, s = s_sel))
+run_qtl <- function(i, s_sel, threshold, pos_name) {
+  bp  <- POSITIONS[[pos_name]]
+  idx <- qtl_index(bp)
+  truth <- CHR3[idx]          # the grid locus the QTL actually sits on
+  s <- scan_of(simulate_one(50000L + i * 17L, s = s_sel, qtl_idx = idx))
   d <- s[chrom == "III"][order(pos)]
   out <- lapply(seq_len(nrow(RULES)), function(k) {
     iv <- interval(d, RULES$rule[k], RULES$value[k], threshold)
-    data.table(rep = i, s = s_sel, label = RULES$label[k],
+    data.table(rep = i, s = s_sel, position = pos_name, label = RULES$label[k],
                peak = iv$peak, lo = iv$lo, hi = iv$hi, lod = iv$lod,
                width_kb = (iv$hi - iv$lo) / 1e3,
-               displacement_kb = abs(iv$peak - QTL_POS) / 1e3,
-               covers = QTL_POS >= iv$lo & QTL_POS <= iv$hi,
+               displacement_kb = abs(iv$peak - truth) / 1e3,
+               covers = truth >= iv$lo & truth <= iv$hi,
                genome_max = max(s$LOD))
   })
   rbindlist(out)
 }
 
-if (!REFIT && file.exists(CACHE)) {
-  R <- readRDS(CACHE); msg("loaded cache (CROSS_SIM_REFIT=1 to rerun)")
+## The null does not depend on where a QTL would be, so it is cached separately
+## from the per-position QTL runs and a new position costs only its own sweep.
+old <- if (!REFIT && file.exists(CACHE)) readRDS(CACHE) else NULL
+if (!is.null(old$null) && nrow(old$null) >= NREP_NULL) {
+  NUL <- old$null; thr_sim <- old$thr_sim
+  msg(sprintf("null: %d cached replicates, threshold LOD %.2f", nrow(NUL), thr_sim))
 } else {
   msg(sprintf("null: %d replicates on %d cores", NREP_NULL, CORES))
   NUL <- rbindlist(parallel::mclapply(seq_len(NREP_NULL), run_null, mc.cores = CORES))
   thr_sim <- as.numeric(quantile(NUL$max_LOD, 0.95))
   msg(sprintf("simulated genome-wide 5%% threshold: LOD %.2f (shipped %.2f)",
               thr_sim, THR_SHIP))
-  msg(sprintf("qtl: %d replicates x %d effects", NREP_QTL, length(S_SWEEP)))
-  QTL <- rbindlist(lapply(S_SWEEP, function(ss)
-    rbindlist(parallel::mclapply(seq_len(NREP_QTL), run_qtl, s_sel = ss,
-                                 threshold = thr_sim, mc.cores = CORES))))
-  R <- list(null = NUL, qtl = QTL, thr_sim = thr_sim)
-  saveRDS(R, CACHE)
 }
-NUL <- R$null; QTL <- R$qtl; thr_sim <- R$thr_sim
+keep <- if (!is.null(old$qtl) && "position" %in% names(old$qtl))
+  old$qtl[position %in% names(POSITIONS) & s %in% S_SWEEP] else NULL
+have <- if (is.null(keep)) character() else
+  keep[, .N, by = position][N >= NREP_QTL * length(S_SWEEP) * nrow(RULES)]$position
+todo <- setdiff(names(POSITIONS), have)
+if (length(todo)) {
+  msg(sprintf("qtl: %d replicates x %d effects x %d position(s) [%s]",
+              NREP_QTL, length(S_SWEEP), length(todo), paste(todo, collapse = "; ")))
+  fresh <- rbindlist(lapply(todo, function(pn) {
+    msg(sprintf("  position: %s", pn))
+    rbindlist(lapply(S_SWEEP, function(ss)
+      rbindlist(parallel::mclapply(seq_len(NREP_QTL), run_qtl, s_sel = ss,
+                                   threshold = thr_sim, pos_name = pn,
+                                   mc.cores = CORES))))
+  }))
+  QTL <- rbindlist(list(if (!is.null(keep)) keep[position %in% have] else NULL, fresh))
+} else {
+  QTL <- keep; msg("qtl: all positions cached")
+}
+QTL[, position := factor(position, levels = names(POSITIONS))]
+saveRDS(list(null = NUL, qtl = QTL, thr_sim = thr_sim), CACHE)
 
 ## --- what it says ------------------------------------------------------------
 cat("\n== the genome-wide threshold ==\n")
@@ -272,16 +307,32 @@ cat("\n== interval rules, coverage of the true QTL position ==\n")
 COV <- QTL[, .(n = .N, coverage = mean(covers),
                median_width_kb = median(width_kb),
                median_displacement_kb = median(displacement_kb),
-               median_peak_LOD = median(lod)), by = .(s, label)]
-setorder(COV, s, -coverage)
-print(COV)
+               median_peak_LOD = median(lod)), by = .(position, s, label)]
+setorder(COV, position, s, -coverage)
+for (pn in levels(COV$position)) {
+  cat(sprintf("\n  -- %s --\n", pn))
+  print(COV[position == pn, .(s, label, n, coverage,
+                              median_width_kb, median_displacement_kb)])
+}
 fwrite(COV, file.path(DIAG, "cross_interval_calibration.tsv"), sep = "\t")
+
+cat("\n== the same rule at the two positions, worst case is the honest one ==\n")
+## name the columns explicitly: dcast orders them by factor level here, but a
+## reader who re-loads the TSV gets a character column and alphabetical order,
+## so positional setnames() would silently swap the two positions
+W <- dcast(COV, label + s ~ position, value.var = "coverage")
+setnames(W, names(POSITIONS), c("cov_terminal", "cov_midarm"))
+W[, worst := pmin(cov_terminal, cov_midarm)]
+setorder(W, label, s)
+print(W)
 
 cat("\n== displacement of the called peak from the true QTL ==\n")
 print(QTL[label == "10% drop (shipped tables)",
           .(median_kb = round(median(displacement_kb), 1),
             p90_kb = round(quantile(displacement_kb, 0.9), 1),
-            max_kb = round(max(displacement_kb), 1)), by = s])
+            max_kb = round(max(displacement_kb), 1)), by = .(position, s)])
+cat("\n  a terminal QTL cannot be overshot to the right, so its displacement is\n")
+cat("  folded inward and understates what a mid-chromosome peak does.\n")
 
 ## --- figure ------------------------------------------------------------------
 theme_set(theme_bw(base_size = 9))
@@ -298,6 +349,7 @@ pA <- ggplot(NUL, aes(max_LOD)) +
 pB <- ggplot(COV, aes(factor(s), coverage, fill = label)) +
   geom_col(position = position_dodge(width = 0.8), width = 0.75) +
   geom_hline(yintercept = 0.95, linetype = "dashed", linewidth = 0.4) +
+  facet_wrap(~ position) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "B  does the interval contain the QTL?",
        subtitle = "dashed line is the 95% a confidence interval would have to reach",
@@ -310,30 +362,37 @@ pC <- ggplot(QTL, aes(factor(s), width_kb, colour = label)) +
   geom_point(position = position_jitterdodge(jitter.width = 0.15,
                                              dodge.width = 0.8, seed = 1),
              size = 0.5, alpha = 0.5) +
+  facet_wrap(~ position) +
   scale_y_log10() +
   labs(title = "C  how wide each rule makes the interval",
        x = "selection coefficient", y = "interval width (kb, log)", colour = NULL) +
   theme(legend.position = "none")
 
 pD <- ggplot(QTL[label == "10% drop (shipped tables)"],
-             aes(factor(s), displacement_kb)) +
-  geom_boxplot(outlier.size = 0.4, linewidth = 0.3, fill = "grey90") +
+             aes(factor(s), displacement_kb, fill = position)) +
+  geom_boxplot(outlier.size = 0.4, linewidth = 0.3,
+               position = position_dodge(width = 0.8), width = 0.7) +
   geom_hline(yintercept = KERNEL_KB, colour = "firebrick", linetype = "dotted") +
   labs(title = "D  how far the called peak sits from the true QTL",
-       subtitle = sprintf("dotted: the ~%d kb smoothing kernel", KERNEL_KB),
-       x = "selection coefficient", y = "|called peak - true QTL| (kb)")
+       subtitle = sprintf(paste("dotted: the ~%d kb smoothing kernel.",
+                                "A terminal QTL cannot be overshot outward,",
+                                "so its error folds in"), KERNEL_KB),
+       x = "selection coefficient", y = "|called peak - true QTL| (kb)",
+       fill = NULL) +
+  theme(legend.position = "bottom", legend.text = element_text(size = 6))
 
 fig <- (pA | pB) / (pC | pD) +
   plot_annotation(
     title = "A simulated null for the AIL cross scans",
     subtitle = sprintf(paste("10 generations of intercross at N = %s, split at gen 11,",
-                             "%d generations per arm, %s sequenced;\n%d null and %d x %d",
-                             "QTL replicates"),
+                             "%d generations per arm, %s sequenced;\n%d null replicates",
+                             "and %d x %d per QTL position, at %d positions on",
+                             "chromosome III"),
                        format(N_AIL, big.mark = ","), POST_GEN,
                        format(N_SEQ, big.mark = ","), nrow(NUL),
-                       length(S_SWEEP), NREP_QTL))
+                       length(S_SWEEP), NREP_QTL, length(POSITIONS)))
 ggsave(file.path(DIAG, "DIAG_cross_null_simulation.pdf"), fig,
-       width = 11, height = 8.5, device = cairo_pdf)
+       width = 13, height = 9.5, device = cairo_pdf)
 ggsave(file.path(DIAG, "DIAG_cross_null_simulation.png"), fig,
-       width = 11, height = 8.5, dpi = 200)
+       width = 13, height = 9.5, dpi = 200)
 msg("wrote DIAG_cross_null_simulation.{pdf,png}")

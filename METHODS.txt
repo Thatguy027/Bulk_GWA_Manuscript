@@ -717,28 +717,40 @@ The null was simulated instead (scripts/DIAG_cross_null_simulation.R), which the
 design permits because every parameter of it is known: two inbred founders, ten
 generations of random intercrossing at N = 12,500, the split into two arms at
 generation 11, two further generations per arm with the last expanded to 30,000,
-and sequencing at the observed per-bin depth, scored through the pipeline's own
+and sequencing at the observed depth, scored through the pipeline's own
 estimator. Loci are a 10 kb grid, which is the analysis resolution. 200 null
-replicates and 200 with a single QTL at the sid-2 position give:
+replicates were run, and 200 more at each of two QTL positions on chromosome
+III: the real sid-2 position at 13.68 Mb, which is nine grid loci from the end
+of a 13.78 Mb chromosome, and a mid-arm position at 6.90 Mb where a peak can be
+displaced in either direction. Coverage is quoted for both, because a terminal
+QTL cannot be overshot outward and so flatters every rule. What they give:
 
   the shipped threshold is liberal. With no QTL anywhere, 126 of 200 null
   replicates produce a genome-wide maximum above LOD 3.57; the 95th percentile
   of that maximum is LOD 5.35.
 
-  the 10% drop has no single coverage. It contains the true QTL position 0%, 6%,
-  38% and 86% of the time at selection coefficients of 0.15, 0.30, 0.60 and
-  1.00, at median widths of 10, 30, 110 and 455 kb. The 5% drop runs 0% to 34%.
-  A fractional drop cannot have one coverage figure, because the physical width
-  it returns is set by how sharp the peak happens to be.
+  the 10% drop has no single coverage. Against selection coefficients of 0.15,
+  0.30, 0.60 and 1.00 it contains the true position 2%, 12%, 38% and 86% of the
+  time at the terminal position and 0%, 2%, 26% and 80% at the mid-arm one, at
+  median widths of 10, 30, 110 and 455 kb. The 5% drop runs 0% to 38%. A
+  fractional drop cannot have one coverage figure, because the physical width it
+  returns is set by how sharp the peak happens to be.
 
   the classical drops are not an improvement here. A 1.5 or 2 LOD drop covers
-  0% to 6% at every effect size, because the called peak sits a median 127 to
-  362 kb from the true position while those intervals are 0 to 30 kb wide. Peak
-  displacement, not the LOD scale, is what bounds resolution, and no rescaling
-  of LOD alters it.
+  0% to 8% at every effect size and both positions, because the called peak sits
+  a median 120 to 710 kb from the true position while those intervals are 0 to
+  30 kb wide. Peak displacement, not the LOD scale, is what bounds resolution,
+  and no rescaling of LOD alters it.
 
   the contiguous run clearing the genome-wide threshold is the only rule tested
-  that reaches 95%, and it does so at widths of 1.5 to 2.8 Mb.
+  that reaches 95%, which it does at every effect size above 0.15, and it does
+  so at widths of 1.5 to 2.8 Mb.
+
+Displacement is the quantity the terminal position understates, as expected: at
+a selection coefficient of 0.15 the median error is 365 kb at the sid-2 position
+against 710 kb mid-arm, and at 0.60 it is 130 kb against 310 kb. The two
+converge under complete selection (140 against 120 kb), where the peak is sharp
+enough that the chromosome end stops mattering.
 
 The simulated peak LOD under complete selection is 603 against an observed 710
 at the chromosome III pos-1 peak, so the real experiment sits at the strong end
@@ -747,9 +759,8 @@ up on the locus it was set on. The intervals are retained as drawn, with this
 reading attached: a support region of a few hundred kb is consistent with the
 scan, a region narrower than the ~100 kb estimation kernel is not, and any
 statement that requires 95% coverage needs megabases. Caveats carried in the
-script header: one QTL position, near the chromosome III terminus so that
-displacement is biased inward, a single-QTL model, and effective population size
-assumed equal to census.
+script header: a single-QTL model, and effective population size assumed equal
+to census.
 
 Fine-mapping below the resolution of the scans is done by recombinant genetics
 rather than by narrowing a drop: the 37 kb chromosome III interval reported

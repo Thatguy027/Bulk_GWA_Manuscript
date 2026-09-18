@@ -1,21 +1,41 @@
-s	label	n	coverage	median_width_kb	median_displacement_kb	median_peak_LOD
-0.15	clears genome threshold	50	0.32	190	361.566	10.9194682671846
-0.15	2 LOD (config LOD.drop)	50	0.06	30	361.566	10.9194682671846
-0.15	1.5 LOD (classical)	50	0.04	20	361.566	10.9194682671846
-0.15	10% drop (shipped tables)	50	0	10	361.566	10.9194682671846
-0.15	5% drop (Figure 2)	50	0	0	361.566	10.9194682671846
-0.3	clears genome threshold	50	1	1490	271.566	38.9392460203041
-0.3	10% drop (shipped tables)	50	0.06	30	271.566	38.9392460203041
-0.3	5% drop (Figure 2)	50	0.02	10	271.566	38.9392460203041
-0.3	1.5 LOD (classical)	50	0.02	0	271.566	38.9392460203041
-0.3	2 LOD (config LOD.drop)	50	0.02	10	271.566	38.9392460203041
-0.6	clears genome threshold	50	1	2245	126.566	181.07693112359
-0.6	10% drop (shipped tables)	50	0.38	110	126.566	181.07693112359
-0.6	5% drop (Figure 2)	50	0.08	40	126.566	181.07693112359
-0.6	1.5 LOD (classical)	50	0	0	126.566	181.07693112359
-0.6	2 LOD (config LOD.drop)	50	0	0	126.566	181.07693112359
-1	clears genome threshold	50	1	2770	136.566	603.482710101834
-1	10% drop (shipped tables)	50	0.86	455	136.566	603.482710101834
-1	5% drop (Figure 2)	50	0.34	135	136.566	603.482710101834
-1	2 LOD (config LOD.drop)	50	0.04	0	136.566	603.482710101834
-1	1.5 LOD (classical)	50	0.02	0	136.566	603.482710101834
+position	s	label	n	coverage	median_width_kb	median_displacement_kb	median_peak_LOD
+sid-2 (III:13.68 Mb, terminal)	0.15	clears genome threshold	50	0.32	190	365	10.9194682671846
+sid-2 (III:13.68 Mb, terminal)	0.15	2 LOD (config LOD.drop)	50	0.06	30	365	10.9194682671846
+sid-2 (III:13.68 Mb, terminal)	0.15	1.5 LOD (classical)	50	0.04	20	365	10.9194682671846
+sid-2 (III:13.68 Mb, terminal)	0.15	10% drop (shipped tables)	50	0.02	10	365	10.9194682671846
+sid-2 (III:13.68 Mb, terminal)	0.15	5% drop (Figure 2)	50	0.02	0	365	10.9194682671846
+sid-2 (III:13.68 Mb, terminal)	0.3	clears genome threshold	50	1	1490	275	38.9392460203041
+sid-2 (III:13.68 Mb, terminal)	0.3	10% drop (shipped tables)	50	0.12	30	275	38.9392460203041
+sid-2 (III:13.68 Mb, terminal)	0.3	5% drop (Figure 2)	50	0.08	10	275	38.9392460203041
+sid-2 (III:13.68 Mb, terminal)	0.3	2 LOD (config LOD.drop)	50	0.08	10	275	38.9392460203041
+sid-2 (III:13.68 Mb, terminal)	0.3	1.5 LOD (classical)	50	0.06	0	275	38.9392460203041
+sid-2 (III:13.68 Mb, terminal)	0.6	clears genome threshold	50	1	2245	130	181.07693112359
+sid-2 (III:13.68 Mb, terminal)	0.6	10% drop (shipped tables)	50	0.38	110	130	181.07693112359
+sid-2 (III:13.68 Mb, terminal)	0.6	5% drop (Figure 2)	50	0.2	40	130	181.07693112359
+sid-2 (III:13.68 Mb, terminal)	0.6	1.5 LOD (classical)	50	0.04	0	130	181.07693112359
+sid-2 (III:13.68 Mb, terminal)	0.6	2 LOD (config LOD.drop)	50	0.04	0	130	181.07693112359
+sid-2 (III:13.68 Mb, terminal)	1	clears genome threshold	50	1	2770	140	603.482710101834
+sid-2 (III:13.68 Mb, terminal)	1	10% drop (shipped tables)	50	0.86	455	140	603.482710101834
+sid-2 (III:13.68 Mb, terminal)	1	5% drop (Figure 2)	50	0.36	135	140	603.482710101834
+sid-2 (III:13.68 Mb, terminal)	1	2 LOD (config LOD.drop)	50	0.04	0	140	603.482710101834
+sid-2 (III:13.68 Mb, terminal)	1	1.5 LOD (classical)	50	0.02	0	140	603.482710101834
+mid-arm (III:6.90 Mb)	0.15	clears genome threshold	50	0.24	220	710	12.3706805790176
+mid-arm (III:6.90 Mb)	0.15	10% drop (shipped tables)	50	0	10	710	12.3706805790176
+mid-arm (III:6.90 Mb)	0.15	5% drop (Figure 2)	50	0	0	710	12.3706805790176
+mid-arm (III:6.90 Mb)	0.15	1.5 LOD (classical)	50	0	10	710	12.3706805790176
+mid-arm (III:6.90 Mb)	0.15	2 LOD (config LOD.drop)	50	0	30	710	12.3706805790176
+mid-arm (III:6.90 Mb)	0.3	clears genome threshold	50	1	7650	320	39.9099989939583
+mid-arm (III:6.90 Mb)	0.3	10% drop (shipped tables)	50	0.02	35	320	39.9099989939583
+mid-arm (III:6.90 Mb)	0.3	5% drop (Figure 2)	50	0	10	320	39.9099989939583
+mid-arm (III:6.90 Mb)	0.3	1.5 LOD (classical)	50	0	0	320	39.9099989939583
+mid-arm (III:6.90 Mb)	0.3	2 LOD (config LOD.drop)	50	0	10	320	39.9099989939583
+mid-arm (III:6.90 Mb)	0.6	clears genome threshold	50	1	9185	310	182.066785347174
+mid-arm (III:6.90 Mb)	0.6	10% drop (shipped tables)	50	0.26	110	310	182.066785347174
+mid-arm (III:6.90 Mb)	0.6	5% drop (Figure 2)	50	0.18	40	310	182.066785347174
+mid-arm (III:6.90 Mb)	0.6	1.5 LOD (classical)	50	0.04	0	310	182.066785347174
+mid-arm (III:6.90 Mb)	0.6	2 LOD (config LOD.drop)	50	0.04	0	310	182.066785347174
+mid-arm (III:6.90 Mb)	1	clears genome threshold	50	1	10180	120	596.811930170359
+mid-arm (III:6.90 Mb)	1	10% drop (shipped tables)	50	0.8	595	120	596.811930170359
+mid-arm (III:6.90 Mb)	1	5% drop (Figure 2)	50	0.38	110	120	596.811930170359
+mid-arm (III:6.90 Mb)	1	2 LOD (config LOD.drop)	50	0.04	0	120	596.811930170359
+mid-arm (III:6.90 Mb)	1	1.5 LOD (classical)	50	0.02	0	120	596.811930170359
