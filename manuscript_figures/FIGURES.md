@@ -26,8 +26,9 @@ therefore resistant.
 chromosome-out; 464,045 markers, n = 231 strains). The grey dashed line is the
 Bonferroni threshold over every marker (-log10 p = 6.97) and the blue dotted
 line divides alpha by the 1,972 effective independent tests (4.60). Markers
-clearing Bonferroni are black and markers clearing only the eigen-decomposition
-threshold are blue.
+The scan is drawn in alternating shades of grey by chromosome; markers
+clearing Bonferroni are firebrick and markers clearing only the
+eigen-decomposition threshold are blue.
 
 ---
 
@@ -43,7 +44,11 @@ variance-stabilised traits: the mig-6 response above the axis and the pos-1
 response below (n = 84 strains, 322,010 markers). Grey dashed lines are the
 Bonferroni threshold over every marker (-log10 p = 6.81) and blue dotted lines
 divide alpha by the 732 effective independent tests (4.17). Threshold labels
-are placed in the chromosome I panel.
+are placed in the chromosome I panel. The scan is drawn in alternating shades
+of grey by chromosome and the markers clearing Bonferroni are firebrick, with
+their support windows shaded to match, so colour within the Manhattan carries
+significance and nothing else; the two knockdowns are separated by which side
+of the axis they sit on rather than by colour.
 
 Arrowheads mark the cross QTL, one per QTL at its peak marker, coloured by
 cross (N2 x XZ1516 blue, JU1793 x JU2466 orange) and placed directionally: the
@@ -68,8 +73,8 @@ distribution.
 
 (B) Parental allele frequency along the right arm of chromosome III, from 8 Mb
 to the telomere, in the JU1793 x JU2466 intercross pool under pos-1 RNAi. The JU1793
-haplotype frequency is filled from below in blue and the JU2466 haplotype
-above it in green, so the two sum to one. Frequencies are count-weighted within
+haplotype frequency is filled from below in reddish purple and the JU2466
+haplotype above it in green, so the two sum to one. Frequencies are count-weighted within
 50 kb bins and drawn as a centred 250 kb rolling mean. The JU1793 fraction
 rises from 42% at 8 Mb to 79% at the telomere. The solid line is the HT115
 control pool over the same interval, which runs the other way, 42% to 33%. A
@@ -78,7 +83,8 @@ dashed line marks 50%.
 (C) The near-isogenic line series, genotype and phenotype on shared rows; from
 the bottom up JU1793, wSZ196, wSZ191, wSZ176 and JU2466. Left, the
 introgressions on the right arm of chromosome III from 13.635 Mb to the
-telomere at 13,783,801 bp, JU1793 genotype in blue and JU2466 in green. Five
+telomere at 13,783,801 bp, JU1793 genotype in reddish purple and JU2466 in
+green. Five
 of the lines carry a segment running to the chromosome end; wSZ191 carries an
 internal 13.658-13.695 Mb segment that stops short. The shaded band with dotted
 edges is the interval the series resolves, 13.658-13.695 Mb. Right, embryos
@@ -226,7 +232,8 @@ above panel A at every depth and saturates sooner.
 
 Replicate reproducibility of the pooled pos-1 delta-frequency phenotype. All
 six pairwise comparisons of the four pos-1 replicate pools, with Spearman rho
-and n on each facet. The dashed line is y = x and the vermillion line is the fitted
+and n on each facet. The dashed line is y = x and the vermillion line is the
+fitted
 slope.
 
 ---
@@ -271,7 +278,8 @@ have no variance-stabilised value, so n = 84 and ranks are out of 84.
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
 three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
-vermillion and mig-6 in reddish purple, and the difference between the two knockdowns in
+vermillion and mig-6 in reddish purple, and the difference between the two
+knockdowns in
 blue. Both control contrasts high with the blue difference flat marks a locus
 at which both knockdowns respond; one control contrast high with the blue
 difference tracking it marks a locus at which only that knockdown responds.
@@ -373,7 +381,8 @@ higher (p = 4e-20).
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a C-alpha within 12 A, at the gut-lumen pH of
-4.4, across residues 21-188. Grey, all 168 ectodomain residues. The vermillion line
+4.4, across residues 21-188. Grey, all 168 ectodomain residues. The vermillion
+line
 is T96 at +1.24 e, the 82nd percentile against a domain median of 0.00; the
 blue dashed line and arrow mark T96K at +2.24 e, the 98th percentile. Open
 circles are the three uptake histidines of McEwan et al. 2012: H32 at -0.15 e,

@@ -524,7 +524,7 @@ panel_pos1_manhattan <- function(letter = "C", bare = TRUE, base_size = 11.5) {
                colour = COL_THR) +
     geom_hline(yintercept = EIG, linetype = "dotted", linewidth = 0.45,
                colour = COL_EIG) +
-    geom_point(size = 0.4, alpha = 0.5, colour = COL_PT) +
+    geom_point(size = 0.4, alpha = 0.5, colour = gw_shade(gwt)) +
     { if (nrow(sig_eig)) geom_point(data = sig_eig, colour = COL_EIG,
                                     size = 0.8) } +
     { if (nrow(sig)) geom_point(data = sig, colour = COL_PEAK, size = 1.2) } +

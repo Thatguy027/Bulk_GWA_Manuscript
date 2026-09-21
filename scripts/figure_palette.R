@@ -18,19 +18,22 @@
 ## EIGHT HUES OVER THIRTEEN ROLES, so some are reused. Each reuse is between
 ## roles that never share a panel, and that is the property to preserve when
 ## editing this file:
-##   COL_JU1793 / COL_EIG / CROSS_COL[N2xXZ1516]  -- blue #0072B2
-##   COL_N2     / CROSS_COL[JU1793xJU2466]        -- orange #E69F00
-## The crosses deliberately take their colour from a parent.
+##   COL_XZ / COL_EIG / CROSS_COL[N2xXZ1516]  -- blue #0072B2
+##   COL_N2 / CROSS_COL[JU1793xJU2466]         -- orange #E69F00
+## The N2 x XZ1516 cross takes XZ1516's blue, which is a parent's colour.
+## JU1793 is reddish purple rather than blue because blue against JU2466's
+## green was the weakest contrast in the palette.
 ##
-## Greyscale is the one thing this palette does not survive: #0072B2 and
-## #009E73 have nearly the same lightness. Figures that must read in black and
-## white need a second channel -- linetype, shape or a direct label.
+## Greyscale is the one thing this palette does not survive for the categorical
+## roles: #0072B2 and #009E73 have nearly the same lightness. Figures that must
+## read in black and white need a second channel -- linetype, shape or a direct
+## label. The Manhattan panels are the exception and are greyscale by design.
 
 ## --- strains and genotypes --------------------------------------------------
 COL_N2      <- "#E69F00"   # reference strain, orange by convention
-COL_JU1793  <- "#0072B2"
+COL_JU1793  <- "#CC79A7"
 COL_JU2466  <- "#009E73"
-COL_XZ      <- "#CC79A7"
+COL_XZ      <- "#0072B2"   # the blue JU1793 vacated; no figure shows both
 COL_EDIT    <- "#999999"   # edited lines
 
 ## --- RNAi targets -----------------------------------------------------------
@@ -39,6 +42,20 @@ COL_POS     <- "#D55E00"   # pos-1
 
 ## --- crosses ----------------------------------------------------------------
 CROSS_COL   <- c(N2xXZ1516 = "#0072B2", JU1793xJU2466 = "#E69F00")
+
+## --- Manhattan points -------------------------------------------------------
+## The scans are drawn in alternating shades of grey by chromosome, the
+## conventional Manhattan treatment, so that colour in those panels means
+## "this marker cleared Bonferroni" and nothing else. Both shades carry a
+## slight cool bias rather than being neutral grey.
+COL_GW_A    <- "#2F3438"   # odd-numbered chromosomes
+COL_GW_B    <- "#9AA1A6"   # even-numbered chromosomes
+
+## Alternating shade for a scan, as a per-row vector. It is returned as a vector
+## rather than mapped through aes() on purpose: the panels that need it already
+## spend their colour scale on something else, and ggplot allows one scale per
+## aesthetic. `d` needs a `chrom` factor in genome order.
+gw_shade <- function(d) ifelse(as.integer(d$chrom) %% 2 == 1, COL_GW_A, COL_GW_B)
 
 ## --- data marks -------------------------------------------------------------
 ## COL_PT is the mass of points in a Manhattan or a scatter; COL_PEAK is drawn
@@ -66,7 +83,7 @@ COL_96K     <- COL_JU2466   # the JU2466 allele
 COL_FOCAL   <- "#D55E00"   # T96, the residue the figure is about
 
 ## --- mapping annotation -----------------------------------------------------
-COL_PEAK    <- "#111111"   # markers clearing a threshold
+COL_PEAK    <- "#CD2626"   # firebrick3: markers clearing Bonferroni
 COL_EIG     <- "#0072B2"   # eigen-decomposition threshold (dashed)
 COL_THR     <- "#666666"   # Bonferroni threshold (solid)
 COL_REGION  <- "#D9D9D9"   # the interval the NIL series resolves

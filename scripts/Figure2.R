@@ -278,7 +278,12 @@ trait_lab <- tibble(
   y      = c(GWAS_BF, -GWAS_BF),
   vj     = c(-0.35, 1.35),
   label  = c("*mig-6* RNAi", "*pos-1* RNAi"),
-  col    = c(COL_MIG, COL_POS))
+  ## the scan itself is greyscale, so the row labels are neutral too: a
+  ## coloured label would key to nothing on the panel
+  col    = c(COL_GW_A, COL_GW_A))
+
+gw_mig <- gw %>% filter(gene == "mig-6")
+gw_pos <- gw %>% filter(gene == "pos-1")
 
 fig <- ggplot(gw, aes(pos.mb, y)) +
   ## chromosome-length blanks keep the panels aligned and full width
@@ -295,10 +300,8 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
              linewidth = 0.3, colour = COL_THR) +
   geom_hline(yintercept = c(-1, 1) * GWAS_EIGEN, linetype = "dotted",
              linewidth = 0.42, colour = COL_EIG) +
-  geom_point(data = gw %>% filter(gene == "mig-6"), size = 0.4, alpha = 0.5,
-             colour = COL_MIG) +
-  geom_point(data = gw %>% filter(gene == "pos-1"), size = 0.4, alpha = 0.5,
-             colour = COL_POS) +
+  geom_point(data = gw_mig, size = 0.4, alpha = 0.5, colour = gw_shade(gw_mig)) +
+  geom_point(data = gw_pos, size = 0.4, alpha = 0.5, colour = gw_shade(gw_pos)) +
   geom_point(data = peaks, aes(y = y), colour = COL_PEAK, size = 2) +
   geom_text(data = peaks, aes(y = y, label = sprintf("%.2f", neglog10p)),
             vjust = ifelse(peaks$gene == "mig-6", 1.8, -0.9), hjust = 1.15,

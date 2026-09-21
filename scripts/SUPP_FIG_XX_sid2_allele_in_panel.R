@@ -215,7 +215,9 @@ pB <- ggplot(loc, aes(ps / 1e6, nlp)) +
              colour = COL_EIG) +
   geom_hline(yintercept = TH$bonferroni, linetype = "dashed",
              linewidth = 0.3, colour = COL_THR) +
-  geom_point(size = 0.7, alpha = 0.5, colour = COL_PT) +
+  ## one chromosome, so there is no alternation to do -- a single grey, and the
+  ## colour in this panel belongs to the marked site
+  geom_point(size = 0.7, alpha = 0.5, colour = COL_GW_B) +
   geom_point(data = site, size = 2.6, colour = COL_96K) +
   ggrepel::geom_text_repel(data = site, aes(label = "T96K"), size = 3,
                            colour = COL_96K, nudge_y = 1.2,
