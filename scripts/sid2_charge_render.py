@@ -52,7 +52,7 @@ OUT = Path("plots/assets")
 CHG = Path("supplemental_data/structure/sid2_local_charge.tsv")
 
 FOCAL = 96
-COL_T96 = "#F34C00"
+COL_T96 = "#CC79A7"            # COL_FOCAL in scripts/figure_palette.R -- keep in step
 COL_BASIC = "#0B4F9E"          # the two lysines that make the pocket
 COL_HIS = "#1B7F79"            # the pH-titrating uptake-critical set
 MEMBRANE = "#DCE3E8"

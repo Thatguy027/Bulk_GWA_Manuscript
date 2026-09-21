@@ -49,7 +49,7 @@ warnings.filterwarnings("ignore")
 OUT = Path("plots/assets")
 PERRES = Path("supplemental_data/structure/sid2_per_residue.tsv")
 
-COL_T96 = "#F34C00"
+COL_T96 = "#CC79A7"            # COL_FOCAL in scripts/figure_palette.R -- keep in step
 COL_FUNC = "#16324A"
 MEMBRANE = "#DCE3E8"
 FOCAL = 96

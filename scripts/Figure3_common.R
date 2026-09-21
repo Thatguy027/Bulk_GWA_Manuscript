@@ -728,9 +728,14 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
              label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_fill_manual(values = c(JU1793 = COL_JU1793, JU2466 = COL_JU2466),
                       name = NULL) +
+    ## The limits are the panel's white space, since expand is zero: below y0
+    ## sit the two tick rows and the axis titles, above max(ROW) sits the
+    ## interval label. 1.05 either side left about a row's height empty at each
+    ## end; 0.62 below and 0.78 above clears what is actually drawn there and
+    ## gives the five rows that space instead.
     scale_y_continuous(breaks = seq_along(LEVELS),
                        labels = if (labels) LEVELS else NULL,
-                       limits = c(y0 - 1.05, max(ROW) + 1.05),
+                       limits = c(y0 - 0.62, max(ROW) + 0.78),
                        expand = expansion(mult = 0)) +
     coord_cartesian(xlim = c(0, GEN_W + GAP + HAT_W), clip = "off") +
     labs(x = NULL, y = NULL, title = panel_title(letter)) +
@@ -740,5 +745,5 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
           axis.ticks.y = element_blank(), axis.line.y = element_blank(),
           axis.text.y = element_text(size = 8.6),
           panel.grid = element_blank(),
-          legend.position = "top", legend.margin = margin(b = -6))
+          legend.position = "top", legend.margin = margin(t = -4, b = -10))
 }

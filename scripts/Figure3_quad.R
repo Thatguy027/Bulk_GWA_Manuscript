@@ -61,11 +61,17 @@ msg("panel C: NIL genotypes and hatching, merged")
 ## the names on, so nothing is only knowable from this panel.
 pC <- panel_nil_geno_hatch(letter = "C", labels = FALSE)
 
-## C is now as wide as A and B together, so it takes the whole bottom row
-fig <- (pA + pB) / pC + plot_layout(heights = c(1, 1.08))
+## C is now as wide as A and B together, so it takes the whole bottom row, and
+## it takes MORE than half of it: five genotype rows beside five hatching bars
+## is the panel a reader spends time in, and at an even split it sat in the
+## middle of its own row with white space above and below. The figure grows
+## with it rather than the top row shrinking to pay for it -- 1:1.5 of 7.2
+## inches gives C about 4.3 inches against the 3.2 it had, while A and B lose
+## about a tenth of an inch.
+fig <- (pA + pB) / pC + plot_layout(heights = c(1, 1.5))
 
-ggsave(file.path(OUT, "Figure3_quad.pdf"), fig, width = 9.6, height = 6.2,
+ggsave(file.path(OUT, "Figure3_quad.pdf"), fig, width = 9.6, height = 7.2,
        device = cairo_pdf)
-ggsave(file.path(OUT, "Figure3_quad.png"), fig, width = 9.6, height = 6.2,
+ggsave(file.path(OUT, "Figure3_quad.png"), fig, width = 9.6, height = 7.2,
        dpi = 300, bg = "white")
 msg("wrote Figure3_quad.{pdf,png}")
