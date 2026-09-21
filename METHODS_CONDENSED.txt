@@ -23,7 +23,7 @@ for maintenance.]
 Strains, alleles and oligonucleotides constructed for this work are listed in
 full in supplemental_data/Table_S_strains.csv and Table_S_oligos.csv. Strain
 designations are QX2545-QX2578, introgressions qqIR59-qqIR80, and sid-2 alleles
-qq212-qq222.
+qq212-qq223.
 
 NIL construction. Near-isogenic lines carrying chromosome III right-arm
 introgressions between JU1793 and JU2466 were built in three stages. JU1793 and
@@ -73,8 +73,9 @@ singled and allowed to lay for 24 h, at which point the F1 parent was lysed for
 DNA. The edit site was amplified with oZ461/oZ468 and screened by HpyCH4IV
 digestion, and candidates were confirmed by Sanger sequencing. Edited strains
 carried forward are QX2570 (wSZ200) and QX2571 (wSZ201), sid-2(qq215[T96K]) and
-sid-2(qq216[T96K]) in JU1793; QX2573 and QX2574 (wSZ203, wSZ204),
-sid-2(qq218[T96K]) in N2; QX2576 (wSZ206), sid-2(qq220[K96T]) in JU2466; and
+sid-2(qq216[T96K]) in JU1793; QX2573 and QX2574 (wSZ203, wSZ204), two
+independent N2 lines carrying sid-2(qq218[T96K]) and sid-2(qq223[T96K]);
+QX2576 (wSZ206), sid-2(qq220[K96T]) in JU2466; and
 QX2577 and QX2578 (wSZ208, wSZ209), sid-2(qq221[N94A]) and sid-2(qq222[N94A]) in
 JU2466 and JU1793. Lines recovered carrying frameshifts or deletions rather than
 the intended substitution are listed in the strain table and were not used.

@@ -20,9 +20,9 @@ free allele, qqIR59 the next free introgression. Assignment is by ascending wSZ
 number, which is also roughly construction order, so the mapping stays legible.
   QX2545-QX2578   34 strains
   qqIR59-qqIR80   22 introgressions, one per NIL
-  qq212-qq222     11 alleles over 12 edited strains -- wSZ203 and wSZ204 share
-                  qq218, see ISSUES. qq223 is left free so that splitting them
-                  later renumbers nothing.
+  qq212-qq223     one allele per edited strain, twelve over twelve. qq223 was
+                  held free while wSZ203 and wSZ204 were unresolved and is now
+                  wSZ204's, so nothing else renumbered.
 
 WHAT AN ALLELE NAME MEANS HERE. An allele names a molecular lesion, not a
 strain, so one name per independent repair event. Independent F1s from the same
@@ -46,17 +46,16 @@ import sys
 ISSUES = """Things the stock sheet leaves unresolved, found while building these tables.
 Written by scripts/make_reagent_tables.py. Each one needs a person, not a script.
 
-1. wSZ203 AND wSZ204 ARE RECORDED AS THE SAME ISOLATE.
-   Both carry isolate "9_6" and wSZ204's note is "replicate from above ^^". If
-   they are clonal siblings they share one repair event and therefore ONE allele,
-   which is how the tables name them (both qq218). The manuscript says otherwise:
-   METHODS.txt and the Results both call them "two independently edited lines",
-   and the Figure 4B pooled 4.0% is built from them as two lines (4.4%, n=273 and
-   3.7%, n=295). One of the two records is wrong.
-     - if they ARE independent, wSZ204 becomes qq223, which is deliberately left
-       free so that the split renumbers nothing else.
-     - if they are NOT, the manuscript needs correcting, and wSZ205 (isolate 7_7,
-       qq219) is the genuinely independent second N2 line already in hand.
+1. RESOLVED: wSZ203 AND wSZ204 ARE INDEPENDENT EDITS.
+   Confirmed by the experimenter. They are two independently recovered N2
+   sid-2(T96K) lines, so they carry two alleles -- wSZ203 qq218 and wSZ204
+   qq223 -- and the Results are right to call them "two independently edited
+   lines". The Figure 4B pooled 4.0% is properly built from two lines.
+   One data-entry item remains: the stock sheet's isolate field reads 9_6 for
+   both, with wSZ204 annotated "replicate from above", which is what made this
+   look like one clone. wSZ204's own isolate identifier is not recorded anywhere
+   in the sheet and the field is left as the sheet has it rather than invented.
+   Worth correcting in the sheet when it is next edited.
 
 2. RESOLVED: THE PLATE RECORD MISLABELLED THE JU1793 N94A STRAIN.
    The raw plate record 20260409_ju2466swap_plus_N2A_swap.csv labelled it wSZ207.
@@ -189,7 +188,7 @@ DESIGNATIONS = [
  ("wSZ201","QX2571","qq216","edit","JU1793","",0,0,"","JU1793","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified"),
  ("wSZ202","QX2572","qq217","edit","JU1793","",0,0,"","JU1793","CRISPR-Cas9 HDR","gSZ182","deletion","Sanger: deletion present, not the intended substitution"),
  ("wSZ203","QX2573","qq218","edit","N2","",0,0,"","N2","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified"),
- ("wSZ204","QX2574","qq218","edit","N2","",0,0,"","N2","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified; sheet records the same isolate 9_6 as wSZ203 -- see ISSUES"),
+ ("wSZ204","QX2574","qq223","edit","N2","",0,0,"","N2","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified; independent of wSZ203 (the sheet's isolate field repeats 9_6, see ISSUES)"),
  ("wSZ205","QX2575","qq219","edit","N2","",0,0,"","N2","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified"),
  ("wSZ206","QX2576","qq220","edit","JU2466","",0,0,"","JU2466","CRISPR-Cas9 HDR","gSZ182","K96T","Sanger verified, no frameshift; non-clumping"),
  ("wSZ208","QX2577","qq221","edit","JU2466","",0,0,"","JU2466","CRISPR-Cas9 HDR","gSZ182","N94A","Sanger verified (PAM breaker)"),

@@ -30,7 +30,7 @@ genotypes, parents, construction route and verification status, in
 supplemental_data/Table_S_strains.csv; the oligonucleotides, repair templates
 and guide RNAs are in Table_S_oligos.csv. Both are generated from the stock
 sheet by scripts/make_reagent_tables.py. Strains are QX2545-QX2578,
-introgressions qqIR59-qqIR80 and sid-2 alleles qq212-qq222. The ones the
+introgressions qqIR59-qqIR80 and sid-2 alleles qq212-qq223. The ones the
 manuscript uses:
 
   QX2557, QX2561, QX2566    near-isogenic lines carrying JU2466 introgressions
@@ -44,19 +44,15 @@ manuscript uses:
   QX2576 (wSZ206)           JU2466 sid-2(qq220[K96T])
   QX2578 (wSZ209)           JU1793 sid-2(qq222[N94A])
   QX2577 (wSZ208)           JU2466 sid-2(qq221[N94A])
-  QX2573, QX2574            N2 sid-2(qq218[T96K]), two lines
-  (wSZ203, wSZ204)
+  QX2573, QX2574            two independent N2 lines, sid-2(qq218[T96K])
+  (wSZ203, wSZ204)         and sid-2(qq223[T96K])
 
-Three notes on the identifiers. The raw plate record labelled the JU1793 N94A
+Two notes on the identifiers. The raw plate record labelled the JU1793 N94A
 strain wSZ207, which is unrelated to this work; it is wSZ209, and the deposit
 builder relabels those two rows on the way out
-(scripts/make_supplemental_data.R). wSZ153's introgression breakpoint IS
+(scripts/make_supplemental_data.R). And wSZ153's introgression breakpoint IS
 determined, at 12,166,600 by whole-genome sequencing, so it does not belong
-with the marker-bounded lines. And the stock sheet records wSZ203 and wSZ204 as
-the same isolate, 9_6, with wSZ204 noted as a replicate of wSZ203, which is
-inconsistent with describing them as two INDEPENDENT edits here and in the
-Results; they carry one allele, qq218, until that is resolved. See
-supplemental_data/reagent_table_issues.txt.
+with the marker-bounded lines. See supplemental_data/reagent_table_issues.txt.
 
 The crossing scheme, the genotyping markers, the guides and the repair
 templates are described in METHODS_CONDENSED.txt under STRAINS, which is the

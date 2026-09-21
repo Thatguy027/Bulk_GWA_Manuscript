@@ -28,7 +28,7 @@ QX2570,wSZ200,10_6,edit,qq215,sid-2(qq215[T96K]) JU1793,JU1793,,,,,,,JU1793,CRIS
 QX2571,wSZ201,14_3,edit,qq216,sid-2(qq216[T96K]) JU1793,JU1793,,,,,,,JU1793,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,Sanger verified
 QX2572,wSZ202,70_1,edit,qq217,sid-2(qq217) JU1793,JU1793,,,,,,,JU1793,CRISPR-Cas9 HDR,gSZ182,oZ446,deletion,"Sanger: deletion present, not the intended substitution"
 QX2573,wSZ203,9_6,edit,qq218,sid-2(qq218[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,Sanger verified
-QX2574,wSZ204,9_6,edit,qq218,sid-2(qq218[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,Sanger verified; sheet records the same isolate 9_6 as wSZ203 -- see ISSUES
+QX2574,wSZ204,9_6,edit,qq223,sid-2(qq223[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,"Sanger verified; independent of wSZ203 (the sheet's isolate field repeats 9_6, see ISSUES)"
 QX2575,wSZ205,7_7,edit,qq219,sid-2(qq219[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,Sanger verified
 QX2576,wSZ206,22_1,edit,qq220,sid-2(qq220[K96T]) JU2466,JU2466,,,,,,,JU2466,CRISPR-Cas9 HDR,gSZ182,oZ456,K96T,"Sanger verified, no frameshift; non-clumping"
 QX2577,wSZ208,46_1,edit,qq221,sid-2(qq221[N94A]) JU2466,JU2466,,,,,,,JU2466,CRISPR-Cas9 HDR,gSZ182,oZ491,N94A,Sanger verified (PAM breaker)

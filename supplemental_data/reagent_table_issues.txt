@@ -1,17 +1,16 @@
 Things the stock sheet leaves unresolved, found while building these tables.
 Written by scripts/make_reagent_tables.py. Each one needs a person, not a script.
 
-1. wSZ203 AND wSZ204 ARE RECORDED AS THE SAME ISOLATE.
-   Both carry isolate "9_6" and wSZ204's note is "replicate from above ^^". If
-   they are clonal siblings they share one repair event and therefore ONE allele,
-   which is how the tables name them (both qq218). The manuscript says otherwise:
-   METHODS.txt and the Results both call them "two independently edited lines",
-   and the Figure 4B pooled 4.0% is built from them as two lines (4.4%, n=273 and
-   3.7%, n=295). One of the two records is wrong.
-     - if they ARE independent, wSZ204 becomes qq223, which is deliberately left
-       free so that the split renumbers nothing else.
-     - if they are NOT, the manuscript needs correcting, and wSZ205 (isolate 7_7,
-       qq219) is the genuinely independent second N2 line already in hand.
+1. RESOLVED: wSZ203 AND wSZ204 ARE INDEPENDENT EDITS.
+   Confirmed by the experimenter. They are two independently recovered N2
+   sid-2(T96K) lines, so they carry two alleles -- wSZ203 qq218 and wSZ204
+   qq223 -- and the Results are right to call them "two independently edited
+   lines". The Figure 4B pooled 4.0% is properly built from two lines.
+   One data-entry item remains: the stock sheet's isolate field reads 9_6 for
+   both, with wSZ204 annotated "replicate from above", which is what made this
+   look like one clone. wSZ204's own isolate identifier is not recorded anywhere
+   in the sheet and the field is left as the sheet has it rather than invented.
+   Worth correcting in the sheet when it is next edited.
 
 2. RESOLVED: THE PLATE RECORD MISLABELLED THE JU1793 N94A STRAIN.
    The raw plate record 20260409_ju2466swap_plus_N2A_swap.csv labelled it wSZ207.
