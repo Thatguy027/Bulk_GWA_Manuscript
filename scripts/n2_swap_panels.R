@@ -47,8 +47,8 @@ N2SWAP <- "supplemental_data/hatching_assays/n2_allele_swaps_hatching.tsv"
 
 ## N2 has no strain colour in this manuscript; parental keeps the dark
 ## reference colour and edited lines go grey, as in Figure 4B
-COL_N2   <- "#2E4057"
-COL_EDIT <- "grey70"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 FOCAL_DOSE <- 25L
 
 n2_swap_data <- function() {

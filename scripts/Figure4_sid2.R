@@ -105,10 +105,9 @@ LOCALQ  <- "supplemental_data/structure/sid2_local_charge.tsv"
 OVER <- "plots/assets/sid2_overview_charge.png"
 ZOOM <- "plots/assets/sid2_zoom_charge.png"
 
-## the strain colours as defined for this manuscript; do not re-map these
-COL_JU1793 <- "#F34C00"
-COL_JU2466 <- "#40B4AB"
-COL_EDIT   <- "grey70"
+## the strain colours come from the shared palette, which is the only place
+## they are defined; see scripts/figure_palette.R for the reuse rules
+source("scripts/figure_palette.R")
 SSE_COL <- c(Strand = "#4E6E8A", Coil = "#C4D0D8")
 TOPO_COL2 <- c(`Signal peptide` = "grey72", `Extracellular` = "#9EC5DE",
                `TM helix` = "#37474F", `Cytoplasmic` = "grey88")

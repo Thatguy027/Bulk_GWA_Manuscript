@@ -54,7 +54,7 @@ PDB = Path("supplemental_data/structure/sid2_membrane_oriented.pdb")
 OUT = Path("plots/assets")
 OUT.mkdir(parents=True, exist_ok=True)
 
-COL_T96  = "#F34C00"
+COL_T96  = "#D55E00"   # COL_FOCAL in scripts/figure_palette.R -- keep in step
 COL_FUNC = "#16324A"      # histidine mutagenesis (McEwan 2012)
 COL_ALLELE = "#7A4E8C"    # the qt13 loss-of-function allele, D34
 COL_STICK = {"C": "#4A5A66", "N": "#2F6FB5", "O": "#C0392B", "S": "#C9A227"}
