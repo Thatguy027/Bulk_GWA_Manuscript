@@ -174,8 +174,7 @@ TABLES = [
   "glycosylation motif, condition, embryos plated, number unhatched, hatched "
   "fraction. The motif column is what distinguishes the residue-94 and "
   "residue-96 states (NxT, NxK, AxT, AxK) and records that JU2466 appears as two "
-  "isolates, A and B, with the 96T edit made in A. Note that this file calls the "
-  "JU1793 N94A strain wSZ207 where the stock sheet calls it wSZ209.",
+  "isolates, A and B, with the 96T edit made in A.",
   "reciprocal allele-swap strains"),
 
  (20, "sid2_allele_swap_hatching_n2", ["supplemental_data/hatching_assays/n2_allele_swaps_hatching.tsv"],

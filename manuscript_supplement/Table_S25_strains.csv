@@ -32,4 +32,4 @@ QX2574,wSZ204,9_6,edit,qq218,sid-2(qq218[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,g
 QX2575,wSZ205,7_7,edit,qq219,sid-2(qq219[T96K]) N2,N2,,,,,,,N2,CRISPR-Cas9 HDR,gSZ182,oZ446,T96K,Sanger verified
 QX2576,wSZ206,22_1,edit,qq220,sid-2(qq220[K96T]) JU2466,JU2466,,,,,,,JU2466,CRISPR-Cas9 HDR,gSZ182,oZ456,K96T,"Sanger verified, no frameshift; non-clumping"
 QX2577,wSZ208,46_1,edit,qq221,sid-2(qq221[N94A]) JU2466,JU2466,,,,,,,JU2466,CRISPR-Cas9 HDR,gSZ182,oZ491,N94A,Sanger verified (PAM breaker)
-QX2578,wSZ209,2_3,edit,qq222,sid-2(qq222[N94A]) JU1793,JU1793,,,,,,,JU1793,CRISPR-Cas9 HDR,gSZ182,oZ490,N94A,Sanger verified (PAM breaker); the phenotype data calls the JU1793 N94A strain wSZ207 -- see ISSUES
+QX2578,wSZ209,2_3,edit,qq222,sid-2(qq222[N94A]) JU1793,JU1793,,,,,,,JU1793,CRISPR-Cas9 HDR,gSZ182,oZ490,N94A,Sanger verified (PAM breaker)

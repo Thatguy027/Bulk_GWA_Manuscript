@@ -47,21 +47,16 @@ manuscript uses:
   QX2573, QX2574            N2 sid-2(qq218[T96K]), two lines
   (wSZ203, wSZ204)
 
-Three things in this list are unresolved between the lab records.
-The JU1793 N94A strain carries two identifiers: the phenotype data and this
-section call it wSZ207, and ju_allele_swaps_hatching.csv -- the file Figure 4A
-and Figure S10B are drawn from -- has two wSZ207 rows with genotype
-JU1793[94A]. The stock sheet instead calls its JU1793 N94A strain wSZ209 and
-has no wSZ207. Either they are one strain under two names or two N94A lines of
-which one was phenotyped; the designation is attached to the sheet's wSZ209 for
-now.
-Second, wSZ153's breakpoint IS determined, at 12,166,600 by whole-genome
-sequencing, so it does not belong with the marker-bounded lines. Third, the
-sheet records wSZ203
-and wSZ204 as the same isolate, 9_6, with wSZ204 noted as a replicate of
-wSZ203, which is inconsistent with describing them as two INDEPENDENT edits
-here and in the Results; they are given one allele, qq218, until that is
-resolved. See supplemental_data/reagent_table_issues.txt.
+Three notes on the identifiers. The raw plate record labelled the JU1793 N94A
+strain wSZ207, which is unrelated to this work; it is wSZ209, and the deposit
+builder relabels those two rows on the way out
+(scripts/make_supplemental_data.R). wSZ153's introgression breakpoint IS
+determined, at 12,166,600 by whole-genome sequencing, so it does not belong
+with the marker-bounded lines. And the stock sheet records wSZ203 and wSZ204 as
+the same isolate, 9_6, with wSZ204 noted as a replicate of wSZ203, which is
+inconsistent with describing them as two INDEPENDENT edits here and in the
+Results; they carry one allele, qq218, until that is resolved. See
+supplemental_data/reagent_table_issues.txt.
 
 The crossing scheme, the genotyping markers, the guides and the repair
 templates are described in METHODS_CONDENSED.txt under STRAINS, which is the

@@ -127,7 +127,7 @@ edits in JU1793 and JU2466, at **50% *pos-1* RNAi**.
 | column | description |
 |---|---|
 | `experiment` | experiment identifier |
-| `strain` | strain assayed; `wSZ200`, `wSZ206`, `wSZ207`, `wSZ208` are edits |
+| `strain` | strain assayed; `wSZ200`, `wSZ206`, `wSZ208`, `wSZ209` are edits |
 | `genotype` | background and residue-96 allele, e.g. `JU1793[96T]` |
 | `glycosylation motif` | the N94-x-96 sequon state, e.g. `JU1793[NxT]` |
 | `condition` | `pos` or `ht115` |

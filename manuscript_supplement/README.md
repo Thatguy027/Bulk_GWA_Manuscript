@@ -176,7 +176,7 @@ What the 37 kb interval contains: every gene, every difference between the cross
 
 ### Table S19 — `Table_S19_sid2_allele_swap_hatching_ju.csv`
 
-Embryo hatching for the JU1793 and JU2466 sid-2 allele swaps and their parents on pos-1 and control food. Columns: experiment, strain, genotype, glycosylation motif, condition, embryos plated, number unhatched, hatched fraction. The motif column is what distinguishes the residue-94 and residue-96 states (NxT, NxK, AxT, AxK) and records that JU2466 appears as two isolates, A and B, with the 96T edit made in A. Note that this file calls the JU1793 N94A strain wSZ207 where the stock sheet calls it wSZ209.
+Embryo hatching for the JU1793 and JU2466 sid-2 allele swaps and their parents on pos-1 and control food. Columns: experiment, strain, genotype, glycosylation motif, condition, embryos plated, number unhatched, hatched fraction. The motif column is what distinguishes the residue-94 and residue-96 states (NxT, NxK, AxT, AxK) and records that JU2466 appears as two isolates, A and B, with the 96T edit made in A.
 
 **Cite near:** “reciprocal allele-swap strains”
 

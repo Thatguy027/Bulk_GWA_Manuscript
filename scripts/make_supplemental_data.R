@@ -182,6 +182,31 @@ for (i in seq_len(nrow(M))) {
 msg(nrow(M), " files copied: ", round(raw / 1e6, 1), " MB -> ",
     round(out / 1e6, 1), " MB")
 
+## --- one documented correction applied on the way out ----------------------
+## The raw plate record 20260409_ju2466swap_plus_N2A_swap.csv labels the JU1793
+## N94A strain wSZ207. That is a transcription error: wSZ207 is unrelated to
+## this manuscript, and the JU1793 N94A strain is wSZ209 (isolate 2_3) per the
+## stock sheet and the experimenter's own records. The genotype and motif
+## columns of those two rows are unambiguous and already correct --
+## JU1793[94A] and JU1793[AxT] -- so only the identifier moves.
+##
+## The correction is applied HERE rather than in the raw file, so the lab record
+## stays as it was written and the change is visible in code. No figure script
+## keys on the strain identifier for these rows; they select on the motif
+## column, so this relabel changes no figure.
+SWAPF <- file.path(SD, "hatching_assays", "ju_allele_swaps_hatching.csv")
+if (file.exists(SWAPF)) {
+  sw <- readLines(SWAPF)
+  ## field-anchored and fixed: strain is the second column, so ",wSZ207," can
+  ## only be that field and cannot catch a substring of another identifier
+  n_before <- sum(grepl(",wSZ207,", sw, fixed = TRUE))
+  sw <- gsub(",wSZ207,", ",wSZ209,", sw, fixed = TRUE)
+  writeLines(sw, SWAPF)
+  stopifnot(n_before == 2L, !any(grepl("wSZ207", sw, fixed = TRUE)))
+  msg("relabelled wSZ207 -> wSZ209 in ", basename(SWAPF),
+      " (", n_before, " rows); see the note in this script")
+}
+
 ## --- strain order for the bootstrap array ---------------------------------
 ## The array's first dimension is unnamed and its order is the column order of
 ## the 31 MB genotype matrix. Extract the 102 names once so the deposit does
