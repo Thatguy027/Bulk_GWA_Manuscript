@@ -535,7 +535,7 @@ panel_parent_freq_chr3 <- function(b, letter = "B") {
     ## way over the same interval.
     geom_line(aes(y = f_ht_s), linewidth = 0.5, colour = "grey20") +
     annotate("richtext", x = xr[1], y = 0.5, hjust = -0.03, vjust = -0.45,
-             label = "HT115 control", size = TXT_NOTE, colour = "grey20",
+             label = "HT115 control", size = TXT_NOTE, colour = INK_MUTED,
              fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     annotate("richtext", x = xr[2], y = 0.02, hjust = 1.02, vjust = 0,
@@ -682,7 +682,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
              y = min(ROW) - BAR_H2, yend = max(ROW) + BAR_H2,
              linewidth = 0.5, colour = "grey20") +
     annotate("richtext", x = gx(GWIN[2]), y = min(ROW) - 0.42,
-             label = "end of III", size = TXT_SMALL, colour = "grey30",
+             label = "end of III", size = TXT_SMALL, colour = INK_MUTED,
              hjust = 1, vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     ## hatching bars, on their own stretch of the same abstract axis
@@ -706,15 +706,15 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
     ## this panel draws its own axes, so the tick labels and titles take the
     ## sizes a real axis would have -- see scripts/figure_theme.R
     geom_text(data = gen_ticks, aes(x = x, y = y0, label = lab),
-              vjust = 1.6, size = TXT_AXIS, colour = "grey25") +
+              vjust = 1.6, size = TXT_AXIS, colour = INK) +
     geom_text(data = hat_ticks, aes(x = x, y = y0, label = lab),
-              vjust = 1.6, size = TXT_AXIS, colour = "grey25") +
+              vjust = 1.6, size = TXT_AXIS, colour = INK) +
     annotate("richtext", x = gx(mean(GWIN)), y = y0 - 0.42,
-             label = "Chromosome III (Mb)", size = TXT_TITLE, colour = "grey15",
+             label = "Chromosome III (Mb)", size = TXT_TITLE, colour = INK,
              vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     annotate("richtext", x = hx(0.5), y = y0 - 0.42,
-             label = "Embryos hatched", size = TXT_TITLE, colour = "grey15",
+             label = "Embryos hatched", size = TXT_TITLE, colour = INK,
              vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_fill_manual(values = c(JU1793 = COL_JU1793, JU2466 = COL_JU2466),

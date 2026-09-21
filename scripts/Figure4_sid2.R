@@ -118,7 +118,14 @@ panel_title <- function(letter) {
 }
 ## one theme and one type scale for every main figure
 source("scripts/figure_theme.R")
-wrap_md <- function(txt, width = 78)
+## drawn 12.2 inches wide against the 9.6 of Figures 1 and 3, so the point
+## size scales with the canvas -- see base_for_width() in figure_theme.R
+BASE <- base_for_width(12.2)
+## The wrap width has to move with the point size, or a subtitle that fitted at
+## 8.5 pt runs off the panel at 11.6 pt -- which is exactly what scaling the
+## figure to its canvas width did to panel D. 78 characters was right at
+## BASE_SIZE; scale it down by the same factor the type scaled up.
+wrap_md <- function(txt, width = round(78 * BASE_SIZE / BASE))
   paste(strwrap(txt, width = width), collapse = "<br>")
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 
@@ -189,9 +196,9 @@ p_struct <- ggplot() +
   geom_rect(data = key, aes(xmin = xmin, xmax = xmax, ymin = KEY_Y,
                             ymax = KEY_Y + KEY_H), fill = key$col) +
   annotate("text", x = 0, y = KEY_Y - 0.07, hjust = 0, size = TXT_AXIS,
-           colour = "grey30", label = paste0("\u2212", QLIM)) +
+           colour = INK, label = paste0("\u2212", QLIM)) +
   annotate("text", x = KEY_W, y = KEY_Y - 0.07, hjust = 1, size = TXT_AXIS,
-           colour = "grey30", label = paste0("+", QLIM)) +
+           colour = INK, label = paste0("+", QLIM)) +
   annotate("text", x = 0, y = KEY_Y + KEY_H + 0.11, hjust = 0, size = TXT_NOTE,
            colour = "grey30",
            label = "net charge within 12 \u00c5 (e), pH 4.4") +
@@ -200,9 +207,9 @@ p_struct <- ggplot() +
   coord_fixed(ratio = 1, xlim = c(-0.45, TOTAL + 0.1),
               ylim = c(KEY_Y - 0.20, H), expand = FALSE, clip = "off") +
   labs(title = panel_title("C")) +
-  theme_void(base_size = BASE_SIZE) +
-  theme(plot.title = element_markdown(size = BASE_SIZE),
-        plot.subtitle = element_markdown(size = BASE_SIZE - 3, colour = "grey30"),
+  theme_void(base_size = BASE) +
+  theme(plot.title = element_markdown(size = BASE),
+        plot.subtitle = element_markdown(size = BASE - 3, colour = "grey30"),
         plot.title.position = "plot",
         plot.margin = margin(2, 4, 2, 2))
 
@@ -286,7 +293,7 @@ p_ju <- ggplot(df_pos, aes(genotype, p, fill = genotype)) +
             size = 2.7, colour = "grey25") +
   labs(x = NULL, y = "Embryos hatched",
        title = panel_title("A")) +
-  theme_pub() +
+  theme_pub(BASE) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 9),
         plot.margin = margin(t = 4, r = 8, b = 4, l = 6))
 
@@ -337,7 +344,7 @@ p_n2 <- ggplot(n25, aes(line, p, fill = line)) +
                      limits = c(0, 0.60), expand = expansion(0)) +
   labs(x = NULL, y = "Embryos hatched",
        title = panel_title("B")) +
-  theme_pub() +
+  theme_pub(BASE) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 9))
 
 ## ===========================================================================
@@ -492,10 +499,12 @@ pD <- ggplot() +
   scale_y_reverse(breaks = c(1, seq(50, 300, 50)),
                   limits = c(LEN + 6, -16), expand = expansion(0)) +
   labs(x = NULL, y = "SID-2 residue", title = panel_title("D"),
-       subtitle = paste("Left strip: local net charge on panel C's scale,",
-                        "over the modelled ectodomain (21&ndash;188) only")) +
+       ## wrapped, like every other subtitle here -- unwrapped it ran off the
+       ## panel edge once the type scaled with the canvas
+       subtitle = wrap_md(paste("Left strip: local net charge on panel C's scale,",
+                                "over the modelled ectodomain (21&ndash;188) only"))) +
   guides(fill = guide_legend(ncol = 2, byrow = TRUE)) +
-  theme_pub() +
+  theme_pub(BASE) +
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
         axis.line.x = element_blank(),
         legend.position = "bottom", legend.margin = margin(t = -4),

@@ -538,8 +538,7 @@ panel_pos1_manhattan <- function(letter = "C", bare = TRUE, base_size = 11.5) {
            format(sum(gw$neglog10p > BF), big.mark = ","),
            format(sum(gw$neglog10p > EIG), big.mark = ",")))) +
     theme_pub(base_size) +
-    theme(axis.title.y = element_markdown(),
-          axis.text.x = element_text(size = 8))
+    theme(axis.title.y = element_markdown())
 }
 
 ## ===========================================================================

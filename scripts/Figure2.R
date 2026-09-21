@@ -35,6 +35,8 @@ GWAS_EIGEN <- TH$eigen
 source("scripts/figure_palette.R")
 ## one theme and one type scale for every main figure
 source("scripts/figure_theme.R")
+## drawn wider than the other main figures, so the point size scales with it
+BASE <- base_for_width(13)
 
 DROP_FRAC <- 0.05
 
@@ -337,19 +339,18 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
   scale_y_continuous(breaks = seq(-6, 6, 3), labels = abs,
                      limits = c(-ylim_hi, ylim_hi), expand = expansion(mult = 0)) +
   labs(x = "Genomic Position (Mb)", y = "−log<sub>10</sub>*p*") +
-  theme_classic(base_size = 11.5) +
-  theme(strip.background = element_blank(),
-        strip.text = element_text(face = "bold", size = 11.5),
-        panel.spacing.x = grid::unit(5, "pt"),
-        axis.line = element_line(linewidth = 0.3),
-        axis.ticks = element_line(linewidth = 0.3),
-        axis.text.x = element_text(size = 9),
-        axis.title.y = element_markdown(size = 10),
+  ## This figure is drawn 13 inches wide against the 9.6 of Figures 1 and 3, so
+  ## its point sizes are scaled to match once all of them are reduced to a
+  ## column. Everything below is either a Figure-2-only choice or derived from
+  ## BASE; nothing sets a bare point size any more.
+  theme_pub(BASE) +
+  theme(panel.spacing.x = grid::unit(5, "pt"),
+        axis.title.y = element_markdown(size = BASE * 0.87),
         legend.position = "bottom",
         legend.direction = "horizontal",
-        legend.text = element_text(size = 9.5),
+        legend.text = element_text(size = BASE * 0.83),
         legend.key.height = grid::unit(8, "pt"),
-        legend.title = element_text(size = 9.5),
+        legend.title = element_text(size = BASE * 0.83),
         legend.box = "horizontal",
         legend.margin = margin(t = -4),
         plot.margin = margin(8, 10, 4, 8)) +

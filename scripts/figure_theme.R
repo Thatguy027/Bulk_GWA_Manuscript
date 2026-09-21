@@ -29,6 +29,21 @@ TXT_AXIS  <- pt_mm(BASE_SIZE * 0.8)   # matches axis.text, theme_classic's rel(0
 TXT_NOTE  <- pt_mm(BASE_SIZE * 0.7)   # in-panel annotations that sit below the axis
 TXT_SMALL <- pt_mm(BASE_SIZE * 0.6)   # crowded labels: residue names, tick rows
 
+## Colours for text a panel draws itself. In ggplot 4.x axis.text and
+## axis.title both inherit from `text`, which is black -- so a hand-drawn tick
+## label written as grey25 does not match the real axis in the panel beside it,
+## which is what made Figure 3C read grey against 3A and 3B.
+INK       <- "black"     # tick labels and axis titles, as a real axis draws them
+INK_MUTED <- "grey30"    # secondary annotation that should recede
+
+## A figure drawn on a wider canvas has smaller text once both are scaled to
+## the same column width, even at the same point size. Figure 2 is 13 inches
+## wide and Figure 3 is 9.6, so 11.5 pt in one prints about a third smaller than
+## 11.5 pt in the other. base_for_width() keeps the PRINTED size equal by
+## scaling the point size with the canvas, against a 9.6 inch reference.
+REF_WIDTH <- 9.6
+base_for_width <- function(width_in) BASE_SIZE * width_in / REF_WIDTH
+
 theme_pub <- function(base_size = BASE_SIZE) {
   ggplot2::theme_classic(base_size = base_size) +
     ggplot2::theme(
@@ -38,7 +53,10 @@ theme_pub <- function(base_size = BASE_SIZE) {
       axis.line        = ggplot2::element_line(linewidth = 0.3),
       axis.ticks       = ggplot2::element_line(linewidth = 0.3),
       plot.title       = ggtext::element_markdown(size = base_size),
-      plot.subtitle    = ggtext::element_markdown(size = base_size - 3,
+      ## a RATIO, not base_size - 3: an absolute offset changes the subtitle's
+      ## proportion whenever the base moves, which is wrong once the base is
+      ## scaled to the canvas. 0.739 is the old 8.5/11.5.
+      plot.subtitle    = ggtext::element_markdown(size = base_size * 0.739,
                                                   colour = "grey30"),
       plot.title.position = "plot",
       legend.key.size  = grid::unit(9, "pt"))
