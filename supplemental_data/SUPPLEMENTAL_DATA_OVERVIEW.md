@@ -1,9 +1,15 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all twenty-seven manuscript figures, and nothing
-else. **38.2 MB in 46 files.** Verified by deleting `data/` entirely and
-rebuilding: all twenty-seven figures and the three asset builders run from this
-directory alone.
+Every file needed to regenerate all twenty-seven figures this repository builds.
+**53.0 MB in 98 files.** Verified by deleting `data/` entirely and rebuilding: all
+twenty-seven figures and the three asset builders run from this directory alone.
+
+It is no longer only that, which the earlier "and nothing else" claimed. The
+deposit has since taken on the reagent tables, the stock sheet they are built
+from, and alternative fits kept for comparison. The manuscript itself cites
+fifteen of the twenty-seven figures, and the subset supporting those -- renamed
+and numbered in order of the text -- is assembled separately in
+`manuscript_supplement/`, whose README lists what is here but not promoted.
 
 Reproduce with the scripts in `scripts/`, from the repository root:
 

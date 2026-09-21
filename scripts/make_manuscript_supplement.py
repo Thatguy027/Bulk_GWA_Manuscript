@@ -218,13 +218,13 @@ TABLES = [
   "T96K site and its allele assignment.",
   "high-frequency variant in the dsRNA transporter SID-2"),
 
- (25, "strains", ["supplemental_data/Table_S_strains.csv"],
+ (25, "strains", ["supplemental_data/Table_S25_strains.csv"],
   "Every strain constructed for this work: QX designation, lab identifier, "
   "introgression or allele designation, genotype, background, construction route, "
   "guide and repair template used, and verification status.",
   "Methods: NIL Construction"),
 
- (26, "oligonucleotides", ["supplemental_data/Table_S_oligos.csv"],
+ (26, "oligonucleotides", ["supplemental_data/Table_S26_oligonucleotides.csv"],
   "Every oligonucleotide: genotyping primers with their pairings and expected "
   "products, restriction assays, the four sid-2 repair templates and the four "
   "guide RNAs.",

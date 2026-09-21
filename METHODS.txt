@@ -27,8 +27,8 @@ for maintenance.]
 
 Strains constructed for this work are listed in full, with their designations,
 genotypes, parents, construction route and verification status, in
-supplemental_data/Table_S_strains.csv; the oligonucleotides, repair templates
-and guide RNAs are in Table_S_oligos.csv. Both are generated from the stock
+supplemental_data/Table_S25_strains.csv; the oligonucleotides, repair templates
+and guide RNAs are in Table_S26_oligonucleotides.csv. Both are generated from the stock
 sheet by scripts/make_reagent_tables.py. Strains are QX2545-QX2578,
 introgressions qqIR59-qqIR80 and sid-2 alleles qq212-qq223. The ones the
 manuscript uses:

@@ -5,8 +5,14 @@ the Kruglyak-series designations.
     python3 scripts/make_reagent_tables.py
 
     reads   supplemental_data/Strains_Oligos.csv      (the exported stock sheet)
-    writes  supplemental_data/Table_S_strains.csv
-            supplemental_data/Table_S_oligos.csv
+    writes  supplemental_data/Table_S25_strains.csv
+            supplemental_data/Table_S26_oligonucleotides.csv
+
+The S25/S26 numbers are the manuscript's, assigned by
+scripts/make_manuscript_supplement.py, which orders the supplement by first
+mention in the text and puts the reagent tables last because they are cited from
+the Methods. The two trees carry the same names so a file cannot be confused for
+a different version of itself.
             supplemental_data/reagent_table_issues.txt
 
 WHY A SCRIPT. The source sheet is three tables stacked in one CSV with 26
@@ -144,8 +150,8 @@ Written by scripts/make_reagent_tables.py. Each one needs a person, not a script
 """
 
 SRC   = "supplemental_data/Strains_Oligos.csv"
-OUT_S = "supplemental_data/Table_S_strains.csv"
-OUT_O = "supplemental_data/Table_S_oligos.csv"
+OUT_S = "supplemental_data/Table_S25_strains.csv"
+OUT_O = "supplemental_data/Table_S26_oligonucleotides.csv"
 OUT_I = "supplemental_data/reagent_table_issues.txt"
 
 CHRIII_END = 13783801          # data/nil_ranges.bed

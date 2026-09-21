@@ -228,7 +228,7 @@ Every strain constructed for this work: QX designation, lab identifier, introgre
 
 **Cite near:** “Methods: NIL Construction”
 
-*Source in repository:* `supplemental_data/Table_S_strains.csv`  (0.01 MB)
+*Source in repository:* `supplemental_data/Table_S25_strains.csv`  (0.01 MB)
 
 ### Table S26 — `Table_S26_oligonucleotides.csv`
 
@@ -236,7 +236,7 @@ Every oligonucleotide: genotyping primers with their pairings and expected produ
 
 **Cite near:** “CRISPR Design to edit sid-2”
 
-*Source in repository:* `supplemental_data/Table_S_oligos.csv`  (0.00 MB)
+*Source in repository:* `supplemental_data/Table_S26_oligonucleotides.csv`  (0.00 MB)
 
 
 ## Not promoted
