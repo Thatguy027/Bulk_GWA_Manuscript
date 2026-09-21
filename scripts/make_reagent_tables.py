@@ -58,10 +58,23 @@ Written by scripts/make_reagent_tables.py. Each one needs a person, not a script
      - if they are NOT, the manuscript needs correcting, and wSZ205 (isolate 7_7,
        qq219) is the genuinely independent second N2 line already in hand.
 
-2. THE N94A STRAIN NUMBERS DISAGREE WITH METHODS.
-   METHODS.txt:36 lists "wSZ207  JU1793 edited to sid-2 N94A". There is no wSZ207
-   in the stock sheet. The sheet's JU1793 N94A strain is wSZ209 (isolate 2_3),
-   which METHODS does not mention. wSZ207 is absent from the sheet entirely.
+2. THE JU1793 N94A STRAIN HAS TWO LAB IDS, AND THE SHEET IS THE ODD ONE OUT.
+   Corrected after an earlier reading of this that had it backwards. Both IDs are
+   real and each is used by a different record:
+     wSZ207 is what the PHENOTYPE DATA calls it. It carries two rows in
+       supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv with
+       genotype "JU1793[94A]" and motif "JU1793[AxT]", and that file is what
+       Figure 4A and Figure S10B are drawn from. METHODS.txt names wSZ207 for the
+       same reason.
+     wSZ209 (isolate 2_3) is what the STOCK SHEET calls its JU1793 N94A strain,
+       and the sheet has no wSZ207 at all.
+   So the sheet disagrees with the assay data and the manuscript, not the other
+   way round. Either they are one strain under two identifiers -- in which case
+   the sheet should record wSZ207 as an alias -- or two independently recovered
+   N94A lines, only one of which was phenotyped. The tables carry the sheet's
+   wSZ209 as QX2578 with qq222 and flag the alias, because the designation has to
+   attach to a row in the sheet; if they turn out to be two lines, wSZ207 needs
+   its own QX and allele.
 
 3. METHODS MISDESCRIBES wSZ153.
    METHODS.txt:32 groups "wSZ192-wSZ195, wSZ153" as NILs whose "introgression
@@ -185,7 +198,7 @@ DESIGNATIONS = [
  ("wSZ205","QX2575","qq219","edit","N2","",0,0,"","N2","CRISPR-Cas9 HDR","gSZ182","T96K","Sanger verified"),
  ("wSZ206","QX2576","qq220","edit","JU2466","",0,0,"","JU2466","CRISPR-Cas9 HDR","gSZ182","K96T","Sanger verified, no frameshift; non-clumping"),
  ("wSZ208","QX2577","qq221","edit","JU2466","",0,0,"","JU2466","CRISPR-Cas9 HDR","gSZ182","N94A","Sanger verified (PAM breaker)"),
- ("wSZ209","QX2578","qq222","edit","JU1793","",0,0,"","JU1793","CRISPR-Cas9 HDR","gSZ182","N94A","Sanger verified (PAM breaker)"),
+ ("wSZ209","QX2578","qq222","edit","JU1793","",0,0,"","JU1793","CRISPR-Cas9 HDR","gSZ182","N94A","Sanger verified (PAM breaker); the phenotype data calls the JU1793 N94A strain wSZ207 -- see ISSUES"),
 ]
 
 # oligo, type, orientation, pair, target, product, assay, purpose
