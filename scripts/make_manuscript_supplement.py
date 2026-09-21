@@ -32,7 +32,8 @@ import shutil
 import sys
 
 OUT = "manuscript_supplement"
-TEXT = "/tmp/bulk_flat.txt"          # flattened Bulk Paper.pdf, see README
+PDF = "Bulk Paper.pdf"
+TEXT = "/tmp/bulk_flat.txt"          # cache of PDF, re-extracted when stale
 SD = "supplemental_data"
 
 # (number, published stem, source path(s), description, manuscript anchor)
@@ -134,7 +135,7 @@ TABLES = [
   "peak LOD, support interval, parental frequencies either side, rank on its "
   "chromosome, whether the trough separates it from a taller peak, and whether "
   "the other cross calls it by interval overlap or by position.",
-  "Supplemental table X"),
+  "Supplemental table X|Table S14"),
 
  (15, "cross_locus_classification", ["plots/TABLE_cross_qtl_locus_classification.tsv",
    "plots/TABLE_cross_qtl_condition_dfreq.tsv"],
@@ -232,20 +233,53 @@ TABLES = [
 ]
 
 
+def manuscript_text():
+    """Flattened text of the manuscript PDF.
+
+    Re-extracted whenever the cache is missing or older than the PDF, because
+    the manuscript is under revision and a stale cache would validate anchors
+    against superseded prose. /tmp is also cleared between sessions.
+    """
+    if os.path.exists(TEXT) and os.path.exists(PDF) \
+            and os.path.getmtime(TEXT) >= os.path.getmtime(PDF):
+        return open(TEXT).read()
+    if not os.path.exists(PDF):
+        sys.exit(f"missing {PDF}; export the manuscript to it and rerun")
+    try:
+        import pypdf
+    except ImportError:
+        try:
+            import PyPDF2 as pypdf
+        except ImportError:
+            sys.exit("need pypdf (or PyPDF2) to read the manuscript PDF")
+    r = pypdf.PdfReader(PDF)
+    t = re.sub(r"\s+", " ",
+               "\n".join((pg.extract_text() or "") for pg in r.pages))
+    open(TEXT, "w").write(t)
+    print(f"  re-extracted {PDF} -> {TEXT} ({len(r.pages)} pages)")
+    return t
+
+
 def main():
-    if not os.path.exists(TEXT):
-        sys.exit(f"missing {TEXT}: re-extract Bulk Paper.pdf first (see README.md)")
-    text = open(TEXT).read()
+    text = manuscript_text()
 
     # anchors must actually occur in the manuscript, or they are useless
     # An anchor has to be present AND unique, or it cannot be used to find the
     # sentence. Both are build-time errors rather than something to eyeball.
-    missing = [(n, a) for n, _, _, _, a in TABLES
-               if not a.startswith("Methods:") and a not in text]
+    # An anchor may be given as "a|b" where either form is acceptable. Table S14
+    # needs that: its anchor is the "Supplemental table X" placeholder it exists
+    # to replace, so the build would break the moment that edit lands.
+    def variants(a):
+        return [v for v in a.split("|")]
+
+    def count(a):
+        return sum(text.count(v) for v in variants(a))
+
+    checkable = [(n, a) for n, _, _, _, a in TABLES if not a.startswith("Methods:")]
+    missing = [(n, a) for n, a in checkable if count(a) == 0]
     if missing:
         sys.exit("anchors not found in the manuscript text: " + repr(missing))
-    ambiguous = [(n, a, text.count(a)) for n, _, _, _, a in TABLES
-                 if not a.startswith("Methods:") and text.count(a) > 1]
+    ambiguous = [(n, a, count(a)) for n, a in checkable if count(a) > 1]
     if ambiguous:
         sys.exit("anchors that match more than once: " + repr(ambiguous))
 
@@ -283,7 +317,7 @@ def main():
             "file": "; ".join(published),
             "size_MB": f"{nbytes / 1e6:.2f}",
             "description": desc,
-            "manuscript_anchor": anchor,
+            "manuscript_anchor": anchor.split("|")[0],
             "source_in_repo": "; ".join(srcs),
         })
 
