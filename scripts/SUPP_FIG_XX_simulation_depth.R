@@ -80,18 +80,8 @@ TRAIT_COL <- c(
 panel_title <- function(letter)
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")
 
-theme_pub <- function(base_size = 11) {
-  theme_classic(base_size = base_size) +
-    theme(axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          strip.background = element_blank(),
-          strip.text = element_text(face = "bold", size = base_size - 1),
-          plot.title = element_markdown(size = base_size + 0.5),
-          plot.subtitle = element_markdown(size = base_size - 2.5,
-                                           colour = "grey30"),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(9, "pt"))
-}
+## one theme and one type scale; see scripts/figure_theme.R
+source("scripts/figure_theme.R")
 
 DEPTHS <- c(1, 3, 5, 10, 30, 50, 100, 500)
 

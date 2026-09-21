@@ -106,16 +106,8 @@ peak_band <- function() list(
 ## ===========================================================================
 ## theme / facets
 ## ===========================================================================
-theme_pub <- function(base_size = 11.5) {
-  theme_classic(base_size = base_size) +
-    theme(strip.background = element_blank(),
-          strip.text = element_text(face = "bold", size = base_size),
-          panel.spacing.x = grid::unit(5, "pt"),
-          axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(9, "pt"))
-}
+## one theme and one type scale; see scripts/figure_theme.R
+source("scripts/figure_theme.R")
 
 ## no `switch`, so the chromosome strip sits at the TOP of whichever panel shows it
 genome_facets <- function() list(

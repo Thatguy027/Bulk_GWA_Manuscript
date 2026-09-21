@@ -46,16 +46,8 @@ HIS_IDS   <- c(32, 168, 175)
 panel_title <- function(letter)
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")
 
-theme_pub <- function(base_size = 11) {
-  theme_classic(base_size = base_size) +
-    theme(axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size + 0.5),
-          plot.subtitle = element_markdown(size = base_size - 2.5,
-                                           colour = "grey30"),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(8, "pt"))
-}
+## one theme and one type scale; see scripts/figure_theme.R
+source("scripts/figure_theme.R")
 
 chg <- read_tsv(CHG, show_col_types = FALSE)
 q96 <- chg$q_local_pH44[chg$resid == FOCAL]

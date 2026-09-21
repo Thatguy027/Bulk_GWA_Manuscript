@@ -13,12 +13,18 @@
 ## That is how Figure 4C's colourbar labels ended up at 6.3 pt beside axis text
 ## at 9.2 pt in the same figure. Annotation sizes are therefore written as
 ## pt_mm(9.2) or one of the named constants below, never as a bare number.
+##
+## A panel that draws its own axis -- Figure 3C puts two scales side by side in
+## one coordinate system, so it has to -- uses TXT_AXIS for the tick labels and
+## TXT_TITLE for the axis title. That is what makes a hand-drawn axis the same
+## size as a real one in the panel beside it.
 
 BASE_SIZE <- 11.5
 
 ## millimetres for a given point size -- the conversion geom_text wants
 pt_mm <- function(pt) pt / (72.27 / 25.4)
 
+TXT_TITLE <- pt_mm(BASE_SIZE)         # matches axis.title
 TXT_AXIS  <- pt_mm(BASE_SIZE * 0.8)   # matches axis.text, theme_classic's rel(0.8)
 TXT_NOTE  <- pt_mm(BASE_SIZE * 0.7)   # in-panel annotations that sit below the axis
 TXT_SMALL <- pt_mm(BASE_SIZE * 0.6)   # crowded labels: residue names, tick rows

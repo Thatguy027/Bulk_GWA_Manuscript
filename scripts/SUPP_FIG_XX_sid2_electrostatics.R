@@ -111,16 +111,8 @@ panel_title <- function(letter, txt = NULL) {
                "**</span>")
   if (is.null(txt)) lt else paste0(lt, " ", txt)
 }
-theme_pub <- function(base_size = 11) {
-  theme_classic(base_size = base_size) +
-    theme(axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size + 0.5),
-          plot.subtitle = element_markdown(size = base_size - 2.5,
-                                           colour = "grey30"),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(8, "pt"))
-}
+## one theme and one type scale; see scripts/figure_theme.R
+source("scripts/figure_theme.R")
 wrap_md <- function(txt, width = 72)
   paste(strwrap(txt, width = width), collapse = "<br>")
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")

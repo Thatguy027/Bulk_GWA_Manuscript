@@ -64,13 +64,8 @@ source("scripts/figure_palette.R")
 panel_title <- function(letter) {
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")
 }
-theme_pub <- function(base_size = 12) {
-  theme_classic(base_size = base_size) +
-    theme(axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size + 0.5),
-          plot.title.position = "plot")
-}
+## one theme and one type scale; see scripts/figure_theme.R
+source("scripts/figure_theme.R")
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 
 plate <- read_tsv(PLATE, show_col_types = FALSE) %>% rename(plate_score = trait)

@@ -535,15 +535,15 @@ panel_parent_freq_chr3 <- function(b, letter = "B") {
     ## way over the same interval.
     geom_line(aes(y = f_ht_s), linewidth = 0.5, colour = "grey20") +
     annotate("richtext", x = xr[1], y = 0.5, hjust = -0.03, vjust = -0.45,
-             label = "HT115 control", size = 2.6, colour = "grey20",
+             label = "HT115 control", size = TXT_NOTE, colour = "grey20",
              fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     annotate("richtext", x = xr[2], y = 0.02, hjust = 1.02, vjust = 0,
-             label = "JU1793", size = 2.9, colour = "white",
+             label = "JU1793", size = TXT_NOTE, colour = "white",
              fill = NA, label.color = NA, fontface = "bold",
              label.padding = grid::unit(rep(0, 4), "pt")) +
     annotate("richtext", x = xr[2], y = 0.98, hjust = 1.02, vjust = 1,
-             label = "JU2466", size = 2.9, colour = "white",
+             label = "JU2466", size = TXT_NOTE, colour = "white",
              fill = NA, label.color = NA, fontface = "bold",
              label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_x_continuous("Chromosome III (Mb)", expand = expansion(0)) +
@@ -674,7 +674,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                   aes(x = mid, y = max(ROW) + 0.62,
                       label = sprintf("%.3f&ndash;%.3f Mb",
                                       RESOLVED$xmin / 1e6, RESOLVED$xmax / 1e6)),
-                  colour = COL_REGION, size = 2.9, hjust = 0.5,
+                  colour = COL_REGION, size = TXT_NOTE, hjust = 0.5,
                   fill = NA, label.color = NA,
                   label.padding = grid::unit(rep(0, 4), "pt")) +
     ## the chromosome end, named rather than implied
@@ -682,7 +682,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
              y = min(ROW) - BAR_H2, yend = max(ROW) + BAR_H2,
              linewidth = 0.5, colour = "grey20") +
     annotate("richtext", x = gx(GWIN[2]), y = min(ROW) - 0.42,
-             label = "end of III", size = 2.5, colour = "grey30",
+             label = "end of III", size = TXT_SMALL, colour = "grey30",
              hjust = 1, vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     ## hatching bars, on their own stretch of the same abstract axis
@@ -703,16 +703,18 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
              linewidth = 0.3, colour = "grey30") +
     annotate("segment", x = hx(0), xend = hx(1), y = y0, yend = y0,
              linewidth = 0.3, colour = "grey30") +
+    ## this panel draws its own axes, so the tick labels and titles take the
+    ## sizes a real axis would have -- see scripts/figure_theme.R
     geom_text(data = gen_ticks, aes(x = x, y = y0, label = lab),
-              vjust = 1.6, size = 2.6, colour = "grey25") +
+              vjust = 1.6, size = TXT_AXIS, colour = "grey25") +
     geom_text(data = hat_ticks, aes(x = x, y = y0, label = lab),
-              vjust = 1.6, size = 2.6, colour = "grey25") +
+              vjust = 1.6, size = TXT_AXIS, colour = "grey25") +
     annotate("richtext", x = gx(mean(GWIN)), y = y0 - 0.42,
-             label = "Chromosome III (Mb)", size = 3.1, colour = "grey15",
+             label = "Chromosome III (Mb)", size = TXT_TITLE, colour = "grey15",
              vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     annotate("richtext", x = hx(0.5), y = y0 - 0.42,
-             label = "Embryos hatched", size = 3.1, colour = "grey15",
+             label = "Embryos hatched", size = TXT_TITLE, colour = "grey15",
              vjust = 1, fill = NA, label.color = NA,
              label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_fill_manual(values = c(JU1793 = COL_JU1793, JU2466 = COL_JU2466),
@@ -732,7 +734,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
           axis.line.x = element_blank(),
           axis.ticks.y = element_blank(), axis.line.y = element_blank(),
-          axis.text.y = element_text(size = 8.6),
+          axis.text.y = element_text(size = BASE_SIZE * 0.8),
           panel.grid = element_blank(),
           legend.position = "top", legend.margin = margin(t = -4, b = -10))
 }
