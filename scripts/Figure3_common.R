@@ -373,7 +373,9 @@ panel_B <- function(letter = "B") {
                                          xmin / 1e6, xmax / 1e6)),
                   inherit.aes = FALSE,
                   aes(x = mid, y = length(LEVELS) + 0.62, label = lab),
-                  colour = COL_REGION, size = 3, hjust = 0.5, vjust = 0.5,
+                  ## the label reads on white, so it takes ink rather than the
+                  ## band fill, which is deliberately pale
+                  colour = INK_MUTED, size = 3, hjust = 0.5, vjust = 0.5,
                   ## nothing is drawn behind the label any more, so it needs
                   ## no white plate
                   fill = NA, label.color = NA,
@@ -674,7 +676,8 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                   aes(x = mid, y = max(ROW) + 0.62,
                       label = sprintf("%.3f&ndash;%.3f Mb",
                                       RESOLVED$xmin / 1e6, RESOLVED$xmax / 1e6)),
-                  colour = COL_REGION, size = TXT_NOTE, hjust = 0.5,
+                  ## as above: the band fill is too pale to read as text
+                  colour = INK_MUTED, size = TXT_NOTE, hjust = 0.5,
                   fill = NA, label.color = NA,
                   label.padding = grid::unit(rep(0, 4), "pt")) +
     ## the chromosome end, named rather than implied

@@ -36,7 +36,7 @@ source("scripts/figure_palette.R")
 ## one theme and one type scale for every main figure
 source("scripts/figure_theme.R")
 ## drawn wider than the other main figures, so the point size scales with it
-BASE <- base_for_width(13)
+FIG_BASE <- base_for_width(13)
 
 DROP_FRAC <- 0.05
 
@@ -343,14 +343,16 @@ fig <- ggplot(gw, aes(pos.mb, y)) +
   ## its point sizes are scaled to match once all of them are reduced to a
   ## column. Everything below is either a Figure-2-only choice or derived from
   ## BASE; nothing sets a bare point size any more.
-  theme_pub(BASE) +
-  theme(panel.spacing.x = grid::unit(5, "pt"),
-        axis.title.y = element_markdown(size = BASE * 0.87),
+  theme_pub(FIG_BASE) +
+  ## the gutter has to scale with the type or the tick labels either side of
+  ## a facet boundary run together -- "15" and "0" read as "150"
+  theme(panel.spacing.x = grid::unit(FIG_BASE * 0.9, "pt"),
+        axis.title.y = element_markdown(size = FIG_BASE * 0.87),
         legend.position = "bottom",
         legend.direction = "horizontal",
-        legend.text = element_text(size = BASE * 0.83),
+        legend.text = element_text(size = FIG_BASE * 0.83),
         legend.key.height = grid::unit(8, "pt"),
-        legend.title = element_text(size = BASE * 0.83),
+        legend.title = element_text(size = FIG_BASE * 0.83),
         legend.box = "horizontal",
         legend.margin = margin(t = -4),
         plot.margin = margin(8, 10, 4, 8)) +
