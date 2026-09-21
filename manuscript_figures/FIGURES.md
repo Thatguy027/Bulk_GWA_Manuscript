@@ -90,7 +90,14 @@ internal 13.658-13.695 Mb segment that stops short. The shaded band with dotted
 edges is the interval the series resolves, 13.658-13.695 Mb. Right, embryos
 hatched under 50% pos-1 RNAi on the same rows: JU1793 99.4% (n = 179 embryos),
 wSZ196 97.3% (n = 261), wSZ191 79.4% (n = 252), wSZ176 58.5% (n = 272), JU2466
-35.7% (n = 230). Bars are Wilson 95% binomial intervals. The two halves share
+35.7% (n = 230). Bars are Wilson 95% binomial intervals. Brackets in the
+right-hand column are Fisher's exact tests on the hatched/unhatched counts of
+adjacent rows, Holm-corrected over the four comparisons: JU1793 vs wSZ196
+p = 0.150, wSZ196 vs wSZ191 p = 2.0e-10, wSZ191 vs wSZ176 p = 9.4e-07, wSZ176 vs
+JU2466 p = 9.4e-07. The step that adds the resolved interval, wSZ196 to wSZ191,
+separates; the step that adds JU2466 sequence outside it, JU1793 to wSZ196, does
+not. Each strain was scored on a single plate, so these tests compare plates and
+do not separate genotype from plate-to-plate variation. The two halves share
 the row axis and carry separate x scales.
 
 ---

@@ -364,10 +364,29 @@ Right, embryos hatched under 50% pos-1 RNAi on the same rows: JU1793 99.4%
 binomial intervals on that plate's embryo count. The two halves share the row
 axis and carry separate x scales, labelled beneath each.
 
+The brackets in the right-hand column are Fisher's exact tests on the
+hatched/unhatched counts of adjacent rows -- the four steps of the ladder, not
+all ten pairs -- Holm-corrected over those four:
+
+    JU1793 vs wSZ196    raw p = 0.150      Holm p = 0.150
+    wSZ196 vs wSZ191    raw p = 5.1e-11    Holm p = 2.0e-10
+    wSZ191 vs wSZ176    raw p = 3.1e-07    Holm p = 9.4e-07
+    wSZ176 vs JU2466    raw p = 4.6e-07    Holm p = 9.4e-07
+
+The two that matter are the first two. wSZ196 to wSZ191 is the step that adds
+the resolved interval, and it separates by ten orders of magnitude; JU1793 to
+wSZ196 is the step that adds JU2466 sequence OUTSIDE the interval, and it does
+not separate. That pattern, not any single bar height, is the fine-mapping
+argument.
+
 CAVEAT: one plate per strain per condition, so those intervals describe counting
-uncertainty, not between-plate variability, and no strain is replicated -- the
-ordering is an allelic series, not a set of tested contrasts. The HT115 control
-arm and four further NILs are in SUPP_FIG_XX_nil_hatching_full.
+uncertainty, not between-plate variability, and no strain is replicated. The
+Fisher tests inherit the same limit: with one plate each, the 2x2 treats embryos
+on a plate as independent draws and plate is confounded with genotype, so they
+compare two PLATES and cannot be read as a genotype effect net of plate-to-plate
+variation. The HT115 control arm and four further NILs are in
+SUPP_FIG_XX_nil_hatching_full, where every strain hatches 97-100% on HT115 --
+which is what rules out a bad plate as the explanation for any single row.
 
 --------------------------------------------------------------------------------
 FIGURE 3, VARIANTS

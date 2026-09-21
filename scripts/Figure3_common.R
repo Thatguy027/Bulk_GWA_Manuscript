@@ -55,7 +55,10 @@
 ##
 ## CAVEAT: one plate per strain per condition. The intervals in panel C are
 ## Wilson binomial intervals on that single plate's embryo count, so they
-## describe counting uncertainty, not between-plate variability.
+## describe counting uncertainty, not between-plate variability. The same
+## limit applies to the adjacent-step Fisher tests drawn beside those bars:
+## they compare two plates, with plate confounded with genotype, and cannot
+## be read as a genotype effect net of plate-to-plate variation.
 ## ---------------------------------------------------------------------------
 
 suppressPackageStartupMessages({
@@ -591,6 +594,17 @@ HAT_W <- 0.92      # hatching axis width
 ## belonged, and thinning them vertically as well just made them hard to read.
 BAR_H2 <- 0.30
 
+## A COMPARISON COLUMN right of the hatching bars, holding one bracket per
+## adjacent pair of rows with its p-value beside it. It has to be its own
+## column: the bars run to 99%, so there is no free space inside the hatching
+## axis to put a bracket in, and the row gaps are 0.4 row-heights, enough for
+## the label but not for a bracket as well. The four brackets share one x and
+## are shortened at both ends so consecutive ones do not fuse into one line.
+CMP_GAP <- 0.05    # clear of the longest error bar, which reaches hx(1)
+CMP_W   <- 0.22    # bracket plus label, in the same abstract x units
+CMP_TIP <- 0.03    # the horizontal tick at each end, pointing back at the rows
+CMP_IN  <- 0.22    # how far short of each row centre the bracket stops
+
 ## The window trims dead flank on the LEFT only. Its right edge must stay at
 ## the chromosome terminus: wSZ191 stopping short of it, where the others run
 ## to it, is the fine-mapping contrast, and cropping there would remove the
@@ -644,6 +658,45 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                 CI = sprintf("%.3f-%.3f", lo, hi)) %>%
       arrange(desc(hatched))), row.names = FALSE)
   }
+
+  ## --- significance, on the four adjacent steps of the series -------------
+  ## The panel is read as an ordered ladder, so the contrasts that carry the
+  ## argument are the adjacent pairs, not all ten. Fisher exact on each pair's
+  ## hatched/unhatched 2x2 -- the same test Figure4_sid2.R runs on the same
+  ## kind of count -- then Holm over the four, so the column is not four
+  ## uncorrected looks at one experiment.
+  ##
+  ## WHAT THIS TESTS, and it is the header caveat again: one plate per strain,
+  ## so the 2x2 treats embryos on a plate as independent draws and plate is
+  ## confounded with genotype. It asks whether these two PLATES differ, not
+  ## whether these two genotypes differ with between-plate variation accounted
+  ## for. No design here can answer the second question; the caption says so.
+  hcount <- setNames(phen$hatched, phen$strain)
+  ncount <- setNames(phen$n,       phen$strain)
+  fisher_step <- function(s1, s2)
+    fisher.test(matrix(c(hcount[[s1]], ncount[[s1]] - hcount[[s1]],
+                         hcount[[s2]], ncount[[s2]] - hcount[[s2]]),
+                       nrow = 2, byrow = TRUE))$p.value
+  adj <- tibble(lo_s = head(LEVELS, -1), hi_s = tail(LEVELS, -1)) %>%
+    mutate(p_raw = mapply(fisher_step, lo_s, hi_s),
+           p_adj = p.adjust(p_raw, "holm"),
+           y1    = ROW[lo_s],
+           y2    = ROW[hi_s],
+           label = ifelse(p_adj < 0.001, "*p* < 0.001",
+                          sprintf("*p* = %.3f", p_adj)))
+  if (verbose) {
+    cat("\n== adjacent-step Fisher tests, Holm over 4 ==\n")
+    print(as.data.frame(adj %>% transmute(
+      contrast = paste(lo_s, "vs", hi_s),
+      raw_p    = signif(p_raw, 3),
+      holm_p   = signif(p_adj, 3))), row.names = FALSE)
+  }
+  ## pinned, because these two are the fine-mapping claim: the step that adds
+  ## the resolved interval must separate, and the step that adds JU2466
+  ## sequence OUTSIDE it must not.
+  stopifnot(
+    adj$p_adj[adj$lo_s == "wSZ196" & adj$hi_s == "wSZ191"] < 1e-9,
+    adj$p_adj[adj$lo_s == "JU1793" & adj$hi_s == "wSZ196"] > 0.05)
 
   band <- RESOLVED %>% mutate(ymin = min(ROW) - BAR_H2,
                               ymax = max(ROW) + BAR_H2)
@@ -700,6 +753,25 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
     geom_segment(data = phen, aes(x = hx(hi), xend = hx(hi),
                                   y = y - 0.11, yend = y + 0.11),
                  linewidth = 0.4, colour = "grey15") +
+    ## the comparison column: one bracket per adjacent pair, p-value beside it
+    geom_segment(data = adj, inherit.aes = FALSE,
+                 aes(x = hx(1) + CMP_GAP, xend = hx(1) + CMP_GAP,
+                     y = y1 + CMP_IN, yend = y2 - CMP_IN),
+                 linewidth = 0.4, colour = INK_MUTED) +
+    geom_segment(data = adj, inherit.aes = FALSE,
+                 aes(x = hx(1) + CMP_GAP - CMP_TIP, xend = hx(1) + CMP_GAP,
+                     y = y1 + CMP_IN, yend = y1 + CMP_IN),
+                 linewidth = 0.4, colour = INK_MUTED) +
+    geom_segment(data = adj, inherit.aes = FALSE,
+                 aes(x = hx(1) + CMP_GAP - CMP_TIP, xend = hx(1) + CMP_GAP,
+                     y = y2 - CMP_IN, yend = y2 - CMP_IN),
+                 linewidth = 0.4, colour = INK_MUTED) +
+    geom_richtext(data = adj, inherit.aes = FALSE,
+                  aes(x = hx(1) + CMP_GAP + 0.025, y = (y1 + y2) / 2,
+                      label = label),
+                  size = TXT_NOTE, colour = INK_MUTED, hjust = 0, vjust = 0.5,
+                  fill = NA, label.color = NA,
+                  label.padding = grid::unit(rep(0, 4), "pt")) +
     ## two tick rows and two sub-axis titles, annotated because the panel
     ## carries two units on one coordinate
     annotate("segment", x = gx(GWIN[1]), xend = gx(GWIN[2]), y = y0, yend = y0,
@@ -731,7 +803,7 @@ panel_nil_geno_hatch <- function(verbose = TRUE, letter = "C",
                        labels = if (labels) LEVELS else NULL,
                        limits = c(y0 - 0.62, max(ROW) + 0.78),
                        expand = expansion(mult = 0)) +
-    coord_cartesian(xlim = c(0, GEN_W + GAP + HAT_W), clip = "off") +
+    coord_cartesian(xlim = c(0, GEN_W + GAP + HAT_W + CMP_W), clip = "off") +
     labs(x = NULL, y = NULL, title = panel_title(letter)) +
     theme_pub() +
     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
