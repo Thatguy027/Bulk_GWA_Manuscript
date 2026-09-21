@@ -1,5 +1,51 @@
 # Every percentage and confidence interval in the draft, recomputed
 
+## STATUS as of 2026-09-21 — six applied, seven outstanding
+
+Re-verified against the current deposit (`ju_allele_swaps_hatching.csv`,
+`n2_allele_swaps_hatching.tsv`, `nil_series_hatching.tsv`): **every replacement
+below still reproduces exactly**, so nothing here is stale. Checked against the
+draft as exported to `Bulk Paper.pdf` on 21 Sep.
+
+Already applied in the draft — no action:
+
+| item | now reads |
+|---|---|
+| N2 25% dose lower bound | `32.3% (95% CI 26.4-38.7)` (was the decimal-shifted 2.61) |
+| N2 50% dose wording | `6% hatched` (was "unhatched", which inverted the claim) |
+| NIL JU2466 value and upper bound | `35.7% hatched; 95% CI 29.7-42.0%` |
+| JU2466 odds ratio | `4.0-fold` with `95% CI 1.9-8.8` |
+| interaction test | `a 4.08-fold difference between backgrounds ... likelihood ratio p = 0.0049` |
+| possessive | `the strain's hatching rate` |
+
+Still outstanding. Six are the Clopper-Pearson-to-Wilson restatements, one is the
+JU2466 denominator, and one is a casing slip:
+
+| find in the draft | replace with |
+|---|---|
+| `94.8% (95% CI 90.9-97.4)` | `94.8% (95% CI 91.0-97.1)` |
+| `53.1% (95% CI 46.1-60.1)` | `53.1% (95% CI 46.3-59.8)` |
+| `from 4.5% (95% CI 2.8-7.0)` | `from 5.4% (95% CI 3.0-9.4)` |
+| `18.4% (95% CI 13.5-24.2)` | `18.4% (95% CI 13.8-24.1)` |
+| `4.0% (95% CI 2.6-6.0)` | `4.0% (95% CI 2.7-6.0)` |
+| `95% CI 3.2-10.0` | `95% CI 3.5-10.0` |
+| `( Figure 4a )` | `(Figure 4A)` |
+
+The third is the only one that changes a claim rather than an interval: 4.5% pools
+JU2466_A and JU2466_B, but the 96T edit was made in A and the Figure 4A p value is
+the A test. See "Item 3 in detail" below.
+
+METHODS.txt needs no change and did not drift: all eight intervals its EMBRYO
+HATCHING ASSAYS section quotes reproduce on Wilson, and it already carries 5.4%,
+the Wilson bounds and the odds-ratio convention. The figure captions quote no
+intervals -- the figure scripts compute them at plot time -- so they need nothing
+either. The draft prose is the only divergent copy.
+
+There is no editable draft in this repository; the manuscript is maintained in
+Google Docs, so the seven replacements above have to be made there.
+`scripts/check_manuscript_numbers.py` would gate all of this automatically on
+every push if a text export were committed as `MANUSCRIPT.md`.
+
 Audited 2026-09-17 against repository HEAD. Sources: `supplemental_data/hatching_assays/`
 (`ju_allele_swaps_hatching.csv`, `n2_allele_swaps_hatching.tsv`, `nil_series_hatching.tsv`).
 Recomputation in `plots/diagnostics/CACHE_hatching_ci_audit.tsv`.
