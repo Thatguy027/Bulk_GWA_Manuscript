@@ -601,10 +601,13 @@ converging with it at full depth (0.888 against 0.890)
 --------------------------------------------------------------------------------
 GENOME-WIDE ASSOCIATION MAPPING
 --------------------------------------------------------------------------------
-Association mapping used GEMMA with leave-one-chromosome-out kinship. [TO FILL:
-GEMMA version, kinship construction, covariates, minor-allele-frequency and
-genotyping-rate filters as applied at run time.] Result tables are distributed
-as exported CSVs; GEMMA itself is not invoked by any script in this repository.
+Association mapping used GEMMA 0.98.5 with leave-one-chromosome-out kinship,
+run as a Nextflow pipeline. The kinship construction, the PLINK filters, the
+BIMBAM dosage encoding and its missing-genotype consequence, and the model and
+covariate specification are written out in METHODS_CONDENSED.txt under
+GENOME-WIDE ASSOCIATION MAPPING, which is the current text for this section.
+Result tables are distributed as exported CSVs; GEMMA itself is not invoked by
+any script in this repository.
 
 Two panels were mapped:
 
@@ -1586,7 +1589,7 @@ secondary-structure assignment beyond the criterion described above is asserted.
 
 Genotype handling: PLINK v2.00a3 and PLINK v1.90b6.21. Variant annotation:
 bcftools 1.11. Allele counting: GATK ASEReadCounter [TO FILL: version].
-Association mapping: GEMMA [TO FILL: version]. Topology prediction: DeepTMHMM
+Association mapping: GEMMA 0.98.5. Topology prediction: DeepTMHMM
 [TO FILL: version or web-service access date]. Structure prediction: AlphaFold3
 [TO FILL: server or local, version, date].
 

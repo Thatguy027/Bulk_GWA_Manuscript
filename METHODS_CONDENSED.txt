@@ -80,7 +80,17 @@ Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5, 1
 --------------------------------------------------------------------------------
 GENOME-WIDE ASSOCIATION MAPPING
 --------------------------------------------------------------------------------
-Association mapping used GEMMA with leave-one-chromosome-out kinship. [TO FILL: GEMMA version, kinship construction, covariates, minor-allele-frequency and genotyping-rate filters as applied at run time.] Result tables are distributed as exported CSVs; GEMMA is not invoked by any script in this repository. Two panels were mapped: pooled_RNAi_expt, n = 84 strains over 322,010 markers, and pos1_2023, n = 231 strains over 464,045 markers. Manhattan panels were thinned for plotting by binning positions at 10 kb and retaining the maximum -log10 p per bin, which preserves peak height and position exactly.
+Association mapping used GEMMA 0.98.5 with leave-one-chromosome-out (LOCO) kinship, run as a Nextflow pipeline on the CeNDR 20210121 hard-filtered isotype VCF. Result tables are distributed as exported CSVs; GEMMA is not invoked by any script in this repository.
+
+Genotypes were prepared with PLINK, keeping biallelic SNVs at minor allele frequency at or above 0.05 and genotyping rate at or above 90% (--snps-only --biallelic-only --maf 0.05 --geno), and recoded to Oxford format. Both filters were computed across every strain in the phenotype file rather than across the phenotyped subset, so a marker carried by only a few of the mapped strains can still enter the scan. The Oxford genotype probabilities were converted to BIMBAM dosages as 2 x P(alternate homozygote) + P(heterozygote).
+
+ONE CONSEQUENCE OF THAT ENCODING IS WORTH STATING. Oxford format writes an uncalled genotype as three zero probabilities, which the dosage expression turns into 0 -- a reference-homozygous call. GEMMA therefore never sees a missing value and its own missingness filter removes nothing, so the markers retained at up to 10% missingness enter the model with their uncalled genotypes imputed to reference rather than dropped. This substitutes a fabricated genotype for an absent one, and does so most often on the chromosome arms, where the hyper-divergent regions are and where calls fail.
+
+Kinship was the standardised relatedness matrix (GEMMA -gk 2), computed once per chromosome under -loco so that each chromosome's matrix is built from the other five chromosomes only, and cached for reuse across traits. A genome-wide matrix was computed by the same call without -loco; it is not used for the association scans reported here.
+
+Association testing was GEMMA's univariate linear mixed model with the Wald test (-lmm 1), one call per trait per chromosome, each using that chromosome's LOCO matrix (-k) with the marker list (-snps) and annotation (-a) built from the same PLINK output. No covariates were fitted beyond the intercept; relatedness and population structure are carried by the kinship matrix alone. GEMMA drops strains with no value for the trait being mapped, which is how the 231-strain pos-1 panel is analysed from a larger genotype set. Of the markers PLINK retained, the scan tested 464,045, the difference being the mitochondrial contig, which -loco excludes.
+
+Manhattan panels were thinned for plotting by binning positions at 10 kb and retaining the maximum -log10 p per bin, which preserves peak height and position exactly.
 
 --------------------------------------------------------------------------------
 MULTIPLE-TESTING THRESHOLDS
@@ -174,7 +184,7 @@ Analysis and figures: R 4.5.2 with tidyverse 2.0.0, ggplot2 4.0.3, data.table 1.
 
 Structure analysis and rendering: Python 3.13.2 with NumPy 2.4.3, SciPy 1.17.1, Biopython 1.86, Matplotlib 3.10.8 and Pillow 12.1.1. Molecular figures are pLDDT- or secondary-structure-coloured ribbon renders generated with Matplotlib; no molecular graphics package was used.
 
-Genotype handling: PLINK v2.00a3 and v1.90b6.21. Variant annotation: bcftools 1.11. Allele counting: GATK ASEReadCounter [TO FILL: version]. Association mapping: GEMMA [TO FILL: version]. Topology prediction: DeepTMHMM [TO FILL: version or web-service access date]. Structure prediction: AlphaFold3 [TO FILL: server or local, version, date].
+Genotype handling: PLINK v2.00a3 and v1.90b6.21. Variant annotation: bcftools 1.11. Allele counting: GATK ASEReadCounter [TO FILL: version]. Association mapping: GEMMA 0.98.5. Topology prediction: DeepTMHMM [TO FILL: version or web-service access date]. Structure prediction: AlphaFold3 [TO FILL: server or local, version, date].
 
 --------------------------------------------------------------------------------
 DATA AND CODE AVAILABILITY
