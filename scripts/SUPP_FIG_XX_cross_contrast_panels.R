@@ -36,11 +36,9 @@ source("scripts/figure_palette.R")
 
 ## -- colours -----------------------------------------------------------------
 
-## the HT115 vs mig-6 trace: orange is purple's complement in PuOr, so it
-## stays separable from COL_POS under deuteranopia, and it is not blue, which
-## already means "the difference between the two knockdowns"
-
-
+## The three traces take COL_POS (vermillion), COL_MIGR (reddish purple) and
+## COL_MIG (sky blue) from the shared palette. COL_MIGR was an orange chosen as
+## purple's complement in PuOr; orange now means N2, so the palette moved it.
 
 CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
 

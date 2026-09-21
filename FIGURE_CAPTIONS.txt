@@ -174,9 +174,9 @@ under pos-1 RNAi, i.e. resistant.
 
 (C) GEMMA LOCO association scan for that phenotype: 464,045 markers, n = 231
 strains. Grey dashed line is the Bonferroni threshold over every marker
-(-log10 p = 6.97); green dotted line divides alpha by the 1,972 effective
-independent tests (4.60). Markers clearing Bonferroni are red, markers clearing
-only the eigen threshold are green.
+(-log10 p = 6.97); blue dotted line divides alpha by the 1,972 effective
+independent tests (4.60). Markers clearing Bonferroni are black, markers
+clearing only the eigen threshold are blue.
 
   Ten markers clear Bonferroni and 465 clear the eigen threshold. The maximum
   is -log10 p = 8.84 on chromosome IV at 15.323 Mb; eight of the ten lie on
@@ -200,11 +200,11 @@ which are general RNAi-response loci and which are knockdown-specific.
 Mirrored Manhattan of the pooled GWAS on the vst traits: the mig-6 response
 above the axis, the pos-1 response below (n = 84 strains, 322,010 markers).
 Grey dashed lines are the Bonferroni threshold over every marker
-(-log10 p = 6.81); green dotted lines divide alpha by the 732 effective
+(-log10 p = 6.81); blue dotted lines divide alpha by the 732 effective
 independent tests (4.17). Threshold labels are placed in the chromosome I panel.
 
 Arrowheads mark the cross QTL, one per QTL at its peak marker, coloured by
-cross (N2 x XZ1516 teal, JU1793 x JU2466 orange) and directional: mig-6-specific
+cross (N2 x XZ1516 blue, JU1793 x JU2466 orange) and directional: mig-6-specific
 QTL above the axis, the pos-1 response below. The mig-6 arrows are drawn from
 the mig-6-vs-pos-1 contrast and the pos-1 arrows from the HT115-vs-pos-1
 contrast, so each side shows the comparison that isolates the effect it is
@@ -277,7 +277,7 @@ threshold (LOD 3.57) is not drawn; the chromosome III peak is at 13.784 Mb,
 LOD 139.7.
 
 (B) Introgressions carried by the NIL series on the right arm of chromosome III,
-13.60 Mb to the telomere. JU1793 genotype in orange, JU2466 in teal; rows run
+13.60 Mb to the telomere. JU1793 genotype in blue, JU2466 in green; rows run
 JU1793 at the bottom to JU2466 at the top. The shaded band with dotted edges is
 the interval the series resolves, 13.658-13.695 Mb -- the region wSZ191 carries
 and wSZ196 does not.
@@ -314,7 +314,7 @@ distribution the cross was built from.
 
 (B) Parental allele frequency along the right arm of chromosome III, 8 Mb to the
 telomere, in the JU1793 x JU2466 intercross pool under pos-1 RNAi. JU1793's haplotype
-frequency is filled from below in orange and JU2466's above it in teal, so the
+frequency is filled from below in blue and JU2466's above it in green, so the
 two sum to 1 and the panel reads as which parent occupies the pool at each
 position. Frequencies are count-weighted within 50 kb bins -- counts summed and
 the frequency taken from the sums, so depth is respected rather than each marker
@@ -338,7 +338,7 @@ its genotype and its hatching together. Figure S8 draws the same series with
 the names on the rows.
 
 Left, the introgressions on the right arm of chromosome III, 13.635 Mb to the
-telomere, JU1793 genotype in orange and JU2466 in teal. The track is
+telomere, JU1793 genotype in blue and JU2466 in green. The track is
 deliberately the smaller half of the panel and the bars are thin: it carries two
 breakpoints, where the hatching bars carry a five-level series with intervals.
 The window trims dead flank on the LEFT only, leaving ~23 kb proximal to the
@@ -436,7 +436,7 @@ rotated onto the membrane normal so the intestinal lumen is up; the grey slab is
 the bilayer. Colour is the net side-chain charge of all ectodomain residues with
 a C-alpha within 12 A, by Henderson-Hasselbalch at pH 4.4 -- the gut-lumen pH at
 which SID-2 functions -- on a diverging scale saturating at +/- 2 e, red
-negative and blue positive. Left, residues 21-188 of chain A: T96 (orange), the
+negative and blue positive. Left, residues 21-188 of chain A: T96 (vermillion), the
 two lysines that make its pocket, K93 and K132 (blue), and SID-2's three
 extracellular histidines, H32, H168 and H175 (teal), which McEwan et al. 2012
 identified and mutated. Right, the pocket enlarged, with C-alpha distances from
@@ -855,7 +855,7 @@ SUPP_FIG_XX_cross_contrast_panels
 --------------------------------------------------------------------------------
 The expanded view behind Figure 2's compressed tracks. Mirrored pooled GWAS on
 top, then one panel per cross with all three contrasts overlaid: each knockdown
-against the HT115 control -- pos-1 in purple, mig-6 in orange -- and the
+against the HT115 control -- pos-1 in vermillion, mig-6 in reddish purple -- and the
 difference between the two knockdowns in blue. Both HT115 traces high with the
 blue difference flat marks a general RNAi-response locus, the machinery being
 affected whatever the target; one HT115 trace high with blue tracking it marks a
@@ -908,7 +908,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 --------------------------------------------------------------------------------
 Replicate reproducibility of the 2023 pos-1 delta-frequency phenotype. All six
 pairwise comparisons of the four pos-1 replicates, at read-depth cutoff 5, with
-Spearman rho and n on each facet. Dashed line is y = x; red is the fitted slope.
+Spearman rho and n on each facet. Dashed line is y = x; vermillion is the fitted slope.
 
 Depth cutoff 5 is used because it is the cutoff the shipped association traits
 were built from: taking the mean pos-1 delta per strain at cutoff 5 reproduces
@@ -1217,7 +1217,7 @@ docking result.
 
 (A) The ectodomain coloured by residue class, with histidine separated because
 it is the class that titrates between neutral pH and the acidic gut lumen. T96
-in orange; the three uptake-critical histidines of McEwan et al. 2012 (H32,
+in vermillion; the three uptake-critical histidines of McEwan et al. 2012 (H32,
 H168, H175) labelled in dark blue; D34, the qt13 loss-of-function allele, in
 purple, because it is a separate line of evidence and not one of the
 histidines.
@@ -1353,7 +1353,7 @@ that can be argued with.
 
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a Ca within 12 A, at the gut-lumen pH of 4.4, over
-residues 21-188. Grey, all 168 ectodomain residues. Orange line, T96 at +1.24 e,
+residues 21-188. Grey, all 168 ectodomain residues. Vermillion line, T96 at +1.24 e,
 the 82nd percentile (domain median 0.00). Blue dashed line and arrow, T96K at
 +2.24 e, the 98th percentile. Open circles, the three uptake histidines of
 McEwan et al. 2012: H32 at -0.15, H168 at +0.85, H175 at +1.46 e -- H175, the
@@ -1467,7 +1467,7 @@ numbering: grey where the aligned residues are identical, orange where they
 differ, pale where the alignment gaps. 140 positions are identical, 156 differ
 and 15 gap -- 47.3% identity over the 296 aligned pairs. Beneath is the
 DeepTMHMM topology: signal peptide 1-20, extracellular 21-193, transmembrane
-194-211, cytoplasmic 212-311. Purple ticks below that mark the seven positions
+194-211, cytoplasmic 212-311. Reddish-purple ticks below that mark the seven positions
 at which XZ1516 differs from N2 (78, 96, 141, 144, 151, 153 and 209 -- seven of
 the eight curated sites, residue 5 being the only shared one), so XZ1516 carries
 a strongly diverged sid-2 haplotype rather than one variant of interest.
