@@ -95,19 +95,8 @@ titled <- function(letter, txt) {
   paste0(panel_title(letter), "\u2003\u2003", txt)
 }
 
-theme_pub <- function(base_size = 11.5) {
-  theme_classic(base_size = base_size) +
-    theme(strip.background = element_blank(),
-          strip.text = element_text(face = "bold", size = base_size),
-          panel.spacing.x = grid::unit(8, "pt"),
-          axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size),
-          plot.subtitle = element_markdown(size = base_size - 3,
-                                           colour = "grey30"),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(9, "pt"))
-}
+## one theme and one type scale for every main figure
+source("scripts/figure_theme.R")
 
 ## wrap a long subtitle: patchwork will not do it, and an unwrapped one is
 ## silently truncated at the panel edge

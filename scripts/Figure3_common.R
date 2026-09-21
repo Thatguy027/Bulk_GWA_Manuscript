@@ -104,19 +104,8 @@ panel_title <- function(letter) {
   paste0("<span style='font-size:14pt;color:#111111'>**", letter, "**</span>")
 }
 
-theme_pub <- function(base_size = 11.5) {
-  theme_classic(base_size = base_size) +
-    theme(strip.background = element_blank(),
-          strip.text = element_text(face = "bold", size = base_size),
-          ## 4pt was enough on an 11in canvas; at 9.6in the last tick label of
-          ## one chromosome collides with the first of the next
-          panel.spacing.x = grid::unit(8, "pt"),
-          axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(9, "pt"))
-}
+## one theme and one type scale for every main figure
+source("scripts/figure_theme.R")
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 

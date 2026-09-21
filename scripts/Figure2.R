@@ -33,6 +33,8 @@ GWAS_BF    <- TH$bonferroni
 GWAS_EIGEN <- TH$eigen
 ## colours come from the shared palette; see scripts/figure_palette.R
 source("scripts/figure_palette.R")
+## one theme and one type scale for every main figure
+source("scripts/figure_theme.R")
 
 DROP_FRAC <- 0.05
 

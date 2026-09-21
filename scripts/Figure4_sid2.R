@@ -116,16 +116,8 @@ TOPO_COL2 <- c(`Signal peptide` = "grey72", `Extracellular` = "#9EC5DE",
 panel_title <- function(letter) {
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")
 }
-theme_pub <- function(base_size = 11) {
-  theme_classic(base_size = base_size) +
-    theme(axis.line = element_line(linewidth = 0.3),
-          axis.ticks = element_line(linewidth = 0.3),
-          plot.title = element_markdown(size = base_size + 0.5),
-          plot.subtitle = element_markdown(size = base_size - 2.5,
-                                           colour = "grey30"),
-          plot.title.position = "plot",
-          legend.key.size = grid::unit(8, "pt"))
-}
+## one theme and one type scale for every main figure
+source("scripts/figure_theme.R")
 wrap_md <- function(txt, width = 78)
   paste(strwrap(txt, width = width), collapse = "<br>")
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
@@ -196,11 +188,11 @@ p_struct <- ggplot() +
   ## colours untouched -- the failure would look like a result.
   geom_rect(data = key, aes(xmin = xmin, xmax = xmax, ymin = KEY_Y,
                             ymax = KEY_Y + KEY_H), fill = key$col) +
-  annotate("text", x = 0, y = KEY_Y - 0.07, hjust = 0, size = 2.2,
+  annotate("text", x = 0, y = KEY_Y - 0.07, hjust = 0, size = TXT_AXIS,
            colour = "grey30", label = paste0("\u2212", QLIM)) +
-  annotate("text", x = KEY_W, y = KEY_Y - 0.07, hjust = 1, size = 2.2,
+  annotate("text", x = KEY_W, y = KEY_Y - 0.07, hjust = 1, size = TXT_AXIS,
            colour = "grey30", label = paste0("+", QLIM)) +
-  annotate("text", x = 0, y = KEY_Y + KEY_H + 0.11, hjust = 0, size = 2.3,
+  annotate("text", x = 0, y = KEY_Y + KEY_H + 0.11, hjust = 0, size = TXT_NOTE,
            colour = "grey30",
            label = "net charge within 12 \u00c5 (e), pH 4.4") +
   ## a little x padding: the captions are centred under each image and the
@@ -208,9 +200,9 @@ p_struct <- ggplot() +
   coord_fixed(ratio = 1, xlim = c(-0.45, TOTAL + 0.1),
               ylim = c(KEY_Y - 0.20, H), expand = FALSE, clip = "off") +
   labs(title = panel_title("C")) +
-  theme_void(base_size = 11) +
-  theme(plot.title = element_markdown(size = 11.5),
-        plot.subtitle = element_markdown(size = 8.3, colour = "grey30"),
+  theme_void(base_size = BASE_SIZE) +
+  theme(plot.title = element_markdown(size = BASE_SIZE),
+        plot.subtitle = element_markdown(size = BASE_SIZE - 3, colour = "grey30"),
         plot.title.position = "plot",
         plot.margin = margin(2, 4, 2, 2))
 
