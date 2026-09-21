@@ -36,9 +36,9 @@ source("scripts/figure_palette.R")
 
 ## -- colours -----------------------------------------------------------------
 
-## The three traces take COL_POS (vermillion), COL_MIGR (reddish purple) and
-## COL_MIG (sky blue) from the shared palette. COL_MIGR was an orange chosen as
-## purple's complement in PuOr; orange now means N2, so the palette moved it.
+## The traces: HT115 vs pos-1 black, HT115 vs mig-6 COL_MIGR (reddish purple),
+## mig-6 vs pos-1 COL_MIG (sky blue). COL_MIGR was an orange chosen as purple's
+## complement in PuOr; orange now means N2, so the palette moved it.
 
 CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
 
@@ -52,7 +52,10 @@ ROLE_OF  <- c(`ht115 vs pos1` = "response.pos1",
 ROLE_LAB <- c(response.pos1 = "HT115 ; *pos-1*",
               response.mig6 = "HT115 ; *mig-6*",
               specific      = "*mig-6* ; *pos-1*")
-ROLE_COL <- c(response.pos1 = COL_POS, response.mig6 = COL_MIGR,
+## The HT115-vs-pos-1 trace is black here rather than COL_POS: it is the
+## reference contrast the other two are read against, and black says that
+## without spending a hue on it.
+ROLE_COL <- c(response.pos1 = "#111111", response.mig6 = COL_MIGR,
               specific      = COL_MIG)
 
 KEYS <- c("N2xXZ1516 | ht115 vs pos1", "N2xXZ1516 | ht115 vs mig6",

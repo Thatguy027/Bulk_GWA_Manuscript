@@ -76,11 +76,12 @@ COL_96T     <- COL_JU1793   # the JU1793 allele
 COL_96K     <- COL_JU2466   # the JU2466 allele
 
 ## --- structure figures -----------------------------------------------------
-## The focal residue in the SID-2 panels. It used to be JU1793's colour, since
-## the model is the 96T allele, but JU1793 is now blue and would collide with
-## the lysines K93/K132 drawn beside it. Vermillion is Okabe-Ito's emphasis
-## slot; it is also COL_POS, and the two never share a panel.
-COL_FOCAL   <- "#D55E00"   # T96, the residue the figure is about
+## The focal residue in the SID-2 panels. The model is the 96T allele, so this
+## IS JU1793's colour and tracks it. It was briefly vermillion, while JU1793 was
+## blue and would have collided with the lysines K93/K132 drawn beside it; with
+## JU1793 at reddish purple that collision is gone (dE 66 against the lysines,
+## 58 against the histidines, 28 against D34, the nearest of the three).
+COL_FOCAL   <- COL_JU1793   # T96, the residue the figure is about
 
 ## --- mapping annotation -----------------------------------------------------
 COL_PEAK    <- "#CD2626"   # firebrick3: markers clearing Bonferroni

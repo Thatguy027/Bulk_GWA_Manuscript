@@ -72,7 +72,7 @@ SSE_COL = {"H": "#7E9BB5", "E": "#4E6E8A", "C": "#C4D0D8"}
 CHARGE_COL = {"ARG": "#3B6FB6", "LYS": "#3B6FB6", "HIS": "#8E6BAF",
               "ASP": "#C0392B", "GLU": "#C0392B"}
 CHARGE_NEUTRAL = "#D5DCE1"
-COL_MARK = "#D55E00"   # COL_FOCAL in scripts/figure_palette.R -- keep in step
+COL_MARK = "#CC79A7"   # COL_FOCAL in scripts/figure_palette.R -- keep in step
 ## white fill with a dark ring: a filled dark marker disappeared against the
 ## dark ribbon, and any single colour fails somewhere on a coloured surface
 COL_FILL = "#FFFFFF"

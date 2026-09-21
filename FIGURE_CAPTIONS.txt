@@ -445,7 +445,7 @@ the bilayer. Colour is the net side-chain charge of all ectodomain residues with
 a C-alpha within 12 A, by Henderson-Hasselbalch at pH 4.4 -- the gut-lumen pH at
 which SID-2 functions -- on a diverging scale saturating at +/- 2 e, red
 negative and blue positive. Left, residues 21-188 of chain A: T96
-(vermillion), the
+(reddish purple, the JU1793 allele the model carries), the
 two lysines that make its pocket, K93 and K132 (blue), and SID-2's three
 extracellular histidines, H32, H168 and H175 (teal), which McEwan et al. 2012
 identified and mutated. Right, the pocket enlarged, with C-alpha distances from
@@ -864,7 +864,7 @@ SUPP_FIG_XX_cross_contrast_panels
 --------------------------------------------------------------------------------
 The expanded view behind Figure 2's compressed tracks. Mirrored pooled GWAS on
 top, then one panel per cross with all three contrasts overlaid: each knockdown
-against the HT115 control -- pos-1 in vermillion, mig-6 in reddish purple --
+against the HT115 control -- pos-1 in black, mig-6 in reddish purple --
 and the
 difference between the two knockdowns in blue. Both HT115 traces high with the
 blue difference flat marks a general RNAi-response locus, the machinery being
@@ -1228,7 +1228,8 @@ docking result.
 
 (A) The ectodomain coloured by residue class, with histidine separated because
 it is the class that titrates between neutral pH and the acidic gut lumen. T96
-in vermillion; the three uptake-critical histidines of McEwan et al. 2012 (H32,
+in reddish purple; the three uptake-critical histidines of McEwan et al. 2012
+(H32,
 H168, H175) labelled in dark blue; D34, the qt13 loss-of-function allele, in
 purple, because it is a separate line of evidence and not one of the
 histidines.
@@ -1364,7 +1365,7 @@ that can be argued with.
 
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a Ca within 12 A, at the gut-lumen pH of 4.4, over
-residues 21-188. Grey, all 168 ectodomain residues. Vermillion line, T96 at
+residues 21-188. Grey, all 168 ectodomain residues. Reddish-purple line, T96 at
 +1.24 e,
 the 82nd percentile (domain median 0.00). Blue dashed line and arrow, T96K at
 +2.24 e, the 98th percentile. Open circles, the three uptake histidines of

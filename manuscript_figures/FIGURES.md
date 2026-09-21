@@ -124,7 +124,8 @@ rotated onto the membrane normal so the intestinal lumen is up; the grey slab
 is the bilayer. Colour is the net side-chain charge of all ectodomain residues
 with a C-alpha within 12 A, by Henderson-Hasselbalch at the gut-lumen pH of
 4.4, on a diverging scale saturating at +/- 2 e, red negative and blue
-positive. Left, residues 21-188 of chain A, showing T96 (vermillion), the two
+positive. Left, residues 21-188 of chain A, showing T96 (reddish purple, the
+JU1793 allele the model carries), the two
 lysines that make its pocket, K93 and K132 (blue), and the three extracellular
 histidines H32, H168 and H175 (teal). Right, the pocket enlarged, with C-alpha
 distances from T96 to K93 (6.6 A) and K132 (6.8 A).
@@ -278,7 +279,7 @@ have no variance-stabilised value, so n = 84 and ranks are out of 84.
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
 three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
-vermillion and mig-6 in reddish purple, and the difference between the two
+black and mig-6 in reddish purple, and the difference between the two
 knockdowns in
 blue. Both control contrasts high with the blue difference flat marks a locus
 at which both knockdowns respond; one control contrast high with the blue
@@ -381,7 +382,8 @@ higher (p = 4e-20).
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a C-alpha within 12 A, at the gut-lumen pH of
-4.4, across residues 21-188. Grey, all 168 ectodomain residues. The vermillion
+4.4, across residues 21-188. Grey, all 168 ectodomain residues. The
+reddish-purple
 line
 is T96 at +1.24 e, the 82nd percentile against a domain median of 0.00; the
 blue dashed line and arrow mark T96K at +2.24 e, the 98th percentile. Open
