@@ -60,18 +60,30 @@ Written by scripts/make_reagent_tables.py. Each one needs a person, not a script
    Sequences are carried through verbatim. Confirm whether the leading G of
    gSZ177 is part of the target site before anyone orders from this table.
 
-10. THE REPAIR TEMPLATES CARRY NO SILENT BLOCKING CHANGE.
-    Checked, not assumed: oZ446 and oZ456 are both 169 bp and differ at exactly
-    one position, base 76, which is the III:13,680,248 site -- A in oZ446 and C
-    in oZ456, matching the paper's JU1793 C > JU2466 A. That is the good news.
-    The other side of it is that neither template carries an additional silent
-    substitution to stop Cas9 re-cutting a correctly repaired allele. Whether
-    that is why four of the twelve recovered lines carry frameshifts or deletions
-    is for the bench to say, but METHODS.txt:42 asks for repair template design
-    and this is the fact that belongs in that answer. Note separately that N94A
-    is itself described in the sheet as a "PAM BREAKER".
+10. ONLY THE N94A TEMPLATES CARRY A PAM BLOCK.
+    All four templates are 169 bp on one backbone, checked rather than assumed,
+    and the script fails if any of this stops holding. In the +2 reading frame
+    the backbone translates through the N94-C95-T96 sequon the paper names.
+      oZ446/oZ456 differ from each other at exactly one base, 76, the
+      III:13,680,248 site -- A in oZ446, C in oZ456, matching JU1793 C >
+      JU2466 A. Neither carries any other change, so nothing stops Cas9
+      re-cutting a correctly repaired allele.
+      oZ490/oZ491 change bases 69-70 AAC>GCC, which is N94A, and base 83
+      ACC>ACA, which is synonymous and is the PAM block. Each leaves base 76 at
+      its own background's residue 96 -- C (96T) in oZ490, A (96K) in oZ491 --
+      so they remove the glycosylation site without touching 96.
+    That asymmetry is worth stating in METHODS.txt:42: the substitution-only
+    templates had no block and four of twelve recovered lines came back as
+    frameshifts or deletions; the N94A templates had one.
 
-11. SEVENTEEN OF THE 22 INTROGRESSIONS ARE MARKER-BOUNDED, NOT SEQUENCED.
+11. THREE STRAINS ARE LABELLED AS AN EDIT THEIR BACKGROUND ALREADY CARRIES.
+    wSZ197, wSZ198 and wSZ199 are recorded as "JU2466 SID-2[T96K]", but JU2466
+    already carries 96K, so T96K in that background is not a possible edit. The
+    likely reading is that they are failed siblings of wSZ206, the JU2466 K96T
+    line, which would make their repair template oZ456. That is a guess, so
+    repair_template is left blank for those three rather than filled in.
+
+12. SEVENTEEN OF THE 22 INTROGRESSIONS ARE MARKER-BOUNDED, NOT SEQUENCED.
     Only wSZ153, wSZ159, wSZ167, wSZ176, wSZ191 and wSZ196 have WGS breakpoints.
     The rest are bounded by the flanking genotyping markers, and interval_start /
     interval_end for those are marker positions, not breakpoints. The column

@@ -25,23 +25,42 @@ Wild isolates were obtained from the C. elegans Natural Diversity Resource
 husbandry -- growth medium, temperature, bleaching/synchronisation, food source
 for maintenance.]
 
-Strains constructed for this work:
+Strains constructed for this work are listed in full, with their designations,
+genotypes, parents, construction route and verification status, in
+supplemental_data/Table_S_strains.csv; the oligonucleotides, repair templates
+and guide RNAs are in Table_S_oligos.csv. Both are generated from the stock
+sheet by scripts/make_reagent_tables.py. Strains are QX2545-QX2578,
+introgressions qqIR59-qqIR80 and sid-2 alleles qq212-qq222. The ones the
+manuscript uses:
 
-  wSZ176, wSZ191, wSZ196   near-isogenic lines carrying JU2466 introgressions
-                           on a JU1793 background, right arm of chromosome III
-  wSZ192-wSZ195, wSZ153    further NILs from the same series; introgression
-                           breakpoints not determined
-  wSZ200                   JU1793 edited to sid-2 96K
-  wSZ206                   JU2466 edited to sid-2 96T
-  wSZ207                   JU1793 edited to sid-2 N94A
-  wSZ208                   JU2466 edited to sid-2 N94A
-  wSZ203, wSZ204           two independent N2 lines edited to sid-2 96K
+  QX2557, QX2561, QX2566    near-isogenic lines carrying JU2466 introgressions
+  (wSZ176, wSZ191, wSZ196)  on a JU1793 background, right arm of chromosome III;
+                            introgression qqIR71, qqIR75, qqIR80
+  QX2545, QX2552            earlier, larger introgressions in the same series
+  (wSZ153, wSZ167)          (qqIR59, qqIR66)
+  QX2562-QX2565             further NILs from the same series; breakpoints
+  (wSZ192-wSZ195)           bounded by markers only, not sequenced
+  QX2570 (wSZ200)           JU1793 sid-2(qq215[T96K])
+  QX2576 (wSZ206)           JU2466 sid-2(qq220[K96T])
+  QX2578 (wSZ209)           JU1793 sid-2(qq222[N94A])
+  QX2577 (wSZ208)           JU2466 sid-2(qq221[N94A])
+  QX2573, QX2574            N2 sid-2(qq218[T96K]), two lines
+  (wSZ203, wSZ204)
 
-[TO FILL: NIL construction -- crossing scheme, number of backcross
-generations, genotyping markers used to follow the introgression.]
-[TO FILL: genome editing -- method (CRISPR-Cas9 ribonucleoprotein injection,
-repair template design, co-conversion marker), screening, and how many
-independent lines were recovered and outcrossed.]
+Three corrections against earlier drafts of this list, from the stock sheet.
+The JU1793 N94A strain is wSZ209, not wSZ207; no wSZ207 exists in the sheet.
+wSZ153's breakpoint IS determined, at 12,166,600 by whole-genome sequencing, so
+it does not belong with the marker-bounded lines. And the sheet records wSZ203
+and wSZ204 as the same isolate, 9_6, with wSZ204 noted as a replicate of
+wSZ203, which is inconsistent with describing them as two INDEPENDENT edits
+here and in the Results; they are given one allele, qq218, until that is
+resolved. See supplemental_data/reagent_table_issues.txt.
+
+The crossing scheme, the genotyping markers, the guides and the repair
+templates are described in METHODS_CONDENSED.txt under STRAINS, which is the
+current text for this section. [TO FILL: injection method (ribonucleoprotein or
+plasmid), co-conversion marker, concentrations, and how many independent lines
+were recovered and outcrossed.]
 
 --------------------------------------------------------------------------------
 POOLED RNAi COMPETITION EXPERIMENT AND PHENOTYPES

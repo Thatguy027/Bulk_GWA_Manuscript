@@ -105,18 +105,30 @@ Written by scripts/make_reagent_tables.py. Each one needs a person, not a script
    Sequences are carried through verbatim. Confirm whether the leading G of
    gSZ177 is part of the target site before anyone orders from this table.
 
-10. THE REPAIR TEMPLATES CARRY NO SILENT BLOCKING CHANGE.
-    Checked, not assumed: oZ446 and oZ456 are both 169 bp and differ at exactly
-    one position, base 76, which is the III:13,680,248 site -- A in oZ446 and C
-    in oZ456, matching the paper's JU1793 C > JU2466 A. That is the good news.
-    The other side of it is that neither template carries an additional silent
-    substitution to stop Cas9 re-cutting a correctly repaired allele. Whether
-    that is why four of the twelve recovered lines carry frameshifts or deletions
-    is for the bench to say, but METHODS.txt:42 asks for repair template design
-    and this is the fact that belongs in that answer. Note separately that N94A
-    is itself described in the sheet as a "PAM BREAKER".
+10. ONLY THE N94A TEMPLATES CARRY A PAM BLOCK.
+    All four templates are 169 bp on one backbone, checked rather than assumed,
+    and the script fails if any of this stops holding. In the +2 reading frame
+    the backbone translates through the N94-C95-T96 sequon the paper names.
+      oZ446/oZ456 differ from each other at exactly one base, 76, the
+      III:13,680,248 site -- A in oZ446, C in oZ456, matching JU1793 C >
+      JU2466 A. Neither carries any other change, so nothing stops Cas9
+      re-cutting a correctly repaired allele.
+      oZ490/oZ491 change bases 69-70 AAC>GCC, which is N94A, and base 83
+      ACC>ACA, which is synonymous and is the PAM block. Each leaves base 76 at
+      its own background's residue 96 -- C (96T) in oZ490, A (96K) in oZ491 --
+      so they remove the glycosylation site without touching 96.
+    That asymmetry is worth stating in METHODS.txt:42: the substitution-only
+    templates had no block and four of twelve recovered lines came back as
+    frameshifts or deletions; the N94A templates had one.
 
-11. SEVENTEEN OF THE 22 INTROGRESSIONS ARE MARKER-BOUNDED, NOT SEQUENCED.
+11. THREE STRAINS ARE LABELLED AS AN EDIT THEIR BACKGROUND ALREADY CARRIES.
+    wSZ197, wSZ198 and wSZ199 are recorded as "JU2466 SID-2[T96K]", but JU2466
+    already carries 96K, so T96K in that background is not a possible edit. The
+    likely reading is that they are failed siblings of wSZ206, the JU2466 K96T
+    line, which would make their repair template oZ456. That is a guess, so
+    repair_template is left blank for those three rather than filled in.
+
+12. SEVENTEEN OF THE 22 INTROGRESSIONS ARE MARKER-BOUNDED, NOT SEQUENCED.
     Only wSZ153, wSZ159, wSZ167, wSZ176, wSZ191 and wSZ196 have WGS breakpoints.
     The rest are bounded by the flanking genotyping markers, and interval_start /
     interval_end for those are marker positions, not breakpoints. The column
@@ -194,13 +206,40 @@ OLIGOS = [
  ("oZ441","genotyping primer","R","oZ440","III:13,686,395 A>G (JU1793)","","DraI RFLP","chrIII 13.69 Mb marker"),
  ("oZ461","genotyping primer","F","oZ468","III:13,680,248 (sid-2 edit site)","JU1793 440/140/78 bp; JU2466 440/218 bp","HpyCH4IV RFLP","screens the sid-2 96 edits"),
  ("oZ468","genotyping primer","R","oZ461","III:13,680,248 (sid-2 edit site)","JU1793 440/140/78 bp; JU2466 440/218 bp","HpyCH4IV RFLP","screens the sid-2 96 edits"),
- ("oZ446","repair template","","","III:13,680,248","","","installs the JU2466 allele in JU1793 (96T>96K); edited base lower case in the sequence"),
- ("oZ456","repair template","","","III:13,680,248","","","installs the JU1793 allele in JU2466 (96K>96T)"),
+ ("oZ446","repair template","","","III:13,680,248","","","installs the JU2466 allele (96K) on a 96T background; single change, no PAM block"),
+ ("oZ456","repair template","","","III:13,680,248","","","installs the JU1793 allele (96T) on a 96K background; single change, no PAM block"),
+ ("oZ490","repair template","","","III:13,680,231-13,680,248","","","N94A in JU1793, keeping 96T (A-x-T sequon); carries a synonymous PAM block"),
+ ("oZ491","repair template","","","III:13,680,231-13,680,248","","","N94A in JU2466, keeping 96K (A-x-K sequon); carries a synonymous PAM block"),
  ("gSZ169","gRNA","","","III:13,657,684","","","Cas9-induced recombination, wSZ167 -> wSZ176 series"),
  ("gSZ177","gRNA","","","III:13,695,000 (approximate)","","","Cas9-induced recombination, wSZ176 -> wSZ191/wSZ192/wSZ196"),
  ("gSZ179","gRNA","","","III:13,736,877","","","Cas9-induced recombination, wSZ176 -> wSZ193/wSZ194/wSZ195"),
  ("gSZ182","gRNA","","","III:13,680,248","","","cuts at the sid-2 residue-96 site for all point edits"),
 ]
+
+
+# Supplied after the stock sheet was exported, so they have no row in it. Both
+# are 169 bp and share the oZ446/oZ456 backbone. Changes, in the +2 frame:
+# bases 69-70 AAC>GCC is N94A, base 83 ACC>ACA is synonymous and is the PAM
+# block, and base 76 is left at whichever residue-96 allele the background
+# already carries -- 96T for JU1793, 96K for JU2466. That is what makes them a
+# clean sequon test: they remove the glycosylation site without touching 96.
+EXTRA_SEQ = {
+ "oZ490": ("ACGGAACTGCCGCAATTTCGGACCTTAAAAATGTGACATTTATATTGGAGGTCACAACTGACA"
+           "CTAAAgcCTGCACGTTTACaGCTAATTACACCGGATACTTCACTCCGGATCCCAAGAGCAAGC"
+           "CATTTCAGTTAGGATTCGCAAGTGCCACGTTGAACCGAGATAT"),
+ "oZ491": ("ACGGAACTGCCGCAATTTCGGACCTTAAAAATGTGACATTTATATTGGAGGTCACAACTGACA"
+           "CTAAAgcCTGCAaGTTTACaGCTAATTACACCGGATACTTCACTCCGGATCCCAAGAGCAAGC"
+           "CATTTCAGTTAGGATTCGCAAGTGCCACGTTGAACCGAGATAT"),
+}
+
+# which repair template built which edited strain. Blank where the sheet does
+# not say and it cannot be inferred safely -- see ISSUES.
+REPAIR = {
+ "wSZ200": "oZ446", "wSZ201": "oZ446", "wSZ202": "oZ446",
+ "wSZ203": "oZ446", "wSZ204": "oZ446", "wSZ205": "oZ446",
+ "wSZ206": "oZ456",
+ "wSZ208": "oZ491", "wSZ209": "oZ490",
+}
 
 
 def read_source(path):
@@ -243,6 +282,7 @@ def main():
     src_oligos = {r[0] for r in blocks.get("OLIGOS", [])} | \
                  {r[0] for r in blocks.get("gRNAs", [])}
     seq = {r[0]: r[1] for r in blocks.get("OLIGOS", []) + blocks.get("gRNAs", [])}
+    seq.update(EXTRA_SEQ)
     isolate = {r[0]: r[1] for r in blocks.get("STRAINS", [])}
 
     # every source row must be carried over, and nothing invented
@@ -251,17 +291,18 @@ def main():
         f"strain mismatch: only in sheet {sorted(src_strains - named)}, "
         f"only in table {sorted(named - src_strains)}")
     named_o = {o[0] for o in OLIGOS}
-    assert named_o == src_oligos, (
+    assert named_o == src_oligos | set(EXTRA_SEQ), (
         f"oligo mismatch: only in sheet {sorted(src_oligos - named_o)}, "
-        f"only in table {sorted(named_o - src_oligos)}")
+        f"only in table {sorted(named_o - src_oligos - set(EXTRA_SEQ))}")
+    assert all(seq.get(o[0]) for o in OLIGOS), "an oligo has no sequence"
 
     with open(OUT_S, "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["strain", "lab_id", "isolate", "class", "allele", "genotype",
                     "background", "donor", "chrom", "interval_start",
                     "interval_end", "interval_kb", "breakpoint_source",
-                    "derived_from", "construction", "guide_rna", "lesion",
-                    "verification"])
+                    "derived_from", "construction", "guide_rna",
+                    "repair_template", "lesion", "verification"])
         for d in DESIGNATIONS:
             (wsz, qx, allele, cls, bg, donor, start, end, src_,
              parent, method, guide, lesion, verif) = d
@@ -269,7 +310,8 @@ def main():
                         bg, donor, "III" if cls == "NIL" else "",
                         start or "", end or "",
                         f"{(end - start) / 1000:.1f}" if cls == "NIL" else "",
-                        src_, parent, method, guide, lesion, verif])
+                        src_, parent, method, guide, REPAIR.get(wsz, ""),
+                        lesion, verif])
 
     with open(OUT_O, "w", newline="") as fh:
         w = csv.writer(fh)
@@ -289,6 +331,15 @@ def main():
     d = [i for i, (x, y) in enumerate(zip(a, b)) if x.upper() != y.upper()]
     assert d == [75], f"repair templates differ at {d}, expected one site"
     assert a[75].upper() == "A" and b[75].upper() == "C", (a[75], b[75])
+    # and the N94A pair: both knock out the sequon at bases 69-70 (AAC>GCC),
+    # both carry the synonymous block at base 83, and each keeps its own
+    # background's residue 96 -- C (96T) for JU1793, A (96K) for JU2466
+    for name, r96 in (("oZ490", "C"), ("oZ491", "A")):
+        t = seq[name]
+        assert len(t) == 169, (name, len(t))
+        assert t[68:70].upper() == "GC" and b[68:70].upper() == "AA", name
+        assert t[82].upper() == "A" and b[82].upper() == "C", name
+        assert t[75].upper() == r96, (name, t[75])
 
     with open(OUT_I, "w") as fh:
         fh.write(ISSUES)
