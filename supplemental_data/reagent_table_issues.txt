@@ -1,0 +1,79 @@
+Things the stock sheet leaves unresolved, found while building these tables.
+Written by scripts/make_reagent_tables.py. Each one needs a person, not a script.
+
+1. wSZ203 AND wSZ204 ARE RECORDED AS THE SAME ISOLATE.
+   Both carry isolate "9_6" and wSZ204's note is "replicate from above ^^". If
+   they are clonal siblings they share one repair event and therefore ONE allele,
+   which is how the tables name them (both qq218). The manuscript says otherwise:
+   METHODS.txt and the Results both call them "two independently edited lines",
+   and the Figure 4B pooled 4.0% is built from them as two lines (4.4%, n=273 and
+   3.7%, n=295). One of the two records is wrong.
+     - if they ARE independent, wSZ204 becomes qq223, which is deliberately left
+       free so that the split renumbers nothing else.
+     - if they are NOT, the manuscript needs correcting, and wSZ205 (isolate 7_7,
+       qq219) is the genuinely independent second N2 line already in hand.
+
+2. THE N94A STRAIN NUMBERS DISAGREE WITH METHODS.
+   METHODS.txt:36 lists "wSZ207  JU1793 edited to sid-2 N94A". There is no wSZ207
+   in the stock sheet. The sheet's JU1793 N94A strain is wSZ209 (isolate 2_3),
+   which METHODS does not mention. wSZ207 is absent from the sheet entirely.
+
+3. METHODS MISDESCRIBES wSZ153.
+   METHODS.txt:32 groups "wSZ192-wSZ195, wSZ153" as NILs whose "introgression
+   breakpoints [are] not determined". wSZ153's breakpoint IS determined --
+   12,166,600 by WGS, in the sheet and in data/nil_ranges.bed. wSZ192-wSZ195 are
+   correctly described. METHODS also omits wSZ159 and wSZ167, which have WGS
+   breakpoints and are in nil_ranges.bed.
+
+4. FOUR "T96K" STRAINS DO NOT CARRY T96K.
+   wSZ197 complex deletion, wSZ198 frameshift, wSZ199 frameshift, wSZ202
+   deletion. They are named here as the lesions they are (qq212, qq213, qq214,
+   qq217) rather than as sid-2(T96K). None is used in the manuscript. If they are
+   not being kept, they need no allele names at all and the series can start at
+   the first clean edit.
+
+5. A GUIDE USED IN THE SHEET IS NOT IN THE gRNA TABLE.
+   wSZ178 and wSZ179 have isolate IDs "oZ171_1_5" and "oZ171_8_6", whose prefix
+   points at a guide 171, but the sheet's description column says gSZ169 for all
+   four of wSZ176-wSZ179 and no gSZ171 exists in the gRNA block. The tables
+   record gSZ169 as the sheet says. Confirm which guide made wSZ178 and wSZ179.
+
+6. THREE PAIRING TYPOS IN THE SOURCE, CORRECTED HERE.
+   oZ330 was listed as pairing with itself ("pair oZ330"), oZ331 likewise, and
+   oZ371 was labelled "left" when it is the right-hand primer of the oZ370 pair.
+   Corrected to oZ330<->oZ331 and oZ370(F)/oZ371(R).
+
+7. THE oZ370/oZ371 COLUMNS WERE SWAPPED IN THE SOURCE.
+   Every other primer has coordinates under "Prime site" and product sizes under
+   "Expected side". oZ370 and oZ371 have them the other way round. Un-swapped
+   here. The header itself reads "Expected side", which is presumably "size".
+
+8. gSZ177 HAS A COORDINATE AT THE WRONG PRECISION.
+   The sheet gives "chrIII:13.695" where the other guides carry base positions.
+   Carried as 13,695,000 and flagged approximate. It matters because that cut
+   defines the right edge of the 37 kb interval the paper's claim rests on.
+
+9. SEQUENCE CASE IS INCONSISTENT AND MAY BE MEANINGFUL.
+   oZ446 carries a lower-case "a" at the edited base and oZ456 an upper-case "C";
+   gSZ169 is entirely lower case and gSZ177 begins with a capital G that is
+   probably an appended transcription start rather than genomic sequence.
+   Sequences are carried through verbatim. Confirm whether the leading G of
+   gSZ177 is part of the target site before anyone orders from this table.
+
+10. THE REPAIR TEMPLATES CARRY NO SILENT BLOCKING CHANGE.
+    Checked, not assumed: oZ446 and oZ456 are both 169 bp and differ at exactly
+    one position, base 76, which is the III:13,680,248 site -- A in oZ446 and C
+    in oZ456, matching the paper's JU1793 C > JU2466 A. That is the good news.
+    The other side of it is that neither template carries an additional silent
+    substitution to stop Cas9 re-cutting a correctly repaired allele. Whether
+    that is why four of the twelve recovered lines carry frameshifts or deletions
+    is for the bench to say, but METHODS.txt:42 asks for repair template design
+    and this is the fact that belongs in that answer. Note separately that N94A
+    is itself described in the sheet as a "PAM BREAKER".
+
+11. SEVENTEEN OF THE 22 INTROGRESSIONS ARE MARKER-BOUNDED, NOT SEQUENCED.
+    Only wSZ153, wSZ159, wSZ167, wSZ176, wSZ191 and wSZ196 have WGS breakpoints.
+    The rest are bounded by the flanking genotyping markers, and interval_start /
+    interval_end for those are marker positions, not breakpoints. The column
+    breakpoint_source carries this. Three pairs are also indistinguishable at the
+    markers used: wSZ158/wSZ160/wSZ161, and wSZ170/wSZ171.
