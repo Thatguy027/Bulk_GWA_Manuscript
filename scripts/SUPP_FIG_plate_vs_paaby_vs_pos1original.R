@@ -58,7 +58,8 @@ PLATE <- "supplemental_data/phenotypes/plate_scores_pos1.tsv"
 TRAIT <- "supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz"
 PAABY <- "supplemental_data/phenotypes/paaby2015_embryonic_lethality.txt.gz"
 
-COL_PT <- "#2E4057"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 panel_title <- function(letter) {
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")

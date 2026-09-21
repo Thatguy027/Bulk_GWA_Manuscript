@@ -31,16 +31,14 @@ source("scripts/gwas_thresholds.R")
 TH <- gwas_thresholds("pooled_RNAi_expt")
 GWAS_BF    <- TH$bonferroni
 GWAS_EIGEN <- TH$eigen
-COL_THR    <- "grey50"
-COL_EIG    <- "#1A7F5A"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 DROP_FRAC <- 0.05
 
-COL_MIG  <- "#2166AC"   # mig-6 trait
-COL_POS  <- "#7C6A9C"   # pos-1 trait
-COL_PEAK <- "#C4302B"   # significant pooled GWAS peaks
+
 CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
-CROSS_COL <- c(N2xXZ1516 = "#0B7A75", JU1793xJU2466 = "#D57A00")
+
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,

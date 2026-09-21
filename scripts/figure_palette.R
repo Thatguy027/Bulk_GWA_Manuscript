@@ -40,6 +40,24 @@ COL_POS     <- "#D55E00"   # pos-1
 ## --- crosses ----------------------------------------------------------------
 CROSS_COL   <- c(N2xXZ1516 = "#0072B2", JU1793xJU2466 = "#E69F00")
 
+## --- data marks -------------------------------------------------------------
+## COL_PT is the mass of points in a Manhattan or a scatter; COL_PEAK is drawn
+## on top of it, so the two are separated by LIGHTNESS rather than hue -- point
+## size reinforces it (0.4 against 1.2). The old palette separated them by hue,
+## slate against brick red, which is the pairing this palette exists to remove.
+COL_PT      <- "#6E7B85"   # data points; a grey carrying a little of the blue
+COL_FIT     <- "#D55E00"   # regression or fit line over those points
+COL_HIST    <- "#009E73"   # histogram fill
+
+## The mig-6-against-pos-1 contrast. It was #E08214, an orange, which now reads
+## as N2; reddish purple is free in every panel it appears in.
+COL_MIGR    <- "#CC79A7"
+
+## --- allele aliases ---------------------------------------------------------
+## Residue 96 states ARE their parent strains, so they are not separate colours.
+COL_96T     <- COL_JU1793   # the JU1793 allele
+COL_96K     <- COL_JU2466   # the JU2466 allele
+
 ## --- structure figures -----------------------------------------------------
 ## The focal residue in the SID-2 panels. It used to be JU1793's colour, since
 ## the model is the 96T allele, but JU1793 is now blue and would collide with

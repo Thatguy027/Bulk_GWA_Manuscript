@@ -118,7 +118,7 @@ long <- res %>% filter(is.finite(depth)) %>%
 fl <- res %>% filter(!is.finite(depth)) %>%
   pivot_longer(c(PC1, Slope, `Slope, delta`), names_to = "trait", values_to = "rho")
 
-COL <- c(PC1 = "#C4302B", Slope = "#2E4057", `Slope, delta` = "#1A7F5A")
+COL <- c(PC1 = "#D55E00", Slope = "#0072B2", `Slope, delta` = "#009E73")
 theme_set(theme_bw(9) + theme(
   plot.title = element_text(face = "bold", size = 9.5),
   plot.subtitle = element_text(size = 7.6, colour = "grey30"),

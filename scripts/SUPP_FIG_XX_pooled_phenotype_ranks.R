@@ -33,7 +33,7 @@ OUT    <- "plots"
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
 PARENTS <- c("XZ1516", "JU1793", "JU2466")
-COL_HI  <- "#C4302B"
+COL_HI  <- "#D55E00"
 GENES   <- c("mig-6", "pos-1")
 
 v <- read_csv(TRAITS, show_col_types = FALSE)

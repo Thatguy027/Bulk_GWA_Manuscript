@@ -34,7 +34,9 @@ suppressPackageStartupMessages({
 CHG     <- "supplemental_data/structure/sid2_local_charge.tsv"
 OUT     <- "plots"
 
-COL_T96   <- "#F34C00"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
+COL_T96   <- COL_FOCAL   # the residue the figure is about
 COL_BASIC <- "#0B4F9E"
 COL_HIS   <- "#1B7F79"
 QLIM      <- 2                     # matches the renderer's colour saturation

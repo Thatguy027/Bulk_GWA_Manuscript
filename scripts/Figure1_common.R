@@ -71,12 +71,8 @@ BPRED <- file.path(BAUGH, "baugh_bootstrap_array.rda")
 BCACHE<- file.path(BAUGH, "cache_boot_slopes.rds")
 FCACHE<- file.path(BAUGH, "cache_boot_freq.rds")
 
-COL_PT   <- "#2E4057"   # the point colour used by the 2023 pos-1 figures
-COL_FIT  <- "#C4302B"
-COL_PEAK <- "#C4302B"
-COL_THR  <- "grey50"
-COL_EIG  <- "#1A7F5A"
-COL_HIST <- "#69B3A2"   # the histogram fill the legacy figure used
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,

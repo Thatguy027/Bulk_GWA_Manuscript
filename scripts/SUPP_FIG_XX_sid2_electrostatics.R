@@ -62,11 +62,13 @@ PH_NEUTRAL <- 7.4          # body/cytosol reference
 PH_LUMEN   <- 4.4          # C. elegans intestinal lumen, the pH used by the
                            # earlier stage4 analysis
 
-COL_JU1793 <- "#F34C00"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 COL_FUNC   <- "#16324A"   # the uptake histidines
 COL_ALLELE <- "#7A4E8C"   # the qt13 allele, D34 -- same purple as Figure 4C
-COL_WT     <- "#2E4057"
-COL_MUT    <- "#F34C00"
+## 96T is JU1793 and 96K is JU2466, so these are the strain colours
+COL_WT     <- COL_JU1793
+COL_MUT    <- COL_JU2466
 
 CLASS_COL <- c(`Basic (Arg, Lys)` = "#3B6FB6", `His` = "#8E6BAF",
                `Acidic (Asp, Glu)` = "#C0392B", `Other` = "#D5DCE1")

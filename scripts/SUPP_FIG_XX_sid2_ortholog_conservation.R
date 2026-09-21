@@ -90,13 +90,18 @@ X_RNAI <- length(WIN) + 2.8    # the sensitivity column
 
 COL_ID   <- "#7E9BB5"   # matches C. elegans
 COL_DIFF <- "#EDE7DC"   # does not
-COL_FOC  <- "#9E4257"   # the sequon columns
-COL_KEEP <- "#1A7F5A"
-COL_LOST <- "#B03A2E"
-COL_RNAI <- c(sensitive = "#1A7F5A", `weakly sensitive` = "#9CC5A1",
-              insensitive = "#B03A2E")
-COL_MOTIF <- c(NxT = "#2E4057", AxT = "#1A7F5A",
-               NxK = "#B03A2E", AxK = "#E08A3C")
+COL_FOC  <- "#CC79A7"   # the sequon columns
+COL_KEEP <- "#009E73"
+COL_LOST <- "#D55E00"
+## an ORDERED scale, and it used to run green -> pale green -> red, which is the
+## pairing a red-green deficiency cannot resolve. Blue to orange is the axis
+## that survives every deficiency and greyscale.
+COL_RNAI <- c(sensitive = "#0072B2", `weakly sensitive` = "#92C5DE",
+              insensitive = "#D55E00")
+## the four sequon states: residue 96 sets the hue family (T blue, K orange),
+## residue 94 sets the lightness within it (N dark, A light)
+COL_MOTIF <- c(NxT = "#0072B2", AxT = "#56B4E9",
+               NxK = "#D55E00", AxK = "#E69F00")
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 panel_title <- function(letter, txt = NULL) {

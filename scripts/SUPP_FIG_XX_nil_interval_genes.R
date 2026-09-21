@@ -32,7 +32,8 @@ suppressPackageStartupMessages({
 MAP <- "supplemental_data/mapping"
 OUT <- "plots"
 FROM <- 13657700; TO <- 13695000
-COL_JU1793 <- "#F34C00"; COL_JU2466 <- "#40B4AB"; COL_REGION <- "#4D4D4D"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 
 genes <- read_tsv(file.path(MAP, "nil_interval_genes.tsv"), show_col_types = FALSE)

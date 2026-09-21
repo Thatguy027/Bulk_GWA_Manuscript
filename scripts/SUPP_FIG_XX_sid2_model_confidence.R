@@ -37,7 +37,8 @@ CARTOON <- "plots/assets/sid2_cartoon_plddt.png"
 ZOOM <- "plots/assets/sid2_zoom_plddt.png"
 OUT <- "plots"
 
-COL_FOCAL <- "#F34C00"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 PLDDT_COL <- c(`very low (<50)` = "#FF7D45", `low (50-70)` = "#FFDB13",
                `confident (70-90)` = "#65CBF3", `very high (>90)` = "#0053D6")
 
@@ -154,7 +155,7 @@ pub_ii <- pub |> arrange(d_ca) |> mutate(y = c(15.6, 10.8, 13.2, 10.8))
 
 p_ii <- ggplot(ecd, aes(d_ca_t96)) +
   annotate("rect", xmin = -Inf, xmax = 20, ymin = -Inf, ymax = Inf,
-           fill = "#F34C00", alpha = 0.055) +
+           fill = COL_FOCAL, alpha = 0.055) +
   geom_histogram(binwidth = 2, boundary = 0, fill = "grey78",
                  colour = "white", linewidth = 0.25) +
   geom_vline(xintercept = 20, colour = COL_FOCAL, linewidth = 0.4) +

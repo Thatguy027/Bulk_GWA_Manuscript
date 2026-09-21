@@ -77,7 +77,7 @@ OUT <- "plots"
 E_ORTH <- 1e-5
 ECD <- c(21, 193)
 
-COL_ORTH <- "#2E4057"    # cleared the ortholog threshold
+COL_ORTH <- "#0072B2"    # cleared the ortholog threshold
 COL_NO   <- "#B8C2CA"    # did not
 COL_FOC  <- "#9E4257"    # the sequon positions
 N_PROTEIN <- 1239391     # 488,718 UniProt + 750,673 CGP v2

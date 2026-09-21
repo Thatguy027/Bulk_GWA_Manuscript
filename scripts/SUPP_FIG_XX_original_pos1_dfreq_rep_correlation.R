@@ -75,9 +75,8 @@ DIR   <- "supplemental_data/phenotypes"
 OUT   <- "plots"
 DEPTH <- 5
 
-COL_PT   <- "#2E4057"
-COL_FIT  <- "#C4302B"
-COL_PEAK <- "#C4302B"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,

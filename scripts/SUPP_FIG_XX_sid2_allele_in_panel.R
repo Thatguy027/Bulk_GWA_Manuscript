@@ -49,10 +49,8 @@ PLINK <- "supplemental_data/genotypes/sid2_region"
 SITE  <- 13680248L
 GENE  <- c(13679000, 13682000)   # sid-2, for the panel B window
 
-COL_96T <- "#F34C00"   # the JU1793 allele
-COL_96K <- "#40B4AB"   # the JU2466 allele
-COL_PT  <- "#2E4057"
-COL_THR <- "grey50"; COL_EIG <- "#1A7F5A"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 KNOWN <- tribble(~strain, ~allele,
                  "JU1793", "96T", "N2", "96T",

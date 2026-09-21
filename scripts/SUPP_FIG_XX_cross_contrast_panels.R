@@ -31,20 +31,19 @@ source("scripts/gwas_thresholds.R")
 TH <- gwas_thresholds("pooled_RNAi_expt")
 GWAS_BF    <- TH$bonferroni
 GWAS_EIGEN <- TH$eigen
-COL_THR    <- "grey50"
-COL_EIG    <- "#1A7F5A"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 ## -- colours -----------------------------------------------------------------
-COL_MIG  <- "#2166AC"   # mig-6 trait, and the mig-6 vs pos-1 contrast
-COL_POS  <- "#7C6A9C"   # pos-1 trait, and the HT115 vs pos-1 contrast
+
 ## the HT115 vs mig-6 trace: orange is purple's complement in PuOr, so it
 ## stays separable from COL_POS under deuteranopia, and it is not blue, which
 ## already means "the difference between the two knockdowns"
-COL_MIGR <- "#E08214"
-COL_PEAK <- "#C4302B"   # the significant pooled GWAS peaks and their window
+
+
 
 CROSS_LAB <- c(N2xXZ1516 = "N2 × XZ1516", JU1793xJU2466 = "JU1793 × JU2466")
-CROSS_COL <- c(N2xXZ1516 = "#0B7A75", JU1793xJU2466 = "#D57A00")
+
 
 ## the two contrasts, given one meaning each regardless of the order the two
 ## exports happen to write them in

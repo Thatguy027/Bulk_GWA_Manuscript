@@ -44,7 +44,7 @@ COL_DIFF <- "#A85B18"   # differs
 COL_GAP  <- "#E4E0D8"
 COL_HIS  <- "#1B6C7A"   # the implicated histidines
 COL_FOCAL<- "#9E4257"   # T96 / N94
-COL_XZ   <- "#6A5A8C"   # XZ1516 differs from N2
+COL_XZ   <- "#CC79A7"   # XZ1516 differs from N2; COL_XZ in figure_palette.R
 
 ## ---- annotated residues ---------------------------------------------------
 ANN <- tribble(

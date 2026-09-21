@@ -91,12 +91,13 @@ TRAIT <- "vst_ctrl_pos-1_T2"
 SUPPORT_WIN <- 1e5     # the admission rule's neighbourhood, +/- 100 kb
 
 COL_MAJ <- "#B8C2CA"   # the common allele
-COL_MIN <- "#2E4057"   # the minor allele, which is the resistant one here
-COL_PT  <- "#2E4057"
-COL_OK  <- "#1A7F5A"   # admitted by the interval rule
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
+COL_MIN <- "#0072B2"   # the minor allele, which is the resistant one here
+COL_OK  <- "#009E73"   # admitted by the interval rule
 COL_NO  <- "#B03A2E"   # discarded by it
 COL_LD_LO <- "#EEF2F5"
-COL_LD_HI <- "#2E4057"
+COL_LD_HI <- "#0072B2"
 
 ## the interval work's LD criterion, for scale: every pair here is far below it
 LD_INTERVAL_R2 <- 0.7

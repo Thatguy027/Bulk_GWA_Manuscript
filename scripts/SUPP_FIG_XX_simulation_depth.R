@@ -65,15 +65,17 @@ SFQ <- file.path(DEC, "simulation_seeded_frequencies.tsv.gz")
 stopifnot(file.exists(R2), file.exists(FRQ), file.exists(FIT),
           file.exists(SR2), file.exists(SFQ))
 
-## a muted qualitative set; seven traits need seven distinguishable hues
+## seven traits need seven distinguishable hues, and the previous set ran
+## teal -> green -> olive -> gold -> rust -> wine -> purple, which collapses to
+## about three under deuteranopia. Seven of the eight Okabe-Ito hues instead.
 TRAIT_COL <- c(
-  `PC1`                  = "#1B6C7A",
-  `value`                = "#3E8E5A",
-  `amsacrine_f.L1`       = "#7A9A3B",
-  `assay_norm`           = "#C08A2E",
-  `etoposide_median.TOF` = "#B5623C",
-  `Albendazole_q75.TOF`  = "#9E4257",
-  `mtDNA_ratio`          = "#6A5A8C")
+  `PC1`                  = "#0072B2",
+  `value`                = "#009E73",
+  `amsacrine_f.L1`       = "#56B4E9",
+  `assay_norm`           = "#E69F00",
+  `etoposide_median.TOF` = "#D55E00",
+  `Albendazole_q75.TOF`  = "#CC79A7",
+  `mtDNA_ratio`          = "#999999")
 
 panel_title <- function(letter)
   paste0("<span style='font-size:13pt;color:#111111'>**", letter, "**</span>")

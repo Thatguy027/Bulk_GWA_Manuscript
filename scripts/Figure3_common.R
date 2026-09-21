@@ -73,10 +73,8 @@ SCAN <- paste0("supplemental_data/mapping/",
 POOL <- "supplemental_data/phenotypes/pooled_vst_traits.csv.gz"
 
 ## the strain colours as defined for this figure; do not re-map these
-COL_JU1793 <- "#F34C00"
-COL_JU2466 <- "#40B4AB"
-COL_THR    <- "grey50"
-COL_REGION <- "#4D4D4D"   # the interval the NIL series resolves
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,

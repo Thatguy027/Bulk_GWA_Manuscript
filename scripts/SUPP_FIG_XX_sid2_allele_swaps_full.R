@@ -63,8 +63,9 @@ SWAP   <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
 RIBBON <- "plots/assets/sid2_ecd_ribbon_plddt.png"
 AFDIR  <- "supplemental_data/structure/sid2_alphafold_confidences"
 
-COL_PT   <- "#2E4057"
-COL_MARK <- "#C4302B"
+## colours come from the shared palette; see scripts/figure_palette.R
+source("scripts/figure_palette.R")
+COL_MARK <- COL_FOCAL
 PLDDT <- c(`Very high (>90)` = "#0053D6", `Confident (70-90)` = "#65CBF3",
            `Low (50-70)` = "#FFDB13", `Very low (<50)` = "#FF7D45")
 TOPO_COL <- c(`Signal peptide` = "grey72", `Extracellular` = "#9EC5DE",
