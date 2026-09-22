@@ -114,6 +114,40 @@ Unpack it over the repository root; the paths in the archive match the paths in
 `.gitignore`, so files land where the scripts expect them and git continues to
 ignore them.
 
+## Third-party genotype data: cited, not redeposited
+
+Two of the largest inputs are not this study's data. They are public CaeNDR
+releases, so the deposit cites them and ships
+`scripts/fetch_cendr_genotypes.sh`, which downloads the releases and rebuilds
+both derived files with the exact commands originally used. That keeps about
+25 GB of someone else's data out of the deposit without costing a reader
+anything but bandwidth.
+
+| derived file | built from | how |
+|---|---|---|
+| `data/genotypes/CeNDR20210121_Plink/{I..X}.{bed,bim,fam}` | CaeNDR **20210121** `WI.20210121.hard-filter.isotype.vcf.gz` (8.28 GB, 540 isotypes) | PLINK v1.90b6.21, `--allow-extra-chr --biallelic-only --snps-only --set-missing-var-ids @:# --output-missing-genotype 9 --make-bed`, per chromosome |
+| `bcsq.vcf.gz` (path from `$CENDR_BCSQ`) | CaeNDR **20231213** `WI.20231213.hard-filter.isotype.vcf.gz`, WormBase WS276 reference, Ensembl 112 GFF3 | `bcftools csq -Oz --ncsq 32 --phase a` (bcftools 1.11) |
+
+Neither command was written down when it was first run. The PLINK options came
+out of the `.log` beside each fileset and the `csq` options out of the VCF
+header, so both are recovered provenance rather than reconstruction. The `csq`
+command is verified: a 20 kb window around *sid-2*, pulled from the release
+over HTTP and re-annotated, reproduces the shipped BCSQ strings exactly. The
+PLINK step asserts the per-chromosome variant counts instead (2,917,997 markers
+over 540 isotypes in total), since checking it fully means downloading the
+whole release.
+
+Two notes on size. The original PLINK directory is 6.5 GB, of which **5.9 GB is
+`.ped`/`.map`** — text duplicates of the binary filesets that no script reads;
+the fetch script omits them unless asked for with `--with-text`. And the
+20210121 source VCFs are no longer on the analysis machine, so this script is
+now the only route back to that panel.
+
+Citation for both releases: CaeNDR, the *Caenorhabditis* Natural Diversity
+Resource (https://caendr.org), releases 20210121 and 20231213. Cite the
+resource paper and the release dates in the manuscript's data availability
+statement.
+
 ## To deposit
 
 [TO FILL: Dryad DOI and the date of deposit.]
