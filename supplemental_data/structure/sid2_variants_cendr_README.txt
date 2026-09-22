@@ -1,5 +1,5 @@
 sid-2 protein-altering variants with CeNDR allele frequencies
-generated 2026-09-04 by scripts/sid2_variant_table.R
+generated 2026-09-21 by scripts/sid2_variant_table.R
 
 Annotation: bcftools csq (BCSQ), restricted to variants segregating among
 the four cross parents N2, XZ1516, JU1793 and JU2466.

@@ -80,9 +80,15 @@ if (nrow(bad)) {
 msg("allele orientation matches BCSQ for all ", nrow(d), " variants")
 
 ## --- protein-altering only, with residue and a display label --------------
-## aa_change looks like "96T>96K", or "151A>151I;151A>151T" when a variant hits
-## more than one transcript. Parse the first record for the residue and the
-## reference amino acid, then collapse the distinct alternate amino acids.
+## aa_change looks like "96T>96K", or "151A>151I;151A>151T" when bcftools csq
+## emitted more than one record for the site. It is NOT two transcripts -- an
+## earlier version of this comment said that and was wrong. csq is
+## haplotype-aware, so a SNP whose codon holds a SECOND segregating SNP gets one
+## record per combination, all on the one transcript ZK520.2.1. See HAPLO below.
+##
+## The LABEL keeps both residues ("A151I/T") because both really occur in the
+## population. The per-strain CELL must not: a strain carries one haplotype and
+## therefore one residue, and HAPLO resolves which.
 parse_aa <- function(s) {
   parts <- str_split(s, ";")[[1]]
   m <- str_match(parts, "^(\\d+)([A-Za-z*])>(\\d+)([A-Za-z*])$")
@@ -168,6 +174,43 @@ print(as.data.frame(ld %>% filter(r2 > 0.2) %>%
         transmute(variant_a, variant_b, r = round(r, 3), r2 = round(r2, 3))),
       row.names = FALSE)
 
+## --- sites where the residue depends on a second SNP in the same codon -----
+## bcftools csq annotates on haplotypes, so one site here carries two records:
+##
+##   $ bcftools query -r III:13680412 -f '%INFO/BCSQ\n' <CeNDR bcsq.vcf.gz>
+##   missense|sid-2|ZK520.2.1|protein_coding|+|151A>151I|13680412G>A+13680413C>T,
+##   missense|sid-2|ZK520.2.1|protein_coding|+|151A>151T|13680412G>A
+##
+## One transcript. A strain carrying 13680412 ALONE has 151T; a strain carrying
+## it together with 13680413 has 151I. Across the CeNDR isotypes, 78 carry it
+## alone and 51 carry both, which is why the population label keeps "I/T".
+## The partner site is not in `v` -- on its own it is synonymous, so it never
+## reaches the protein-altering set -- and is extracted separately here.
+HAPLO <- tibble(pos = 13680412L, partner = 13680413L,
+                partner_alt = "T", aa_alone = "T", aa_with = "I")
+stopifnot(setequal(v$pos[str_detect(v$label, "/")], HAPLO$pos))
+
+writeLines(paste0("III:", HAPLO$partner), paste0(stem, "_p.snps"))
+stp <- system2("plink2",
+               c("--bfile", PLINK, "--extract", paste0(stem, "_p.snps"),
+                 "--export", "A", "--out", paste0(stem, "_pgt"),
+                 "--allow-extra-chr"),
+               stdout = TRUE, stderr = TRUE)
+if (!file.exists(paste0(stem, "_pgt.raw"))) {
+  cat(stp, sep = "\n"); stop("plink2 produced no partner .raw")
+}
+praw  <- read_tsv(paste0(stem, "_pgt.raw"), show_col_types = FALSE)
+pcols <- grep("^III:", names(praw), value = TRUE)
+ppos  <- as.integer(sub("_.*", "", sub("III:", "", pcols)))
+pcols <- pcols[order(match(ppos, HAPLO$partner))]
+pdose <- as.matrix(praw[, pcols, drop = FALSE]); rownames(pdose) <- praw$IID
+pcount <- sub(".*_", "", pcols)
+pflip  <- pcount != HAPLO$partner_alt
+if (any(pflip)) pdose[, pflip] <- 2 - pdose[, pflip]
+msg("  partner sites: ", paste(HAPLO$partner, collapse = " "),
+    " | counted ", paste(pcount, collapse = " "),
+    if (any(pflip)) " | flipped to ALT dosage" else "")
+
 ## amino acid carried by each parent: ALT dosage 2 -> alt residue, 0 -> ref
 aa_ref <- str_match(str_split(v$aa_change, ";") %>% map_chr(1),
                     "^\\d+([A-Za-z*])>")[, 2]
@@ -175,10 +218,23 @@ aa_alt <- v %>% pull(label) %>% str_replace("^[A-Za-z*]\\d+", "")
 pget <- function(strain) {
   if (!strain %in% rownames(alt_dose)) return(rep(NA_character_, nrow(v)))
   d <- alt_dose[strain, ]
-  ifelse(is.na(d), NA_character_, ifelse(d == 2, aa_alt, aa_ref))
+  ## resolve the two-residue site from this strain's own partner genotype,
+  ## so the cell is the residue the strain carries, never the collapsed pair
+  a <- aa_alt
+  for (i in seq_len(nrow(HAPLO))) {
+    j  <- which(v$pos == HAPLO$pos[i])
+    pd <- if (strain %in% rownames(pdose)) pdose[strain, i] else NA_real_
+    a[j] <- if (is.na(pd)) NA_character_
+            else if (pd == 2) HAPLO$aa_with[i] else HAPLO$aa_alone[i]
+  }
+  ifelse(is.na(d), NA_character_, ifelse(d == 2, a, aa_ref))
 }
 for (sn in PARENTS) v[[paste0(tolower(sn), "_aa")]] <- pget(sn)
 v$parents_differ <- v$ju1793_aa != v$ju2466_aa
+## a cell holding "I/T" would mean a strain was shown carrying two residues at
+## once; that was the bug this HAPLO block exists to prevent
+stopifnot(!any(str_detect(
+  unlist(v[paste0(tolower(PARENTS), "_aa")]), "/"), na.rm = TRUE))
 
 cat("\n== allele carried by each cross parent ==\n")
 print(as.data.frame(v %>% transmute(label, residue,

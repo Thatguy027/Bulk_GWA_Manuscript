@@ -148,8 +148,13 @@ term in that comparison. Callouts are evenly spaced and joined to their residue
 by a leader, because four of the eight fall between residues 141 and 153 and
 would overlap at true scale. Eight protein-altering variants are annotated, at
 frequencies from 0.009 to 0.470: V5L 0.015, D78A 0.009, T96K 0.453, M141V
-0.009, Q144P 0.009, A151I/T 0.195, P153T 0.470, L209M 0.195. Only two of them
-differ between the cross parents, V5L and T96K. T96K is in near-complete
+0.009, Q144P 0.009, A151I/T 0.195, P153T 0.470, L209M 0.195. A151I/T carries
+two residues in its name because the residue-151 codon holds a second
+segregating change: isotypes carrying the annotated variant alone encode 151T
+(78 isotypes) and those carrying it together with the neighbouring change
+encode 151I (51), so the variant is named for both while each strain's column
+gives the single residue that strain carries. Only two of the eight differ
+between the cross parents, V5L and T96K. T96K is in near-complete
 linkage disequilibrium with P153T across the wild population (r-squared 0.935),
 but both cross parents carry 153T, so P153T does not segregate in this cross.
 Immediately left of the topology bar, the column headed "Net charge" gives the

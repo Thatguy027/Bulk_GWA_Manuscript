@@ -507,7 +507,19 @@ there is a structure to measure charge in; the remainder of the protein is left
 blank rather than filled with a zero that would read as neutral. Eight
 protein-altering variants are annotated, at frequencies from 0.009 to 0.470:
 V5L 0.015, D78A 0.009, T96K 0.453, M141V 0.009, Q144P 0.009, A151I/T 0.195,
-P153T 0.470, L209M 0.195. Callout rows are evenly spaced and joined to the
+P153T 0.470, L209M 0.195.
+
+A151I/T is the one label carrying two alternate residues, and it is not an
+ambiguous genotype. bcftools csq annotates on haplotypes, and the residue-151
+codon holds a second segregating SNP at III:13,680,413, so the one site gets two
+records on the one transcript ZK520.2.1: 151A>151I for the haplotype carrying
+both changes, 151A>151T for the haplotype carrying III:13,680,412 alone. Across
+CeNDR 78 isotypes carry it alone and 51 carry both, which is why the LABEL keeps
+both residues. The per-strain COLUMNS do not: sid2_variant_table.R reads each
+strain's genotype at the partner site and prints the residue that strain
+actually carries, and asserts that no column ever holds the collapsed pair. All
+four cross parents are homozygous reference at the partner site, so XZ1516 --
+the only one of the four carrying the residue-151 variant at all -- is 151T. Callout rows are evenly spaced and joined to the
 residue by a leader rather than sitting at the residue's own height, because
 four of the eight fall between residues 141 and 153 and overlap completely at
 true scale.
