@@ -122,6 +122,29 @@ lysines that make its pocket, K93 and K132 (blue), and the three extracellular
 histidines H32, H168 and H175 (teal). Right, the pocket enlarged, with C-alpha
 distances from T96 to K93 (6.6 A) and K132 (6.8 A).
 
+(D) sid-2 coding variation across the wild population. The protein runs
+vertically with residue 1 at the top and its DeepTMHMM topology drawn as a
+filled bar. Each protein-altering variant is called out to the right with its
+CeNDR allele frequency, followed by three columns giving the allele state in
+JU1793, JU2466 and XZ1516. The first two are the parents of the cross mapped
+here, and rows where they differ are shaded; XZ1516, the parent of the second
+mapping cross, is given for reference and is not shaded, because it is not a
+term in that comparison. Callouts are evenly spaced and joined to their residue
+by a leader, because four of the eight fall between residues 141 and 153 and
+would overlap at true scale. Eight protein-altering variants are annotated, at
+frequencies from 0.009 to 0.470: V5L 0.015, D78A 0.009, T96K 0.453, M141V
+0.009, Q144P 0.009, A151I/T 0.195, P153T 0.470, L209M 0.195. Only two of them
+differ between the cross parents, V5L and T96K. T96K is in near-complete
+linkage disequilibrium with P153T across the wild population (r-squared 0.935),
+but both cross parents carry 153T, so P153T does not segregate in this cross.
+Immediately left of the topology bar, the column headed "Net charge" gives the
+local net charge at each residue on exactly the ramp and limits used in (C), so
+the two panels can be read against one another; it spans residues 21-188, the
+extent of the modelled ectodomain, and the rest of the protein is left blank
+rather than filled with a zero that would read as neutral. The annotation is
+not an exhaustive catalogue: 81 variants of any kind segregate across the 3 kb
+span in CeNDR, of which these eight are protein-altering.
+
 ## Figure S1
 NNLS deconvolution recovers simulated strain frequencies, and the sequencing
 depth it requires depends on the trait.
@@ -187,6 +210,18 @@ the y axis is its leakage, the mean frequency it is assigned across the nine
 libraries of the three sets it is not in. Grey squares are bin medians and
 points are coloured by the strain's own set. Leakage rises with
 nearest-neighbour identity (Spearman rho = +0.326, p = 1.4e-05, n = 170).
+
+(E) Recovered against designed fraction of set B. The titration is a two-fold
+doubling series of set B against a fixed 1 uL of set C, made up to 10 uL with
+water; the two stocks measured 100 and 99.9 ng/uL, so the mass fraction equals
+the volume fraction to within 2.5e-4. Point area is the volume of set B
+pipetted. Recovery tracks the design with Pearson r = 0.997 and RMSE 0.038 in
+fraction units: designed 0.091, 0.167, 0.286, 0.444, 0.616, 0.762 and 0.865
+against recovered 0.171, 0.209, 0.285, 0.478, 0.620, 0.771 and 0.843. There are
+no replicate dilutions, so pipetting error is unreplicated and enters in full;
+the largest deviation is at the first step (+0.080), whose 0.1 uL of set B is
+the hardest volume in the series to pipette, and dropping that step halves the
+error to RMSE 0.024.
 
 ## Figure S3
 The sequencing-depth requirement at two levels of aggregation, on a shared y

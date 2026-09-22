@@ -485,7 +485,13 @@ charge-matched controls (T96R, T96Q) rather than a result.
 (D) sid-2 coding variation in the wild population. The protein runs vertically
 with residue 1 at the top and its DeepTMHMM topology as a filled bar; each
 protein-altering variant is called out to the right with its CeNDR allele
-frequency, then two columns give the JU1793 and JU2466 allele state.
+frequency, then three columns give the allele state in JU1793, JU2466 and
+XZ1516. The first two are this cross's parents and rows where they differ are
+shaded; XZ1516 is the parent of the second mapping cross, carried for reference
+and deliberately left outside the shading, since the shading means "segregates
+in JU1793 x JU2466" and XZ1516 is not in that cross. N2's allele is in the same
+source table (supplemental_data/structure/sid2_variants_cendr.tsv) and can be
+added as a fourth column if the second cross is ever discussed here.
 
 Immediately left of the topology bar is a column headed "Net charge", with a
 minus and a plus marking its ends, giving the LOCAL NET CHARGE at each residue

@@ -42,7 +42,8 @@ MANIFEST = [
     ("Figure 3",  "Figure3_quad",                                  "Figure3_quad.pdf",
      "Fig 3A cross parents in the pooled assay; 3B chrIII allele frequency in the F2 pool; 3C NIL series"),
     ("Figure 4",  "Figure4_sid2",                                  "Figure4_sid2.pdf",
-     "Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge"),
+     "Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge; "
+     "4D sid-2 coding variation across the wild population"),
     ("Figure S1", "SUPP_FIG_XX_simulation_depth",                  "SUPP_FIG_XX_simulation_depth",
      "NNLS recovery against sequencing depth, seven traits"),
     ("Figure S2", "SUPP_FIG_XX_dilution_validation",               "SUPP_FIG_XX_dilution_validation",
@@ -96,6 +97,48 @@ def lint_caption(label: str, cap: str) -> list[str]:
                 out.append(f"{label}: {why} -- {m.group(0)!r} in: {ln.strip()[:88]}")
                 break
     return out
+
+
+# Panel letters the generating script draws, against panel letters the caption
+# describes. Figure 4 shipped for a while with a panel D that no caption
+# mentioned: the figure drew it, FIGURE_CAPTIONS.txt described it, and
+# MANUSCRIPT_CAPTIONS.txt -- the file FIGURES.md is built from -- did not, so
+# the gap was invisible to every existing check.
+PANEL_RE = re.compile(r'panel_title\(\s*"([A-Z])"')
+SOURCE_RE = re.compile(r'source\(\s*"(scripts/[A-Za-z0-9_]+\.R)"')
+
+
+def panels_drawn(base: str) -> set[str]:
+    """Panel letters the script for `base` draws, following its source() calls."""
+    start = ROOT / "scripts" / f"{base}.R"
+    if not start.exists():
+        return set()
+    seen: set[Path] = set()
+    letters: set[str] = set()
+    stack = [start]
+    while stack:
+        f = stack.pop()
+        if f in seen or not f.exists():
+            continue
+        seen.add(f)
+        txt = f.read_text()
+        letters |= set(PANEL_RE.findall(txt))
+        stack += [ROOT / m for m in SOURCE_RE.findall(txt)]
+    return letters
+
+
+def lint_panels(label: str, base: str, cap: str) -> list[str]:
+    """A panel the figure draws but the shipped caption never names.
+
+    Only for multi-panel figures: a single-panel figure draws no letter at all,
+    and a script that builds several figures can define letters it does not use
+    in this one, so this reports a MISSING description, never a spare one.
+    """
+    drawn = panels_drawn(base)
+    if len(drawn) < 2:
+        return []
+    return [f"{label}: draws panel ({L}) but the caption never describes it"
+            for L in sorted(drawn) if f"({L})" not in cap]
 
 
 def caption_blocks(path: Path) -> list[tuple[str, str]]:
@@ -235,17 +278,23 @@ def main() -> int:
     print(f"\nwrote {OUT.relative_to(ROOT)}/  "
           f"({n} figures, FIGURES.md, MANIFEST.tsv)")
 
-    lint = []
-    for label, _, _, _, cap, _ in resolved:
+    lint, gaps = [], []
+    for label, base, _, _, cap, _ in resolved:
         lint += lint_caption(label, cap)
+        gaps += lint_panels(label, base, cap)
     if lint:
         print(f"\nCAPTION LINT -- {len(lint)} line(s) carry repo-internal references.")
         print("Captions ship verbatim, so these reach whoever you send FIGURES.md to.")
         print(f"Fix them in {CLEAN.name} and re-run; this script will not edit prose.")
         for msg in lint:
             print(f"  {msg}")
-    else:
-        print("\ncaption lint: clean")
+    if gaps:
+        print(f"\nPANEL COVERAGE -- {len(gaps)} panel(s) drawn but not described.")
+        print(f"The panel is in the figure a reader gets; add it to {CLEAN.name}.")
+        for msg in gaps:
+            print(f"  {msg}")
+    if not lint and not gaps:
+        print("\ncaption lint: clean; every drawn panel is described")
     return 0
 
 

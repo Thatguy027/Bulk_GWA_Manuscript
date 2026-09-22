@@ -2,7 +2,7 @@ label	source	png	pdf	cited_as
 Figure 1	Figure1_pos1	Figure_1.png	Figure_1.pdf	Fig 1A MIP-seq vs NNLS; 1B pos-1 response across 231 isolates; 1C pilot GWAS
 Figure 2	Figure2	Figure_2.png	Figure_2.pdf	nine-target pooled GWAS with cross-QTL arrowheads
 Figure 3	Figure3_quad	Figure_3.png	Figure_3.pdf	Fig 3A cross parents in the pooled assay; 3B chrIII allele frequency in the F2 pool; 3C NIL series
-Figure 4	Figure4_sid2	Figure_4.png	Figure_4.pdf	Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge
+Figure 4	Figure4_sid2	Figure_4.png	Figure_4.pdf	Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge; 4D sid-2 coding variation across the wild population
 Figure S1	SUPP_FIG_XX_simulation_depth	Figure_S1.png	Figure_S1.pdf	NNLS recovery against sequencing depth, seven traits
 Figure S2	SUPP_FIG_XX_dilution_validation	Figure_S2.png	Figure_S2.pdf	inferred against designed pool ratios, r = 0.997
 Figure S3	SUPP_FIG_XX_downsample_per_sample	Figure_S3.png	Figure_S3.pdf	agreement with MIP-seq under read downsampling

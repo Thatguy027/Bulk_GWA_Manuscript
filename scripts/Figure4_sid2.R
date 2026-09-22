@@ -365,6 +365,8 @@ msg("panel D: wild variation")
 stopifnot(file.exists(VAR))
 vr <- read_tsv(VAR, comment = "#", show_col_types = FALSE) %>%
   mutate(focal = label == "T96K")
+stopifnot(all(c("ju1793_aa", "ju2466_aa", "xz1516_aa") %in% names(vr)),
+          !any(is.na(vr$xz1516_aa)))
 msg("  JU1793 vs JU2466 differ at ", sum(vr$parents_differ), " of ", nrow(vr),
     " sites: ", paste(vr$label[vr$parents_differ], collapse = ", "))
 pr2 <- read_tsv(PERRES2, show_col_types = FALSE) %>%
@@ -402,7 +404,12 @@ chg <- read_tsv(LOCALQ, show_col_types = FALSE) %>%
 ## rather than filled with a zero that would read as "neutral here".
 CHG_RANGE <- range(chg$resid)
 stopifnot(nrow(chg) == 168, CHG_RANGE[1] == 21, CHG_RANGE[2] == 188)
-X_P1 <- 3.16; X_P2 <- 3.62      # the two cross-parent columns
+## Three allele columns. X_P1/X_P2 are the parents of the cross this figure is
+## about; X_P3 is XZ1516, the parent of the OTHER mapping cross, carried here
+## for reference. It sits outside the highlight band on purpose -- the band
+## marks sites that segregate in JU1793 x JU2466, and XZ1516 is not in that
+## cross, so shading it would claim something the panel is not testing.
+X_P1 <- 3.16; X_P2 <- 3.62; X_P3 <- 4.08
 ## Callout rows are evenly spaced down the panel and joined to the residue
 ## by a leader, rather than sitting at the residue's own height: four of the
 ## eight variants fall between residues 141 and 153 and their labels and
@@ -456,9 +463,11 @@ pD <- ggplot() +
                 size = 2.7, hjust = 0, vjust = 0.5, fill = NA,
                 label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## the allele each cross parent carries. Rows where they differ are banded,
-  ## which is the whole point of the two columns: only two of the eight
-  ## protein-altering variants segregate in this cross.
+  ## the allele each strain carries. Rows where the two CROSS PARENTS differ
+  ## are banded, which is the whole point of the first two columns: only two of
+  ## the eight protein-altering variants segregate in this cross. XZ1516 is
+  ## drawn plain, outside the band, because it is reference rather than a term
+  ## in that comparison.
   geom_rect(data = vr %>% filter(parents_differ),
             aes(xmin = X_P1 - 0.22, xmax = X_P2 + 0.22,
                 ymin = row - 11, ymax = row + 11),
@@ -475,13 +484,17 @@ pD <- ggplot() +
                 size = 2.9, hjust = 0.5, vjust = 0.5, fill = NA,
                 label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
+  geom_richtext(data = vr, aes(X_P3, row, label = xz1516_aa),
+                colour = "grey45", size = 2.9, hjust = 0.5, vjust = 0.5,
+                fill = NA, label.color = NA,
+                label.padding = grid::unit(rep(0, 4), "pt")) +
   ## column headers, in the margin reserved above residue 1
   geom_richtext(data = tibble(
-      x = c(mean(X_CHG), mean(X_FRQ), X_P1, X_P2), y = -7,
-      lab = c("Net charge", "CeNDR frequency", "JU1793", "JU2466"),
-      col = c("grey30", "grey30", COL_JU1793, COL_JU2466)),
+      x = c(mean(X_CHG), mean(X_FRQ), X_P1, X_P2, X_P3), y = -7,
+      lab = c("Net charge", "CeNDR frequency", "JU1793", "JU2466", "XZ1516"),
+      col = c("grey30", "grey30", COL_JU1793, COL_JU2466, COL_XZ)),
       aes(x, y, label = lab),
-      colour = c("grey30", "grey30", COL_JU1793, COL_JU2466),
+      colour = c("grey30", "grey30", COL_JU1793, COL_JU2466, COL_XZ),
       size = 2.6, hjust = 0.5, vjust = 0.5, fill = NA, label.color = NA,
       label.padding = grid::unit(rep(0, 4), "pt")) +
   ## The ends of the charge column, so it reads as a scaled quantity rather than
@@ -493,16 +506,16 @@ pD <- ggplot() +
             aes(x, y, label = lab), size = 2.6, colour = "grey45",
             hjust = 0.5, vjust = 0.5) +
   scale_fill_manual(values = TOPO_COL2, name = NULL) +
-  scale_x_continuous(limits = c(X_CHG[1] - 0.04, X_P2 + 0.30),
+  scale_x_continuous(limits = c(X_CHG[1] - 0.04, X_P3 + 0.30),
                      expand = expansion(0)) +
   ## 311 dropped from the breaks: it collided with the 300 tick
   scale_y_reverse(breaks = c(1, seq(50, 300, 50)),
                   limits = c(LEN + 6, -16), expand = expansion(0)) +
-  labs(x = NULL, y = "SID-2 residue", title = panel_title("D"),
-       ## wrapped, like every other subtitle here -- unwrapped it ran off the
-       ## panel edge once the type scaled with the canvas
-       subtitle = wrap_md(paste("Left strip: local net charge on panel C's scale,",
-                                "over the modelled ectodomain (21&ndash;188) only"))) +
+  ## No subtitle: what it said -- that the left strip is panel C's charge
+  ## scale over the modelled ectodomain, residues 21-188 only -- is in the
+  ## caption, and on the panel it was a third line of prose competing with the
+  ## callouts for the reader's eye.
+  labs(x = NULL, y = "SID-2 residue", title = panel_title("D")) +
   guides(fill = guide_legend(ncol = 2, byrow = TRUE)) +
   theme_pub(FIG_BASE) +
   theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
