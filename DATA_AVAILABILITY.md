@@ -148,6 +148,44 @@ Resource (https://caendr.org), releases 20210121 and 20231213. Cite the
 resource paper and the release dates in the manuscript's data availability
 statement.
 
+## Inputs that live outside this repository
+
+19 scripts read absolute paths outside the repository tree, so a deposit
+built from `data/` alone would not reproduce everything. Each was traced to the
+files actually read. The totals below are what is read, not what the containing
+directory holds -- the difference is usually large.
+
+| external source | what is actually read | size read | in the deposit |
+|---|---|---|---|
+| CaeNDR release **20210121** | the whole release, converted to the PLINK panel | 8.3 GB | **cited**; `scripts/fetch_cendr_genotypes.sh plink` |
+| CaeNDR release **20231213** | the whole release, annotated to `bcsq.vcf.gz` | 8.3 GB | **cited**; `scripts/fetch_cendr_genotypes.sh bcsq` |
+| `bulkGWAS/xqtl_analysis/NJX_rnai/plots/` | 3 contrast tables, `JU2466_XZ1516_F2-2_contrast_{pos1-par1,pos1-mig6,mig6-par1}_10000_plot_DF.tsv` | 472 MB | **included** |
+| `bulkGWAS/baugh_wgs/cluster_data/` | `20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData` | 30 MB | **included** |
+| `bulkGWAS/traits_with_validated_qtl/` | 6 trait tables | 36 KB | **included** |
+| `github_repos/xQTLSims/data/` | `geneticMapXQTLsnplist.rds` | 1.2 MB | **included**, and the repository cited |
+| `Genomics_Data/CeNDR/expression/` | `Ce207expression.csv`, `ce207_qtl.tsv` | 91 MB | third party — **cited** |
+| `Genomics_Data/Annotations/` | `c_elegans.PRJNA13758.WS283.csq.gff3.gz` | 10 MB | third party (WormBase WS283) — **cited** |
+
+About 503 MB is added to the deposit from outside the repository. The two
+CaeNDR releases, the 207-strain expression set and the WormBase annotation are
+other people's data and are cited rather than redistributed; the last two are
+small enough to include instead if a journal wants the deposit self-contained.
+
+Three of these are far smaller than the directory holding them, and the reason
+is worth recording so nobody re-adds the bulk later:
+
+- **`NJX_rnai/` is 14 GB; 472 MB is read.** Only `make_jx_cross_chr3_tables.R`
+  touches it, and only for the three contrasts the paper reports -- there are
+  only three, because the cross has just three timepoint-2 pools. Its
+  `N2-XZ_export/` subtree is byte-identical to `data/cross_experiments/N2-XZ_export`
+  and is not pulled twice. The script reads chromosome III only, so a
+  chromosome III subset (45 MB) also rebuilds all three staged tables
+  identically -- verified -- but the full files are deposited so the
+  genome-wide scan stays checkable.
+- **`CeNDR/expression/` is 5.7 GB; 91 MB is read.** The 5.6 GB
+  `single_cell_expression/` subtree is never opened.
+- **`Genomics_Data/Annotations/` is 110 MB; one 10 MB GFF3 is read.**
+
 ## To deposit
 
 [TO FILL: Dryad DOI and the date of deposit.]
