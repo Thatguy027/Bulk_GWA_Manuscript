@@ -28,7 +28,7 @@ POOLED   <- file.path(ROOT, "data/pooled_RNAi_expt")
 MAPDIR   <- file.path(POOLED, "reanalysis/mapping")
 NXZ      <- file.path(ROOT, "data/cross_experiments/N2-XZ_export")
 JUX      <- file.path(ROOT, "data/cross_experiments/JU1793-JU2466_export")
-CENDR    <- "/Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213"
+CENDR    <- Sys.getenv("CENDR_DIR", "/Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213")
 OUT      <- file.path(ROOT, "data/pooled_cross_intersection")
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 

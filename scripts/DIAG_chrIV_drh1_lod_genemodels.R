@@ -37,7 +37,8 @@ suppressPackageStartupMessages({
   library(tidyverse); library(data.table); library(ggtext)
 })
 
-GFF <- "/Users/Stefan/UCLA/Genomics_Data/Annotations/c_elegans.PRJNA13758.WS283.csq.gff3.gz"
+GFF <- Sys.getenv("WS_GFF3",
+       "/Users/Stefan/UCLA/Genomics_Data/Annotations/c_elegans.PRJNA13758.WS283.csq.gff3.gz")
 XP  <- "data/cross_experiments/JU1793-JU2466_export"
 OUT <- "plots/diagnostics"
 CHR <- "IV"

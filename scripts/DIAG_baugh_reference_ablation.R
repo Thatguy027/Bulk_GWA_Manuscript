@@ -59,7 +59,7 @@ suppressPackageStartupMessages({
 })
 
 GT   <- "data/baugh/2024bootstrapINPUT.Rdata"          # the deposited input
-OLD  <- "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData"
+OLD  <- Sys.getenv("BAUGH_BOOT", "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData")
 MIPF <- "supplemental_data/deconvolution/mipseq_frequencies.txt.gz"
 DIAG <- "plots/diagnostics"
 EXTRA <- c("CX11262", "ECA348", "NIC260")

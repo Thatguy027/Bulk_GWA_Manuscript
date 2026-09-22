@@ -123,3 +123,7 @@ work/
 
 # generated inventories
 DATA_DEPENDENCY_AUDIT.tsv
+
+# deposit staging areas, built by scripts/make_deposit.py
+deposit/
+archive_unused/

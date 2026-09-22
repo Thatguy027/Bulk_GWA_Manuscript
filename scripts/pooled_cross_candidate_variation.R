@@ -29,7 +29,8 @@ suppressPackageStartupMessages({
 })
 
 b     <- readRDS("data/pooled_cross_intersection/bundle.rds")
-VCF   <- "/Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213/bcsq.vcf.gz"
+VCF   <- Sys.getenv("CENDR_BCSQ",
+         "/Users/Stefan/UCLA/Genomics_Data/CeNDR/20231213/bcsq.vcf.gz")
 OUT   <- "plots/pooled_cross_intersection"
 CACHE <- "data/pooled_cross_intersection/candidate_variation.rds"
 stopifnot(file.exists(VCF), nzchar(Sys.which("bcftools")))

@@ -37,7 +37,7 @@
 suppressPackageStartupMessages({library(tidyverse)})
 
 DEP   <- "data/baugh/2024bootstrapINPUT.Rdata"
-OLD   <- "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData"
+OLD   <- Sys.getenv("BAUGH_BOOT", "/Users/Stefan/UCLA/Projects/bulkGWAS/baugh_wgs/cluster_data/20220908_Baugh_BulkL1_Bootstrap_Input_flippedCommon_NAfix.RData")
 BAUGH <- "supplemental_data/deconvolution"
 CACHE <- file.path(BAUGH, "baugh_nnls_with_mipseq.RData")
 
