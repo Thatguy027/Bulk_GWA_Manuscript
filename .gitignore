@@ -120,3 +120,6 @@ plots/diagnostics/reference_size_predictions.rds
 .nextflow.log*
 work/
 .pool_opt_cache/
+
+# generated inventories
+DATA_DEPENDENCY_AUDIT.tsv
