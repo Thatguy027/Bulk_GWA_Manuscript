@@ -111,7 +111,7 @@ responded, and how many isolates can be shown to have responded individually
 
 At the level of the panel, 183 of the 231 declined in frequency under pos-1 RNAi
 relative to control, 79.2%, against the even split expected if frequency changes
-were noise (binomial sign test, p < 2.22e-16). The same 183 comes out of the
+were noise (binomial sign test, p = 9.3e-20). The same 183 comes out of the
 delta, variance-stabilised and log2 fold-change columns, so the count does not
 depend on the parameterisation. Pool frequencies are compositional, so this
 proportion measures decline relative to the pool rather than an absolute

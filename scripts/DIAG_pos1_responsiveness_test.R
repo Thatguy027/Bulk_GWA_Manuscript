@@ -52,8 +52,12 @@ cat(sprintf("strains with a variance-stabilised value: %d of %d\n", length(keep)
 v <- tr[strain %in% keep]
 nd <- sum(v$`delta_ctrl_pos-1_T2` < 0)
 bt <- binom.test(nd, length(keep), 0.5)
-cat(sprintf("\nPOPULATION: %d of %d decline (%.1f%%), binomial sign test p = %s\n",
-            nd, length(keep), 100 * nd / length(keep), format.pval(bt$p.value)))
+## NOT format.pval(): its default eps is .Machine$double.eps, so it prints
+## "< 2.22e-16" for anything smaller and the real value never reaches the page.
+## This p is an exact binomial tail sum, computed far below that floor, and it
+## is the number METHODS.txt quotes -- 9.3e-20, not 2.2e-16.
+cat(sprintf("\nPOPULATION: %d of %d decline (%.1f%%), binomial sign test p = %.3g\n",
+            nd, length(keep), 100 * nd / length(keep), bt$p.value))
 cat(sprintf("  identical count from vst (%d) and log2fc (%d)\n",
             sum(v$`vst_ctrl_pos-1_T2` < 0), sum(v$`log2fc_ctrl_pos-1_T2` < 0)))
 

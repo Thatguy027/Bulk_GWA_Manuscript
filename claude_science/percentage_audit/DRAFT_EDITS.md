@@ -1,6 +1,11 @@
 # Draft edits — outstanding percentage and interval corrections
 
-Three sentences. Everything else from the earlier audit is already applied.
+Four sentences. Everything else from the earlier audit is already applied.
+
+Sentences 1-3 are percentage and interval corrections from the 2026-09-21
+hatching audit. Sentence 4 is separate: a clause lost its verb somewhere in
+editing, and checking the numbers turned up a p value that was never the
+computed one.
 
 Every replacement number was recomputed from
 `supplemental_data/hatching_assays/` on 2026-09-21 by
@@ -84,9 +89,63 @@ The other numbers in this sentence are already correct: 32.3% (95% CI
 
 ---
 
+## Sentence 4 — the panel-level decline (Results, Figure 1B)
+
+A broken clause, a wrong p value, and a term that does not match the figure.
+
+**CURRENT**
+
+> We found that 79% of wild isolates declined in frequency in pos-1 RNAi relative to the control condition, which is significantly if frequency changes reflected noise alone (binomial test, p < 2x10-16) (Figure 1B).
+
+**CORRECTED**
+
+> We found that 79% of wild isotypes (183 of 231) declined in frequency under pos-1 RNAi relative to the control condition, more than would be expected if frequency changes reflected noise alone (binomial test, p = 9.3 × 10⁻²⁰) (Figure 1B).
+
+| what | from | to | why |
+|---|---|---|---|
+| the clause | "which is significantly if" | **"more than would be expected if"** | the comparative went missing; as written the sentence has no predicate |
+| p value | p < 2x10-16 | **p = 9.3 × 10⁻²⁰** | 2.2e-16 is not the result, it is R's printing floor — see below |
+| denominator | — | **(183 of 231)** | 231 is the subset carrying a variance-stabilised value, not the 366 isolates in the pool |
+| term | wild isolates | **wild isotypes** | matches the Figure 1B caption and METHODS |
+
+**Where `p < 2x10-16` came from.** `scripts/DIAG_pos1_responsiveness_test.R`
+printed the test through `format.pval()`, whose default `eps` is
+`.Machine$double.eps`; anything smaller prints as `< 2.22e-16` no matter what it
+is. The test itself is an exact binomial tail sum and evaluates far below that:
+**9.32e-20** for 183 of 231 against 0.5. The script now prints the computed
+value, and METHODS.txt quotes it.
+
+**One thing to decide before this goes in.** The sign test is against 0.5, and
+the sentence reads that null as "noise alone". Pool frequencies are
+compositional and these behave that way — the 231 retained isolates' changes sum
+to -0.062, which is zero to within rounding. The two sides are not symmetric:
+
+| | isolates | total mass | mean per isolate |
+|---|---|---|---|
+| declined | 183 | 0.664 | 0.0036 |
+| gained | 48 | 0.603 | 0.0126, largest +0.128 |
+
+A minority gaining that much forces the majority to lose whether or not those
+isolates responded at all, so a majority declining is not on its own evidence
+against noise. METHODS.txt already says this —
+
+> Pool frequencies are compositional, so this proportion measures decline
+> relative to the pool rather than an absolute per-strain response
+
+— and the per-isolate tests in the same section are the claim that does carry
+individual responsiveness: **141 of 231, 61%**, by the floor construction.
+
+So the corrected sentence above is safe if the claim is "declines outnumber
+gains". If the intended claim is that most isolates responded, use the
+per-isolate number instead, something like:
+
+> Under pos-1 RNAi, 183 of 231 wild isotypes declined in pool frequency while 48 gained, with the gains concentrated in a few isolates (largest +0.13); 141 of the 231 (61%) can be shown to have responded individually (Figure 1B).
+
+---
+
 ## If you would rather use find-and-replace
 
-Seven fragments, each unique in the draft:
+Eight fragments, each unique in the draft:
 
 ```
 90.9-97.4        ->  91.0-97.1
@@ -96,7 +155,12 @@ Seven fragments, each unique in the draft:
 3.2-10.0         ->  3.5-10.0
 2.6-6.0          ->  2.7-6.0
 Figure 4a        ->  Figure 4A
+which is significantly if frequency changes reflected noise alone (binomial test, p < 2x10-16)
+                 ->  more than would be expected if frequency changes reflected noise alone (binomial test, p = 9.3 × 10⁻²⁰)
 ```
 
 Search `2.6-6.0` rather than `4.0% (95% CI 2.6-6.0)`; the longer string may not
 match if your document spaces the parenthesis differently from the PDF export.
+The sentence 4 fragment leaves `79% of wild isolates` alone — change that to
+`79% of wild isotypes (183 of 231)` separately, since the surrounding wording
+may differ from the PDF export.
