@@ -225,6 +225,50 @@ platform_slopes <- function(freq) {
   full_join(wgs, mip, by = c("replicate", "strain"))
 }
 
+## --- the published eLife traits, rebuilt from one frequency column ---------
+## The recipe of Webster et al. (see scripts/make_baugh_published_recipe_traits.R
+## for how it was recovered): v = log2(f_day / f_baseline); PC1 is
+## prcomp(scale, center) over the replicate-by-day columns, DAY 17 INCLUDED;
+## Slope is v regressed on day, DAY 17 EXCLUDED. rep2 has no baseline sample in
+## the pooled set, so its four columns drop out and 15 remain. Also returns the
+## difference-based slope of platform_slopes() -- f minus its day-1 value on day,
+## no logarithm, no floor -- pooled across arms, which for this balanced design
+## equals fitting per arm and averaging.
+##
+## `floor` clamps frequencies from below before the log. NNLS returns exact
+## zeros, so the WGS column needs one; 1/(4n) is the floor used throughout.
+## MIP-seq never reports zero and is run with floor = NULL. The same recipe is
+## implemented on the downsampled frequencies in
+## SUPP_FIG_XX_baugh_downsample_traits.R, and reproduces its full-depth row.
+published_recipe_traits <- function(freq, col, floor = NULL) {
+  d <- freq %>% mutate(f_raw = .data[[col]],
+                       f = if (is.null(floor)) f_raw else pmax(f_raw, floor))
+  bl <- d %>% filter(baseline) %>% select(replicate, strain, base = f)
+  w  <- d %>% filter(!baseline) %>%
+    inner_join(bl, by = c("replicate", "strain")) %>%
+    mutate(l2 = log2(f / base), colk = paste0(replicate, "_d", day)) %>%
+    filter(is.finite(l2))
+  m <- w %>% select(strain, colk, l2) %>%
+    pivot_wider(names_from = colk, values_from = l2) %>%
+    column_to_rownames("strain") %>% as.matrix()
+  m <- m[, colSums(is.na(m)) < 0.1 * nrow(m), drop = FALSE]
+  m <- m[complete.cases(m), , drop = FALSE]
+  pc <- prcomp(m, scale. = TRUE, center = TRUE)
+
+  d1 <- d %>% filter(!baseline, day == 1) %>% select(replicate, strain, first = f_raw)
+  dl <- d %>% filter(!baseline, day != 17) %>%
+    left_join(d1, by = c("replicate", "strain")) %>%
+    group_by(strain) %>%
+    summarise(delta_slope = ols_slope(day, f_raw - first), .groups = "drop")
+
+  tibble(strain = rownames(m), pc1 = pc$x[, 1]) %>%
+    left_join(w %>% filter(day != 17) %>% group_by(strain) %>%
+                summarise(slope = ols_slope(day, l2), .groups = "drop"),
+              by = "strain") %>%
+    left_join(dl, by = "strain") %>%
+    mutate(n_cols = ncol(m))
+}
+
 ## ===========================================================================
 ## panels
 ## ===========================================================================

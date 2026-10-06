@@ -19,7 +19,7 @@ output:
 ---
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-seven manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-eight manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -67,6 +67,7 @@ FIGS <- c(
   "SUPP_FIG_XX_bootstrap_propagation_checks",
   "SUPP_FIG_XX_downsample_per_sample",
   "SUPP_FIG_XX_baugh_downsample_traits",
+  "SUPP_FIG_XX_baugh_analyses",
   "SUPP_FIG_XX_original_pos1_dfreq_rep_correlation",
   "SUPP_FIG_plate_vs_paaby_vs_pos1original",
   "Figure2",
@@ -95,7 +96,7 @@ if (length(missing))
        "\nRebuild with the scripts named in each entry's Source line.")
 ## The count is pinned so that adding or dropping a figure is a deliberate
 ## edit here rather than a silent change in what the report covers.
-stopifnot(length(FIGS) == 27, !anyDuplicated(FIGS))
+stopifnot(length(FIGS) == 28, !anyDuplicated(FIGS))
 
 ## HTML-only pieces (CSS, webfont link, zoom overlay) are gated on this.
 ## knitr::is_html_output() is NOT the right test: github_document renders to
@@ -134,7 +135,10 @@ LABELS <- c(
   SUPP_FIG_XX_sid2_briggsae_alignment            = "Figure S20",
   SUPP_FIG_XX_gwas_peak_genotype_splits          = "Figure S21",
   SUPP_FIG_XX_sid2_ortholog_conservation         = "Figure S22",
-  SUPP_FIG_XX_sid2_ortholog_search               = "Figure S23")
+  SUPP_FIG_XX_sid2_ortholog_search               = "Figure S23",
+  ## the figure of SUPPLEMENTARY_NOTE_BAUGH.md, numbered within the note and
+  ## outside the S series; finalize_manuscript_figures.py does not package it
+  SUPP_FIG_XX_baugh_analyses                     = "Figure N1")
 stopifnot(setequal(names(LABELS), FIGS), !anyDuplicated(LABELS))
 
 HA  <- "supplemental_data/hatching_assays"
@@ -142,9 +146,9 @@ ST  <- "supplemental_data/structure"
 DEC <- "supplemental_data/deconvolution"
 MAP <- "supplemental_data/mapping"
 
-## Diagnostics are NOT part of the curated twenty-seven. They live in
+## Diagnostics are NOT part of the curated twenty-eight. They live in
 ## plots/diagnostics/, are tracked so a clone can read them, but need the Dryad
-## archive to rebuild -- unlike the twenty-seven, which rebuild from the deposit.
+## archive to rebuild -- unlike the twenty-eight, which rebuild from the deposit.
 ## Missing ones are skipped rather than fatal, so the report still knits on a
 ## machine that has never had the archive.
 DIAGDIR <- "plots/diagnostics"
@@ -1393,12 +1397,58 @@ agreement (saturating by 3×) does not transfer to the traits.
 17.1% of cells at 0.25× against 11.2% at 10× — and a log ratio cannot use a
 zero. The difference-based slope, which never takes a log, is drawn in panel A
 for contrast and sits above the log-ratio slope at every subsampled depth
-(0.715 to 0.803) while converging with it at full depth (0.880 against 0.890).
+(0.713 to 0.801) while converging with it at full depth (0.888 against 0.890).
 That is the practical argument for the difference parameterisation whenever
 depth is limited.
 
 N2 excluded throughout, n = 98; the downsampling output predates the PB306
 graft, so it carries the 102-strain deposited reference.
+
+
+## Figure N1 — the Baugh comparisons, and why they give different numbers
+
+::: meta
+**Script** `scripts/SUPP_FIG_XX_baugh_analyses.R`<br>
+**Supports** SUPPLEMENTARY_NOTE_BAUGH.md · Figure 1A against the published traits
+:::
+
+::: plate
+```{r fig-s24-baugh-analyses, fig.alt="Four panels: NNLS against MIP-seq difference slope; pooled WGS Slope on the published recipe against the published Slope; pooled WGS difference slope against the published Slope; and a dot chart of every Spearman correlation on one axis."}
+include_graphics("plots/SUPP_FIG_XX_baugh_analyses.png")
+```
+<p class="filecap">SUPP_FIG_XX_baugh_analyses</p>
+:::
+
+Two Baugh numbers reach the manuscript text side by side, &rho; `0.974` and
+&rho; `0.89`, and they answer different questions. Both are on one frequency
+set — the cached 102-strain deconvolution Figure 1 reads — with N2 excluded,
+n = 98.
+
+**(A) Platform agreement**, `0.974`: the same trait, the difference slope, built
+from pooled WGS and from MIP-seq frequencies for the same samples. Only the
+frequency column differs. This is Figure 1A. Per-sample frequencies over the
+23 samples agree at a median of `0.835`; the slope is higher because it is a
+change, and the error is systematic across timepoints.
+
+**(B) Trait agreement, published recipe**, `0.890`: our Slope built as the
+eLife trait — log2(f / f_baseline) on day, day 17 excluded, frequencies floored
+at 1/(4n) — against the published Slope. PC1 on the same recipe: `0.822`.
+
+**(C) Trait agreement, difference slope**, `0.888`: the panel A trait against
+the published Slope. B and C agree at full depth, so "0.89" holds for either.
+
+**(D) Where the gap from 0.974 to 0.89 comes from.** MIP-seq's own difference
+slope agrees with the published Slope at `0.890` — no better than ours — so the
+drop is the change of trait definition, not the deconvolution. The published
+recipe run on MIP-seq, restricted to the 15 replicate-by-day columns the pooled
+set covers, reaches `0.984` for Slope and `0.961` for PC1: the ceiling any
+pooled trait could reach. The floor is the one tuning choice in the recipe:
+with the conventional floor, half the smallest positive frequency, the pooled
+traits fall to `0.663` for Slope and `0.638` for PC1. 331 of 2,346 NNLS cells
+are exact zeros.
+
+The mapping table, `baugh_mapping_traits.csv`, scores `0.884` at n = 99 on the
+same recipe. That is the 103-strain reference panel, not a different method.
 
 
 ## Figure S7 — replicate reproducibility of the phenotype
@@ -2601,7 +2651,7 @@ being compared.
 
 Not manuscript figures. These settle methodological questions that arose while
 assembling the figures above, and they live in `plots/diagnostics/`. They are
-tracked so this report reads from a clone, but unlike the twenty-seven they need the
+tracked so this report reads from a clone, but unlike the twenty-eight they need the
 Dryad archive to rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -3919,7 +3969,7 @@ kb(tibble(Number = unname(LABELS[FIGS]),
 ```
 
 ::: tnote
-All twenty-seven figures rebuild from `supplemental_data/` with `data/` absent, and
+All twenty-eight figures rebuild from `supplemental_data/` with `data/` absent, and
 are pixel-identical across repeated runs. Captions transcribed from
 `FIGURE_CAPTIONS.txt`; every number in the caption prose was taken from the
 generating scripts' console output, and every table marked *derived* is

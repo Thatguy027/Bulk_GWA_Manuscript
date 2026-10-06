@@ -5,7 +5,7 @@ Generated 2026-09-03.
 ================================================================================
 
 CURATED SET, AS OF 2026-09-10
-Twenty-seven figures are the manuscript set and live in plots/. Listed in the
+Twenty-eight figures are the manuscript set and live in plots/. Listed in the
 order FIGURE_REPORT.Rmd presents them, which is the manuscript order; the main
 figures first, then the supplements:
 
@@ -21,6 +21,7 @@ figures first, then the supplements:
   SUPP_FIG_XX_bootstrap_propagation_checks
   SUPP_FIG_XX_downsample_per_sample
   SUPP_FIG_XX_baugh_downsample_traits
+  SUPP_FIG_XX_baugh_analyses
   SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
   SUPP_FIG_plate_vs_paaby_vs_pos1original
   SUPP_FIG_XX_pooled_phenotype_ranks
@@ -1120,6 +1121,39 @@ frequency agreement alone will under-serve the mapping.
 
 The downsampling output predates the PB306 graft, so it carries the 102-strain
 deposited reference rather than the 103-strain pool.
+
+--------------------------------------------------------------------------------
+SUPP_FIG_XX_baugh_analyses
+(scripts/SUPP_FIG_XX_baugh_analyses.R)
+--------------------------------------------------------------------------------
+Figure N1 of SUPPLEMENTARY_NOTE_BAUGH.md, numbered within the note and
+outside the supplementary series: the Baugh L1 data set scored as a
+platform comparison and as a trait comparison, which give 0.974 and 0.89 and
+are not two measurements of the same thing. One frequency set throughout, the
+cached 102-strain deconvolution Figure 1 reads; N2 excluded, n = 98.
+
+(A) Platform agreement. The difference slope -- frequency minus its day-1 value,
+regressed on day, day 17 excluded -- from NNLS against the same trait from
+MIP-seq, for the same samples. Spearman rho = 0.974. As Figure 1A.
+
+(B) Trait agreement, published recipe. Pooled WGS Slope built as Webster et al.
+built theirs -- log2(f / f_baseline) on day, day 17 excluded, frequencies floored
+at 1/(4n) -- against the published eLife Slope. rho = 0.890.
+
+(C) Trait agreement, difference slope. The panel A trait against the published
+Slope, rho = 0.888. Ranks only: the axes are on different scales.
+
+(D) Every comparison on one axis. MIP-seq's own difference slope scores 0.890
+against the published Slope, no better than the pooled one, so the drop from A
+to B is the change of trait definition and not the deconvolution. The published
+recipe on MIP-seq, restricted to the 15 replicate-by-day columns the pooled set
+covers, reaches 0.984 for Slope and 0.961 for PC1, the ceiling for a pooled
+trait. Pooled PC1 on the recipe is 0.822. With the conventional floor, half the
+smallest positive frequency, the pooled traits fall to 0.663 (Slope) and 0.638
+(PC1). Per-sample frequency agreement, median over 23 samples, is 0.835.
+
+The dep103 mapping table scores 0.884 at n = 99 on the same recipe; that is the
+reference panel, not the method. Depth is Figure S6.
 
 --------------------------------------------------------------------------------
 SUPP_FIG_XX_bootstrap_propagation_checks

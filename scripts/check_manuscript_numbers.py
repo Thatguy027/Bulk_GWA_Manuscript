@@ -51,7 +51,10 @@ EXCEPTIONS = "manuscript_number_exceptions.txt"
 # The draft lives in Google Docs. Export it (File > Download > Plain text, or
 # Markdown) into manuscript/ and this picks it up; any path can also be passed
 # explicitly. Nothing here needs the draft to be authored in the repository.
-DEFAULT_GLOBS = ["manuscript/*.txt", "manuscript/*.md", "MANUSCRIPT.md"]
+# Supplementary notes are authored here rather than exported, but are held to
+# the same rule.
+DEFAULT_GLOBS = ["manuscript/*.txt", "manuscript/*.md", "MANUSCRIPT.md",
+                 "SUPPLEMENTARY_NOTE_*.md"]
 
 # identifiers and pointers, stripped before any number is read
 STRIP = [

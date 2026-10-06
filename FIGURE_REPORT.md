@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-09-15
+Assembled 2026-10-05
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -25,6 +25,8 @@ Assembled 2026-09-15
         requirement](#figure-s5--the-sequencing-depth-requirement)
     -   [Figure S6 — what depth costs the traits that get
         mapped](#figure-s6--what-depth-costs-the-traits-that-get-mapped)
+    -   [Figure N1 — the Baugh comparisons, and why they give different
+        numbers](#figure-n1--the-baugh-comparisons-and-why-they-give-different-numbers)
     -   [Figure S7 — replicate reproducibility of the
         phenotype](#figure-s7--replicate-reproducibility-of-the-phenotype)
     -   [Figure S8 — the plate assay, validated
@@ -93,7 +95,7 @@ Assembled 2026-09-15
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-seven manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-eight manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -1953,12 +1955,66 @@ does not transfer to the traits.
 zeros — 17.1% of cells at 0.25× against 11.2% at 10× — and a log ratio
 cannot use a zero. The difference-based slope, which never takes a log,
 is drawn in panel A for contrast and sits above the log-ratio slope at
-every subsampled depth (0.715 to 0.803) while converging with it at full
-depth (0.880 against 0.890). That is the practical argument for the
+every subsampled depth (0.713 to 0.801) while converging with it at full
+depth (0.888 against 0.890). That is the practical argument for the
 difference parameterisation whenever depth is limited.
 
 N2 excluded throughout, n = 98; the downsampling output predates the
 PB306 graft, so it carries the 102-strain deposited reference.
+
+## Figure N1 — the Baugh comparisons, and why they give different numbers
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_baugh_analyses.R`<br> **Supports**
+SUPPLEMENTARY_NOTE_BAUGH.md · Figure 1A against the published traits
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_baugh_analyses.png" alt="Four panels: NNLS against MIP-seq difference slope; pooled WGS Slope on the published recipe against the published Slope; pooled WGS difference slope against the published Slope; and a dot chart of every Spearman correlation on one axis." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_baugh_analyses
+</p>
+
+</div>
+
+Two Baugh numbers reach the manuscript text side by side, ρ `0.974` and
+ρ `0.89`, and they answer different questions. Both are on one frequency
+set — the cached 102-strain deconvolution Figure 1 reads — with N2
+excluded, n = 98.
+
+**(A) Platform agreement**, `0.974`: the same trait, the difference
+slope, built from pooled WGS and from MIP-seq frequencies for the same
+samples. Only the frequency column differs. This is Figure 1A.
+Per-sample frequencies over the 23 samples agree at a median of `0.835`;
+the slope is higher because it is a change, and the error is systematic
+across timepoints.
+
+**(B) Trait agreement, published recipe**, `0.890`: our Slope built as
+the eLife trait — log2(f / f_baseline) on day, day 17 excluded,
+frequencies floored at 1/(4n) — against the published Slope. PC1 on the
+same recipe: `0.822`.
+
+**(C) Trait agreement, difference slope**, `0.888`: the panel A trait
+against the published Slope. B and C agree at full depth, so “0.89”
+holds for either.
+
+**(D) Where the gap from 0.974 to 0.89 comes from.** MIP-seq’s own
+difference slope agrees with the published Slope at `0.890` — no better
+than ours — so the drop is the change of trait definition, not the
+deconvolution. The published recipe run on MIP-seq, restricted to the 15
+replicate-by-day columns the pooled set covers, reaches `0.984` for
+Slope and `0.961` for PC1: the ceiling any pooled trait could reach. The
+floor is the one tuning choice in the recipe: with the conventional
+floor, half the smallest positive frequency, the pooled traits fall to
+`0.663` for Slope and `0.638` for PC1. 331 of 2,346 NNLS cells are exact
+zeros.
+
+The mapping table, `baugh_mapping_traits.csv`, scores `0.884` at n = 99
+on the same recipe. That is the 103-strain reference panel, not a
+different method.
 
 ## Figure S7 — replicate reproducibility of the phenotype
 
@@ -30104,7 +30160,7 @@ A
 A
 </td>
 <td style="text-align:center;">
-I/T
+T
 </td>
 <td style="text-align:center;">
 </td>
@@ -31032,7 +31088,7 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-seven they need the Dryad archive to
+clone, but unlike the twenty-eight they need the Dryad archive to
 rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -34457,10 +34513,10 @@ Figure S1
 SUPP_FIG_XX_simulation_depth
 </td>
 <td style="text-align:right;">
-448
+484
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34471,10 +34527,10 @@ Figure S2
 SUPP_FIG_XX_dilution_validation
 </td>
 <td style="text-align:right;">
-463
+466
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34485,10 +34541,10 @@ Figure 1
 Figure1_pos1
 </td>
 <td style="text-align:right;">
-811
+766
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34499,10 +34555,10 @@ Figure S21
 SUPP_FIG_XX_gwas_peak_genotype_splits
 </td>
 <td style="text-align:right;">
-422
+411
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34513,10 +34569,10 @@ Figure S3
 SUPP_FIG_XX_baugh_per_sample_frequencies
 </td>
 <td style="text-align:right;">
-396
+386
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34527,10 +34583,10 @@ Figure S4
 SUPP_FIG_XX_bootstrap_propagation_checks
 </td>
 <td style="text-align:right;">
-448
+442
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34541,10 +34597,10 @@ Figure S5
 SUPP_FIG_XX_downsample_per_sample
 </td>
 <td style="text-align:right;">
-269
+268
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34555,10 +34611,24 @@ Figure S6
 SUPP_FIG_XX_baugh_downsample_traits
 </td>
 <td style="text-align:right;">
-109
+108
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure N1
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_baugh_analyses
+</td>
+<td style="text-align:right;">
+611
+</td>
+<td style="text-align:right;">
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34569,10 +34639,10 @@ Figure S7
 SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 </td>
 <td style="text-align:right;">
-341
+335
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34583,10 +34653,10 @@ Figure S8
 SUPP_FIG_plate_vs_paaby_vs_pos1original
 </td>
 <td style="text-align:right;">
-200
+190
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34597,10 +34667,10 @@ Figure 2
 Figure2
 </td>
 <td style="text-align:right;">
-1335
+1316
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34614,7 +34684,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34625,10 +34695,10 @@ Figure S10
 SUPP_FIG_XX_cross_contrast_panels
 </td>
 <td style="text-align:right;">
-1011
+998
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34639,10 +34709,10 @@ Figure 3
 Figure3_quad
 </td>
 <td style="text-align:right;">
-157
+175
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34656,7 +34726,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34667,10 +34737,10 @@ Figure 4
 Figure4_sid2
 </td>
 <td style="text-align:right;">
-557
+561
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34681,10 +34751,10 @@ Figure S12
 SUPP_FIG_XX_n2_swap_dose
 </td>
 <td style="text-align:right;">
-240
+243
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34695,10 +34765,10 @@ Figure S13
 SUPP_FIG_XX_sid2_allele_swaps_full
 </td>
 <td style="text-align:right;">
-562
+555
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34709,10 +34779,10 @@ Figure S14
 SUPP_FIG_XX_sid2_allele_in_panel
 </td>
 <td style="text-align:right;">
-486
+465
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34723,10 +34793,10 @@ Figure S15
 SUPP_FIG_XX_sid2_electrostatics
 </td>
 <td style="text-align:right;">
-807
+801
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34740,7 +34810,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34754,7 +34824,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34765,10 +34835,10 @@ Figure S18
 Figure2_no_cross_qtl
 </td>
 <td style="text-align:right;">
-1515
+1564
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34779,10 +34849,10 @@ Figure S19
 SUPP_FIG_XX_nil_interval_genes
 </td>
 <td style="text-align:right;">
-112
+111
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34796,7 +34866,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34807,10 +34877,10 @@ Figure S22
 SUPP_FIG_XX_sid2_ortholog_conservation
 </td>
 <td style="text-align:right;">
-624
+616
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 <tr>
@@ -34821,10 +34891,10 @@ Figure S23
 SUPP_FIG_XX_sid2_ortholog_search
 </td>
 <td style="text-align:right;">
-664
+662
 </td>
 <td style="text-align:right;">
-2026-09-15 11:05
+2026-10-05 16:35
 </td>
 </tr>
 </tbody>
@@ -34832,7 +34902,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 
 <div class="tnote">
 
-All twenty-seven figures rebuild from `supplemental_data/` with `data/`
+All twenty-eight figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every
