@@ -127,8 +127,8 @@ p = 1.7e-24 and p = 3.9e-05. Bars are Wilson 95% binomial intervals.
 p = 6.2e-19.
 
 (C) The SID-2 ectodomain coloured by local net charge on an AlphaFold3 model,
-rotated onto the membrane normal so the intestinal lumen is up; the grey slab
-is the bilayer. Colour is the net side-chain charge of all ectodomain residues
+rotated onto the membrane normal so the intestinal lumen is up; the grey band
+marks the bilayer and is schematic, not drawn to scale. Colour is the net side-chain charge of all ectodomain residues
 with a C-alpha within 12 A, by Henderson-Hasselbalch at the gut-lumen pH of
 4.4, on a diverging scale saturating at +/- 2 e, red negative and blue
 positive. Left, residues 21-188 of chain A, showing T96 (reddish purple, the

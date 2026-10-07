@@ -461,8 +461,10 @@ two independent edits, and the direction is the same throughout: 96K sensitive,
 96T resistant.
 
 (C) The SID-2 ectodomain coloured by LOCAL NET CHARGE, AlphaFold3 model,
-rotated onto the membrane normal so the intestinal lumen is up; the grey slab is
-the bilayer. Colour is the net side-chain charge of all ectodomain residues with
+rotated onto the membrane normal so the intestinal lumen is up; the grey band
+marks the bilayer. It is SCHEMATIC, not drawn to scale -- it spans 12 A against
+a hydrophobic core of about 30 A, and the transmembrane helix (194-211) is not
+in the model, which stops at residue 188. Colour is the net side-chain charge of all ectodomain residues with
 a C-alpha within 12 A, by Henderson-Hasselbalch at pH 4.4 -- the gut-lumen pH at
 which SID-2 functions -- on a diverging scale saturating at +/- 2 e, red
 negative and blue positive. Left, residues 21-188 of chain A: T96

@@ -56,6 +56,16 @@ COL_T96 = "#CC79A7"            # COL_FOCAL in scripts/figure_palette.R -- keep i
 COL_BASIC = "#0B4F9E"          # the two lysines that make the pocket
 COL_HIS = "#1B7F79"            # the pH-titrating uptake-critical set
 MEMBRANE = "#DCE3E8"
+## The bilayer band is SCHEMATIC and always was: a hydrophobic core is about
+## 30 A and this was drawn at 22, of which 20 A fell below the lowest modelled
+## residue (the ectodomain stops at 188; the TM helix, 194-211, is not in the
+## model). That empty grey took a fifth of the overview's height and, being
+## wider than the protein, set the image's width too -- and since the composite
+## is letterboxed into the panel, a wider image shrinks everything in it. The
+## band is now 12 A and clears the protein by 10 A rather than 20, and it is
+## inset to the protein's own width plus a margin.
+MEM_Z = (1.0, 13.0)
+MEM_PAD_X = 2.0
 QLIM = 2.0                     # colour scale saturates here, in e
 
 BASIC = {93: "K93", 132: "K132"}
@@ -131,10 +141,11 @@ def overview(ids, CA, sse, q):
     ax.add_collection3d(Poly3DCollection(quads, facecolors=cols,
                                          edgecolors="none", shade=False))
 
-    x0, x1 = CA[:, 0].min() - 5, CA[:, 0].max() + 5
+    x0, x1 = CA[:, 0].min() - MEM_PAD_X, CA[:, 0].max() + MEM_PAD_X
+    z0, z1 = MEM_Z
     ym = CA[:, 1].mean()
     ax.add_collection3d(Poly3DCollection(
-        [[(x0, ym, -9.0), (x1, ym, -9.0), (x1, ym, 13.0), (x0, ym, 13.0)]],
+        [[(x0, ym, z0), (x1, ym, z0), (x1, ym, z1), (x0, ym, z1)]],
         facecolors=MEMBRANE, edgecolors="none", alpha=0.85, zorder=0))
 
     ## At azimuth 108 the membrane-frame x axis maps onto screen-horizontal
@@ -142,7 +153,9 @@ def overview(ids, CA, sse, q):
     ## The pocket trio -- T96, K93, K132 -- sit within ~7 A of one another, so
     ## they need a large vertical spread or their labels overlap; they take one
     ## side, the histidines the other.
-    xr = (CA[:, 0].min() - 3.5, CA[:, 0].max() + 3.5)
+    ## the leaders set the image's width now that the slab is inset, and a
+    ## wider image letterboxes smaller in the panel, so they run short
+    xr = (CA[:, 0].min() - 1.5, CA[:, 0].max() + 1.5)
     plan = [(FOCAL, "T96", COL_T96, "left", 9.0, True)]
     plan += [(p, l, COL_BASIC, "left", d, False)
              for (p, l), d in zip(sorted(BASIC.items()), (1.0, -7.0))]
@@ -156,10 +169,10 @@ def overview(ids, CA, sse, q):
         draw_marker(ax, CA[w[0]], lab, col, focal=foc, dz=dz, side=side, xr=xr)
 
     allp = np.vstack([np.array([p for quad in quads for p in quad]),
-                      np.array([[x0, ym, -9.0], [x1, ym, 13.0]])])
+                      np.array([[x0, ym, z0], [x1, ym, z1]])])
     zr.frame_axes(ax, allp, pad=1.0, elev=zr.OVERVIEW_ELEV, azim=zr.OVERVIEW_AZIM)
     for txt, zc, va in (("lumen", CA[:, 2].max(), "bottom"),
-                        ("membrane", 2.0, "center")):
+                        ("membrane", sum(MEM_Z) / 2, "center")):
         ax.text(CA[:, 0].mean(), ym, zc, txt, color="grey", fontsize=6.8,
                 ha="center", va=va, zorder=17,
                 path_effects=[pe.withStroke(linewidth=2.0, foreground="white")])
