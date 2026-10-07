@@ -134,8 +134,8 @@ averages over samples and so cannot show a sample that disagrees; this can.
 
 (C) Sequencing-depth requirement. Reads were subsampled to each depth, the
 deconvolution rerun and the slopes recomputed, then correlated with the MIP-seq
-slopes: 0.25x, rho = 0.833; 1x, 0.851; 3x, 0.903; 5x, 0.906; 10x, 0.904.
-Agreement saturates by 3x. The 0.5x depth is computed but not drawn here (see
+slopes: 0.5x, rho = 0.833; 2x, 0.851; 6x, 0.903; 10x, 0.906; 20x, 0.904.
+Agreement saturates by 6x. The 1x depth is computed but not drawn here (see
 SUPP_FIG_XX_downsample_per_sample).
 
 Test bed is the Baugh L1 starvation experiment, the one dataset where pooled
@@ -1058,11 +1058,11 @@ axis.
 
 (A) Per-sample agreement against depth: one grey line per sample (23 samples),
 dark line the median across samples, dashed line the median full-depth
-agreement (0.835). Median rho rises 0.724 at 0.25x to 0.827 at 5x, saturating by
-3-5x.
+agreement (0.835). Median rho rises 0.724 at 0.5x to 0.827 at 10x, saturating by
+6-10x.
 
-(B) The aggregate, slope-level curve -- Figure 1C -- with the 0.5x depth
-restored: 0.833, 0.870, 0.851, 0.903, 0.906, 0.904 for 0.25x through 10x.
+(B) The aggregate, slope-level curve -- Figure 1C -- with the 1x depth
+restored: 0.833, 0.870, 0.851, 0.903, 0.906, 0.904 for 0.5x through 20x.
 
 Panel B correlates slopes, which average fifteen measurements, so it sits above
 A at every depth and saturates sooner: averaging removes most of what depth
@@ -1100,8 +1100,8 @@ eLife Slope and PC1 (Webster et al. 2022). N2 excluded, n = 98.
 three lines are pooled-WGS traits scored against the PUBLISHED eLife
 phenotypes; they differ in how the trait is built, not in what it is compared
 to. "Slope" is the published recipe, the slope of log2(f/baseline) on day, and
-runs 0.688, 0.749, 0.729, 0.760, 0.749 and 0.741 across 0.25x, 0.5x, 1x, 3x, 5x
-and 10x against 0.890 at full depth. "PC1" is the published recipe likewise and
+runs 0.688, 0.749, 0.729, 0.760, 0.749 and 0.741 across 0.5x, 1x, 2x, 6x, 10x
+and 20x against 0.890 at full depth. "PC1" is the published recipe likewise and
 runs 0.549, 0.582, 0.663, 0.678, 0.720 and 0.711 against 0.822. "Slope, delta"
 is the difference-based trait -- frequency minus its day-1 value regressed on
 day, on raw frequencies with no floor, since it takes no logarithm and so needs
@@ -1110,13 +1110,13 @@ the log-ratio slope at every subsampled depth while converging with it at full
 depth (0.888 against 0.890).
 
 (B) The share of strain-by-sample cells the deconvolution sets to exactly zero,
-against depth: 17.1% at 0.25x falling to 11.2% at 10x, against 11.2% of 2,346
+against depth: 17.1% at 0.5x falling to 11.2% at 20x, against 11.2% of 2,346
 cells at full depth. A log ratio cannot use a zero, which is why the log-ratio
 traits lose more to depth than the difference-based one does.
 
 THE DEPTH REQUIREMENT DOES NOT TRANSFER FROM FREQUENCIES TO TRAITS. Frequency
-agreement saturates by 3x. Trait recovery does not: the gap between 10x and full
-depth is larger than the whole range from 0.25x to 10x. A depth chosen on
+agreement saturates by 6x. Trait recovery does not: the gap between 20x and full
+depth is larger than the whole range from 0.5x to 20x. A depth chosen on
 frequency agreement alone will under-serve the mapping.
 
 The downsampling output predates the PB306 graft, so it carries the 102-strain

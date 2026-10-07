@@ -349,8 +349,15 @@ content reshaped. **The first dimension is unnamed** — its order is
 code, so what was resampled (reads, markers or strains) is not recoverable.
 
 **`baugh_downsampled_slopes.rda`** — `ds_predictions_df`: `strain`, `sample`,
-`ds_frq` (frequency at the subsampled depth), `ds_n` (depth: 0.25, 0.5, 1, 3, 5
-or 10×), `frq` (full-depth frequency).
+`ds_frq` (frequency at the subsampled depth), `ds_n`, `frq` (full-depth
+frequency). **`ds_n` IS HALF THE DEPTH IT NAMES.** It is the `ds_dp` parameter
+of `scripts/baugh_L1_DownSample_Counts.R`, which draws `ds_dp * nrow(ds_input)`
+reads from a matrix carrying two rows per marker — one per allele — so each step
+draws two reads per marker for every one the parameter names. The stored values
+0.25, 0.5, 1, 3, 5 and 10 are the depths 0.5, 1, 2, 6, 10 and 20×, which is what
+every figure and caption reports. The key is left as it is because every
+downstream join uses it; the conversion lives in
+`scripts/baugh_depth_scale.R`.
 
 **`baugh_strain_order.txt`** — one column, `strain`, with a header line.
 

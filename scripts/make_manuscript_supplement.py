@@ -73,8 +73,8 @@ TABLES = [
   "highly correlated with those derived from MIP-seq"),
 
  (5, "downsampling_recovery", ["supplemental_data/deconvolution/baugh_downsample_trait_recovery.tsv"],
-  "Recovery of the two published traits at each subsampled depth (0.25, 0.5, 1, "
-  "3, 5 and 10x): Spearman correlation against the published PC1 and Slope, and "
+  "Recovery of the two published traits at each subsampled depth (0.5, 1, 2, "
+  "6, 10 and 20x): Spearman correlation against the published PC1 and Slope, and "
   "against Slope computed on the difference-based definition used here.",
   "as we downsampled reads"),
 

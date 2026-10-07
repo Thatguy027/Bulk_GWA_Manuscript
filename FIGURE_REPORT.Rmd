@@ -1327,7 +1327,7 @@ deconvolution" is supported by what is on disk.
 
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_downsample_per_sample.R`<br>
-**Supports** Figure 1C · depths 0.25× to 10×
+**Supports** Figure 1C · depths 0.5× to 20×
 :::
 
 ::: plate
@@ -1340,13 +1340,13 @@ include_graphics("plots/SUPP_FIG_XX_downsample_per_sample.png")
 ::: panel
 [A]{.pl} Per-sample agreement against depth: one grey line per sample (23
 samples), dark line the median across samples, dashed line the median full-depth
-agreement (0.835). Median ρ rises 0.724 at 0.25× to 0.827 at 5×, saturating by
-3–5×.
+agreement (0.835). Median ρ rises 0.724 at 0.5× to 0.827 at 10×, saturating by
+6–10×.
 :::
 
 ::: panel
-[B]{.pl} The aggregate, slope-level curve — Figure 1C — with the 0.5× depth
-restored: 0.833, 0.870, 0.851, 0.903, 0.906, 0.904 for 0.25× through 10×.
+[B]{.pl} The aggregate, slope-level curve — Figure 1C — with the 1× depth
+restored: 0.833, 0.870, 0.851, 0.903, 0.906, 0.904 for 0.5× through 20×.
 :::
 
 Panel B correlates slopes, which average fifteen measurements, so it sits above
@@ -1390,13 +1390,13 @@ the low-frequency floor at 1/(4n).
 
 **(A)** Recovery does not saturate the way frequency agreement does. Against the
 published Slope the log-ratio trait runs 0.688, 0.749, 0.729, 0.760, 0.749 and
-0.741 across 0.25× to 10×, against 0.890 at full depth; PC1 runs 0.549 to 0.711
-against 0.822. The gap between 10× and full depth is larger than the entire
-range from 0.25× to 10×, so the depth requirement quoted from frequency
-agreement (saturating by 3×) does not transfer to the traits.
+0.741 across 0.5× to 20×, against 0.890 at full depth; PC1 runs 0.549 to 0.711
+against 0.822. The gap between 20× and full depth is larger than the entire
+range from 0.5× to 20×, so the depth requirement quoted from frequency
+agreement (saturating by 6×) does not transfer to the traits.
 
 **(B)** The reason. Subsampling drives the deconvolution to return exact zeros —
-17.1% of cells at 0.25× against 11.2% at 10× — and a log ratio cannot use a
+17.1% of cells at 0.5× against 11.2% at 20× — and a log ratio cannot use a
 zero. The difference-based slope, which never takes a log, is drawn in panel A
 for contrast and sits above the log-ratio slope at every subsampled depth
 (0.713 to 0.801) while converging with it at full depth (0.888 against 0.890).

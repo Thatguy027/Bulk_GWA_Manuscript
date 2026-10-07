@@ -73,6 +73,8 @@ FCACHE<- file.path(BAUGH, "cache_boot_freq.rds")
 
 ## colours come from the shared palette; see scripts/figure_palette.R
 source("scripts/figure_palette.R")
+## the stored ds_n is half the depth it names; see the header there
+source("scripts/baugh_depth_scale.R")
 
 CHROMS  <- c("I", "II", "III", "IV", "V", "X")
 ALL_LEN <- c(I = 15072434, II = 15279421, III = 13783801,
@@ -400,12 +402,12 @@ panel_downsample <- function(slopes, letter = "C", bare = TRUE,
     gone <- d %>% filter(ds_n %in% drop_depth)
     if (nrow(gone))
       msg("  panel downsample: dropping depth(s) ",
-          paste(sprintf("%gx (rho %.3f)", gone$ds_n, gone$rho),
+          paste(sprintf("%gx (rho %.3f)", ds_depth(gone$ds_n), gone$rho),
                 collapse = ", "))
     d <- d %>% filter(!ds_n %in% drop_depth)
   }
   msg("  panel downsample: ",
-      paste(sprintf("%gx %.3f", d$ds_n, d$rho), collapse = " | "))
+      paste(sprintf("%gx %.3f", ds_depth(d$ds_n), d$rho), collapse = " | "))
 
   ## a real continuous axis on a log scale, with breaks read from the data.
   ## The legacy version used factor(ds_n) plus a hardcoded
@@ -414,7 +416,7 @@ panel_downsample <- function(slopes, letter = "C", bare = TRUE,
   ggplot(d, aes(ds_n, rho)) +
     geom_line(linewidth = 0.4, colour = "grey60") +
     geom_point(size = 2.6, colour = COL_PT) +
-    scale_x_log10(breaks = d$ds_n, labels = function(x) paste0(x, "×")) +
+    scale_x_log10(breaks = d$ds_n, labels = ds_depth_label) +
     labs(x = "Sequencing depth", y = "Spearman's &rho; vs MIP-seq",
          title = if (bare) panel_title(letter)
                  else titled(letter, "**Depth requirement**"),
@@ -820,7 +822,7 @@ panel_downsample_samples <- function(freq, letter = "A", bare = TRUE,
   msg("  panel per-sample depth: ", n_distinct(d$sample), " samples x ",
       n_distinct(d$ds_n), " depths")
   msg("    median rho: ",
-      paste(sprintf("%gx %.3f", med$ds_n, med$rho), collapse = " | "))
+      paste(sprintf("%gx %.3f", ds_depth(med$ds_n), med$rho), collapse = " | "))
   msg("    worst sample: ", worst$sample, " median ", round(worst$m, 3),
       " (range ", round(min(hl$rho), 3), "-", round(max(hl$rho), 3), ")")
   msg("    full depth per-sample rho: median ", round(median(fd$rho), 3),
@@ -847,7 +849,7 @@ panel_downsample_samples <- function(freq, letter = "A", bare = TRUE,
                   colour = COL_FIT, fill = NA, label.color = NA,
                   label.padding = grid::unit(rep(0, 4), "pt")) +
     scale_x_log10(breaks = sort(unique(d$ds_n)),
-                  labels = function(x) paste0(x, "×")) +
+                  labels = ds_depth_label) +
     labs(x = "Sequencing depth", y = "Spearman's &rho; vs MIP-seq",
          title = if (bare) panel_title(letter)
                  else titled(letter, "**Per-sample agreement against depth**"),

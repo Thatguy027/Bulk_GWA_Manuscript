@@ -64,7 +64,7 @@ Per-strain, per-sample frequencies from this platform (NNLS on whole-genome sequ
 
 ### Table S5 — `Table_S05_downsampling_recovery.tsv`
 
-Recovery of the two published traits at each subsampled depth (0.25, 0.5, 1, 3, 5 and 10x): Spearman correlation against the published PC1 and Slope, and against Slope computed on the difference-based definition used here.
+Recovery of the two published traits at each subsampled depth (0.5, 1, 2, 6, 10 and 20x): Spearman correlation against the published PC1 and Slope, and against Slope computed on the difference-based definition used here.
 
 **Cite near:** “as we downsampled reads”
 

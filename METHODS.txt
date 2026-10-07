@@ -589,10 +589,15 @@ distinguishable at n = 99, and c was selected against the quantity it is scored
 on. Square-root and arcsine-square-root transforms are marginally worse than
 the identity.
 
-Sequencing-depth requirements were assessed by subsampling reads to 0.25, 0.5,
-1, 3, 5 and 10x, rerunning the deconvolution and recomputing the traits
-(scripts/baugh_L1_DownSample_Counts.R). Agreement between downsampled and
-full-depth frequencies saturates by 3x (Spearman rho 0.833, 0.870, 0.851,
+Sequencing-depth requirements were assessed by subsampling reads to 0.5, 1, 2,
+6, 10 and 20x, rerunning the deconvolution and recomputing the traits
+(scripts/baugh_L1_DownSample_Counts.R). THOSE DEPTHS ARE TWICE THE ds_dp
+PARAMETER THAT SCRIPT TAKES: it draws ds_dp * nrow(ds_input) reads and
+ds_input carries two rows per marker, one for each allele, so every step draws
+two reads per marker for each one the parameter names. The stored key is left
+alone and only the reported depth is corrected
+(scripts/baugh_depth_scale.R). Agreement between downsampled and
+full-depth frequencies saturates by 6x (Spearman rho 0.833, 0.870, 0.851,
 0.903, 0.906 and 0.904 across the six depths). At the level of individual
 samples the median rises from 0.724 to 0.827 over the same range, and the
 spread between samples (roughly 0.43 to 0.88 at any fixed depth) exceeds the

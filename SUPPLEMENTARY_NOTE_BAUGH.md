@@ -66,10 +66,10 @@ log ratios are dominated by strains estimated at zero. With that floor,
 agreement falls to ρ = 0.663 for Slope and ρ = 0.638 for PC1. The
 difference-based slope avoids this choice entirely, which is why we use it
 elsewhere. Read depth acts through the same mechanism. Downsampling increases the
-share of exact zeros from 11.2% at 10x to 17.1% at 0.25x. Over that range the
+share of exact zeros from 11.2% at 20x to 17.1% at 0.5x. Over that range the
 log-ratio Slope recovers the published trait at ρ = 0.688 to 0.760 and the
 difference-based slope at ρ = 0.713 to 0.801 (Methods), whereas agreement
-between downsampled and full-depth frequencies levels off by 3x (Figure S3B).
+between downsampled and full-depth frequencies levels off by 6x (Figure S3B).
 Finally, the reference panel affects these values slightly: deconvolving
 against the 103-strain panel used for the association scans gives ρ = 0.884 for
 the published-recipe Slope across 99 strains.

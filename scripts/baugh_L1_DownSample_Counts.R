@@ -88,6 +88,12 @@ dim(a_ct)
 
 #--------------------------------------------------------------------------------------------------------------------------  downsample counts
 
+## NOTE: ds_dp IS HALF THE DEPTH IT NAMES. ds_input carries two rows per marker
+## -- alt_ct and ref_ct, gathered into one column above -- so drawing
+## ds_dp * nrow(ds_input) reads gives 2 * ds_dp reads per marker. The series
+## below is therefore 0.5x to 20x, not 0.25x to 10x. The parameter is left as it
+## is because it is the key every downstream join uses; everything that reports
+## a depth converts through scripts/baugh_depth_scale.R.
 for(ds_dp in c(0.25, 0.5, 1, 3, 5, 10)){
   print(ds_dp)
   test_ct <- data.frame(downsampleCounts(count.matrix = ds_input, downsample.total = ds_dp*nrow(ds_input))) %>%

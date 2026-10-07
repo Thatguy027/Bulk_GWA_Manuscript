@@ -23,7 +23,7 @@
 ##
 ## DEPTH IS THEREFORE RELATIVE, not absolute. The archive stores alt counts
 ## only, so the absolute coverage of the full data cannot be recovered and the
-## 0.25x-10x labels of baugh_downsampled_slopes.rda cannot be reproduced. Depth
+## 0.5x-20x labels of baugh_downsampled_slopes.rda cannot be reproduced. Depth
 ## here is the fraction of full-depth reads retained, and the mean alt count per
 ## marker is reported alongside it so the two can be related later if the
 ## reference-allele counts are ever archived.

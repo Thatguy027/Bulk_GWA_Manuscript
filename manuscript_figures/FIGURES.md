@@ -255,11 +255,11 @@ axis.
 
 (A) Per-sample agreement with MIP-seq against depth: one grey line per sample
 (23 samples), the dark line the median across samples and the dashed line the
-median full-depth agreement (0.835). Median rho rises from 0.724 at 0.25x to
-0.827 at 5x, saturating by 3-5x.
+median full-depth agreement (0.835). Median rho rises from 0.724 at 0.5x to
+0.827 at 10x, saturating by 6-10x.
 
-(B) The aggregate, slope-level curve, with the 0.5x depth included: rho = 0.833,
-0.870, 0.851, 0.903, 0.906 and 0.904 for 0.25x, 0.5x, 1x, 3x, 5x and 10x.
+(B) The aggregate, slope-level curve, with the 1x depth included: rho = 0.833,
+0.870, 0.851, 0.903, 0.906 and 0.904 for 0.5x, 1x, 2x, 6x, 10x and 20x.
 Panel B correlates slopes, which average fifteen measurements, and so sits
 above panel A at every depth and saturates sooner.
 

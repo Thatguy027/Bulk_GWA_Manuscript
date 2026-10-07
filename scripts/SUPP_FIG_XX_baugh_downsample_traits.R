@@ -31,6 +31,12 @@
 ## baugh_downsampled_slopes.rda (102 strains x 23 samples x 6 depths), produced
 ## by scripts/baugh_L1_DownSample_Counts.R.
 ##
+## DEPTHS ARE DOUBLED FROM THE STORED KEY. That script draws two reads per
+## marker for every one its ds_dp parameter names, so the series runs 0.5x to
+## 20x rather than 0.25x to 10x. scripts/baugh_depth_scale.R carries the
+## derivation; the conversion happens here, in the depth column and on both
+## axes, and the stored ds_n is left as the join key it is.
+##
 ## Writes plots/SUPP_FIG_XX_baugh_downsample_traits.{pdf,png} and
 ## supplemental_data/deconvolution/baugh_downsample_trait_recovery.tsv
 ## ---------------------------------------------------------------------------
@@ -38,6 +44,9 @@
 suppressPackageStartupMessages({
   library(tidyverse); library(patchwork); library(ggrepel)
 })
+
+## the stored ds_n is half the depth it names; see the header there
+source("scripts/baugh_depth_scale.R")
 
 DEC <- "supplemental_data/deconvolution"
 PH  <- "supplemental_data/phenotypes"
@@ -95,7 +104,7 @@ sgn <- function(a, b) if (isTRUE(cor(a, b, method = "spearman") < 0)) -a else a
 rows <- map_dfr(sort(unique(ds$ds_n)), function(dep) {
   t <- traits(ds %>% filter(ds_n == dep), "ds_frq")
   j <- pub %>% inner_join(t, by = "strain") %>% filter(strain != "N2")
-  tibble(depth = dep, n = nrow(j),
+  tibble(depth = ds_depth(dep), n = nrow(j),
          PC1         = abs(cor(j$PC1,   j$pc1,         method = "spearman")),
          Slope       = abs(cor(j$Slope, j$slope,       method = "spearman")),
          `Slope, delta` = abs(cor(j$Slope, j$delta_slope, method = "spearman")))
@@ -138,11 +147,12 @@ pA <- ggplot(long, aes(depth, rho, colour = trait)) +
        x = "Sequencing depth", y = "Spearman rho vs published trait")
 
 zer <- ds %>% group_by(ds_n) %>%
-  summarise(pz = mean(ds_frq == 0), .groups = "drop")
-pB <- ggplot(zer, aes(ds_n, pz)) +
+  summarise(pz = mean(ds_frq == 0), .groups = "drop") %>%
+  mutate(depth = ds_depth(ds_n))
+pB <- ggplot(zer, aes(depth, pz)) +
   geom_line(colour = "grey40", linewidth = 0.7) +
   geom_point(size = 2, colour = "grey25") +
-  scale_x_log10(breaks = zer$ds_n, labels = function(x) paste0(x, "x")) +
+  scale_x_log10(breaks = zer$depth, labels = function(x) paste0(x, "x")) +
   scale_y_continuous(labels = scales::percent) +
   labs(title = "B  Why the log-ratio traits suffer at low depth",
        subtitle = "Share of strain x sample cells the deconvolution sets to exactly zero",
