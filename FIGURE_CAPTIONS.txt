@@ -488,10 +488,13 @@ charge-matched controls (T96R, T96Q) rather than a result.
 runs vertically with residue 1 at the top and its DeepTMHMM topology as a filled
 bar; each protein-altering variant at which JU1793, JU2466 and XZ1516 do not all
 agree is called out to the right with its CeNDR allele frequency, then three
-columns give the allele state in each. That is seven of the eight annotated
-variants: P153T, carried by all three, is dropped (drawn by sid2_variant_panel()
-in scripts/sid2_variant_panel.R, which SUPP_FIG_XX_sid2_variants_all shares; the
-full population catalogue is that figure). The first two are this cross's parents and rows where they differ are
+columns give the allele state in each. Source: the CaeNDR 20250625 export,
+supplemental_data/structure/sid2_cendr20250625_variants.csv, read by
+sid2_cendr_variants() in scripts/sid2_variant_panel.R; frequency is carriers
+over the release's 684 isotypes. Seven of the 20 protein-altering forms differ
+among the three parents; P153T, carried by all three, is the common one dropped.
+The full population catalogue is SUPP_FIG_XX_sid2_variants_all, drawn by the
+same function. The first two are this cross's parents and rows where they differ are
 shaded; XZ1516 is the parent of the second mapping cross, carried for reference
 and deliberately left outside the shading, since the shading means "segregates
 in JU1793 x JU2466" and XZ1516 is not in that cross. N2's allele is in the same
@@ -510,21 +513,15 @@ where T96 sits, and is strongly acidic again at 135-150. The strip spans
 residues 21-188 ONLY, which is the extent of the AlphaFold ectodomain model
 there is a structure to measure charge in; the remainder of the protein is left
 blank rather than filled with a zero that would read as neutral. Seven
-variants are drawn, at frequencies from 0.009 to 0.453: V5L 0.015, D78A 0.009,
-T96K 0.453, M141V 0.009, Q144P 0.009, A151I/T 0.195, L209M 0.195.
+variants are drawn: V5L 0.013, D78A 0.009, T96K 0.463, M141V 0.009,
+Q144P 0.009, A151T 0.124, L209M 0.215 (9, 6, 317, 6, 6, 85 and 147 isotypes).
 
-A151I/T is the one label carrying two alternate residues, and it is not an
-ambiguous genotype. bcftools csq annotates on haplotypes, and the residue-151
-codon holds a second segregating SNP at III:13,680,413, so the one site gets two
-records on the one transcript ZK520.2.1: 151A>151I for the haplotype carrying
-both changes, 151A>151T for the haplotype carrying III:13,680,412 alone. In the
-20210121 panel the figure reads, 73 isotypes carry it alone and 32 carry both
-(85 and 62 in 20250625), which is why the LABEL keeps both residues. The
-earlier 78 and 51 were asserted in a script comment, not computed. The per-strain COLUMNS do not: sid2_variant_table.R reads each
-strain's genotype at the partner site and prints the residue that strain
-actually carries, and asserts that no column ever holds the collapsed pair. All
-four cross parents are homozygous reference at the partner site, so XZ1516 --
-the only one of the four carrying the residue-151 variant at all -- is 151T.
+Residue 151 is one codon with two segregating SNVs: III:13,680,412 alone gives
+151T, and with the partner at III:13,680,413 it gives 151I. The panel shows
+A151T only, because XZ1516 -- the one parent carrying a residue-151 change --
+carries 151T; 151I is in the supplement. (The earlier 20210121 panel labelled
+this row "A151I/T"; its 78/51 split was asserted in a script comment, not
+computed. 20250625 gives 85 and 62.)
 Callout rows are evenly spaced and joined to the residue by a leader rather than
 sitting at the residue's own height.
 
@@ -1831,18 +1828,19 @@ table from sequences fetched by accession.
 SUPP_FIG_XX_sid2_variants_all
 (scripts/SUPP_FIG_XX_sid2_variants_all.R)
 --------------------------------------------------------------------------------
-Every protein-altering sid-2 variant in CeNDR 20250625, in the layout of Figure
-4D and drawn by the same function. Figure 4D shows only the sites where the
-three mapping parents differ; this is the catalogue it is cut from. Source:
-supplemental_data/structure/sid2_variants_cendr20250625.tsv, the release's
-variant-browser export with non-coding and synonymous rows dropped.
+Every protein-altering sid-2 variant in CaeNDR 20250625, in the layout of
+Figure 4D and drawn by the same function. Figure 4D shows only the sites where
+the three mapping parents differ; this is the catalogue it is cut from. Source:
+supplemental_data/structure/sid2_cendr20250625_variants.csv, the release's
+variant-browser export verbatim (Table S24a), read by sid2_cendr_variants().
 
 20 forms at 19 sites: 17 missense sites, an in-frame deletion
 (A10_I12del, 4 isotypes) and a frameshift (N94Lfs*6, 1 isotype, ECA2199, on a
 96K background). Residue 151 is drawn as its two forms, 151T from
 III:13,680,412 alone (85 isotypes) and 151I with the partner SNV at
-III:13,680,413 (62). Bars are counts of isotypes carrying the change, not
-frequencies: the export lists carriers and gives no release total to divide by.
+III:13,680,413 (62). Bars are frequencies, carriers over the release's 684
+isotypes (the total is from the release page; the export lists carriers only,
+so a missing call counts as reference).
 
 Counts: V5L 9, A10_I12del 4, Q37P 7, S43G 27, D78A 6, N94Lfs*6 1, T96K 317,
 S111G 1, G117R 1, M141V 6, Q144P 6, A151I 62, A151T 85, V152A 52, P153T 328,

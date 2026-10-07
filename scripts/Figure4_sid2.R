@@ -84,7 +84,6 @@ source("scripts/sid2_variant_panel.R")
 
 OUT  <- "plots"
 SWAP <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
-VAR  <- "supplemental_data/structure/sid2_variants_cendr.tsv"
 ## Panel C is coloured by LOCAL NET CHARGE, not by secondary structure.
 ##
 ## The claim the panel makes is a charge claim: in a pathway where dsRNA
@@ -362,29 +361,26 @@ p_n2 <- ggplot(n25, aes(line, p, fill = line)) +
 ## T96K is stated in the caption. Every protein-altering site in the population,
 ## parental or not, is in the supplement.
 ##
-## Built from supplemental_data/structure/sid2_variants_cendr.tsv; run
-## scripts/sid2_variant_table.R to rebuild it.
+## Read from the CeNDR 20250625 export (sid2_cendr20250625_variants.csv) by
+## sid2_cendr_variants(); frequencies are carriers over the release's 684
+## isotypes. Residue 151 is resolved into its two forms there, and only 151T
+## (XZ1516) is parental, so the row is A151T.
 ## ===========================================================================
 msg("panel D: parental differences")
-stopifnot(file.exists(VAR))
-vr_all <- read_tsv(VAR, comment = "#", show_col_types = FALSE) %>%
-  mutate(focal = label == "T96K")
-stopifnot(all(c("ju1793_aa", "ju2466_aa", "xz1516_aa") %in% names(vr_all)),
-          !any(is.na(vr_all$xz1516_aa)))
+vr_all <- sid2_parent_columns(sid2_cendr_variants())
 vr <- vr_all %>%
   filter(ju1793_aa != ju2466_aa | ju1793_aa != xz1516_aa)
-msg("  ", nrow(vr), " of ", nrow(vr_all), " protein-altering sites differ among ",
-    "JU1793, JU2466 and XZ1516 | dropped: ",
-    paste(setdiff(vr_all$label, vr$label), collapse = ", "))
-## pinned: the caption names these seven
+msg("  ", nrow(vr), " of ", nrow(vr_all), " protein-altering forms differ among ",
+    "JU1793, JU2466 and XZ1516 (CeNDR 20250625, ", SID2_N_ISOTYPES, " isotypes)")
+## pinned: the caption names these seven and quotes their frequencies
 stopifnot(identical(vr$label, c("V5L", "D78A", "T96K", "M141V", "Q144P",
-                                "A151I/T", "L209M")))
+                                "A151T", "L209M")),
+          identical(vr$n, c(9L, 6L, 317L, 6L, 6L, 85L, 147L)))
 msg("  JU1793 vs JU2466 differ at ", sum(vr$parents_differ), " of ", nrow(vr),
     " sites: ", paste(vr$label[vr$parents_differ], collapse = ", "))
-msg("  ", paste(sprintf("%s %.3f", vr$label, vr$af), collapse = " | "))
-
+msg("  ", paste(sprintf("%s %d (%.3f)", vr$label, vr$n, vr$af), collapse = " | "))
 pD <- sid2_variant_panel(vr, letter = "D", base_size = FIG_BASE,
-                         ramp = ramp, qlim = QLIM)
+                         ramp = ramp, qlim = QLIM, bar_text = sid2_pct)
 
 ## ===========================================================================
 ## The two experiments on top, the structure across the bottom with room to

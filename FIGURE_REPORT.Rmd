@@ -474,9 +474,9 @@ the RNAi exposure rather than to the introgressions themselves.
 
 The resolved interval contains *sid-2*, which encodes an intestinal
 transmembrane protein required for the uptake of ingested double-stranded RNA.
-Of eight annotated protein-altering variants segregating in *sid-2* in the wild
-population, only two differ between the cross parents, one of which is a
-threonine-to-lysine substitution at residue 96
+Of the 20 protein-altering forms of *sid-2* across the 684 wild isotypes of
+CaeNDR release 20250625, only two differ between the cross parents, one of which
+is a threonine-to-lysine substitution at residue 96
 <span class="cite">(Figure 4D)</span>. A second common variant, P153T, is in
 near-complete linkage disequilibrium with T96K across the wild population
 (r² = 0.935) but is carried by both cross parents and therefore cannot
@@ -2172,10 +2172,10 @@ distribution and Figure S17 for model confidence.
 [D]{.pl} The *sid-2* coding differences among the three mapping parents: the
 protein drawn vertically with residue 1 at the top and its topology as a filled
 bar, and each protein-altering variant at which JU1793, JU2466 and XZ1516 do not
-all agree labelled to the right with its CeNDR allele frequency, then the allele
-state of each parent. That is seven of the eight annotated variants; P153T,
-carried by all three, is dropped, and every protein-altering site in the
-population is in Figure S24. Callout rows are evenly spaced and joined to the
+all agree labelled to the right with its frequency in CaeNDR 20250625 (carriers
+over the release's 684 isotypes), then the allele state of each parent. That is
+seven of the 20 protein-altering forms in the release; every one of them is in
+Figure S24. Callout rows are evenly spaced and joined to the
 residue by a leader rather than sitting at the residue's own height.
 
 Immediately left of the topology bar is a **local-net-charge strip on exactly
@@ -2190,30 +2190,31 @@ rather than zero, which would read as neutral.
 :::
 
 ```{r tab-variants}
-vr <- read_tsv(file.path(ST, "sid2_variants_cendr.tsv"), comment = "#",
-               show_col_types = FALSE) %>% arrange(residue)
+suppressPackageStartupMessages(library(purrr)); library(stringr)
+source("scripts/sid2_variant_panel.R")
+vr <- sid2_parent_columns(sid2_cendr_variants())
 kb(vr %>% transmute(Variant = label, Residue = residue,
-                    `CeNDR AF` = sprintf("%.3f", af),
-                    Isotypes = n_isotypes,
+                    `Isotypes carrying` = n,
+                    Frequency = sprintf("%.3f", af),
                     JU1793 = ju1793_aa, JU2466 = ju2466_aa,
                     N2 = n2_aa, XZ1516 = xz1516_aa,
-                    `Parents differ` = ifelse(parents_differ, "yes", "")),
+                    `In 4D` = ifelse(ju1793_aa != ju2466_aa |
+                                     ju1793_aa != xz1516_aa, "yes", "")),
    align = c("l", rep("r", 3), rep("c", 5)))
 n_diff <- sum(vr$parents_differ)
 diff_lab <- paste(vr$label[vr$parents_differ], collapse = " and ")
 ```
 
 ::: derived
-Derived from supplemental_data/structure/sid2_variants_cendr.tsv
+Derived from supplemental_data/structure/sid2_cendr20250625_variants.csv
 :::
 
 ::: tnote
-The table is the annotated set panel D is cut from; the panel draws the rows
-where JU1793, JU2466 and XZ1516 do not all agree. The annotation covers variants
-segregating among the four cross parents, so it is not an exhaustive catalogue:
-81 variants of any kind segregate in the 3 kb span in CeNDR, and the
-`r nrow(vr)` protein-altering ones above are what is annotated here. The full
-population catalogue, from CeNDR 20250625, is Figure S24.
+The table is every protein-altering form in CaeNDR 20250625 — the set panel D
+is cut from and Figure S24 draws in full; "In 4D" marks the rows where JU1793,
+JU2466 and XZ1516 do not all agree. Frequencies divide by the release's 684
+isotypes; the export lists carriers only, so a missing call counts as
+reference.
 :::
 
 ::: aside
@@ -2228,13 +2229,15 @@ p153 <- vr %>% filter(label == "P153T")
 ```
 
 T96K and P153T are in near-complete linkage disequilibrium across the wild
-population, `r sprintf("r² = %.3f", row$r2)`: 96K never occurs without 153T,
-though 153T occurs without 96K in nine isotypes. **Both cross parents carry
+population, `r sprintf("r² = %.3f", row$r2)` in the 20210121 genotypes: 96K
+never occurs without 153T, and in 20250625 153T occurs without 96K in
+`r length(setdiff(vr$carriers[[which(vr$label == "P153T")]], vr$carriers[[which(vr$label == "T96K")]]))`
+isotypes. **Both cross parents carry
 153T** — JU1793 is 96T/`r p153$ju1793_aa`153 and JU2466 is
 96K/`r p153$ju2466_aa`153 — so P153T does not segregate in the JU1793×JU2466
 cross and cannot account for the mapped effect.
 
-Of the `r nrow(vr)` annotated coding variants, only `r n_diff` differ between
+Of the `r nrow(vr)` protein-altering forms, only `r n_diff` differ between
 the two parents: **`r diff_lab`**. That narrows the cross's candidate coding
 changes to two by inspection.
 :::
@@ -3491,9 +3494,9 @@ include_graphics("plots/SUPP_FIG_XX_sid2_variants_all.png")
 Figure 4D draws only the sites where the three mapping parents differ. This is
 the catalogue it is cut from: every protein-altering *sid-2* change in CeNDR
 20250625 — 17 missense sites, an in-frame deletion (A10_I12del) and a frameshift
-(N94Lfs\*6) — in the same layout. Bars are the number of isotypes carrying each
-change, not a frequency, because the release's variant export lists carriers
-only. Residue 151 is drawn as its two forms: III:13,680,412 alone gives 151T
+(N94Lfs\*6) — in the same layout. Bars are the share of isotypes carrying each
+change over the release's 684 isotypes; the export lists carriers only, so the
+total comes from the release page and a missing call counts as reference. Residue 151 is drawn as its two forms: III:13,680,412 alone gives 151T
 (`85` isotypes) and with the partner SNV at III:13,680,413 it gives 151I
 (`62`).
 

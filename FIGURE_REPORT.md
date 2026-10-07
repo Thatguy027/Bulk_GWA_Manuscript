@@ -309,13 +309,13 @@ the RNAi exposure rather than to the introgressions themselves.
 
 The resolved interval contains *sid-2*, which encodes an intestinal
 transmembrane protein required for the uptake of ingested
-double-stranded RNA. Of eight annotated protein-altering variants
-segregating in *sid-2* in the wild population, only two differ between
-the cross parents, one of which is a threonine-to-lysine substitution at
-residue 96 <span class="cite">(Figure 4D)</span>. A second common
-variant, P153T, is in near-complete linkage disequilibrium with T96K
-across the wild population (r² = 0.935) but is carried by both cross
-parents and therefore cannot contribute to the mapped difference.
+double-stranded RNA. Of the 20 protein-altering forms of *sid-2* across
+the 684 wild isotypes of CaeNDR release 20250625, only two differ
+between the cross parents, one of which is a threonine-to-lysine
+substitution at residue 96 <span class="cite">(Figure 4D)</span>. A
+second common variant, P153T, is in near-complete linkage disequilibrium
+with T96K across the wild population (r² = 0.935) but is carried by both
+cross parents and therefore cannot contribute to the mapped difference.
 
 Reciprocal editing of residue 96 in both parental backgrounds moved
 hatching in both directions <span class="cite">(Figure 4A)</span>.
@@ -29946,11 +29946,11 @@ Figure S17 for model confidence.
 mapping parents: the protein drawn vertically with residue 1 at the top
 and its topology as a filled bar, and each protein-altering variant at
 which JU1793, JU2466 and XZ1516 do not all agree labelled to the right
-with its CeNDR allele frequency, then the allele state of each parent.
-That is seven of the eight annotated variants; P153T, carried by all
-three, is dropped, and every protein-altering site in the population is
-in Figure S24. Callout rows are evenly spaced and joined to the residue
-by a leader rather than sitting at the residue’s own height.
+with its frequency in CaeNDR 20250625 (carriers over the release’s 684
+isotypes), then the allele state of each parent. That is seven of the 20
+protein-altering forms in the release; every one of them is in Figure
+S24. Callout rows are evenly spaced and joined to the residue by a
+leader rather than sitting at the residue’s own height.
 
 Immediately left of the topology bar is a **local-net-charge strip on
 exactly panel C’s ramp and limits** — red negative, blue positive,
@@ -29975,10 +29975,10 @@ Variant
 Residue
 </th>
 <th style="text-align:right;">
-CeNDR AF
+Isotypes carrying
 </th>
 <th style="text-align:right;">
-Isotypes
+Frequency
 </th>
 <th style="text-align:center;">
 JU1793
@@ -29993,7 +29993,7 @@ N2
 XZ1516
 </th>
 <th style="text-align:center;">
-Parents differ
+In 4D
 </th>
 </tr>
 </thead>
@@ -30006,10 +30006,10 @@ V5L
 5
 </td>
 <td style="text-align:right;">
-0.015
+9
 </td>
 <td style="text-align:right;">
-540
+0.013
 </td>
 <td style="text-align:center;">
 L
@@ -30029,16 +30029,100 @@ yes
 </tr>
 <tr>
 <td style="text-align:left;">
+A10_I12del
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+<td style="text-align:center;">
+ALI
+</td>
+<td style="text-align:center;">
+ALI
+</td>
+<td style="text-align:center;">
+ALI
+</td>
+<td style="text-align:center;">
+ALI
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Q37P
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.010
+</td>
+<td style="text-align:center;">
+Q
+</td>
+<td style="text-align:center;">
+Q
+</td>
+<td style="text-align:center;">
+Q
+</td>
+<td style="text-align:center;">
+Q
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S43G
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 D78A
 </td>
 <td style="text-align:right;">
 78
 </td>
 <td style="text-align:right;">
-0.009
+6
 </td>
 <td style="text-align:right;">
-540
+0.009
 </td>
 <td style="text-align:center;">
 D
@@ -30053,6 +30137,35 @@ D
 A
 </td>
 <td style="text-align:center;">
+yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N94Lfs\*6
+</td>
+<td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:center;">
+N
+</td>
+<td style="text-align:center;">
+N
+</td>
+<td style="text-align:center;">
+N
+</td>
+<td style="text-align:center;">
+N
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 <tr>
@@ -30063,10 +30176,10 @@ T96K
 96
 </td>
 <td style="text-align:right;">
-0.453
+317
 </td>
 <td style="text-align:right;">
-537
+0.463
 </td>
 <td style="text-align:center;">
 T
@@ -30086,16 +30199,72 @@ yes
 </tr>
 <tr>
 <td style="text-align:left;">
+S111G
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+S
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+G117R
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 M141V
 </td>
 <td style="text-align:right;">
 141
 </td>
 <td style="text-align:right;">
-0.009
+6
 </td>
 <td style="text-align:right;">
-540
+0.009
 </td>
 <td style="text-align:center;">
 M
@@ -30110,6 +30279,7 @@ M
 V
 </td>
 <td style="text-align:center;">
+yes
 </td>
 </tr>
 <tr>
@@ -30120,10 +30290,10 @@ Q144P
 144
 </td>
 <td style="text-align:right;">
-0.009
+6
 </td>
 <td style="text-align:right;">
-540
+0.009
 </td>
 <td style="text-align:center;">
 Q
@@ -30138,20 +30308,49 @@ Q
 P
 </td>
 <td style="text-align:center;">
+yes
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-A151I/T
+A151I
 </td>
 <td style="text-align:right;">
 151
 </td>
 <td style="text-align:right;">
-0.195
+62
 </td>
 <td style="text-align:right;">
-539
+0.091
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A151T
+</td>
+<td style="text-align:right;">
+151
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+0.124
 </td>
 <td style="text-align:center;">
 A
@@ -30164,6 +30363,35 @@ A
 </td>
 <td style="text-align:center;">
 T
+</td>
+<td style="text-align:center;">
+yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V152A
+</td>
+<td style="text-align:right;">
+152
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+0.076
+</td>
+<td style="text-align:center;">
+V
+</td>
+<td style="text-align:center;">
+V
+</td>
+<td style="text-align:center;">
+V
+</td>
+<td style="text-align:center;">
+V
 </td>
 <td style="text-align:center;">
 </td>
@@ -30176,10 +30404,10 @@ P153T
 153
 </td>
 <td style="text-align:right;">
-0.470
+328
 </td>
 <td style="text-align:right;">
-538
+0.480
 </td>
 <td style="text-align:center;">
 T
@@ -30189,6 +30417,34 @@ T
 </td>
 <td style="text-align:center;">
 P
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T158A
+</td>
+<td style="text-align:right;">
+158
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+T
 </td>
 <td style="text-align:center;">
 T
@@ -30204,10 +30460,10 @@ L209M
 209
 </td>
 <td style="text-align:right;">
-0.195
+147
 </td>
 <td style="text-align:right;">
-539
+0.215
 </td>
 <td style="text-align:center;">
 L
@@ -30222,6 +30478,91 @@ L
 M
 </td>
 <td style="text-align:center;">
+yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T223A
+</td>
+<td style="text-align:right;">
+223
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+T
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A291P
+</td>
+<td style="text-align:right;">
+291
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+A
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+G299E
+</td>
+<td style="text-align:right;">
+299
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
+G
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 </tbody>
@@ -30229,19 +30570,17 @@ M
 
 <div class="derived">
 
-Derived from supplemental_data/structure/sid2_variants_cendr.tsv
+Derived from supplemental_data/structure/sid2_cendr20250625_variants.csv
 
 </div>
 
 <div class="tnote">
 
-The table is the annotated set panel D is cut from; the panel draws the
-rows where JU1793, JU2466 and XZ1516 do not all agree. The annotation
-covers variants segregating among the four cross parents, so it is not
-an exhaustive catalogue: 81 variants of any kind segregate in the 3 kb
-span in CeNDR, and the 8 protein-altering ones above are what is
-annotated here. The full population catalogue, from CeNDR 20250625, is
-Figure S24.
+The table is every protein-altering form in CaeNDR 20250625 — the set
+panel D is cut from and Figure S24 draws in full; “In 4D” marks the rows
+where JU1793, JU2466 and XZ1516 do not all agree. Frequencies divide by
+the release’s 684 isotypes; the export lists carriers only, so a missing
+call counts as reference.
 
 </div>
 
@@ -30250,14 +30589,15 @@ Figure S24.
 <span class="ch">Linkage, and why it does not confound the cross</span>
 
 T96K and P153T are in near-complete linkage disequilibrium across the
-wild population, r² = 0.935: 96K never occurs without 153T, though 153T
-occurs without 96K in nine isotypes. **Both cross parents carry 153T** —
-JU1793 is 96T/T153 and JU2466 is 96K/T153 — so P153T does not segregate
-in the JU1793×JU2466 cross and cannot account for the mapped effect.
+wild population, r² = 0.935 in the 20210121 genotypes: 96K never occurs
+without 153T, and in 20250625 153T occurs without 96K in 11 isotypes.
+**Both cross parents carry 153T** — JU1793 is 96T/T153 and JU2466 is
+96K/T153 — so P153T does not segregate in the JU1793×JU2466 cross and
+cannot account for the mapped effect.
 
-Of the 8 annotated coding variants, only 2 differ between the two
-parents: **V5L and T96K**. That narrows the cross’s candidate coding
-changes to two by inspection.
+Of the 20 protein-altering forms, only 2 differ between the two parents:
+**V5L and T96K**. That narrows the cross’s candidate coding changes to
+two by inspection.
 
 </div>
 
@@ -32964,10 +33304,11 @@ Figure 4D draws only the sites where the three mapping parents differ.
 This is the catalogue it is cut from: every protein-altering *sid-2*
 change in CeNDR 20250625 — 17 missense sites, an in-frame deletion
 (A10_I12del) and a frameshift (N94Lfs\*6) — in the same layout. Bars are
-the number of isotypes carrying each change, not a frequency, because
-the release’s variant export lists carriers only. Residue 151 is drawn
-as its two forms: III:13,680,412 alone gives 151T (`85` isotypes) and
-with the partner SNV at III:13,680,413 it gives 151I (`62`).
+the share of isotypes carrying each change over the release’s 684
+isotypes; the export lists carriers only, so the total comes from the
+release page and a missing call counts as reference. Residue 151 is
+drawn as its two forms: III:13,680,412 alone gives 151T (`85` isotypes)
+and with the partner SNV at III:13,680,413 it gives 151I (`62`).
 
 **The common changes are nested on one haplotype.** P153T is carried by
 `328` isotypes and T96K by `317`, every one of which also carries 153T;
@@ -34570,7 +34911,7 @@ SUPP_FIG_XX_simulation_depth
 484
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34584,7 +34925,7 @@ SUPP_FIG_XX_dilution_validation
 466
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34598,7 +34939,7 @@ Figure1_pos1
 766
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34612,7 +34953,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 411
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34626,7 +34967,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 386
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34640,7 +34981,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 442
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34654,7 +34995,7 @@ SUPP_FIG_XX_downsample_per_sample
 268
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34668,7 +35009,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 108
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34682,7 +35023,7 @@ SUPP_FIG_XX_baugh_analyses
 611
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34696,7 +35037,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 335
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34710,7 +35051,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 190
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34724,7 +35065,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34738,7 +35079,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34752,7 +35093,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34766,7 +35107,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34780,7 +35121,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34791,10 +35132,10 @@ Figure 4
 Figure4_sid2
 </td>
 <td style="text-align:right;">
-556
+559
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:07
 </td>
 </tr>
 <tr>
@@ -34808,7 +35149,7 @@ SUPP_FIG_XX_n2_swap_dose
 243
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34822,7 +35163,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 555
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34836,7 +35177,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 465
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34850,7 +35191,7 @@ SUPP_FIG_XX_sid2_electrostatics
 801
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34864,7 +35205,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34878,7 +35219,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34892,7 +35233,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34906,7 +35247,7 @@ SUPP_FIG_XX_nil_interval_genes
 111
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34920,7 +35261,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34934,7 +35275,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 616
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34948,7 +35289,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 662
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:00
 </td>
 </tr>
 <tr>
@@ -34959,10 +35300,10 @@ Figure S24
 SUPP_FIG_XX_sid2_variants_all
 </td>
 <td style="text-align:right;">
-192
+212
 </td>
 <td style="text-align:right;">
-2026-10-06 20:54
+2026-10-06 21:07
 </td>
 </tr>
 </tbody>

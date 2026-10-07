@@ -9,14 +9,12 @@
 ## by the same sid2_variant_panel() so the two read as one design.
 ##
 ## WHAT DIFFERS FROM 4D, AND WHY
-##   Source. 4D reads sid2_variants_cendr.tsv, annotated only at sites
-##   segregating among the four cross parents. This reads the 20250625 export,
-##   sid2_variants_cendr20250625.tsv, which annotates the population.
-##   Bars are COUNTS of isotypes carrying the alternate, not frequencies: the
-##   export lists carriers only, so there is no denominator to divide by.
-##   Residue 151 is split into its two forms. 13680412 alone gives 151T; with the
-##   partner SNV at 13680413 it gives 151I. 4D keeps the single "A151I/T" row
-##   because only 151T is parental; here each form has its own count.
+##   Nothing in the data: both read the CeNDR 20250625 export
+##   (sid2_cendr20250625_variants.csv) through sid2_cendr_variants(), and both
+##   draw frequencies over the release's 684 isotypes. 4D keeps only the rows
+##   where the three mapping parents differ; this keeps all 20.
+##   Residue 151 appears as both of its forms here, 151T and 151I; 4D shows
+##   only 151T, the one a parent (XZ1516) carries.
 ##
 ## The parental columns are read from the same carrier lists. The band still
 ## marks sites where JU1793 and JU2466 differ, as in 4D.
@@ -28,7 +26,6 @@ suppressPackageStartupMessages({
 })
 
 OUT <- "plots"
-VAR <- "supplemental_data/structure/sid2_variants_cendr20250625.tsv"
 
 source("scripts/figure_palette.R")
 source("scripts/figure_theme.R")
@@ -41,36 +38,17 @@ QLIM <- 2
 ramp <- colorRampPalette(RColorBrewer::brewer.pal(11, "RdBu"))(64)
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 
-v <- read_tsv(VAR, comment = "#", show_col_types = FALSE) %>%
-  mutate(carr = strsplit(carriers, " "))
-C <- setNames(v$carr, v$site)
-
-## residue 151, resolved into its two forms
-v151 <- v %>% filter(site == "snp412")
-r151 <- bind_rows(
-  v151 %>% mutate(label = "A151T", alt_aa = "T",
-                  carr = list(setdiff(C$snp412, C$snp413))),
-  v151 %>% mutate(label = "A151I", alt_aa = "I",
-                  carr = list(intersect(C$snp412, C$snp413))))
-stopifnot(all(C$snp413 %in% C$snp412))   # the partner never occurs alone
-
-vr <- bind_rows(v %>% filter(!site %in% c("snp412", "snp413")), r151) %>%
-  mutate(n = lengths(carr))
-parent_aa <- function(s) ifelse(map_lgl(vr$carr, ~ s %in% .x), vr$alt_aa, vr$ref_aa)
-vr <- vr %>%
-  mutate(ju1793_aa = parent_aa("JU1793"), ju2466_aa = parent_aa("JU2466"),
-         xz1516_aa = parent_aa("XZ1516"),
-         parents_differ = ju1793_aa != ju2466_aa,
-         focal = label == "T96K") %>%
-  arrange(residue, label)
+vr <- sid2_parent_columns(sid2_cendr_variants())
+C  <- setNames(vr$carriers, vr$label)
 
 cat("\n== protein-altering sid-2 sites, CeNDR 20250625 ==\n")
-print(as.data.frame(vr %>% select(label, consequence, n, ju1793_aa, ju2466_aa,
-                                  xz1516_aa)), row.names = FALSE)
+print(as.data.frame(vr %>% transmute(label, consequence, n, af = round(af, 4),
+                                     ju1793_aa, ju2466_aa, xz1516_aa)),
+      row.names = FALSE)
 on96 <- vr %>% filter(label != "T96K") %>%
-  mutate(on_96K = map_int(carr, ~ sum(.x %in% C$T96K)))
+  mutate(on_96K = map_int(carriers, ~ sum(.x %in% C$T96K)))
 cat(sprintf("\nisotypes named: %d | T96K %d, all of them 153T: %s | 153T without 96K: %d\n",
-            length(unique(unlist(vr$carr))), length(C$T96K),
+            length(unique(unlist(vr$carriers))), length(C$T96K),
             all(C$T96K %in% C$P153T), length(setdiff(C$P153T, C$T96K))))
 cat("sites never on 96K:", paste(on96$label[on96$on_96K == 0], collapse = ", "),
     "| only on 96K:", paste(on96$label[on96$on_96K == on96$n], collapse = ", "), "\n")
@@ -90,9 +68,7 @@ stopifnot(nrow(vr) == 20, all(C$T96K %in% C$P153T),
 msg("pins agree")
 
 p <- sid2_variant_panel(vr, letter = NULL, base_size = BASE_SIZE,
-                        ramp = ramp, qlim = QLIM, bar = "n",
-                        bar_max = max(vr$n), bar_text = function(x) as.character(x),
-                        bar_header = "Isotypes carrying")
+                        ramp = ramp, qlim = QLIM, bar_text = sid2_pct)
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_sid2_variants_all.pdf"), p, width = 6.2,
        height = 9.2, device = cairo_pdf)

@@ -214,13 +214,13 @@ Local net charge in 12 A windows across the SID-2 ectodomain, per residue, at tw
 
 *Source in repository:* `supplemental_data/structure/sid2_local_charge.tsv; supplemental_data/structure/sid2_per_residue.tsv`  (0.03 MB)
 
-### Table S24 — `Table_S24_sid2_population_variants_a.tsv; Table_S24_sid2_population_variants_b.tsv; Table_S24_sid2_population_variants_c.tsv`
+### Table S24 — `Table_S24_sid2_population_variants_a.csv; Table_S24_sid2_population_variants_b.tsv; Table_S24_sid2_population_variants_c.tsv; Table_S24_sid2_population_variants_d.tsv`
 
-sid-2 variation across the wild population from CaeNDR, the missense variants among it, and the differences between the parents of each cross, including the T96K site and its allele assignment.
+sid-2 variation across the wild population from CaeNDR. (a) The CaeNDR 20250625 variant export for sid-2, verbatim: every variant in the gene, its consequence, and the isotypes carrying it, the source of Figure 4D and Figure S12 (frequencies are carriers over the release's 684 isotypes). (b-d) The earlier annotation: protein-altering variants segregating among the cross parents with 20210121 frequencies, the population missense set from 20231213, and the differences between the parents of each cross.
 
 **Cite near:** “high-frequency variant in the dsRNA transporter SID-2”
 
-*Source in repository:* `supplemental_data/structure/sid2_variants_cendr.tsv; supplemental_data/structure/sid2_population_missense.tsv; supplemental_data/structure/sid2_parental_variants.tsv`  (0.00 MB)
+*Source in repository:* `supplemental_data/structure/sid2_cendr20250625_variants.csv; supplemental_data/structure/sid2_variants_cendr.tsv; supplemental_data/structure/sid2_population_missense.tsv; supplemental_data/structure/sid2_parental_variants.tsv`  (0.04 MB)
 
 ### Table S25 — `Table_S25_strains.csv`
 

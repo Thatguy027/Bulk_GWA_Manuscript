@@ -210,12 +210,17 @@ TABLES = [
   "topology region and coordinates.",
   "local net charge in 12"),
 
- (24, "sid2_population_variants", ["supplemental_data/structure/sid2_variants_cendr.tsv",
+ (24, "sid2_population_variants", ["supplemental_data/structure/sid2_cendr20250625_variants.csv",
+   "supplemental_data/structure/sid2_variants_cendr.tsv",
    "supplemental_data/structure/sid2_population_missense.tsv",
    "supplemental_data/structure/sid2_parental_variants.tsv"],
-  "sid-2 variation across the wild population from CaeNDR, the missense variants "
-  "among it, and the differences between the parents of each cross, including the "
-  "T96K site and its allele assignment.",
+  "sid-2 variation across the wild population from CaeNDR. (a) The CaeNDR 20250625 "
+  "variant export for sid-2, verbatim: every variant in the gene, its consequence, "
+  "and the isotypes carrying it, the source of Figure 4D and Figure S12 "
+  "(frequencies are carriers over the release's 684 isotypes). (b-d) The earlier "
+  "annotation: protein-altering variants segregating among the cross parents with "
+  "20210121 frequencies, the population missense set from 20231213, and the "
+  "differences between the parents of each cross.",
   "high-frequency variant in the dsRNA transporter SID-2"),
 
  (25, "strains", ["supplemental_data/Table_S25_strains.csv"],

@@ -462,7 +462,7 @@ built from, by UniProt accession, with the fetch date.
 | `sid2_per_residue.tsv` | per-residue annotation derived from the model |
 | `sid2_variants_cendr.tsv` | *sid-2* protein-altering variants with population frequencies |
 | `sid2_variant_ld.tsv` | pairwise LD among those variants |
-| `sid2_variants_cendr20250625.tsv` | every *sid-2* protein-altering variant in CeNDR 20250625, with the isotypes carrying each |
+| `sid2_cendr20250625_variants.csv` | the CaeNDR 20250625 *sid-2* variant export, verbatim, with the isotypes carrying each variant |
 | `sid2_parental_variants.tsv` | annotated variants distinguishing the cross parents |
 
 **Model confidence limits use.** ipTM is 0.45–0.46 and pTM 0.46–0.48 across all
@@ -487,21 +487,19 @@ extracellular 21–193, TM helix 194–211, cytoplasmic 212–311.
 | `topology` | DeepTMHMM region name |
 | `x`, `y`, `z` | Cα coordinates, in the model's own frame |
 
-**`sid2_variants_cendr20250625.tsv`** (20 rows, after a `#` provenance header) —
-the CeNDR 20250625 variant-browser export for *sid-2*, protein-altering rows
-only, read by `SUPP_FIG_XX_sid2_variants_all.R`. Carrier lists, not
-frequencies: the export gives no release total. The `snp413` row is the
-residue-151 partner SNV, synonymous alone; the figure derives 151T and 151I from
-it and the `snp412` row.
-
-| column | description |
-|---|---|
-| `site` | row key |
-| `chrom`, `pos`, `ref`, `alt` | the variant |
-| `consequence` | `missense`, `inframe_deletion`, `frameshift`, or `codon_partner` |
-| `residue`, `ref_aa`, `alt_aa` | first affected residue and the change |
-| `label` | display form, e.g. `T96K`, `A10_I12del`, `N94Lfs*6` |
-| `n_carriers`, `carriers` | count and space-separated list of carrying isotypes |
+**`sid2_cendr20250625_variants.csv`** (105 rows) — the CaeNDR 20250625
+variant-browser export for *sid-2*, verbatim: every variant in the gene, of every
+consequence class, one row per annotation record. Read by `sid2_cendr_variants()`
+in `scripts/sid2_variant_panel.R`, which feeds Figure 4D and
+`SUPP_FIG_XX_sid2_variants_all.R`. Columns are CaeNDR's own (`id`, `pos`,
+`ref_seq`, `alt_seq`, `consequence`, `amino_acid_change`, `strains`, `blosum`,
+`grantham`, ...). Two things to know reading it: `strains` lists only the
+isotypes CARRYING the alternate, so frequencies divide by the release total of
+684 isotypes, which is not in the file; and a row with an empty `consequence`
+and a position in `target_consequence` is a component of a haplotype-level
+record at that position, not a variant of its own. Residue 151 has two missense
+records at 13680412 listing the same isotypes; the partner record at 13680413
+separates 151I from 151T.
 
 **`sid2_variants_cendr.tsv`** (8 rows) — provenance and the coverage caveat are
 in `sid2_variants_cendr_README.txt` beside it.

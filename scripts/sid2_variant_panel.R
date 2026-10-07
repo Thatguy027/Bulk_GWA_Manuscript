@@ -20,6 +20,82 @@
 SID2_PERRES <- "supplemental_data/structure/sid2_per_residue.tsv"
 SID2_LOCALQ <- "supplemental_data/structure/sid2_local_charge.tsv"
 
+## ---- the variant source: CeNDR 20250625, as exported -------------------------
+## supplemental_data/structure/sid2_cendr20250625_variants.csv is the release's
+## variant-browser export for sid-2, verbatim (105 rows, every consequence class).
+## It lists the isotypes CARRYING each alternate and nothing else, so frequencies
+## divide by the release's isotype total, which the export does not carry: 684,
+## from the 20250625 release page. A strain absent from a list is counted as not
+## carrying it, so a missing call is read as reference; the export gives no way
+## to tell the two apart.
+SID2_CENDR <- "supplemental_data/structure/sid2_cendr20250625_variants.csv"
+SID2_N_ISOTYPES <- 684
+
+## One row per protein-altering form: missense, in-frame deletion, frameshift.
+## Residue 151 is one codon with two SNVs, and the export carries it as two
+## missense records at 13680412 that list the SAME isotypes (every carrier of
+## 13680412), plus a partner record at 13680413. The two forms are resolved here:
+## 151T is 13680412 without the partner, 151I is 13680412 with it.
+## Labels are derived from amino_acid_change, never typed in: "96T>96K" -> T96K;
+## "9FALI>9F" -> A10_I12del; the frameshift's long sequence pair -> the first
+## residue that differs, its replacement, and the distance to the new stop
+## (N94Lfs*6).
+sid2_cendr_variants <- function(path = SID2_CENDR, n_iso = SID2_N_ISOTYPES) {
+  x <- read_csv(path, show_col_types = FALSE, col_types = cols(.default = "c"))
+  stopifnot(nrow(x) == 105, all(x$release == "20250625"))
+  pa <- x %>% filter(consequence %in% c("missense", "inframe_deletion", "frameshift"))
+  parse_aa <- function(s) {
+    m <- str_match(s, "^(\\d+)([A-Z*]+)>(\\d+)([A-Z*]+)$")
+    start <- as.integer(m[2]); ref <- m[3]; alt <- m[5]
+    i <- which(strsplit(ref, "")[[1]][seq_len(min(nchar(ref), nchar(alt)))] !=
+               strsplit(alt, "")[[1]][seq_len(min(nchar(ref), nchar(alt)))])[1]
+    if (nchar(ref) == 1 && nchar(alt) == 1)            # plain missense
+      return(list(residue = start, ref_aa = ref, alt_aa = alt,
+                  label = paste0(ref, start, alt)))
+    if (is.na(i)) {                                    # in-frame deletion
+      k <- nchar(alt); del <- substr(ref, k + 1, nchar(ref)); r0 <- start + k
+      return(list(residue = r0, ref_aa = del, alt_aa = "del",
+                  label = sprintf("%s%d_%s%ddel", substr(del, 1, 1), r0,
+                                  substr(del, nchar(del), nchar(del)),
+                                  r0 + nchar(del) - 1)))
+    }
+    r0 <- start + i - 1                                # frameshift
+    list(residue = r0, ref_aa = substr(ref, i, i), alt_aa = "fs",
+         label = sprintf("%s%d%sfs*%d", substr(ref, i, i), r0, substr(alt, i, i),
+                         nchar(alt) - i + 1))
+  }
+  base <- pa %>% filter(!(pos == "13680412")) %>%
+    mutate(p = map(amino_acid_change, parse_aa),
+           carriers = strsplit(strains, " ")) %>%
+    mutate(residue = map_int(p, "residue"), ref_aa = map_chr(p, "ref_aa"),
+           alt_aa = map_chr(p, "alt_aa"), label = map_chr(p, "label")) %>%
+    select(pos, consequence, residue, ref_aa, alt_aa, label, carriers)
+  c412 <- pa %>% filter(pos == "13680412")
+  stopifnot(nrow(c412) == 2, c412$strains[1] == c412$strains[2])
+  s412 <- strsplit(c412$strains[1], " ")[[1]]
+  s413 <- strsplit(x$strains[x$pos == "13680413"], " ")[[1]]
+  stopifnot(all(s413 %in% s412))
+  r151 <- tibble(pos = "13680412", consequence = "missense", residue = 151L,
+                 ref_aa = "A", alt_aa = c("T", "I"), label = c("A151T", "A151I"),
+                 carriers = list(setdiff(s412, s413), intersect(s412, s413)))
+  bind_rows(base, r151) %>%
+    mutate(pos = as.integer(pos), n = lengths(carriers), af = n / n_iso) %>%
+    arrange(residue, label)
+}
+
+## the residue each parent carries, read off the same carrier lists
+sid2_parent_columns <- function(v) {
+  aa <- function(s) ifelse(map_lgl(v$carriers, ~ s %in% .x), v$alt_aa, v$ref_aa)
+  v %>% mutate(ju1793_aa = aa("JU1793"), ju2466_aa = aa("JU2466"),
+               xz1516_aa = aa("XZ1516"), n2_aa = aa("N2"),
+               parents_differ = ju1793_aa != ju2466_aa,
+               focal = label == "T96K")
+}
+
+## percentages, with one decimal below 1% so a rare variant does not read "0%"
+sid2_pct <- function(x) ifelse(x < 0.01, sprintf("%.1f%%", 100 * x),
+                               sprintf("%.0f%%", 100 * x))
+
 sid2_variant_panel <- function(vr, letter = "D", base_size, ramp, qlim,
                                bar = "af", bar_max = 1,
                                bar_text = function(x) sprintf("%.0f%%", 100 * x),

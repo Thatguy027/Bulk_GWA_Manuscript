@@ -130,15 +130,12 @@ frequency, followed by the residue each parent carries. JU1793 and JU2466 are
 the parents of the cross mapped here, and rows where they differ are shaded;
 XZ1516, the parent of the second mapping cross, is given for reference and is
 not shaded. Callouts are evenly spaced and joined to their residue by a leader.
-Seven variants are shown: V5L 0.015, D78A 0.009, T96K 0.453, M141V 0.009,
-Q144P 0.009, A151I/T 0.195 and L209M 0.195. A151I/T carries two residues in its
-name because the residue-151 codon holds a second segregating change: isotypes
-carrying the annotated variant alone encode 151T (73 isotypes) and those
-carrying it together with the neighbouring change encode 151I (32); each
-parent's column gives the single residue it carries. Only V5L and T96K differ
-between the cross parents. P153T, carried by all three parents, is not shown;
-it is in near-complete linkage disequilibrium with T96K across the wild
-population (r-squared 0.935) but does not segregate in either cross. Immediately
+Frequencies are the share of the 684 isotypes in CaeNDR release 20250625
+carrying each change. Seven variants are shown: V5L 0.013, D78A 0.009,
+T96K 0.463, M141V 0.009, Q144P 0.009, A151T 0.124 and L209M 0.215. Only V5L and
+T96K differ between the cross parents. P153T, carried by all three parents, is
+not shown; every isotype carrying T96K also carries P153T, but P153T does not
+segregate in either cross. Immediately
 left of the topology bar, the column headed "Net charge" gives the local net
 charge at each residue on exactly the ramp and limits used in (C); it spans
 residues 21-188, the extent of the modelled ectodomain. Every protein-altering
@@ -363,15 +360,15 @@ H168 at +0.85 e and H175 at +1.46 e. The domain is net acidic overall, -8.34 e
 at pH 7.4 and +0.47 e at pH 4.4 across residues 21-188.
 
 ## Figure S12
-Every protein-altering sid-2 variant in the wild population (CeNDR release
-20250625), drawn as in Figure 4D. The protein runs vertically with residue 1 at
+Every protein-altering sid-2 variant in the wild population (CaeNDR release
+20250625, 684 isotypes), drawn as in Figure 4D. The protein runs vertically with residue 1 at
 the top, its DeepTMHMM topology as a filled bar and the local net charge of the
 modelled ectodomain (residues 21-188) at left, on the scale of Figure 4C. Each
-change is called out with the number of isotypes carrying it, followed by the
+change is called out with the share of isotypes carrying it, followed by the
 residue carried by JU1793, JU2466 and XZ1516; rows where JU1793 and JU2466
 differ are shaded. 20 forms at 19 sites: 17 missense sites, an
 in-frame deletion of residues 10-12 (A10_I12del) and a frameshift (N94Lfs*6).
-Residue 151 is shown as its two forms, 151T (85 isotypes) and 151I (62), which
-depend on a second change in the same codon. T96K (317 isotypes) occurs only
-together with P153T (328); every change except V5L, S111G and the in-frame
-deletion occurs only in isotypes carrying T96K.
+Residue 151 is shown as its two forms, 151T (0.124) and 151I (0.091), which
+depend on a second change in the same codon. T96K (0.463) occurs only together
+with P153T (0.480); every change except V5L, S111G and the in-frame deletion
+occurs only in isotypes carrying T96K. Variant calls are in Table S24.
