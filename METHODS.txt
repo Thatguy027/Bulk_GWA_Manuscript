@@ -356,7 +356,11 @@ and the vendored .fcnnls in the original script -- and more replicates would
 settle whether it is real.]
 
 Designed DNA mixture. 174 wild isolates were divided into four sets of roughly
-equal size (A, B, C, D). Genomic DNA from each set was pooled and sequenced both
+equal size (A, B, C, D). Four of them are not estimated by the deconvolution and
+every per-strain quantity from this experiment is out of 170: ECA252 and LSJ1
+have no CeNDR isotype, JU1580 and JU1793 share an isotype and therefore one
+column of the reference, and CB4858 is absent from the genotype matrix
+(scripts/SUPP_FIG_XX_dilution_validation.R prints and asserts that chain). Genomic DNA from each set was pooled and sequenced both
 pure -- three libraries per set -- and as a seven-step titration of set B
 against set C. Alt-allele counts were taken with GATK ASEReadCounter, markers
 were restricted to those with mean depth across samples above 5 and below 100,

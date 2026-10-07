@@ -733,7 +733,15 @@ sequence.
 Genomic DNA from each set was pooled and sequenced both pure -- three libraries
 per set -- and as a seven-step titration of set B against set C, BC1 to BC7.
 Alt-allele counts were taken with GATK ASEReadCounter and deconvolved to
-per-strain frequencies by NNLS against the CeNDR genotype matrix. This is the
+per-strain frequencies by NNLS against the CeNDR genotype matrix.
+
+Four of the 174 are not estimated by the deconvolution, so every per-strain
+number below is out of 170: ECA252 and LSJ1 have no CeNDR isotype, JU1580 and
+JU1793 share an isotype and so one reference column, and CB4858 is absent from
+the genotype matrix. The script prints that chain on every run and
+asserts each step, so the two counts cannot drift apart.
+
+This is the
 middle of the three validations: the simulation has a known input and simulated
 counts, this has a known input and real counts, and Figure 1A has a real input
 and real counts.

@@ -208,7 +208,10 @@ sequence.
 Genomic DNA from each set was pooled and sequenced both pure, three libraries
 per set, and as a seven-step titration of set B against set C (BC1 to BC7).
 Alt-allele counts were deconvolved to per-strain frequencies against the CeNDR
-genotype matrix.
+genotype matrix. Four of the 174 are not estimated by the deconvolution, so every per-strain
+number below is out of 170: ECA252 and LSJ1 have no CeNDR isotype, JU1580 and
+JU1793 share an isotype and so one reference column, and CB4858 is absent from
+the genotype matrix.
 
 (A) Pure pools, three libraries each. The fraction of each pool assigned to its
 own set is 0.785 for A, 0.775 for B, 0.796 for C and 0.853 for D (filled

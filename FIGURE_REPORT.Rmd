@@ -354,7 +354,10 @@ which all seven reached r² ≥ 0.95.
 We then asked whether real libraries behave as the simulation predicts. We
 divided 174 wild isolates into four sets, pooled genomic DNA from each, and
 sequenced the pools both pure and as a seven-step titration of one set against
-another <span class="cite">(Figure S2)</span>. Pure pools returned 0.775–0.853
+another <span class="cite">(Figure S2)</span>. Four of the 174 are not
+estimated by the deconvolution — two have no CeNDR isotype, two share one
+between them or are absent from the genotype matrix — so every per-strain
+number is out of `170`. Pure pools returned 0.775–0.853
 of their own set. Across the titration the two titrated sets traded off
 monotonically — set B rising from 0.12 to 0.72 and set C falling from 0.70 to
 0.10 (Spearman ρ = +1 and −1 against titration step) — while the two untitrated
@@ -743,8 +746,8 @@ output.
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_dilution_validation.R`<br>
 **Validates** NNLS against a known input, with real counts<br>
-**Design** 174 isolates in 4 sets; pure pools in triplicate + a 7-step B-into-C
-titration<br>
+**Design** 174 isolates in 4 sets, `170` of them estimable; pure pools in
+triplicate + a 7-step B-into-C titration<br>
 **Counts** GATK ASEReadCounter
 :::
 

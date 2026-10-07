@@ -12,7 +12,14 @@
 ##   E  whether the strains that resolve badly are the genetically similar ones
 ##
 ## THE EXPERIMENT. 174 wild isolates were split into four sets of roughly equal
-## size (A, B, C, D). Genomic DNA from each set was pooled, and the pools were
+## size (A, B, C, D).
+##
+## TWO COUNTS APPEAR BELOW AND BOTH ARE RIGHT. 174 is what was pooled; 170 is
+## what the deconvolution can estimate, and it is the n for every per-strain
+## quantity here. Four strains fall out between them: ECA252 and LSJ1 have no
+## CeNDR isotype, JU1580 shares the isotype JU1793 with another pooled strain
+## so the two are one column in the reference, and CB4858 (pooled as ECA251) is
+## absent from the genotype matrix. The script prints that chain on every run. Genomic DNA from each set was pooled, and the pools were
 ## sequenced both pure -- A0/A1/A2 and so on, three libraries per set -- and as
 ## a seven-step titration of set B against set C, BC1 to BC7. Alt-allele counts
 ## were taken with GATK ASEReadCounter and deconvolved to per-strain
@@ -169,8 +176,28 @@ pool <- read_tsv(POOL, show_col_types = FALSE) %>%
 stopifnot(!anyNA(pool$set),
           nrow(pool) == n_distinct(pool$strain) * n_distinct(pool$sample))
 cat("pool reference: ", n_distinct(pool$strain), " isotypes x ",
-    n_distinct(pool$sample), " samples", 
-    " (JU1793 resolved to set ", AMBIGUOUS[["JU1793"]], ")\n\n", sep = "")
+    n_distinct(pool$sample), " samples",
+    " (JU1793 resolved to set ", AMBIGUOUS[["JU1793"]], ")\n", sep = "")
+
+## ---------------------------------------------------------------------------
+## WHY THE COUNT FALLS FROM 174 TO 170, printed rather than asserted, because
+## two different quantities appear in this figure's text and a reader meeting
+## both without the bridge will read it as an inconsistency.
+## ---------------------------------------------------------------------------
+no_iso  <- sets_raw %>% filter(is.na(isotype))
+shared  <- sets_raw %>% filter(!is.na(isotype)) %>%
+  add_count(isotype) %>% filter(n > 1) %>% arrange(isotype, strain)
+absent  <- setdiff(unique(na.omit(sets_raw$isotype)), unique(pool$strain))
+cat("  pooled strains ", nrow(sets_raw),
+    " -> no CeNDR isotype ", nrow(no_iso), " (", paste(no_iso$strain, collapse = ", "), ")",
+    " -> sharing an isotype ", nrow(shared) - n_distinct(shared$isotype),
+    " (", paste(shared$strain, collapse = " + "), " are isotype ",
+    paste(unique(shared$isotype), collapse = ", "), ")",
+    " -> absent from the reference ", length(absent),
+    " (", paste(absent, collapse = ", "), ")",
+    " = ", n_distinct(pool$strain), " estimated\n\n", sep = "")
+stopifnot(nrow(sets_raw) == 174, nrow(no_iso) == 2, nrow(shared) == 2,
+          length(absent) == 1, n_distinct(pool$strain) == 170)
 
 setf <- pool %>% group_by(sample, set) %>%
   summarise(f = sum(frequency), .groups = "drop")

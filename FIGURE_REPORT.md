@@ -177,19 +177,22 @@ at which all seven reached r² ≥ 0.95.
 We then asked whether real libraries behave as the simulation predicts.
 We divided 174 wild isolates into four sets, pooled genomic DNA from
 each, and sequenced the pools both pure and as a seven-step titration of
-one set against another <span class="cite">(Figure S2)</span>. Pure
-pools returned 0.775–0.853 of their own set. Across the titration the
-two titrated sets traded off monotonically — set B rising from 0.12 to
-0.72 and set C falling from 0.70 to 0.10 (Spearman ρ = +1 and −1 against
-titration step) — while the two untitrated sets remained flat. Because
-only two sets were titrated against each other, their combined share of
-the pool must remain constant however the DNA was mixed; it did, to a
-standard deviation of 0.86% and a maximum departure of 1.38%. Against
-the designed proportions themselves the recovered fractions were
-accurate to a root mean squared error of 0.038 (Pearson r = 0.997), with
-the largest single deviation at the step whose 0.1 µL of set B was the
-smallest volume pipetted; each dilution was prepared once, so pipetting
-error is unreplicated and enters that figure in full.
+one set against another <span class="cite">(Figure S2)</span>. Four of
+the 174 are not estimated by the deconvolution — two have no CeNDR
+isotype, two share one between them or are absent from the genotype
+matrix — so every per-strain number is out of `170`. Pure pools returned
+0.775–0.853 of their own set. Across the titration the two titrated sets
+traded off monotonically — set B rising from 0.12 to 0.72 and set C
+falling from 0.70 to 0.10 (Spearman ρ = +1 and −1 against titration
+step) — while the two untitrated sets remained flat. Because only two
+sets were titrated against each other, their combined share of the pool
+must remain constant however the DNA was mixed; it did, to a standard
+deviation of 0.86% and a maximum departure of 1.38%. Against the
+designed proportions themselves the recovered fractions were accurate to
+a root mean squared error of 0.038 (Pearson r = 0.997), with the largest
+single deviation at the step whose 0.1 µL of set B was the smallest
+volume pipetted; each dilution was prepared once, so pipetting error is
+unreplicated and enters that figure in full.
 
 Two limits of the inference emerged from the same experiment. Roughly a
 fifth of each pure pool was assigned to strains absent from it, and that
@@ -838,8 +841,8 @@ not exactly a clean NNLS output.
 
 **Script** `scripts/SUPP_FIG_XX_dilution_validation.R`<br> **Validates**
 NNLS against a known input, with real counts<br> **Design** 174 isolates
-in 4 sets; pure pools in triplicate + a 7-step B-into-C titration<br>
-**Counts** GATK ASEReadCounter
+in 4 sets, `170` of them estimable; pure pools in triplicate + a 7-step
+B-into-C titration<br> **Counts** GATK ASEReadCounter
 
 </div>
 
@@ -34911,7 +34914,7 @@ SUPP_FIG_XX_simulation_depth
 473
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -34925,7 +34928,7 @@ SUPP_FIG_XX_dilution_validation
 467
 </td>
 <td style="text-align:right;">
-2026-10-07 11:34
+2026-10-07 11:41
 </td>
 </tr>
 <tr>
@@ -34939,7 +34942,7 @@ Figure1_pos1
 766
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -34953,7 +34956,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 313
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -34967,7 +34970,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 335
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -34981,7 +34984,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 344
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -34995,7 +34998,7 @@ SUPP_FIG_XX_downsample_per_sample
 211
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35009,7 +35012,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 88
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35023,7 +35026,7 @@ SUPP_FIG_XX_baugh_analyses
 520
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35037,7 +35040,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 318
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35051,7 +35054,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 190
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35065,7 +35068,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35079,7 +35082,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35093,7 +35096,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35107,7 +35110,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35121,7 +35124,7 @@ SUPP_FIG_XX_nil_hatching_full
 112
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35135,7 +35138,7 @@ Figure4_sid2
 513
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35149,7 +35152,7 @@ SUPP_FIG_XX_n2_swap_dose
 169
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35163,7 +35166,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 488
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35177,7 +35180,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 368
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35191,7 +35194,7 @@ SUPP_FIG_XX_sid2_electrostatics
 821
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35205,7 +35208,7 @@ SUPP_FIG_XX_sid2_local_charge
 64
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35219,7 +35222,7 @@ SUPP_FIG_XX_sid2_model_confidence
 434
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35233,7 +35236,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35247,7 +35250,7 @@ SUPP_FIG_XX_nil_interval_genes
 87
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35261,7 +35264,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 147
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35275,7 +35278,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 451
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35289,7 +35292,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 502
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 <tr>
@@ -35303,7 +35306,7 @@ SUPP_FIG_XX_sid2_variants_all
 212
 </td>
 <td style="text-align:right;">
-2026-10-07 11:07
+2026-10-07 11:37
 </td>
 </tr>
 </tbody>
