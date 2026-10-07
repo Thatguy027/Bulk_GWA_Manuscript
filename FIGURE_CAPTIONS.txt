@@ -968,6 +968,18 @@ pairwise comparisons of the four pos-1 replicates, at read-depth cutoff 5, with
 Spearman rho and n on each facet. Dashed line is y = x; vermillion is the
 fitted slope.
 
+N = 231, NOT THE 366 IN THE FREQUENCY FILE. The figure is about the
+reproducibility of the phenotype that was mapped, and that is the vst trait,
+which is defined for 231 strains. The other 135 are in the pool but carry no
+vst value, and 89 of them are exactly zero in all four replicates -- strains
+that never appear. Tied zeros depress a Spearman correlation, so scoring all
+366 understated every pair: rep1 vs rep2 0.867 against 0.921, rep3 vs rep4
+0.813 against 0.870, rep2 vs rep3 0.804 against 0.839, rep1 vs rep4 0.781
+against 0.831, rep2 vs rep4 0.781 against 0.808, rep1 vs rep3 0.771 against
+0.816. Figure 1B already quotes n = 231 for the same experiment, so this also
+puts the two figures on one denominator. The script asserts the 231, the 366
+and the 89.
+
 Depth cutoff 5 is used because it is the cutoff the shipped association traits
 were built from: taking the mean pos-1 delta per strain at cutoff 5 reproduces
 delta_ctrl_pos-1_T2 to 2.5e-16, against r = 0.9998 at cutoff 3 and 0.9988 at

@@ -1475,6 +1475,14 @@ All six pairwise comparisons of the four *pos-1* replicates, at read-depth
 cutoff 5, with Spearman ρ and n on each facet. Dashed line is `y = x`; red is
 the fitted slope.
 
+**n = `231`, not the `366` in the frequency file.** The phenotype this figure is
+about is the vst trait the scan was run on, and that is defined for 231 strains.
+The other 135 are in the pool but carry no vst value, and `89` of them are
+exactly zero in all four replicates — strains that never appear. Tied zeros
+depress a rank correlation, so scoring all 366 understated every pair by 0.03 to
+0.06: rep1 vs rep2 reads `0.921` against `0.867` on the full set, rep3 vs rep4
+`0.870` against `0.813`. Figure 1B already quotes n = 231 for this experiment.
+
 Depth cutoff 5 is used because it is the cutoff the shipped association traits
 were built from: taking the mean *pos-1* delta per strain at cutoff 5 reproduces
 `delta_ctrl_pos-1_T2` to `2.5e-16`, against *r* = `0.9998` at cutoff 3 and

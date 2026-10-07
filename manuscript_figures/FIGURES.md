@@ -275,8 +275,11 @@ above panel A at every depth and saturates sooner.
 Replicate reproducibility of the pooled pos-1 delta-frequency phenotype. All
 six pairwise comparisons of the four pos-1 replicate pools, with Spearman rho
 and n on each facet. The dashed line is y = x and the vermillion line is the
-fitted
-slope.
+fitted slope. Scored over the 231 strains that carry the variance-stabilised
+trait the association scan was run on, of 366 in the pool. The 135 excluded
+have no vst value and 89 of them are exactly zero in all four replicates;
+those tied zeros depress a rank correlation, so including them lowers each
+pair by 0.03 to 0.06.
 
 ---
 

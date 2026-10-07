@@ -38,6 +38,16 @@
 ## two, so the replicate figure now shows all six pairwise comparisons rather
 ## than a single scatter.
 ##
+## N = 231, NOT THE 366 IN THE FREQUENCY FILE. The figure is about the
+## reproducibility of the phenotype that was mapped, and that phenotype is the
+## vst trait, defined for 231 strains. The other 135 are in the pool but carry
+## no vst value, and 89 of them are exactly zero in all four replicates --
+## strains that never appear. Tied zeros depress a Spearman correlation, so
+## scoring all 366 understated every pair by 0.03 to 0.06: 0.867 became 0.921
+## for rep1 vs rep2, 0.771 became 0.816 for rep1 vs rep3, and so on. Figure 1B
+## already quotes n = 231 for the same experiment, so this also puts the two
+## figures on one denominator.
+##
 ## Duplicated strain entry -- JU1793
 ## ---------------------------------
 ## JU1793, and only JU1793, appears TWICE per sample in final_dataset.csv, at
@@ -113,8 +123,13 @@ reps <- collapsed %>% filter(rnai == "pos-1") %>%
             delta_ctrl = frq - ctrl_base)
 
 ## does the recomputed delta reproduce the shipped trait for unduplicated strains?
-shipped <- read_csv(file.path(DIR, "pos1_2023_association_traits.csv.gz"), show_col_types = FALSE) %>%
-  transmute(strain, shipped = `delta_ctrl_pos-1_T2`)
+traits  <- read_csv(file.path(DIR, "pos1_2023_association_traits.csv.gz"),
+                    show_col_types = FALSE)
+shipped <- traits %>% transmute(strain, shipped = `delta_ctrl_pos-1_T2`)
+## THE MAPPED SET. The frequency file carries all 366 strains of the 2023 pool,
+## but the phenotype this figure is about -- the one the association scan was
+## run on -- is the vst trait, and that is defined for 231 of them.
+mapped  <- traits %>% filter(is.finite(`vst_ctrl_pos-1_T2`)) %>% pull(strain)
 chk <- reps %>% group_by(strain) %>%
   summarise(recomputed = mean(delta_ctrl, na.rm = TRUE), .groups = "drop") %>%
   inner_join(shipped, by = "strain") %>% filter(!is.na(shipped)) %>%
@@ -133,7 +148,21 @@ if (any(chk$dup)) {
 }
 
 rep_names <- sort(unique(reps$replicate))
-wide <- reps %>% pivot_wider(names_from = replicate, values_from = delta_ctrl)
+wide_all <- reps %>% pivot_wider(names_from = replicate, values_from = delta_ctrl)
+
+## --- restrict to the strains that carry the mapped phenotype ---------------
+## Including the rest is not neutral. A strain that never appears in the pool
+## has a delta of exactly zero in every replicate, and a block of tied zeros
+## pulls a Spearman correlation down, so the full 366 understates the
+## reproducibility of the trait the scan was actually run on.
+dropped  <- wide_all %>% filter(!strain %in% mapped)
+zero_all <- sum(rowSums(dropped[rep_names] == 0, na.rm = TRUE) == length(rep_names))
+wide <- wide_all %>% filter(strain %in% mapped)
+msg("  strains: ", nrow(wide), " with a vst value, of ", nrow(wide_all),
+    " in the frequency file")
+msg("  dropped ", nrow(dropped), ", of which ", zero_all,
+    " are exactly zero in all ", length(rep_names), " replicates")
+stopifnot(nrow(wide) == 231, nrow(wide_all) == 366, zero_all == 89)
 
 ## every pair of replicates, long, so one facet per pair
 pairs_tbl <- combn(rep_names, 2, simplify = FALSE) %>%
