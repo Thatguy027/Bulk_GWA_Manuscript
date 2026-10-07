@@ -96,10 +96,10 @@ setorder(tr, strain)
 msg("pool strains: ", nrow(tr), " | with a phenotype: ", sum(!is.na(tr$delta_ctrl_pos1_T2)),
     " | no control signal: ", sum(is.na(tr$delta_ctrl_pos1_T2)))
 
-fwrite(tr, file.path(DAT, "pool_reference_traits_dp5.csv"))
+fwrite(tr, file.path(DAT, "pool_reference_traits_dp5.csv"), na = "NA", quote = FALSE)
 ## a mapping-ready file: strain plus the trait columns, NAs kept
 fwrite(tr[, .(strain, delta_ctrl_pos1_T2, vst_ctrl_pos1_T2, log2fc_ctrl_pos1_T2)],
-       file.path(DAT, "mapping_traits_dp5.csv"))
+       file.path(DAT, "mapping_traits_dp5.csv"), na = "NA", quote = FALSE)
 msg("wrote pool_reference_traits_dp5.csv and mapping_traits_dp5.csv")
 
 ## --- what changed -----------------------------------------------------------

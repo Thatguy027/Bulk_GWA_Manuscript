@@ -129,7 +129,7 @@ for (cut in CUTOFFS) {
 
 freq <- rbindlist(out)[samples, on = "sample"]
 setcolorder(freq, c("sample", "sample_info", "depth_cutoff", "strain", "frq"))
-fwrite(freq, file.path(OUT, "pool_reference_frequencies.csv.gz"))
+fwrite(freq, file.path(OUT, "pool_reference_frequencies.csv.gz"), na = "NA", quote = FALSE)
 msg("wrote ", file.path(OUT, "pool_reference_frequencies.csv.gz"),
     " (", format(nrow(freq), big.mark = ","), " rows)")
 
