@@ -278,15 +278,19 @@ verbatim at scripts/legacy/haploReg_original.R. The parameters it pins:
   Fitness was drawn as extraDistr::rinvchisq(n, df = 12, scale = 1). Expected
   pooled allele frequency was the fitness-weighted mean over the strains
   carrying each alternate allele -- rowSums(G %*% w) / sum(w), with G the
-  genotype matrix recoded to a 0/1 indicator of the alternate allele. The
-  design matrix passed to NNLS was G stacked on its own complement,
+  genotype matrix recoded to a 0/1 indicator of the alternate allele. That arm
+  passed NNLS the design matrix G stacked on its own complement,
   rbind(G, 1 - G), so that reference-allele counts entered as their own
   equations; in simulation this is worth about 0.14 of r-squared at 1x and
   0.08 at 10x over the unstacked design.
 
-The inverse chi-squared draw pinned above belongs to the exploratory arm of the
-original script, not to the seven-trait simulation whose r-squared are quoted
-here. The seven traits, and the strains carrying each, are deposited as
+The inverse chi-squared draw and the stacked design pinned above belong to the
+exploratory arm of the original script, not to the seven-trait simulation whose
+r-squared are quoted here. THE SEVEN-TRAIT SIMULATION USES PLAIN G, which is
+what the 2021 run used and what scripts/make_simulation_seeded.R reproduces; the
+stacked design would change the conclusions rather than only the numbers, by the
+0.14 of r-squared above. The deconvolution of real pooled samples is likewise
+plain G throughout (scripts/DIAG_baugh_design_check.R). The seven traits, and the strains carrying each, are deposited as
 supplemental_data/deconvolution/simulation_fitness_traits.tsv.
 
 This is established by reproduction rather than by reading the code. Given
@@ -505,12 +509,21 @@ markers x strains matrix is the only one of the three candidates that yields a
 strains x samples estimate per replicate; resampling strains would change the
 first dimension, and reads do not index the matrix at all.
 
-[TO FILL: the recovered script fits its point estimate on the
-complement-stacked design rbind(G, 1 - G) but its bootstrap on the plain G, so
-as written the published intervals belong to a different estimator from the
-published point estimates. Determine which design the archived Baugh run used
-before this paragraph goes to the draft. The two are not reconciled in the port;
-it takes the design as an argument and records which was used.]
+THE POINT ESTIMATE AND THE BOOTSTRAP USE THE SAME DESIGN, PLAIN G. This was an
+open question, because scripts/legacy/haploReg_original.R fits a point estimate
+on the complement-stacked design rbind(G, 1 - G) and its bootstrap on the plain
+G; had the Baugh run inherited that, the published intervals would belong to a
+different estimator from the published point estimates. It did not, and the
+archived input settles it two ways independently
+(scripts/DIAG_baugh_design_check.R). Refitting the point estimate on plain G
+reproduces the archived frequencies exactly -- identical to double precision
+across all 2,346 strain-by-sample cells, not merely close. And the stacked
+design is not constructible from what the original run saved:
+2024bootstrapINPUT.Rdata stores a 1,237,106 x 102 genotype matrix and a
+1,237,106 x 23 matrix of ALTERNATE counts, one row per marker in each, and
+rbind(G, 1 - G) needs a reference-count block of the same shape that was never
+stored. The inconsistency in the legacy script therefore belongs to its
+simulation arm, not to this analysis.
 
 TWO TRAIT DEFINITIONS ARE IN USE AND THEY ARE NOT INTERCHANGEABLE. The
 published phenotypes are log ratios against the baseline sample: PC1 is the
