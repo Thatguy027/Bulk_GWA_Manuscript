@@ -181,10 +181,11 @@ independent tests (4.50). The scan is drawn in alternating shades of grey by
 chromosome; markers clearing Bonferroni are firebrick and markers clearing only
 the eigen threshold are blue.
 
-  Ten markers clear Bonferroni and 465 clear the eigen threshold. The maximum
-  is -log10 p = 8.84 on chromosome IV at 15.323 Mb; eight of the ten lie on
-  chromosome IV in two clusters near 13.41 and 15.32 Mb, with single markers on
-  chromosome III at 5.966 Mb (8.68) and chromosome X at 4.876 Mb (7.83). NONE
+  Four markers clear Bonferroni and 176 clear the eigen threshold. The maximum
+  is -log10 p = 8.22 on chromosome IV at 15.323 Mb; two lie on chromosome IV at
+  15.32 Mb and two on chromosome X, at 4.876 Mb (8.05) and 3.113 Mb (7.48). The
+  chromosome III marker at 5.966 Mb, which reached 8.68 against the 367-strain
+  reference, falls to 5.90 and no longer clears Bonferroni. NONE
   is near the chromosome III interval the NILs resolve -- the chromosome III
   association peak is 7.7 Mb away from it -- which is the point
   SUPP_FIG_XX_sid2_allele_in_panel makes at marker resolution.
@@ -1016,7 +1017,7 @@ not shared units or linearity.
 
 (A) Plate score against the pooled 2023 pos-1 response on the VST scale
 (vst_ctrl_pos-1_T2), the same trait the association mapping was run on:
-Spearman rho = 0.41, n = 111 strains, p = 7.8e-06. Positive is the expected
+Spearman rho = 0.44, n = 84 strains, p = 2.4e-05. Positive is the expected
 direction -- VST is positive for strains that gained pool frequency under
 pos-1 RNAi, i.e. resistant, and resistant strains score high on the plate.
 Dashed line marks zero.

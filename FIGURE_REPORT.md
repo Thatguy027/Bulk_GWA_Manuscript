@@ -259,7 +259,7 @@ a continuously distributed response phenotype on a variance-stabilised
 scale <span class="cite">(Figure 1B)</span>, reproducible across
 replicate pools <span class="cite">(Figure S7)</span> and correlated in
 the expected direction with manual plate scoring of the same strains
-(Spearman ρ = 0.41, n = 111, p = 7.8 × 10⁻⁶) and with published
+(Spearman ρ = 0.44, n = 84, p = 2.4 × 10⁻⁵) and with published
 embryonic-hatching measurements (ρ = 0.55, n = 19, p = 0.014) <span
 class="cite">(Figure S8)</span>.
 
@@ -1582,12 +1582,13 @@ phenotype: 457,571 markers, `n = 184`. The grey dashed line is
 Bonferroni over every marker (`6.96`); the green dotted line divides α
 by the 1,590 effective independent tests (`4.50`). Markers clearing
 Bonferroni are red, markers clearing only the eigen threshold are green.
-**Ten markers clear Bonferroni and 465 clear the eigen threshold.** The
-maximum is `8.84` on chromosome IV at 15.323 Mb; eight of the ten lie on
-chromosome IV, in clusters near 13.41 and 15.32 Mb, with single markers
-on chromosome III at 5.966 Mb (`8.68`) and chromosome X at 4.876 Mb
-(`7.83`). **None is near the chromosome III interval the NILs resolve**
-— the chromosome III association peak is 7.7 Mb from it.
+**Four markers clear Bonferroni and 176 clear the eigen threshold.** The
+maximum is `8.22` on chromosome IV at 15.323 Mb; two lie on chromosome
+IV at 15.32 Mb and two on chromosome X, at 4.876 Mb (`8.05`) and 3.113
+Mb (`7.48`). The chromosome III marker at 5.966 Mb, which reached `8.68`
+against the 367-strain reference, falls to `5.90` and no longer clears
+Bonferroni. **None is near the chromosome III interval the NILs
+resolve** — the chromosome III association peak is 7.7 Mb from it.
 
 </div>
 
@@ -1659,13 +1660,15 @@ centre of X would be wrong.
 <div class="panel">
 
 <span class="pl">C</span> **III:5.97 Mb**, the centre-of-III marker, and
-the one the report discards. Its association is the second strongest in
-the whole scan at `8.68`, yet the split it corresponds to gives Wilcoxon
-`p = 0.011` — seven orders of magnitude weaker. `2β` is `+0.1216`
-against an observed gap of `+0.0456`, so the model’s effect is **2.7
-times** the difference in the data. And it has **zero** eigen-passing
-neighbours within 100 kb. Three independent readings, one conclusion:
-this is a marker tracking relatedness, not a locus.
+the one the report discards. Against the 367-strain reference it was the
+second strongest association in the whole scan at `8.68`; against the
+pool reference it reaches only `5.90` and no longer clears Bonferroni at
+all. The split it corresponds to gives Wilcoxon `p = 0.059`, and `2β` is
+`+0.1055` against an observed gap of `+0.0497`, so the model’s effect is
+**2.1 times** the difference in the data. And it has **zero**
+eigen-passing neighbours within 100 kb. Every reading points the same
+way: a marker tracking relatedness, not a locus, and the contaminated
+reference is what lifted it over the line.
 
 </div>
 
@@ -2101,7 +2104,7 @@ relationship, not shared units or linearity.
 
 <span class="pl">A</span> Plate score against the pooled 2023 *pos-1*
 response on the VST scale (`vst_ctrl_pos-1_T2`), the same trait the
-association mapping was run on: `ρ = 0.41`, `n = 111`, `p = 7.8e-06`.
+association mapping was run on: `ρ = 0.44`, `n = 84`, `p = 2.4e-05`.
 Positive is the expected direction — VST is positive for strains that
 gained pool frequency under *pos-1* RNAi, and resistant strains score
 high on the plate. Dashed line marks zero.
@@ -31720,12 +31723,15 @@ excluded and a supported sub-Bonferroni region is kept
 
 <img src="plots/diagnostics/gwas_interval_diagnostic.png" alt="Chromosome III association scan with both thresholds, zooms on an isolated marker and a supported cluster, and local support against significance genome-wide." width="100%" />
 
-The marker at **5.966 Mb** clears Bonferroni (`8.68`) with **zero**
-other eigen-passing markers within 100 kb, out of 628 present. The
-cluster at **12.70–12.80 Mb** peaks *below* Bonferroni (`6.31`) with
-**14**. A threshold cannot separate them; local support can, and
-admission at ≥1 supporting marker excludes the first and keeps the
-second, stable up to k = 5.
+The marker at **5.966 Mb** has **zero** other eigen-passing markers
+within 100 kb, out of 632 present. The cluster at **12.70–12.80 Mb**
+peaks at `5.76` with **16**. Local support separates them, and admission
+at ≥1 supporting marker excludes the first and keeps the second, stable
+up to k = 5. On the 367-strain reference the isolated marker also
+cleared Bonferroni (`8.68`) while the supported cluster did not
+(`6.31`), which is what made the contrast sharp; on the pool reference
+neither clears it, and the admission rule reaches the same verdict
+without needing the threshold at all.
 
 Corroboration arrived independently: genome-wide, the 14 isolated
 markers have median allele frequency `0.082` against `0.394` for the 451
@@ -34292,7 +34298,7 @@ p (Wald)
 −log₁₀p
 </th>
 <th style="text-align:right;">
-Rank of 464,045
+Rank of 457,571
 </th>
 <th style="text-align:right;">
 Single-locus R²
@@ -34320,7 +34326,7 @@ IV:15.32 Mb (GWAS peak)
 1
 </td>
 <td style="text-align:right;">
-0.159
+0.180
 </td>
 </tr>
 <tr>
@@ -34343,7 +34349,7 @@ sid-2 T96K
 149,425
 </td>
 <td style="text-align:right;">
-0.007
+0.006
 </td>
 </tr>
 </tbody>
@@ -34360,13 +34366,13 @@ TABLE_genotype_splits_marginal.tsv
 
 <span class="ch">Chromosome IV is what this panel can see</span>
 
-Splitting at the chromosome IV peak separates `48` strains carrying the
-resistant allele (mean `+0.023`) from `182` carrying the other
-(`−0.029`): Δ = `−0.0514`, Wilcoxon `p = 1.2e-07`, which is **12% of the
+Splitting at the chromosome IV peak separates `36` strains carrying the
+resistant allele (mean `+0.032`) from `147` carrying the other
+(`−0.031`): Δ = `−0.0624`, Wilcoxon `p = 7.4e-07`, which is **15% of the
 phenotypic range**. Its marginal statistic is the strongest in the scan
-— rank `1` of 464,045, `−log₁₀p = 8.84`, single-locus R² `0.159` — and
+— rank `1` of 457,571, `−log₁₀p = 8.22`, single-locus R² `0.159` — and
 in an additive two-locus fit it is the only term that carries anything:
-β `−0.052`, `p = 8e-10`, adjusted R² `0.152`.
+β `−0.065`, `p = 2.7e-09`, adjusted R² `0.175`.
 
 So there is more than *sid-2* segregating for this trait in the wild
 population, and chromosome IV is the part of it the pooled GWAS is
@@ -34379,14 +34385,14 @@ actually powered to find.
 <span class="ch">Why *sid-2* is invisible here, and why that is not a
 contradiction</span>
 
-Splitting at T96K separates `83` strains carrying 96K (mean `−0.024`)
-from `147` carrying 96T (`−0.015`). The direction is right — 96T more
-resistant, matching the allele swaps — but Δ = `+0.0089` with Wilcoxon
-`p = 0.99`, single-locus R² `0.007`, and a marginal rank of `101,105` of
-464,045. In the additive fit, β = `−0.002`, `p = 0.74`.
+Splitting at T96K separates `64` strains carrying 96K (mean `−0.024`)
+from `119` carrying 96T (`−0.015`). The direction is right — 96T more
+resistant, matching the allele swaps — but Δ = `+0.0091` with Wilcoxon
+`p = 0.98`, single-locus R² `0.007`, and a marginal rank of `149,425` of
+457,571. In the additive fit, β = `−0.007`, `p = 0.39`.
 
-**The two loci are not independent in the panel.** Fisher `p = 8.1e-05`,
-odds ratio `0.20`: only `6` of 230 strains carry 96K on the chromosome
+**The two loci are not independent in the panel.** Fisher `p = 1.0e-05`,
+odds ratio `0.08`: only `2` of 183 strains carry 96K on the chromosome
 IV resistant background. The allele is largely confined to one
 background, so a marginal test at T96K is asking a question this panel
 cannot cleanly answer — which is a different statement from the allele
@@ -34923,7 +34929,7 @@ SUPP_FIG_XX_simulation_depth
 473
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -34937,7 +34943,7 @@ SUPP_FIG_XX_dilution_validation
 467
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -34951,7 +34957,7 @@ Figure1_pos1
 781
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:47
 </td>
 </tr>
 <tr>
@@ -34965,7 +34971,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 296
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -34979,7 +34985,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 335
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -34993,7 +34999,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 344
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35007,7 +35013,7 @@ SUPP_FIG_XX_downsample_per_sample
 211
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35021,7 +35027,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 88
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35035,7 +35041,7 @@ SUPP_FIG_XX_baugh_analyses
 520
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35049,7 +35055,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 314
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35063,7 +35069,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 179
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35077,7 +35083,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:47
 </td>
 </tr>
 <tr>
@@ -35091,7 +35097,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35105,7 +35111,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35119,7 +35125,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35133,7 +35139,7 @@ SUPP_FIG_XX_nil_hatching_full
 112
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35147,7 +35153,7 @@ Figure4_sid2
 513
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:48
 </td>
 </tr>
 <tr>
@@ -35161,7 +35167,7 @@ SUPP_FIG_XX_n2_swap_dose
 169
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35175,7 +35181,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 488
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35189,7 +35195,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 351
 </td>
 <td style="text-align:right;">
-2026-10-07 14:02
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35203,7 +35209,7 @@ SUPP_FIG_XX_sid2_electrostatics
 821
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35217,7 +35223,7 @@ SUPP_FIG_XX_sid2_local_charge
 64
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35231,7 +35237,7 @@ SUPP_FIG_XX_sid2_model_confidence
 434
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35245,7 +35251,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:47
 </td>
 </tr>
 <tr>
@@ -35259,7 +35265,7 @@ SUPP_FIG_XX_nil_interval_genes
 87
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35273,7 +35279,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 147
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35287,7 +35293,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 451
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35301,7 +35307,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 502
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 <tr>
@@ -35315,7 +35321,7 @@ SUPP_FIG_XX_sid2_variants_all
 212
 </td>
 <td style="text-align:right;">
-2026-10-07 14:00
+2026-10-07 14:49
 </td>
 </tr>
 </tbody>

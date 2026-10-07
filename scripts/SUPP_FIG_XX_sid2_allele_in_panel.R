@@ -10,9 +10,9 @@
 ## sid-2 T96K was identified by the cross and the NILs, not by the GWAS, and
 ## this is the check of whether it also acts as a marginal-effect variant
 ## across the wild panel. It does not. The variant is common (36% in the
-## panel), it is genotyped in 230 of the 231 phenotyped strains, and it splits
-## the phenotype distribution essentially not at all: Wilcoxon p = 0.99, and
-## the marker's own association p is 0.24, ranking about 101,000th of 464,045.
+## panel), it is genotyped in 183 of the 184 phenotyped strains, and it splits
+## the phenotype distribution essentially not at all: Wilcoxon p = 0.98, and
+## the marker's own association p is 0.39, ranking about 149,000th of 457,571.
 ##
 ## That is not evidence against the allele. It is what a background-dependent
 ## effect looks like from a marginal test. The editing experiments put the

@@ -162,8 +162,8 @@ rather than shared units or linearity.
 
 The first comparison is against the pooled 2023 pos-1 response on the
 variance-stabilised scale (vst_ctrl_pos-1_T2), the same trait the association
-mapping was run on, over the 111 strains the two share: rho = 0.41,
-p = 7.8e-06.
+mapping was run on, over the 84 strains the two share: rho = 0.44,
+p = 2.4e-05.
 
 The second is against Paaby et al. 2015, over the 19 strains shared with that
 study. That study's well-level counts are deposited at
@@ -634,7 +634,7 @@ any script in this repository.
 Two panels were mapped:
 
   pooled_RNAi_expt   n = 84 strains,  322,010 markers
-  pos1_2023          n = 231 strains, 464,045 markers
+  pos1_2023          n = 184 strains, 457,571 markers
 
 Manhattan panels were thinned for plotting by binning positions (10 kb) and
 retaining the maximum -log10 p per bin. Thinning by row order or by taking every
@@ -664,7 +664,7 @@ trace(A) = M was asserted at run time as a correctness check
 
   panel              markers    M_eff   Bonferroni   Li & Ji
   pooled_RNAi_expt   322,010      732      6.81       4.17
-  pos1_2023          464,045    1,972      6.97       4.60
+  pos1_2023          457,571    1,590      6.96       4.50
                                           (-log10 p)
 
 --------------------------------------------------------------------------------

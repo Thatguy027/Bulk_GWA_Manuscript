@@ -71,7 +71,7 @@ msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
 ## ---------------------------------------------------------------------------
 pooled_tr <- read_csv("data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv",
                       show_col_types = FALSE)
-pos1_tr   <- read_csv("data/pos1_original/updated_analysis/association_traits.csv",
+pos1_tr   <- read_csv("supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz",
                       show_col_types = FALSE)
 
 PANELS <- list(

@@ -428,8 +428,8 @@ Applying the assay to the 224 wild isotypes of the *pos-1* pool produced a
 continuously distributed response phenotype on a variance-stabilised scale
 <span class="cite">(Figure 1B)</span>, reproducible across replicate pools
 <span class="cite">(Figure S7)</span> and correlated in the expected direction
-with manual plate scoring of the same strains (Spearman ρ = 0.41, n = 111,
-p = 7.8 × 10⁻⁶) and with published embryonic-hatching measurements
+with manual plate scoring of the same strains (Spearman ρ = 0.44, n = 84,
+p = 2.4 × 10⁻⁵) and with published embryonic-hatching measurements
 (ρ = 0.55, n = 19, p = 0.014) <span class="cite">(Figure S8)</span>.
 
 ### Pooled association and cross mapping converge on overlapping loci
@@ -1099,10 +1099,11 @@ pool frequency under *pos-1* RNAi, i.e. resistant.
 `n = 184`. The grey dashed line is Bonferroni over every marker (`6.96`); the
 green dotted line divides α by the 1,590 effective independent tests (`4.50`).
 Markers clearing Bonferroni are red, markers clearing only the eigen threshold
-are green. **Ten markers clear Bonferroni and 465 clear the eigen threshold.**
-The maximum is `8.84` on chromosome IV at 15.323 Mb; eight of the ten lie on
-chromosome IV, in clusters near 13.41 and 15.32 Mb, with single markers on
-chromosome III at 5.966 Mb (`8.68`) and chromosome X at 4.876 Mb (`7.83`).
+are green. **Four markers clear Bonferroni and 176 clear the eigen threshold.**
+The maximum is `8.22` on chromosome IV at 15.323 Mb; two lie on chromosome IV at
+15.32 Mb and two on chromosome X, at 4.876 Mb (`8.05`) and 3.113 Mb (`7.48`).
+The chromosome III marker at 5.966 Mb, which reached `8.68` against the
+367-strain reference, falls to `5.90` and no longer clears Bonferroni.
 **None is near the chromosome III interval the NILs resolve** — the chromosome
 III association peak is 7.7 Mb from it.
 :::
@@ -1162,12 +1163,14 @@ describing it as the centre of X would be wrong.
 
 ::: panel
 [C]{.pl} **III:5.97 Mb**, the centre-of-III marker, and the one the report
-discards. Its association is the second strongest in the whole scan at `8.68`,
-yet the split it corresponds to gives Wilcoxon `p = 0.011` — seven orders of
-magnitude weaker. `2β` is `+0.1216` against an observed gap of `+0.0456`, so the
-model's effect is **2.7 times** the difference in the data. And it has **zero**
-eigen-passing neighbours within 100 kb. Three independent readings, one
-conclusion: this is a marker tracking relatedness, not a locus.
+discards. Against the 367-strain reference it was the second strongest
+association in the whole scan at `8.68`; against the pool reference it reaches
+only `5.90` and no longer clears Bonferroni at all. The split it corresponds to
+gives Wilcoxon `p = 0.059`, and `2β` is `+0.1055` against an observed gap of
+`+0.0497`, so the model's effect is **2.1 times** the difference in the data.
+And it has **zero** eigen-passing neighbours within 100 kb. Every reading points
+the same way: a marker tracking relatedness, not a locus, and the contaminated
+reference is what lifted it over the line.
 :::
 
 ::: panel
@@ -1524,7 +1527,7 @@ linearity.
 ::: panel
 [A]{.pl} Plate score against the pooled 2023 *pos-1* response on the VST scale
 (`vst_ctrl_pos-1_T2`), the same trait the association mapping was run on:
-`ρ = 0.41`, `n = 111`, `p = 7.8e-06`. Positive is the expected direction — VST is
+`ρ = 0.44`, `n = 84`, `p = 2.4e-05`. Positive is the expected direction — VST is
 positive for strains that gained pool frequency under *pos-1* RNAi, and
 resistant strains score high on the plate. Dashed line marks zero.
 :::
@@ -2782,11 +2785,14 @@ marker is excluded and a supported sub-Bonferroni region is kept
 include_graphics(file.path(DIAGDIR, "gwas_interval_diagnostic.png"))
 ```
 
-The marker at **5.966 Mb** clears Bonferroni (`8.68`) with **zero** other
-eigen-passing markers within 100 kb, out of 628 present. The cluster at
-**12.70–12.80 Mb** peaks *below* Bonferroni (`6.31`) with **14**. A threshold
-cannot separate them; local support can, and admission at ≥1 supporting marker
-excludes the first and keeps the second, stable up to k = 5.
+The marker at **5.966 Mb** has **zero** other eigen-passing markers within
+100 kb, out of 632 present. The cluster at **12.70–12.80 Mb** peaks at `5.76`
+with **16**. Local support separates them, and admission at ≥1 supporting marker
+excludes the first and keeps the second, stable up to k = 5. On the 367-strain
+reference the isolated marker also cleared Bonferroni (`8.68`) while the
+supported cluster did not (`6.31`), which is what made the contrast sharp; on
+the pool reference neither clears it, and the admission rule reaches the same
+verdict without needing the threshold at all.
 
 Corroboration arrived independently: genome-wide, the 14 isolated markers have
 median allele frequency `0.082` against `0.394` for the 451 supported ones — the
@@ -3795,7 +3801,7 @@ kb(read_tsv(file.path(DIAGDIR, "TABLE_genotype_splits_marginal.tsv"),
                `β` = sprintf("%+.4f", beta),
                `p (Wald)` = signif(p_wald, 3),
                `−log₁₀p` = fnum(lp, 2),
-               `Rank of 464,045` = format(rank, big.mark = ","),
+               `Rank of 457,571` = format(rank, big.mark = ","),
                `Single-locus R²` = fnum(r2_single, 3)),
    align = c("l", "r", "r", "r", "r", "r", "r"),
    caption = "The marginal association each marker carries in the scan itself.")
@@ -3809,13 +3815,13 @@ TABLE_genotype_splits_marginal.tsv
 ::: aside
 [Chromosome IV is what this panel can see]{.ch}
 
-Splitting at the chromosome IV peak separates `48` strains carrying the
-resistant allele (mean `+0.023`) from `182` carrying the other (`−0.029`):
-Δ = `−0.0514`, Wilcoxon `p = 1.2e-07`, which is **12% of the phenotypic
+Splitting at the chromosome IV peak separates `36` strains carrying the
+resistant allele (mean `+0.032`) from `147` carrying the other (`−0.031`):
+Δ = `−0.0624`, Wilcoxon `p = 7.4e-07`, which is **15% of the phenotypic
 range**. Its marginal statistic is the strongest in the scan — rank `1` of
-464,045, `−log₁₀p = 8.84`, single-locus R² `0.159` — and in an additive
-two-locus fit it is the only term that carries anything: β `−0.052`,
-`p = 8e-10`, adjusted R² `0.152`.
+457,571, `−log₁₀p = 8.22`, single-locus R² `0.159` — and in an additive
+two-locus fit it is the only term that carries anything: β `−0.065`,
+`p = 2.7e-09`, adjusted R² `0.175`.
 
 So there is more than *sid-2* segregating for this trait in the wild
 population, and chromosome IV is the part of it the pooled GWAS is actually
@@ -3825,14 +3831,14 @@ powered to find.
 ::: caveat
 [Why *sid-2* is invisible here, and why that is not a contradiction]{.ch}
 
-Splitting at T96K separates `83` strains carrying 96K (mean `−0.024`) from `147`
+Splitting at T96K separates `64` strains carrying 96K (mean `−0.024`) from `119`
 carrying 96T (`−0.015`). The direction is right — 96T more resistant, matching
-the allele swaps — but Δ = `+0.0089` with Wilcoxon `p = 0.99`, single-locus R²
-`0.007`, and a marginal rank of `101,105` of 464,045. In the additive fit,
-β = `−0.002`, `p = 0.74`.
+the allele swaps — but Δ = `+0.0091` with Wilcoxon `p = 0.98`, single-locus R²
+`0.007`, and a marginal rank of `149,425` of 457,571. In the additive fit,
+β = `−0.007`, `p = 0.39`.
 
-**The two loci are not independent in the panel.** Fisher `p = 8.1e-05`, odds
-ratio `0.20`: only `6` of 230 strains carry 96K on the chromosome IV resistant
+**The two loci are not independent in the panel.** Fisher `p = 1.0e-05`, odds
+ratio `0.08`: only `2` of 183 strains carry 96K on the chromosome IV resistant
 background. The allele is largely confined to one background, so a marginal test
 at T96K is asking a question this panel cannot cleanly answer — which is a
 different statement from the allele having no effect.

@@ -108,10 +108,12 @@ M <- tibble::tribble(
   # --- phenotypes -----------------------------------------------------------
   "data/pooled_RNAi_expt/reanalysis/vst_association_traits.csv",
     "phenotypes/pooled_vst_traits.csv", TRUE,
-  "data/pos1_original/updated_analysis/association_traits.csv",
-    "phenotypes/pos1_2023_association_traits.csv", TRUE,
-  "data/pos1_original/updated_analysis/final_dataset.csv",
-    "phenotypes/pos1_2023_sample_frequencies.csv", TRUE,
+  ## The two 2023 pos-1 phenotype files are NOT staged from the archive. The
+  ## archive holds the superseded analysis, which deconvolved against the whole
+  ## 367-strain panel rather than the 224 isotypes that were in the pool;
+  ## reanalysis_2023_pos1/scripts/05_deposit.R writes the corrected versions
+  ## straight into supplemental_data/. Re-adding them here would silently
+  ## revert that. See reanalysis_2023_pos1/README.md.
   "data/pos1_plate_phenotyping/pos1_phenotypes_first2rounds.tsv",
     "phenotypes/plate_scores_pos1.tsv", FALSE,
   "data/pooled_RNAi_expt/paaby2015/emb_leth_data.txt",
@@ -126,12 +128,13 @@ M <- tibble::tribble(
   "data/nil_ranges.bed",
     "hatching_assays/nil_introgression_ranges.bed", FALSE,
   # --- mapping --------------------------------------------------------------
-  "data/pos1_original/updated_analysis/vst_ctrl_pos-1_T2_loco_results.csv.gz",
-    "mapping/pos1_2023_gemma_loco.csv.gz", FALSE,
+  ## pos1_2023_gemma_loco.csv.gz is NOT staged here either: the archive holds
+  ## the scan on the superseded 367-reference phenotype. See the note above.
   "data/cross_experiments/JU1793-JU2466_export/plot_data/JU1793_JU2466_F2-2_contrast_HT115g-POS1g_10000_plot_DF.tsv.gz",
     "mapping/ju_cross_ht115_vs_pos1_scan.tsv.gz", FALSE,
-  "data/eigen_independent_tests.tsv",
-    "mapping/eigen_independent_tests.tsv", FALSE,
+  ## eigen_independent_tests.tsv is left alone for the same reason: its
+  ## pos1_2023 rows are the 184-strain panel, written by 05_deposit.R, and the
+  ## archive copy still describes the 231-strain one.
   # --- deconvolution validation --------------------------------------------
   "data/baugh/2024_processedBOOTs_with_MIP.RData",
     "deconvolution/baugh_nnls_with_mipseq.RData", FALSE,

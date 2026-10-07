@@ -48,8 +48,8 @@ EIG   <- "supplemental_data/mapping/eigen_independent_tests.tsv"
 stopifnot(file.exists(SCAN))
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
-BONF  <- 6.97      # Bonferroni over all 464,045 markers
-EIGEN <- 4.60      # alpha / 1,972 effective independent tests (Li & Ji)
+BONF  <- 6.96      # Bonferroni over all 457,571 markers
+EIGEN <- 4.50      # alpha / 1,590 effective independent tests (Li & Ji)
 WIN   <- 1e5       # the support window, +/- 100 kb
 
 COL_SPUR <- "#B23A48"   # the isolated marker

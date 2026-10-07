@@ -32,7 +32,7 @@ suppressPackageStartupMessages({
 
 OUT     <- "plots/diagnostics"
 PLINK_D <- "data/genotypes/CeNDR20210121_Plink"
-TRAITS  <- "data/pos1_original/updated_analysis/association_traits.csv"
+TRAITS  <- "supplemental_data/phenotypes/pos1_2023_association_traits.csv.gz"
 TRAIT   <- "vst_ctrl_pos-1_T2"
 dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
@@ -137,7 +137,7 @@ cat(sprintf("  adjusted R2 = %.3f\n", summary(fit)$adj.r.squared))
 ## The split above is a two-group comparison the panel supports. This is the
 ## marginal association the SCAN reports at the same marker, which is the
 ## number a reader will look for and the one that has to be quoted honestly:
-## the single-marker mixed-model test, its rank among all 464,045 markers, and
+## the single-marker mixed-model test, its rank among all tested markers, and
 ## the variance a single-locus fit accounts for.
 SCAN <- "supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz"
 gw <- fread(SCAN)[, .(chr, ps, af, beta, se, p_wald)]
@@ -171,7 +171,7 @@ print(as.data.frame(marg_tab %>%
             se = sprintf("%.4f", se),
             `p (Wald)` = signif(p_wald, 3),
             `-log10 p` = sprintf("%.2f", lp),
-            `rank of 464,045` = format(rank, big.mark = ","),
+            `rank of 457,571` = format(rank, big.mark = ","),
             `single-locus R2` = sprintf("%.3f", r2_single))),
   row.names = FALSE)
 cat("\n  The mixed model corrects for relatedness; the Wilcoxon split above\n")
