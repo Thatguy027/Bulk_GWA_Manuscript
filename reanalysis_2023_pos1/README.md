@@ -43,10 +43,23 @@ is **not uniquely determined**. Refitting lands on a different near-optimal
 member of the same set, with a slightly *lower* residual. The 367-column fit put
 mass on 305 of 367 strains; the pool fit puts it on 211 of 224.
 
-`02` builds the traits. Fed the *deposited* frequencies, the same trait code
-reproduces the deposited `delta_ctrl_pos-1_T2` to **2.5e-16** — so any
-difference in the new traits comes from the deconvolution, not the formula.
-JU1793 is the single exception, for the reason above.
+`02` builds the traits, using the upstream pipeline's own transforms
+(`scripts/07_make_phenotypes.R` and `04_control_corrections.R` in
+`/Users/Stefan/UCLA/Projects/bulkGWAS/lipid_RNAi`, documented in
+`TRAIT_SPEC.md`):
+
+```
+delta_ctrl  = f - p
+vst_ctrl    = asin(sqrt(f)) - asin(sqrt(p))
+log2fc_ctrl = log2((f + c) / (p + c)),  c = half the smallest non-zero frequency
+```
+
+with `f` the mean frequency over the four *pos-1* replicates, `p` the control
+frequency, and all three NA where `p == 0` — the pipeline's own `usable` rule.
+Fed the *deposited* frequencies, this reproduces the deposited
+`delta_ctrl_pos-1_T2` to **2.5e-16** and `vst_ctrl_pos-1_T2` to **7.8e-16**, so
+the formulae are the originals and any difference in the new traits comes from
+the deconvolution. JU1793 is the single exception, for the reason above.
 
 ## What came out
 
@@ -71,14 +84,12 @@ rep2 vs rep3  0.884     rep2 vs rep4  0.829
 
 ## Not done
 
-- **`vst` is not rebuilt.** The deposited mapping trait was
-  `vst_ctrl_pos-1_T2`. It is not a function of the delta alone — against the
-  deposited delta it is Spearman 0.870, not 1 — so it cannot be recovered from
-  what is here, and its definition is in neither this repository (`METHODS.txt`
-  carries a `[TO FILL]` saying exactly that) nor the upstream directory, which
-  holds no code. The traits written here are the two that are reproducible.
 - **The association scan.** Run it on `data/mapping_traits_dp5.csv`.
 - **Figure 1C** cannot be redone until that scan exists.
+
+`METHODS.txt` in the manuscript repository carries a `[TO FILL]` saying the vst
+definition is not reproducible from the deposit. It is reproducible — just not
+from the deposit. That note can be closed with the formula above.
 
 ## Files
 
@@ -88,7 +99,7 @@ scripts/02_build_traits.R                traits, with the formula check
 scripts/03_figures.R                     old-vs-new comparison figures
 data/pool_reference_frequencies.csv.gz   224 strains x 7 samples x 3 cutoffs
 data/pool_reference_traits_dp5.csv       all trait columns
-data/mapping_traits_dp5.csv              strain + the two mapping traits
+data/mapping_traits_dp5.csv              strain + delta, vst and log2fc
 plots/phenotype_old_vs_pool_reference.*  distribution old vs new, and a scatter
 plots/replicate_reproducibility_*.*      all six replicate pairs
 ```
