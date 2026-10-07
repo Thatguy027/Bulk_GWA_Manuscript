@@ -1,13 +1,13 @@
 # Supplemental data — overview
 
-Every file needed to regenerate all twenty-eight figures this repository builds.
-**53.0 MB in 98 files.** Verified by deleting `data/` entirely and rebuilding: all
-twenty-eight figures and the three asset builders run from this directory alone.
+Every file needed to regenerate all twenty-nine figures this repository builds.
+**53.0 MB in 99 files.** Verified by deleting `data/` entirely and rebuilding: all
+twenty-nine figures and the three asset builders run from this directory alone.
 
 It is no longer only that, which the earlier "and nothing else" claimed. The
 deposit has since taken on the reagent tables, the stock sheet they are built
 from, and alternative fits kept for comparison. The manuscript itself cites
-fifteen of the twenty-eight figures, and the subset supporting those -- renamed
+sixteen of the twenty-nine figures, and the subset supporting those -- renamed
 and numbered in order of the text -- is assembled separately in
 `manuscript_supplement/`, whose README lists what is here but not promoted.
 
@@ -462,6 +462,7 @@ built from, by UniProt accession, with the fetch date.
 | `sid2_per_residue.tsv` | per-residue annotation derived from the model |
 | `sid2_variants_cendr.tsv` | *sid-2* protein-altering variants with population frequencies |
 | `sid2_variant_ld.tsv` | pairwise LD among those variants |
+| `sid2_variants_cendr20250625.tsv` | every *sid-2* protein-altering variant in CeNDR 20250625, with the isotypes carrying each |
 | `sid2_parental_variants.tsv` | annotated variants distinguishing the cross parents |
 
 **Model confidence limits use.** ipTM is 0.45–0.46 and pTM 0.46–0.48 across all
@@ -485,6 +486,22 @@ extracellular 21–193, TM helix 194–211, cytoplasmic 212–311.
 | `sse` | secondary structure: `H` helix, `E` strand, `C` coil. Assigned from the backbone with the Kabsch & Sander (1983) hydrogen-bond criterion, not DSSP |
 | `topology` | DeepTMHMM region name |
 | `x`, `y`, `z` | Cα coordinates, in the model's own frame |
+
+**`sid2_variants_cendr20250625.tsv`** (20 rows, after a `#` provenance header) —
+the CeNDR 20250625 variant-browser export for *sid-2*, protein-altering rows
+only, read by `SUPP_FIG_XX_sid2_variants_all.R`. Carrier lists, not
+frequencies: the export gives no release total. The `snp413` row is the
+residue-151 partner SNV, synonymous alone; the figure derives 151T and 151I from
+it and the `snp412` row.
+
+| column | description |
+|---|---|
+| `site` | row key |
+| `chrom`, `pos`, `ref`, `alt` | the variant |
+| `consequence` | `missense`, `inframe_deletion`, `frameshift`, or `codon_partner` |
+| `residue`, `ref_aa`, `alt_aa` | first affected residue and the change |
+| `label` | display form, e.g. `T96K`, `A10_I12del`, `N94Lfs*6` |
+| `n_carriers`, `carriers` | count and space-separated list of carrying isotypes |
 
 **`sid2_variants_cendr.tsv`** (8 rows) — provenance and the coverage caveat are
 in `sid2_variants_cendr_README.txt` beside it.

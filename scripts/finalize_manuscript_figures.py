@@ -43,7 +43,7 @@ MANIFEST = [
      "Fig 3A cross parents in the pooled assay; 3B chrIII allele frequency in the F2 pool; 3C NIL series"),
     ("Figure 4",  "Figure4_sid2",                                  "Figure4_sid2.pdf",
      "Fig 4A JU reciprocal edits; 4B N2 edits at 25% pos-1; 4C ectodomain local net charge; "
-     "4D sid-2 coding variation across the wild population"),
+     "4D sid-2 coding differences among the mapping parents"),
     ("Figure S1", "SUPP_FIG_XX_simulation_depth",                  "SUPP_FIG_XX_simulation_depth",
      "NNLS recovery against sequencing depth, seven traits"),
     ("Figure S2", "SUPP_FIG_XX_dilution_validation",               "SUPP_FIG_XX_dilution_validation",
@@ -71,6 +71,8 @@ MANIFEST = [
      "S10A the N94-C95-T96 sequon across Caenorhabditis; S10B the N94A editing series on pos-1 RNAi"),
     ("Figure S11","SUPP_FIG_XX_sid2_local_charge",                 "SUPP_FIG_XX_sid2_local_charge",
      "local net charge percentile across the ectodomain"),
+    ("Figure S12","SUPP_FIG_XX_sid2_variants_all",                 "SUPP_FIG_XX_sid2_variants_all",
+     "every protein-altering sid-2 variant in CeNDR 20250625, as in Fig 4D"),
 ]
 
 DASHES = re.compile(r"^-{40,}\s*$")

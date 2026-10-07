@@ -1,6 +1,6 @@
 From a 231-strain panel to a single residue
 ================
-Assembled 2026-10-05
+Assembled 2026-10-06
 
 -   [Results, as a narrative](#results-as-a-narrative)
 -   [Conventions that cross every
@@ -78,6 +78,8 @@ Assembled 2026-10-05
     -   [Figure S23 — how far out SID-2 can be compared, and what that
         is
         worth](#figure-s23--how-far-out-sid-2-can-be-compared-and-what-that-is-worth)
+    -   [Figure S24 — every protein-altering *sid-2* variant in the wild
+        population](#figure-s24--every-protein-altering-sid-2-variant-in-the-wild-population)
     -   [eQTL and parental expression at the censused
         loci](#eqtl-and-parental-expression-at-the-censused-loci)
     -   [Figure S16 — where T96’s pocket sits in the charge
@@ -95,7 +97,7 @@ Assembled 2026-10-05
 -   [Figure manifest](#figure-manifest)
 
 <!--
-FIGURE_REPORT.Rmd -- the twenty-eight manuscript figures with their captions, ordered
+FIGURE_REPORT.Rmd -- the twenty-nine manuscript figures with their captions, ordered
 by the argument rather than by build order.
 
   Rscript -e 'rmarkdown::render("FIGURE_REPORT.Rmd", "all")'
@@ -29940,14 +29942,15 @@ Figure S17 for model confidence.
 
 <div class="panel">
 
-<span class="pl">D</span> *sid-2* coding variation in the wild
-population: the protein drawn vertically with residue 1 at the top and
-its topology as a filled bar, and each protein-altering variant labelled
-to the right with its CeNDR allele frequency, then two columns giving
-the JU1793 and JU2466 allele state. Callout rows are evenly spaced and
-joined to the residue by a leader rather than sitting at the residue’s
-own height: four of the eight fall between residues 141 and 153 and
-would overlap completely at true scale.
+<span class="pl">D</span> The *sid-2* coding differences among the three
+mapping parents: the protein drawn vertically with residue 1 at the top
+and its topology as a filled bar, and each protein-altering variant at
+which JU1793, JU2466 and XZ1516 do not all agree labelled to the right
+with its CeNDR allele frequency, then the allele state of each parent.
+That is seven of the eight annotated variants; P153T, carried by all
+three, is dropped, and every protein-altering site in the population is
+in Figure S24. Callout rows are evenly spaced and joined to the residue
+by a leader rather than sitting at the residue’s own height.
 
 Immediately left of the topology bar is a **local-net-charge strip on
 exactly panel C’s ramp and limits** — red negative, blue positive,
@@ -30232,10 +30235,13 @@ Derived from supplemental_data/structure/sid2_variants_cendr.tsv
 
 <div class="tnote">
 
-Panel D is not an exhaustive catalogue: the amino-acid annotation covers
-variants segregating among the four cross parents. 81 variants of any
-kind segregate in the 3 kb span in CeNDR, and the 8 protein-altering
-ones above are what is annotated.
+The table is the annotated set panel D is cut from; the panel draws the
+rows where JU1793, JU2466 and XZ1516 do not all agree. The annotation
+covers variants segregating among the four cross parents, so it is not
+an exhaustive catalogue: 81 variants of any kind segregate in the 3 kb
+span in CeNDR, and the 8 protein-altering ones above are what is
+annotated here. The full population catalogue, from CeNDR 20250625, is
+Figure S24.
 
 </div>
 
@@ -31088,7 +31094,7 @@ energies of 480–1380, 4–13 structures per cluster, and different
 Not manuscript figures. These settle methodological questions that arose
 while assembling the figures above, and they live in
 `plots/diagnostics/`. They are tracked so this report reads from a
-clone, but unlike the twenty-eight they need the Dryad archive to
+clone, but unlike the twenty-nine they need the Dryad archive to
 rebuild.
 
 ## Leakage in the MIP-seq validation
@@ -32936,6 +32942,54 @@ downstream from sequences fetched by accession.
 
 </div>
 
+## Figure S24 — every protein-altering *sid-2* variant in the wild population
+
+<div class="meta">
+
+**Script** `scripts/SUPP_FIG_XX_sid2_variants_all.R`<br> **Supports**
+Figure 4D · the full catalogue it is cut from
+
+</div>
+
+<div class="plate">
+
+<img src="plots/SUPP_FIG_XX_sid2_variants_all.png" alt="SID-2 drawn vertically with its topology bar and local-charge strip; 20 protein-altering variant forms labelled with the number of CeNDR isotypes carrying each, and the residue carried by JU1793, JU2466 and XZ1516." width="100%" />
+<p class="filecap">
+SUPP_FIG_XX_sid2_variants_all
+</p>
+
+</div>
+
+Figure 4D draws only the sites where the three mapping parents differ.
+This is the catalogue it is cut from: every protein-altering *sid-2*
+change in CeNDR 20250625 — 17 missense sites, an in-frame deletion
+(A10_I12del) and a frameshift (N94Lfs\*6) — in the same layout. Bars are
+the number of isotypes carrying each change, not a frequency, because
+the release’s variant export lists carriers only. Residue 151 is drawn
+as its two forms: III:13,680,412 alone gives 151T (`85` isotypes) and
+with the partner SNV at III:13,680,413 it gives 151I (`62`).
+
+**The common changes are nested on one haplotype.** P153T is carried by
+`328` isotypes and T96K by `317`, every one of which also carries 153T;
+153T occurs without 96K in `11`. L209M is carried by `147` isotypes, the
+same ones that carry either residue-151 form, and V152A (`52`) and S43G
+(`27`) mark smaller subgroups within the 96K background. Every change
+except V5L, S111G and the in-frame deletion occurs only in isotypes
+carrying T96K.
+
+**Against the 20210121 panel the earlier figures use**, the counts are
+larger because the release is. For the 15 sites the 20210121 genotypes
+cover, every carrier set agrees on the isotypes the two releases share
+except T96K and P153T, where CB4853, CB4857 and CB4858 carry the
+alternate in 20210121 and are absent from the 20250625 lists, and XZ1515
+is the reverse. A291P and G299E lie past the end of the genotyped span
+(III:13,681,764), and the deletion and frameshift have no 20210121
+record.
+
+Only V5L and T96K differ between JU1793 and JU2466, as in Figure 4D.
+ECA2199, the one frameshift carrier, has the frameshift on a 96K
+background.
+
 ## eQTL and parental expression at the censused loci
 
 **Script** `scripts/candidate_eqtl_expression.R`<br> **Table**
@@ -34516,7 +34570,7 @@ SUPP_FIG_XX_simulation_depth
 484
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34530,7 +34584,7 @@ SUPP_FIG_XX_dilution_validation
 466
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34544,7 +34598,7 @@ Figure1_pos1
 766
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34558,7 +34612,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 411
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34572,7 +34626,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 386
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34586,7 +34640,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 442
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34600,7 +34654,7 @@ SUPP_FIG_XX_downsample_per_sample
 268
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34614,7 +34668,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 108
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34628,7 +34682,7 @@ SUPP_FIG_XX_baugh_analyses
 611
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34642,7 +34696,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 335
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34656,7 +34710,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 190
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34670,7 +34724,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34684,7 +34738,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34698,7 +34752,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34712,7 +34766,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34726,7 +34780,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34737,10 +34791,10 @@ Figure 4
 Figure4_sid2
 </td>
 <td style="text-align:right;">
-561
+556
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34754,7 +34808,7 @@ SUPP_FIG_XX_n2_swap_dose
 243
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34768,7 +34822,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 555
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34782,7 +34836,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 465
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34796,7 +34850,7 @@ SUPP_FIG_XX_sid2_electrostatics
 801
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34810,7 +34864,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34824,7 +34878,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34838,7 +34892,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34852,7 +34906,7 @@ SUPP_FIG_XX_nil_interval_genes
 111
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34866,7 +34920,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34880,7 +34934,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 616
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
 </td>
 </tr>
 <tr>
@@ -34894,7 +34948,21 @@ SUPP_FIG_XX_sid2_ortholog_search
 662
 </td>
 <td style="text-align:right;">
-2026-10-05 16:35
+2026-10-06 20:54
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Figure S24
+</td>
+<td style="text-align:left;">
+SUPP_FIG_XX_sid2_variants_all
+</td>
+<td style="text-align:right;">
+192
+</td>
+<td style="text-align:right;">
+2026-10-06 20:54
 </td>
 </tr>
 </tbody>
@@ -34902,7 +34970,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 
 <div class="tnote">
 
-All twenty-eight figures rebuild from `supplemental_data/` with `data/`
+All twenty-nine figures rebuild from `supplemental_data/` with `data/`
 absent, and are pixel-identical across repeated runs. Captions
 transcribed from `FIGURE_CAPTIONS.txt`; every number in the caption
 prose was taken from the generating scripts’ console output, and every

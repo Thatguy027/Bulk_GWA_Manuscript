@@ -79,12 +79,12 @@ suppressPackageStartupMessages({
 
 ## the N2 swap: data prep, colours and the dose reasoning
 source("scripts/n2_swap_panels.R")
+## panel D, shared with the full-catalogue supplement
+source("scripts/sid2_variant_panel.R")
 
 OUT  <- "plots"
 SWAP <- "supplemental_data/hatching_assays/ju_allele_swaps_hatching.csv"
 VAR  <- "supplemental_data/structure/sid2_variants_cendr.tsv"
-PERRES2 <- "supplemental_data/structure/sid2_per_residue.tsv"
-LOCALQ  <- "supplemental_data/structure/sid2_local_charge.tsv"
 ## Panel C is coloured by LOCAL NET CHARGE, not by secondary structure.
 ##
 ## The claim the panel makes is a charge claim: in a pathway where dsRNA
@@ -348,181 +348,43 @@ p_n2 <- ggplot(n25, aes(line, p, fill = line)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 9))
 
 ## ===========================================================================
-## D -- sid-2 coding variation in the wild population
+## D -- the sid-2 coding differences among the three mapping parents
 ##
 ## The protein runs vertically with residue 1 at the top, the topology as a
-## filled bar, and each protein-altering variant labelled to the right with a
-## frequency bar. Built from supplemental_data/structure/sid2_variants_cendr.tsv; run
-## scripts/sid2_variant_table.R to rebuild it.
+## filled bar, and each protein-altering variant labelled to the right with its
+## CeNDR frequency. Drawn by sid2_variant_panel() in sid2_variant_panel.R, which
+## the full-catalogue supplement (SUPP_FIG_XX_sid2_variants_all.R) shares.
 ##
-## COVERAGE. The amino-acid annotation covers variants segregating among the
-## four cross parents, so this is not an exhaustive catalogue of sid-2 coding
-## variation: 81 variants of any kind segregate in the 3 kb span in CeNDR and
-## 8 protein-altering ones are annotated here. The panel says so rather than
-## implying completeness.
+## ONLY SITES WHERE JU1793, JU2466 AND XZ1516 DO NOT ALL AGREE. The panel is
+## about the parents: which coding changes each cross could have mapped. A site
+## all three share says nothing about either cross, and every such row made the
+## panel harder to read. That drops P153T, which all three carry; its linkage to
+## T96K is stated in the caption. Every protein-altering site in the population,
+## parental or not, is in the supplement.
+##
+## Built from supplemental_data/structure/sid2_variants_cendr.tsv; run
+## scripts/sid2_variant_table.R to rebuild it.
 ## ===========================================================================
-msg("panel D: wild variation")
+msg("panel D: parental differences")
 stopifnot(file.exists(VAR))
-vr <- read_tsv(VAR, comment = "#", show_col_types = FALSE) %>%
+vr_all <- read_tsv(VAR, comment = "#", show_col_types = FALSE) %>%
   mutate(focal = label == "T96K")
-stopifnot(all(c("ju1793_aa", "ju2466_aa", "xz1516_aa") %in% names(vr)),
-          !any(is.na(vr$xz1516_aa)))
+stopifnot(all(c("ju1793_aa", "ju2466_aa", "xz1516_aa") %in% names(vr_all)),
+          !any(is.na(vr_all$xz1516_aa)))
+vr <- vr_all %>%
+  filter(ju1793_aa != ju2466_aa | ju1793_aa != xz1516_aa)
+msg("  ", nrow(vr), " of ", nrow(vr_all), " protein-altering sites differ among ",
+    "JU1793, JU2466 and XZ1516 | dropped: ",
+    paste(setdiff(vr_all$label, vr$label), collapse = ", "))
+## pinned: the caption names these seven
+stopifnot(identical(vr$label, c("V5L", "D78A", "T96K", "M141V", "Q144P",
+                                "A151I/T", "L209M")))
 msg("  JU1793 vs JU2466 differ at ", sum(vr$parents_differ), " of ", nrow(vr),
     " sites: ", paste(vr$label[vr$parents_differ], collapse = ", "))
-pr2 <- read_tsv(PERRES2, show_col_types = FALSE) %>%
-  mutate(topology = factor(topology, levels = names(TOPO_COL2)))
-LEN <- max(pr2$resid)
-msg("  ", nrow(vr), " protein-altering variants | AF ",
-    sprintf("%.3f-%.3f", min(vr$af), max(vr$af)))
-msg("  ", paste(sprintf("%s %.0f%%", vr$label, 100 * vr$af), collapse = " | "))
+msg("  ", paste(sprintf("%s %.3f", vr$label, vr$af), collapse = " | "))
 
-dom2 <- (function(v) { r <- rle(as.character(v))
-  tibble(value = factor(r$values, levels = names(TOPO_COL2)),
-         end = cumsum(r$lengths),
-         start = cumsum(r$lengths) - r$lengths + 1) })(pr2$topology)
-
-## x geometry, in arbitrary units: the topology bar, then the labels, then the
-## frequency bars. Residue is on y, reversed so residue 1 is at the top.
-X_BAR <- c(0, 0.5); X_LAB <- 0.78; X_FRQ <- c(1.36, 2.55)
-## A local-net-charge strip immediately left of the topology bar, on the SAME
-## ramp and the SAME limits as panel C, so the two panels can be read against
-## each other -- that is the entire point of putting it here. It therefore
-## needs no key of its own; panel C's key serves both, and duplicating it would
-## invite the two from drifting apart.
-X_CHG <- c(-0.86, -0.16)
-## Colours are precomputed to hex rather than mapped through a second fill
-## scale: the panel already uses fill for the topology, and ggnewscale is not a
-## dependency of this repository. The key in panel C does exactly the same.
-chg <- read_tsv(LOCALQ, show_col_types = FALSE) %>%
-  transmute(resid, q = q_local_pH44,
-            col = ramp[pmax(1, pmin(length(ramp),
-                     round((pmin(pmax(q, -QLIM), QLIM) + QLIM) /
-                           (2 * QLIM) * (length(ramp) - 1)) + 1))])
-## The charge is defined only where there is a model to measure it in: the
-## AlphaFold ectodomain, residues 21-188. Panel D draws all 311 residues, so
-## the strip covers a little over half the protein and the rest is left blank
-## rather than filled with a zero that would read as "neutral here".
-CHG_RANGE <- range(chg$resid)
-stopifnot(nrow(chg) == 168, CHG_RANGE[1] == 21, CHG_RANGE[2] == 188)
-## Three allele columns. X_P1/X_P2 are the parents of the cross this figure is
-## about; X_P3 is XZ1516, the parent of the OTHER mapping cross, carried here
-## for reference. It sits outside the highlight band on purpose -- the band
-## marks sites that segregate in JU1793 x JU2466, and XZ1516 is not in that
-## cross, so shading it would claim something the panel is not testing.
-X_P1 <- 3.16; X_P2 <- 3.62; X_P3 <- 4.08
-## Callout rows are evenly spaced down the panel and joined to the residue
-## by a leader, rather than sitting at the residue's own height: four of the
-## eight variants fall between residues 141 and 153 and their labels and
-## frequency bars overlapped completely when placed at true scale.
-vr <- vr %>% arrange(residue) %>%
-  mutate(row = seq(14, LEN - 14, length.out = n()),
-         xend = X_FRQ[1] + af * diff(X_FRQ))
-
-pD <- ggplot() +
-  ## the charge strip, and an outline showing how far the model reaches
-  ## height slightly over 1 so adjacent residues abut with no hairline seam:
-  ## at this scale a seam is a white line, and white is also the middle of a
-  ## diverging ramp, so seams would read as neutral charge or as missing data
-  geom_tile(data = chg, aes(x = mean(X_CHG), y = resid),
-            fill = chg$col, width = diff(X_CHG), height = 1.02) +
-  annotate("rect", xmin = X_CHG[1], xmax = X_CHG[2],
-           ymin = CHG_RANGE[1] - 0.5, ymax = CHG_RANGE[2] + 0.5,
-           fill = NA, colour = "grey45", linewidth = 0.25) +
-
-  geom_rect(data = dom2,
-            aes(xmin = X_BAR[1], xmax = X_BAR[2],
-                ymin = start - 0.5, ymax = end + 0.5, fill = value),
-            colour = "grey30", linewidth = 0.25) +
-  ## tick across the topology bar at the true residue, then a leader out to
-  ## the evenly spaced callout row
-  geom_segment(data = vr,
-               aes(x = X_BAR[1], xend = X_BAR[2], y = residue, yend = residue),
-               linewidth = 0.5,
-               colour = ifelse(vr$focal, COL_JU1793, "grey35")) +
-  geom_segment(data = vr,
-               aes(x = X_BAR[2], xend = X_LAB - 0.04, y = residue, yend = row),
-               linewidth = 0.3,
-               colour = ifelse(vr$focal, COL_JU1793, "grey55")) +
-  geom_richtext(data = vr, aes(X_LAB, row, label = label),
-                colour = ifelse(vr$focal, COL_JU1793, "grey15"),
-                fontface = ifelse(vr$focal, "bold", "plain"),
-                size = 2.9, hjust = 0, vjust = 0.5, fill = NA,
-                label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## frequency bars
-  geom_segment(data = vr, aes(x = X_FRQ[1], xend = X_FRQ[2], y = row,
-                              yend = row),
-               linewidth = 3.0, colour = "grey92", lineend = "butt") +
-  geom_segment(data = vr, aes(x = X_FRQ[1], xend = xend, y = row,
-                              yend = row),
-               linewidth = 3.0, lineend = "butt",
-               colour = ifelse(vr$focal, COL_JU1793, "grey55")) +
-  geom_richtext(data = vr, aes(X_FRQ[2] + 0.06, row,
-                               label = sprintf("%.0f%%", 100 * af)),
-                colour = ifelse(vr$focal, COL_JU1793, "grey25"),
-                size = 2.7, hjust = 0, vjust = 0.5, fill = NA,
-                label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## the allele each strain carries. Rows where the two CROSS PARENTS differ
-  ## are banded, which is the whole point of the first two columns: only two of
-  ## the eight protein-altering variants segregate in this cross. XZ1516 is
-  ## drawn plain, outside the band, because it is reference rather than a term
-  ## in that comparison.
-  geom_rect(data = vr %>% filter(parents_differ),
-            aes(xmin = X_P1 - 0.22, xmax = X_P2 + 0.22,
-                ymin = row - 11, ymax = row + 11),
-            fill = COL_JU1793, alpha = 0.10) +
-  geom_richtext(data = vr, aes(X_P1, row, label = ju1793_aa),
-                colour = ifelse(vr$parents_differ, COL_JU1793, "grey45"),
-                fontface = ifelse(vr$parents_differ, "bold", "plain"),
-                size = 2.9, hjust = 0.5, vjust = 0.5, fill = NA,
-                label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
-  geom_richtext(data = vr, aes(X_P2, row, label = ju2466_aa),
-                colour = ifelse(vr$parents_differ, COL_JU2466, "grey45"),
-                fontface = ifelse(vr$parents_differ, "bold", "plain"),
-                size = 2.9, hjust = 0.5, vjust = 0.5, fill = NA,
-                label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
-  geom_richtext(data = vr, aes(X_P3, row, label = xz1516_aa),
-                colour = "grey45", size = 2.9, hjust = 0.5, vjust = 0.5,
-                fill = NA, label.color = NA,
-                label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## column headers, in the margin reserved above residue 1
-  geom_richtext(data = tibble(
-      x = c(mean(X_CHG), mean(X_FRQ), X_P1, X_P2, X_P3), y = -7,
-      lab = c("Net charge", "CeNDR frequency", "JU1793", "JU2466", "XZ1516"),
-      col = c("grey30", "grey30", COL_JU1793, COL_JU2466, COL_XZ)),
-      aes(x, y, label = lab),
-      colour = c("grey30", "grey30", COL_JU1793, COL_JU2466, COL_XZ),
-      size = 2.6, hjust = 0.5, vjust = 0.5, fill = NA, label.color = NA,
-      label.padding = grid::unit(rep(0, 4), "pt")) +
-  ## The ends of the charge column, so it reads as a scaled quantity rather than
-  ## as decoration; the ramp itself is keyed in panel C. geom_text, NOT
-  ## geom_richtext: gridtext parses its label as markdown and a bare "+" becomes
-  ## a list item, which fails at tag dispatch.
-  geom_text(data = tibble(x = X_CHG, y = c(-2.5, -2.5),
-                          lab = c("\u2212", "+")),
-            aes(x, y, label = lab), size = 2.6, colour = "grey45",
-            hjust = 0.5, vjust = 0.5) +
-  scale_fill_manual(values = TOPO_COL2, name = NULL) +
-  scale_x_continuous(limits = c(X_CHG[1] - 0.04, X_P3 + 0.30),
-                     expand = expansion(0)) +
-  ## 311 dropped from the breaks: it collided with the 300 tick
-  scale_y_reverse(breaks = c(1, seq(50, 300, 50)),
-                  limits = c(LEN + 6, -16), expand = expansion(0)) +
-  ## No subtitle: what it said -- that the left strip is panel C's charge
-  ## scale over the modelled ectodomain, residues 21-188 only -- is in the
-  ## caption, and on the panel it was a third line of prose competing with the
-  ## callouts for the reader's eye.
-  labs(x = NULL, y = "SID-2 residue", title = panel_title("D")) +
-  guides(fill = guide_legend(ncol = 2, byrow = TRUE)) +
-  theme_pub(FIG_BASE) +
-  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
-        axis.line.x = element_blank(),
-        legend.position = "bottom", legend.margin = margin(t = -4),
-        legend.text = element_text(size = 7.6),
-        plot.margin = margin(4, 4, 4, 4))
+pD <- sid2_variant_panel(vr, letter = "D", base_size = FIG_BASE,
+                         ramp = ramp, qlim = QLIM)
 
 ## ===========================================================================
 ## The two experiments on top, the structure across the bottom with room to
