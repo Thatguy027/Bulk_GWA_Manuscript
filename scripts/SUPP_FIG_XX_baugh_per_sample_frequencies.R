@@ -95,20 +95,7 @@ fig <- ggplot(d, aes(published_frq, frq)) +
              labeller = labeller(sample = lb)) +
   coord_equal(xlim = lim, ylim = lim) +
   labs(x = "MIP-seq frequency", y = "NNLS frequency",
-       title = titled(NULL, "**Sample-level frequencies behind the Figure 1 slopes**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "One facet per sample, one point per wild isolate, for the %d samples ",
-         "the slope fits use (non-baseline, day 17 excluded). Vertical bars are ",
-         "%g%% percentile intervals over %d bootstrap replicates of the ",
-         "deconvolution, taken at the sample level; the MIP-seq frequencies are ",
-         "published point values and carry no interval. Dashed line is y = x, ",
-         "not a fit. N2 excluded. %s of %s points (%s%%) are exact NNLS zeros, ",
-         "where the non-negativity constraint drops a strain from the pool; the ",
-         "MIP-seq table reports no zeros. Rows are one replicate arm's time ",
-         "course."),
-         n_distinct(d$sample), LEVEL * 100, 100,
-         format(n_zero, big.mark = ","), format(nrow(d), big.mark = ","),
-         round(100 * n_zero / nrow(d), 1)), width = 132)) +
+       title = NULL) +
   theme_pub(10.5) +
   theme(strip.text = element_text(face = "bold", size = 9.5),
         panel.spacing = grid::unit(6, "pt"),

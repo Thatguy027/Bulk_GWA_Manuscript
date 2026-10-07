@@ -142,10 +142,7 @@ p <- ggplot() +
                      expand = expansion(mult = 0.012)) +
   scale_y_continuous(breaks = NULL, expand = expansion(mult = 0.02)) +
   guides(fill = guide_legend(override.aes = list(shape = 21, size = 3.1), order = 1)) +
-  labs(x = "Chromosome III (Mb)", y = NULL,
-       title = "The 37 kb interval the NIL series resolves",
-       subtitle = paste0("Gene models, with every site where JU1793 and JU2466 differ drawn above them. ",
-                         "Of ", nrow(var), " differences, ", nrow(lol), " alter a protein.")) +
+  labs(x = "Chromosome III (Mb)", y = NULL) +
   theme_classic(base_size = 11.5) +
   theme(axis.line.y = element_blank(), axis.ticks.y = element_blank(),
         axis.line.x = element_line(linewidth = 0.3),

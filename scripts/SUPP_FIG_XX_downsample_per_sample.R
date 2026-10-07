@@ -62,31 +62,18 @@ YLIM <- c(0.40, 0.95)
 
 ## the panel subtitles are wrapped for a HALF-width panel. wrap_md()'s default
 ## is set for a full-page panel and the two subtitles overlapped each other.
-pA <- panel_downsample_samples(freq, letter = "A", bare = FALSE) +
-  labs(subtitle = wrap_md(paste0(
-    "One grey line per sample, 23 samples; dark line is the median across ",
-    "samples. Dashed line is the median full-depth agreement."),
-    width = 62)) +
+pA <- panel_downsample_samples(freq, letter = "A", bare = TRUE) +
+  labs() +
   coord_cartesian(ylim = YLIM)
 
 ## drop_depth = NULL restores the 0.5x that Figure1_boot.R panel C omits
-pB <- panel_downsample(slopes, letter = "B", bare = FALSE,
+pB <- panel_downsample(slopes, letter = "B", bare = TRUE,
                        drop_depth = NULL) +
-  labs(subtitle = wrap_md(paste0(
-    "Slopes recomputed at each depth, then correlated with the MIP-seq ",
-    "slopes. Same y axis as A."), width = 62)) +
+  labs() +
   coord_cartesian(ylim = YLIM)
 
 fig <- (pA | pB) +
   plot_annotation(
-    title = "**Sequencing depth: per sample and in aggregate**",
-    subtitle = wrap_md(paste0(
-      "Reads subsampled to each depth and the deconvolution rerun, then ",
-      "compared with the published MIP-seq frequencies. A compares individual ",
-      "sample frequencies; B compares the per-strain slopes that Figure 1 ",
-      "plots, which average fifteen samples and so sit higher and saturate ",
-      "sooner. Spread between samples exceeds the effect of depth, and the ",
-      "worst sample does not improve with depth.")),
     theme = theme(plot.title = element_markdown(size = 13),
                   plot.subtitle = element_markdown(size = 8.4,
                                                    colour = "grey30"),

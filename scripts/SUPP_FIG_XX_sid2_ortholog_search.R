@@ -184,21 +184,7 @@ pA <- ggplot(sa, aes(nlp, lab, colour = is_ortholog)) +
   labs(x = paste0("&minus;log<sub>10</sub> *E* of the reciprocal best hit ",
                   "<span style='color:grey45'>(dashed: *E* = 10<sup>&minus;5</sup>)</span>"),
        y = NULL,
-       title = panel_title("A", "**Outside *Caenorhabditis*, SID-2 has no detectable ortholog**"),
-       subtitle = ital(wrap_md(sprintf(paste0(
-         "Reciprocal-best-hit blastp of C. elegans SID-2 against %d nematode ",
-         "proteomes, %s proteins: 20 UniProt reference proteomes spanning the ",
-         "phylum and 32 from the Caenorhabditis Genomes Project v2. The two ",
-         "sets share one species, C. auriculariae, so the %d proteomes are %d ",
-         "species, and the query is not drawn -- leaving %d comparators, of ",
-         "which %d clear E < 1e-5 and every one is a Caenorhabditis. Nothing ",
-         "beyond the genus clears it, including Diploscapter pachys, the ",
-         "sister genus, at E = 4.1. Four Caenorhabditis proteomes also fail, ",
-         "C. auriculariae in both of its independent ones; a missing hit in a ",
-         "single proteome is weak evidence about the gene and may only say ",
-         "its annotation is incomplete."),
-         nrow(srch), format(N_PROTEIN, big.mark = ","), nrow(srch), N_SPP,
-         nrow(sa), sum(sa$is_ortholog)), 104))) +
+       title = panel_title("A")) +
   theme_pub(10) +
   theme(axis.text.y = element_markdown(size = 6.4),
         axis.title.x = element_markdown(size = 9),
@@ -236,18 +222,7 @@ pB <- ggplot(dist, aes(factor(n_conserved), n)) +
   labs(x = paste0("Elegans-group orthologs sharing the *C. elegans* residue (of ",
                   N_ORTH, ")"),
        y = "Ectodomain positions",
-       title = panel_title("B", "**Constrained positions high, free one lowest**"),
-       subtitle = ital(wrap_md(sprintf(paste0(
-         "All %d ectodomain positions (%d-%d), binned by how many of the %d ",
-         "full-length Elegans-group orthologs share the C. elegans residue. ",
-         "The background is %.2f of %d (%.0f%%) and only %.0f%% of positions ",
-         "are conserved in all. Calibration that cuts the other way: three of ",
-         "the five ectodomain sequons are intact in all %d orthologs, so a ",
-         "fully conserved sequon is the norm in this protein and the one at 94 ",
-         "is not a standout."),
-         nrow(ec), ECD[1], ECD[2], N_ORTH, mean(ec$n_conserved), N_ORTH,
-         100 * mean(ec$n_conserved) / N_ORTH,
-         100 * sum(ec$n_conserved == N_ORTH) / nrow(ec), N_ORTH), 86))) +
+       title = panel_title("B")) +
   theme_pub(10) +
   ## axis.title = element_markdown() does NOT render markdown; the per-axis
   ## elements do. Verified: it printed the asterisks literally.

@@ -165,14 +165,7 @@ p_rep <- ggplot(pairs_tbl, aes(x, y)) +
             colour = "grey20") +
   facet_wrap(~pair, nrow = 2) +
   coord_equal(xlim = lim, ylim = lim) +
-  labs(x = "Δ frequency vs control", y = "Δ frequency vs control",
-       title = "*pos-1* RNAi replicate reproducibility, 2023 pooled competition",
-       subtitle = sprintf(paste0("Per-strain change in pool frequency relative to the ",
-                                 "control, timepoint 2, read-depth cutoff %d. Every pair ",
-                                 "of the four *pos-1* replicates; dashed line is y = x, ",
-                                 "red is the fitted slope. Rows sharing a (strain, sample) ",
-                                 "key are summed before the delta is taken, which affects ",
-                                 "JU1793 only \u2014 see the script header."), DEPTH)) +
+  labs(x = "Δ frequency vs control", y = "Δ frequency vs control") +
   theme_bw(base_size = 11) +
   theme(strip.background = element_blank(),
         strip.text = element_text(face = "bold", size = 10),

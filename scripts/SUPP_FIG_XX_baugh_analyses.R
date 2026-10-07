@@ -107,11 +107,8 @@ stopifnot(sw$n == 98, sm$n == 98, sw$cols == 15, nrow(ps) == 23,
 msg("  pins agree")
 
 ## ---- panels ----------------------------------------------------------------
-pA <- panel_slope(slopes, letter = "A", bare = FALSE) +
-  labs(title = titled("A", "**Platform agreement**"),
-       subtitle = wrap_md(paste0(
-         "Same trait, two platforms: the difference slope (f &minus; f<sub>day 1</sub> ",
-         "on day) from pooled WGS against MIP-seq. As Figure 1A."), 62))
+pA <- panel_slope(slopes, letter = "A", bare = TRUE) +
+  labs(title = panel_title("A"))
 
 trait_panel <- function(y, ylab, rho, letter, ttl, sub) {
   lab <- sprintf("rho = %.3f, n = %d", rho, sw$n)
@@ -122,7 +119,7 @@ trait_panel <- function(y, ylab, rho, letter, ttl, sub) {
                   colour = COL_FIT, fill = NA, label.color = NA,
                   label.padding = grid::unit(rep(0, 4), "pt")) +
     labs(x = "Published Slope (Webster et al.)", y = ylab,
-         title = titled(letter, ttl), subtitle = wrap_md(sub, 62)) +
+         title = panel_title(letter)) +
     theme_pub(11.5)
 }
 pB <- trait_panel("slope", "Pooled WGS Slope, published recipe", sw$slope, "B",
@@ -161,12 +158,7 @@ pD <- ggplot(lad, aes(value, what)) +
   scale_x_continuous(limits = c(0.6, 1.04), breaks = seq(0.6, 1, 0.1),
                      expand = expansion(0)) +
   labs(x = "Spearman's &rho;", y = NULL,
-       title = titled("D", "**Every comparison on one axis**"),
-       subtitle = wrap_md(paste0(
-         "MIP-seq's own difference slope agrees with the published Slope no ",
-         "better than ours, so the drop from A to B is the change of trait. ",
-         "Ceiling: the published recipe on MIP-seq, restricted to the 15 ",
-         "columns the pooled set covers."), 62)) +
+       title = panel_title("D")) +
   theme_pub(11.5) +
   theme(axis.title.x = element_markdown(),
         strip.placement = "outside",

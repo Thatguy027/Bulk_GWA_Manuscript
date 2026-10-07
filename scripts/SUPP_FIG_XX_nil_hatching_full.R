@@ -78,15 +78,7 @@ fig <- ggplot(phen, aes(p, strain, fill = cond)) +
   scale_fill_manual(values = c(HT115 = COL_CTRL, `*pos-1*` = COL_RNAI), name = NULL) +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1),
                      limits = c(0, 1.04), expand = expansion(mult = 0)) +
-  labs(x = "Embryos hatched", y = NULL,
-       title = "NIL hatching, full experiment",
-       subtitle = paste(strwrap(paste0(
-         "Every strain and both food conditions. Control hatching is 97-100% ",
-         "throughout, so the pos-1 differences are not a property of the ",
-         "introgressions themselves. Bars are one plate per strain per ",
-         "condition with Wilson 95% intervals on that plate's embryo count; ",
-         "no strain is replicated. Strains ordered by pos-1 hatching."),
-         width = 96), collapse = "\n")) +
+  labs(x = "Embryos hatched", y = NULL) +
   theme_classic(base_size = 11.5) +
   theme(axis.line = element_line(linewidth = 0.3),
         axis.ticks = element_line(linewidth = 0.3),

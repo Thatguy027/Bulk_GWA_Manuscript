@@ -160,16 +160,7 @@ pA <- ggplot(d, aes(allele, vst, fill = allele)) +
   scale_x_discrete(labels = function(a)
     sprintf("%s\nn = %d", a, sm$n[match(a, sm$allele)])) +
   labs(x = "*sid-2* residue 96", y = "*pos-1* response (VST)",
-       title = panel_title("A", "**The allele does not split the panel**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "Every phenotyped strain in the 2023 panel (%d of %d genotyped), ",
-         "split by residue 96. 96K is at %.0f%% frequency. The distributions ",
-         "are not distinguishable: Wilcoxon *p* = %.2f. The means differ in ",
-         "the direction the crosses predict (96K more sensitive) but only ",
-         "because the 96T group holds the resistant tail &mdash; Welch *p* = ",
-         "%.2f, *r*&sup2; = %.3f. Open circles are the four strains whose ",
-         "allele is known independently."),
-         nrow(d), nrow(tr), 100 * af, wt$p.value, tt$p.value, r2))) +
+       title = panel_title("A")) +
   theme_pub() +
   theme(axis.title.x = element_markdown(), axis.title.y = element_markdown())
 
@@ -224,17 +215,7 @@ pB <- ggplot(loc, aes(ps / 1e6, nlp)) +
   scale_y_continuous(limits = c(0, max(TH$bonferroni, max(loc$nlp)) * 1.18),
                      expand = expansion(mult = c(0.02, 0))) +
   labs(x = "Chromosome III position (Mb)", y = "&minus;log<sub>10</sub>*p*",
-       title = panel_title("B", "**Nor is it a signal in the scan**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "GEMMA LOCO on the same trait, %.0f kb either side of the variant. ",
-         "The T96K marker itself reaches &minus;log<sub>10</sub>*p* = %.2f ",
-         "(*p* = %.2f), ranking %s of %s markers on chromosome III; nothing ",
-         "within 300 kb clears either threshold. The chromosome III peak for ",
-         "this trait is at 5.97 Mb, %.1f Mb away. sid-2 was found by the ",
-         "cross and the NILs, not here."),
-         WIN / 1e3, site$nlp, site$p_wald,
-         format(rank_site, big.mark = ","), format(nrow(gw), big.mark = ","),
-         abs(gw[order(-nlp)][1]$ps - SITE) / 1e6))) +
+       title = panel_title("B")) +
   theme_pub() +
   theme(axis.title.y = element_markdown())
 

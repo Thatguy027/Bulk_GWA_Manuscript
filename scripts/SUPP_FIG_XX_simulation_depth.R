@@ -256,11 +256,7 @@ pA <- ggplot(r2, aes(depth, r2, colour = trait)) +
   scale_fill_manual(values = TRAIT_COL, guide = "none") +
   labs(x = "Simulated sequencing depth",
        y = "r² vs known input frequency,\nstrains present in the pool",
-       title = panel_title("A"),
-       subtitle = sprintf(paste("Accuracy against the simulated input, over the strains actually IN each",
-                                "trait's pool.<br>Strains absent from a pool are returned as exactly zero and",
-                                "are excluded: they inflate r²<br>without measuring anything. Mean of %d seeded",
-                                "replicates, band spans them; dashed line r² = 0.95"), NREP)) +
+       title = panel_title("A")) +
   theme_pub() +
   theme(legend.position = c(0.985, 0.02), legend.justification = c(1, 0),
         legend.text = element_text(size = 7.6),
@@ -331,9 +327,7 @@ pB <- ggplot(cmp, aes(frequency, input)) +
                      labels = c("0", ".01", ".02", ".03")) +
   labs(x = "Estimated strain frequency at the stated depth",
        y = "Known input frequency",
-       title = panel_title("B"),
-       subtitle = paste("Points on y = 0 are strains with no published value",
-                        "for that trait, absent from the simulated pool")) +
+       title = panel_title("B")) +
   theme_pub() +
   theme(panel.spacing.x = grid::unit(7, "pt"),
         axis.text.x = element_text(size = 7.2))

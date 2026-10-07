@@ -103,10 +103,7 @@ p_iii <- ggplot(chg, aes(q_local_pH44)) +
                      expand = expansion(c(0.02, 0))) +
   coord_cartesian(xlim = c(NA, 4.1)) +
   scale_y_continuous("Ectodomain residues", expand = expansion(c(0, 0.12))) +
-  labs(subtitle = paste0(
-    "Permanent positive charge at this surface increases uptake: the<br>",
-    "triple His&rarr;Arg mutant of McEwan *et al.* internalised more dsRNA<br>",
-    "than wild type, and T96K increases RNAi sensitivity in all three backgrounds")) +
+  labs() +
   theme_pub() +
   theme(axis.title.x = element_text(size = 9),
         axis.title.y = element_text(size = 9),

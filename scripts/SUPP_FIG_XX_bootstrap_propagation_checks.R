@@ -74,7 +74,7 @@ pA <- ggplot(fq, aes(frq, bootmean)) +
            fill = NA, label.color = NA,
            label.padding = grid::unit(rep(0, 4), "pt")) +
   labs(x = "Point-estimate frequency", y = "Bootstrap mean frequency",
-       title = titled("A", "**Same estimator, frequency level**")) +
+       title = panel_title("A")) +
   theme_pub(10.5)
 
 ## --- B: slope level --------------------------------------------------------
@@ -96,7 +96,7 @@ pB <- ggplot(j, aes(wgs, boot_mean)) +
            fill = NA, label.color = NA,
            label.padding = grid::unit(rep(0, 4), "pt")) +
   labs(x = "Point-estimate slope", y = "Bootstrap mean slope",
-       title = titled("B", "**Same estimator, after the transformation**")) +
+       title = panel_title("B")) +
   theme_pub(10.5)
 
 ## --- C: standardised bias --------------------------------------------------
@@ -116,7 +116,7 @@ pC <- ggplot(j, aes(z)) +
            fill = NA, label.color = NA,
            label.padding = grid::unit(rep(0, 4), "pt")) +
   labs(x = "(point &minus; bootstrap mean) / bootstrap SD", y = "Strains",
-       title = titled("C", "**Bias in units of the interval**")) +
+       title = panel_title("C")) +
   theme_pub(10.5) +
   theme(axis.title.x = element_markdown())
 
@@ -131,8 +131,7 @@ pD <- ggplot(cat_d, aes(rank, wgs)) +
   scale_colour_manual(values = c(`TRUE` = COL_PT, `FALSE` = COL_FIT),
                       guide = "none") +
   labs(x = "Strain, ordered by slope", y = "NNLS slope",
-       title = titled("D", sprintf("**Coverage: %d of %d intervals contain their point estimate**",
-                                   cover, nrow(j)))) +
+       title = panel_title("D")) +
   theme_pub(10.5)
 
 ## --- E: the correlation's bootstrap distribution --------------------------
@@ -160,7 +159,7 @@ pE <- ggplot(tibble(rho = br$rho), aes(rho)) +
            label.padding = grid::unit(rep(0, 4), "pt")) +
   labs(x = "Spearman's &rho; vs MIP-seq, per bootstrap replicate",
        y = "Replicates",
-       title = titled("E", "**The correlation is stable under resampling**")) +
+       title = panel_title("E")) +
   theme_pub(10.5) +
   theme(axis.title.x = element_markdown())
 
@@ -187,7 +186,7 @@ pF <- ggplot(d98, aes(resid, width)) +
        ## short: a longer rotated title reaches into the title row and
        ## overlaps the panel letter, which sits at the plot's left edge
        y = "95% interval width",
-       title = titled("F", "**Why the error bars are invisible**")) +
+       title = panel_title("F")) +
   theme_pub(10.5) +
   theme(axis.title.x = element_markdown(),
         axis.title.y = element_markdown())
@@ -195,17 +194,6 @@ pF <- ggplot(d98, aes(resid, width)) +
 ## ===========================================================================
 fig <- (pA + pB) / (pC + pD) / (pE + pF) +
   plot_annotation(
-    title = "**Bootstrap propagation checks for Figure 1**",
-    subtitle = wrap_md(paste0(
-      "The slope intervals in Figure1_boot.R are obtained by redoing the ",
-      "whole slope calculation inside each of the 100 bootstrap replicates of ",
-      "the deconvolution, not by propagating a stored standard error through ",
-      "it. A-D check that the array resamples the estimator the figure plots ",
-      "and that the transformation is carried through it consistently; E gives ",
-      "the correlation its own interval; F shows that the resulting ",
-      "uncertainty is smaller than the disagreement between platforms, which ",
-      "is why the bars cannot be seen at full scale. Only the bootstrap ",
-      "outputs were saved, so what was resampled is not recoverable here.")),
     theme = theme(plot.title = element_markdown(size = 13),
                   plot.subtitle = element_markdown(size = 8.2,
                                                    colour = "grey30"),

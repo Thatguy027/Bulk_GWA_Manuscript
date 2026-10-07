@@ -142,8 +142,7 @@ pA <- ggplot(long, aes(depth, rho, colour = trait)) +
   scale_x_log10(breaks = sort(unique(long$depth)),
                 labels = function(x) paste0(x, "x")) +
   scale_y_continuous(limits = c(0, 1)) +
-  labs(title = "A  Recovery of the published eLife traits against depth",
-       subtitle = "Spearman against the published Slope and PC1. Dashed lines are full depth.",
+  labs(title = "A",
        x = "Sequencing depth", y = "Spearman rho vs published trait")
 
 zer <- ds %>% group_by(ds_n) %>%
@@ -154,8 +153,7 @@ pB <- ggplot(zer, aes(depth, pz)) +
   geom_point(size = 2, colour = "grey25") +
   scale_x_log10(breaks = zer$depth, labels = function(x) paste0(x, "x")) +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "B  Why the log-ratio traits suffer at low depth",
-       subtitle = "Share of strain x sample cells the deconvolution sets to exactly zero",
+  labs(title = "B",
        x = "Sequencing depth", y = "cells at exactly zero")
 
 fig <- pA / pB + plot_layout(heights = c(1.5, 1))

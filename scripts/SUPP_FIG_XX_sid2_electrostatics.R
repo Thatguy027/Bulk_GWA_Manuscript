@@ -145,15 +145,7 @@ pA <- (ggplot() +
                     interpolate = TRUE) +
   coord_fixed(ratio = dim(img)[1] / dim(img)[2], xlim = c(0, 1),
               ylim = c(0, 1), expand = FALSE) +
-  labs(title = panel_title("A", "**Charged residues on the ectodomain**"),
-       subtitle = wrap_md(paste0(
-         "AlphaFold3 model, residues ", ECD[1], "&ndash;", ECD[2],
-         " of chain A, coloured by residue class. Histidine is separated ",
-         "because it is the class that titrates between neutral pH and the ",
-         "acidic gut lumen. T96 in orange; the three uptake-critical ",
-         "histidines of McEwan et al. 2012 labelled in dark blue; D34, the ",
-         "qt13 loss-of-function allele, in purple, because it is a separate ",
-         "line of evidence and not one of the histidines."), 78)) +
+  labs(title = panel_title("A")) +
   theme_void(base_size = 11) +
   theme(plot.title = element_markdown(size = 11.5),
         plot.subtitle = element_markdown(size = 8.2, colour = "grey30"),
@@ -231,18 +223,7 @@ pB <- ggplot(curve, aes(ph, q, colour = allele)) +
                                  `96K (JU2466)` = COL_MUT), name = NULL) +
   scale_x_continuous(breaks = seq(2, 12, 2)) +
   labs(x = "pH", y = "Net charge of the ectodomain (e)",
-       title = panel_title("B", "**At gut pH the variant changes the sign of the surface**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "Henderson&ndash;Hasselbalch over the side chains of residues %d",
-         "&ndash;%d; termini omitted. The ectodomain carries %+.1f e at pH ",
-         "7.4 but only %+.1f e at the gut-lumen pH of 4.4 &mdash; its ",
-         "isoelectric point, %.2f, is essentially the pH it works at (dots). ",
-         "Against that near-neutral background the +1 e from T96K takes the ",
-         "surface from %+.1f e to %+.1f e and the isoelectric point to %.2f. ",
-         "The variant is a small change in absolute terms, but at lumenal pH ",
-         "it is the difference between a slightly negative and a slightly ",
-         "positive face &mdash; and 96K is the allele with efficient uptake."),
-         ECD[1], ECD[2], q74, q44, pI(0), q44, q44_mut, pI(1)), 78)) +
+       title = panel_title("B")) +
   theme_pub() +
   theme(legend.position = c(0.02, 0.14), legend.justification = c(0, 0),
         legend.background = element_rect(fill = "white", colour = NA))
@@ -315,19 +296,7 @@ pC <- ggplot(d, aes(dist)) +
   scale_x_continuous(breaks = seq(0, 70, 10)) +
   labs(x = "C&alpha; distance from residue 96 (&Aring;)",
        y = "Ectodomain residues",
-       title = panel_title("C", "**Close, but not more than chance would give**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "Distances from residue 96 to every other ectodomain residue, with ",
-         "the three uptake-critical histidines marked (dark blue) and D34, ",
-         "the qt13 allele, shown separately (purple, dashed) because it is a ",
-         "different experiment and is not in the statistic. %d of the %d ",
-         "histidines are nearer than the median (%.1f &Aring;), but %.0f%% ",
-         "of the ectodomain lies within 20 &Aring;, so %d of %d landing ",
-         "there is not surprising: binomial *p* = %.2f, and a permutation ",
-         "test on their mean distance gives *p* = %.2f. Read this as spatial ",
-         "context for T96, not as evidence of a shared site."),
-         n_near, nrow(fd), med, 100 * frac20, k20, nrow(fd), p_bin,
-         p_perm), 78)) +
+       title = panel_title("C")) +
   theme_pub() +
   theme(axis.title.x = element_markdown())
 

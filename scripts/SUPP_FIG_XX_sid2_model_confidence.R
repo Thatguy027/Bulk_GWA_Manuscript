@@ -101,10 +101,7 @@ p_i <- ggplot() +
   coord_fixed(ratio = 1, xlim = c(-0.05, W_IM + 0.05),
               ylim = c(KEY_Y - 3 * (KEY_H + 0.10) - 0.06, H_IM),
               expand = FALSE, clip = "off") +
-  labs(title = panel_title("C"),
-       subtitle = sprintf(
-         "Ectodomain cartoon, lumenal face up<br>T96 sits at the edge of the modelled core (pLDDT %.0f)",
-         res$plddt[res$resid == 96])) +
+  labs(title = panel_title("C")) +
   theme_void(base_size = 11) +
   theme(plot.title = element_markdown(size = 11.5),
         plot.subtitle = element_markdown(size = 8.3, colour = "grey30"),
@@ -125,8 +122,7 @@ p_zoom <- ggplot() +
                     interpolate = TRUE) +
   coord_fixed(ratio = 1, xlim = c(-0.05, W_Z + 0.05), ylim = c(0, H_IM),
               expand = FALSE, clip = "off") +
-  labs(subtitle = paste0("T96 environment: side chains and C&alpha;-C&alpha; distances for<br>",
-                         "the two published residues in range; H175 is 37.8 &#197; away")) +
+  labs() +
   theme_void(base_size = 11) +
   theme(plot.subtitle = element_markdown(size = 8.3, colour = "grey30"),
         plot.title.position = "plot",
@@ -166,10 +162,7 @@ p_ii <- ggplot(ecd, aes(d_ca_t96)) +
   scale_x_continuous("C&alpha; distance from T96 (\u00c5)",
                      breaks = seq(0, 60, 10), expand = expansion(c(0.01, 0.02))) +
   scale_y_continuous("Ectodomain residues", expand = expansion(c(0, 0.08))) +
-  labs(subtitle = sprintf(paste0(
-    "The uptake-critical histidines are not closer to T96 than chance:<br>",
-    "%d of %d within 20 &#197; (binomial *p* = %.2f)"),
-    sum(his$d_ca <= 20), nrow(his), bt$p.value)) +
+  labs() +
   theme_pub() +
   theme(axis.title.x = element_markdown(size = 9),
         axis.title.y = element_text(size = 9),

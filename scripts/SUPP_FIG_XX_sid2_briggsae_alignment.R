@@ -114,10 +114,7 @@ pA <- ggplot() +
   scale_x_continuous(limits = c(0, 320), breaks = seq(0, 300, 50), expand = expansion(0)) +
   scale_y_continuous(limits = c(-1.15, 1.35), breaks = NULL, expand = expansion(0)) +
   labs(x = NULL, y = NULL,
-       title = "**A** &nbsp;SID-2 conservation, *C. elegans* against *C. briggsae*",
-       subtitle = sprintf(paste("47.3%% identity over 296 aligned positions.",
-                                "All three histidines implicated in dsRNA uptake differ;",
-                                "N94 and T96 do not.")))+
+       title = "**A**")+
   theme_classic(base_size = 10.5) +
   theme(axis.line = element_blank(), axis.ticks = element_blank(),
         axis.text = element_blank(),
@@ -153,9 +150,7 @@ pB <- ggplot(mis2, aes(resid, af)) +
   scale_y_continuous(limits = c(0, 0.58), breaks = seq(0, 0.5, 0.1),
                      labels = scales::percent_format(accuracy = 1)) +
   labs(x = "SID-2 residue (*C. elegans* numbering)", y = "CeNDR allele frequency",
-       title = "**B** &nbsp;Missense variation in the *C. elegans* population",
-       subtitle = paste("All 17 missense variants in the sid-2 span across 540 CeNDR isotypes;",
-                        "labelled where AF &ge; 5%. Dotted lines mark the panel A residues.")) +
+       title = "**B**") +
   theme_classic(base_size = 10.5) +
   theme(axis.line = element_line(linewidth = 0.3),
         plot.title = element_markdown(size = 11.5),

@@ -138,13 +138,7 @@ pA <- ggplot(sw, aes(p, genotype, fill = cond)) +
                      limits = c(0, 1.30), breaks = seq(0, 1, 0.25),
                      expand = expansion(mult = 0)) +
   labs(x = "Embryos hatched", y = NULL,
-       title = panel_title("A", "**Every construct, both food conditions**"),
-       subtitle = wrap_md(paste0(
-         "Control hatching is 97.7&ndash;100% for all seven constructs, so ",
-         "the *pos-1* differences are not a property of the edits. N94A ",
-         "removes the same sequon as T96K but does not phenocopy it: it is ",
-         "neutral in JU1793 and gains more in JU2466 than restoring 96T does. ",
-         "One plate per strain per condition."))) +
+       title = panel_title("A")) +
   theme_pub() +
   theme(strip.background = element_blank(),
         strip.text.y = element_text(angle = 0, face = "bold", size = 8.5,
@@ -215,11 +209,7 @@ pB <- ggplot() +
   guides(fill = guide_legend(order = 1, nrow = 1),
          shape = guide_legend(order = 2, nrow = 1)) +
   labs(x = "SID-2 residue", y = NULL,
-       title = panel_title("B", "**T96 is the threonine of a predicted N-glycosylation sequon**"),
-       subtitle = wrap_md(paste0(
-         "Nine N-x-S/T motifs; the four on the cytoplasmic side cannot be ",
-         "glycosylated. T96K removes the N94 sequon, which is why N94A was ",
-         "built as its test. Panel A shows that test failing."))) +
+       title = panel_title("B")) +
   theme_pub() +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
         axis.line.y = element_blank(),
@@ -260,23 +250,7 @@ pC <- ggplot() +
                     interpolate = TRUE) +
   coord_fixed(ratio = dim(img)[1] / dim(img)[2], xlim = c(0, 1),
               ylim = c(0, 1), expand = FALSE) +
-  labs(title = panel_title("C", "**Model confidence limits what the structure can be used for**"),
-       subtitle = wrap_md(sprintf(paste0(
-         "The same extracellular domain as Figure 4B, coloured by pLDDT ",
-         "instead. Mean pLDDT by region: extracellular %.1f, signal peptide ",
-         "%.1f, TM helix %.1f, cytoplasmic %.1f &mdash; only the ",
-         "extracellular domain reaches the confident band, and the variant ",
-         "neighbourhood is confident within it (N94 70.5, C95 78.0, T96 ",
-         "79.3). The prediction is a dimer, but across all five models ipTM ",
-         "is %.2f&ndash;%.2f and pTM %.2f&ndash;%.2f with %.0f&ndash;%.0f%% ",
-         "of the model called disordered, so the interface is not evidence of ",
-         "dimerisation and is not shown anywhere in this manuscript."),
-         dom_pl$mean_plddt[dom_pl$topology == "Extracellular"],
-         dom_pl$mean_plddt[dom_pl$topology == "Signal peptide"],
-         dom_pl$mean_plddt[dom_pl$topology == "TM helix"],
-         dom_pl$mean_plddt[dom_pl$topology == "Cytoplasmic"],
-         min(conf$iptm), max(conf$iptm), min(conf$ptm), max(conf$ptm),
-         100 * min(conf$disordered), 100 * max(conf$disordered)))) +
+  labs(title = panel_title("C")) +
   theme_void(base_size = 11) +
   theme(plot.title = element_markdown(size = 11.5),
         plot.subtitle = element_markdown(size = 8.5, colour = "grey30"),

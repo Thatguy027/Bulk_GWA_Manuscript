@@ -81,12 +81,7 @@ pA <- ggplot(d, aes(dose, p, colour = allele, group = line)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1),
                      limits = c(0, 1.02), expand = expansion(mult = c(0, 0))) +
   labs(x = "*pos-1* RNAi bacteria in the lawn", y = "Embryos hatched",
-       title = panel_title("A", "**Only the 25% dose has any dynamic range**"),
-       subtitle = wrap_md(paste0(
-         "N2 carries 96T; wSZ203 and wSZ204 are independent lines edited to ",
-         "96K. At 0% every genotype hatches and at 50% and above every ",
-         "genotype is dead, so those doses cannot report a difference. One ",
-         "plate per strain per dose, Wilson 95% intervals."))) +
+       title = panel_title("A")) +
   theme_pub() +
   theme(axis.title.x = element_markdown(),
         legend.title = element_markdown(size = 9),
@@ -125,12 +120,7 @@ pB <- ggplot(d25, aes(line, p, fill = line)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1),
                      limits = c(0, 0.60), expand = expansion(0)) +
   labs(x = NULL, y = "Embryos hatched",
-       title = panel_title("B", "**96K makes N2 more sensitive**"),
-       subtitle = wrap_md(paste0(
-         "The 25% dose alone. Both edited lines drop from 32% to about 4% ",
-         "hatching, an eightfold loss of survival, and they agree with each ",
-         "other. Same direction as JU2466 (96K, sensitive) against JU1793 ",
-         "(96T, resistant), now in a third background."), 62)) +
+       title = panel_title("B")) +
   theme_pub() +
   theme(axis.text.x = element_text(size = 8.6, lineheight = 0.95))
 

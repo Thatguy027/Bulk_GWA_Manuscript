@@ -325,8 +325,7 @@ build <- function(i) {
     labs(x = NULL,
          y = if (i == 1) "Pooled *pos-1* response (VST)" else NULL,
          title = panel_title(LETTERS[i],
-                             paste0("**", s$short, "** &nbsp;", status)),
-         subtitle = sub) +
+                             paste0("**", s$short, "** &nbsp;", status))) +
     theme_pub(10) +
     theme(axis.text.x = element_markdown(size = 8.4, lineheight = 1.25),
           axis.title.y = element_markdown(size = 9.2),
@@ -397,18 +396,7 @@ pE <- ggplot(ld, aes(cl, rl, fill = r2)) +
   scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE) +
   coord_fixed() +
   labs(x = NULL, y = NULL,
-       title = panel_title("E", "**LD between the four markers**"),
-       subtitle = emph(wrap_md(sprintf(paste0(
-         ## the flag is spelled out in the header and the caption; gridtext
-         ## turns a double hyphen into an en dash, so it stays out of here
-         "Squared correlation of the dosages, positions in Mb, same 231 ",
-         "strains; agrees exactly with plink's own estimator. Note the ",
-         "scale: the ",
-         "strongest pair is %.3f and the interval work calls markers linked ",
-         "at r-squared %.1f, so no pair here is close to being one signal. ",
-         "The two chromosome III markers, 6.75 Mb apart, are the least ",
-         "correlated pair of the six."),
-         LD_MAX, LD_INTERVAL_R2), 88))) +
+       title = panel_title("E")) +
   theme_pub(10) +
   theme(axis.line = element_blank(), axis.ticks = element_blank(),
         axis.text = element_text(size = 8.2, colour = "grey20"),

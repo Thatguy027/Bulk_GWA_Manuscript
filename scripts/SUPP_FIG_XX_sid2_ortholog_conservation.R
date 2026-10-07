@@ -255,21 +255,7 @@ pA <- ggplot() +
   guides(fill = guide_legend(order = 1, nrow = 2, byrow = TRUE),
          shape = guide_legend(order = 2, nrow = 2)) +
   labs(x = "*C. elegans* SID-2 residue", y = NULL,
-       title = panel_title("A", "**Residue 96 is conserved, and does not predict the phenotype**"),
-       subtitle = ital(wrap_md(paste0(
-         "Residues aligned to C. elegans 88-104, ordered on the Open Tree of ",
-         "Life topology (cladogram, left; no branch lengths). The boxed ",
-         "columns are the N94-x-T96 sequon; the rightmost column is the ",
-         "published response to ingested dsRNA. Residue 96 is Thr in 11 of ",
-         "the 14 readable species, Ser in 1 and Lys in none -- yet of the 9 ",
-         "with a published call, 5 respond and 4 do not, and the sequon does ",
-         "not separate them: C. briggsae, C. remanei, C. brenneri and ",
-         "C. tropicalis carry the intact motif and are insensitive. C. afra, ",
-         "which has lost Asn94 and is a natural AxT, responds. Dimmed names ",
-         "are below the block-identity floor and counted neither way; an ",
-         "asterisk marks a phenotype scored on a different isolate from the ",
-         "sequenced one; species with no position in the reference tree are ",
-         "listed below it."), 116))) +
+       title = panel_title("A")) +
   theme_pub(10) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
         axis.line.y = element_blank(),
@@ -369,19 +355,7 @@ pB <- ggplot(sw, aes(p, genotype, colour = motif)) +
                      limits = c(-0.15, 1.42), breaks = seq(0, 1, 0.25),
                      expand = expansion(0)) +
   labs(x = "Embryos hatched on *pos-1* RNAi", y = NULL,
-       title = panel_title("B", "**Removing the conserved sequon does not phenocopy 96K**"),
-       subtitle = ital(wrap_md(paste0(
-         "N94A removes the sequon while leaving residue 96 alone, so it should ",
-         "phenocopy 96K if the glycan is what 96K destroys. It does not: AxT ",
-         "has no sequon and is fully resistant, while NxK in the same ",
-         "background costs 42 points. It is the lysine, not the missing glycan ",
-         "-- which is what panel A's residue-96 column independently implies. ",
-         "Wilson 95% intervals; p is Fisher's exact test against the wild type ",
-         "of the same background, with an arrow for the direction: AxT hatches ",
-         "HIGHER than wild type, not lower. One plate per genotype at 50% ",
-         "pos-1 RNAi, a ",
-         "different dose from Figure 4B, so these are not comparable with it ",
-         "and each p describes one plate against one plate."), 104))) +
+       title = panel_title("B")) +
   theme_pub(10) +
   theme(axis.text.y = element_text(size = 7.4, colour = "grey25"),
         axis.title.x = element_markdown(size = 9),
