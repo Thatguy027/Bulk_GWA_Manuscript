@@ -776,7 +776,7 @@ B 0.17 → 0.84 against C 0.83 → 0.16, crossing between BC4 and BC5.
 :::
 
 ::: panel
-[D]{.pl} Whether the strains that resolve badly are the genetically similar
+[E]{.pl} Whether the strains that resolve badly are the genetically similar
 ones. For each of the 170 strains, x is identity-by-state to the closest
 *other* strain in the reference and y is its **leakage** — the mean frequency
 it picks up across the nine libraries of the three sets it is **not** in. That
@@ -998,7 +998,7 @@ R² `0.974`, and Spearman ρ `+1` against both step and designed fraction.
 
 
 ::: panel
-[E]{.pl} Recovered against designed fraction of set B, point area giving the
+[D]{.pl} Recovered against designed fraction of set B, point area giving the
 volume of B pipetted. This is the accuracy panel, and it exists because the
 design was recovered.
 :::

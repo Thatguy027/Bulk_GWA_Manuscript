@@ -8,8 +8,8 @@
 ##   B  the B-into-C dilution series, BC1 to BC7, on the pool-wide reference
 ##   C  the same series with the reference restricted to sets B and C and
 ##      renormalised, which is the analysis the original figure showed
-##   D  whether the strains that resolve badly are the genetically similar ones
-##   E  recovered against designed B fraction -- the accuracy panel
+##   D  recovered against designed B fraction -- the accuracy panel
+##   E  whether the strains that resolve badly are the genetically similar ones
 ##
 ## THE EXPERIMENT. 174 wild isolates were split into four sets of roughly equal
 ## size (A, B, C, D). Genomic DNA from each set was pooled, and the pools were
@@ -25,7 +25,7 @@
 ##   Figure 1A                   real input, real counts, published MIP-seq
 ##
 ## THE NOMINAL MIXING RATIOS ARE NOW KNOWN (lab record, 2026-09-08), so this
-## figure reports ACCURACY and not merely ordering. Panel E is the comparison:
+## figure reports ACCURACY and not merely ordering. Panel D is the comparison:
 ## recovery tracks the designed series with Pearson r = 0.997 and RMSE 0.038 in
 ## fraction units, Spearman +1. There are no replicate dilutions, so pipetting
 ## error is unreplicated and enters the comparison in full; the largest
@@ -323,7 +323,7 @@ pC <- ggplot(bcref, aes(step, f, colour = set)) +
         legend.text = element_text(size = 8))
 
 ## ===========================================================================
-## D -- is poor resolution explained by genetic similarity?
+## E -- is poor resolution explained by genetic similarity?
 ##
 ## THE ERROR MEASURE NEEDS NO ASSUMPTION. A strain that is not in a pool must
 ## be assigned a frequency of zero in that pool's libraries, whatever the DNA
@@ -382,7 +382,7 @@ binmed <- perstrain %>%
   summarise(n = n(), median_leakage = median(leakage),
             mid = median(nn_ibs), .groups = "drop")
 
-pD <- ggplot(perstrain, aes(nn_ibs, 1000 * leakage)) +
+pE <- ggplot(perstrain, aes(nn_ibs, 1000 * leakage)) +
   geom_point(aes(fill = set), shape = 21, size = 1.7, stroke = 0.25,
              colour = "grey30", alpha = 0.9) +
   ## Binned medians, not a smoother: leakage is bounded below by zero and the
@@ -401,7 +401,7 @@ pD <- ggplot(perstrain, aes(nn_ibs, 1000 * leakage)) +
   scale_x_continuous(labels = scales::number_format(accuracy = 0.01)) +
   labs(x = "Identity-by-state to the closest other strain",
        y = "Leakage into pools it is not in (per mille)",
-       title = panel_title("D")) +
+       title = panel_title("E")) +
   theme_pub() +
   theme(legend.position = c(0.02, 0.99), legend.justification = c(0, 1),
         legend.direction = "horizontal", legend.text = element_text(size = 8))
@@ -485,7 +485,7 @@ cat(sprintf("  Spearman rho against step: %+.0f\n\n",
                 filter(bcref, set == "B")$f, method = "spearman")))
 
 ## ===========================================================================
-## E -- recovered against designed, the accuracy panel
+## D -- recovered against designed, the accuracy panel
 ## ===========================================================================
 acc <- tibble(sample = names(NOMINAL_B), nominal = unname(NOMINAL_B)) %>%
   left_join(bcref %>% filter(set == "B") %>% select(sample, observed = f),
@@ -494,7 +494,7 @@ acc <- tibble(sample = names(NOMINAL_B), nominal = unname(NOMINAL_B)) %>%
 acc_rmse <- sqrt(mean((acc$observed - acc$nominal)^2))
 acc_r    <- cor(acc$observed, acc$nominal)
 
-pE <- ggplot(acc, aes(nominal, observed)) +
+pD <- ggplot(acc, aes(nominal, observed)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed",
               linewidth = 0.35, colour = "grey60") +
   geom_segment(aes(xend = nominal, yend = nominal), linewidth = 0.3,
@@ -516,13 +516,13 @@ pE <- ggplot(acc, aes(nominal, observed)) +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25),
                      labels = scales::percent_format(accuracy = 1)) +
   labs(x = "Designed fraction of set B", y = "Recovered fraction of set B",
-       title = panel_title("E")) +
+       title = panel_title("D")) +
   theme_pub() +
   theme(legend.position = c(0.99, 0.02), legend.justification = c(1, 0),
         legend.title = element_text(size = 7.5),
         legend.text = element_text(size = 7))
 
-fig <- (pA | pB | pC) / (pE | pD)
+fig <- (pA | pB | pC) / (pD | pE)
 
 ggsave(file.path(OUT, "SUPP_FIG_XX_dilution_validation.pdf"), fig,
        width = 12.2, height = 7.4, device = cairo_pdf)
