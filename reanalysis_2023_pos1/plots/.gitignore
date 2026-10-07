@@ -1,0 +1,3 @@
+# 19 MB of vector points for a working comparison figure. The PNG beside it
+# carries the same thing at 0.9 MB; rerun 04_mapping_figure.R for the PDF.
+mapping_old_vs_pool_reference.pdf

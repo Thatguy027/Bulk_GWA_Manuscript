@@ -1,0 +1,42 @@
+PLINK v1.90b6.15 64-bit (21 Jan 2020)
+Options in effect:
+  --allow-extra-chr
+  --biallelic-only
+  --geno
+  --keep phenotyped_strains.txt
+  --maf 0.05
+  --out traits
+  --output-missing-genotype 9
+  --pheno pheno.tsv
+  --recode oxford
+  --set-missing-var-ids @:#
+  --snps-only
+  --threads 5
+  --vcf WI.20210121.hard-filter.isotype_with_cM.vcf.gz
+
+Hostname: n6070
+Working directory: /u/project/kruglyak/thatguy0/scratch/2d/715066d44073aec5726703dc9cf0a0
+Start time: Wed Oct  7 13:09:05 2026
+
+Random number seed: 1791403745
+128825 MB RAM detected; reserving 64412 MB for main workspace.
+--vcf: traits-temporary.bed + traits-temporary.bim + traits-temporary.fam
+written.
+2919294 out of 3504135 variants loaded from .bim file.
+2919294 missing IDs set.
+540 people (0 males, 0 females, 540 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to traits.nosex .
+0 phenotype values present after --pheno.
+--keep: 224 people remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 224 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate in remaining samples is 0.958022.
+345732 variants removed due to missing genotype data (--geno).
+2115825 variants removed due to minor allele threshold(s)
+(--maf/--max-maf/--mac/--max-mac).
+457737 variants and 224 people pass filters and QC.
+Note: No phenotypes present.
+--recode oxford to traits.gen + traits.sample ... done.
+
+End time: Wed Oct  7 13:13:11 2026

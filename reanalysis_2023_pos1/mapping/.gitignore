@@ -1,0 +1,4 @@
+# The genotype dosages handed to GEMMA: 627 MB, and regenerable from the VCF
+# with the exact plink invocation recorded in plink/traits.log. The log, the
+# sample file and the GEMMA logs are kept, so the run stays documented.
+plink/traits.gen
