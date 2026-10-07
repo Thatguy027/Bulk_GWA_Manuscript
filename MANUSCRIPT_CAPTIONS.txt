@@ -139,7 +139,7 @@ segregate in either cross. Immediately
 left of the topology bar, the column headed "Net charge" gives the local net
 charge at each residue on exactly the ramp and limits used in (C); it spans
 residues 21-188, the extent of the modelled ectodomain. Every protein-altering
-sid-2 variant in the wild population is shown in Figure S12.
+sid-2 variant in the wild population is shown in Figure S11.
 
 ## Figure S1
 NNLS deconvolution recovers simulated strain frequencies, and the sequencing
@@ -241,29 +241,11 @@ fitted
 slope.
 
 ## Figure S5
-Manual plate phenotyping of wild isolates on pos-1 RNAi against two independent
-measurements. The plate score is a six-level ordinal scale (0 = complete RNAi
-response, 5 = no response), so Spearman rank correlation is used throughout.
-
-(A) Plate score against the pooled pos-1 response on the variance-stabilised
-scale, the trait the association mapping was run on: Spearman rho = 0.41,
-n = 111 strains, p = 7.8e-06. The dashed line marks zero. Positive is the
-expected direction, since resistant strains gain pool frequency and also score
-high on the plate.
-
-(B) Plate score against mean embryonic hatching for the pos-1 clone from
-Paaby et al. 2015, computed per well as larvae over eggs plus larvae and
-averaged within a strain: Spearman rho = 0.55, n = 19 strains, p = 0.014.
-Positive is the expected direction, since a high plate score means resistant
-and resistant means high hatching. Both panels are therefore scored so that
-the measure increases with resistance.
-
-## Figure S6
 Per-strain pooled RNAi response for mig-6 and pos-1 on the variance-stabilised
 scale, ranked, with the cross parents highlighted. Nine of the 93 panel strains
 have no variance-stabilised value, so n = 84 and ranks are out of 84.
 
-## Figure S7
+## Figure S6
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
 three contrasts overlaid: each knockdown against the HT115 control, pos-1 in
@@ -275,7 +257,7 @@ difference tracking it marks a locus at which only that knockdown responds.
 Peaks are drawn at the genome-wide threshold rather than Figure 2's display
 cutoff of LOD 100.
 
-## Figure S8
+## Figure S7
 The complete near-isogenic line hatching experiment behind Figure 3C: all ten
 strains on both food conditions.
 
@@ -299,7 +281,7 @@ single plate rather than between-plate variability. The 50% pos-1 dose is the
 one used throughout Figure 3; the hatching percentages are therefore not
 comparable with Figure 4B, which uses 25%.
 
-## Figure S9
+## Figure S8
 The N2 residue-96 swap across the full pos-1 dilution series.
 
 (A) Every genotype at every dose: 0, 25, 50, 75 and 100% pos-1 RNAi bacteria.
@@ -312,7 +294,7 @@ N2 at each dose gives differences of -0.006 at 0% (Fisher p = 0.43), +0.282 at
 at 100% (p = 0.56). At every dose other than 25% all three genotypes sit at the
 ceiling or the floor.
 
-## Figure S10
+## Figure S9
 Residue 96 of SID-2 across Caenorhabditis, and the effect of removing the
 sequon it belongs to.
 
@@ -346,7 +328,7 @@ giving the direction: AxT is higher than its wild type (p = 0.004), NxK lower
 (p = 2e-24), the 96T swap into JU2466 higher (p = 4e-05) and N94A into JU2466
 higher (p = 4e-20).
 
-## Figure S11
+## Figure S10
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
 every ectodomain residue with a C-alpha within 12 A, at the gut-lumen pH of
@@ -359,7 +341,7 @@ circles are the three uptake histidines of McEwan et al. 2012: H32 at -0.15 e,
 H168 at +0.85 e and H175 at +1.46 e. The domain is net acidic overall, -8.34 e
 at pH 7.4 and +0.47 e at pH 4.4 across residues 21-188.
 
-## Figure S12
+## Figure S11
 Every protein-altering sid-2 variant in the wild population (CaeNDR release
 20250625, 684 isotypes), drawn as in Figure 4D. The protein runs vertically with residue 1 at
 the top, its DeepTMHMM topology as a filled bar and the local net charge of the

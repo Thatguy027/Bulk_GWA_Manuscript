@@ -7,7 +7,7 @@ twenty-nine figures and the three asset builders run from this directory alone.
 It is no longer only that, which the earlier "and nothing else" claimed. The
 deposit has since taken on the reagent tables, the stock sheet they are built
 from, and alternative fits kept for comparison. The manuscript itself cites
-sixteen of the twenty-nine figures, and the subset supporting those -- renamed
+fifteen of the twenty-nine figures, and the subset supporting those -- renamed
 and numbered in order of the text -- is assembled separately in
 `manuscript_supplement/`, whose README lists what is here but not promoted.
 

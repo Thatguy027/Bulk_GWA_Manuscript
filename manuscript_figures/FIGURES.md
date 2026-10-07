@@ -154,7 +154,7 @@ segregate in either cross. Immediately
 left of the topology bar, the column headed "Net charge" gives the local net
 charge at each residue on exactly the ramp and limits used in (C); it spans
 residues 21-188, the extent of the modelled ectodomain. Every protein-altering
-sid-2 variant in the wild population is shown in Figure S12.
+sid-2 variant in the wild population is shown in Figure S11.
 
 ---
 
@@ -281,38 +281,15 @@ slope.
 ![Figure S5](Figure_S5.png)
 *[Print-resolution PDF](Figure_S5.pdf)*
 
-Manual plate phenotyping of wild isolates on pos-1 RNAi against two independent
-measurements. The plate score is a six-level ordinal scale (0 = complete RNAi
-response, 5 = no response), so Spearman rank correlation is used throughout.
-
-(A) Plate score against the pooled pos-1 response on the variance-stabilised
-scale, the trait the association mapping was run on: Spearman rho = 0.41,
-n = 111 strains, p = 7.8e-06. The dashed line marks zero. Positive is the
-expected direction, since resistant strains gain pool frequency and also score
-high on the plate.
-
-(B) Plate score against mean embryonic hatching for the pos-1 clone from
-Paaby et al. 2015, computed per well as larvae over eggs plus larvae and
-averaged within a strain: Spearman rho = 0.55, n = 19 strains, p = 0.014.
-Positive is the expected direction, since a high plate score means resistant
-and resistant means high hatching. Both panels are therefore scored so that
-the measure increases with resistance.
-
----
-
-## Figure S6
-![Figure S6](Figure_S6.png)
-*[Print-resolution PDF](Figure_S6.pdf)*
-
 Per-strain pooled RNAi response for mig-6 and pos-1 on the variance-stabilised
 scale, ranked, with the cross parents highlighted. Nine of the 93 panel strains
 have no variance-stabilised value, so n = 84 and ranks are out of 84.
 
 ---
 
-## Figure S7
-![Figure S7](Figure_S7.png)
-*[Print-resolution PDF](Figure_S7.pdf)*
+## Figure S6
+![Figure S6](Figure_S6.png)
+*[Print-resolution PDF](Figure_S6.pdf)*
 
 The individual cross contrasts behind the arrowheads in Figure 2. The mirrored
 pooled association scans are on top, followed by one panel per cross with all
@@ -327,9 +304,9 @@ cutoff of LOD 100.
 
 ---
 
-## Figure S8
-![Figure S8](Figure_S8.png)
-*[Print-resolution PDF](Figure_S8.pdf)*
+## Figure S7
+![Figure S7](Figure_S7.png)
+*[Print-resolution PDF](Figure_S7.pdf)*
 
 The complete near-isogenic line hatching experiment behind Figure 3C: all ten
 strains on both food conditions.
@@ -356,9 +333,9 @@ comparable with Figure 4B, which uses 25%.
 
 ---
 
-## Figure S9
-![Figure S9](Figure_S9.png)
-*[Print-resolution PDF](Figure_S9.pdf)*
+## Figure S8
+![Figure S8](Figure_S8.png)
+*[Print-resolution PDF](Figure_S8.pdf)*
 
 The N2 residue-96 swap across the full pos-1 dilution series.
 
@@ -374,9 +351,9 @@ ceiling or the floor.
 
 ---
 
-## Figure S10
-![Figure S10](Figure_S10.png)
-*[Print-resolution PDF](Figure_S10.pdf)*
+## Figure S9
+![Figure S9](Figure_S9.png)
+*[Print-resolution PDF](Figure_S9.pdf)*
 
 Residue 96 of SID-2 across Caenorhabditis, and the effect of removing the
 sequon it belongs to.
@@ -413,9 +390,9 @@ higher (p = 4e-20).
 
 ---
 
-## Figure S11
-![Figure S11](Figure_S11.png)
-*[Print-resolution PDF](Figure_S11.pdf)*
+## Figure S10
+![Figure S10](Figure_S10.png)
+*[Print-resolution PDF](Figure_S10.pdf)*
 
 Where the T96 pocket sits in the charge distribution of the SID-2 ectodomain.
 Local net charge is the Henderson-Hasselbalch side-chain charge summed over
@@ -431,9 +408,9 @@ at pH 7.4 and +0.47 e at pH 4.4 across residues 21-188.
 
 ---
 
-## Figure S12
-![Figure S12](Figure_S12.png)
-*[Print-resolution PDF](Figure_S12.pdf)*
+## Figure S11
+![Figure S11](Figure_S11.png)
+*[Print-resolution PDF](Figure_S11.pdf)*
 
 Every protein-altering sid-2 variant in the wild population (CaeNDR release
 20250625, 684 isotypes), drawn as in Figure 4D. The protein runs vertically with residue 1 at
@@ -467,5 +444,6 @@ These figures exist in `plots/` but the current draft does not cite them, so the
 - `SUPP_FIG_XX_sid2_electrostatics`
 - `SUPP_FIG_XX_sid2_model_confidence`
 - `SUPP_FIG_XX_sid2_ortholog_search`
+- `SUPP_FIG_plate_vs_paaby_vs_pos1original`
 
 Add one by appending it to `MANIFEST` in `scripts/finalize_manuscript_figures.py` and re-running.
