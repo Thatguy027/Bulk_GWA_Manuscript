@@ -34911,7 +34911,7 @@ SUPP_FIG_XX_simulation_depth
 484
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34925,7 +34925,7 @@ SUPP_FIG_XX_dilution_validation
 466
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34939,7 +34939,7 @@ Figure1_pos1
 766
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34953,7 +34953,7 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 411
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34967,7 +34967,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 386
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34981,7 +34981,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 442
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -34995,7 +34995,7 @@ SUPP_FIG_XX_downsample_per_sample
 268
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35009,7 +35009,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 108
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35023,7 +35023,7 @@ SUPP_FIG_XX_baugh_analyses
 611
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35037,7 +35037,7 @@ SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 335
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35051,7 +35051,7 @@ SUPP_FIG_plate_vs_paaby_vs_pos1original
 190
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35065,7 +35065,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35079,7 +35079,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35093,7 +35093,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35107,7 +35107,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35121,7 +35121,7 @@ SUPP_FIG_XX_nil_hatching_full
 163
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35132,10 +35132,10 @@ Figure 4
 Figure4_sid2
 </td>
 <td style="text-align:right;">
-463
+496
 </td>
 <td style="text-align:right;">
-2026-10-06 22:17
+2026-10-06 22:25
 </td>
 </tr>
 <tr>
@@ -35149,7 +35149,7 @@ SUPP_FIG_XX_n2_swap_dose
 243
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35163,7 +35163,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 555
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35177,7 +35177,7 @@ SUPP_FIG_XX_sid2_allele_in_panel
 465
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35191,7 +35191,7 @@ SUPP_FIG_XX_sid2_electrostatics
 801
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35205,7 +35205,7 @@ SUPP_FIG_XX_sid2_local_charge
 96
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35219,7 +35219,7 @@ SUPP_FIG_XX_sid2_model_confidence
 441
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35233,7 +35233,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35247,7 +35247,7 @@ SUPP_FIG_XX_nil_interval_genes
 111
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35261,7 +35261,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 202
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35275,7 +35275,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 616
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35289,7 +35289,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 662
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 <tr>
@@ -35303,7 +35303,7 @@ SUPP_FIG_XX_sid2_variants_all
 212
 </td>
 <td style="text-align:right;">
-2026-10-06 22:11
+2026-10-06 22:18
 </td>
 </tr>
 </tbody>

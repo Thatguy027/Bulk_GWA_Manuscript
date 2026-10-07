@@ -81,7 +81,10 @@ POCKET_ELEV, POCKET_AZIM = 22, 172
 ## and converted through the view basis below. Offsets written in frame
 ## coordinates only read correctly at one azimuth, which is how the previous
 ## labels came to sit where nothing was.
-LAB_PAD = 5.6               # how far a residue label sits from its Ca
+## Type is set for the DISPLAYED size, not the asset's. The zoom is drawn at
+## 5.0 in tall and placed at about half that, so 13 pt here reads as about 6 pt
+## on the page; setting it at 10 gave 4 pt, which is below the floor for print.
+LAB_PAD = 4.6               # how far a residue label sits from its Ca
 DIST_PAD = 3.0              # how far a distance label sits off its own line
 
 CMAP = matplotlib.colormaps["RdBu"]   # red negative, blue positive, white at 0
@@ -220,7 +223,7 @@ def zoom(res, ids, CA, sse, q):
                 zorder=14,
                 path_effects=[pe.withStroke(linewidth=2.0, foreground="white")])
         ax.text(anchor[0], anchor[1], anchor[2], lab, color=col,
-                fontsize=10, fontweight="bold",
+                fontsize=13, fontweight="bold",
                 ha="right" if d[0] < -0.3 else "left" if d[0] > 0.3 else "center",
                 va="top" if d[1] < -0.3 else "bottom" if d[1] > 0.3 else "center",
                 zorder=16,
@@ -256,7 +259,7 @@ def zoom(res, ids, CA, sse, q):
                 color=COL_BASIC, linewidth=0.6, alpha=0.85, zorder=14,
                 path_effects=[pe.withStroke(linewidth=1.8, foreground="white")])
         ax.text(da[0], da[1], da[2], f"{d_ca:.1f} \u00c5", color=COL_BASIC,
-                fontsize=8.6, ha="right" if perp2[0] < 0 else "left",
+                fontsize=11, ha="right" if perp2[0] < 0 else "left",
                 va="center", zorder=17,
                 path_effects=[pe.withStroke(linewidth=2.2, foreground="white")])
 

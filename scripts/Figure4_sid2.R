@@ -145,14 +145,32 @@ msg("  overview ", dim(im_ov)[2], "x", dim(im_ov)[1],
     " (aspect ", round(asp(im_ov), 3), ") | zoom ",
     dim(im_zm)[2], "x", dim(im_zm)[1], " (aspect ", round(asp(im_zm), 3), ")")
 
-H    <- 3.15                       # common display height, inches
+## THE TWO IMAGES DO NOT SHARE A HEIGHT. The ectodomain is a tall, narrow
+## object and the pocket zoom a wide, short one, so a common height made the
+## overview a sliver: it took a quarter of the composite's width while the zoom
+## took three quarters, and because the whole composite is letterboxed into the
+## panel, a wider composite shrinks BOTH images. Giving each its own height and
+## centring them on a shared vertical midline keeps the composite compact and
+## the overview legible.
+## The ratio between these is the only lever on how much of the panel the
+## overview occupies: each image's width follows its own height, so raising the
+## overview alone also widens the composite. 2:1 puts the overview at 38% of
+## the width against 24% when the two shared a height.
+H_OV <- 4.40                       # overview display height, inches
+H_ZM <- 2.20                       # zoom display height, inches
 GAP  <- 0.30
-W_OV <- H * asp(im_ov)
-W_ZM <- H * asp(im_zm)
+W_OV <- H_OV * asp(im_ov)
+W_ZM <- H_ZM * asp(im_zm)
+H    <- max(H_OV, H_ZM)
+Y_OV <- (H - H_OV) / 2
+Y_ZM <- (H - H_ZM) / 2
 X_ZM <- W_OV + GAP
 TOTAL <- X_ZM + W_ZM
 CAP_Y <- -0.20
-msg("  composite: ", round(TOTAL, 2), " x ", round(H, 2), " in")
+msg("  composite: ", round(TOTAL, 2), " x ", round(H, 2), " in",
+    " | overview ", round(W_OV, 2), "x", round(H_OV, 2),
+    " | zoom ", round(W_ZM, 2), "x", round(H_ZM, 2),
+    " | aspect ", round(TOTAL / H, 2))
 
 caps <- tibble(x = c(W_OV / 2, X_ZM + W_ZM / 2), y = CAP_Y,
                ## the left caption does NOT repeat the quantity: the key
@@ -173,10 +191,10 @@ key <- tibble(i = seq_along(ramp),
               col = ramp)
 
 p_struct <- ggplot() +
-  annotation_raster(im_ov, xmin = 0, xmax = W_OV, ymin = 0, ymax = H,
-                    interpolate = TRUE) +
-  annotation_raster(im_zm, xmin = X_ZM, xmax = TOTAL, ymin = 0, ymax = H,
-                    interpolate = TRUE) +
+  annotation_raster(im_ov, xmin = 0, xmax = W_OV,
+                    ymin = Y_OV, ymax = Y_OV + H_OV, interpolate = TRUE) +
+  annotation_raster(im_zm, xmin = X_ZM, xmax = TOTAL,
+                    ymin = Y_ZM, ymax = Y_ZM + H_ZM, interpolate = TRUE) +
   geom_richtext(data = caps, aes(x, y, label = lab), size = 2.8,
                 colour = "grey30", vjust = 1, fill = NA, label.color = NA,
                 label.padding = grid::unit(rep(0, 4), "pt")) +
