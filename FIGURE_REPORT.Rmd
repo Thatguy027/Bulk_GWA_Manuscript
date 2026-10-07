@@ -1,5 +1,5 @@
 ---
-title: "From a 231-strain panel to a single residue"
+title: "From a 224-strain panel to a single residue"
 subtitle: "The manuscript figure set, ordered by the argument"
 date: "Assembled `r format(Sys.Date(), '%Y-%m-%d')`"
 output:
@@ -312,7 +312,7 @@ ordered by the argument rather than by build order. Each figure carries its
 caption, with the caveats kept attached to the panel they qualify. Click any
 figure to enlarge it.
 
-The argument narrows by roughly an order of magnitude at each step: **231 wild
+The argument narrows by roughly an order of magnitude at each step: **224 wild
 isolates** given a quantitative phenotype, **six chromosomes** scanned in two
 crosses, **37 kb** resolved by a NIL series, **one residue** edited in three
 backgrounds.
@@ -424,7 +424,7 @@ slope at every subsampled depth (0.713 to 0.801) while converging with it at
 full depth (0.888 against 0.890). Where depth is limited, the difference parameterisation is the more
 robust choice.
 
-Applying the assay to 231 wild isotypes exposed to *pos-1* RNAi produced a
+Applying the assay to the 224 wild isotypes of the *pos-1* pool produced a
 continuously distributed response phenotype on a variance-stabilised scale
 <span class="cite">(Figure 1B)</span>, reproducible across replicate pools
 <span class="cite">(Figure S7)</span> and correlated in the expected direction
@@ -434,13 +434,15 @@ p = 7.8 × 10⁻⁶) and with published embryonic-hatching measurements
 
 ### Pooled association and cross mapping converge on overlapping loci
 
-A genome-wide association scan of the *pos-1* response across 231 isotypes and
-464,045 markers identified ten markers exceeding a Bonferroni threshold
-(maximum −log₁₀*p* = 8.84) and 465 exceeding a threshold corrected for the
-1,972 effective independent tests <span class="cite">(Figure 1C)</span>. Eight
-of the ten lay on chromosome IV, in two clusters near 13.41 and 15.32 Mb, with
-single markers on chromosome III at 5.97 Mb (−log₁₀*p* = 8.68) and chromosome X
-at 4.88 Mb.
+A genome-wide association scan of the *pos-1* response across the 184 isotypes
+carrying a phenotype and 457,571 markers identified four markers exceeding a
+Bonferroni threshold (maximum −log₁₀*p* = `8.22`) and 176 exceeding a threshold
+corrected for the 1,590 effective independent tests
+<span class="cite">(Figure 1C)</span>. Two lie on chromosome IV at 15.32 Mb and
+two on chromosome X, at 4.88 and 3.11 Mb. The chromosome III marker at 5.97 Mb,
+which reached `8.68` when the deconvolution was run against the whole strain
+panel, falls to `5.90` against the pool reference and no longer clears
+Bonferroni.
 
 To separate loci affecting the RNAi response generally from those specific to
 one target, we measured the pooled response to several RNAi targets across 84
@@ -503,12 +505,12 @@ inviable from 50% upward <span class="cite">(Figure S12)</span>. Hatching
 percentages are therefore not comparable between the two backgrounds.
 
 Two further observations bound the interpretation. First, T96K has no marginal
-effect across the mapping panel: the variant reaches p = 0.24 in the association
-scan, ranking 18,662 of 64,423 markers on chromosome III, and splitting the
-pooled phenotype by residue 96 gives no shift (Wilcoxon p = 0.99,
-r² = 0.007) <span class="cite">(Figure S14)</span>. *sid-2* was identified by
+effect across the mapping panel: the variant reaches p = 0.39 in the association
+scan, ranking 24,585 of 63,541 markers on chromosome III, and splitting the
+pooled phenotype by residue 96 gives no shift (Wilcoxon p = 0.98,
+r² = 0.006) <span class="cite">(Figure S14)</span>. *sid-2* was identified by
 the crosses and the introgression series, not by association, and a variant at
-36% frequency whose effect is this context-dependent would not be expected to
+35% frequency whose effect is this context-dependent would not be expected to
 surface in a marginal test. Second, residue 96 lies on the lumenal face of the
 predicted ectodomain, on the same face as three residues with published effects
 on dsRNA uptake <span class="cite">(Figure 4C)</span>, and the substitution
@@ -577,7 +579,7 @@ independent tests from the eigenvalues of the marker correlation matrix
 | Panel | n | Markers | M~eff~ | Bonferroni | Eigen |
 |:---|--:|--:|--:|--:|--:|
 | pooled_RNAi_expt | 84 | 322,010 | 732 | 6.81 | 4.17 |
-| pos1_2023 | 231 | 464,045 | 1,972 | 6.97 | 4.60 |
+| pos1_2023 | 184 | 457,571 | 1,590 | 6.96 | 4.50 |
 
 Thresholds as −log~10~*p*. Cross scans use LOD instead, with a genome-wide
 threshold of LOD 3.57 (α = 0.05 over 2,000 effective tests). **vst** throughout
@@ -588,7 +590,7 @@ scale.
 # I. The assay
 
 ::: scale
-231 isolates
+224 isolates
 :::
 
 ::: claim
@@ -1067,7 +1069,7 @@ regenotyped references.
 **Script** `scripts/Figure1_pos1.R`<br>
 **Test bed** Baugh L1 starvation, the one dataset with pooled WGS and published
 MIP-seq on the same samples<br>
-**n** 98 strains (A) · 231 strains (B, C) · 464,045 markers
+**n** 98 strains (A) · 184 strains (B, C) · 457,571 markers
 :::
 
 ::: plate
@@ -1087,15 +1089,15 @@ dashed line is `y = x`, not a fit.
 
 ::: panel
 [B]{.pl} Distribution of the 2023 pooled *pos-1* RNAi response across wild
-isotypes on the vst scale (`n = 231` strains with a vst value, of 366 in the
+isotypes on the vst scale (`n = 184` strains with a vst value, of 224 in the
 trait file). The dashed line marks zero; positive values are strains that gained
 pool frequency under *pos-1* RNAi, i.e. resistant.
 :::
 
 ::: panel
-[C]{.pl} GEMMA LOCO association scan for that phenotype: 464,045 markers,
-`n = 231`. The grey dashed line is Bonferroni over every marker (`6.97`); the
-green dotted line divides α by the 1,972 effective independent tests (`4.60`).
+[C]{.pl} GEMMA LOCO association scan for that phenotype: 457,571 markers,
+`n = 184`. The grey dashed line is Bonferroni over every marker (`6.96`); the
+green dotted line divides α by the 1,590 effective independent tests (`4.50`).
 Markers clearing Bonferroni are red, markers clearing only the eigen threshold
 are green. **Ten markers clear Bonferroni and 465 clear the eigen threshold.**
 The maximum is `8.84` on chromosome IV at 15.323 Mb; eight of the ten lie on
@@ -1121,7 +1123,7 @@ a cross parent in Figures 2 and 3.
 
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_gwas_peak_genotype_splits.R`<br>
-**Supports** Figure 1C · 4 markers · 231 strains · no heterozygous calls
+**Supports** Figure 1C · 4 markers · 184 strains · no heterozygous calls
 :::
 
 ::: plate
@@ -1178,7 +1180,7 @@ interval-admission rule doing its job.
 :::
 
 ::: panel
-[E]{.pl} `r²` between all six pairs of those markers, in the same 231 strains.
+[E]{.pl} `r²` between all six pairs of those markers, in the same 184 strains.
 **Every pair is low.** The strongest is IV:15.32 Mb against III:12.72 Mb at
 `0.112`; then X:4.88 Mb against IV:15.32 Mb at `0.067`, X against III:12.72 Mb
 at `0.032`, and the remaining three at `0.004` or below. Against the `r² ≥ 0.7`
@@ -1196,7 +1198,7 @@ exists to absorb.
 `r²` here is the squared correlation of the dosages. For these strains that is
 not an approximation: there are no heterozygous calls at these four markers, so
 the correlation and haplotypic estimators coincide exactly. Checked against
-`plink --r2 inter-chr` on the archive, restricted to the same 231 strains —
+`plink --r2 inter-chr` on the archive, restricted to the same 184 strains —
 agreement to `3e-08`, plink's own printed precision — and those six values are
 pinned in the script and asserted, so the deposit cannot drift away from the
 panel it was verified against.
@@ -1475,13 +1477,12 @@ All six pairwise comparisons of the four *pos-1* replicates, at read-depth
 cutoff 5, with Spearman ρ and n on each facet. Dashed line is `y = x`; red is
 the fitted slope.
 
-**n = `231`, not the `366` in the frequency file.** The phenotype this figure is
-about is the vst trait the scan was run on, and that is defined for 231 strains.
-The other 135 are in the pool but carry no vst value, and `89` of them are
+**n = `184`, not the `224` in the frequency file.** The phenotype this figure is
+about is the vst trait the scan was run on, and that is defined for 184 of the
+224 pool strains. The other `40` have no control signal, and `26` of them are
 exactly zero in all four replicates — strains that never appear. Tied zeros
-depress a rank correlation, so scoring all 366 understated every pair by 0.03 to
-0.06: rep1 vs rep2 reads `0.921` against `0.867` on the full set, rep3 vs rep4
-`0.870` against `0.813`. Figure 1B already quotes n = 231 for this experiment.
+depress a rank correlation, so scoring all 224 would understate every pair.
+Figure 1B quotes the same 184 for this experiment.
 
 Depth cutoff 5 is used because it is the cutoff the shipped association traits
 were built from: taking the mean *pos-1* delta per strain at cutoff 5 reproduces
@@ -2548,7 +2549,7 @@ residues, not a mechanism, and each genotype is a single plate.**
 ::: meta
 **Script** `scripts/SUPP_FIG_XX_sid2_allele_in_panel.R`<br>
 **Supports** the candidate, against the mapping panel<br>
-**n** 230 of 231 phenotyped strains · site chrIII:13,680,248 C>A
+**n** 183 of 184 phenotyped strains · site chrIII:13,680,248 C>A
 :::
 
 ::: plate
@@ -2563,9 +2564,9 @@ negative result and it is the honest check on the candidate.
 
 ::: panel
 [A]{.pl} The 2023 pooled *pos-1* phenotype split by *sid-2* residue 96 for every
-phenotyped strain with a genotype (230 of 231). 96K is at 36% frequency in this
-set. 96T: `n = 147`, mean −0.0147, median −0.0220. 96K: `n = 83`, mean −0.0236,
-median −0.0164. Wilcoxon `p = 0.99`; Welch `p = 0.16`; `r² = 0.007`. The means
+phenotyped strain with a genotype (183 of 184). 96K is at 35% frequency in this
+set. 96T: `n = 119`, mean −0.0152, median −0.0213. 96K: `n = 64`, mean −0.0243,
+median −0.0172. Wilcoxon `p = 0.98`; Welch `p = 0.24`; `r² = 0.006`. The means
 differ in the direction the crosses predict but the medians do not, because the
 96T group carries the resistant tail — so the mean difference is a tail effect
 rather than a shift. Open circles mark the four strains whose allele is known
@@ -2585,8 +2586,8 @@ The chromosome III peak for this trait is 7.7 Mb away, at 5.97 Mb.
 This is not evidence against the allele; it is what a background-dependent
 effect looks like from a marginal test. The editing experiments put the T96K
 contribution at roughly half of the JU1793–JU2466 difference in one pair of
-backgrounds, and a 36%-frequency variant with an effect that context-dependent
-would not be expected to surface in a marginal scan of 231 strains. **It is
+backgrounds, and a 35%-frequency variant with an effect that context-dependent
+would not be expected to surface in a marginal scan of 184 strains. **It is
 worth stating plainly that *sid-2* was found by the cross and the NILs, not by
 the GWAS.**
 :::

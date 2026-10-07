@@ -18,14 +18,15 @@ per wild isolate, averaged over five replicate arms (n = 98 strains; Spearman
 rho = 0.97, p < 1e-4). The dashed line is y = x.
 
 (B) Distribution of the pooled pos-1 RNAi response across wild isotypes on the
-variance-stabilised scale (n = 231 strains). The dashed line marks zero;
+variance-stabilised scale (n = 184 of the 224 pool strains; the other 40 have
+no control signal and so no defined response). The dashed line marks zero;
 positive values are strains that gained pool frequency under pos-1 RNAi and are
 therefore resistant.
 
 (C) Genome-wide association scan for that phenotype (GEMMA, leave-one-
-chromosome-out; 464,045 markers, n = 231 strains). The grey dashed line is the
-Bonferroni threshold over every marker (-log10 p = 6.97) and the blue dotted
-line divides alpha by the 1,972 effective independent tests (4.60). Markers
+chromosome-out; 457,571 markers, n = 184 strains). The grey dashed line is the
+Bonferroni threshold over every marker (-log10 p = 6.96) and the blue dotted
+line divides alpha by the 1,590 effective independent tests (4.50). Markers
 The scan is drawn in alternating shades of grey by chromosome; markers
 clearing Bonferroni are firebrick and markers clearing only the
 eigen-decomposition threshold are blue.
@@ -275,11 +276,10 @@ above panel A at every depth and saturates sooner.
 Replicate reproducibility of the pooled pos-1 delta-frequency phenotype. All
 six pairwise comparisons of the four pos-1 replicate pools, with Spearman rho
 and n on each facet. The dashed line is y = x and the vermillion line is the
-fitted slope. Scored over the 231 strains that carry the variance-stabilised
-trait the association scan was run on, of 366 in the pool. The 135 excluded
-have no vst value and 89 of them are exactly zero in all four replicates;
-those tied zeros depress a rank correlation, so including them lowers each
-pair by 0.03 to 0.06.
+fitted slope. Scored over the 184 strains that carry the variance-stabilised
+trait the association scan was run on, of 224 in the pool. The 40 excluded
+have no control signal and 26 of them are exactly zero in all four replicates;
+those tied zeros depress a rank correlation.
 
 ---
 

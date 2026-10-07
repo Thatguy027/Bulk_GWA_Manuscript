@@ -1,4 +1,4 @@
-From a 231-strain panel to a single residue
+From a 224-strain panel to a single residue
 ================
 Assembled 2026-10-07
 
@@ -134,7 +134,7 @@ figure carries its caption, with the caveats kept attached to the panel
 they qualify. Click any figure to enlarge it.
 
 The argument narrows by roughly an order of magnitude at each step:
-**231 wild isolates** given a quantitative phenotype, **six
+**224 wild isolates** given a quantitative phenotype, **six
 chromosomes** scanned in two crosses, **37 kb** resolved by a NIL
 series, **one residue** edited in three backgrounds.
 
@@ -254,7 +254,7 @@ log-ratio slope at every subsampled depth (0.713 to 0.801) while
 converging with it at full depth (0.888 against 0.890). Where depth is
 limited, the difference parameterisation is the more robust choice.
 
-Applying the assay to 231 wild isotypes exposed to *pos-1* RNAi produced
+Applying the assay to the 224 wild isotypes of the *pos-1* pool produced
 a continuously distributed response phenotype on a variance-stabilised
 scale <span class="cite">(Figure 1B)</span>, reproducible across
 replicate pools <span class="cite">(Figure S7)</span> and correlated in
@@ -265,14 +265,15 @@ class="cite">(Figure S8)</span>.
 
 ### Pooled association and cross mapping converge on overlapping loci
 
-A genome-wide association scan of the *pos-1* response across 231
-isotypes and 464,045 markers identified ten markers exceeding a
-Bonferroni threshold (maximum −log₁₀*p* = 8.84) and 465 exceeding a
-threshold corrected for the 1,972 effective independent tests <span
-class="cite">(Figure 1C)</span>. Eight of the ten lay on chromosome IV,
-in two clusters near 13.41 and 15.32 Mb, with single markers on
-chromosome III at 5.97 Mb (−log₁₀*p* = 8.68) and chromosome X at 4.88
-Mb.
+A genome-wide association scan of the *pos-1* response across the 184
+isotypes carrying a phenotype and 457,571 markers identified four
+markers exceeding a Bonferroni threshold (maximum −log₁₀*p* = `8.22`)
+and 176 exceeding a threshold corrected for the 1,590 effective
+independent tests <span class="cite">(Figure 1C)</span>. Two lie on
+chromosome IV at 15.32 Mb and two on chromosome X, at 4.88 and 3.11 Mb.
+The chromosome III marker at 5.97 Mb, which reached `8.68` when the
+deconvolution was run against the whole strain panel, falls to `5.90`
+against the pool reference and no longer clears Bonferroni.
 
 To separate loci affecting the RNAi response generally from those
 specific to one target, we measured the pooled response to several RNAi
@@ -339,12 +340,12 @@ every genotype hatches without RNAi and every genotype is inviable from
 are therefore not comparable between the two backgrounds.
 
 Two further observations bound the interpretation. First, T96K has no
-marginal effect across the mapping panel: the variant reaches p = 0.24
-in the association scan, ranking 18,662 of 64,423 markers on chromosome
+marginal effect across the mapping panel: the variant reaches p = 0.39
+in the association scan, ranking 24,585 of 63,541 markers on chromosome
 III, and splitting the pooled phenotype by residue 96 gives no shift
-(Wilcoxon p = 0.99, r² = 0.007) <span class="cite">(Figure S14)</span>.
+(Wilcoxon p = 0.98, r² = 0.006) <span class="cite">(Figure S14)</span>.
 *sid-2* was identified by the crosses and the introgression series, not
-by association, and a variant at 36% frequency whose effect is this
+by association, and a variant at 35% frequency whose effect is this
 context-dependent would not be expected to surface in a marginal test.
 Second, residue 96 lies on the lumenal face of the predicted ectodomain,
 on the same face as three residues with published effects on dsRNA
@@ -422,7 +423,7 @@ correlation matrix (Li & Ji 2005).
 | Panel            |   n | Markers | M<sub>eff</sub> | Bonferroni | Eigen |
 |:-----------------|----:|--------:|----------------:|-----------:|------:|
 | pooled_RNAi_expt |  84 | 322,010 |             732 |       6.81 |  4.17 |
-| pos1_2023        | 231 | 464,045 |           1,972 |       6.97 |  4.60 |
+| pos1_2023        | 184 | 457,571 |           1,590 |       6.96 |  4.50 |
 
 Thresholds as −log<sub>10</sub>*p*. Cross scans use LOD instead, with a
 genome-wide threshold of LOD 3.57 (α = 0.05 over 2,000 effective tests).
@@ -434,7 +435,7 @@ Manhattan panels always share a scale.
 
 <div class="scale">
 
-231 isolates
+224 isolates
 
 </div>
 
@@ -1539,7 +1540,7 @@ carries the 540-strain full-panel and regenotyped references.
 
 **Script** `scripts/Figure1_pos1.R`<br> **Test bed** Baugh L1
 starvation, the one dataset with pooled WGS and published MIP-seq on the
-same samples<br> **n** 98 strains (A) · 231 strains (B, C) · 464,045
+same samples<br> **n** 98 strains (A) · 184 strains (B, C) · 457,571
 markers
 
 </div>
@@ -1567,8 +1568,8 @@ a fit.
 <div class="panel">
 
 <span class="pl">B</span> Distribution of the 2023 pooled *pos-1* RNAi
-response across wild isotypes on the vst scale (`n = 231` strains with a
-vst value, of 366 in the trait file). The dashed line marks zero;
+response across wild isotypes on the vst scale (`n = 184` strains with a
+vst value, of 224 in the trait file). The dashed line marks zero;
 positive values are strains that gained pool frequency under *pos-1*
 RNAi, i.e. resistant.
 
@@ -1577,9 +1578,9 @@ RNAi, i.e. resistant.
 <div class="panel">
 
 <span class="pl">C</span> GEMMA LOCO association scan for that
-phenotype: 464,045 markers, `n = 231`. The grey dashed line is
-Bonferroni over every marker (`6.97`); the green dotted line divides α
-by the 1,972 effective independent tests (`4.60`). Markers clearing
+phenotype: 457,571 markers, `n = 184`. The grey dashed line is
+Bonferroni over every marker (`6.96`); the green dotted line divides α
+by the 1,590 effective independent tests (`4.50`). Markers clearing
 Bonferroni are red, markers clearing only the eigen threshold are green.
 **Ten markers clear Bonferroni and 465 clear the eigen threshold.** The
 maximum is `8.84` on chromosome IV at 15.323 Mb; eight of the ten lie on
@@ -1609,7 +1610,7 @@ because JU1793 is a cross parent in Figures 2 and 3.
 <div class="meta">
 
 **Script** `scripts/SUPP_FIG_XX_gwas_peak_genotype_splits.R`<br>
-**Supports** Figure 1C · 4 markers · 231 strains · no heterozygous calls
+**Supports** Figure 1C · 4 markers · 184 strains · no heterozygous calls
 
 </div>
 
@@ -1683,7 +1684,7 @@ rule doing its job.
 <div class="panel">
 
 <span class="pl">E</span> `r²` between all six pairs of those markers,
-in the same 231 strains. **Every pair is low.** The strongest is
+in the same 184 strains. **Every pair is low.** The strongest is
 IV:15.32 Mb against III:12.72 Mb at `0.112`; then X:4.88 Mb against
 IV:15.32 Mb at `0.067`, X against III:12.72 Mb at `0.032`, and the
 remaining three at `0.004` or below. Against the `r² ≥ 0.7` the interval
@@ -1702,7 +1703,7 @@ structure the LOCO kinship correction exists to absorb.
 that is not an approximation: there are no heterozygous calls at these
 four markers, so the correlation and haplotypic estimators coincide
 exactly. Checked against `plink --r2 inter-chr` on the archive,
-restricted to the same 231 strains — agreement to `3e-08`, plink’s own
+restricted to the same 184 strains — agreement to `3e-08`, plink’s own
 printed precision — and those six values are pinned in the script and
 asserted, so the deposit cannot drift away from the panel it was
 verified against.
@@ -2045,14 +2046,13 @@ All six pairwise comparisons of the four *pos-1* replicates, at
 read-depth cutoff 5, with Spearman ρ and n on each facet. Dashed line is
 `y = x`; red is the fitted slope.
 
-**n = `231`, not the `366` in the frequency file.** The phenotype this
+**n = `184`, not the `224` in the frequency file.** The phenotype this
 figure is about is the vst trait the scan was run on, and that is
-defined for 231 strains. The other 135 are in the pool but carry no vst
-value, and `89` of them are exactly zero in all four replicates —
+defined for 184 of the 224 pool strains. The other `40` have no control
+signal, and `26` of them are exactly zero in all four replicates —
 strains that never appear. Tied zeros depress a rank correlation, so
-scoring all 366 understated every pair by 0.03 to 0.06: rep1 vs rep2
-reads `0.921` against `0.867` on the full set, rep3 vs rep4 `0.870`
-against `0.813`. Figure 1B already quotes n = 231 for this experiment.
+scoring all 224 would understate every pair. Figure 1B quotes the same
+184 for this experiment.
 
 Depth cutoff 5 is used because it is the cutoff the shipped association
 traits were built from: taking the mean *pos-1* delta per strain at
@@ -31293,7 +31293,7 @@ mechanism, and each genotype is a single plate.**
 <div class="meta">
 
 **Script** `scripts/SUPP_FIG_XX_sid2_allele_in_panel.R`<br> **Supports**
-the candidate, against the mapping panel<br> **n** 230 of 231 phenotyped
+the candidate, against the mapping panel<br> **n** 183 of 184 phenotyped
 strains · site chrIII:13,680,248 C>A
 
 </div>
@@ -31313,10 +31313,10 @@ a negative result and it is the honest check on the candidate.
 <div class="panel">
 
 <span class="pl">A</span> The 2023 pooled *pos-1* phenotype split by
-*sid-2* residue 96 for every phenotyped strain with a genotype (230 of
-231). 96K is at 36% frequency in this set. 96T: `n = 147`, mean −0.0147,
-median −0.0220. 96K: `n = 83`, mean −0.0236, median −0.0164. Wilcoxon
-`p = 0.99`; Welch `p = 0.16`; `r² = 0.007`. The means differ in the
+*sid-2* residue 96 for every phenotyped strain with a genotype (183 of
+184). 96K is at 35% frequency in this set. 96T: `n = 119`, mean −0.0152,
+median −0.0213. 96K: `n = 64`, mean −0.0243, median −0.0172. Wilcoxon
+`p = 0.98`; Welch `p = 0.24`; `r² = 0.006`. The means differ in the
 direction the crosses predict but the medians do not, because the 96T
 group carries the resistant tail — so the mean difference is a tail
 effect rather than a shift. Open circles mark the four strains whose
@@ -31342,9 +31342,9 @@ trait is 7.7 Mb away, at 5.97 Mb.
 This is not evidence against the allele; it is what a
 background-dependent effect looks like from a marginal test. The editing
 experiments put the T96K contribution at roughly half of the
-JU1793–JU2466 difference in one pair of backgrounds, and a 36%-frequency
+JU1793–JU2466 difference in one pair of backgrounds, and a 35%-frequency
 variant with an effect that context-dependent would not be expected to
-surface in a marginal scan of 231 strains. **It is worth stating plainly
+surface in a marginal scan of 184 strains. **It is worth stating plainly
 that *sid-2* was found by the cross and the NILs, not by the GWAS.**
 
 </div>
@@ -31767,13 +31767,13 @@ r² 0.8
 IV:15.32
 </td>
 <td style="text-align:right;">
-8.84
+8.22
 </td>
 <td style="text-align:right;">
 1046
 </td>
 <td style="text-align:right;">
-242
+1046
 </td>
 <td style="text-align:right;">
 241
@@ -31787,13 +31787,13 @@ IV:15.32
 X:4.88
 </td>
 <td style="text-align:right;">
-7.83
+8.05
 </td>
 <td style="text-align:right;">
-1461
+1439
 </td>
 <td style="text-align:right;">
-1355
+1020
 </td>
 <td style="text-align:right;">
 1020
@@ -31807,39 +31807,19 @@ X:4.88
 IV:13.41
 </td>
 <td style="text-align:right;">
-7.49
+6.72
 </td>
 <td style="text-align:right;">
-2033
+1492
 </td>
 <td style="text-align:right;">
-2033
+1306
 </td>
 <td style="text-align:right;">
-149
+1260
 </td>
 <td style="text-align:right;">
-36
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-III:12.72
-</td>
-<td style="text-align:right;">
-6.31
-</td>
-<td style="text-align:right;">
-2347
-</td>
-<td style="text-align:right;">
-2347
-</td>
-<td style="text-align:right;">
-2347
-</td>
-<td style="text-align:right;">
-14
+1245
 </td>
 </tr>
 <tr>
@@ -31847,79 +31827,139 @@ III:12.72
 X:5.80
 </td>
 <td style="text-align:right;">
-5.62
+6.60
 </td>
 <td style="text-align:right;">
-3322
+3993
 </td>
 <td style="text-align:right;">
-3322
+3993
 </td>
 <td style="text-align:right;">
-3322
+2439
 </td>
 <td style="text-align:right;">
-3322
+2439
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-V:0.61
+IV:14.31
 </td>
 <td style="text-align:right;">
-5.40
+5.90
 </td>
 <td style="text-align:right;">
-566
+4803
 </td>
 <td style="text-align:right;">
-373
+4803
 </td>
 <td style="text-align:right;">
-201
+3758
 </td>
 <td style="text-align:right;">
-179
+2984
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-IV:10.53
+IV:15.99
 </td>
 <td style="text-align:right;">
-5.17
+5.83
 </td>
 <td style="text-align:right;">
-5885
+2755
 </td>
 <td style="text-align:right;">
-5682
+2010
 </td>
 <td style="text-align:right;">
-5125
+1865
 </td>
 <td style="text-align:right;">
-4411
+1109
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-III:3.82
+V:0.63
 </td>
 <td style="text-align:right;">
-4.76
+5.78
 </td>
 <td style="text-align:right;">
-5453
+1556
 </td>
 <td style="text-align:right;">
-5453
+518
 </td>
 <td style="text-align:right;">
-5453
+496
 </td>
 <td style="text-align:right;">
-3765
+496
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III:12.72
+</td>
+<td style="text-align:right;">
+5.76
+</td>
+<td style="text-align:right;">
+1840
+</td>
+<td style="text-align:right;">
+1137
+</td>
+<td style="text-align:right;">
+1120
+</td>
+<td style="text-align:right;">
+1120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+III:3.44
+</td>
+<td style="text-align:right;">
+5.07
+</td>
+<td style="text-align:right;">
+3680
+</td>
+<td style="text-align:right;">
+1238
+</td>
+<td style="text-align:right;">
+1238
+</td>
+<td style="text-align:right;">
+1238
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IV:13.71
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+3828
+</td>
+<td style="text-align:right;">
+3238
+</td>
+<td style="text-align:right;">
+2972
+</td>
+<td style="text-align:right;">
+1589
 </td>
 </tr>
 <tr>
@@ -31927,59 +31967,19 @@ III:3.82
 III:4.41
 </td>
 <td style="text-align:right;">
-4.76
+4.88
 </td>
 <td style="text-align:right;">
-4868
+5029
 </td>
 <td style="text-align:right;">
-4839
+5028
 </td>
 <td style="text-align:right;">
-4279
+4926
 </td>
 <td style="text-align:right;">
-3765
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IV:17.10
-</td>
-<td style="text-align:right;">
-4.70
-</td>
-<td style="text-align:right;">
-2204
-</td>
-<td style="text-align:right;">
-1111
-</td>
-<td style="text-align:right;">
-1111
-</td>
-<td style="text-align:right;">
-858
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IV:12.08
-</td>
-<td style="text-align:right;">
-4.60
-</td>
-<td style="text-align:right;">
-5939
-</td>
-<td style="text-align:right;">
-5568
-</td>
-<td style="text-align:right;">
-5081
-</td>
-<td style="text-align:right;">
-5081
+2575
 </td>
 </tr>
 </tbody>
@@ -34305,16 +34305,16 @@ Single-locus R²
 IV:15.32 Mb (GWAS peak)
 </td>
 <td style="text-align:right;">
-0.208
+0.196
 </td>
 <td style="text-align:right;">
-+0.0258
++0.0313
 </td>
 <td style="text-align:right;">
-0.000
+0.00
 </td>
 <td style="text-align:right;">
-8.84
+8.22
 </td>
 <td style="text-align:right;">
 1
@@ -34328,19 +34328,19 @@ IV:15.32 Mb (GWAS peak)
 sid-2 T96K
 </td>
 <td style="text-align:right;">
-0.359
+0.348
 </td>
 <td style="text-align:right;">
--0.0050
+-0.0047
 </td>
 <td style="text-align:right;">
-0.243
+0.39
 </td>
 <td style="text-align:right;">
-0.62
+0.41
 </td>
 <td style="text-align:right;">
-101,105
+149,425
 </td>
 <td style="text-align:right;">
 0.007
@@ -34923,7 +34923,7 @@ SUPP_FIG_XX_simulation_depth
 473
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -34937,7 +34937,7 @@ SUPP_FIG_XX_dilution_validation
 467
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -34948,10 +34948,10 @@ Figure 1
 Figure1_pos1
 </td>
 <td style="text-align:right;">
-766
+781
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -34962,10 +34962,10 @@ Figure S21
 SUPP_FIG_XX_gwas_peak_genotype_splits
 </td>
 <td style="text-align:right;">
-313
+296
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -34979,7 +34979,7 @@ SUPP_FIG_XX_baugh_per_sample_frequencies
 335
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -34993,7 +34993,7 @@ SUPP_FIG_XX_bootstrap_propagation_checks
 344
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35007,7 +35007,7 @@ SUPP_FIG_XX_downsample_per_sample
 211
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35021,7 +35021,7 @@ SUPP_FIG_XX_baugh_downsample_traits
 88
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35035,7 +35035,7 @@ SUPP_FIG_XX_baugh_analyses
 520
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35046,10 +35046,10 @@ Figure S7
 SUPP_FIG_XX_original_pos1_dfreq_rep_correlation
 </td>
 <td style="text-align:right;">
-312
+314
 </td>
 <td style="text-align:right;">
-2026-10-07 11:53
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35060,10 +35060,10 @@ Figure S8
 SUPP_FIG_plate_vs_paaby_vs_pos1original
 </td>
 <td style="text-align:right;">
-190
+179
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35077,7 +35077,7 @@ Figure2
 1316
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35091,7 +35091,7 @@ SUPP_FIG_XX_pooled_phenotype_ranks
 132
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35105,7 +35105,7 @@ SUPP_FIG_XX_cross_contrast_panels
 998
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35119,7 +35119,7 @@ Figure3_quad
 175
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35133,7 +35133,7 @@ SUPP_FIG_XX_nil_hatching_full
 112
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35147,7 +35147,7 @@ Figure4_sid2
 513
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35161,7 +35161,7 @@ SUPP_FIG_XX_n2_swap_dose
 169
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35175,7 +35175,7 @@ SUPP_FIG_XX_sid2_allele_swaps_full
 488
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35186,10 +35186,10 @@ Figure S14
 SUPP_FIG_XX_sid2_allele_in_panel
 </td>
 <td style="text-align:right;">
-368
+351
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:02
 </td>
 </tr>
 <tr>
@@ -35203,7 +35203,7 @@ SUPP_FIG_XX_sid2_electrostatics
 821
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35217,7 +35217,7 @@ SUPP_FIG_XX_sid2_local_charge
 64
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35231,7 +35231,7 @@ SUPP_FIG_XX_sid2_model_confidence
 434
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35245,7 +35245,7 @@ Figure2_no_cross_qtl
 1564
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35259,7 +35259,7 @@ SUPP_FIG_XX_nil_interval_genes
 87
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35273,7 +35273,7 @@ SUPP_FIG_XX_sid2_briggsae_alignment
 147
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35287,7 +35287,7 @@ SUPP_FIG_XX_sid2_ortholog_conservation
 451
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35301,7 +35301,7 @@ SUPP_FIG_XX_sid2_ortholog_search
 502
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 <tr>
@@ -35315,7 +35315,7 @@ SUPP_FIG_XX_sid2_variants_all
 212
 </td>
 <td style="text-align:right;">
-2026-10-07 11:42
+2026-10-07 14:00
 </td>
 </tr>
 </tbody>

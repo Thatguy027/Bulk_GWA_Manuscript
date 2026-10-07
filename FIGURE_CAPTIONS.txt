@@ -103,8 +103,8 @@ Two conventions used throughout:
     Panel-specific values:
        pooled_RNAi_expt  n = 84  markers = 322,010  M_eff = 732
                          Bonferroni -log10 p = 6.81   eigen = 4.17
-       pos1_2023         n = 231 markers = 464,045  M_eff = 1,972
-                         Bonferroni -log10 p = 6.97   eigen = 4.60
+       pos1_2023         n = 184 markers = 457,571  M_eff = 1,590
+                         Bonferroni -log10 p = 6.96   eigen = 4.50
     Cross scans use LOD, with a genome-wide threshold of LOD 3.57
     (alpha = 0.05 over 2,000 effective tests).
 
@@ -170,14 +170,14 @@ The validated assay, the phenotype it produces, and the map -- in one figure.
 p < 1e-4.
 
 (B) Distribution of the 2023 pooled pos-1 RNAi response across wild isotypes on
-the vst scale (n = 231 strains with a vst value, of 366 in the trait file).
+the vst scale (n = 184 strains with a vst value, of 224 in the pool).
 Dashed line marks zero; positive values are strains that gained pool frequency
 under pos-1 RNAi, i.e. resistant.
 
-(C) GEMMA LOCO association scan for that phenotype: 464,045 markers, n = 231
+(C) GEMMA LOCO association scan for that phenotype: 457,571 markers, n = 184
 strains. Grey dashed line is the Bonferroni threshold over every marker
-(-log10 p = 6.97); blue dotted line divides alpha by the 1,972 effective
-independent tests (4.60). The scan is drawn in alternating shades of grey by
+(-log10 p = 6.96); blue dotted line divides alpha by the 1,590 effective
+independent tests (4.50). The scan is drawn in alternating shades of grey by
 chromosome; markers clearing Bonferroni are firebrick and markers clearing only
 the eigen threshold are blue.
 
@@ -947,10 +947,10 @@ CAVEAT: one plate per strain per condition, as in Figure 3C.
 SUPP_FIG_XX_2023_pos1_vst_and_mapping  -- SUPERSEDED, in plots/legacy/
 (scripts/legacy/SUPP_FIG_XX_2023_pos1_vst_and_mapping.R)
 --------------------------------------------------------------------------------
-(A) Distribution of the 2023 pooled pos-1 response on the vst scale, n = 231 of
-366 strains in the trait file.
-(B) GEMMA LOCO association scan for that trait: 464,045 markers, n = 231
-strains, Bonferroni -log10 p = 6.97 and eigen 4.60 (M_eff = 1,972).
+(A) Distribution of the 2023 pooled pos-1 response on the vst scale, n = 184 of
+the 224 strains in the pool.
+(B) GEMMA LOCO association scan for that trait: 457,571 markers, n = 184
+strains, Bonferroni -log10 p = 6.96 and eigen 4.50 (M_eff = 1,590).
 
 These are the two panels reused as Figure1_pos1 B and C. If that variant becomes
 the main Figure 1, this supplement is redundant and should be dropped.
@@ -968,17 +968,17 @@ pairwise comparisons of the four pos-1 replicates, at read-depth cutoff 5, with
 Spearman rho and n on each facet. Dashed line is y = x; vermillion is the
 fitted slope.
 
-N = 231, NOT THE 366 IN THE FREQUENCY FILE. The figure is about the
+N = 184, NOT THE 224 IN THE FREQUENCY FILE. The figure is about the
 reproducibility of the phenotype that was mapped, and that is the vst trait,
-which is defined for 231 strains. The other 135 are in the pool but carry no
-vst value, and 89 of them are exactly zero in all four replicates -- strains
-that never appear. Tied zeros depress a Spearman correlation, so scoring all
-366 understated every pair: rep1 vs rep2 0.867 against 0.921, rep3 vs rep4
-0.813 against 0.870, rep2 vs rep3 0.804 against 0.839, rep1 vs rep4 0.781
-against 0.831, rep2 vs rep4 0.781 against 0.808, rep1 vs rep3 0.771 against
-0.816. Figure 1B already quotes n = 231 for the same experiment, so this also
-puts the two figures on one denominator. The script asserts the 231, the 366
-and the 89.
+which is defined for 184 of the 224 pool strains. The other 40 have no control
+signal, and 26 of them are exactly zero in all four replicates -- strains that
+never appear. Tied zeros depress a Spearman correlation, so scoring all 224
+would understate every pair. Figure 1B quotes the same 184, so the two figures
+are on one denominator. The script asserts the 184, the 224 and the 26.
+
+Pair correlations on the pool-reference deconvolution: rep1 vs rep2 0.901,
+rep3 vs rep4 0.887, rep2 vs rep3 0.884, rep1 vs rep3 0.875, rep1 vs rep4 0.837,
+rep2 vs rep4 0.829.
 
 Depth cutoff 5 is used because it is the cutoff the shipped association traits
 were built from: taking the mean pos-1 delta per strain at cutoff 5 reproduces
@@ -1632,8 +1632,8 @@ SUPP_FIG_XX_gwas_peak_genotype_splits
 The 2023 pooled pos-1 RNAi response of the wild panel, split by homozygous
 genotype at the four peak markers of the Figure 1C scan. Boxes are the
 interquartile range with the median; the white diamond is the group mean; every
-strain is drawn; panel E is the LD between the four markers. n = 231 phenotyped
-strains, of which 230 carry a call at IV:15,323,414 and all 231 at the other
+strain is drawn; panel E is the LD between the four markers. n = 184 phenotyped
+strains, of which 183 carry a call at IV:15,323,414 and all 184 at the other
 three. There are no heterozygous calls, as expected for inbred isotypes.
 
 GEMMA counted the minor allele at all four markers -- established by checking
@@ -1644,44 +1644,46 @@ Higher vst = gained pool frequency under pos-1 RNAi = more resistant. The
 FIGURE_REPORT.md: over Bonferroni or the eigen threshold AND at least one
 eigen-passing marker within 100 kb.
 
-(A) IV:15,323,414, the scan's strongest marker at -log10 p 8.84. 48 A/A against
-182 G/G; gap +0.0514 vst, 12.1% of the phenotype range, Wilcoxon p = 1.2e-07.
-Twice the mixed-model effect, +0.0515, equals the observed gap. 95 eigen-passing
+(A) IV:15,323,414, the scan's strongest marker at -log10 p 8.22. 36 A/A against
+147 G/G; gap +0.0624 vst, 14.7% of the phenotype range, Wilcoxon p = 7.4e-07.
+Twice the mixed-model effect, +0.0626, equals the observed gap. 12 eigen-passing
 neighbours within 100 kb.
 
-(B) X:4,875,969, the only chromosome X marker over Bonferroni, at 7.83. 20 G/G
-against 211 A/A; gap +0.0738, 17.4% of range, Wilcoxon p = 6.5e-06; 2*beta
-+0.0726. Two eigen-passing neighbours. The marker is 28% along a 17.72 Mb
+(B) X:4,875,969, the strongest chromosome X marker, at 8.05. 17 G/G against
+167 A/A; gap +0.0874, 20.6% of range, Wilcoxon p = 1.1e-05; 2*beta
++0.0863. Two eigen-passing neighbours. The marker is 28% along a 17.72 Mb
 chromosome, i.e. on the left arm, not the centre.
 
-(C) III:5,965,738, the centre-of-III marker, which the report discards. The
-second strongest association in the scan at 8.68, but the split gives Wilcoxon
-p = 0.011, seven orders of magnitude weaker; 2*beta is +0.1216 against an
-observed gap of +0.0456, so the model's effect is 2.7x the difference in the
-data; and it has zero eigen-passing neighbours within 100 kb. Three independent
-readings that it tracks relatedness rather than a locus.
+(C) III:5,965,738, the centre-of-III marker, which the report discards. On the
+pool-reference deconvolution it no longer clears Bonferroni at all -- 5.90
+against a threshold of 6.96, where on the 367-strain reference it was the second
+strongest association in the scan at 8.68. The split gives Wilcoxon p = 0.059;
+2*beta is +0.1055 against an observed gap of +0.0497, so the model's effect is
+2.1x the difference in the data; and it has zero eigen-passing neighbours within
+100 kb. Every reading points the same way: it tracked relatedness, and the
+contaminated reference is what lifted it over the line.
 
 (D) III:12,718,465, the right-arm locus, 375 kb proximal to sid-2. Below
-Bonferroni at 6.31 but above the eigen threshold, with 14 supporting markers;
-2*beta +0.0616 against an observed gap of +0.0637; Wilcoxon p = 2.3e-04. This is
+Bonferroni at 5.42 but above the eigen threshold, with 15 supporting markers;
+2*beta +0.0650 against an observed gap of +0.0664; Wilcoxon p = 1.4e-03. This is
 the chromosome III signal the report keeps.
 
 (E) r-squared between all six pairs of those markers, lower triangle, in the
-same 231 strains. Every pair is low: IV:15.32 / III:12.72 = 0.112, X:4.88 /
-IV:15.32 = 0.067, X:4.88 / III:12.72 = 0.032, and the other three at 0.004 or
+same 184 strains. Every pair is low: IV:15.32 / III:12.72 = 0.107, X:4.88 /
+IV:15.32 = 0.099, X:4.88 / III:12.72 = 0.040, and the other three at 0.007 or
 below. The interval work calls two markers one signal at r-squared 0.7, so the
-strongest pair here is more than sixfold short: these are four separate signals,
-not one haplotype tagged four times. Note also that the two chromosome III
-markers are the LEAST correlated pair of the six (9.5e-05, 6.75 Mb apart), so
-panels C and D are not two views of one locus; and that r-squared 0.112 between
-markers on different chromosomes is not nothing, since under linkage
-equilibrium it would be near zero.
+strongest pair here is sevenfold short: these are four separate signals, not one
+haplotype tagged four times. Note also that the two chromosome III markers are
+among the least correlated pairs (0.0047, 6.75 Mb apart), so panels C and D are
+not two views of one locus; and that r-squared 0.107 between markers on
+different chromosomes is not nothing, since under linkage equilibrium it would
+be near zero.
 
 r-squared is the squared Pearson correlation of the dosages. For these strains
 that is exact rather than approximate: there are no heterozygous calls at these
 four markers, so the correlation-based and haplotypic estimators coincide.
 Verified against `plink --r2 inter-chr` on data/genotypes/CeNDR20210121_Plink
-restricted to the same 231 strains, agreeing to 3e-08 (plink's printed
+restricted to the same 184 strains, agreeing to 3.4e-07 (plink's printed
 precision); the six values are pinned in the script and asserted. LD is computed
 in the phenotyped panel rather than in all 540 isotypes, the convention
 scripts/gwas_qtl_intervals.R sets.

@@ -101,7 +101,7 @@ out[[length(out) + 1]] <- count("Welch, 12 vs 6 (cutoffs pooled)", "3+5+10", FAL
 
 R <- rbindlist(out)
 fwrite(R, file.path(DIAG, "pos1_responsiveness_variants.tsv"), sep = "\t")
-cat("\nPER STRAIN, every construction (BH across the 231 tests):\n")
+cat("\nPER STRAIN, every construction (BH across the tests):\n")
 print(R)
 
 ## --- the strains a t-test cannot see ---------------------------------------

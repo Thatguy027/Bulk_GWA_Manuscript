@@ -85,14 +85,15 @@ tr <- fread(cmd = paste("gzcat", shQuote(TRAIT)))
 setnames(tr, c("delta_ctrl_pos-1_T2", "vst_ctrl_pos-1_T2",
                "negctrl_abundance_log10"), c("delta", "vst", "abund"))
 
-## The mapped set. This is also the answer to the pool-size question: the
-## draft's "224" is not this number and is not reproducible from the deposit.
+## The mapped set. The pool is 224 isotypes -- sets B, C, E, F and G of
+## BulkCe_strainsets.tsv, which is where the draft's "224" comes from -- and
+## 184 of them carry a pos-1 phenotype, the other 40 having no control signal.
 mp <- tr[!is.na(vst)]
 cat("== the mapped set ==\n")
 cat(sprintf("  trait file rows              : %d\n", nrow(tr)))
 cat(sprintf("  with a pos-1 VST measurement : %d\n", nrow(mp)))
 cat(sprintf("  without                      : %d\n\n", nrow(tr) - nrow(mp)))
-stopifnot(nrow(mp) == 231L)
+stopifnot(nrow(mp) == 184L)
 
 ## ---------------------------------------------------------------------------
 ## the shared baseline, asserted rather than assumed

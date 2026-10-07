@@ -85,12 +85,18 @@ theme_pub <- function(base_size = 11) {
 }
 
 ## the numbers this script asserts, pinned as everywhere else in scripts/
-PINNED <- list(singleton_ps = 5965738L, singleton_lp = 8.68,
-               n_within_100kb = 628L, n_sig_within_100kb = 0L,
-               median_lp_neighbour = 0.11,
-               arm_n = 15L, arm_lp = 6.31,
-               nil_n = 88L, nil_max_lp = 0.98,
-               sid2_lp = 0.62, sid2_rank = 18662L)
+## THE SUBJECT OF THIS DIAGNOSTIC HAS CHANGED. It was written about
+## III:5,965,738, the one Bonferroni-significant marker with no support around
+## it. On the pool-reference deconvolution that marker is no longer
+## Bonferroni-significant at all -- it falls from 8.68 to 5.90 against a
+## threshold of 6.96 -- so the argument it was making is now moot and the
+## unsupported marker is X:3,112,596 instead. The pins follow the data.
+PINNED <- list(singleton_ps = 3112596L, singleton_lp = 7.48,
+               n_within_100kb = 740L, n_sig_within_100kb = 0L,
+               median_lp_neighbour = 0.32,
+               arm_n = 16L, arm_lp = 5.76,
+               nil_n = 88L, nil_max_lp = 1.11,
+               sid2_lp = 0.41, sid2_rank = 24585L)
 
 th <- gwas_thresholds("pos1_2023")
 d  <- fread(cmd = paste("gzcat", shQuote(SCAN)))
@@ -130,9 +136,9 @@ print(as.data.frame(sup), row.names = FALSE)
 
 lone <- sup[n_sig == 0]
 cat("\n  ", nrow(lone), " of ", nrow(sup),
-    " has no supporting marker at all: III:", format(PINNED$singleton_ps,
-    big.mark = ","), "\n", sep = "")
-stopifnot(nrow(lone) == 1, lone$Mb == 5.966)
+    " has no supporting marker at all: ", lone$chr, ":",
+    format(PINNED$singleton_ps, big.mark = ","), "\n", sep = "")
+stopifnot(nrow(lone) == 1, lone$Mb == round(PINNED$singleton_ps / 1e6, 3))
 
 ## ---------------------------------------------------------------------------
 ## 2. is that unusual? every eigen-significant cluster genome-wide

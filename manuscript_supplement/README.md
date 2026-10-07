@@ -76,7 +76,7 @@ Sample-level strain frequencies for the pilot pool: four pos-1 replicate pools a
 
 **Cite near:** “across all six pairwise replicate comparisons”
 
-*Source in repository:* `supplemental_data/phenotypes/pos1_2023_sample_frequencies.csv.gz`  (0.16 MB)
+*Source in repository:* `supplemental_data/phenotypes/pos1_2023_sample_frequencies.csv.gz`  (0.15 MB)
 
 ### Table S7 — `Table_S07_pos1_pilot_gwas.csv.gz`  *(dataset -- deposit, not an article supplement)*
 
@@ -84,7 +84,7 @@ Genome-wide association results for the pilot pos-1 response, 464,045 markers ov
 
 **Cite near:** “genome-wide association scan on the pos-1 responses”
 
-*Source in repository:* `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz`  (7.52 MB)
+*Source in repository:* `supplemental_data/mapping/pos1_2023_gemma_loco.csv.gz`  (7.14 MB)
 
 ### Table S8 — `Table_S08_gwas_significance_thresholds.tsv`
 

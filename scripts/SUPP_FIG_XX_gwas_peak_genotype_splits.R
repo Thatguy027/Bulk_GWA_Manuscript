@@ -27,8 +27,8 @@
 ## THE OBSERVATION THIS FIGURE MAKES
 ## For three of the four markers, twice the mixed-model effect size -- the
 ## difference the model predicts between the two homozygotes -- lands within a
-## few percent of the difference actually observed. For III:5,965,738 it is
-## 2.7 times larger than the observed split. An effect that only appears once
+## few percent of the difference actually observed (ratios 1.00, 0.99, 0.98).
+## For III:5,965,738 it is 2.1 times larger than the observed split. An effect that only appears once
 ## the kinship correction is applied is the signature of a marker tracking
 ## relatedness rather than a locus, which is the same conclusion the admission
 ## rule reaches from the marker's isolation. The two arguments are independent.
@@ -39,7 +39,7 @@
 ## heterozygous calls at these four markers, so the correlation-based and
 ## haplotypic estimators coincide exactly. Verified against
 ## `plink --r2 inter-chr` on data/genotypes/CeNDR20210121_Plink, restricted to
-## the same 231 strains -- agreement to 3e-08, which is plink's own printed
+## the same 184 strains -- agreement to plink's own printed
 ## precision. Those six values are pinned in R2_PLINK below and asserted, so
 ## the deposit cannot drift away from the panel it was checked against.
 ##
@@ -106,19 +106,19 @@ LD_INTERVAL_R2 <- 0.7
 ## change in the deposited dosages cannot silently move panel E.
 R2_PLINK <- tribble(
   ~a,             ~b,             ~r2,
-  "X:4875969",    "III:5965738",  0.00400474,
-  "X:4875969",    "III:12718465", 0.0320088,
-  "X:4875969",    "IV:15323414",  0.0671796,
-  "III:5965738",  "III:12718465", 0.0000947867,
-  "III:5965738",  "IV:15323414",  0.0026374,
-  "III:12718465", "IV:15323414",  0.112313)
+  "X:4875969",    "III:5965738",  0.00713385,
+  "X:4875969",    "III:12718465", 0.0400448,
+  "X:4875969",    "IV:15323414",  0.0993385,
+  "III:5965738",  "III:12718465", 0.00470783,
+  "III:5965738",  "IV:15323414",  0.000623583,
+  "III:12718465", "IV:15323414",  0.107111)
 
 ## the four markers, in the order the panels run
 SITES <- tribble(
   ~key,      ~chrom, ~pos,      ~short,         ~note,
   "IV",      "IV",   15323414L, "IV:15.32 Mb",  "The scan's strongest marker, on the right arm.",
-  "X",       "X",     4875969L, "X:4.88 Mb",    "The only chromosome X marker over Bonferroni, 28% along the chromosome.",
-  "III_mid", "III",   5965738L, "III:5.97 Mb",  "The centre of the chromosome.",
+  "X",       "X",     4875969L, "X:4.88 Mb",    "The strongest chromosome X marker, 28% along the chromosome.",
+  "III_mid", "III",   5965738L, "III:5.97 Mb",  "The centre of the chromosome; the strongest chromosome III marker, and over Bonferroni before the pool reference corrected the deconvolution.",
   "III_arm", "III",  12718465L, "III:12.72 Mb", "The right arm, 375 kb proximal to sid-2.")
 
 msg <- function(...) cat(format(Sys.time(), "[%H:%M:%S] "), ..., "\n", sep = "")
@@ -152,7 +152,7 @@ ph <- read_csv(PHENO, show_col_types = FALSE) %>%
   transmute(strain, vst = .data[[TRAIT]]) %>%
   filter(!is.na(vst))
 msg("phenotyped strains: ", nrow(ph))
-stopifnot(nrow(ph) == 231)
+stopifnot(nrow(ph) == 184)
 
 gt <- read_tsv(GENO, show_col_types = FALSE)
 stopifnot(setequal(gt$marker, paste0(SITES$chrom, ":", SITES$pos)))

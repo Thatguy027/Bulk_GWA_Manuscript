@@ -38,15 +38,13 @@
 ## two, so the replicate figure now shows all six pairwise comparisons rather
 ## than a single scatter.
 ##
-## N = 231, NOT THE 366 IN THE FREQUENCY FILE. The figure is about the
+## N = 184, NOT THE 224 IN THE FREQUENCY FILE. The figure is about the
 ## reproducibility of the phenotype that was mapped, and that phenotype is the
-## vst trait, defined for 231 strains. The other 135 are in the pool but carry
-## no vst value, and 89 of them are exactly zero in all four replicates --
+## vst trait, defined for 184 of the 224 pool strains. The other 40 have no
+## control signal, and 26 of them are exactly zero in all four replicates --
 ## strains that never appear. Tied zeros depress a Spearman correlation, so
-## scoring all 366 understated every pair by 0.03 to 0.06: 0.867 became 0.921
-## for rep1 vs rep2, 0.771 became 0.816 for rep1 vs rep3, and so on. Figure 1B
-## already quotes n = 231 for the same experiment, so this also puts the two
-## figures on one denominator.
+## scoring all 224 would understate every pair. Figure 1B quotes the same 184,
+## so the two figures are on one denominator.
 ##
 ## Duplicated strain entry -- JU1793
 ## ---------------------------------
@@ -162,7 +160,7 @@ msg("  strains: ", nrow(wide), " with a vst value, of ", nrow(wide_all),
     " in the frequency file")
 msg("  dropped ", nrow(dropped), ", of which ", zero_all,
     " are exactly zero in all ", length(rep_names), " replicates")
-stopifnot(nrow(wide) == 231, nrow(wide_all) == 366, zero_all == 89)
+stopifnot(nrow(wide) == 184, nrow(wide_all) == 224, zero_all == 26)
 
 ## every pair of replicates, long, so one facet per pair
 pairs_tbl <- combn(rep_names, 2, simplify = FALSE) %>%
