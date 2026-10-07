@@ -61,12 +61,47 @@ QLIM = 2.0                     # colour scale saturates here, in e
 BASIC = {93: "K93", 132: "K132"}
 HIS = {32: "H32", 168: "H168", 175: "H175"}
 
+## The zoom is framed on the pocket, not on the 20 A ball the other zoom uses.
+## T96, K93 and K132 sit within 7 A of one another, so at 20 A the trio occupied
+## a tenth of the frame and the dashed distances were shorter on the page than
+## the labels naming them. 11 A keeps enough scaffold to place the pocket in the
+## fold while making the measured distances legible.
+POCKET_RADIUS = 11.0
+
+## THE ZOOM NEEDS ITS OWN CAMERA. At the (18, -89) the other zoom uses, T96 and
+## K93 land 0.3 A apart ON SCREEN -- the two are superimposed, so no label
+## placement could tether them legibly and both labels ended up floating in
+## empty space. Scanning elevation 0-34 and azimuth over the full turn for the
+## view that maximises the smallest pairwise screen separation of the trio puts
+## it at (22, 172), where all three resolve: T96-K93 6.6 A, T96-K132 6.7 A,
+## K93-K132 12.9 A, i.e. every pair separated by its true distance.
+POCKET_ELEV, POCKET_AZIM = 22, 172
+
+## Label geometry is specified in SCREEN angstroms, not in the membrane frame,
+## and converted through the view basis below. Offsets written in frame
+## coordinates only read correctly at one azimuth, which is how the previous
+## labels came to sit where nothing was.
+LAB_PAD = 5.6               # how far a residue label sits from its Ca
+DIST_PAD = 3.0              # how far a distance label sits off its own line
+
 CMAP = matplotlib.colormaps["RdBu"]   # red negative, blue positive, white at 0
 NORM = colors.Normalize(vmin=-QLIM, vmax=QLIM)
 
 
 def qcol(q):
     return CMAP(NORM(q))[:3]
+
+
+def screen_basis(elev, azim):
+    """Unit vectors in the membrane frame that map to screen right and up.
+
+    Matplotlib's 3D view is orthographic enough at these angles that a label
+    offset built from these lands where it is asked to, whatever the camera.
+    """
+    a, e = np.radians(azim), np.radians(elev)
+    u = np.array([-np.sin(a), np.cos(a), 0.0])
+    v = np.array([-np.cos(a) * np.sin(e), -np.sin(a) * np.sin(e), np.cos(e)])
+    return u, v
 
 
 def draw_marker(ax, p, lab, col, focal=False, dz=3.0, side=None, xr=None):
@@ -137,7 +172,7 @@ def overview(ids, CA, sse, q):
 
 def zoom(res, ids, CA, sse, q):
     p96 = CA[ids == FOCAL][0]
-    keep = np.where(np.linalg.norm(CA - p96, axis=1) <= zr.ZOOM_RADIUS - 1)[0]
+    keep = np.where(np.linalg.norm(CA - p96, axis=1) <= POCKET_RADIUS)[0]
     quads, norms, ridx = zr.ribbon_quads(CA[keep], sse[keep], lw_scale=1.0)
     qk = q[keep]
     cols = [tuple(rr.shade(qcol(qk[r]), n)) + (0.72,) for r, n in zip(ridx, norms)]
@@ -150,6 +185,20 @@ def zoom(res, ids, CA, sse, q):
     ## the pocket: T96 and the two lysines that make it basic
     print("  Ca-Ca and nearest heavy-atom distances from T96:")
     r96 = res[int(np.where(ids == FOCAL)[0][0])]
+    anchors = []            # label anchors, so the frame is widened to hold them
+    ## screen basis and the trio's screen positions, which drive every offset
+    u, v = screen_basis(POCKET_ELEV, POCKET_AZIM)
+    sxy = {q: np.array([float(np.dot(CA[int(np.where(ids == q)[0][0])], u)),
+                        float(np.dot(CA[int(np.where(ids == q)[0][0])], v))])
+           for q in [FOCAL] + list(BASIC)}
+    sxy_mid = np.mean(np.array(list(sxy.values())), axis=0)
+    ## The camera is chosen to resolve the trio; assert it still does, so a
+    ## changed model or angle cannot silently put two labels back on one spot.
+    sep = [float(np.linalg.norm(sxy[i] - sxy[j]))
+           for i, j in ((FOCAL, 93), (FOCAL, 132), (93, 132))]
+    print("  screen separation T96-K93 %.1f, T96-K132 %.1f, K93-K132 %.1f A"
+          % tuple(sep))
+    assert min(sep) > 6.0, f"pocket residues overlap on screen: {sep}"
     for pos, lab in [(FOCAL, "T96")] + sorted(BASIC.items()):
         r = res[int(np.where(ids == pos)[0][0])]
         zr.sticks(r, ax)
@@ -157,14 +206,24 @@ def zoom(res, ids, CA, sse, q):
         col = COL_T96 if pos == FOCAL else COL_BASIC
         ax.scatter(*p, s=30, color=col, edgecolors="white", linewidths=0.7,
                    depthshade=False, zorder=13)
-        ## K93 and K132 are 6.6 and 6.8 A from T96 and close to each other, so
-        ## their labels are pushed to opposite sides rather than both below
-        off = {FOCAL: (0.0, 0.0, 3.4), 93: (-6.5, 0.0, -1.5),
-               132: (6.5, 0.0, -3.0)}[pos]
-        ax.text(p[0] + off[0], p[1] + off[1], p[2] + off[2], lab, color=col,
+        ## Each label is pushed radially AWAY from the centre of the trio, in
+        ## screen space, and tethered to its own Ca by a leader. Pushing
+        ## outward is what keeps three labels off one another and off the
+        ## sticks without hand-placing each one per camera angle.
+        d = sxy[pos] - sxy_mid
+        nd = float(np.linalg.norm(d))
+        d = d / nd if nd > 1e-6 else np.array([0.0, 1.0])
+        anchor = p + (u * d[0] + v * d[1]) * LAB_PAD
+        anchors.append(tuple(anchor))
+        ax.plot([p[0], anchor[0]], [p[1], anchor[1]], [p[2], anchor[2]],
+                color=col, linewidth=0.8, alpha=0.9, solid_capstyle="round",
+                zorder=14,
+                path_effects=[pe.withStroke(linewidth=2.0, foreground="white")])
+        ax.text(anchor[0], anchor[1], anchor[2], lab, color=col,
                 fontsize=10, fontweight="bold",
-                ha={FOCAL: "center", 93: "right", 132: "left"}[pos],
-                va="bottom" if pos == FOCAL else "center", zorder=16,
+                ha="right" if d[0] < -0.3 else "left" if d[0] > 0.3 else "center",
+                va="top" if d[1] < -0.3 else "bottom" if d[1] > 0.3 else "center",
+                zorder=16,
                 path_effects=[pe.withStroke(linewidth=2.6, foreground="white")])
         if pos == FOCAL:
             continue
@@ -176,13 +235,35 @@ def zoom(res, ids, CA, sse, q):
         ax.plot(*np.array([p96, p]).T, color=COL_BASIC, linewidth=1.0,
                 linestyle=(0, (3, 2.5)), zorder=11,
                 path_effects=[pe.withStroke(linewidth=2.4, foreground="white")])
-        mid = p96 + (p - p96) * (0.42 if pos == 93 else 0.70)
-        ax.text(mid[0], mid[1], mid[2], f"{d_ca:.1f} \u00c5", color=COL_BASIC,
-                fontsize=8.6, ha="center", va="center", zorder=17,
-                path_effects=[pe.withStroke(linewidth=2.8, foreground="white")])
+        ## The distance belongs to ITS line, so it sits beside that line rather
+        ## than on top of it: offset perpendicular to the line within the screen
+        ## plane (x horizontal, z vertical at this azimuth), with a hairline
+        ## connector back to the midpoint. Centred on the line, as before, the
+        ## label's white halo erased the very line it named, and with two lines
+        ## 6.6 and 6.8 A long the two labels collided.
+        mid = p96 + (p - p96) * 0.5
+        ## perpendicular to the line IN SCREEN SPACE, pointing away from the
+        ## third residue so the two distance labels never crowd each other
+        e_line = sxy[pos] - sxy[FOCAL]
+        e_line = e_line / max(float(np.linalg.norm(e_line)), 1e-9)
+        perp2 = np.array([-e_line[1], e_line[0]])
+        other = [q for q in BASIC if q != pos][0]
+        if float(np.dot(perp2, sxy[other] - sxy[FOCAL])) > 0:
+            perp2 = -perp2
+        da = mid + (u * perp2[0] + v * perp2[1]) * DIST_PAD
+        anchors.append(tuple(da))
+        ax.plot([mid[0], da[0]], [mid[1], da[1]], [mid[2], da[2]],
+                color=COL_BASIC, linewidth=0.6, alpha=0.85, zorder=14,
+                path_effects=[pe.withStroke(linewidth=1.8, foreground="white")])
+        ax.text(da[0], da[1], da[2], f"{d_ca:.1f} \u00c5", color=COL_BASIC,
+                fontsize=8.6, ha="right" if perp2[0] < 0 else "left",
+                va="center", zorder=17,
+                path_effects=[pe.withStroke(linewidth=2.2, foreground="white")])
 
     pts = np.array([p for quad in quads for p in quad])
-    zr.frame_axes(ax, pts, pad=1.0, elev=zr.ZOOM_ELEV, azim=zr.ZOOM_AZIM)
+    if anchors:                      # keep every label inside the frame
+        pts = np.vstack([pts, np.array(anchors)])
+    zr.frame_axes(ax, pts, pad=1.0, elev=POCKET_ELEV, azim=POCKET_AZIM)
     dest = OUT / "sid2_zoom_charge.png"
     fig.subplots_adjust(0, 0, 1, 1)
     fig.savefig(dest, dpi=600, bbox_inches="tight", pad_inches=0.02,
